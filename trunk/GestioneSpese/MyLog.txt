@@ -1,0 +1,2 @@
+17-gen-2011 23.24.57 business.AltreUtil setLog
+INFO: Start programma!
