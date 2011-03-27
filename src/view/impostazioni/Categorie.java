@@ -1,20 +1,22 @@
 package view.impostazioni;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
@@ -28,6 +30,7 @@ import view.font.TextFieldF;
 import business.Database;
 import business.cache.CacheCategorie;
 import business.cache.CacheGruppi;
+import domain.AbstractOggettoEntita;
 import domain.CatSpese;
 import domain.Gruppi;
 import domain.wrapper.Model;
@@ -37,13 +40,14 @@ public class Categorie extends OggettoVistaBase{
 	private CatSpese spese = null;
 	private JTextArea descrizione;
 	private JComboBox importanza;
-	private ButtonF bottone;
+	private ButtonF inserisci;
 	private JTextField nome;
-	private JButton bottone1;
+	private JButton aggiorna;
 	private static JComboBox comboCategorie;
-	private ButtonF delete;
+	private ButtonF cancella;
 	private static Vector<CatSpese> categorieSpesa;
 	Database db;
+	private JComboBox comboGruppi;
 	
 
 
@@ -109,11 +113,9 @@ public class Categorie extends OggettoVistaBase{
 			nome.setBounds(63, 100, 206, 26);
 			
 			// Descrizione			
-			descrizione = new TextAreaF("Inserisci la descrizione della spesa", 50, 25);
+			descrizione = new TextAreaF("Inserisci la descrizione della categoria", 50, 25);
 			descrizione.setLineWrap(true);
 			descrizione.setWrapStyleWord(true);
-			descrizione.setAutoscrolls(true);
-			descrizione.setBackground(Color.LIGHT_GRAY);
 			descrizione.setBounds(63, 154, 206, 88);
 
 			//importanza Spesa
@@ -125,21 +127,32 @@ public class Categorie extends OggettoVistaBase{
 			importanza.setBounds(63, 273, 206, 25);
 			
 			//bottone invia
-			bottone = new ButtonF();
-			bottone.setBounds(63, 368, 206, 25);
-			bottone.setText("Inserisci Categoria");
+			inserisci = new ButtonF();
+			inserisci.setBounds(63, 368, 206, 25);
+			inserisci.setText("Inserisci Categoria");
 			
 			// Label Combo Categorie
 			JLabel labelComboCategorie = new LabelTesto();
 			labelComboCategorie.setBounds(63, 415, 100, 25);
 			labelComboCategorie.setText("Lista Categorie");
 			
-			categorieSpesa=CacheCategorie.getSingleton().getVettoreCategorie();
-			comboCategorie = new JComboBox();
-			comboCategorie.addItem("");
-			for(int i=0; i<categorieSpesa.size(); i++){
-				comboCategorie.addItem(categorieSpesa.get(i));
+			LabelTesto lbltstGruppo = new LabelTesto();
+			lbltstGruppo.setText("Gruppo");
+			lbltstGruppo.setBounds(63, 302, 100, 25);
+			add(lbltstGruppo);
+			
+			
+			Vector<Gruppi> vettoreGruppi=CacheGruppi.getSingleton().getVettoreGruppi();
+			//combo gruppi
+			comboGruppi = new JComboBox();			
+			for(int i=0; i<vettoreGruppi.size(); i++){
+				comboGruppi.addItem(vettoreGruppi.get(i));
 			}
+			comboGruppi.setBounds(63, 328, 206, 25);
+			add(comboGruppi);
+			
+			categorieSpesa=CacheCategorie.getSingleton().getVettoreCategoriePerCombo(CacheCategorie.getSingleton().getAllCategorie());
+			comboCategorie = new JComboBox(categorieSpesa);
 			comboCategorie.setBounds(63, 443, 206, 25);
 			comboCategorie.addItemListener(new ItemListener() {
 				
@@ -151,15 +164,16 @@ public class Categorie extends OggettoVistaBase{
 						nome.setText(spese.getnome());
 						descrizione.setText(spese.getdescrizione());
 						importanza.setSelectedItem(spese.getimportanza());
+						comboGruppi.setSelectedItem(spese.getGruppi());
 					}
 				}
 			});
 			
 			//bottone Update
-			bottone1 = new ButtonF();
-			bottone1.setBounds(63, 484, 100, 25);
-			bottone1.setText("Aggiorna");
-			bottone1.addActionListener(new ActionListener() {
+			aggiorna = new ButtonF();
+			aggiorna.setBounds(63, 484, 100, 25);
+			aggiorna.setText("Aggiorna");
+			aggiorna.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -174,13 +188,19 @@ public class Categorie extends OggettoVistaBase{
 							campi.put(CatSpese.DESCRIZIONE, descrizione.getText());
 						if(importanza!=null)
 							campi.put(CatSpese.IMPORTANZA, (String) importanza.getSelectedItem());
+						if(comboGruppi!=null){
+							Gruppi gruppo = (Gruppi) comboGruppi.getSelectedItem();
+							campi.put(CatSpese.IDGRUPPO, Integer.toString(gruppo.getidGruppo()));
+						}else if(comboGruppi.getSelectedIndex()==0){
+							campi.put(CatSpese.IDGRUPPO, Integer.toString(0));
+						}
 						try{
 							if(db.eseguiIstruzioneSql("UPDATE", CatSpese.NOME_TABELLA, campi, clausole))
 								JOptionPane.showMessageDialog(null,"Operazione eseguita correttamente", "Perfetto!", JOptionPane.INFORMATION_MESSAGE );
 //							TODO verificare se ricarica deve essere true
-								Model.getSingleton().getCategorieCombo(true);
-//								Database.aggiornaCategorie(spese);
-//								Database.aggiornamentoComboBox(CacheCategorie.getSingleton().getVettoreCategorie());
+//								Model.getSingleton().getCategorieCombo(true);
+								Database.aggiornaCategorie(spese);
+								Database.aggiornamentoComboBox(CacheCategorie.getSingleton().getVettoreCategorie());
 						}catch (Exception e22) {
 							JOptionPane.showMessageDialog(null, "Inserisci i dati correttamente: "+e22.getMessage(), "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
 						}
@@ -191,7 +211,7 @@ public class Categorie extends OggettoVistaBase{
 			});
 			
 			//bottone insert
-			bottone.addActionListener(new ActionListener() {
+			inserisci.addActionListener(new ActionListener() {
 				
 				private CatSpese spese1;
 
@@ -205,12 +225,15 @@ public class Categorie extends OggettoVistaBase{
 						spese1.setdescrizione(descrizione.getText());
 						spese1.setimportanza((String) importanza.getSelectedItem());
 						spese1.setnome(nome.getText());
+						spese1.setGruppi((Gruppi) comboGruppi.getSelectedItem());
 						if(Model.getSingleton().getModelCategorie().insert(spese1));
 							JOptionPane.showMessageDialog(null, "Categoria inserita correttamente", "Perfetto", JOptionPane.INFORMATION_MESSAGE);
 						
 						comboCategorie.addItem(spese1);
-//						TODO Aggiornamenti
-//						Database.aggiornamentoComboBox(Model.getSingleton().getCategorieCombo(true));
+//						CacheCategorie.getSingleton().setCaricata(false);
+						Map<String, AbstractOggettoEntita> cache = CacheCategorie.getSingleton().getCache();
+						cache.put(Integer.toString(spese1.getidCategoria()), spese1);
+						Database.aggiornamentoComboBox(CacheCategorie.getSingleton().getVettoreCategoriePerCombo(cache));
 						
 						
 						
@@ -218,25 +241,31 @@ public class Categorie extends OggettoVistaBase{
 						JOptionPane.showMessageDialog(null, "E' necessario riempire tutti i campi", "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
 				}
 			});
-			delete = new ButtonF("Cancella");
-			delete.setBounds(169, 484, 100, 25);
-			delete.addActionListener(new ActionListener() {
+			//bottone cancella
+			cancella = new ButtonF();
+			cancella.setText("Cancella");
+			cancella.setBounds(169, 484, 100, 25);
+			cancella.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if(comboCategorie.getSelectedIndex()!=0 && comboCategorie.getSelectedItem()!=null && spese!=null){
-						Model.getSingleton().getModelUscita().delete(spese.getidCategoria());
+						Model.getSingleton().getModelCategorie().delete(spese.getidCategoria());
 					}else{
 						JOptionPane.showMessageDialog(null, "Impossibile cancellare una categoria inesistente!", "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
 					}
 					log.fine("Cancellata categoria inserita spesa"+ spese);
-					comboCategorie.removeItem(spese);
-//					Database.aggiornamentoComboBox(new Database().Spese());
+					
+					Map<String, AbstractOggettoEntita> cache = CacheCategorie.getSingleton().getCache();
+					cache.remove(Integer.toString(spese.getidCategoria()));
+					comboCategorie.setModel(new DefaultComboBoxModel(CacheCategorie.getSingleton().getVettoreCategoriePerCombo(cache)));
+					
+					Database.aggiornamentoComboBox(CacheCategorie.getSingleton().getVettoreCategoriePerCombo());
 				}
 			});
 			
-			this.add(delete);
-			this.add(bottone);
+			this.add(cancella);
+			this.add(inserisci);
 			this.add(labelDescrizione);
 			this.add(labelCategorie);
 			this.add(labelNome);
@@ -246,22 +275,12 @@ public class Categorie extends OggettoVistaBase{
 			this.add(nome);
 			this.add(labelComboCategorie);
 			this.add(comboCategorie);
-			this.add(bottone1);
+			this.add(aggiorna);
 			
-			LabelTesto lbltstGruppo = new LabelTesto();
-			lbltstGruppo.setText("Gruppo");
-			lbltstGruppo.setBounds(63, 302, 100, 25);
-			add(lbltstGruppo);
-			
-			
-			Vector<Gruppi> vettoreGruppi=CacheGruppi.getSingleton().getVettoreGruppi();
-			JComboBox comboBox = new JComboBox();
-			comboBox.addItem("");
-			for(int i=0; i<vettoreGruppi.size(); i++){
-				comboBox.addItem(vettoreGruppi.get(i));
-			}
-			comboBox.setBounds(63, 328, 206, 25);
-			add(comboBox);
+			JSeparator separator = new JSeparator();
+			separator.setOrientation(JSeparator.VERTICAL);
+			separator.setBounds(319, 33, 13, 505);
+			add(separator);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -287,5 +306,15 @@ public class Categorie extends OggettoVistaBase{
 	 */
 	public static void setComboCategorie(JComboBox comboCategorie) {
 		Categorie.comboCategorie = comboCategorie;
+	}
+
+
+	public JComboBox getComboGruppi() {
+		return comboGruppi;
+	}
+
+
+	public void setComboGruppi(JComboBox comboGruppi) {
+		this.comboGruppi = comboGruppi;
 	}
 }

@@ -8,6 +8,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
+import view.OggettoVistaBase;
 import view.font.LabelTesto;
 import view.font.LabelTitolo;
 import view.font.TextFieldF;
@@ -15,7 +16,7 @@ import business.AltreUtil;
 import business.Database;
 import domain.CatSpese;
 
-public class SottoPannelloTotali extends view.OggettoVistaBase {
+public class SottoPannelloTotali extends OggettoVistaBase {
 
 	/**
 	 * 
@@ -77,7 +78,7 @@ public class SottoPannelloTotali extends view.OggettoVistaBase {
 			jLabel1 = new LabelTitolo();
 			this.add(jLabel1);
 			jLabel1.setText("Totali");
-			jLabel1.setBounds(177, 25, 90, 19);
+			jLabel1.setBounds(177, 23, 90, 19);
 	
 			jSeparator1 = new JSeparator();
 			this.add(jSeparator1);
@@ -93,12 +94,12 @@ public class SottoPannelloTotali extends view.OggettoVistaBase {
 			jLabel3 = new LabelTesto();
 			this.add(jLabel3);
 			jLabel3.setText("% Spese Variabili");
-			jLabel3.setBounds(164, 66, 92, 14);
+			jLabel3.setBounds(164, 66, 141, 15);
 		
 			jLabel4 = new LabelTesto();
 			this.add(jLabel4);
 			jLabel4.setText("Avanzo/disavanzo");
-			jLabel4.setBounds(16, 67, 67, 14);
+			jLabel4.setBounds(16, 67, 128, 14);
 			
 			avanzo = new TextFieldF();
 			this.add(avanzo);

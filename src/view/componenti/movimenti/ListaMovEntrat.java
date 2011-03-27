@@ -15,14 +15,13 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
+import view.componenti.componentiPannello.SottoPannelloDatiEntrate;
 import view.font.ButtonF;
 import view.font.LabelTesto;
 import view.font.TableF;
 import view.font.TextFieldF;
 import business.AltreUtil;
 import business.Database;
-import view.OggettoVistaBase;
-import view.componenti.movimenti.AscoltatoreMouseMovEntrate;
 import domain.Entrate;
 import domain.wrapper.Model;
 
@@ -31,10 +30,10 @@ public class ListaMovEntrat extends view.OggettoVistaBase {
 	
 	private static final long serialVersionUID = 1L;
 	static int numEntry = 10;
-	private JButton pulsanteNMovimenti;
+	private ButtonF pulsanteNMovimenti;
 	private static String[][]movimenti;
-	private JButton deleteButton;
-	private JButton updateButton;
+	private ButtonF deleteButton;
+	private ButtonF updateButton;
 	private static JTable table;
 	private static JTable table1;
 	private static JScrollPane scrollPane;
@@ -61,17 +60,17 @@ public class ListaMovEntrat extends view.OggettoVistaBase {
 			final DialogEntrateMov dialog = new DialogEntrateMov();
 			this.setLayout(null);
 			this.setSize(500, 250);
-			this.setPreferredSize(new java.awt.Dimension(576, 288));
+			this.setPreferredSize(new Dimension(800, 505));
 			JLabel movim = new LabelTesto("Movimenti:");
-			movim.setBounds(166, 5, 89, 30);
+			movim.setBounds(166, 20, 89, 30);
 			this.add(movim);
 			campo = new TextFieldF();
-			campo.setBounds(255, 11, 60, 25);
+			campo.setBounds(255, 26, 60, 25);
 			campo.setText("10");
 			numEntry = Integer.parseInt(campo.getText());
 			this.add(campo);
 			pulsanteNMovimenti = new ButtonF("Cambia");
-			pulsanteNMovimenti.setBounds(317, 12, 90, 25);
+			pulsanteNMovimenti.setBounds(317, 27, 90, 25);
 			this.add(pulsanteNMovimenti);
 			
 
@@ -97,6 +96,7 @@ public class ListaMovEntrat extends view.OggettoVistaBase {
 		        table.getColumn("nome").setPreferredWidth(120);
 		        table.getColumn("data").setPreferredWidth(120);
 		        table.getColumn("descrizione").setPreferredWidth(250);
+		        table.getColumn("inserimento").setPreferredWidth(120);
 		        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		        table.setRowHeight(26);
 		        table.setFillsViewportHeight(true);
@@ -109,7 +109,7 @@ public class ListaMovEntrat extends view.OggettoVistaBase {
 
 		        //Add the scroll pane to this panel.
 		        this.add(scrollPane);
-		        scrollPane.setBounds(21, 40, 700, 250);
+		        scrollPane.setBounds(21, 89, 700, 308);
 			    
 	        	updateButton = new ButtonF();
 	        	this.add(updateButton);
@@ -128,15 +128,10 @@ public class ListaMovEntrat extends view.OggettoVistaBase {
 						dialog.setSize(400, 220);
 				        dialog.setVisible(true);
 				        dialog.setModalityType(ModalityType.APPLICATION_MODAL);
-				        //TODO aggiornamenti(tutti)
-//				        Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
+				        Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
 						}catch (Exception e1) {
 							e1.printStackTrace();
 						}
-//				        Database.aggiornaTabellaEntrate();
-//						SottoPannelloDatiEntrate.getEnAnCorso().setText(Double.toString(Database.EAnnuale()));
-//						SottoPannelloDatiEntrate.getEnMeCorso().setText(Double.toString(Database.EMensileInCorso()));
-//						SottoPannelloDatiEntrate.getEntrateMesePrec().setText(Double.toString(Database.Emensile()));
 					}
 				});
 	        	
@@ -147,15 +142,10 @@ public class ListaMovEntrat extends view.OggettoVistaBase {
 				        dialog.setVisible(true);	
 				        dialog.setModalityType(ModalityType.APPLICATION_MODAL);
 				        try{
-//				        	TODO aggiornamenti
-//					        Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
+					        Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
 						}catch (Exception e1) {
 							e1.printStackTrace();
 						}
-//				        Database.aggiornaTabellaEntrate();
-//				        SottoPannelloDatiEntrate.getEnAnCorso().setText(Double.toString(Database.EAnnuale()));
-//				        SottoPannelloDatiEntrate.getEnMeCorso().setText(Double.toString(Database.EMensileInCorso()));
-//				        SottoPannelloDatiEntrate.getEntrateMesePrec().setText(Double.toString(Database.Emensile()));
 					}
 				});
 
@@ -185,7 +175,7 @@ public class ListaMovEntrat extends view.OggettoVistaBase {
 		return pulsanteNMovimenti;
 	}
 
-	public void setPulsante(JButton pulsante) {
+	public void setPulsante(ButtonF pulsante) {
 		this.pulsanteNMovimenti = pulsante;
 	}
 
@@ -209,11 +199,11 @@ public class ListaMovEntrat extends view.OggettoVistaBase {
 		return serialVersionUID;
 	}
 
-	public void setDeleteButton(JButton deleteButton) {
+	public void setDeleteButton(ButtonF deleteButton) {
 		this.deleteButton = deleteButton;
 	}
 
-	public void setUpdateButton(JButton updateButton) {
+	public void setUpdateButton(ButtonF updateButton) {
 		this.updateButton = updateButton;
 	}
 

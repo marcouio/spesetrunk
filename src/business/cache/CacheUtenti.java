@@ -4,17 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import domain.AbstractOggettoEntita;
 import domain.Utenti;
 import domain.wrapper.WrapUtenti;
 
 public class CacheUtenti extends AbstractCacheBase{
 	
 	private static CacheUtenti singleton;
-	private static Map<String, Utenti> cache;
-	private boolean caricata = false;
 	
 	private CacheUtenti(){
-		cache = new HashMap<String, Utenti>();
+		cache = new HashMap<String, AbstractOggettoEntita>();
 	}
 	public static CacheUtenti getSingleton(){
 		if (singleton == null) {
@@ -50,14 +49,14 @@ public class CacheUtenti extends AbstractCacheBase{
 				cache.put(id, utenti);
 			}
 		}
-	return cache.get(id);
+	return (Utenti)cache.get(id);
 	}
 	
 	private Utenti caricaUtenti(String id){
 		return (Utenti) new WrapUtenti().selectById(Integer.parseInt(id));
 	}
 	
-	public Map<String, Utenti> chargeAllUtenti(){
+	public Map<String, AbstractOggettoEntita> chargeAllUtenti(){
 		Vector<Object>utenti = utentiDAO.selectAll();
 		if(utenti!=null && utenti.size()>0){
 			for(int i=0; i<utenti.size();i++){
@@ -67,11 +66,12 @@ public class CacheUtenti extends AbstractCacheBase{
 					cache.put(Integer.toString(id), utente);
 				}
 			}
+			caricata = true;
 		}
 		return cache;
 	}
 
-	public Map<String, Utenti> getAllUtenti(){
+	public Map<String, AbstractOggettoEntita> getAllUtenti(){
 		if(caricata)
 			return cache;
 		else
@@ -80,7 +80,7 @@ public class CacheUtenti extends AbstractCacheBase{
 	
 	public Vector<Utenti> getVettoreUtenti(){
 		Vector<Utenti> utenti = new Vector<Utenti>();
-		Map<String, Utenti> mappa = this.getAllUtenti();
+		Map<String, AbstractOggettoEntita> mappa = this.getAllUtenti();
 		Utenti[] lista = (Utenti[]) mappa.values().toArray();
 		for(int i=0;i<lista.length;i++){
 			utenti.add(lista[i]);
@@ -89,7 +89,7 @@ public class CacheUtenti extends AbstractCacheBase{
 	}
 	
 	public Object[] getArrayUtenti(){
-		Map<String, Utenti> mappa = this.getAllUtenti();
+		Map<String, AbstractOggettoEntita> mappa = this.getAllUtenti();
 		return(Object[]) mappa.values().toArray(); 
 	}
 }

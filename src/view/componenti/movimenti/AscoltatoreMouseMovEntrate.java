@@ -9,9 +9,6 @@ import javax.swing.JTextField;
 
 import domain.wrapper.Model;
 
-import view.componenti.movimenti.DialogEntrateMov;
-import view.entrateuscite.EntrateView;
-
 public class AscoltatoreMouseMovEntrate implements MouseListener{
 
 	private JTable tabella;

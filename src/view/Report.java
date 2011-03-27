@@ -105,9 +105,6 @@ public class Report extends OggettoVistaBase {
 		add(btnGeneraReport);
 		
 			btnGeneraReport.addActionListener(new ActionListener() {
-				
-				
-				
 
 				String trattini = "--------------------------------------------------------------------------";
 				private double usciteCategorieAnnuali;
@@ -128,24 +125,17 @@ public class Report extends OggettoVistaBase {
 					}
 					PrintStream Output = new PrintStream(file);
 					
-//					File f = new File("Report"+data+".txt");
-//					f.delete();
-//					try {
-//						f.createNewFile();
-//					} catch (IOException e1) {
-//						e1.printStackTrace();
-//					}
 					Output.println("Report Entrate/Uscite realizzato il : "+data);
 					Output.println(" ");
 					if(chckbxUsciteAnnuali.isSelected()){
-						String forFile = "Le spese annuali sono: "+ SottoPannelloDatiSpese.getAnnuale() +"€";
+						String forFile = "Le spese annuali sono: "+ SottoPannelloDatiSpese.getAnnuale() +"ï¿½";
 						Output.print(forFile);
 						Output.println(" ");
 						Output.print(trattini);
 						Output.println(" ");
 					}
 					if(chckbxEntrateAnnuali.isSelected()){
-						String forFile = "Le entrate annuali sono: "+SottoPannelloDatiEntrate.getEnAnCorso().getText()+"€";
+						String forFile = "Le entrate annuali sono: "+SottoPannelloDatiEntrate.getEnAnCorso().getText()+"ï¿½";
 						Output.print(forFile);
 						Output.println(" ");
 						Output.print(trattini);
@@ -154,8 +144,8 @@ public class Report extends OggettoVistaBase {
 					if(chckbxEntrateMensili.isSelected()){
 						String entrateMese="";
 						for(int i=0; i<12; i++){
-							 totaleEntrateMese = Database.totaleEntrateMese(i+1);
-							 entrateMese = "Le entrate per il mese "+(i+1)+" sono: "+totaleEntrateMese+"€. \n";
+							 totaleEntrateMese = Database.getSingleton().totaleEntrateMese(i+1);
+							 entrateMese = "Le entrate per il mese "+(i+1)+" sono: "+totaleEntrateMese+"ï¿½. \n";
 							 Output.print(entrateMese);
 							 Output.println(" ");
 						}
@@ -165,8 +155,8 @@ public class Report extends OggettoVistaBase {
 					if(chckbxUsciteMensili.isSelected()){
 						String usciteMese="";
 						for(int i=0; i<12; i++){
-							totaleUsciteMese = Database.totaleUsciteMese(i+1);
-							 usciteMese = "Le uscite per il mese "+(i+1)+" sono: "+totaleUsciteMese+"€. \n";
+							totaleUsciteMese = Database.getSingleton().totaleUsciteMese(i+1);
+							 usciteMese = "Le uscite per il mese "+(i+1)+" sono: "+totaleUsciteMese+"ï¿½. \n";
 							 Output.print(usciteMese);
 							 Output.println(" ");
 						}
@@ -179,7 +169,7 @@ public class Report extends OggettoVistaBase {
 						for(int i=0; i<categorie.size(); i++){
 							CatSpese categoria = categorie.get(i);
 							usciteCategorieAnnuali= Database.totaleUscitaAnnoCategoria(categoria.getidCategoria());
-							uscitaAnnoCat = "Le uscite annuali delle categoria '"+categoria.getnome()+"' sono: "+usciteCategorieAnnuali+"€. \n";
+							uscitaAnnoCat = "Le uscite annuali delle categoria '"+categoria.getnome()+"' sono: "+usciteCategorieAnnuali+"ï¿½. \n";
 							 Output.print(uscitaAnnoCat);
 							 Output.println(" ");
 						}
@@ -194,7 +184,7 @@ public class Report extends OggettoVistaBase {
 			        	nomiColonne[1] = "Variabili";
 						for(int i=0; i<nomiColonne.length; i++){
 							entrateCategorieAnnuali = Database.totaleEntrateAnnoCategoria(nomiColonne[i]);
-							entrateAnnoCat = "Le entrate annuali delle categoria '"+nomiColonne[i]+"' sono: "+entrateCategorieAnnuali+"€. \n";
+							entrateAnnoCat = "Le entrate annuali delle categoria '"+nomiColonne[i]+"' sono: "+entrateCategorieAnnuali+"ï¿½. \n";
 							Output.print(entrateAnnoCat);
 							Output.println(" ");
 						}
@@ -215,7 +205,7 @@ public class Report extends OggettoVistaBase {
 					        	for(int x=0; x<categorie.size(); x++){
 					        		try {
 										primo[i][x]= Double.toString(Database.speseMeseCategoria(i+1, categorie.get(x).getidCategoria()));
-										String stampa = "Le uscite per la categoria '"+ nomiColonne[x]+"' ed il mese "+(i+1)+" sono: "+primo[i][x]+"€.";
+										String stampa = "Le uscite per la categoria '"+ nomiColonne[x]+"' ed il mese "+(i+1)+" sono: "+primo[i][x]+"ï¿½.";
 										Output.print(stampa);
 										Output.println(" ");
 									} catch (Exception e) {
@@ -235,7 +225,7 @@ public class Report extends OggettoVistaBase {
 					        	for(int x=0; x<2; x++){
 					        		try {
 										primo[i][x]= Double.toString(Database.getSingleton().entrateMeseTipo((i+1), nomiColonne[x]));
-										String stampa = "Le entrate per la categoria '"+ nomiColonne[x]+"' ed il mese "+(i+1)+" sono: "+primo[i][x]+"€.";
+										String stampa = "Le entrate per la categoria '"+ nomiColonne[x]+"' ed il mese "+(i+1)+" sono: "+primo[i][x]+"ï¿½.";
 										Output.print(stampa);
 										Output.print("\n");
 									} catch (Exception e) {
@@ -264,7 +254,7 @@ public class Report extends OggettoVistaBase {
 					}
 					if(chckbxAvanzo.isSelected()){
 						double avanzo = Double.parseDouble(SottoPannelloTotali.getAvanzo().getText());
-						String forFile = "La differenza fra Entrate e Uscite totali sono: "+ avanzo +" €"; 
+						String forFile = "La differenza fra Entrate e Uscite totali sono: "+ avanzo +" ï¿½"; 
 						Output.print(forFile);
 						Output.println(" ");
 						Output.print(trattini);
@@ -273,8 +263,8 @@ public class Report extends OggettoVistaBase {
 					if(chckbxMedie.isSelected()){
 						double mediaEntrate = Double.parseDouble(SottoPannelloDatiEntrate.getEnAnCorso().getText())/new GregorianCalendar().get(Calendar.MONTH+1);
 						double mediaUscite = SottoPannelloDatiSpese.getAnnuale()/new GregorianCalendar().get(Calendar.MONTH+1);
-						String forFileE = "La media mensile delle entrate e': "+ mediaEntrate +"€";
-						String forfile = "La media mensile delle uscite e': "+ mediaUscite + "€";
+						String forFileE = "La media mensile delle entrate e': "+ mediaEntrate +"ï¿½";
+						String forfile = "La media mensile delle uscite e': "+ mediaUscite + "ï¿½";
 						Output.print(forFileE);
 						Output.println(" ");
 						Output.print(forfile);

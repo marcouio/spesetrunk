@@ -1,5 +1,6 @@
 package view.tabelle;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -10,11 +11,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
 import view.OggettoVistaBase;
-
-import view.tabelle.TabellaEntrata;
-import view.tabelle.TabellaUscita;
-
-import java.awt.Dimension;
 
 
 public class PerMesiF extends OggettoVistaBase {
@@ -33,10 +29,13 @@ public class PerMesiF extends OggettoVistaBase {
 		frame.setVisible(true);
 	}
 	
+	private static TabellaEntrata tabEntrate = new TabellaEntrata();
+	private static TabellaUscita tabUscite = new TabellaUscita();
+	private static TabellaEntrataGruppi tabEG = new TabellaEntrataGruppi();
+	private static TabellaUscitaGruppi tabUG = new TabellaUscitaGruppi();
+	
 	private JTabbedPane tabGenerale;
 	private JLabel labelGennaio;
-	private static TabellaEntrata tabEntrate;
-	private static TabellaUscita tabUscite;
 	private JLabel labelFebbraio;
 	private JLabel labelMarzo;
 	private JLabel labelAprile;
@@ -60,10 +59,26 @@ public class PerMesiF extends OggettoVistaBase {
 			this.setPreferredSize(new Dimension(918, 545));
 			this.setLayout(null);
 			
+			
+			tabGenerale = new JTabbedPane();
+			tabGenerale.setBounds(65, 65, 750, 423);
+			
+			tabGenerale.addTab("Uscite", tabUscite);
+			tabGenerale.addTab("Entrate", tabEntrate);
+			tabGenerale.addTab("Uscite Gruppi", tabUG);
+			tabGenerale.addTab("Entrate Gruppi", tabEG);
+			
+			tabUscite.setBounds(26, 10, 400, 400);
+			TabellaUscita.getTable().setRowHeight(27);
+			TabellaEntrata.getTable().setRowHeight(27);
+			tabEntrate.setBounds(26, 10, 400, 400);
+			this.add(tabGenerale);
+
+			
 			pannello = new JPanel();
 			this.add(pannello);
 			pannello.setLayout(new GridLayout(12, 1));
-			pannello.setBounds(9, 118, 55, 327);
+			pannello.setBounds(9, 110, 55, 324);
 			
 			labelGennaio = new JLabel();
 			pannello.add(labelGennaio);
@@ -125,23 +140,37 @@ public class PerMesiF extends OggettoVistaBase {
 			labelDicembre.setText("Dicembre");
 			labelDicembre.setFont(new Font("Tahoma", Font.BOLD, 9));
 			
-			tabEntrate = new TabellaEntrata();
-			tabUscite = new TabellaUscita();
-			
-			tabGenerale = new JTabbedPane();
-			tabGenerale.setBounds(65, 65, 750, 423);
-			tabGenerale.addTab("Uscite", tabUscite);
-			tabGenerale.addTab("Entrate", tabEntrate);
-			
-			
-			tabUscite.setBounds(26, 10, 400, 400);
-			tabEntrate.setBounds(26, 10, 400, 400);
-			
-
-			this.add(tabGenerale);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * @return the tabEntrate
+	 */
+	public static TabellaEntrata getTabEntrate() {
+		return tabEntrate;
+	}
+
+	/**
+	 * @param tabEntrate the tabEntrate to set
+	 */
+	public static void setTabEntrate(TabellaEntrata tabEntrate) {
+		PerMesiF.tabEntrate = tabEntrate;
+	}
+
+	/**
+	 * @return the tabUscite
+	 */
+	public static TabellaUscita getTabUscite() {
+		return tabUscite;
+	}
+
+	/**
+	 * @param tabUscite the tabUscite to set
+	 */
+	public static void setTabUscite(TabellaUscita tabUscite) {
+		PerMesiF.tabUscite = tabUscite;
 	}
 
 }

@@ -14,8 +14,7 @@ public class ButtonF extends JButton {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	
-	
+
 	public ButtonF() {
 		setBackground(Color.GRAY);
 		setForeground(Color.WHITE);

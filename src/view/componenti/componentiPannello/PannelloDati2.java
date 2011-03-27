@@ -28,7 +28,7 @@ public class PannelloDati2 extends OggettoVistaBase {
 	private static SottoPannelloDatiSpese pannelloSpese;
 	private static SottoPannelloDatiEntrate pannelloEntrate;
 	private static SottoPannelloMesi pannelloMesi;
-	private static SottoPannelloCategorie pannelloCategorie;
+	private static SottoPannelloCategorie2 pannelloCategorie;
 	private static SottoPannelloTotali pannelloTotali;
 	
 	public PannelloDati2() {
@@ -44,7 +44,7 @@ public class PannelloDati2 extends OggettoVistaBase {
 			pannelloSpese = new SottoPannelloDatiSpese();
 			pannelloEntrate = new SottoPannelloDatiEntrate();
 			pannelloMesi = new SottoPannelloMesi();
-			pannelloCategorie = new SottoPannelloCategorie();
+			pannelloCategorie = new SottoPannelloCategorie2();
 			pannelloTotali = new SottoPannelloTotali();
 
 			this.add(pannelloSpese);
@@ -103,14 +103,14 @@ public class PannelloDati2 extends OggettoVistaBase {
 	/**
 	 * @return the pannelloCategorie
 	 */
-	public static SottoPannelloCategorie getPannelloCategorie() {
+	public static SottoPannelloCategorie2 getPannelloCategorie() {
 		return pannelloCategorie;
 	}
 
 	/**
 	 * @param pannelloCategorie the pannelloCategorie to set
 	 */
-	public static void setPannelloCategorie(SottoPannelloCategorie pannelloCategorie) {
+	public static void setPannelloCategorie(SottoPannelloCategorie2 pannelloCategorie) {
 		PannelloDati2.pannelloCategorie = pannelloCategorie;
 	}
 

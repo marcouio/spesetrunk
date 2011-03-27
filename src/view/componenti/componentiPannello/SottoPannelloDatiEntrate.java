@@ -45,18 +45,18 @@ public class SottoPannelloDatiEntrate extends view.OggettoVistaBase {
 	private void initGUI() {
 		try {
 			JLabel label_1 = new LabelTesto("Anno in corso");
-			label_1.setBounds(164, 66, 78, 14);
+			label_1.setBounds(164, 66, 141, 14);
 			this.add(label_1);
 
 			JLabel label_2 = new LabelTesto("Mese precedente");
-			label_2.setBounds(16, 67, 106, 14);
+			label_2.setBounds(16, 67, 136, 14);
 			this.add(label_2);
 
 			JLabel label_3 = new LabelTesto("Mese in corso");
-			label_3.setBounds(317, 67, 106, 14);
+			label_3.setBounds(317, 67, 113, 14);
 			this.add(label_3);
 			JLabel label_4 = new LabelTitolo("Entrate Dati");
-			label_4.setBounds(177, 25, 90, 19);
+			label_4.setBounds(177, 25, 164, 19);
 			this.add(label_4);
 			
 			EntrateMesePrec = new TextFieldF();

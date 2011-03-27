@@ -21,10 +21,8 @@ import view.font.ButtonF;
 import view.font.LabelTesto;
 import view.font.LabelTitolo;
 import view.font.TextAreaF;
-
 import business.DBUtil;
 import business.Database;
-import view.OggettoVistaBase;
 
 
 
@@ -72,7 +70,7 @@ public class NewSql extends OggettoVistaBase {
 				label.setBounds(34, 19, 70, 21);
 				areaSql = new TextAreaF();
 				this.add(areaSql);
-				areaSql.setBounds(127, 30, 436, 74);
+				areaSql.setBounds(127, 30, 700, 74);
 				areaSql.setText("Inserisci qui il tuo codice sql");
 				areaSql.setWrapStyleWord(true);
 				jsp= new JScrollPane(areaSql);

@@ -1,47 +1,30 @@
 package view.entrateuscite;
 
 import java.awt.Dimension;
-import java.awt.GridLayout;
-import  view.entrateuscite.Uscite;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+
+import view.OggettoVistaBase;
 
 
-public class EntryCharge extends JPanel{
-	
-	
-	
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				JFrame inst = new JFrame();	
-				inst.setSize(850, 700);
-				inst.getContentPane().add(new EntryCharge());
-				inst.setLocationRelativeTo(null);
-				inst.setVisible(true);
-				
-			}
-		});
-	}
-	
-	
-	public EntryCharge() {
-		
-		this.setPreferredSize(new Dimension(900, 700));
-		this.setLayout(new GridLayout(2,1));
-		Uscite uscita = Uscite.getSingleton();
-		uscita.setBounds(10, 10, 830, 300);
-		EntrateView entrata = EntrateView.getSingleton();
-		entrata.setBounds(10, -80, 830, 340);
-		this.add(uscita);
-		this.add(entrata);	
-	}
+public class EntryCharge extends OggettoVistaBase{
 
+	
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	public EntryCharge() {
+		
+		this.setPreferredSize(new Dimension(950, 700));
+		this.setLayout(null);
+		Uscite uscita = Uscite.getSingleton();
+		uscita.setBounds(10, 10, 930, 290);
+		EntrateView entrata = EntrateView.getSingleton();
+		entrata.setBounds(10, 280, 930, 305);
+		this.add(uscita);
+		this.add(entrata);	
+	}
 
 	
 }

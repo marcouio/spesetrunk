@@ -10,12 +10,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import javax.swing.WindowConstants;
 
+import view.OggettoVistaBase;
 import view.font.ButtonF;
 import view.font.LabelTesto;
 import view.font.LabelTitolo;
@@ -23,27 +21,13 @@ import view.grafici.dialogGraph.GrGenerale;
 import view.grafici.dialogGraph.GrGenerale2;
 import business.AltreUtil;
 
-public class Grafico3 extends JPanel {
+public class Grafico3 extends OggettoVistaBase {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static void main(String[] args) throws SQLException {
-		JFrame frame = new JFrame();
-		try {
-			frame.getContentPane().add(new Grafico3());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		frame.pack();
-		frame.setSize(600, 600);
-		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		frame.setVisible(true);
-		
-	}
 
 	
 	public Grafico3() throws SQLException, IOException {

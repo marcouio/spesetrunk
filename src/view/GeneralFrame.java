@@ -1,30 +1,31 @@
 package view;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 
 import view.componenti.componentiPannello.PannelloDati2;
 import view.componenti.movimenti.Movimenti;
 import view.entrateuscite.EntryCharge;
 import view.grafici.Grafici;
+import view.impostazioni.Impostazioni;
 import view.impostazioni.RaccogliImpostazioni;
+import view.mymenu.MyMenu;
 import view.tabelle.PerMesiF;
 import business.DBUtil;
-import business.ascoltatori.AscoltatoreCaricaDatabase;
-import business.ascoltatori.AscoltatoreLogin;
-import business.ascoltatori.AscoltatoreRegistrazione;
+import business.ascoltatoriMenu.AscoltatoreCaricaDatabase;
+import business.ascoltatoriMenu.AscoltatoreLogin;
+import business.ascoltatoriMenu.AscoltatoreRegistrazione;
 
 public class GeneralFrame extends JFrame {
 
@@ -43,11 +44,24 @@ public class GeneralFrame extends JFrame {
 	private static Help tabHelp;
 	private static EntryCharge iec;
 	private static NewSql consolle;
-
+	private static GeneralFrame singleton;
+	
 	/**
 	 * Launch the application.
-	 */	
-	public static void main(String[] args) {
+	 * @throws UnsupportedLookAndFeelException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws ClassNotFoundException 
+	 */
+
+	
+	public static void main(String[] args){
+//		try {
+//			UIManager.setLookAndFeel("org.jvnet.substance.skin.SubstanceOfficeSilver2007LookAndFeel");
+//		} catch (Throwable e) {
+//			e.printStackTrace();
+//		}
+//	
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				DBUtil.closeConnection();
@@ -58,11 +72,23 @@ public class GeneralFrame extends JFrame {
 			}
 		});
 	}
+	
 
+	public static final GeneralFrame getSingleton() {
+        if (singleton == null) {
+            synchronized (Impostazioni.class) {
+                if (singleton == null) {
+                    singleton = new GeneralFrame();
+                }
+            } // if
+        } // if
+        return singleton;
+    } // getSingleton()
+	
 	/**
 	 * Create the frame.
 	 */
-	public GeneralFrame() {
+	private GeneralFrame() {
 		super();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(10, 10, 1000, 650);
@@ -71,33 +97,9 @@ public class GeneralFrame extends JFrame {
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 		
-		//crea il tab per il menu
-		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 1000, 20);
-		contentPane.add(menuBar);
-		
-		//crea un menu
-		JMenu menu = new JMenu("File");
-		menuBar.add(menu);
-		
-		//item di un menu
-		JMenuItem menuItem = new JMenuItem("Altro database");
-		ActionListener ascolto = new AscoltatoreCaricaDatabase();
-		menuItem.addActionListener(ascolto);
-		menu.add(menuItem);
-		
-		//item Login
-		JMenuItem menuItem2 = new JMenuItem("Login");
-		ActionListener login = new AscoltatoreLogin();
-		menuItem2.addActionListener(login);
-		menu.add(menuItem2);
-		
-		//item Login
-		JMenuItem menuItem3 = new JMenuItem("Registrazione");
-		ActionListener registrazione = new AscoltatoreRegistrazione();
-		menuItem3.addActionListener(registrazione);
-		menu.add(menuItem3);
-		
+		MyMenu menu = new MyMenu();
+		contentPane.add(menu);		
+
 		//tabGenerale
 		tabGenerale = new JTabbedPane();
 		tabGenerale.setFont(new Font("Eras Light ITC", Font.BOLD, 14));
@@ -105,7 +107,7 @@ public class GeneralFrame extends JFrame {
 			
 		
 		tabSetting = new RaccogliImpostazioni();
-		tabSetting.setBounds(0, -50, 200, 550);
+		tabSetting.setBounds(0, 0, 200, 550);
 		
 
 		//pannello consolle sql
@@ -116,6 +118,9 @@ public class GeneralFrame extends JFrame {
 		
 		//Divisione di spese e entrate per mese
 		tabPermesi = new PerMesiF();
+//		TabellaUscita.getTable().setRowHeight(27);
+//		TabellaEntrata.getTable().setRowHeight(27);
+		
 		
 		//movimenti
 		tabMovimenti = new Movimenti();
@@ -139,12 +144,12 @@ public class GeneralFrame extends JFrame {
 	
 		this.getContentPane().add(tabGenerale);
 		
-		JLabel LabelProgramma = new JLabel();
-		getContentPane().add(LabelProgramma);
-		LabelProgramma.setText("Gestione Finanze Familiari");
-		LabelProgramma.setBounds(790, 60, 268, 14);
-		LabelProgramma.setForeground(Color.WHITE);
-		LabelProgramma.setFont(new Font("Tahoma", Font.BOLD, 14));
+//		JLabel LabelProgramma = new JLabel();
+//		getContentPane().add(LabelProgramma);
+//		LabelProgramma.setText("Gestione Finanze Familiari");
+//		LabelProgramma.setBounds(790, 90, 268, 14);
+//		LabelProgramma.setForeground(Color.WHITE);
+//		LabelProgramma.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		tabGenerale.addTab("Setting", tabSetting);
 		tabGenerale.addTab("Entrate/Uscite", iec);
@@ -155,18 +160,11 @@ public class GeneralFrame extends JFrame {
 		tabGenerale.addTab("Grafici", tabGrafici);
 		tabGenerale.addTab("ConsolleSQL", consolle);
 		tabGenerale.addTab("Report", tabReport);
-		tabGenerale.addTab("Help", tabHelp);
+//		tabGenerale.addTab("Help", tabHelp);
 		
 	}
 	
-	{
-		//Set Look & Feel
-		try {
-			javax.swing.UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
+	
 
 	public JTabbedPane getTabGenerale() {
 		return tabGenerale;

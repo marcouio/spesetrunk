@@ -1,6 +1,5 @@
 package view.entrateuscite;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -11,23 +10,25 @@ import java.util.GregorianCalendar;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
+import view.OggettoVistaBase;
 import view.font.ButtonF;
 import view.font.LabelTesto;
 import view.font.LabelTitolo;
 import view.font.TextAreaF;
 import view.font.TextFieldF;
+import view.impostazioni.Categorie;
 import business.AltreUtil;
 import business.Controllore;
 import business.DBUtil;
+import business.Database;
 import business.cache.CacheCategorie;
 import domain.CatSpese;
 import domain.SingleSpesa;
 import domain.wrapper.WrapSingleSpesa;
 
-public class Uscite extends JPanel {
+public class Uscite extends OggettoVistaBase {
 
 	/**
 	 * 
@@ -35,10 +36,25 @@ public class Uscite extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static Uscite singleton;
 	private TextFieldF nome;
-	private JComboBox categorie;
+	private static JComboBox categorie;
+	/**
+	 * @return the categorie
+	 */
+	public JComboBox getCategorie() {
+			return categorie;
+	}
+
+	/**
+	 * @param categorie the categorie to set
+	 */
+	public void setCategorie(JComboBox categorie) {
+		Uscite.categorie = categorie;
+	}
+
+
 	private TextFieldF data;
 	private TextFieldF inEuro;
-
+	
 	public static final Uscite getSingleton() {
 		if (singleton == null) {
 			synchronized (Uscite.class) {
@@ -58,56 +74,56 @@ public class Uscite extends JPanel {
 		this.setLayout(null);
 		
 		LabelTesto lblNomeSpesa = new LabelTesto("Nome Spesa");
-		lblNomeSpesa.setBounds(42, 71, 118, 14);
+		lblNomeSpesa.setBounds(42, 64, 118, 27);
 		add(lblNomeSpesa);
 		
 		LabelTesto lblEuro = new LabelTesto("Euro");
-		lblEuro.setBounds(473, 71, 77, 14);
+		lblEuro.setBounds(564, 64, 77, 27);
 		add(lblEuro);
 		
 		LabelTesto lblCategorie = new LabelTesto("Categorie");
-		lblCategorie.setBounds(178, 71, 77, 14);
+		lblCategorie.setBounds(210, 64, 125, 27);
 		add(lblCategorie);
 		
 		LabelTesto lblData = new LabelTesto("Data");
-		lblData.setBounds(340, 71, 77, 14);
+		lblData.setBounds(393, 64, 77, 27);
 		add(lblData);
 		
 		LabelTesto lblDescrizione = new LabelTesto("Descrizione Spesa");
-		lblDescrizione.setBounds(43, 146, 212, 14);
+		lblDescrizione.setBounds(43, 142, 212, 25);
 		add(lblDescrizione);
 		
 		LabelTesto lblDescrizione_1 = new LabelTesto("Descrizione Categoria");
-		lblDescrizione_1.setBounds(338, 146, 232, 14);
+		lblDescrizione_1.setBounds(393, 141, 232, 27);
 		add(lblDescrizione_1);
 		
-		final TextAreaF descrizione = new TextAreaF("Inserisci qui la descrizione della spesa");
-		descrizione.setBounds(43, 167, 260, 57);
+		final TextAreaF descrizione = new TextAreaF();
+		descrizione.setText("Inserisci qui la descrizione della spesa");
+		descrizione.setBounds(42, 167, 318, 75);
 		descrizione.setLineWrap(true);
 		descrizione.setWrapStyleWord(true);
-		descrizione.setBackground(Color.LIGHT_GRAY);
 		descrizione.setAutoscrolls(true);
 		add(descrizione);
 		
-		final TextAreaF descCateg = new TextAreaF("Qui compare la descrizione delle categorie");
-		descCateg.setBounds(338, 167, 260, 57);
+		final TextAreaF descCateg = new TextAreaF();
+		descCateg.setText("Qui compare la descrizione delle categorie");
+		descCateg.setBounds(393, 167, 318, 75);
 		descCateg.setLineWrap(true);
 		descCateg.setWrapStyleWord(true);
-		descCateg.setBackground(Color.LIGHT_GRAY);
 		descCateg.setAutoscrolls(true);
 		add(descCateg);
 		
 		JSeparator separator = new JSeparator();
-		separator.setBounds(41, 278, 557, 11);
+		separator.setBounds(41, 278, 820, 10);
 		add(separator);
 		
 		nome = new TextFieldF();
-		nome.setBounds(41, 90, 125, 22);
+		nome.setBounds(41, 90, 150, 27);
 		add(nome);
 		nome.setColumns(10);
 		
 		categorie = new JComboBox(CacheCategorie.getSingleton().getVettoreCategoriePerCombo());
-		categorie.setBounds(176, 90, 125, 22);
+		categorie.setBounds(210, 90, 150, 27);
 		add(categorie);
 		
 		categorie.addItemListener(new ItemListener() {
@@ -134,12 +150,12 @@ public class Uscite extends JPanel {
 		data.setColumns(10);
 		GregorianCalendar gc = new GregorianCalendar();
 		data.setText(DBUtil.dataToString(gc.getTime(), "yyyy/MM/dd"));
-		data.setBounds(338, 90, 125, 22);
+		data.setBounds(393, 90, 150, 27);
 		add(data);
 		
 		inEuro = new TextFieldF();
 		inEuro.setColumns(10);
-		inEuro.setBounds(471, 90, 125, 22);
+		inEuro.setBounds(564, 90, 150, 27);
 		add(inEuro);
 		
 		LabelTitolo lblPannelloUscite = new LabelTitolo("Pannello Uscite");
@@ -150,13 +166,12 @@ public class Uscite extends JPanel {
 		
 		
 		//Bottone Elimina
-		ButtonF buttonF = new ButtonF();
-		buttonF.addActionListener(new ActionListener() {
+		ButtonF eliminaUltima = new ButtonF();
+		eliminaUltima.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					if(Controllore.getSingleton().getModel().getModelUscita().DeleteLastSpesa()){
-						//TODO gestire aggiornamenti
-	//					Database.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
+						Database.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
 						JOptionPane.showMessageDialog(null,"Ok, ultima uscita eliminata correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
 					}
 				} catch (Exception e1) {
@@ -167,16 +182,16 @@ public class Uscite extends JPanel {
 		});
 		
 		
-		buttonF.setText("Elimina Ultima");
-		buttonF.setBounds(627, 134, 126, 36);
-		add(buttonF);
+		eliminaUltima.setText("Elimina Ultima");
+		eliminaUltima.setBounds(735, 134, 126, 36);
+		add(eliminaUltima);
 		
-		ButtonF bottone = new ButtonF("New button");
-		bottone.setText("Inserisci");
-		bottone.setBounds(627, 90, 126, 36);
-		add(bottone);
+		ButtonF inserisci = new ButtonF();
+		inserisci.setText("Inserisci");
+		inserisci.setBounds(735, 90, 126, 36);
+		add(inserisci);
 		
-		bottone.addActionListener(new ActionListener() {
+		inserisci.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (AltreUtil.checkDouble(inEuro.getText())) {
 					if (AltreUtil.checkData(data.getText())) {
@@ -187,29 +202,24 @@ public class Uscite extends JPanel {
 							SingleSpesa ss = new SingleSpesa();
 							ss.setnome(nome.getText());
 							ss.setdescrizione(descrizione.getText());
-							if (categorie.getSelectedItem() != null
-									&& !(categorie.getSelectedItem()
-											.equals(""))) {
-								CatSpese cat13 = (CatSpese) categorie
-										.getSelectedItem();
+							if (categorie.getSelectedItem() != null && !(categorie.getSelectedItem().equals(""))) {
+								CatSpese cat13 = (CatSpese) categorie.getSelectedItem();
 								ss.setCatSpese(cat13);
 							}
-							Date dataUtil =DBUtil.stringToDate(data.getText(), "yyyy/MM/dd");
+							String dataUtil =data.getText();
 							ss.setData(dataUtil);
 							ss.setinEuro(AltreUtil.arrotondaDecimaliDouble(Double.parseDouble(inEuro.getText())));
 							ss.setUtenti(Controllore.getSingleton().getUtenteLogin());
-							ss.setDataIns(new Date());
+							ss.setDataIns(DBUtil.dataToString(new Date(), "yyyy/MM/dd"));
 							if (modelSingleSpesa.insert(ss)) {
 								JOptionPane.showMessageDialog(null,"Ok, uscita inserita correttamente!!!","Perfetto!",JOptionPane.INFORMATION_MESSAGE);
-								//TODO gestire log
-//								log.fine("Entrata inserita, id: "	+ ss.getnome());
+								log.fine("Entrata inserita, id: "	+ ss.getnome());
 							}
 
 						} else
 							JOptionPane.showMessageDialog(null,"E' necessario riempire tutti i campi","Non ci siamo!",JOptionPane.ERROR_MESSAGE,new ImageIcon("imgUtil/index.jpeg"));
 						try {
-							//TODO gestire aggiornamenti
-//							Database.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
+							Database.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}

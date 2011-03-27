@@ -4,28 +4,39 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Vector;
 
+import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import view.GeneralFrame;
 import view.OggettoVistaBase;
 import view.font.ButtonF;
 import view.font.LabelTesto;
 import view.font.LabelTitolo;
-import view.font.TextAreaF;
 import view.font.TextFieldF;
 import business.Controllore;
 import business.DBUtil;
+import business.Database;
+import business.cache.CacheLookAndFeel;
+import domain.Entrate;
+import domain.Lookandfeel;
+import domain.SingleSpesa;
 import domain.wrapper.Model;
 
 public class Impostazioni extends OggettoVistaBase {
@@ -59,6 +70,8 @@ public class Impostazioni extends OggettoVistaBase {
 
 	private JTextField dataOdierna;
 	private JTextField utente;
+	private ArrayList<String> listaLook;
+	private JComboBox comboLook;
 	private static int anno = new GregorianCalendar().get(Calendar.YEAR);
 //	private JTextField txtGen;
 	private static JTextField caricaDatabase;
@@ -69,11 +82,11 @@ public class Impostazioni extends OggettoVistaBase {
 
 	private void initGUI() {
 		try {
-			setPreferredSize(new Dimension(626, 550));
+			setPreferredSize(new Dimension(626, 250));
 			JLabel calendario = new LabelTesto("Data Odierna");
 			calendario.setBounds(24, 111, 87, 14);
 			dataOdierna = new TextFieldF();
-			dataOdierna.setBounds(142, 107, 78, 23);
+			dataOdierna.setBounds(142, 107, 113, 27);
 			dataOdierna.setEditable(false);
 			
 			GregorianCalendar gc = new GregorianCalendar();
@@ -81,25 +94,26 @@ public class Impostazioni extends OggettoVistaBase {
 			setLayout(null);
 			utente = new TextFieldF();
 			utente.setText(Controllore.getSingleton().getUtenteLogin().getusername());
-			utente.setBounds(142, 151, 113, 22);
+			utente.setBounds(142, 151, 113, 27);
 			this.add(calendario);
 			this.add(dataOdierna);
 			this.add(utente);
 			
 			JLabel lblImpostaAnno = new LabelTesto("Imposta anno");
-			lblImpostaAnno.setBounds(292, 109, 97, 14);
+			lblImpostaAnno.setBounds(280, 104, 97, 27);
 			add(lblImpostaAnno);
 			
-			ButtonF btnChange = new ButtonF("Cambia");
-			btnChange.setBounds(506, 103, 91, 23);
+			ButtonF btnChange = new ButtonF();
+			btnChange.setText("Cambia");
+			btnChange.setBounds(506, 103, 91, 27);
 			btnChange.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try{
 						anno = Integer.parseInt(utente.getText());
-						//TODO aggiornamenti
-//						Database.aggiornamentoPerImpostazioni();
+
+						Database.aggiornamentoPerImpostazioni();
 					}catch (Exception e1) {
 						e1.printStackTrace();
 					}
@@ -130,59 +144,43 @@ public class Impostazioni extends OggettoVistaBase {
 			lblCaricaDatabase.setBounds(24, 208, 113, 14);
 			add(lblCaricaDatabase);
 			
-			final ButtonF btnCarica = new ButtonF("Carica");
-			btnCarica.setBounds(297, 202, 91, 23);
+			final ButtonF btnCarica = new ButtonF();
+			btnCarica.setText("Carica");
+			btnCarica.setBounds(335, 204, 91, 27);
 			add(btnCarica);
 			btnCarica.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					//TODO aggiornamenti
-//					Database.aggiornamentoPerImpostazioni();
+					Database.aggiornamentoPerImpostazioni();
 				}
 			});
 			
 			
 			caricaDatabase = new TextFieldF();
-			caricaDatabase.setBounds(142, 204, 114, 22);
+			caricaDatabase.setBounds(142, 204, 149, 27);
 			caricaDatabase.setText("GestioneSpese.sqlite");
 			add(caricaDatabase);
 			
-			ButtonF button = new ButtonF("...");
-			button.setBounds(251, 204, 29, 22);
+			ButtonF button = new ButtonF();
+			button.setText("...");
+			button.setBounds(289, 204, 29, 27);
 			add(button);
 			
 			JLabel label = new LabelTitolo("Impostazioni");
-			label.setBounds(268, 44, 120, 34);
+			label.setBounds(476, 44, 120, 34);
 			add(label);
 			
-			JTextArea textArea = new TextAreaF();
-			StringBuffer sb = new StringBuffer();
-			sb.append("SUGGERIMENTI\n\n- Per l'utilizzo della consolle sql, le tabelle sono:");
-			sb.append("entrate, single_spesa, cat_spese");
-			sb.append("\n\n");
-			sb.append("- Per eliminare o aggiornare una spesa o una entrata vai sul pannello \"movimenti\"");
-			sb.append("\n\n");
-			sb.append("- Per maggiori informazioni vai sul pannello di \"help\"");
-			textArea.setText(sb.toString());
-			textArea.setEditable(false);
-			// specifica se �true� di andare a capo automaticamente a fine riga
-			textArea.setLineWrap(true);
-			// va a capo con la parola se �true� o col singolo carattere se �false�
-			textArea.setWrapStyleWord(true);
-			textArea.setAutoscrolls(true);
-			textArea.setBounds(24, 249, 573, 265);
-			add(textArea);
 			
-			ButtonF button_1 = new ButtonF("Elimina");
-			button_1.addActionListener(new ActionListener() {
+			ButtonF elimina = new ButtonF();
+			elimina.setText("Elimina");
+			elimina.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					if(Model.getSingleton().getModelEntrate().deleteAll() && Model.getSingleton().getModelUscita().deleteAll()){
 						JOptionPane.showMessageDialog(null,"Ok, tutti i dati sono stati cancellati: puoi ripartire!","Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
 						try{
-//							TODO aggiornamenti
-//						Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
-//						Database.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
+						Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
+						Database.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
 						}catch (Exception e) {
 							e.getMessage();
 						}
@@ -191,16 +189,16 @@ public class Impostazioni extends OggettoVistaBase {
 			});
 			
 			
-			button_1.setBounds(506, 150, 91, 23);
-			add(button_1);
+			elimina.setBounds(506, 150, 91, 27);
+			add(elimina);
 			
 			JDesktopPane desktopPane = new JDesktopPane();
 			desktopPane.setBounds(96, 163, 1, 1);
 			add(desktopPane);
 			
 			LabelTesto lbltstEliminaTuttiLe = new LabelTesto("Carica Database");
-			lbltstEliminaTuttiLe.setText("Elimina tutte le entrate e tutte le uscite");
-			lbltstEliminaTuttiLe.setBounds(292, 157, 211, 14);
+			lbltstEliminaTuttiLe.setText("Elimina dati per entrate e uscite");
+			lbltstEliminaTuttiLe.setBounds(280, 151, 232, 27);
 			add(lbltstEliminaTuttiLe);
 			
 			LabelTesto lbltstUtente = new LabelTesto("Data Odierna");
@@ -210,8 +208,84 @@ public class Impostazioni extends OggettoVistaBase {
 			
 			TextFieldF anno = new TextFieldF();
 			anno.setText(Integer.toString(gc.get(Calendar.YEAR)));
-			anno.setBounds(377, 103, 113, 22);
+			anno.setBounds(377, 103, 113, 27);
 			add(anno);
+			
+			CacheLookAndFeel cacheLook = CacheLookAndFeel.getSingleton();
+			final Vector<Lookandfeel> vettore = cacheLook.getVettoreLooksPerCombo();
+			
+			Lookandfeel look=null;
+			comboLook = new JComboBox(vettore);
+			for(int i=0; i<vettore.size();i++){
+				look = vettore.get(i);
+				if(look.getusato()==1){
+					comboLook.setSelectedIndex(i);
+				}
+			}
+			
+			comboLook.setBounds(142, 49, 115, 24);
+			add(comboLook);
+			comboLook.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					String look = "";
+					Lookandfeel valoreLook = (Lookandfeel) comboLook.getSelectedItem();
+					if(valoreLook!=null){
+						look = (String) valoreLook.getvalore();
+						
+						for(int i=0; i<vettore.size();i++){
+							Lookandfeel lookAnd = vettore.get(i);
+							lookAnd.setusato(0);
+							HashMap<String, String> campi = new HashMap<String, String>();
+							HashMap<String, String> clausole = new HashMap<String, String>();
+							campi.put(Lookandfeel.USATO, "0");
+							clausole.put(Lookandfeel.ID, Integer.toString(lookAnd.getidLook()));
+							Database.getSingleton().eseguiIstruzioneSql("update", Lookandfeel.NOME_TABELLA, campi, clausole);
+//							new WrapLookAndFeel().update(lookAnd);
+						}
+						
+						valoreLook.setusato(1);
+						HashMap<String, String> campi = new HashMap<String, String>();
+						HashMap<String, String> clausole = new HashMap<String, String>();
+						campi.put(Lookandfeel.USATO, "1");
+						clausole.put(Lookandfeel.ID, Integer.toString(valoreLook.getidLook()));
+						Database.getSingleton().eseguiIstruzioneSql("update", Lookandfeel.NOME_TABELLA, campi, clausole);
+						
+//						new WrapLookAndFeel().update(valoreLook);
+					}
+					else
+						look = "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel";
+					try {
+						UIManager.setLookAndFeel(look);
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (InstantiationException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IllegalAccessException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (UnsupportedLookAndFeelException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					 catch (ClassCastException e1) {
+							comboLook.setSelectedIndex(0);
+							e1.printStackTrace();
+						}
+					
+					GeneralFrame frame = GeneralFrame.getSingleton();
+					SwingUtilities.updateComponentTreeUI(frame);
+					frame.setBounds(0, 0, 1000, 650);
+
+				}
+			});
+			
+			JLabel labelLook = new JLabel("Look");
+			labelLook.setBounds(24, 54, 70, 15);
+			add(labelLook);
 			button.addActionListener(new ActionListener() {
 				
 				@Override
@@ -234,6 +308,34 @@ public class Impostazioni extends OggettoVistaBase {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * @return the dataOdierna
+	 */
+	public JTextField getDataOdierna() {
+		return dataOdierna;
+	}
+
+	/**
+	 * @param dataOdierna the dataOdierna to set
+	 */
+	public void setDataOdierna(JTextField dataOdierna) {
+		this.dataOdierna = dataOdierna;
+	}
+
+	/**
+	 * @return the listaLook
+	 */
+	public ArrayList<String> getListaLook() {
+		return listaLook;
+	}
+
+	/**
+	 * @param listaLook the listaLook to set
+	 */
+	public void setListaLook(ArrayList<String> listaLook) {
+		this.listaLook = listaLook;
+	}
+
 	public static int getAnno() {
 		return anno;
 	}
@@ -261,5 +363,19 @@ public class Impostazioni extends OggettoVistaBase {
 	 */
 	public void setUtente(JTextField utente) {
 		this.utente = utente;
+	}
+
+	/**
+	 * @return the comboLook
+	 */
+	public JComboBox getComboLook() {
+		return comboLook;
+	}
+
+	/**
+	 * @param comboLook the comboLook to set
+	 */
+	public void setComboLook(JComboBox comboLook) {
+		this.comboLook = comboLook;
 	}
 }

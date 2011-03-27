@@ -14,22 +14,38 @@ import java.util.Iterator;
 import java.util.Vector;
 import java.util.logging.Logger;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
+import view.componenti.componentiPannello.SottoPannelloCategorie2;
+import view.componenti.componentiPannello.SottoPannelloDatiEntrate;
+import view.componenti.componentiPannello.SottoPannelloDatiSpese;
+import view.componenti.componentiPannello.SottoPannelloMesi;
+import view.componenti.componentiPannello.SottoPannelloTotali;
+import view.entrateuscite.Uscite;
+import view.font.TableF;
+import view.impostazioni.Categorie;
 import view.impostazioni.Impostazioni;
+import view.impostazioni.SettingGruppi;
+import view.tabelle.TabellaEntrata;
+import view.tabelle.TabellaUscita;
+import business.cache.CacheCategorie;
 import business.cache.CacheEntrate;
 import business.cache.CacheUscite;
 import domain.CatSpese;
 import domain.Entrate;
+import domain.Gruppi;
 import domain.SingleSpesa;
 import domain.Utenti;
+import domain.wrapper.Model;
 
 public class Database {
 
 	private static Database singleton;
 
-	Logger log = AltreUtil.getLog();
+	static Logger log = AltreUtil.getLog();
 	
 	private Database(){
 		
@@ -81,7 +97,7 @@ public class Database {
 						if (iterInsert.hasNext())
 							sql.append(", ");
 					}
-					sql.append(") ").append(" VALUE (");
+					sql.append(") ").append(" VALUES (");
 					Iterator<String> iterInsert2 = campi.keySet().iterator();
 					while (iterInsert2.hasNext()) {
 						String prossimo = iterInsert2.next();
@@ -284,21 +300,55 @@ public class Database {
 	 * @throws Exception 
 	 */
 	public static double speseMeseCategoria(int mese, int categoria) throws Exception {
-	
-			double spesaTotMeseCat=0.0;
-			ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
+		
+		double spesaTotMeseCat=0.0;
+		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
 
-			for(int i = 0;i<listaUscite.size(); i++){
-				SingleSpesa uscita = listaUscite.get(i);
-				CatSpese cat = uscita.getCatSpese();
-				Date dataUscita = uscita.getData();
-				int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
-				if(mesee==mese && cat.getidCategoria()==categoria)
-					spesaTotMeseCat +=uscita.getinEuro();
-			}	
-			return AltreUtil.arrotondaDecimaliDouble(spesaTotMeseCat);
+		for(int i = 0;i<listaUscite.size(); i++){
+			SingleSpesa uscita = listaUscite.get(i);
+			CatSpese cat = uscita.getCatSpese();
+			Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
+			int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
+			if(mesee==mese && cat.getidCategoria()==categoria)
+				spesaTotMeseCat +=uscita.getinEuro();
+		}	
+		return AltreUtil.arrotondaDecimaliDouble(spesaTotMeseCat);
 	}
 	
+	public static double speseMeseGruppo(int mese, int gruppo){
+		double spesaTotMeseGruppo=0.0;
+		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
+		for(int i = 0;i<listaUscite.size(); i++){
+			SingleSpesa uscita = listaUscite.get(i);
+			CatSpese cat = uscita.getCatSpese();
+			Gruppi group = cat.getGruppi();
+			Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
+			int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
+			if(group!=null && group.getidGruppo()!=0){
+				if(mesee==mese && group.getidGruppo()==gruppo){
+					spesaTotMeseGruppo +=uscita.getinEuro();
+				}
+			}
+		}
+		return AltreUtil.arrotondaDecimaliDouble(spesaTotMeseGruppo);
+	}
+	
+	public static double speseMeseSenzaGruppo(int mese, int categoria){
+		double spesaTotMeseCat=0.0;
+		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
+		for(int i = 0;i<listaUscite.size(); i++){
+			SingleSpesa uscita = listaUscite.get(i);
+			CatSpese cat = uscita.getCatSpese();
+			Gruppi group = cat.getGruppi();
+			Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
+			int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
+			if(group==null || group.getidGruppo()==0){
+				if(mesee==mese && cat.getidCategoria()==categoria)
+					spesaTotMeseCat +=uscita.getinEuro();
+			}
+		}
+		return AltreUtil.arrotondaDecimaliDouble(spesaTotMeseCat);
+	}
 	
 	// questo metodo riempie la tabella delle entrate
 	/**
@@ -316,7 +366,7 @@ public class Database {
 		for(int i = 0;i<listaEntrate.size(); i++){
 			Entrate entrata = listaEntrate.get(i);
 			String cat = entrata.getFisseoVar();
-			Date dataEntrata = entrata.getdata();
+			Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), "yyyy/MM/dd");
 			int mesee = Integer.parseInt(DBUtil.dataToString(dataEntrata, "MM"));
 
 			if(mesee==mese && cat.equals(tipoEntrata))
@@ -325,21 +375,36 @@ public class Database {
 		
 		return AltreUtil.arrotondaDecimaliDouble(entrateMeseTipo);
 	}
-	
+
+	/**
+	 * Calcola interrogando il database il totale delle spese nel mese passato come parametro
+	 * @param mese
+	 * @return totale mensile delle spese(double)
+	 */
+	public double totaleUsciteMese(int mese){	
+		double totaleMese = 0;
+		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
+		for(int i = 0;i<listaUscite.size(); i++){
+			SingleSpesa uscita = listaUscite.get(i);
+			Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
+			int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
+			if(mesee==mese)
+				totaleMese += uscita.getinEuro();
+		}	
+		return AltreUtil.arrotondaDecimaliDouble(totaleMese);
+	}
 	
 	/**
 	 * Calcola interrogando il database il totale delle entrate nel mese passato come parametro
 	 * @param mese
 	 * @return totale mensile delle spese(double)
 	 */
-	public static double totaleEntrateMese(int mese){
+	public double totaleEntrateMese(int mese){
 		double totaleMese = 0;
 		ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
-		
-		
 		for(int i = 0;i<listaEntrate.size(); i++){
 			Entrate entrata = listaEntrate.get(i);
-			Date dataEntrata = entrata.getdata();
+			Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), "yyyy/MM/dd");
 			int mesee = Integer.parseInt(DBUtil.dataToString(dataEntrata, "MM"));
 			if(mesee==mese)
 				totaleMese += entrata.getinEuro();
@@ -356,7 +421,7 @@ public class Database {
 		for(int i = 0;i<listaUscite.size(); i++){
 			SingleSpesa uscita = listaUscite.get(i);
 			int cat = uscita.getCatSpese().getidCategoria();
-			Date dataUscita= uscita.getData();
+			Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
 			int annoo = Integer.parseInt(DBUtil.dataToString(dataUscita, "yyyy"));
 			if(annoo==anno && cat==categoria)
 				totale += uscita.getinEuro();
@@ -371,32 +436,12 @@ public class Database {
 		for(int i = 0;i<listaEntrate.size(); i++){
 			Entrate entrata = listaEntrate.get(i);
 			String FxOVar = entrata.getFisseoVar(); 
-			Date dataUscita= entrata.getdata();
-//			int mese = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
-			int annoo = Integer.parseInt(DBUtil.dataToString(dataUscita, "yyyy"));
+			Date dataEntrate = DBUtil.stringToDate(entrata.getdata(), "yyyy/MM/dd");
+			int annoo = Integer.parseInt(DBUtil.dataToString(dataEntrate, "yyyy"));
 			if(annoo==anno && FxOVar.equals(FissoOVar))
 				totale += entrata.getinEuro();
 		}
 		return AltreUtil.arrotondaDecimaliDouble(totale);
-	}
-	
-	
-	/**
-	 * Calcola interrogando il database il totale delle spese nel mese passato come parametro
-	 * @param mese
-	 * @return totale mensile delle spese(double)
-	 */
-	public static double totaleUsciteMese(int mese){	
-		double totaleMese = 0;
-		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
-		for(int i = 0;i<listaUscite.size(); i++){
-			SingleSpesa uscita = listaUscite.get(i);
-			Date dataUscita = uscita.getData();
-			int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
-			if(mesee==mese)
-				totaleMese += uscita.getinEuro();
-		}	
-		return AltreUtil.arrotondaDecimaliDouble(totaleMese);
 	}
 	
 	/**
@@ -412,12 +457,12 @@ public class Database {
 		if(tabella.equals(Entrate.NOME_TABELLA))
 			 sql = "SELECT "+Entrate.NOME_TABELLA+"."+Entrate.DATA+", "+Entrate.NOME_TABELLA+"."+Entrate.NOME+", "+Entrate.NOME_TABELLA+"."+Entrate.DESCRIZIONE+", "
 			 +Entrate.NOME_TABELLA+"."+Entrate.INEURO+" as euro, "+Entrate.NOME_TABELLA+"."+Entrate.FISSEOVAR+" as categoria, "+Entrate.NOME_TABELLA+"."
-			 +Entrate.ID+" FROM "+tabella+" order by "+Entrate.ID+" desc";
+			 +Entrate.ID+", "+Entrate.NOME_TABELLA+"."+Entrate.DATAINS+" as inserimento"+" FROM "+tabella+" order by "+Entrate.ID+" desc";
 		else if(tabella.equals(SingleSpesa.NOME_TABELLA))
 			 sql = "SELECT "+SingleSpesa.NOME_TABELLA+"."+SingleSpesa.DATA+" as data, "+SingleSpesa.NOME_TABELLA+"."+SingleSpesa.NOME+", "
 			 +SingleSpesa.NOME_TABELLA+"."+SingleSpesa.DESCRIZIONE+", "+SingleSpesa.NOME_TABELLA+"."+SingleSpesa.INEURO
-			 +" as euro, "+CatSpese.NOME_TABELLA+"."+CatSpese.NOME+" as categoria, "+SingleSpesa.NOME_TABELLA+"."+SingleSpesa.ID
-			 +" FROM "+tabella+", "+CatSpese.NOME_TABELLA +", "+Utenti.NOME_TABELLA + " where "+SingleSpesa.NOME_TABELLA+"."+SingleSpesa.IDCATEGORIE+" = "
+			 +" as euro, "+CatSpese.NOME_TABELLA+"."+CatSpese.NOME+" as categoria, "+SingleSpesa.NOME_TABELLA+"."+SingleSpesa.ID+", "
+			 +SingleSpesa.NOME_TABELLA+"."+SingleSpesa.DATAINS+" as inserimento"+" FROM "+tabella+", "+CatSpese.NOME_TABELLA +", "+Utenti.NOME_TABELLA + " where "+SingleSpesa.NOME_TABELLA+"."+SingleSpesa.IDCATEGORIE+" = "
 			 +CatSpese.NOME_TABELLA+"."+CatSpese.ID+" and "+SingleSpesa.NOME_TABELLA+"."+SingleSpesa.IDUTENTE+" = "+ Utenti.NOME_TABELLA+"."+Utenti.ID 
 			 +" order by "+SingleSpesa.ID+" desc";
 		
@@ -456,8 +501,8 @@ public class Database {
 		ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
 		for(int i = 0;i<listaEntrate.size(); i++){
 			Entrate entrata = listaEntrate.get(i);
-			Date dataUscita = entrata.getdata();
-			String annoDaData = DBUtil.dataToString(dataUscita, "yyyy");
+			Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), "yyyy/MM/dd");
+			String annoDaData = DBUtil.dataToString(dataEntrata, "yyyy");
 			if(Integer.parseInt(annoDaData)==anno)
 				Eannuale += entrata.getinEuro();
 		}	
@@ -475,7 +520,7 @@ public class Database {
 		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
 		for(int i = 0;i<listaUscite.size(); i++){
 			SingleSpesa uscita = listaUscite.get(i);
-			Date dataUscita = uscita.getData();
+			Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
 			String annoDaData = DBUtil.dataToString(dataUscita, "yyyy");
 			if(Integer.parseInt(annoDaData)==anno)
 				annuale += uscita.getinEuro();
@@ -495,7 +540,7 @@ public class Database {
 		ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
 		for(int i = 0;i<listaEntrate.size(); i++){
 			Entrate entrata = listaEntrate.get(i);
-			Date dataEntrata = entrata.getdata();
+			Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), "yyyy/MM/dd");
 			int mese = Integer.parseInt(DBUtil.dataToString(dataEntrata, "MM"));
 			int anno = Integer.parseInt(DBUtil.dataToString(dataEntrata, "yyyy"));
 			if(mese==data.get(Calendar.MONTH) && anno==data.get(Calendar.YEAR))
@@ -516,7 +561,7 @@ public class Database {
 		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
 		for(int i = 0;i<listaUscite.size(); i++){
 			SingleSpesa uscita = listaUscite.get(i);
-			Date dataUscita = uscita.getData();
+			Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
 			int mese = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
 			int anno = Integer.parseInt(DBUtil.dataToString(dataUscita, "yyyy"));
 			
@@ -539,7 +584,7 @@ public class Database {
 		ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
 		for(int i = 0;i<listaEntrate.size(); i++){
 			Entrate entrata = listaEntrate.get(i);
-			Date dataEntrata = entrata.getdata();
+			Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), "yyyy/MM/dd");
 			int mese = Integer.parseInt(DBUtil.dataToString(dataEntrata, "MM"));
 			int anno = Integer.parseInt(DBUtil.dataToString(dataEntrata, "yyyy"));
 			if(mese==(data.get(Calendar.MONTH)+1) && anno==data.get(Calendar.YEAR))
@@ -562,7 +607,7 @@ public class Database {
 		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
 		for(int i = 0;i<listaUscite.size(); i++){
 			SingleSpesa uscita = listaUscite.get(i);
-			Date dataUscita = uscita.getData();
+			Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
 			int mese = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
 			int anno = Integer.parseInt(DBUtil.dataToString(dataUscita, "yyyy"));
 			
@@ -595,7 +640,231 @@ public class Database {
 		
 	}
 	
+// ************************************** METODI DI AGGIORNAMENTO ***************************************
 	
 	
+	public static void aggiornamentoPerImpostazioni(){
+		try{
+			aggiornamentoGenerale(Entrate.NOME_TABELLA);
+			aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
+			SottoPannelloMesi.azzeraCampi();
+			SottoPannelloCategorie2.azzeraCampi();
+			SottoPannelloTotali.getPercentoFutili().setText(Double.toString(percentoUscite(CatSpese.IMPORTANZA_FUTILE)));
+			SottoPannelloTotali.getPercentoVariabili().setText(Double.toString(percentoUscite(CatSpese.IMPORTANZA_VARIABILE)));
+			SottoPannelloTotali.getAvanzo().setText(Double.toString(AltreUtil.arrotondaDecimaliDouble((EAnnuale())-(Annuale()))));
+			DBUtil.closeConnection();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Dopo una variazione o inserimento di un movimento permette l'aggiornamento 
+	 * di tutti i pannelli rispetto al tipo (Uscita, 'SingleSpesa.NOME_TABELLA', e Entrata,
+	 * 'Entrate.NOME_TABELLA')
+	 * @param tipo
+	 * @throws Exception 
+	 */
+	public static void aggiornamentoGenerale(String tipo) throws Exception{
+		//TODO Implementare un codice che gestisce tutti gli aggiornamenti dell'applicazione
+		
+		if(tipo.equals(SingleSpesa.NOME_TABELLA)){
+			final String[]nomiColonne = (String[]) AltreUtil.generaNomiColonne(SingleSpesa.NOME_TABELLA);
+			aggiornaTabellaUscite();
+			SottoPannelloDatiSpese.getMeseInCors().setText(Double.toString(MensileInCorso()));
+			SottoPannelloDatiSpese.getMesePrecUsc().setText(Double.toString(Mensile()));
+			SottoPannelloDatiSpese.getSpeseAnnuali().setText(Double.toString(Annuale()));
+			JComboBox combo = new JComboBox(CacheCategorie.getSingleton().getVettoreCategoriePerCombo());
+			Categorie.setComboCategorie(combo);
+			Categorie.setCategorieSpesa(CacheCategorie.getSingleton().getVettoreCategoriePerCombo());
+			Model.aggiornaMovimentiUsciteDaEsterno(nomiColonne, 10);
+			DBUtil.closeConnection();
+		}else if(tipo.equals(Entrate.NOME_TABELLA)){
+			final String[]nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
+			aggiornaTabellaEntrate();
+			SottoPannelloDatiEntrate.getEnAnCorso().setText(Double.toString(EAnnuale()));
+			SottoPannelloDatiEntrate.getEnMeCorso().setText(Double.toString(EMensileInCorso()));
+			SottoPannelloDatiEntrate.getEntrateMesePrec().setText(Double.toString(Emensile()));
+			Model.aggiornaMovimentiEntrateDaEsterno(nomiColonne, 10);
+			DBUtil.closeConnection();
+		}else{
+			throw new Exception("Aggiornamento non gestito: "+tipo);
+		}
+	}
+	
+	/**
+	 * Il metodo aggiorna la combobox dei gruppi nel pannello Categorie passandogli
+	 * come parametro una entita 'Gruppi'. L'aggiornamento avviene scorrendo gli elementi
+	 * della combo: quando id del gruppo passato come parametro e' lo stesso di quello
+	 * nella combo, quest'ultimo viene eliminato. Quindi aggiunge il nuovo gruppo nella
+	 * stessa posizione di quello eliminato
+	 * 
+	 * @param gruppo
+	 */
+	public static void aggiornaGruppi(Gruppi gruppo){
+		int max=0;
+		String sql = "SELECT MAX("+Gruppi.ID+") FROM "+Gruppi.NOME_TABELLA;
+		Connection cn = DBUtil.getConnection();
+		
+		try {
+			Statement st = cn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			max = rs.getInt(1);
+			DBUtil.closeConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		JComboBox gruppi = Categorie.getSingleton().getComboGruppi();
+		JComboBox gruppi1 = SettingGruppi.getSingleton().getComboGruppi();
+		
+		gruppi.setSelectedIndex(0);		
+		int i=1;
+		for(i=1; i<=max; i++){
+			
+			Gruppi gruppo1 = (Gruppi) gruppi1.getItemAt(i);
+			if(gruppo1==null){
+				gruppo1 = new Gruppi();
+				gruppo1.setidGruppo(-1);
+			}
+			if(gruppo.getidGruppo()==gruppo1.getidGruppo()){
+				gruppi1.removeItemAt(i);
+				CatSpese categoriaPresa = CacheCategorie.getSingleton().getCatSpese(Integer.toString(gruppo.getidGruppo()));
+				//non è possibile sostituirlo la categoria presa dal database con quella passata nel parametro
+				//perché il parametro mantiene i vecchi settaggi e non si aggiorna
+				gruppi1.insertItemAt(categoriaPresa, i);		
+				DBUtil.closeConnection();
+			}
+		}
+		try {
+			cn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBUtil.closeConnection();
+		
+	}
+	
+	//aggiorna le categorie nel pannello di uscite
+	/**
+	 * Il metodo aggiorna la combobox delle categorie nel pannello uscite passandogli
+	 * come parametro una entita CatSpese. L'aggiornamento avviene scorrendo gli elementi
+	 * della combo: quando id della categoria passata come parametro e' lo stesso di quello
+	 * nella combo, quest'ultima viene eliminata. Quindi aggiunge la nuova categoria nella
+	 * stessa posizione di quella eliminata
+	 * 
+	 * @param CatSpese
+	 */
+	public static void aggiornaCategorie(CatSpese categoria){
+		int max=0;
+		String sql = "SELECT MAX("+CatSpese.ID+") FROM "+CatSpese.NOME_TABELLA;
+		Connection cn = DBUtil.getConnection();
+		
+		try {
+			Statement st = cn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			max = rs.getInt(1);
+			DBUtil.closeConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		JComboBox categorie = Uscite.getSingleton().getCategorie();
+		JComboBox categorie1 = Categorie.getComboCategorie();
+		
+//		categorie.addItem(categoria);
+		categorie.setSelectedIndex(0);		
+		int i=1;
+		for(i=1; i<=max; i++){
+			
+			CatSpese catspese1 = (CatSpese) categorie1.getItemAt(i);
+			if(catspese1==null){
+				catspese1 = new CatSpese();
+				catspese1.setidCategoria(-1);
+			}
+			if(categoria.getidCategoria()==catspese1.getidCategoria()){
+				categorie1.removeItemAt(i);
+				CatSpese categoriaPresa = CacheCategorie.getSingleton().getCatSpese(Integer.toString(categoria.getidCategoria()));
+				//non è possibile sostituirlo la categoria presa dal database con quella passata nel parametro
+				//perché il parametro mantiene i vecchi settaggi e non si aggiorna
+				categorie1.insertItemAt(categoriaPresa, i);		
+				DBUtil.closeConnection();
+			}
+		}
+		try {
+			cn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBUtil.closeConnection();
+	}
+
+	// aggiorno tabella uscite/mese in seguito a variazioni di altre tabelle
+	/**
+	 * il metodo aggiorna la matrice primo[][] che rappresenta i dati della tabella uscite.
+	 * Utile nel caso in cui vengano aggiornte altre tabelle e si vogliano aggiornare anche
+	 * questi dati. 
+	 * @throws Exception 
+	 */
+	public static void aggiornaTabellaUscite(){
+//		Vector<CatSpese> categorie = Categorie.getCategorieSpesa();
+		Vector<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
+		String[][] primo = null;
+		if(TabellaUscita.getPrimo()!=null)
+			primo = TabellaUscita.getPrimo();
+		else
+			primo = new String[12][categorie.size()];
+		for (int i = 0; i < 12; i++) {
+			for (int x = 0; x < categorie.size(); x++) {
+				try {
+					primo[i][x] = Double.toString(Database.speseMeseCategoria(i + 1, categorie.get(x).getidCategoria()));
+				}catch (SQLException e1) {
+					e1.printStackTrace();
+					log.severe("Impossibile recuperare dati da DB: "+e1.getMessage());
+				}catch (NullPointerException e2) {
+					e2.printStackTrace();
+					log.severe("PannelloDati non caricato: "+e2.getMessage());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+		}
+		DBUtil.closeConnection();
+		TabellaUscita.setPrimo(primo);
+		TabellaUscita.setTable(new TableF());
+	}
+
+	// aggiorno tabella entrate/mese in seguito a variazioni di altre tabelle
+	/**
+	 * Metodo che serve per aggiornare la matrice entrate/mese dopo variazioni avvenute
+	 * in altri pannelli
+	 * @throws Exception 
+	 */
+	public static void aggiornaTabellaEntrate() {
+		String[][] primo = TabellaEntrata.getPrimo();
+		String[] colonne = TabellaEntrata.getNomiColonne();
+		for (int i = 0; i < 12; i++) {
+			for (int x = 0; x < 2; x++) {
+				try {
+					primo[i][x] = Double.toString(new Database().entrateMeseTipo(i + 1, colonne[x]));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		TabellaEntrata.setPrimo(primo);
+		TabellaEntrata.setTable(new TableF());
+		DBUtil.closeConnection();
+	}
+	
+	public static void aggiornamentoComboBox(Vector<CatSpese>categorie){
+		Uscite.getSingleton().getCategorie().setModel(new DefaultComboBoxModel(categorie));
+		SottoPannelloCategorie2.getCategorieCombo().setModel(new DefaultComboBoxModel(categorie));
+		SottoPannelloCategorie2.getCategorieCombo().validate();
+		SottoPannelloCategorie2.getCategorieCombo().repaint();
+		Uscite.getSingleton().getCategorie().validate();
+		Uscite.getSingleton().getCategorie().repaint();
+	}
+
 	
 }

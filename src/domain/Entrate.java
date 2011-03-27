@@ -1,9 +1,13 @@
 package domain;
 
 import java.io.Serializable;
-import java.util.Date;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 
 /**
@@ -30,10 +34,10 @@ public class Entrate extends AbstractOggettoEntita implements Serializable {
 	public static final String IMPORTANZA_VARIABILI = "Variabili";
 
 	@Column(name="data", nullable=false, length=2000000000)
-	private Date data;
+	private String data;
 	
 	@Column(name="dataIns", nullable=false, length=2000000000)
-	private Date dataIns;
+	private String dataIns;
 
 	@Column(name="descrizione", nullable=false, length=2000000000)
 	private String descrizione;
@@ -61,13 +65,15 @@ public class Entrate extends AbstractOggettoEntita implements Serializable {
 	private Utenti utenti;
 
     public Entrate() {
+    	if(idEntrate!=0)
+    		this.idEntita = Integer.toString(idEntrate);
     }
 
-	public Date getdata() {
+	public String getdata() {
 		return this.data;
 	}
 
-	public void setdata(Date data) {
+	public void setdata(String data) {
 		this.data = data;
 	}
 
@@ -92,6 +98,7 @@ public class Entrate extends AbstractOggettoEntita implements Serializable {
 	}
 
 	public void setidEntrate(int idEntrate) {
+		this.idEntita = Integer.toString(idEntrate);
 		this.idEntrate = idEntrate;
 	}
 
@@ -127,11 +134,11 @@ public class Entrate extends AbstractOggettoEntita implements Serializable {
 		this.utenti = utenti;
 	}
 
-	public void setDataIns(Date date) {
+	public void setDataIns(String date) {
 		this.dataIns = date;
 	}
 
-	public Date getDataIns() {
+	public String getDataIns() {
 		return dataIns;
 	}
 	

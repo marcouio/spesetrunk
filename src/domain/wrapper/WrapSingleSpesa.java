@@ -18,6 +18,7 @@ import business.DBUtil;
 import business.cache.CacheCategorie;
 import business.cache.CacheUscite;
 import business.cache.CacheUtenti;
+import domain.AbstractOggettoEntita;
 import domain.CatSpese;
 import domain.Entrate;
 import domain.SingleSpesa;
@@ -35,22 +36,23 @@ public class WrapSingleSpesa extends SingleSpesa implements IWrapperEntity{
 		Connection cn = DBUtil.getConnection();
 		String sql = "SELECT * FROM "+SingleSpesa.NOME_TABELLA+" WHERE "+SingleSpesa.ID+" = " +id;
 		
-		SingleSpesa uscita = new SingleSpesa();
+		SingleSpesa uscita = null;
 		
 		try {
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			if(rs.next()){
+				uscita = new SingleSpesa();
 				CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(5)));
-				Utenti utente = Controllore.getSingleton().getUtenteLogin();
+				Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
 				uscita.setidSpesa(rs.getInt(1));
-				uscita.setData(rs.getDate(2));
+				uscita.setData(rs.getString(2));
 				uscita.setinEuro(rs.getDouble(3));
 				uscita.setdescrizione(rs.getString(4));
 				uscita.setCatSpese(categoria);
 				uscita.setnome(rs.getString(6));
 				uscita.setUtenti(utente);
-				uscita.setDataIns(rs.getDate(6));
+				uscita.setDataIns(rs.getString(8));
 			}
 
 		} catch (SQLException e) {
@@ -75,24 +77,24 @@ public class WrapSingleSpesa extends SingleSpesa implements IWrapperEntity{
 	public Vector<Object> selectAllForUtente() {
 		Vector<Object> uscite = new Vector<Object>();
 		Utenti utente = Controllore.getSingleton().getUtenteLogin();
-		Map<String, CatSpese> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
+		Map<String, AbstractOggettoEntita> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
 		Connection cn = DBUtil.getConnection();
 		String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA + " WHERE " +SingleSpesa.IDUTENTE+ " = " + utente.getidUtente();
 		try{
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
-			if(rs.next()){
-				CatSpese categoria = mappaCategorie.get(Integer.toString(rs.getInt(5)));
+			while(rs.next()){
+				CatSpese categoria = (CatSpese)mappaCategorie.get(Integer.toString(rs.getInt(5)));
 				
 				SingleSpesa uscita = new SingleSpesa();
 				uscita.setidSpesa(rs.getInt(1));
-				uscita.setData(rs.getDate(2));
+				uscita.setData(rs.getString(2));
 				uscita.setinEuro(rs.getDouble(3));
 				uscita.setdescrizione(rs.getString(4));
 				uscita.setCatSpese(categoria);
 				uscita.setnome(rs.getString(6));
 				uscita.setUtenti(utente);
-				uscita.setDataIns(rs.getDate(8));
+				uscita.setDataIns(rs.getString(8));
 				uscite.add(uscita);
 			}
 		
@@ -112,26 +114,26 @@ public class WrapSingleSpesa extends SingleSpesa implements IWrapperEntity{
 	@Override
 	public Vector<Object> selectAll() {
 		Vector<Object> uscite = new Vector<Object>();
-		Map<String, Utenti> mappaUtenti =  CacheUtenti.getSingleton().getAllUtenti();
-		Map<String, CatSpese> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
+		Map<String, AbstractOggettoEntita> mappaUtenti =  CacheUtenti.getSingleton().getAllUtenti();
+		Map<String, AbstractOggettoEntita> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
 		Connection cn = DBUtil.getConnection();
 		String sql = "SELECT * FROM " + NOME_TABELLA ;
 		try{
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
-			if(rs.next()){
-				Utenti utente = mappaUtenti.get(rs.getInt(7));
-				CatSpese categoria = mappaCategorie.get(Integer.toString(rs.getInt(5)));
+			while(rs.next()){
+				Utenti utente = (Utenti)mappaUtenti.get(Integer.toString(rs.getInt(7)));
+				CatSpese categoria = (CatSpese)mappaCategorie.get(Integer.toString(rs.getInt(5)));
 				
 				SingleSpesa uscita = new SingleSpesa();
 				uscita.setidSpesa(rs.getInt(1));
-				uscita.setData(rs.getDate(2));
+				uscita.setData(rs.getString(2));
 				uscita.setinEuro(rs.getDouble(3));
 				uscita.setdescrizione(rs.getString(4));
 				uscita.setCatSpese(categoria);
 				uscita.setnome(rs.getString(6));
 				uscita.setUtenti(utente);
-				uscita.setDataIns(rs.getDate(8));
+				uscita.setDataIns(rs.getString(8));
 				uscite.add(uscita);
 			}
 		
@@ -159,8 +161,8 @@ public class WrapSingleSpesa extends SingleSpesa implements IWrapperEntity{
 			sql="INSERT INTO " + SingleSpesa.NOME_TABELLA + " (" + SingleSpesa.DATA+", "+SingleSpesa.INEURO+", "
 			+SingleSpesa.DESCRIZIONE+", "+SingleSpesa.IDCATEGORIE+", "+SingleSpesa.NOME+", "+SingleSpesa.IDUTENTE+", "+SingleSpesa.DATAINS+") VALUES (?,?,?,?,?,?,?)";
 			PreparedStatement ps = cn.prepareStatement(sql);
-			Long data = uscita.getData().getTime();
-			ps.setDate(1, new java.sql.Date(data));
+			String data = uscita.getData();
+			ps.setString(1, data);
 			ps.setDouble(2, uscita.getinEuro());
 			ps.setString(3, uscita.getdescrizione());
 			if(uscita.getCatSpese()!=null)
@@ -168,8 +170,8 @@ public class WrapSingleSpesa extends SingleSpesa implements IWrapperEntity{
 			ps.setString(5, uscita.getnome());
 			if(uscita.getUtenti()!=null)
 				ps.setInt(6, uscita.getUtenti().getidUtente());
-			Long dataIns = uscita.getDataIns().getTime();
-			ps.setDate(7, new java.sql.Date(dataIns));
+			String dataIns = uscita.getDataIns();
+			ps.setString(7, dataIns);
 			ps.executeUpdate();
 			ok = true;
 			CacheUscite.getSingleton().getCache().put(Integer.toString(uscita.getidSpesa()), uscita);
@@ -288,18 +290,17 @@ public class WrapSingleSpesa extends SingleSpesa implements IWrapperEntity{
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			sSpesa = new Vector<SingleSpesa>();
-			Map<String, CatSpese> categorie = CacheCategorie.getSingleton().getAllCategorie();
 			while (rs.next()) {
-				
-				CatSpese categoria = categorie.get(rs.getInt(5));
-
+				CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(rs.getString(5));
 				SingleSpesa ss = new SingleSpesa();
 				ss.setidSpesa(rs.getInt(1));				
-				ss.setData(rs.getDate(2));
+				ss.setData(rs.getString(2));
 				ss.setinEuro(rs.getDouble(3));
 				ss.setdescrizione(rs.getString(4));
 				ss.setnome(rs.getString(6));
 				ss.setCatSpese(categoria);
+				ss.setDataIns(rs.getString(8));
+				ss.setUtenti(utente);
 				sSpesa.add(ss);
 			}
 		} catch (SQLException e) {

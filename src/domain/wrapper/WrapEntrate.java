@@ -1,13 +1,11 @@
 package domain.wrapper;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Vector;
 
 import view.impostazioni.Impostazioni;
@@ -29,22 +27,23 @@ public class WrapEntrate extends Entrate implements IWrapperEntity{
 		Connection cn = DBUtil.getConnection();
 		String sql = "SELECT * FROM "+Entrate.NOME_TABELLA+" WHERE "+Entrate.ID+" = " +id;
 		
-		Entrate entrata = new Entrate();
+		Entrate entrata = null;
 		
 		try {
 			
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			if(rs.next()){
-				Utenti utente = Controllore.getSingleton().getUtenteLogin();
+				entrata = new Entrate();
+				Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
 				entrata.setidEntrate(rs.getInt(1));
 				entrata.setdescrizione(rs.getString(2));
 				entrata.setFisseoVar(rs.getString(3));
 				entrata.setinEuro(rs.getDouble(4));
-				entrata.setdata(rs.getDate(5));
+				entrata.setdata(rs.getString(5));
 				entrata.setnome(rs.getString(6));
 				entrata.setUtenti(utente);
-				entrata.setDataIns(rs.getDate(8));
+				entrata.setDataIns(rs.getString(8));
 			}
 
 		} catch (SQLException e) {
@@ -75,17 +74,17 @@ public class WrapEntrate extends Entrate implements IWrapperEntity{
 		try{
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
-			if(rs.next()){
+			while(rs.next()){
 				
 				Entrate entrata = new Entrate();
 				entrata.setidEntrate(rs.getInt(1));
 				entrata.setdescrizione(rs.getString(2));
 				entrata.setFisseoVar(rs.getString(3));
 				entrata.setinEuro(rs.getDouble(4));
-				entrata.setdata(rs.getDate(5));
+				entrata.setdata(rs.getString(5));
 				entrata.setnome(rs.getString(6));
 				entrata.setUtenti(utente);
-				entrata.setDataIns(rs.getDate(8));
+				entrata.setDataIns(rs.getString(8));
 				entrate.add(entrata);
 			}
 		
@@ -104,24 +103,23 @@ public class WrapEntrate extends Entrate implements IWrapperEntity{
 	@Override
 	public Vector<Object> selectAll() {
 		Vector<Object> entrate = new Vector<Object>();
-		Map<String, Utenti> mappaUtenti =  CacheUtenti.getSingleton().getAllUtenti();
 		Connection cn = DBUtil.getConnection();
 		
 		String sql = "SELECT * FROM " + NOME_TABELLA ;
 		try{
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
-			if(rs.next()){
-				Utenti utente = mappaUtenti.get(rs.getInt(7));
+			while(rs.next()){
+				Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
 				Entrate entrata = new Entrate();
 				entrata.setidEntrate(rs.getInt(1));
 				entrata.setdescrizione(rs.getString(2));
 				entrata.setFisseoVar(rs.getString(3));
 				entrata.setinEuro(rs.getDouble(4));
-				entrata.setdata(rs.getDate(5));
+				entrata.setdata(rs.getString(5));
 				entrata.setnome(rs.getString(6));
 				entrata.setUtenti(utente);
-				entrata.setDataIns(rs.getDate(8));
+				entrata.setDataIns(rs.getString(8));
 				entrate.add(entrata);
 			}
 		
@@ -156,13 +154,13 @@ public class WrapEntrate extends Entrate implements IWrapperEntity{
 			//euro
 			ps.setDouble(3, entrata.getinEuro());
 			//data
-			ps.setDate(4, new Date(entrata.getdata().getTime()));
+			ps.setString(4, entrata.getdata());
 			//nome
 			ps.setString(5, entrata.getnome());
 			//idutente
 			ps.setInt(6, entrata.getUtenti().getidUtente());
 			//datains
-			ps.setDate(7, new Date(entrata.getDataIns().getTime()));
+			ps.setString(7, entrata.getDataIns());
 			
 			ps.executeUpdate();
 			ok = true;
@@ -273,7 +271,7 @@ public class WrapEntrate extends Entrate implements IWrapperEntity{
 		
 		//TODO verificare che impostazioni venga pescato correttamente (non passare dal controller?)
 		String sql = "SELECT * FROM "+Entrate.NOME_TABELLA+" where "+Entrate.DATA
-		+" BETWEEN '"+Impostazioni.getAnno()+"/01/01'"+" AND '"+Impostazioni.getAnno()+"/12/31'"
+		+" BETWEEN '"+Impostazioni.getAnno()+"/01/01"+"'"+" AND '"+Impostazioni.getAnno()+"/12/31"+"'"
 		+" AND "+Entrate.IDUTENTE+ " = " + idUtente +" ORDER BY "+Entrate.ID+" desc limit 0,"+numEntry;
 		Connection cn = DBUtil.getConnection();
 		try {
@@ -282,12 +280,14 @@ public class WrapEntrate extends Entrate implements IWrapperEntity{
 			entrate = new Vector<Entrate>();
 				while (rs.next()) {
 					Entrate e = new Entrate();
-					e.setdata(rs.getDate(5));
+					e.setdata(rs.getString(5));
 					e.setdescrizione(rs.getString(2));
 					e.setFisseoVar(rs.getString(3));
 					e.setidEntrate(rs.getInt(1));
 					e.setinEuro(rs.getDouble(4));
 					e.setnome(rs.getString(6));
+					e.setUtenti(utente);
+					e.setDataIns(rs.getString(8));
 					entrate.add(e);
 				}			
 		} catch (SQLException e) {
@@ -317,11 +317,9 @@ public class WrapEntrate extends Entrate implements IWrapperEntity{
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			if(rs.next()){
-				Entrate e = new Entrate();
-				e.setidEntrate(rs.getInt(1));
 				String sql2 = "DELETE FROM "+Entrate.NOME_TABELLA+" WHERE "+Entrate.ID+"=?";
 				PreparedStatement ps = cn.prepareStatement(sql2);
-				ps.setInt(1, e.getidEntrate());
+				ps.setInt(1, rs.getInt(1));
 				ps.executeUpdate();
 				ok = true;
 

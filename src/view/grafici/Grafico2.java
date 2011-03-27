@@ -9,11 +9,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
+import view.OggettoVistaBase;
 import view.font.ButtonF;
 import view.font.LabelTesto;
 import view.font.LabelTitolo;
@@ -21,7 +21,7 @@ import view.grafici.dialogGraph.GrUscite1;
 import view.grafici.dialogGraph.GrUscite2;
 import business.AltreUtil;
 
-public class Grafico2 extends JPanel {
+public class Grafico2 extends OggettoVistaBase {
 
 	/**
 	 * 

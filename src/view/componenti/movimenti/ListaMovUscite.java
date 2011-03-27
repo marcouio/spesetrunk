@@ -32,11 +32,11 @@ public class ListaMovUscite extends view.OggettoVistaBase {
 
 	
 	int numUscite = 10;
-	private JButton pulsanteNMovimenti;
+	private ButtonF pulsanteNMovimenti;
 	private static JTextField campo;
-	private JButton updateButton;
+	private ButtonF updateButton;
 
-	private JButton deleteButton;
+	private ButtonF deleteButton;
 	private static String[][]movimenti;
 	private static JTable table;
 	private static JTable table1;
@@ -49,20 +49,21 @@ public class ListaMovUscite extends view.OggettoVistaBase {
 	public ListaMovUscite() {
 		final DialogUsciteMov dialog = new DialogUsciteMov();
 		this.setSize(500, 250);
-		this.setPreferredSize(new Dimension(576, 502));
+		this.setPreferredSize(new Dimension(800, 502));
 		this.setLayout(null);
 		
 		JLabel movim = new LabelTesto("Movimenti:");
-		movim.setBounds(166, 5, 89, 30);
+		movim.setBounds(166, 17, 89, 30);
 		this.add(movim);
 		campo = new TextFieldF();
-		campo.setBounds(255, 11, 60, 25);
+		campo.setBounds(255, 23, 60, 25);
 		campo.setText("10");
 		
 		numUscite = Integer.parseInt(campo.getText());
 		this.add(campo);
-		pulsanteNMovimenti = new ButtonF("Cambia");
-		pulsanteNMovimenti.setBounds(317, 12, 90, 25);
+		pulsanteNMovimenti = new ButtonF();
+		pulsanteNMovimenti.setText("Cambia");
+		pulsanteNMovimenti.setBounds(317, 24, 90, 25);
 		this.add(pulsanteNMovimenti);
 		
 		final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(SingleSpesa.NOME_TABELLA);
@@ -102,7 +103,7 @@ public class ListaMovUscite extends view.OggettoVistaBase {
 
         //Add the scroll pane to this panel.
         this.add(scrollPane);
-        scrollPane.setBounds(21, 40, 664, 337);
+        scrollPane.setBounds(21, 70, 664, 337);
 
 	        updateButton = new ButtonF();
         	this.add(updateButton);
@@ -198,7 +199,7 @@ public class ListaMovUscite extends view.OggettoVistaBase {
 		/**
 		 * @param pulsante the pulsante to set
 		 */
-		public void setPulsante(JButton pulsante) {
+		public void setPulsante(ButtonF pulsante) {
 			this.pulsanteNMovimenti = pulsante;
 		}
 		/**
@@ -222,7 +223,7 @@ public class ListaMovUscite extends view.OggettoVistaBase {
 		/**
 		 * @param updateButton the updateButton to set
 		 */
-		public void setUpdateButton(JButton updateButton) {
+		public void setUpdateButton(ButtonF updateButton) {
 			this.updateButton = updateButton;
 		}
 
@@ -235,7 +236,7 @@ public class ListaMovUscite extends view.OggettoVistaBase {
 		/**
 		 * @param deleteButton the deleteButton to set
 		 */
-		public void setDeleteButton(JButton deleteButton) {
+		public void setDeleteButton(ButtonF deleteButton) {
 			this.deleteButton = deleteButton;
 		}
 		/**

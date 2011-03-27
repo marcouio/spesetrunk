@@ -18,7 +18,7 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name="cat_spese")
+@Table(name="cat_spese", schema="DEFAULT")
 public class CatSpese extends AbstractOggettoEntita implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -53,6 +53,9 @@ public class CatSpese extends AbstractOggettoEntita implements Serializable {
 	private Set<SingleSpesa> singleSpesas;
 
     public CatSpese() {
+    	if(idCategoria!=0){
+    		this.idEntita = Integer.toString(idCategoria);
+    	}
     }
 
 	public String getdescrizione() {
@@ -69,6 +72,7 @@ public class CatSpese extends AbstractOggettoEntita implements Serializable {
 
 	public void setidCategoria(int idCategoria) {
 		this.idCategoria = idCategoria;
+		this.idEntita = Integer.toString(idCategoria);
 	}
 
 	public int getidGruppo() {

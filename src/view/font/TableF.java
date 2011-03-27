@@ -11,7 +11,6 @@ import javax.swing.table.TableModel;
 public class TableF extends JTable {
 
 	/**
-	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
