@@ -7,18 +7,17 @@ import java.util.Map;
 import java.util.Vector;
 
 import business.Controllore;
+import domain.AbstractOggettoEntita;
 import domain.Entrate;
 import domain.Utenti;
 import domain.wrapper.WrapEntrate;
 
 public class CacheEntrate extends AbstractCacheBase{
 
-	private boolean caricata;
-	private static Map<String, Entrate> cache;
 	private static CacheEntrate singleton;
 	
 	private CacheEntrate(){
-		cache = new HashMap<String, Entrate>();
+		cache = new HashMap<String, AbstractOggettoEntita>();
 		caricata=false;
 	}
 	public static CacheEntrate getSingleton(){
@@ -42,15 +41,15 @@ public class CacheEntrate extends AbstractCacheBase{
 				cache.put(id, entrate);
 			}
 		}
-	return cache.get(id);
+	return (Entrate)cache.get(id);
 	}
 	
 	private Entrate caricaEntrate(String id){
 		return (Entrate) new WrapEntrate().selectById(Integer.parseInt(id));
 	}
 	
-	public Map<String, Entrate> chargeAllEntrate(){
-		Vector<Object>entrate = entrateDAO.selectAll();
+	public Map<String, AbstractOggettoEntita> chargeAllEntrate(){
+		Vector<Object> entrate = entrateDAO.selectAll();
 		if(entrate!=null && entrate.size()>0){
 			for(int i=0; i<entrate.size();i++){
 				Entrate entrata = (Entrate) entrate.get(i);
@@ -64,7 +63,7 @@ public class CacheEntrate extends AbstractCacheBase{
 		return cache;
 	}
 	
-	public Map<String, Entrate> getAllEntrate(){
+	public Map<String, AbstractOggettoEntita> getAllEntrate(){
 		if(caricata)
 			return cache;
 		else
@@ -73,25 +72,21 @@ public class CacheEntrate extends AbstractCacheBase{
 	
 	public ArrayList<Entrate> getAllEntrateForUtente(){
 		ArrayList<Entrate> listaEntrate = new ArrayList<Entrate>(); 
-		Map<String, Entrate> mappa = getAllEntrate();
-		Iterator<String> chiavi = mappa.keySet().iterator();
+		Map<String, AbstractOggettoEntita> mappa = getAllEntrate();
 		Utenti utente = Controllore.getSingleton().getUtenteLogin();
 		if(mappa!=null && utente!=null){
+			Iterator<String> chiavi = mappa.keySet().iterator();
+			
 			while(chiavi.hasNext()){
-				Entrate entrata =  mappa.get(chiavi.next());
-				if(entrata.getidUtente()==utente.getidUtente()){
-					listaEntrate.add(entrata);
+				Entrate entrata =  (Entrate)mappa.get(chiavi.next());
+				if(entrata!=null && (entrata.getUtenti()!=null || entrata.getidUtente()!=0)){
+					if(entrata.getUtenti().getidUtente()==utente.getidUtente()){
+						listaEntrate.add(entrata);
+					}
 				}
 			}
 		}
 		return listaEntrate;
-	}
-	
-	public Map<String, Entrate> getCache() {
-		return cache;
-	}
-	public void setCache(Map<String, Entrate> cache) {
-		CacheEntrate.cache = cache;
 	}
 
 }

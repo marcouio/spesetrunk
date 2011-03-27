@@ -8,9 +8,13 @@ import javax.persistence.*;
  * The persistent class for the BUDGET database table.
  * 
  */
+
 @Entity
-@Table(name="BUDGET")
+@Table(name="budget")
+
+
 public class Budget extends AbstractOggettoEntita implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	public static final String NOME_TABELLA = "budget";
@@ -36,6 +40,9 @@ public class Budget extends AbstractOggettoEntita implements Serializable {
 	private CatSpese catSpese;
 
     public Budget() {
+    	if(idBudget!=0){
+    		this.idEntita = Integer.toString(idBudget);
+    	}
     }
 
 	public int getidBudget() {
@@ -44,6 +51,7 @@ public class Budget extends AbstractOggettoEntita implements Serializable {
 
 	public void setidBudget(int idBudget) {
 		this.idBudget = idBudget;
+		this.idEntita = Integer.toString(idBudget);
 	}
 
 	public int getidCategorie() {

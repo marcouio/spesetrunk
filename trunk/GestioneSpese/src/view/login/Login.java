@@ -14,6 +14,7 @@ import view.font.TextFieldF;
 import view.impostazioni.Impostazioni;
 import view.impostazioni.RaccogliImpostazioni;
 import business.Controllore;
+import business.Database;
 import domain.Utenti;
 import domain.wrapper.Model;
 import domain.wrapper.WrapUtenti;
@@ -67,6 +68,11 @@ public class Login extends JDialog {
 					RaccogliImpostazioni setting = (RaccogliImpostazioni) Controllore.getSingleton().getView().getTabSetting();
 					Impostazioni impostazioni = setting.getImpostazioni();
 					impostazioni.getUtente().setText(utente.getusername());
+					try {
+						Database.aggiornamentoPerImpostazioni();
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
 					impostazioni.repaint();
 					dispose();
 				}else{

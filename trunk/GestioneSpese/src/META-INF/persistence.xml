@@ -8,6 +8,8 @@
 		<class>domain.Risparmio</class>
 		<class>domain.SingleSpesa</class>
 		<class>domain.Utenti</class>
+		<class>domain.Lookandfeel</class>
+		
 		
 		<properties>
             		<property name="eclipselink.target-database" value="DEFAULT"/>

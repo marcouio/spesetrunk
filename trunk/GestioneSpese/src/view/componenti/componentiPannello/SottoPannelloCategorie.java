@@ -41,16 +41,13 @@ public class SottoPannelloCategorie extends OggettoVistaBase {
 	}
 
 	private JLabel jLabel5;
-	
+	private static JComboBox CategorieCombo;
 	private JLabel jLabel9Categorie;
 	private JLabel jLabel11;
 	private JLabel jLabel6;
-	private JSeparator jSeparator2;
-	
-	private static JComboBox CategorieCombo;
 	private static JTextField totaleMeseCategoria;
 	private static JTextField totaleAnnualeCateg;
-	
+	private JSeparator jSeparator2;
 	
 
 
@@ -82,17 +79,17 @@ public class SottoPannelloCategorie extends OggettoVistaBase {
 			jLabel6.setText("Totale Mese");
 			jLabel6.setBounds(317, 67, 106, 14);
 			
+			totaleMeseCategoria = new TextFieldF();
+			this.add(totaleMeseCategoria);
+			totaleMeseCategoria.setColumns(10);
+			totaleMeseCategoria.setText("0.0");
+			totaleMeseCategoria.setBounds(317, 85, 106, 27);
+			
 			totaleAnnualeCateg = new TextFieldF();
 			this.add(totaleAnnualeCateg);
 			totaleAnnualeCateg.setColumns(10);
 			totaleAnnualeCateg.setText("0.0");
 			totaleAnnualeCateg.setBounds(164, 84, 106, 27);
-			
-			totaleMeseCategoria = new TextFieldF();
-			this.add(totaleMeseCategoria);
-			totaleMeseCategoria.setColumns(10);
-			totaleMeseCategoria.setText("0.0");
-			totaleMeseCategoria.setBounds(317, 83, 106, 27);
 
 			jSeparator2 = new JSeparator();
 			this.add(jSeparator2);
@@ -119,6 +116,7 @@ public class SottoPannelloCategorie extends OggettoVistaBase {
 						int mese = new GregorianCalendar().get(Calendar.MONTH);
 						double spesa = 0;
 						try {
+							//TODO
 							spesa = Database.speseMeseCategoria(mese, spese.getidCategoria());
 						} catch (Exception e1) {
 							e1.printStackTrace();

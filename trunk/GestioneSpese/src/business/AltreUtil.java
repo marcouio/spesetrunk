@@ -11,15 +11,6 @@ import java.util.logging.SimpleFormatter;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-
-import view.componenti.movimenti.AscoltatoreMouseMovEntrate;
-import view.componenti.movimenti.ListaMovEntrat;
-import view.font.TableF;
-
-import domain.Entrate;
-import domain.wrapper.Model;
 
 public class AltreUtil {
 

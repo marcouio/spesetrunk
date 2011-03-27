@@ -14,7 +14,7 @@ import java.util.Set;
 public class Utenti extends AbstractOggettoEntita implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	public static final String NOME_TABELLA = "utenti";
+	public static final String NOME_TABELLA = "Utenti";
 	public static final String ID = "idUtente";
 	public static final String USERNAME = "username";
 	public static final String PASSWORD = "password";
@@ -46,6 +46,9 @@ public class Utenti extends AbstractOggettoEntita implements Serializable {
 	private Set<SingleSpesa> singleSpesas;
 
     public Utenti() {
+    	if(idUtente!=0){
+    		this.idEntita = Integer.toString(idUtente);
+    	}
     }
 
 	public int getidUtente() {
@@ -53,6 +56,7 @@ public class Utenti extends AbstractOggettoEntita implements Serializable {
 	}
 
 	public void setidUtente(int idUtente) {
+		this.idEntita = Integer.toString(idUtente);
 		this.idUtente = idUtente;
 	}
 

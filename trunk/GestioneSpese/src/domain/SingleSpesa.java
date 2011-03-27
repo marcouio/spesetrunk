@@ -1,9 +1,13 @@
 package domain;
 
 import java.io.Serializable;
-import java.util.Date;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 
 /**
@@ -26,7 +30,7 @@ public class SingleSpesa extends AbstractOggettoEntita implements Serializable {
 	public static final String IDUTENTE = "idUtente";
 
 	@Column(name="Data", nullable=false, length=2000000000)
-	private Date Data;
+	private String Data;
 
 	@Column(name="descrizione", nullable=false, length=2000000000)
 	private String descrizione;
@@ -48,7 +52,7 @@ public class SingleSpesa extends AbstractOggettoEntita implements Serializable {
 	private String nome;
 	
 	@Column(name="dataIns", nullable=false, length=2000000000)
-	private Date dataIns;
+	private String dataIns;
 
 	//bi-directional many-to-one association to CatSpese
     @ManyToOne
@@ -63,13 +67,15 @@ public class SingleSpesa extends AbstractOggettoEntita implements Serializable {
 	private Utenti utenti;
 
     public SingleSpesa() {
+    	if(idSpesa!=0)
+    		this.idEntita = Integer.toString(idSpesa);
     }
 
-	public Date getData() {
+	public String getData() {
 		return this.Data;
 	}
 
-	public void setData(Date Data) {
+	public void setData(String Data) {
 		this.Data = Data;
 	}
 
@@ -94,6 +100,7 @@ public class SingleSpesa extends AbstractOggettoEntita implements Serializable {
 	}
 
 	public void setidSpesa(int idSpesa) {
+		this.idEntita = Integer.toString(idSpesa);
 		this.idSpesa = idSpesa;
 	}
 
@@ -137,11 +144,11 @@ public class SingleSpesa extends AbstractOggettoEntita implements Serializable {
 		this.utenti = utenti;
 	}
 
-	public void setDataIns(Date dataIns) {
+	public void setDataIns(String dataIns) {
 		this.dataIns = dataIns;
 	}
 
-	public Date getDataIns() {
+	public String getDataIns() {
 		return dataIns;
 	}
 	

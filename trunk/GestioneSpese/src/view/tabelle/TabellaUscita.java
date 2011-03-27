@@ -27,11 +27,23 @@ public class TabellaUscita extends OggettoVistaBase {
 	
 
     
-	public TabellaUscita() throws Exception {
+	public TabellaUscita() {
         super(new GridLayout(1,0));
         
         
-        Vector<CatSpese> catSpese = CacheCategorie.getSingleton().getVettoreCategorie();
+        getDatiPerTabella();
+
+        //Create the scroll pane and add the table to it.
+        JScrollPane scrollPane = new JScrollPane(table);
+        
+        //Add the scroll pane to this panel.
+        add(scrollPane);
+        
+    }
+
+
+	private void getDatiPerTabella() {
+		Vector<CatSpese> catSpese = CacheCategorie.getSingleton().getVettoreCategorie();
         int numColonne = catSpese.size();
         String[] nomiColonne = new String[numColonne];
         
@@ -55,14 +67,7 @@ public class TabellaUscita extends OggettoVistaBase {
         table.setRowHeight(27);
         table.setPreferredScrollableViewportSize(new Dimension(700, 300));
         table.setFillsViewportHeight(true);
-
-        //Create the scroll pane and add the table to it.
-        JScrollPane scrollPane = new JScrollPane(table);
-        
-        //Add the scroll pane to this panel.
-        add(scrollPane);
-        
-    }
+	}
 
 
     private static void createAndShowGUI() throws Exception {

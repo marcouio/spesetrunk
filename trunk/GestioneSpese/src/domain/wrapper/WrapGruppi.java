@@ -23,13 +23,14 @@ public class WrapGruppi extends Gruppi implements IWrapperEntity{
 		Connection cn = DBUtil.getConnection2();
 		String sql = "SELECT * FROM "+Gruppi.NOME_TABELLA+" WHERE "+Gruppi.ID+" = " +id;
 		
-		Gruppi gruppo = new Gruppi();
+		Gruppi gruppo = null;
 		
 		try {
 			
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			if(rs.next()){
+				gruppo = new Gruppi();
 				gruppo.setidGruppo(rs.getInt(1));
 				gruppo.setnome(rs.getString(2));
 				gruppo.setdescrizione(rs.getString(3));
@@ -58,11 +59,12 @@ public class WrapGruppi extends Gruppi implements IWrapperEntity{
 	public Vector<Object> selectAll() {
 		Vector<Object> gruppi = new Vector<Object>();
 		Connection cn = DBUtil.getConnection();
-		String sql = "SELECT * FROM " + Gruppi.NOME_TABELLA ;
+		String sql = "SELECT * FROM " + Gruppi.NOME_TABELLA +" ORDER BY "+Gruppi.ID+" asc";
 		try{
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
-			if(rs.next()){
+			
+			while(rs.next()){
 			
 				Gruppi gruppo = new Gruppi();
 				gruppo.setidGruppo(rs.getInt(1));
@@ -185,6 +187,36 @@ public class WrapGruppi extends Gruppi implements IWrapperEntity{
 		}
 		DBUtil.closeConnection();		
 		return ok;
+	}
+
+	public Gruppi selectByNome(String nome) {
+		
+			Connection cn = DBUtil.getConnection2();
+			String sql = "SELECT * FROM "+Gruppi.NOME_TABELLA+" WHERE "+Gruppi.NOME+" = \"" +nome+"\"";
+			
+			Gruppi gruppo = null;
+			
+			try {
+				
+				Statement st = cn.createStatement();
+				ResultSet rs = st.executeQuery(sql);
+				if(rs.next()){
+					gruppo = new Gruppi();
+					gruppo.setidGruppo(rs.getInt(1));
+					gruppo.setnome(rs.getString(2));
+					gruppo.setdescrizione(rs.getString(3));
+				}
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					cn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			return gruppo;
 	}
 
 	

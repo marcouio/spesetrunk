@@ -22,12 +22,13 @@ public class WrapRisparmio extends Risparmio implements IWrapperEntity{
 	public Object selectById(int id) {
 		Connection cn = DBUtil.getConnection();
 		String sql = "SELECT * FROM " + NOME_TABELLA + " WHERE " + ID + "=" +id;
-		Risparmio risparmio = new Risparmio();
+		Risparmio risparmio = null;
 		try{
 			
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			if(rs.next()){
+				risparmio = new Risparmio();
 				risparmio.setidRisparmio(rs.getInt(1));
 				risparmio.setPerSulTotale(rs.getDouble(2));
 			}
@@ -58,7 +59,7 @@ public class WrapRisparmio extends Risparmio implements IWrapperEntity{
 		try{
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
-			if(rs.next()){
+			while(rs.next()){
 				Risparmio risparmio = new Risparmio();
 				risparmio.setidRisparmio(rs.getInt(1));
 				risparmio.setPerSulTotale(rs.getDouble(2));

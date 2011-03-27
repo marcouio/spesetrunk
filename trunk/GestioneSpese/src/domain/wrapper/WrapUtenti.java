@@ -22,14 +22,17 @@ public class WrapUtenti extends Utenti implements IWrapperEntity {
 	public Object selectById(int id) {
 		Connection cn = DBUtil.getConnection();
 		String sql = "SELECT * FROM " + NOME_TABELLA + " WHERE " + ID + "=" + id;
-		Utenti utente = new Utenti();
+		Utenti utente = null;
 		try {
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			if (rs.next()) {
+				utente = new Utenti();
 				utente.setidUtente(rs.getInt(1));
-				utente.setusername(rs.getString(2));
-				utente.setpassword(rs.getString(3));
+				utente.setNome(rs.getString(2));
+				utente.setCognome(rs.getString(3));
+				utente.setusername(rs.getString(4));
+				utente.setpassword(rs.getString(5));
 			}
 
 		} catch (Exception e) {
@@ -60,11 +63,13 @@ public class WrapUtenti extends Utenti implements IWrapperEntity {
 
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
-			if (rs.next()) {
+			while(rs.next()) {
 				Utenti utente = new Utenti();
 				utente.setidUtente(rs.getInt(1));
-				utente.setusername(rs.getString(2));
-				utente.setpassword(rs.getString(3));
+				utente.setNome(rs.getString(2));
+				utente.setCognome(rs.getString(3));
+				utente.setusername(rs.getString(4));
+				utente.setpassword(rs.getString(5));
 				utenti.add(utente);
 			}
 

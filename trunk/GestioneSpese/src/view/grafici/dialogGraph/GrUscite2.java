@@ -53,7 +53,7 @@ public class GrUscite2 extends JDialog implements ActionListener {
 				true);
 		getContentPane().setLayout(null);
 		for (int i = 1; i <= 12; i++) {
-			dataset.setValue(Database.totaleUsciteMese(i), "Euro",Integer.toString(i));
+			dataset.setValue(Database.getSingleton().totaleUsciteMese(i), "Euro",Integer.toString(i));
 		}
 
 		GregorianCalendar data = new GregorianCalendar();

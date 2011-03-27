@@ -10,6 +10,7 @@ import java.util.Set;
  * 
  */
 @Entity
+
 @Table(name="GRUPPI")
 public class Gruppi extends AbstractOggettoEntita implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -29,6 +30,8 @@ public class Gruppi extends AbstractOggettoEntita implements Serializable {
 	private Set<CatSpese> catSpeses;
 
     public Gruppi() {
+    	if(idGruppo!=0)
+    		this.idEntita = Integer.toString(idGruppo);
     }
 
 	public String getdescrizione() {
@@ -44,6 +47,7 @@ public class Gruppi extends AbstractOggettoEntita implements Serializable {
 	}
 
 	public void setidGruppo(int idGruppo) {
+		this.idEntita = Integer.toString(idGruppo);
 		this.idGruppo = idGruppo;
 	}
 

@@ -12,11 +12,10 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
-import javax.swing.WindowConstants;
 
+import view.OggettoVistaBase;
 import view.font.ButtonF;
 import view.font.LabelTesto;
 import view.font.LabelTitolo;
@@ -24,33 +23,19 @@ import view.grafici.dialogGraph.GrEntrate1;
 import view.grafici.dialogGraph.GrEntrate2;
 import business.AltreUtil;
 
-public class Grafico1 extends JPanel {
+public class Grafico1 extends OggettoVistaBase {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static void main(String[] args) throws SQLException {
-		JFrame frame = new JFrame();
-		try {
-			frame.getContentPane().add(new Grafico1());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		frame.pack();
-		frame.setSize(600, 600);
-		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		frame.setVisible(true);
-		
-	}
 
 	
 	public Grafico1() throws SQLException, IOException {
 		super();
 		setSize(380, 300);
 		setLayout(null);
-		
 		
 		JButton btnVisualizza = new ButtonF("Visualizza");
 		btnVisualizza.setBounds(102, 81, 91, 23);

@@ -9,21 +9,21 @@ import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
-import view.font.TableF;
-
-import business.Database;
 import view.OggettoVistaBase;
+import view.font.TableF;
+import business.Database;
 
 public class TabellaEntrata extends OggettoVistaBase {
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static JTable table;
+	private static TableF table = new TableF(); 
 	
 	private static String[][] primo;
-	private static String[] nomiColonne = null;
+	private static String[] nomiColonne = {"Fisse","Variabili"};
 
     
 	public static String[] getNomiColonne() {
@@ -34,16 +34,26 @@ public class TabellaEntrata extends OggettoVistaBase {
 		TabellaEntrata.nomiColonne = nomiColonne;
 	}
 
-	public TabellaEntrata() throws Exception {
-		 super(new GridLayout(1,0));
-        
-//        Vector<Entrate> Entrate = new Database().entrate();
-        nomiColonne = new String[2];
-        
-        
-        	nomiColonne[0] = "Fisse";
-        	nomiColonne[1] = "Variabili";
-        
+//	private TabellaEntrata() throws Exception{
+//		
+//	}
+	
+	public TabellaEntrata() {
+        super(new GridLayout(1,0));
+        try{
+        getDatiPerTabella();
+        }catch (Exception e) {
+			e.printStackTrace();
+		}
+
+        //Create the scroll pane and add the table to it.
+        JScrollPane scrollPane = new JScrollPane(table);
+
+        //Add the scroll pane to this panel.
+        add(scrollPane);
+    }
+
+	private void getDatiPerTabella() throws Exception {
         
         primo = new String[12][2];
         
@@ -52,18 +62,13 @@ public class TabellaEntrata extends OggettoVistaBase {
         		primo[i][x]= Double.toString(Database.getSingleton().entrateMeseTipo((i+1), nomiColonne[x]));
         	}        	
         }
-
+        table.setModel(new DefaultTableModel(primo, nomiColonne));
         table = new TableF(primo, nomiColonne);
-        table.setRowHeight(27);
+        
         table.setPreferredScrollableViewportSize(new Dimension(500, 70));
         table.setFillsViewportHeight(true);
-
-        //Create the scroll pane and add the table to it.
-        JScrollPane scrollPane = new JScrollPane(table);
-
-        //Add the scroll pane to this panel.
-        add(scrollPane);
-    }
+        table.setRowHeight(27);
+	}
 
     private static void createAndShowGUI() throws Exception {
         //Create and set up the window.
@@ -90,7 +95,7 @@ public class TabellaEntrata extends OggettoVistaBase {
 		return table;
 	}
 
-	public static void setTable(JTable table) {
+	public static void setTable(TableF table) {
 		TabellaEntrata.table = table;
 	}
 

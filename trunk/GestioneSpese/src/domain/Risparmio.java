@@ -25,6 +25,8 @@ public class Risparmio extends AbstractOggettoEntita implements Serializable {
 	private double PerSulTotale;
 
     public Risparmio() {
+    	if(idRisparmio!=0)
+    		this.idEntita = Integer.toString(idRisparmio);
     }
 
 	public int getidRisparmio() {
@@ -32,6 +34,7 @@ public class Risparmio extends AbstractOggettoEntita implements Serializable {
 	}
 
 	public void setidRisparmio(int idRisparmio) {
+		this.idEntita = Integer.toString(idRisparmio);
 		this.idRisparmio = idRisparmio;
 	}
 

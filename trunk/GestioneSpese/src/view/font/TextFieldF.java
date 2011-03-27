@@ -1,5 +1,6 @@
 package view.font;
 
+import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.JTextField;
@@ -14,26 +15,35 @@ public class TextFieldF extends JTextField {
 
 	public TextFieldF() {
 		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
+		setBackground(Color.GRAY);
+		setForeground(Color.WHITE);
 	}
 
 	public TextFieldF(String text) {
 		super(text);
 		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
+		setBackground(Color.GRAY);
+		setForeground(Color.WHITE);
 	}
 
 	public TextFieldF(int columns) {
 		super(columns);
 		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
+		setBackground(Color.GRAY);
+		setForeground(Color.WHITE);
 	}
 
 	public TextFieldF(String text, int columns) {
 		super(text, columns);
 		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
+		setBackground(Color.GRAY);
+		setForeground(Color.WHITE);
 	}
 
 	public TextFieldF(Document doc, String text, int columns) {
 		super(doc, text, columns);
-		// TODO Auto-generated constructor stub
+		setBackground(Color.GRAY);
+		setForeground(Color.WHITE);
 	}
 
 }

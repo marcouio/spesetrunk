@@ -25,13 +25,14 @@ public class WrapBudget1 extends Budget implements IWrapperEntity{
 		Connection cn = DBUtil.getConnection();
 		String sql = "SELECT * FROM "+Budget.NOME_TABELLA+" WHERE "+Budget.ID+" = " +id;
 		
-		Budget budget = new Budget();
+		Budget budget = null;
 		
 		try {
 			
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			if(rs.next()){
+				budget = new Budget();
 				budget.setidBudget(rs.getInt(1));
 				CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(2)));
 				budget.setCatSpese(categoria);
@@ -66,7 +67,7 @@ public class WrapBudget1 extends Budget implements IWrapperEntity{
 		try{
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
-			if(rs.next()){
+			while(rs.next()){
 				Budget budget = new Budget();
 				budget.setidBudget(rs.getInt(1));
 				CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(2)));

@@ -14,8 +14,11 @@ import view.font.TableF;
 import business.DBUtil;
 import business.Database;
 import business.cache.CacheCategorie;
+import business.cache.CacheGruppi;
+import domain.AbstractOggettoEntita;
 import domain.CatSpese;
 import domain.Entrate;
+import domain.Gruppi;
 import domain.SingleSpesa;
 
 public class Model {
@@ -27,6 +30,7 @@ public class Model {
 	private WrapRisparmio modelRisparmio;
 	private WrapSingleSpesa modelUscita;
 	private WrapUtenti modelUtenti;
+	private WrapLookAndFeel modelLookAndFeel;
 	private static Model singleton;
 	private static String[][] primoUscite;
 	private static String[][] primoEntrate;
@@ -222,15 +226,29 @@ public class Model {
 	
 //	*************************************CATEGORIE-PERCOMBOBOX***********************************
 	
-	private Map<String, CatSpese> getCatPerCombo(boolean ricarica){
+	private Map<String, AbstractOggettoEntita> getCatPerCombo(boolean ricarica){
 		CacheCategorie cache = CacheCategorie.getSingleton();
 		cache.setCaricata(!ricarica);
 		return cache.getAllCategorie();
 	}
 	public Object[] getCategorieCombo(boolean ricarica){
-		Map<String, CatSpese> cat = getCatPerCombo(ricarica);
+		Map<String, AbstractOggettoEntita> cat = getCatPerCombo(ricarica);
 		return cat.values().toArray();
 	}
+	
+	
+//	*************************************GRUPPI-PERCOMBOBOX***********************************
+	
+	private Map<String, AbstractOggettoEntita> getGruppiPerCombo(boolean ricarica){
+		CacheGruppi cache = CacheGruppi.getSingleton();
+		cache.setCaricata(!ricarica);
+		return cache.getAllGruppi();
+	}
+	public Object[] getGruppiCombo(boolean ricarica){
+		Map<String, AbstractOggettoEntita> gruppi = getGruppiPerCombo(ricarica);
+		return gruppi.values().toArray();
+	}
+	
 	
 //	*************************************MOVIMENTI-ENTRATE***********************************
 	
@@ -269,26 +287,27 @@ public class Model {
 		if(entry1.size()>0 && (entry1.size()==numEntry || entry1.size()>=numEntry)){
 			movimentiEntrate = new String[numEntry][nomi.size()];
 			for(int x = 0; x<entry1.size(); x++){
-				//TODO modificare con formatdate
-				movimentiEntrate[x][0] = entry1.get(x).getdata().toString();
-				movimentiEntrate[x][1] = entry1.get(x).getnome();
-				movimentiEntrate[x][2] = entry1.get(x).getdescrizione();
-				movimentiEntrate[x][3] = Double.toString(entry1.get(x).getinEuro());
-				movimentiEntrate[x][4] = entry1.get(x).getFisseoVar();
-				movimentiEntrate[x][5] = Integer.toString(entry1.get(x).getidEntrate());
+				Entrate entrate = entry1.get(x);
+				movimentiEntrate[x][0] = entrate.getdata().toString();
+				movimentiEntrate[x][1] = entrate.getnome();
+				movimentiEntrate[x][2] = entrate.getdescrizione();
+				movimentiEntrate[x][3] = Double.toString(entrate.getinEuro());
+				movimentiEntrate[x][4] = entrate.getFisseoVar();
+				movimentiEntrate[x][5] = Integer.toString(entrate.getidEntrate());
+				movimentiEntrate[x][6] = entrate.getDataIns();
 				
 			}
 		}else if(entry1.size()>0 && entry1.size()<numEntry){
 			movimentiEntrate = new String[numEntry][nomi.size()];
 			for (int x = 0; x < entry1.size(); x++) {
-				//TODO modificare con formatdate
-				movimentiEntrate[x][0] = entry1.get(x).getdata().toString();
-				movimentiEntrate[x][1] = entry1.get(x).getnome();
-				movimentiEntrate[x][2] = entry1.get(x).getdescrizione();
-				movimentiEntrate[x][3] = Double.toString(entry1.get(x).getinEuro());
-				movimentiEntrate[x][4] = entry1.get(x).getFisseoVar();
-				movimentiEntrate[x][5] = Integer.toString(entry1.get(x).getidEntrate());
-				
+				Entrate entrate = entry1.get(x);
+				movimentiEntrate[x][0] = entrate.getdata().toString();
+				movimentiEntrate[x][1] = entrate.getnome();
+				movimentiEntrate[x][2] = entrate.getdescrizione();
+				movimentiEntrate[x][3] = Double.toString(entrate.getinEuro());
+				movimentiEntrate[x][4] = entrate.getFisseoVar();
+				movimentiEntrate[x][5] = Integer.toString(entrate.getidEntrate());
+				movimentiEntrate[x][6] = entrate.getDataIns();
 			}
 			for(int y = entry1.size(); y<numEntry; y++){
 				for(int z =0; z<nomi.size(); z++)
@@ -346,26 +365,29 @@ public class Model {
 		if(uscite.size()>0 && (uscite.size()==numUscite || uscite.size()>=numUscite)){
 			movimentiUscite = new String[numUscite][nomi.size()];
 			for (int x = 0; x < numUscite; x++) {
-				//TODO modificare con formatdate
-				movimentiUscite[x][0] = uscite.get(x).getData().toString();
-				movimentiUscite[x][1] = uscite.get(x).getnome();
-				movimentiUscite[x][2] = uscite.get(x).getdescrizione();
-				movimentiUscite[x][3] = Double.toString(uscite.get(x).getinEuro());
-				movimentiUscite[x][4] = uscite.get(x).getCatSpese().getnome();
-				movimentiUscite[x][5] = Integer.toString(uscite.get(x).getidSpesa());
+				SingleSpesa uscita = uscite.get(x);
+				movimentiUscite[x][0] = uscita.getData();
+				movimentiUscite[x][1] = uscita.getnome();
+				movimentiUscite[x][2] = uscita.getdescrizione();
+				movimentiUscite[x][3] = Double.toString(uscita.getinEuro());
+				movimentiUscite[x][4] = uscita.getCatSpese().getnome();
+				movimentiUscite[x][5] = Integer.toString(uscita.getidSpesa());
+				movimentiUscite[x][6] = uscita.getDataIns();
 				
 			}
 		}else if(uscite.size()>0 && uscite.size()<numUscite){
 			
 			movimentiUscite = new String[numUscite][nomi.size()];
 			for (int x = 0; x < uscite.size(); x++) {
-				//TODO modificare con formatdate
-				movimentiUscite[x][0] = uscite.get(x).getData().toString();
-				movimentiUscite[x][1] = uscite.get(x).getnome();
-				movimentiUscite[x][2] = uscite.get(x).getdescrizione(); 
-				movimentiUscite[x][3] = Double.toString(uscite.get(x).getinEuro());
-				movimentiUscite[x][4] = uscite.get(x).getCatSpese().getnome();
-				movimentiUscite[x][5] = Integer.toString(uscite.get(x).getidSpesa());
+				
+				SingleSpesa uscita = uscite.get(x);
+				movimentiUscite[x][0] = uscita.getData();
+				movimentiUscite[x][1] = uscita.getnome();
+				movimentiUscite[x][2] = uscita.getdescrizione(); 
+				movimentiUscite[x][3] = Double.toString(uscita.getinEuro());
+				movimentiUscite[x][4] = uscita.getCatSpese()!=null?uscita.getCatSpese().getnome():"Nessuna";
+				movimentiUscite[x][5] = Integer.toString(uscita.getidSpesa());
+				movimentiUscite[x][6] = uscita.getDataIns();
 				
 				for(int y = uscite.size(); y<numUscite; y++){
 					for(int z =0; z<nomi.size(); z++)
@@ -381,9 +403,18 @@ public class Model {
 			
 		}
 		DBUtil.closeConnection();
-		return movimentiEntrate;
+		return movimentiUscite;
 		
 	}
+
+	public void setModelLookAndFeel(WrapLookAndFeel modelLookAndFeel) {
+		this.modelLookAndFeel = modelLookAndFeel;
+	}
+
+	public WrapLookAndFeel getModelLookAndFeel() {
+		return modelLookAndFeel;
+	}
+	
 	
 }
 

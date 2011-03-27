@@ -25,13 +25,14 @@ public class WrapCatSpese extends CatSpese implements IWrapperEntity{
 		Connection cn = DBUtil.getConnection();
 		String sql = "SELECT * FROM "+CatSpese.NOME_TABELLA+" WHERE "+CatSpese.ID+" = " +id;
 		
-		CatSpese categorie = new CatSpese();
+		CatSpese categorie = null;
 		
 		try {
 			
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			if(rs.next()){
+				categorie = new CatSpese();
 				Gruppi gruppo =  CacheGruppi.getSingleton().getGruppo(Integer.toString(rs.getInt(5)));
 //				Gruppi gruppo =  Controllore.getSingleton().getCacheGruppi().getGruppo(Integer.toString(rs.getInt(5)));
 				categorie.setidCategoria(rs.getInt(1));
@@ -68,9 +69,8 @@ public class WrapCatSpese extends CatSpese implements IWrapperEntity{
 		try{
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
-			if(rs.next()){
+			while(rs.next()){
 				
-//				Gruppi gruppo =  Controllore.getSingleton().getCacheGruppi().getGruppo(Integer.toString(rs.getInt(5)));
 				Gruppi gruppo =  CacheGruppi.getSingleton().getGruppo(Integer.toString(rs.getInt(5)));
 				CatSpese categoria = new CatSpese();
 				categoria.setidCategoria(rs.getInt(1));

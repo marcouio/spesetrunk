@@ -1,5 +1,7 @@
 package view.impostazioni;
 
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -15,6 +17,7 @@ public class RaccogliImpostazioni extends OggettoVistaBase{
 	
 	private Categorie categorie;
 	private Impostazioni impostazioni;
+	private SettingGruppi settingGruppi; 
 	
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -32,14 +35,18 @@ public class RaccogliImpostazioni extends OggettoVistaBase{
 	
 	public RaccogliImpostazioni(){
 		
-//		this.setPreferredSize(new Dimension(500, 980));
+		this.setPreferredSize(new Dimension(1000, 980));
 		this.setLayout(null);
+		settingGruppi = SettingGruppi.getSingleton();
+		settingGruppi.setBounds(350, 250, 626, 300);
 		categorie = Categorie.getSingleton();
 		categorie.setBounds(10, 0, 355, 550);
 		impostazioni = Impostazioni.getSingleton();
-		impostazioni.setBounds(350, 0, 626, 550);
+		impostazioni.setBounds(350, 0, 626, 250);
+		this.add(settingGruppi);
 		this.add(categorie);
 		this.add(impostazioni);	
+		
 	}
 
 

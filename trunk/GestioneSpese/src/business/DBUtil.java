@@ -14,8 +14,9 @@ import view.impostazioni.Impostazioni;
 
 
 public class DBUtil {
-//	public static final String URL="jdbc:sqlite:../GestioneSpese.sqlite"; 	
-	public static final String URL="jdbc:sqlite:/home/marcouio/workspace/GestioneSpese.sqlite";
+	public static final String URL="jdbc:sqlite:../GestioneSpese.sqlite"; 	
+//	public static final String URL="jdbc:sqlite:/home/marcouio/workspace/GestioneSpese.sqlite";
+//	public static final String URL="jdbc:sqlite:/home/marcouio/workspace/GestioneSpese.sqlite";
 //	public static final String URL="jdbc:sqlite:../"+(new Impostazioni().getCaricaDatabase()) != null?Impostazioni.getCaricaDatabase().getText():"entrate_uscite.db";
 	public static final String USR="root";
 	public static final String PWD="marco";

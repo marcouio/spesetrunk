@@ -57,7 +57,7 @@ public class GrEntrate2 extends JDialog implements ActionListener {
 		
 		getContentPane().setLayout(null);
 		for (int i = 1; i <= 12; i++) {
-			dataset.setValue(Database.totaleEntrateMese(i), "Euro",
+			dataset.setValue(Database.getSingleton().totaleEntrateMese(i), "Euro",
 					Integer.toString(i));
 		}
 		GregorianCalendar data = new GregorianCalendar();

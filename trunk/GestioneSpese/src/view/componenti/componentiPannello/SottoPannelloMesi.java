@@ -84,7 +84,7 @@ public class SottoPannelloMesi extends OggettoVistaBase {
 			jLabel12 = new LabelTesto();
 			this.add(jLabel12);
 			jLabel12.setText("Entrate per mese");
-			jLabel12.setBounds(317, 67, 109, 14);
+			jLabel12.setBounds(317, 67, 123, 14);
 			
 			jSeparator1 = new JSeparator();
 			this.add(jSeparator1);

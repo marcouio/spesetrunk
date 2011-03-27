@@ -2,9 +2,18 @@ package domain;
 
 
 public abstract class AbstractOggettoEntita {
-	String nomeTabella;
-	String colonnaId;
+//	String nomeTabella;
+//	String colonnaId;
 	
+	public String idEntita;
+
+	public String getIdEntita() {
+		return idEntita;
+	}
+
+	public void setIdEntita(String idEntita) {
+		this.idEntita = idEntita;
+	}
 	
 
 //	public ResultSet getResultSet(int id, String nomeTabella, String colonnaId) {

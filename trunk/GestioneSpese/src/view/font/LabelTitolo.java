@@ -14,12 +14,12 @@ public class LabelTitolo extends JLabel{
 	public LabelTitolo() {
 		super();
 		setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
-		setForeground(Color.DARK_GRAY);
+		setForeground(Color.darkGray);
 	}
 
 	public LabelTitolo(String string) {
 		super(string);
 		setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
-		setForeground(Color.DARK_GRAY);
+		setForeground(Color.darkGray);
 	}
 }

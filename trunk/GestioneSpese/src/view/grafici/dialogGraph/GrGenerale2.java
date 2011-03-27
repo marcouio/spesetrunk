@@ -52,8 +52,8 @@ public class GrGenerale2 extends JDialog implements ActionListener {
 		final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
 		for (int i = 1; i <= 12; i++) {
-			double entrate = Database.totaleEntrateMese(i);
-			double uscite = Database.totaleUsciteMese(i);
+			double entrate = Database.getSingleton().totaleEntrateMese(i);
+			double uscite = Database.getSingleton().totaleUsciteMese(i);
 			double valore = entrate - uscite;
 
 			dataset.addValue(valore, "Saldo", Integer.toString(i));

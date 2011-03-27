@@ -94,15 +94,15 @@ public class SottoPannelloDatiSpese extends view.OggettoVistaBase {
 			
 			JLabel meseincorso = new LabelTesto("Anno in corso");
 			this.add(meseincorso);
-			meseincorso.setBounds(164, 66, 78, 14);
+			meseincorso.setBounds(164, 66, 141, 14);
 		
 			speseAnnuali = new TextFieldF();
 			this.add(speseAnnuali);
 			speseAnnuali.setBounds(164, 84, 106, 27);
 			speseAnnuali.setColumns(8);
-			
+		
 			JLabel label = new LabelTesto("Mese precedente");
-			label.setBounds(317, 67, 106, 14);
+			label.setBounds(317, 67, 123, 14);
 			this.add(label);
 			
 			mensile = Database.Mensile();
@@ -113,7 +113,7 @@ public class SottoPannelloDatiSpese extends view.OggettoVistaBase {
 			mesePrecUsc.setColumns(9);
 			
 			JLabel label2 = new LabelTesto("Mese in corso");
-			label2.setBounds(16, 67, 86, 14);
+			label2.setBounds(16, 67, 136, 13);
 			this.add(label2);
 			
 			annuale = Database.Annuale();
