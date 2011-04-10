@@ -8,6 +8,7 @@ import view.font.TableF;
 
 import business.Controllore;
 import business.Database;
+import business.cache.CacheCategorie;
 import domain.AbstractOggettoEntita;
 import domain.Entrate;
 import domain.SingleSpesa;
@@ -54,6 +55,8 @@ public abstract class AbstractCommand implements ICommand{
 			Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
 			Database.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
 		}
+		Database.aggiornamentoComboBox(CacheCategorie.getSingleton().getVettoreCategoriePerCombo());
+
 	}
 	
 	public abstract boolean execute();

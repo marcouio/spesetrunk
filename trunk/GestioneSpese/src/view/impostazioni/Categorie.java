@@ -5,11 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -37,7 +35,6 @@ import business.comandi.CommandUpdateCategoria;
 import domain.AbstractOggettoEntita;
 import domain.CatSpese;
 import domain.Gruppi;
-import domain.wrapper.Model;
 
 public class Categorie extends OggettoVistaBase{
 
@@ -210,9 +207,8 @@ public class Categorie extends OggettoVistaBase{
 						}
 						try{
 							if(Controllore.getSingleton().getCommandManager().invocaComando(new CommandUpdateCategoria(oldCategoria, newCategoria), "tutto")){
+								Database.aggiornaCategorie(newCategoria);
 								JOptionPane.showMessageDialog(null,"Operazione eseguita correttamente", "Perfetto!", JOptionPane.INFORMATION_MESSAGE );
-								Database.aggiornaCategorie(categoria);
-								Database.aggiornamentoComboBox(CacheCategorie.getSingleton().getVettoreCategorie());
 							}
 						}catch (Exception e22) {
 							e22.printStackTrace();
@@ -241,15 +237,8 @@ public class Categorie extends OggettoVistaBase{
 						categoria1.setnome(nome.getText());
 						categoria1.setGruppi((Gruppi) comboGruppi.getSelectedItem());
 						if(Controllore.getSingleton().getCommandManager().invocaComando(new CommandInserisciCategoria(categoria1), "tutto"))
+							comboCategorie.addItem(categoria1);
 							JOptionPane.showMessageDialog(null, "Categoria inserita correttamente", "Perfetto", JOptionPane.INFORMATION_MESSAGE);
-						
-						comboCategorie.addItem(categoria1);
-						Map<String, AbstractOggettoEntita> cache = CacheCategorie.getSingleton().getCache();
-						cache.put(Integer.toString(categoria1.getidCategoria()), categoria1);
-						Database.aggiornamentoComboBox(CacheCategorie.getSingleton().getVettoreCategoriePerCombo(cache));
-						
-						
-						
 					}else
 						JOptionPane.showMessageDialog(null, "E' necessario riempire tutti i campi", "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
 				}
@@ -264,14 +253,13 @@ public class Categorie extends OggettoVistaBase{
 				public void actionPerformed(ActionEvent e) {
 					if(comboCategorie.getSelectedItem()!=null && categoria!=null){
 						if(Controllore.getSingleton().getCommandManager().invocaComando(new CommandDeleteCategoria(categoria),"tutto")){
+							comboCategorie.removeItem(categoria);
 							JOptionPane.showMessageDialog(null, "Categoria cancellata!", "Perfetto!", JOptionPane.INFORMATION_MESSAGE);
 						}
 					}else{
 						JOptionPane.showMessageDialog(null, "Impossibile cancellare una categoria inesistente!", "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
 					}
 					log.fine("Cancellata categoria "+ categoria);
-					
-					Database.aggiornamentoComboBox(CacheCategorie.getSingleton().getVettoreCategoriePerCombo());
 				}
 			});
 			

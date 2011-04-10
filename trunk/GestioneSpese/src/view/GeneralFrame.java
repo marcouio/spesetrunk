@@ -144,17 +144,17 @@ public class GeneralFrame extends JFrame {
 			public void windowDeiconified(WindowEvent e) {
 				Controllore.getFinestraHistory().setVisible(true);
 				relocateFinestraHistory();
-				super.windowDeiconified(e);
+//				super.windowDeiconified(e);
 			}
 			@Override
 			public void windowClosed(WindowEvent e) {
 				Controllore.getSingleton().quit();
-				super.windowClosed(e);
+//				super.windowClosed(e);
 			}
 			@Override
 			public void windowIconified(WindowEvent e) {
 				Controllore.getFinestraHistory().setVisible(false);
-				super.windowIconified(e);
+//				super.windowIconified(e);
 			}
 			
 		});
@@ -164,12 +164,12 @@ public class GeneralFrame extends JFrame {
 			public void componentResized(ComponentEvent e) {
 				resizeView();
 				relocateFinestraHistory();
-				super.componentResized(e);
+//				super.componentResized(e);
 			}
 			@Override
 			public void componentMoved(ComponentEvent e) {
 				relocateFinestraHistory();
-				super.componentMoved(e);
+//				super.componentMoved(e);
 			}
 		});
 		
