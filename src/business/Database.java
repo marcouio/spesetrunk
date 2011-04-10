@@ -307,10 +307,12 @@ public class Database {
 		for(int i = 0;i<listaUscite.size(); i++){
 			SingleSpesa uscita = listaUscite.get(i);
 			CatSpese cat = uscita.getCatSpese();
-			Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
-			int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
-			if(mesee==mese && cat.getidCategoria()==categoria)
-				spesaTotMeseCat +=uscita.getinEuro();
+			if(cat!=null){
+				Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
+				int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
+				if(mesee==mese && cat.getidCategoria()==categoria)
+					spesaTotMeseCat +=uscita.getinEuro();
+			}
 		}	
 		return AltreUtil.arrotondaDecimaliDouble(spesaTotMeseCat);
 	}
@@ -321,12 +323,14 @@ public class Database {
 		for(int i = 0;i<listaUscite.size(); i++){
 			SingleSpesa uscita = listaUscite.get(i);
 			CatSpese cat = uscita.getCatSpese();
-			Gruppi group = cat.getGruppi();
-			Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
-			int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
-			if(group!=null && group.getidGruppo()!=0){
-				if(mesee==mese && group.getidGruppo()==gruppo){
-					spesaTotMeseGruppo +=uscita.getinEuro();
+			if(cat!=null){
+				Gruppi group = cat.getGruppi();
+				Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
+				int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
+				if(group!=null && group.getidGruppo()!=0){
+					if(mesee==mese && group.getidGruppo()==gruppo){
+						spesaTotMeseGruppo +=uscita.getinEuro();
+					}
 				}
 			}
 		}
@@ -339,12 +343,14 @@ public class Database {
 		for(int i = 0;i<listaUscite.size(); i++){
 			SingleSpesa uscita = listaUscite.get(i);
 			CatSpese cat = uscita.getCatSpese();
-			Gruppi group = cat.getGruppi();
-			Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
-			int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
-			if(group==null || group.getidGruppo()==0){
-				if(mesee==mese && cat.getidCategoria()==categoria)
-					spesaTotMeseCat +=uscita.getinEuro();
+			if(cat!=null){
+				Gruppi group = cat.getGruppi();
+				Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
+				int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
+				if(group==null || group.getidGruppo()==0){
+					if(mesee==mese && cat.getidCategoria()==categoria)
+						spesaTotMeseCat +=uscita.getinEuro();
+				}
 			}
 		}
 		return AltreUtil.arrotondaDecimaliDouble(spesaTotMeseCat);
@@ -626,9 +632,14 @@ public class Database {
 		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
 		for(int i = 0;i<listaUscite.size(); i++){
 			SingleSpesa uscita = listaUscite.get(i);
-			String importanzaSpesa = uscita.getCatSpese().getimportanza();
-			if(importanzaSpesa.equals(importanza))
-				speseTipo += uscita.getinEuro();
+			if(uscita!=null){
+				if(uscita.getCatSpese()!=null){
+					String importanzaSpesa = uscita.getCatSpese().getimportanza();
+					if(importanzaSpesa.equals(importanza)){
+						speseTipo += uscita.getinEuro();
+					}
+				}
+			}
 		}	
 
 		if(speseTipo!=0)
@@ -636,6 +647,7 @@ public class Database {
 		else
 			percentualeTipo = 0;
 
+		
 		return AltreUtil.arrotondaDecimaliDouble(percentualeTipo);
 		
 	}
@@ -675,8 +687,8 @@ public class Database {
 			SottoPannelloDatiSpese.getMesePrecUsc().setText(Double.toString(Mensile()));
 			SottoPannelloDatiSpese.getSpeseAnnuali().setText(Double.toString(Annuale()));
 			JComboBox combo = new JComboBox(CacheCategorie.getSingleton().getVettoreCategoriePerCombo());
-			Categorie.setComboCategorie(combo);
-			Categorie.setCategorieSpesa(CacheCategorie.getSingleton().getVettoreCategoriePerCombo());
+//			Categorie.setComboCategorie(combo);
+//			Categorie.setCategorieSpesa(CacheCategorie.getSingleton().getVettoreCategoriePerCombo());
 			Model.aggiornaMovimentiUsciteDaEsterno(nomiColonne, 10);
 			DBUtil.closeConnection();
 		}else if(tipo.equals(Entrate.NOME_TABELLA)){
@@ -768,11 +780,8 @@ public class Database {
 			e.printStackTrace();
 		}
 		
-		JComboBox categorie = Uscite.getSingleton().getCategorie();
 		JComboBox categorie1 = Categorie.getComboCategorie();
 		
-//		categorie.addItem(categoria);
-		categorie.setSelectedIndex(0);		
 		int i=1;
 		for(i=1; i<=max; i++){
 			
@@ -858,8 +867,9 @@ public class Database {
 	}
 	
 	public static void aggiornamentoComboBox(Vector<CatSpese>categorie){
-		Uscite.getSingleton().getCategorie().setModel(new DefaultComboBoxModel(categorie));
-		SottoPannelloCategorie2.getCategorieCombo().setModel(new DefaultComboBoxModel(categorie));
+		DefaultComboBoxModel model = new DefaultComboBoxModel(categorie);
+		Uscite.getSingleton().getCategorie().setModel(model);
+		SottoPannelloCategorie2.getCategorieCombo().setModel(model);
 		SottoPannelloCategorie2.getCategorieCombo().validate();
 		SottoPannelloCategorie2.getCategorieCombo().repaint();
 		Uscite.getSingleton().getCategorie().validate();
