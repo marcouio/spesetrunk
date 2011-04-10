@@ -16,6 +16,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -25,7 +26,6 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import view.GeneralFrame;
-import view.OggettoVistaBase;
 import view.font.ButtonF;
 import view.font.LabelTesto;
 import view.font.LabelTitolo;
@@ -39,7 +39,7 @@ import domain.Lookandfeel;
 import domain.SingleSpesa;
 import domain.wrapper.Model;
 
-public class Impostazioni extends OggettoVistaBase {
+public class Impostazioni extends JPanel {
 
 	
 	/**
@@ -72,6 +72,7 @@ public class Impostazioni extends OggettoVistaBase {
 	private JTextField utente;
 	private ArrayList<String> listaLook;
 	private JComboBox comboLook;
+	private TextFieldF annotextField;
 	private static int anno = new GregorianCalendar().get(Calendar.YEAR);
 //	private JTextField txtGen;
 	private static JTextField caricaDatabase;
@@ -111,7 +112,7 @@ public class Impostazioni extends OggettoVistaBase {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try{
-						anno = Integer.parseInt(utente.getText());
+						anno = Integer.parseInt(annotextField.getText());
 
 						Database.aggiornamentoPerImpostazioni();
 					}catch (Exception e1) {
@@ -206,10 +207,10 @@ public class Impostazioni extends OggettoVistaBase {
 			lbltstUtente.setBounds(24, 155, 87, 14);
 			add(lbltstUtente);
 			
-			TextFieldF anno = new TextFieldF();
-			anno.setText(Integer.toString(gc.get(Calendar.YEAR)));
-			anno.setBounds(377, 103, 113, 27);
-			add(anno);
+			annotextField = new TextFieldF();
+			annotextField.setText(Integer.toString(gc.get(Calendar.YEAR)));
+			annotextField.setBounds(377, 103, 113, 27);
+			add(annotextField);
 			
 			CacheLookAndFeel cacheLook = CacheLookAndFeel.getSingleton();
 			final Vector<Lookandfeel> vettore = cacheLook.getVettoreLooksPerCombo();
@@ -308,6 +309,14 @@ public class Impostazioni extends OggettoVistaBase {
 			e.printStackTrace();
 		}
 	}
+	public TextFieldF getAnnotextField() {
+		return annotextField;
+	}
+
+	public void setAnnotextField(TextFieldF annotextField) {
+		this.annotextField = annotextField;
+	}
+
 	/**
 	 * @return the dataOdierna
 	 */

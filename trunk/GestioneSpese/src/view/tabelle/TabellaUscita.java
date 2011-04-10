@@ -24,6 +24,7 @@ public class TabellaUscita extends OggettoVistaBase {
 	private static JTable table;
 	
 	private static String[][] primo;
+	private static JScrollPane scrollPane;
 	
 
     
@@ -34,7 +35,7 @@ public class TabellaUscita extends OggettoVistaBase {
         getDatiPerTabella();
 
         //Create the scroll pane and add the table to it.
-        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane = new JScrollPane(table);
         
         //Add the scroll pane to this panel.
         add(scrollPane);
@@ -114,4 +115,14 @@ public class TabellaUscita extends OggettoVistaBase {
             }
         });
     }
+
+
+	public static JScrollPane getScrollPane() {
+		return scrollPane;
+	}
+
+
+	public void setScrollPane(JScrollPane scrollPane) {
+		this.scrollPane = scrollPane;
+	}
 }
