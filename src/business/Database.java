@@ -18,6 +18,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 
 import view.componenti.componentiPannello.SottoPannelloCategorie2;
 import view.componenti.componentiPannello.SottoPannelloDatiEntrate;
@@ -302,7 +303,7 @@ public class Database {
 	public static double speseMeseCategoria(int mese, int categoria) throws Exception {
 		
 		double spesaTotMeseCat=0.0;
-		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
+		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
 
 		for(int i = 0;i<listaUscite.size(); i++){
 			SingleSpesa uscita = listaUscite.get(i);
@@ -319,7 +320,7 @@ public class Database {
 	
 	public static double speseMeseGruppo(int mese, int gruppo){
 		double spesaTotMeseGruppo=0.0;
-		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
+		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
 		for(int i = 0;i<listaUscite.size(); i++){
 			SingleSpesa uscita = listaUscite.get(i);
 			CatSpese cat = uscita.getCatSpese();
@@ -339,7 +340,7 @@ public class Database {
 	
 	public static double speseMeseSenzaGruppo(int mese, int categoria){
 		double spesaTotMeseCat=0.0;
-		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
+		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
 		for(int i = 0;i<listaUscite.size(); i++){
 			SingleSpesa uscita = listaUscite.get(i);
 			CatSpese cat = uscita.getCatSpese();
@@ -368,7 +369,7 @@ public class Database {
 	 */
 	public double entrateMeseTipo(int mese, String tipoEntrata) throws Exception {
 		double entrateMeseTipo = 0;
-		ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
+		ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtenteEAnno();
 		for(int i = 0;i<listaEntrate.size(); i++){
 			Entrate entrata = listaEntrate.get(i);
 			String cat = entrata.getFisseoVar();
@@ -407,11 +408,13 @@ public class Database {
 	 */
 	public double totaleEntrateMese(int mese){
 		double totaleMese = 0;
-		ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
+		ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtenteEAnno();
 		for(int i = 0;i<listaEntrate.size(); i++){
 			Entrate entrata = listaEntrate.get(i);
 			Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), "yyyy/MM/dd");
 			int mesee = Integer.parseInt(DBUtil.dataToString(dataEntrata, "MM"));
+			//TODO serve l'anno??
+			int annoo = Integer.parseInt(DBUtil.dataToString(dataEntrata, "yyyy"));
 			if(mesee==mese)
 				totaleMese += entrata.getinEuro();
 		}	
@@ -629,7 +632,7 @@ public class Database {
 		double speseTipo=0;
 
 		
-		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
+		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
 		for(int i = 0;i<listaUscite.size(); i++){
 			SingleSpesa uscita = listaUscite.get(i);
 			if(uscita!=null){
@@ -643,7 +646,9 @@ public class Database {
 		}	
 
 		if(speseTipo!=0)
+			if(totaleAnnuo!=0.0){
 			percentualeTipo = speseTipo/totaleAnnuo * 100;
+			}
 		else
 			percentualeTipo = 0;
 
@@ -817,10 +822,6 @@ public class Database {
 	public static void aggiornaTabellaUscite(){
 
 		Vector<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
-//		String[][] primo = null;
-//		if(TabellaUscita.getPrimo()!=null)
-//			primo = TabellaUscita.getPrimo();
-//		else
 		String[][] primo = new String[12][categorie.size()];
 		for (int i = 0; i < 12; i++) {
 			for (int x = 0; x < categorie.size(); x++) {
@@ -840,7 +841,19 @@ public class Database {
 		}
 		DBUtil.closeConnection();
 		TabellaUscita.setPrimo(primo);
-		TabellaUscita.setTable(new TableF());
+		JScrollPane pane = TabellaUscita.getScrollPane();
+		
+		Vector<CatSpese> catSpese = CacheCategorie.getSingleton().getVettoreCategorie();
+        int numColonne = catSpese.size();
+        String[] nomiColonne = new String[numColonne];
+        
+        for(int i=0; i<catSpese.size(); i++){
+        	nomiColonne[i] = catSpese.get(i).getnome(); 
+        }
+		
+		TableF table = new TableF(primo, nomiColonne);
+		TabellaUscita.setTable(table);
+		pane.setViewportView(table);
 	}
 
 	// aggiorno tabella entrate/mese in seguito a variazioni di altre tabelle
@@ -863,6 +876,7 @@ public class Database {
 		}
 		TabellaEntrata.setPrimo(primo);
 		TabellaEntrata.setTable(new TableF());
+		//TODO vedere aggiorna tabellaUscite
 		DBUtil.closeConnection();
 	}
 	

@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
+import view.impostazioni.Impostazioni;
+
 import business.Controllore;
 import domain.AbstractOggettoEntita;
 import domain.Entrate;
@@ -81,6 +83,28 @@ public class CacheEntrate extends AbstractCacheBase{
 				Entrate entrata =  (Entrate)mappa.get(chiavi.next());
 				if(entrata!=null && (entrata.getUtenti()!=null || entrata.getidUtente()!=0)){
 					if(entrata.getUtenti().getidUtente()==utente.getidUtente()){
+						listaEntrate.add(entrata);
+					}
+				}
+			}
+		}
+		return listaEntrate;
+	}
+	
+	public ArrayList<Entrate> getAllEntrateForUtenteEAnno(){
+		ArrayList<Entrate> listaEntrate = new ArrayList<Entrate>(); 
+		Map<String, AbstractOggettoEntita> mappa = getAllEntrate();
+		Utenti utente = Controllore.getSingleton().getUtenteLogin();
+		String annoDaText = Impostazioni.getSingleton().getAnnotextField().getText();
+		
+		if(mappa!=null && utente!=null){
+			Iterator<String> chiavi = mappa.keySet().iterator();
+			
+			while(chiavi.hasNext()){
+				Entrate entrata =  (Entrate)mappa.get(chiavi.next());
+				if(entrata!=null && (entrata.getUtenti()!=null || entrata.getidUtente()!=0)){
+					String annoEntrata = entrata.getdata().substring(0, 4);
+					if(entrata.getUtenti().getidUtente()==utente.getidUtente() && annoEntrata.equals(annoDaText)){
 						listaEntrate.add(entrata);
 					}
 				}
