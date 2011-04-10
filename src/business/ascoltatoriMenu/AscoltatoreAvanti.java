@@ -9,12 +9,9 @@ import business.comandi.RedoCommand;
 
 public class AscoltatoreAvanti implements ActionListener {
 
-	
-	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		CommandManager managerComandi =  Controllore.getSingleton().getCommandManager();
-		managerComandi.invocaComando(new RedoCommand());
+		managerComandi.invocaComando(new RedoCommand(),null);
 	}
-
 }

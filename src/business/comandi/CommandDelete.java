@@ -15,19 +15,22 @@ public class CommandDelete extends AbstractCommand{
 	}
 	
 	@Override
-	public void execute() {
+	public boolean execute() {
 		if(wrap.delete(Integer.parseInt(entita.getIdEntita()))){
 			mappaCache.remove(entita.getIdEntita());
-		}
-		super.execute();
+			return true;
+		}else
+			return false;
+		
 	}
 
 	@Override
-	public void unExecute() {
+	public boolean unExecute() {
 		if(wrap.insert(entita)){
 			mappaCache.put(entita.getIdEntita(), entita);
-		}
-		super.unExecute();
+			return true;
+		}else
+			return false;
 	}
 
 }

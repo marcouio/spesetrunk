@@ -27,9 +27,13 @@ import view.font.LabelTesto;
 import view.font.LabelTitolo;
 import view.font.TextAreaF;
 import view.font.TextFieldF;
+import business.Controllore;
 import business.Database;
 import business.cache.CacheCategorie;
 import business.cache.CacheGruppi;
+import business.comandi.CommandDeleteCategoria;
+import business.comandi.CommandInserisciCategoria;
+import business.comandi.CommandUpdateCategoria;
 import domain.AbstractOggettoEntita;
 import domain.CatSpese;
 import domain.Gruppi;
@@ -37,7 +41,7 @@ import domain.wrapper.Model;
 
 public class Categorie extends OggettoVistaBase{
 
-	private CatSpese spese = null;
+	private CatSpese categoria = null;
 	private JTextArea descrizione;
 	private JComboBox importanza;
 	private ButtonF inserisci;
@@ -46,7 +50,7 @@ public class Categorie extends OggettoVistaBase{
 	private static JComboBox comboCategorie;
 	private ButtonF cancella;
 	private static Vector<CatSpese> categorieSpesa;
-	Database db;
+	Database db = Database.getSingleton();
 	private JComboBox comboGruppi;
 	
 
@@ -160,11 +164,11 @@ public class Categorie extends OggettoVistaBase{
 				public void itemStateChanged(ItemEvent e) {
 					
 					if (comboCategorie.getSelectedIndex() != 0 && comboCategorie.getSelectedItem()!=null) {
-						spese = (CatSpese) comboCategorie.getSelectedItem();
-						nome.setText(spese.getnome());
-						descrizione.setText(spese.getdescrizione());
-						importanza.setSelectedItem(spese.getimportanza());
-						comboGruppi.setSelectedItem(spese.getGruppi());
+						categoria = (CatSpese) comboCategorie.getSelectedItem();
+						nome.setText(categoria.getnome());
+						descrizione.setText(categoria.getdescrizione());
+						importanza.setSelectedItem(categoria.getimportanza());
+						comboGruppi.setSelectedItem(categoria.getGruppi());
 					}
 				}
 			});
@@ -177,31 +181,41 @@ public class Categorie extends OggettoVistaBase{
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					HashMap<String, String> campi = new HashMap<String, String>();
-					HashMap<String, String> clausole = new HashMap<String, String>();
-					if(comboCategorie.getSelectedIndex()!=0 && comboCategorie.getSelectedItem()!=null){
-						if(spese!=null)
-							clausole.put(CatSpese.ID, Integer.toString(spese.getidCategoria()));
-						if(nome!=null)
-							campi.put(CatSpese.NOME, nome.getText());
-						if(descrizione!=null)
-							campi.put(CatSpese.DESCRIZIONE, descrizione.getText());
-						if(importanza!=null)
-							campi.put(CatSpese.IMPORTANZA, (String) importanza.getSelectedItem());
-						if(comboGruppi!=null){
+					
+					CatSpese oldCategoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(categoria.getidCategoria()));
+					CatSpese newCategoria = new CatSpese();
+					
+					if(comboCategorie.getSelectedItem()!=null){
+						if(categoria!=null)
+							newCategoria.setidCategoria(categoria.getidCategoria());
+						
+						if(!nome.equals(""))
+							newCategoria.setnome(nome.getText());
+						else newCategoria.setnome(categoria.getnome());
+						
+						if(!descrizione.equals(""))
+							newCategoria.setdescrizione(descrizione.getText());
+						else newCategoria.setdescrizione(categoria.getdescrizione());
+						
+						if(!importanza.equals(""))
+							newCategoria.setimportanza((String) importanza.getSelectedItem());	
+						else newCategoria.setimportanza(categoria.getimportanza());
+						
+						if(comboGruppi.getSelectedItem()!=""){
 							Gruppi gruppo = (Gruppi) comboGruppi.getSelectedItem();
-							campi.put(CatSpese.IDGRUPPO, Integer.toString(gruppo.getidGruppo()));
-						}else if(comboGruppi.getSelectedIndex()==0){
-							campi.put(CatSpese.IDGRUPPO, Integer.toString(0));
+							newCategoria.setGruppi(gruppo);
+						}else{
+							Gruppi gruppo = CacheGruppi.getSingleton().getGruppoPerNome("No Gruppo");
+							newCategoria.setGruppi(gruppo);
 						}
 						try{
-							if(db.eseguiIstruzioneSql("UPDATE", CatSpese.NOME_TABELLA, campi, clausole))
+							if(Controllore.getSingleton().getCommandManager().invocaComando(new CommandUpdateCategoria(oldCategoria, newCategoria), "tutto")){
 								JOptionPane.showMessageDialog(null,"Operazione eseguita correttamente", "Perfetto!", JOptionPane.INFORMATION_MESSAGE );
-//							TODO verificare se ricarica deve essere true
-//								Model.getSingleton().getCategorieCombo(true);
-								Database.aggiornaCategorie(spese);
+								Database.aggiornaCategorie(categoria);
 								Database.aggiornamentoComboBox(CacheCategorie.getSingleton().getVettoreCategorie());
+							}
 						}catch (Exception e22) {
+							e22.printStackTrace();
 							JOptionPane.showMessageDialog(null, "Inserisci i dati correttamente: "+e22.getMessage(), "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
 						}
 					}else{
@@ -213,7 +227,7 @@ public class Categorie extends OggettoVistaBase{
 			//bottone insert
 			inserisci.addActionListener(new ActionListener() {
 				
-				private CatSpese spese1;
+				private CatSpese categoria1;
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -221,18 +235,17 @@ public class Categorie extends OggettoVistaBase{
 					if(!(descrizione.getText().equals("")) && !(importanza.getSelectedItem().equals("")) && !(nome.getText().equals(""))
 							&& importanza.getSelectedIndex() != 0){
 						
-						spese1 = new CatSpese();
-						spese1.setdescrizione(descrizione.getText());
-						spese1.setimportanza((String) importanza.getSelectedItem());
-						spese1.setnome(nome.getText());
-						spese1.setGruppi((Gruppi) comboGruppi.getSelectedItem());
-						if(Model.getSingleton().getModelCategorie().insert(spese1));
+						categoria1 = new CatSpese();
+						categoria1.setdescrizione(descrizione.getText());
+						categoria1.setimportanza((String) importanza.getSelectedItem());
+						categoria1.setnome(nome.getText());
+						categoria1.setGruppi((Gruppi) comboGruppi.getSelectedItem());
+						if(Controllore.getSingleton().getCommandManager().invocaComando(new CommandInserisciCategoria(categoria1), "tutto"))
 							JOptionPane.showMessageDialog(null, "Categoria inserita correttamente", "Perfetto", JOptionPane.INFORMATION_MESSAGE);
 						
-						comboCategorie.addItem(spese1);
-//						CacheCategorie.getSingleton().setCaricata(false);
+						comboCategorie.addItem(categoria1);
 						Map<String, AbstractOggettoEntita> cache = CacheCategorie.getSingleton().getCache();
-						cache.put(Integer.toString(spese1.getidCategoria()), spese1);
+						cache.put(Integer.toString(categoria1.getidCategoria()), categoria1);
 						Database.aggiornamentoComboBox(CacheCategorie.getSingleton().getVettoreCategoriePerCombo(cache));
 						
 						
@@ -249,15 +262,15 @@ public class Categorie extends OggettoVistaBase{
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if(comboCategorie.getSelectedIndex()!=0 && comboCategorie.getSelectedItem()!=null && spese!=null){
-						Model.getSingleton().getModelCategorie().delete(spese.getidCategoria());
+					if(comboCategorie.getSelectedItem()!=null && categoria!=null){
+						if(Controllore.getSingleton().getCommandManager().invocaComando(new CommandDeleteCategoria(categoria),"tutto")){
+							JOptionPane.showMessageDialog(null, "Categoria cancellata!", "Perfetto!", JOptionPane.INFORMATION_MESSAGE);
+						}
 					}else{
 						JOptionPane.showMessageDialog(null, "Impossibile cancellare una categoria inesistente!", "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
 					}
-					log.fine("Cancellata categoria inserita spesa"+ spese);
+					log.fine("Cancellata categoria "+ categoria);
 					
-					Map<String, AbstractOggettoEntita> cache = CacheCategorie.getSingleton().getCache();
-					cache.remove(Integer.toString(spese.getidCategoria()));
 					comboCategorie.setModel(new DefaultComboBoxModel(CacheCategorie.getSingleton().getVettoreCategoriePerCombo(cache)));
 					
 					Database.aggiornamentoComboBox(CacheCategorie.getSingleton().getVettoreCategoriePerCombo());

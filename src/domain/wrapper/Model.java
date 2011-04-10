@@ -18,7 +18,6 @@ import business.cache.CacheGruppi;
 import domain.AbstractOggettoEntita;
 import domain.CatSpese;
 import domain.Entrate;
-import domain.Gruppi;
 import domain.SingleSpesa;
 
 public class Model {
@@ -276,6 +275,8 @@ public class Model {
 	 * Valorizza una matrice utile per i pannelli movimenti in entrata. crea il numero di righe 
 	 * specificato in parametro con le entita' della tabella passata in parametro
 	 * 
+	}
+	
 	 * @param numEntry
 	 * @param tabella
 	 * @return String[][]

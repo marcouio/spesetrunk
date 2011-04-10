@@ -806,13 +806,13 @@ public class Database {
 	 * @throws Exception 
 	 */
 	public static void aggiornaTabellaUscite(){
-//		Vector<CatSpese> categorie = Categorie.getCategorieSpesa();
+
 		Vector<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
-		String[][] primo = null;
-		if(TabellaUscita.getPrimo()!=null)
-			primo = TabellaUscita.getPrimo();
-		else
-			primo = new String[12][categorie.size()];
+//		String[][] primo = null;
+//		if(TabellaUscita.getPrimo()!=null)
+//			primo = TabellaUscita.getPrimo();
+//		else
+		String[][] primo = new String[12][categorie.size()];
 		for (int i = 0; i < 12; i++) {
 			for (int x = 0; x < categorie.size(); x++) {
 				try {

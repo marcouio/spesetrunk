@@ -23,6 +23,7 @@ import business.AltreUtil;
 import business.Controllore;
 import business.DBUtil;
 import business.Database;
+import business.comandi.CommandInserisciEntrata;
 import domain.Entrate;
 import domain.wrapper.WrapEntrate;
 
@@ -191,7 +192,7 @@ public class EntrateView extends OggettoVistaBase {
 							entr.setinEuro(AltreUtil.arrotondaDecimaliDouble(Double.parseDouble(euro.getText())));
 							entr.setdata(data.getText());
 
-							if (modelEntrate.insert(entr)) {
+							if(Controllore.getSingleton().getCommandManager().invocaComando(new CommandInserisciEntrata(entr), Entrate.NOME_TABELLA)){
 								JOptionPane.showMessageDialog(null, "Ok, entrata inserita correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
 								log.fine("Entrata inserita, id: "
 										+ entr.getnome());

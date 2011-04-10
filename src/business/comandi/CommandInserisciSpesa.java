@@ -5,6 +5,7 @@ import java.util.HashMap;
 import business.Controllore;
 import business.cache.CacheUscite;
 import domain.AbstractOggettoEntita;
+import domain.CatSpese;
 import domain.SingleSpesa;
 import domain.wrapper.IWrapperEntity;
 
@@ -23,24 +24,29 @@ public class CommandInserisciSpesa extends AbstractCommand{
 	}
 	
 	@Override
-	public void execute() {
-		super.execute();
+	public boolean execute() {
 		if(entita instanceof SingleSpesa){
 			if(wrap.insert(entita)){
 				mappaCache.put(entita.getIdEntita(), entita);
+				return true;
 			}
 		}
+		return false;
 	}
 
 	@Override
-	public void unExecute() {
-		super.unExecute();
+	public boolean unExecute() {
 		if(entita instanceof SingleSpesa){
 			if(wrap.delete(Integer.parseInt(entita.getIdEntita()))){
 				mappaCache.remove(entita.getIdEntita());
+				return true;
 			}
 		}
+		return false;
 	}
-	
+	@Override
+	public String toString() {
+		return "Inserita Spesa " + ((SingleSpesa)entita).getnome();
+	}
 
 }

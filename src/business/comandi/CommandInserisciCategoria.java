@@ -23,24 +23,29 @@ public class CommandInserisciCategoria extends AbstractCommand{
 	}
 	
 	@Override
-	public void execute() {
-		super.execute();
+	public boolean execute() {
 		if(entita instanceof CatSpese){
 			if(wrap.insert(entita)){
 				mappaCache.put(entita.getIdEntita(), entita);
+				return true;
 			}
 		}
+		return false;
 	}
 
 	@Override
-	public void unExecute() {
-		super.unExecute();
+	public boolean unExecute() {
 		if(entita instanceof CatSpese){
 			if(wrap.delete(Integer.parseInt(entita.getIdEntita()))){
 				mappaCache.remove(entita.getIdEntita());
+				return true;
 			}
 		}
+		return false;
 	}
-	
+	@Override
+	public String toString() {
+		return "Inserita Categoria " + ((CatSpese)entita).getnome();
+	}
 
 }

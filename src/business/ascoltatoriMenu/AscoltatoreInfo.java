@@ -12,8 +12,7 @@ public class AscoltatoreInfo implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		dialog.setSize(600, 440);
+		dialog.setBounds(400, 200, 600, 400);
         dialog.setVisible(true);
         dialog.setModalityType(ModalityType.APPLICATION_MODAL);
 	}

@@ -2,6 +2,8 @@ package business.comandi;
 
 public interface ICommand {
 
-	public void execute();
-	public void unExecute();
+	public boolean execute();
+	public boolean unExecute();
+	boolean undoCommand(String tipo);
+	boolean doCommand(String tipo);
 }

@@ -18,12 +18,12 @@ import view.font.LabelTesto;
 import view.font.LabelTitolo;
 import view.font.TextAreaF;
 import view.font.TextFieldF;
-import view.impostazioni.Categorie;
 import business.AltreUtil;
 import business.Controllore;
 import business.DBUtil;
 import business.Database;
 import business.cache.CacheCategorie;
+import business.comandi.CommandInserisciSpesa;
 import domain.CatSpese;
 import domain.SingleSpesa;
 import domain.wrapper.WrapSingleSpesa;
@@ -170,7 +170,9 @@ public class Uscite extends OggettoVistaBase {
 		eliminaUltima.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					if(Controllore.getSingleton().getModel().getModelUscita().DeleteLastSpesa()){
+					//TODO metodo che restituisce ultima spesa oppure usare getLast() del CommandManager
+//					if(Controllore.getSingleton().getCommandManager().invocaComando(new CommandDeleteSpesa())){}
+					if(Controllore.getSingleton().getModel().getModelUscita().deleteLastSpesa()){
 						Database.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
 						JOptionPane.showMessageDialog(null,"Ok, ultima uscita eliminata correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
 					}
@@ -211,18 +213,13 @@ public class Uscite extends OggettoVistaBase {
 							ss.setinEuro(AltreUtil.arrotondaDecimaliDouble(Double.parseDouble(inEuro.getText())));
 							ss.setUtenti(Controllore.getSingleton().getUtenteLogin());
 							ss.setDataIns(DBUtil.dataToString(new Date(), "yyyy/MM/dd"));
-							if (modelSingleSpesa.insert(ss)) {
+							if(Controllore.getSingleton().getCommandManager().invocaComando(new CommandInserisciSpesa(ss),SingleSpesa.NOME_TABELLA)){
 								JOptionPane.showMessageDialog(null,"Ok, uscita inserita correttamente!!!","Perfetto!",JOptionPane.INFORMATION_MESSAGE);
-								log.fine("Entrata inserita, id: "	+ ss.getnome());
+								log.fine("Uscita inserita, id: "	+ ss.getnome());
 							}
 
 						} else
 							JOptionPane.showMessageDialog(null,"E' necessario riempire tutti i campi","Non ci siamo!",JOptionPane.ERROR_MESSAGE,new ImageIcon("imgUtil/index.jpeg"));
-						try {
-							Database.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
-						} catch (Exception e1) {
-							e1.printStackTrace();
-						}
 						DBUtil.closeConnection();
 					}
 				} else
