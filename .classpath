@@ -16,5 +16,8 @@
 	<classpathentry kind="lib" path="/home/kiwi/Scaricati/Software/lib/jfreechart-1.0.13/lib/iText-2.1.5.jar"/>
 	<classpathentry kind="lib" path="/home/kiwi/Scaricati/Software/lib/jfreechart-1.0.13/lib/gnujaxp.jar"/>
 	<classpathentry kind="lib" path="/home/kiwi/Scaricati/Software/lib/sqlitejdbc-v056.jar"/>
+	<classpathentry kind="lib" path="/home/kiwi/Scaricati/Software/lib/standard.jar"/>
+	<classpathentry kind="lib" path="/home/kiwi/Scaricati/Software/lib/javax.persistence_2.0.0.v201002051058.jar"/>
+	<classpathentry kind="lib" path="/home/kiwi/Scaricati/Software/lib/eclipselink.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

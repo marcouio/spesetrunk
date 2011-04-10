@@ -271,8 +271,6 @@ public class Categorie extends OggettoVistaBase{
 					}
 					log.fine("Cancellata categoria "+ categoria);
 					
-					comboCategorie.setModel(new DefaultComboBoxModel(CacheCategorie.getSingleton().getVettoreCategoriePerCombo(cache)));
-					
 					Database.aggiornamentoComboBox(CacheCategorie.getSingleton().getVettoreCategoriePerCombo());
 				}
 			});
