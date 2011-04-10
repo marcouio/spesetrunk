@@ -1,2 +1,2 @@
-9-apr-2011 16.08.38 business.AltreUtil setLog
+10-apr-2011 8.46.26 business.AltreUtil setLog
 INFO: Start programma!
