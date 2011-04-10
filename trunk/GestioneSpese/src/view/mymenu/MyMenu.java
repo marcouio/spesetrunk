@@ -1,13 +1,18 @@
 package view.mymenu;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import view.FinestraListaComandi;
+
+import business.Controllore;
 import business.ascoltatoriMenu.AscoltatoreAvanti;
 import business.ascoltatoriMenu.AscoltatoreCaricaDatabase;
 import business.ascoltatoriMenu.AscoltatoreIndietro;
@@ -43,10 +48,10 @@ public class MyMenu extends JMenuBar {
 		file.add(menuItem2);
 
 		// item Login
-		JMenuItem menuItem3 = new JMenuItem("Registrazione");
+		JMenuItem registra = new JMenuItem("Registrazione");
 		ActionListener registrazione = new AscoltatoreRegistrazione();
-		menuItem3.addActionListener(registrazione);
-		file.add(menuItem3);
+		registra.addActionListener(registrazione);
+		file.add(registra);
 		
 		JMenu modifica = new JMenu("Modifica");
 		add(modifica);
@@ -58,6 +63,25 @@ public class MyMenu extends JMenuBar {
 		JMenuItem avanti = new JMenuItem("Avanti");
 		avanti.addActionListener(new AscoltatoreAvanti());
 		modifica.add(avanti);
+		
+		JMenu finestre = new JMenu("Finestre");
+		add(finestre);
+		
+		JMenuItem listaComandi = new JMenuItem("Comandi");
+		finestre.add(listaComandi);
+		listaComandi.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				FinestraListaComandi history = Controllore.getFinestraHistory();
+				if(history.isVisible()){
+					history.setVisible(false);
+				}else{
+					history.setVisible(true);
+				}
+				
+			}
+		});
 		
 		JMenu help = new JMenu("Help");
 		add(help);

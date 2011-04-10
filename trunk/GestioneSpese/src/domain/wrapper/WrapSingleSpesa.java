@@ -321,7 +321,7 @@ public class WrapSingleSpesa extends SingleSpesa implements IWrapperEntity{
 	/**
 	 * Cancella l'ultima entita' "SingleSpesa" inserita
 	 */
-	public boolean DeleteLastSpesa() {
+	public boolean deleteLastSpesa() {
 		boolean ok = false;
 		Connection cn = DBUtil.getConnection();
 		String sql = "SELECT * FROM "+ SingleSpesa.NOME_TABELLA +" WHERE "+Entrate.IDUTENTE+" = "+Controllore.getSingleton().getUtenteLogin().getidUtente()+" ORDER BY "+SingleSpesa.DATAINS +" DESC";
@@ -330,7 +330,6 @@ public class WrapSingleSpesa extends SingleSpesa implements IWrapperEntity{
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			if(rs.next()){
-				
 				SingleSpesa ss = new SingleSpesa();
 				ss = new SingleSpesa();
 				ss.setidSpesa(rs.getInt(1));

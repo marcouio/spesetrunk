@@ -3,7 +3,6 @@ package view.componenti.movimenti;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,7 +17,10 @@ import view.font.ButtonF;
 import view.font.LabelTesto;
 import view.font.TextFieldF;
 import business.AltreUtil;
-import business.Database;
+import business.Controllore;
+import business.cache.CacheUscite;
+import business.comandi.CommandDeleteSpesa;
+import business.comandi.CommandUpdateSpesa;
 import domain.CatSpese;
 import domain.SingleSpesa;
 import domain.wrapper.Model;
@@ -67,7 +69,6 @@ public class DialogUsciteMov extends javax.swing.JDialog {
 	
 	private void initGUI() {
 		try {
-//			final Database db = new Database();
 //			questo permette di mantenere il focus sulla dialog
 			this.setModalityType(ModalityType.APPLICATION_MODAL);
 			categoria = new JComboBox(Model.getSingleton().getCategorieCombo(false));
@@ -85,28 +86,28 @@ public class DialogUsciteMov extends javax.swing.JDialog {
 			
 			update.addActionListener(new ActionListener() {
 				
-				private CatSpese categor;
-
 				public void actionPerformed(ActionEvent e) {
 					String[]nomiColonne = (String[]) AltreUtil.generaNomiColonne(SingleSpesa.NOME_TABELLA);
 					JTextField campo = ListaMovUscite.getCampo();
-					HashMap<String, String> campi = new HashMap<String, String>();
-					HashMap<String, String> clausole = new HashMap<String, String>();
 					if(AltreUtil.checkData(data.getText())){
 						if(AltreUtil.checkDouble(euro.getText())){
 							if(!(idSpesa.getText().equals("")) && !(nome.getText().equals("")) && !(descrizione.getText().equals(""))
-									&& categoria.getSelectedItem()!=null &&
-									!(data.getText().equals("")) && !(euro.getText().equals(""))){
-									clausole.put(SingleSpesa.ID, idSpesa.getText());
-									campi.put(SingleSpesa.NOME, nome.getText());
-									campi.put(SingleSpesa.DESCRIZIONE, descrizione.getText());
-									categor = (CatSpese) categoria.getSelectedItem();
-									campi.put(SingleSpesa.IDCATEGORIE, Integer.toString(categor.getidCategoria()));
-									campi.put(SingleSpesa.DATA, data.getText());
-									campi.put(SingleSpesa.INEURO, euro.getText());
+									&& categoria.getSelectedItem()!=null && !(data.getText().equals("")) && !(euro.getText().equals(""))){
+								
+									SingleSpesa oldSpesa = CacheUscite.getSingleton().getSingleSpesa(idSpesa.getText());
+									SingleSpesa newSpesa = new SingleSpesa();
+									newSpesa.setidSpesa(Integer.parseInt(idSpesa.getText()));
+									newSpesa.setData(data.getText());
+									newSpesa.setDataIns(oldSpesa.getDataIns());
+									newSpesa.setdescrizione(descrizione.getText());
+									newSpesa.setinEuro(Double.parseDouble(euro.getText()));
+									newSpesa.setnome(nome.getText());
+									newSpesa.setCatSpese((CatSpese) categoria.getSelectedItem());
+									newSpesa.setUtenti(Controllore.getSingleton().getUtenteLogin());
 								try{
-									if(Database.getSingleton().eseguiIstruzioneSql("UPDATE", SingleSpesa.NOME_TABELLA, campi, clausole))
+									if(Controllore.getSingleton().getCommandManager().invocaComando(new CommandUpdateSpesa(oldSpesa, newSpesa), SingleSpesa.NOME_TABELLA)){
 										JOptionPane.showMessageDialog(null,"Operazione eseguita correttamente", "Perfetto!", JOptionPane.INFORMATION_MESSAGE );
+									}
 								}catch (Exception e22) {
 									JOptionPane.showMessageDialog(null, "Inserisci i dati correttamente", "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
 								}
@@ -124,19 +125,16 @@ public class DialogUsciteMov extends javax.swing.JDialog {
 			delete.addActionListener(new ActionListener() {
 				
 				public void actionPerformed(ActionEvent e) {
-					String[]nomiColonne = (String[]) AltreUtil.generaNomiColonne(SingleSpesa.NOME_TABELLA);
-					JTextField campo = ListaMovUscite.getCampo();
-//					HashMap<String, String> campi = new HashMap<String, String>();
-					HashMap<String, String> clausole = new HashMap<String, String>();
-					if(idSpesa.getText()!=null)
-						clausole.put(SingleSpesa.ID, idSpesa.getText());
-					try{
-						Database.getSingleton().eseguiIstruzioneSql("DELETE", SingleSpesa.NOME_TABELLA, null, clausole);
-						JOptionPane.showMessageDialog(null, "Modifica eseguita correttamente", "Perfetto!", JOptionPane.INFORMATION_MESSAGE);
-					}catch (Exception e22) {
-						JOptionPane.showMessageDialog(null, "Inserisci i dati correttamente", "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
+					
+					if(idSpesa.getText()!=null){
+						SingleSpesa ss = CacheUscite.getSingleton().getSingleSpesa(idSpesa.getText());
+						if(ss!=null){
+							if(Controllore.getSingleton().getCommandManager().invocaComando(new CommandDeleteSpesa(ss),SingleSpesa.NOME_TABELLA)){
+								JOptionPane.showMessageDialog(null, "Modifica eseguita correttamente", "Perfetto!", JOptionPane.INFORMATION_MESSAGE);
+							}else
+								JOptionPane.showMessageDialog(null, "Inserisci i dati correttamente", "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
+						}
 					}
-					Model.aggiornaMovimentiUsciteDaEsterno(nomiColonne,Integer.parseInt(campo.getText()));
 					//chiude la dialog e rilascia le risorse
 					dispose();
 				}

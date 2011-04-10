@@ -1,17 +1,18 @@
 package view;
 
+import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionListener;
+import java.awt.Point;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 
 import view.componenti.componentiPannello.PannelloDati2;
@@ -22,10 +23,8 @@ import view.impostazioni.Impostazioni;
 import view.impostazioni.RaccogliImpostazioni;
 import view.mymenu.MyMenu;
 import view.tabelle.PerMesiF;
+import business.Controllore;
 import business.DBUtil;
-import business.ascoltatoriMenu.AscoltatoreCaricaDatabase;
-import business.ascoltatoriMenu.AscoltatoreLogin;
-import business.ascoltatoriMenu.AscoltatoreRegistrazione;
 
 public class GeneralFrame extends JFrame {
 
@@ -46,22 +45,8 @@ public class GeneralFrame extends JFrame {
 	private static NewSql consolle;
 	private static GeneralFrame singleton;
 	
-	/**
-	 * Launch the application.
-	 * @throws UnsupportedLookAndFeelException 
-	 * @throws IllegalAccessException 
-	 * @throws InstantiationException 
-	 * @throws ClassNotFoundException 
-	 */
-
-	
 	public static void main(String[] args){
-//		try {
-//			UIManager.setLookAndFeel("org.jvnet.substance.skin.SubstanceOfficeSilver2007LookAndFeel");
-//		} catch (Throwable e) {
-//			e.printStackTrace();
-//		}
-//	
+
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				DBUtil.closeConnection();
@@ -144,13 +129,6 @@ public class GeneralFrame extends JFrame {
 	
 		this.getContentPane().add(tabGenerale);
 		
-//		JLabel LabelProgramma = new JLabel();
-//		getContentPane().add(LabelProgramma);
-//		LabelProgramma.setText("Gestione Finanze Familiari");
-//		LabelProgramma.setBounds(790, 90, 268, 14);
-//		LabelProgramma.setForeground(Color.WHITE);
-//		LabelProgramma.setFont(new Font("Tahoma", Font.BOLD, 14));
-		
 		tabGenerale.addTab("Setting", tabSetting);
 		tabGenerale.addTab("Entrate/Uscite", iec);
 		tabGenerale.addTab("Dati Generali", tabDatiGenerali);
@@ -160,11 +138,55 @@ public class GeneralFrame extends JFrame {
 		tabGenerale.addTab("Grafici", tabGrafici);
 		tabGenerale.addTab("ConsolleSQL", consolle);
 		tabGenerale.addTab("Report", tabReport);
-//		tabGenerale.addTab("Help", tabHelp);
 		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				Controllore.getFinestraHistory().setVisible(true);
+				relocateFinestraHistory();
+				super.windowDeiconified(e);
+			}
+			@Override
+			public void windowClosed(WindowEvent e) {
+				Controllore.getSingleton().quit();
+				super.windowClosed(e);
+			}
+			@Override
+			public void windowIconified(WindowEvent e) {
+				Controllore.getFinestraHistory().setVisible(false);
+				super.windowIconified(e);
+			}
+			
+		});
+		
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				resizeView();
+				relocateFinestraHistory();
+				super.componentResized(e);
+			}
+			@Override
+			public void componentMoved(ComponentEvent e) {
+				relocateFinestraHistory();
+				super.componentMoved(e);
+			}
+		});
+		
+		repaint();
 	}
 	
-	
+	private void relocateFinestraHistory() {
+		Point p = getLocation();
+		Dimension d = getSize();
+		p.setLocation(p.x+d.width+5, p.y);
+		Controllore.getFinestraHistory().setLocation(p);
+	}
+
+	private void resizeView() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	public JTabbedPane getTabGenerale() {
 		return tabGenerale;
@@ -245,4 +267,5 @@ public class GeneralFrame extends JFrame {
 	public void setConsolle(NewSql consolle) {
 		GeneralFrame.consolle = consolle;
 	}
+
 }

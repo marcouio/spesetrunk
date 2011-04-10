@@ -16,15 +16,17 @@ public class CommandUpdate extends AbstractCommand{
 	}
 
 	@Override
-	public void execute() {
-		super.execute();
-		wrap.update(newEntita);
+	public boolean execute() {
+		if(wrap.update(newEntita)){
+			return true;
+		}else return false;
 	}
 
 	@Override
-	public void unExecute() {
-		super.unExecute();
-		wrap.update(oldEntita);
+	public boolean unExecute() {
+		if(wrap.update(oldEntita)){
+			return true;
+		}else return false;
 	}
 	
 	

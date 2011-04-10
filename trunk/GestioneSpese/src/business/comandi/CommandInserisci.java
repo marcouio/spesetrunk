@@ -16,19 +16,19 @@ public class CommandInserisci extends AbstractCommand{
 	}
 	
 	@Override
-	public void execute() {
-		super.execute();
+	public boolean execute() {
 		if(wrap.insert(entita)){
 			mappaCache.put(entita.getIdEntita(), entita);
-		}
+			return true;
+		}else return false;
 	}
 
 	@Override
-	public void unExecute() {
-		super.unExecute();
+	public boolean unExecute() {
 		if(wrap.delete(Integer.parseInt(entita.getIdEntita()))){
 			mappaCache.remove(entita.getIdEntita());
-		}
+			return true;
+		}else return false;
 	}
 	
 

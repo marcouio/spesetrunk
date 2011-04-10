@@ -3,6 +3,7 @@ package business;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import view.FinestraListaComandi;
 import view.GeneralFrame;
 import business.cache.CacheGruppi;
 import business.cache.CacheLookAndFeel;
@@ -20,8 +21,10 @@ public class Controllore {
 
 	private static GeneralFrame view;
 	private Model model = Model.getSingleton();
+	protected static FinestraListaComandi historyCommands;
 	private static Utenti utenteLogin;
 	private static CommandManager commandManager;
+	
 	
 	private static Controllore singleton;
 	
@@ -52,8 +55,13 @@ public class Controllore {
 				view = GeneralFrame.getSingleton();
 				setStartUtenteLogin();
 				view.setTitle("Gestionale spese familiari");
-				view.setLocationRelativeTo(null);
+				view.setLocationByPlatform(true);
 				view.setVisible(true);
+				
+
+				historyCommands = new FinestraListaComandi();
+				historyCommands.setBounds(view.getX()+view.getWidth(), view.getY(), 250, 425);
+				historyCommands.setVisible(true);
 			}
 		});
 	}
@@ -137,5 +145,27 @@ public class Controllore {
 
 	public GeneralFrame getView() {
 		return view;
+	}
+
+
+
+	public static FinestraListaComandi getFinestraHistory() {
+		return historyCommands;
+	}
+
+
+
+	public static void setFinestraHistory(FinestraListaComandi flc) {
+		Controllore.historyCommands = flc;
+	}
+
+
+
+	public void quit() {
+		view.setVisible(false);
+		historyCommands.setVisible(false);
+		view.dispose();
+		historyCommands.dispose();
+		System.exit(0);
 	}
 }
