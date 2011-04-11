@@ -69,8 +69,8 @@ public class PerMesiF extends OggettoVistaBase {
 			tabGenerale.addTab("Entrate Gruppi", tabEG);
 			
 			tabUscite.setBounds(26, 10, 400, 400);
-			TabellaUscita.getTable().setRowHeight(27);
-			TabellaEntrata.getTable().setRowHeight(27);
+//			TabellaUscita.getTable().setRowHeight(27);
+//			TabellaEntrata.getTable().setRowHeight(27);
 			tabEntrate.setBounds(26, 10, 400, 400);
 			this.add(tabGenerale);
 

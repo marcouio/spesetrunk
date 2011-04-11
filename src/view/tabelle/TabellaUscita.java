@@ -2,26 +2,20 @@
 
 package view.tabelle;
 
-import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
 import view.OggettoVistaBase;
 import view.font.TableF;
-import business.Database;
-import business.cache.CacheCategorie;
-import domain.CatSpese;
+import business.generatori.GeneratoreDatiTabellaUscite;
 
 public class TabellaUscita extends OggettoVistaBase {
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static JTable table;
 	
 	private static String[][] primo;
 	private static JScrollPane scrollPane;
@@ -31,8 +25,8 @@ public class TabellaUscita extends OggettoVistaBase {
 	public TabellaUscita() {
         super(new GridLayout(1,0));
         
-        
-        getDatiPerTabella();
+        GeneratoreDatiTabellaUscite dati = new GeneratoreDatiTabellaUscite();
+        TableF table = GeneratoreDatiTabellaUscite.createTable(dati.getMatrice(), dati.getNomiColonna());
 
         //Create the scroll pane and add the table to it.
         scrollPane = new JScrollPane(table);
@@ -41,35 +35,6 @@ public class TabellaUscita extends OggettoVistaBase {
         add(scrollPane);
         
     }
-
-
-	private void getDatiPerTabella() {
-		Vector<CatSpese> catSpese = CacheCategorie.getSingleton().getVettoreCategorie();
-        int numColonne = catSpese.size();
-        String[] nomiColonne = new String[numColonne];
-        
-        for(int i=0; i<catSpese.size(); i++){
-        	nomiColonne[i] = catSpese.get(i).getnome(); 
-        }
-        
-        primo = new String[12][numColonne];
-
-        for(int i=0; i<12; i++){
-        	for(int x=0; x<catSpese.size(); x++){
-        		try {
-					
-					primo[i][x]= Double.toString(Database.speseMeseCategoria(i+1, catSpese.get(x).getidCategoria()));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-        	}        	
-        }
-        table = new TableF(primo, nomiColonne);
-        table.setRowHeight(27);
-        table.setPreferredScrollableViewportSize(new Dimension(700, 300));
-        table.setFillsViewportHeight(true);
-	}
-
 
     private static void createAndShowGUI() throws Exception {
         //Create and set up the window.
@@ -92,14 +57,6 @@ public class TabellaUscita extends OggettoVistaBase {
 	public static void setPrimo(String[][] primo) {
 		TabellaUscita.primo = primo;
 	}
-	public static JTable getTable() {
-		return table;
-	}
-
-	public static void setTable(JTable table) {
-		TabellaUscita.table = table;
-	}
-
 
 
     public static void main(String[] args) {

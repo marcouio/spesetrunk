@@ -125,7 +125,7 @@ public class WrapUtenti extends Utenti implements IWrapperEntity {
 			PreparedStatement ps = cn.prepareStatement(sql);
 			ps.setString(1, utente.getusername());
 			ps.setString(2, utente.getpassword());
-			ps.setString(3, utente.getNome());
+			ps.setString(3, utente.getnome());
 			ps.setString(4, utente.getCognome());
 
 			ps.executeUpdate();
@@ -176,7 +176,7 @@ public class WrapUtenti extends Utenti implements IWrapperEntity {
 
 		Utenti utente = (Utenti) oggettoEntita;
 		String sql = "UPDATE " + Utenti.NOME_TABELLA + " SET " + Utenti.USERNAME + " = " + utente.getusername() + ", "
-				+ Utenti.PASSWORD + " = " + utente.getpassword() + ", " + Utenti.NOME + " = " + utente.getNome() + ", "
+				+ Utenti.PASSWORD + " = " + utente.getpassword() + ", " + Utenti.NOME + " = " + utente.getnome() + ", "
 				+ Utenti.COGNOME + " = " + utente.getCognome() + " WHERE " + Utenti.ID + " = " + utente.getidUtente();
 		try {
 			Statement st = cn.createStatement();

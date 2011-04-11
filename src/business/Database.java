@@ -35,6 +35,8 @@ import view.tabelle.TabellaUscita;
 import business.cache.CacheCategorie;
 import business.cache.CacheEntrate;
 import business.cache.CacheUscite;
+import business.generatori.GeneratoreDatiTabellaUscite;
+import business.generatori.GeneratoreDatiTabellaEntrate;
 import domain.CatSpese;
 import domain.Entrate;
 import domain.Gruppi;
@@ -691,9 +693,6 @@ public class Database {
 			SottoPannelloDatiSpese.getMeseInCors().setText(Double.toString(MensileInCorso()));
 			SottoPannelloDatiSpese.getMesePrecUsc().setText(Double.toString(Mensile()));
 			SottoPannelloDatiSpese.getSpeseAnnuali().setText(Double.toString(Annuale()));
-			JComboBox combo = new JComboBox(CacheCategorie.getSingleton().getVettoreCategoriePerCombo());
-//			Categorie.setComboCategorie(combo);
-//			Categorie.setCategorieSpesa(CacheCategorie.getSingleton().getVettoreCategoriePerCombo());
 			Model.aggiornaMovimentiUsciteDaEsterno(nomiColonne, 10);
 			DBUtil.closeConnection();
 		}else if(tipo.equals(Entrate.NOME_TABELLA)){
@@ -821,39 +820,11 @@ public class Database {
 	 */
 	public static void aggiornaTabellaUscite(){
 
-		Vector<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
-		String[][] primo = new String[12][categorie.size()];
-		for (int i = 0; i < 12; i++) {
-			for (int x = 0; x < categorie.size(); x++) {
-				try {
-					primo[i][x] = Double.toString(Database.speseMeseCategoria(i + 1, categorie.get(x).getidCategoria()));
-				}catch (SQLException e1) {
-					e1.printStackTrace();
-					log.severe("Impossibile recuperare dati da DB: "+e1.getMessage());
-				}catch (NullPointerException e2) {
-					e2.printStackTrace();
-					log.severe("PannelloDati non caricato: "+e2.getMessage());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-			}
-		}
-		DBUtil.closeConnection();
-		TabellaUscita.setPrimo(primo);
-		JScrollPane pane = TabellaUscita.getScrollPane();
-		
-		Vector<CatSpese> catSpese = CacheCategorie.getSingleton().getVettoreCategorie();
-        int numColonne = catSpese.size();
-        String[] nomiColonne = new String[numColonne];
-        
-        for(int i=0; i<catSpese.size(); i++){
-        	nomiColonne[i] = catSpese.get(i).getnome(); 
-        }
-		
-		TableF table = new TableF(primo, nomiColonne);
-		TabellaUscita.setTable(table);
-		pane.setViewportView(table);
+		GeneratoreDatiTabellaUscite dati = new GeneratoreDatiTabellaUscite();
+        TableF table = GeneratoreDatiTabellaUscite.createTable(dati.getMatrice(), dati.getNomiColonna());
+        JScrollPane pane = TabellaUscita.getScrollPane();
+        pane.setViewportView(table);
+	
 	}
 
 	// aggiorno tabella entrate/mese in seguito a variazioni di altre tabelle
@@ -863,29 +834,21 @@ public class Database {
 	 * @throws Exception 
 	 */
 	public static void aggiornaTabellaEntrate() {
-		String[][] primo = TabellaEntrata.getPrimo();
-		String[] colonne = TabellaEntrata.getNomiColonne();
-		for (int i = 0; i < 12; i++) {
-			for (int x = 0; x < 2; x++) {
-				try {
-					primo[i][x] = Double.toString(new Database().entrateMeseTipo(i + 1, colonne[x]));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		TabellaEntrata.setPrimo(primo);
-		TabellaEntrata.setTable(new TableF());
-		//TODO vedere aggiorna tabellaUscite
-		DBUtil.closeConnection();
+		
+		GeneratoreDatiTabellaEntrate dati = new GeneratoreDatiTabellaEntrate();
+        TableF table = GeneratoreDatiTabellaEntrate.createTable(dati.getMatrice(), dati.getNomiColonna());
+        JScrollPane pane = TabellaEntrata.getScrollPane();
+        pane.setViewportView(table);
 	}
 	
 	public static void aggiornamentoComboBox(Vector<CatSpese>categorie){
 		DefaultComboBoxModel model = new DefaultComboBoxModel(categorie);
-		Uscite.getSingleton().getCategorie().setModel(model);
+
 		SottoPannelloCategorie2.getCategorieCombo().setModel(model);
 		SottoPannelloCategorie2.getCategorieCombo().validate();
 		SottoPannelloCategorie2.getCategorieCombo().repaint();
+		
+		Uscite.getSingleton().getCategorie().setModel(model);
 		Uscite.getSingleton().getCategorie().validate();
 		Uscite.getSingleton().getCategorie().repaint();
 	}

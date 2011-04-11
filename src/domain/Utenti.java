@@ -96,7 +96,7 @@ public class Utenti extends AbstractOggettoEntita implements Serializable {
 		this.nome = nome;
 	}
 
-	public String getNome() {
+	public String getnome() {
 		return nome;
 	}
 

@@ -75,7 +75,7 @@ public class Controllore {
 	
 	private static void setStartUtenteLogin() {
 		Utenti utenteGuest = CacheUtenti.getSingleton().getUtente("1");
-		if(utenteGuest==null || utenteGuest.getNome()==null){
+		if(utenteGuest==null || utenteGuest.getnome()==null){
 			Utenti utente = new Utenti();
 			utente.setidUtente(1);
 			utente.setusername("guest");
