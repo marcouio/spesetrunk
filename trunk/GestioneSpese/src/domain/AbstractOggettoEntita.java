@@ -6,6 +6,7 @@ public abstract class AbstractOggettoEntita {
 //	String colonnaId;
 	
 	public String idEntita;
+	public String nome;
 
 	public String getIdEntita() {
 		return idEntita;
@@ -14,6 +15,9 @@ public abstract class AbstractOggettoEntita {
 	public void setIdEntita(String idEntita) {
 		this.idEntita = idEntita;
 	}
+
+	public abstract String getnome();
+	
 	
 
 //	public ResultSet getResultSet(int id, String nomeTabella, String colonnaId) {

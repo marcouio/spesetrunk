@@ -77,5 +77,10 @@ public class Budget extends AbstractOggettoEntita implements Serializable {
 	public void setCatSpese(CatSpese catSpese) {
 		this.catSpese = catSpese;
 	}
+
+	@Override
+	public String getnome() {
+		return null;
+	}
 	
 }

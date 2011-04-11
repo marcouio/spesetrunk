@@ -46,4 +46,10 @@ public class Risparmio extends AbstractOggettoEntita implements Serializable {
 		this.PerSulTotale = PerSulTotale;
 	}
 
+	@Override
+	public String getnome() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

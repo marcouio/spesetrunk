@@ -79,6 +79,5 @@ public class CacheBudget extends AbstractCacheBase{
 		else
 			return chargeAllBudget();
 	}
-	
 
 }
