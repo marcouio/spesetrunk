@@ -6,19 +6,29 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.Vector;
 
 import business.DBUtil;
 import business.cache.CacheGruppi;
+import domain.AbstractOggettoEntita;
+import domain.Budget;
 import domain.CatSpese;
 import domain.Gruppi;
+import domain.ICatSpese;
+import domain.SingleSpesa;
 
-public class WrapCatSpese extends CatSpese implements IWrapperEntity{
+public class WrapCatSpese implements IWrapperEntity,ICatSpese{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private CatSpese categoria;
+	
+	public WrapCatSpese() {
+		categoria = new CatSpese();
+	}
 
 	@Override
 	public Object selectById(int id) {
@@ -65,7 +75,7 @@ public class WrapCatSpese extends CatSpese implements IWrapperEntity{
 	public Vector<Object> selectAll() {
 		Vector<Object> categorie = new Vector<Object>();
 		Connection cn = DBUtil.getConnection();
-		String sql = "SELECT * FROM " + NOME_TABELLA ;
+		String sql = "SELECT * FROM " + CatSpese.NOME_TABELLA ;
 		try{
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
@@ -200,6 +210,91 @@ public class WrapCatSpese extends CatSpese implements IWrapperEntity{
 		}
 		DBUtil.closeConnection();		
 		return ok;
+	}
+
+	@Override
+	public AbstractOggettoEntita getentitaPadre() {
+		return categoria;
+	}
+
+	@Override
+	public String getdescrizione() {
+		return categoria.getdescrizione();
+	}
+
+	@Override
+	public void setdescrizione(String descrizione) {
+		categoria.setdescrizione(descrizione);
+	}
+
+	@Override
+	public int getidCategoria() {
+		return categoria.getidCategoria();
+	}
+
+	@Override
+	public void setidCategoria(int idCategoria) {
+		categoria.setidCategoria(idCategoria);
+	}
+
+	@Override
+	public int getidGruppo() {
+		return categoria.getidGruppo();
+	}
+
+	@Override
+	public void setidGruppo(int idGruppo) {
+		categoria.setidGruppo(idGruppo);
+	}
+
+	@Override
+	public String getimportanza() {
+		return categoria.getimportanza();
+	}
+
+	@Override
+	public void setimportanza(String importanza) {
+		categoria.setimportanza(importanza);
+	}
+
+	@Override
+	public String getnome() {
+		return categoria.getnome();
+	}
+
+	@Override
+	public void setnome(String nome) {
+		categoria.setnome(nome);
+	}
+
+	@Override
+	public Budget getBudget() {
+		return categoria.getBudget();
+	}
+
+	@Override
+	public void setBudget(Budget budget) {
+		categoria.setBudget(budget);			
+	}
+
+	@Override
+	public Gruppi getGruppi() {
+		return categoria.getGruppi();
+	}
+
+	@Override
+	public void setGruppi(Gruppi gruppi) {
+		categoria.setGruppi(gruppi);		
+	}
+
+	@Override
+	public Set<SingleSpesa> getSingleSpesas() {
+		return categoria.getSingleSpesas();
+	}
+
+	@Override
+	public void setSingleSpesas(Set<SingleSpesa> singleSpesas) {
+		categoria.setSingleSpesas(singleSpesas);		
 	}
 	
 	

@@ -25,6 +25,7 @@ import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import view.FinestraListaComandi;
 import view.GeneralFrame;
 import view.font.ButtonF;
 import view.font.LabelTesto;
@@ -260,16 +261,12 @@ public class Impostazioni extends JPanel {
 					try {
 						UIManager.setLookAndFeel(look);
 					} catch (ClassNotFoundException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					} catch (InstantiationException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					} catch (IllegalAccessException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					} catch (UnsupportedLookAndFeelException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					 catch (ClassCastException e1) {
@@ -277,7 +274,9 @@ public class Impostazioni extends JPanel {
 							e1.printStackTrace();
 						}
 					
+					FinestraListaComandi lista = Controllore.getFinestraHistory();
 					GeneralFrame frame = GeneralFrame.getSingleton();
+					SwingUtilities.updateComponentTreeUI(lista);
 					SwingUtilities.updateComponentTreeUI(frame);
 					frame.setBounds(0, 0, 1000, 650);
 

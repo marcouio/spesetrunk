@@ -24,7 +24,7 @@ public class Model {
 
 	private WrapCatSpese modelCategorie;
 	private WrapGruppi modelGruppi;
-	private WrapBudget1 modelBudget;
+	private WrapBudget modelBudget;
 	private WrapEntrate modelEntrate;
 	private WrapRisparmio modelRisparmio;
 	private WrapSingleSpesa modelUscita;
@@ -55,7 +55,7 @@ public class Model {
 	private Model(){
 		modelCategorie = new WrapCatSpese();
 		modelGruppi = new WrapGruppi();
-		modelBudget = new WrapBudget1();
+		modelBudget = new WrapBudget();
 		modelEntrate = new WrapEntrate();
 		modelRisparmio = new WrapRisparmio();
 		modelUscita = new WrapSingleSpesa();
@@ -78,11 +78,11 @@ public class Model {
 		this.modelGruppi = modelGruppi;
 	}
 
-	public WrapBudget1 getModelBudget() {
+	public WrapBudget getModelBudget() {
 		return modelBudget;
 	}
 
-	public void setModelBudget(WrapBudget1 modelBudget) {
+	public void setModelBudget(WrapBudget modelBudget) {
 		this.modelBudget = modelBudget;
 	}
 
