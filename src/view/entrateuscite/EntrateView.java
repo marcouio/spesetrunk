@@ -34,12 +34,15 @@ public class EntrateView extends OggettoVistaBase {
 	 */
 	private static final long serialVersionUID = 1L;
 	private static EntrateView singleton;
-	private TextFieldF nome;
-	private JComboBox tipo;
-	private TextFieldF data;
-	private TextFieldF euro;
+	
 	static private ArrayList<String> lista;
+	
 	private final WrapEntrate modelEntrate = Controllore.getSingleton().getModel().getModelEntrate();
+	private TextFieldF tfNome;
+	private TextAreaF taDescrizione;
+	private JComboBox cbTipo;
+	private TextFieldF tfData;
+	private TextFieldF tfEuro;
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -96,25 +99,25 @@ public class EntrateView extends OggettoVistaBase {
 		lblDescrizione.setBounds(43, 142, 123, 25);
 		add(lblDescrizione);
 		
-		final TextAreaF descrizione = new TextAreaF("Inserisci qui la descrizione dell'entrata");
-		descrizione.setBounds(42, 167, 318, 75);
-		add(descrizione);
+		taDescrizione = new TextAreaF("Inserisci qui la descrizione dell'entrata");
+		taDescrizione.setBounds(42, 167, 318, 75);
+		add(taDescrizione);
 		
 		// specifica se �true� di andare a capo automaticamente a fine riga
-		descrizione.setLineWrap(true);
+		taDescrizione.setLineWrap(true);
 		// va a capo con la parola se �true� o col singolo carattere se �false�
-		descrizione.setWrapStyleWord(true);
-		descrizione.setAutoscrolls(true);
+		taDescrizione.setWrapStyleWord(true);
+		taDescrizione.setAutoscrolls(true);
 		
 		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(41, 278, 557, 11);
 		add(separator);
 		
-		nome = new TextFieldF();
-		nome.setBounds(41, 90, 150, 27);
-		add(nome);
-		nome.setColumns(10);
+		tfNome = new TextFieldF();
+		tfNome.setBounds(41, 90, 150, 27);
+		add(tfNome);
+		tfNome.setColumns(10);
 		
 		//array per Categoria
 		lista = new ArrayList<String>();
@@ -122,20 +125,20 @@ public class EntrateView extends OggettoVistaBase {
 		lista.add("Variabili");
 		lista.add("Fisse");
 		
-		tipo = new JComboBox(lista.toArray());
-		tipo.setBounds(210, 90, 150, 27);
-		add(tipo);
+		cbTipo = new JComboBox(lista.toArray());
+		cbTipo.setBounds(210, 90, 150, 27);
+		add(cbTipo);
 		
 		GregorianCalendar gc = new GregorianCalendar();
-		data = new TextFieldF(DBUtil.dataToString(gc.getTime(), "yyyy/MM/dd"));
-		data.setColumns(10);
-		data.setBounds(393, 90, 150, 27);
-		add(data);
+		tfData = new TextFieldF(DBUtil.dataToString(gc.getTime(), "yyyy/MM/dd"));
+		tfData.setColumns(10);
+		tfData.setBounds(393, 90, 150, 27);
+		add(tfData);
 		
-		euro = new TextFieldF();
-		euro.setColumns(10);
-		euro.setBounds(562, 90, 150, 27);
-		add(euro);
+		tfEuro = new TextFieldF();
+		tfEuro.setColumns(10);
+		tfEuro.setBounds(562, 90, 150, 27);
+		add(tfEuro);
 		
 		LabelTitolo lblPannelloUscite = new LabelTitolo("Pannello Uscite");
 		lblPannelloUscite.setText("Pannello Entrate");
@@ -176,21 +179,20 @@ public class EntrateView extends OggettoVistaBase {
 		add(vuota);
 		inserisci.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// verifiche sulla data inserita e sul formato double euro
-				if (!(nome.getText().equals("")) && !(descrizione.getText().equals("")) && !(tipo.getSelectedItem().equals("")) && tipo.getSelectedItem() != null) {
-					if (AltreUtil.checkDouble(euro.getText())) {
-						if (AltreUtil.checkData(data.getText())) {
-						
+				if (!(getcNome().equals("")) && !(getcDescrizione().equals("")) && !(cbTipo.getSelectedItem().equals("")) && cbTipo.getSelectedItem() != null) {
+					if (getdEuro()!=null) {
+						if (getcData()!=null) {
+							
 							Entrate entr = new Entrate();
-							entr.setnome(nome.getText());
-							entr.setdescrizione(descrizione.getText());
+							entr.setnome(getcNome());
+							entr.setdescrizione(getcDescrizione());
 							entr.setUtenti(Controllore.getSingleton().getUtenteLogin());
 							entr.setDataIns(DBUtil.dataToString(new Date(), "yyyy/MM/dd"));
-							if (tipo.getSelectedItem() != null && !(tipo.getSelectedItem().equals("")))
-								entr.setFisseoVar((String) tipo.getSelectedItem());
+							if (cbTipo.getSelectedItem() != null && !(cbTipo.getSelectedItem().equals("")))
+								entr.setFisseoVar((String) cbTipo.getSelectedItem());
 							
-							entr.setinEuro(AltreUtil.arrotondaDecimaliDouble(Double.parseDouble(euro.getText())));
-							entr.setdata(data.getText());
+							entr.setinEuro(AltreUtil.arrotondaDecimaliDouble(getdEuro()));
+							entr.setdata(getcData());
 
 							if(Controllore.getSingleton().getCommandManager().invocaComando(new CommandInserisciEntrata(entr), Entrate.NOME_TABELLA)){
 								JOptionPane.showMessageDialog(null, "Ok, entrata inserita correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
@@ -222,67 +224,42 @@ public class EntrateView extends OggettoVistaBase {
 
 	}
 
-	/**
-	 * @return the nome
-	 */
-	public TextFieldF getNome() {
-		return nome;
+	protected String getcNome() {
+		return tfNome.getText();
 	}
 
-	/**
-	 * @param nome the nome to set
-	 */
-	public void setNome(TextFieldF nome) {
-		this.nome = nome;
+	protected void setcNome(String cNome) {
+		this.tfNome.setText(cNome);
 	}
 
-	/**
-	 * @return the tipo
-	 */
-	public JComboBox getTipo() {
-		return tipo;
+	protected String getcData() {
+		if(AltreUtil.checkData(tfData.getText()))
+			return tfData.getText();
+		else
+			return null;
 	}
 
-	/**
-	 * @param tipo the tipo to set
-	 */
-	public void setTipo(JComboBox tipo) {
-		this.tipo = tipo;
+	protected void setcData(String cData) {
+		this.tfData.setText(cData);
 	}
 
-	/**
-	 * @return the data
-	 */
-	public TextFieldF getData() {
-		return data;
+	protected Double getdEuro() {
+		if(AltreUtil.checkDouble(tfEuro.getText()))
+			return Double.parseDouble(tfEuro.getText());
+		else{
+			return null;
+		}
 	}
 
-	/**
-	 * @param data the data to set
-	 */
-	public void setData(TextFieldF data) {
-		this.data = data;
-	}
-
-	/**
-	 * @return the euro
-	 */
-	public TextFieldF getEuro() {
-		return euro;
-	}
-
-	/**
-	 * @param euro the euro to set
-	 */
-	public void setEuro(TextFieldF euro) {
-		this.euro = euro;
+	protected void setdEuro(Double dEuro) {
+		this.tfEuro.setText(Double.toString(dEuro));
 	}
 
 	/**
 	 * @return the lista
 	 */
 	public static ArrayList<String> getLista() {
-		return lista;
+		return EntrateView.lista;
 	}
 
 	/**
@@ -290,6 +267,14 @@ public class EntrateView extends OggettoVistaBase {
 	 */
 	public static void setLista(ArrayList<String> lista) {
 		EntrateView.lista = lista;
+	}
+
+	public String getcDescrizione() {
+		return taDescrizione.getText();
+	}
+
+	public void setcDescrizione(String cDescrizione) {
+		this.taDescrizione.setText(cDescrizione);
 	}
 
 }

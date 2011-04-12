@@ -12,7 +12,7 @@ public class AscoltatoreIndietro implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		CommandManager managerComandi =  Controllore.getSingleton().getCommandManager();
-		managerComandi.invocaComando(new RedoCommand(),null);		
+		managerComandi.invocaComando(new RedoCommand(),"tutto");		
 	}
 
 }

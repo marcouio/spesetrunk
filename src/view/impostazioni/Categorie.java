@@ -5,7 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
@@ -32,11 +33,10 @@ import business.cache.CacheGruppi;
 import business.comandi.CommandDeleteCategoria;
 import business.comandi.CommandInserisciCategoria;
 import business.comandi.CommandUpdateCategoria;
-import domain.AbstractOggettoEntita;
 import domain.CatSpese;
 import domain.Gruppi;
 
-public class Categorie extends OggettoVistaBase{
+public class Categorie extends OggettoVistaBase implements Observer{
 
 	private CatSpese categoria = null;
 	private JTextArea descrizione;
@@ -47,11 +47,8 @@ public class Categorie extends OggettoVistaBase{
 	private static JComboBox comboCategorie;
 	private ButtonF cancella;
 	private static Vector<CatSpese> categorieSpesa;
-	Database db = Database.getSingleton();
+	final Database db = Database.getSingleton();
 	private JComboBox comboGruppi;
-	
-
-
 
 	private static final long serialVersionUID = 1L;
 	private static Categorie singleton = null;
@@ -315,5 +312,12 @@ public class Categorie extends OggettoVistaBase{
 
 	public void setComboGruppi(JComboBox comboGruppi) {
 		this.comboGruppi = comboGruppi;
+	}
+
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
 	}
 }

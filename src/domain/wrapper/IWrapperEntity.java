@@ -3,9 +3,12 @@ package domain.wrapper;
 import java.util.Iterator;
 import java.util.Vector;
 
+import domain.AbstractOggettoEntita;
+
 
 public interface IWrapperEntity {
 
+	public AbstractOggettoEntita getentitaPadre();
 	public Object selectById(int id);
 	public Iterator<Object> selectWhere(String where);
 	public Vector<Object> selectAll();

@@ -12,16 +12,23 @@ import view.impostazioni.Impostazioni;
 import business.Controllore;
 import business.DBUtil;
 import business.cache.CacheUtenti;
+import domain.AbstractOggettoEntita;
 import domain.Entrate;
 import domain.Utenti;
 
-public class WrapEntrate extends Entrate implements IWrapperEntity{
+public class WrapEntrate implements IWrapperEntity, IEntrate{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	private Entrate entrate;
+	
+	public WrapEntrate() {
+		entrate = new Entrate();
+	}
+	
+	
 	@Override
 	public Object selectById(int id) {
 		Connection cn = DBUtil.getConnection();
@@ -70,7 +77,7 @@ public class WrapEntrate extends Entrate implements IWrapperEntity{
 		Vector<Object> entrate = new Vector<Object>();
 		Utenti utente = Controllore.getSingleton().getUtenteLogin();
 		Connection cn = DBUtil.getConnection();
-		String sql = "SELECT * FROM " + NOME_TABELLA +" WHERE " + Entrate.IDUTENTE + " = " +utente.getidUtente();
+		String sql = "SELECT * FROM " + Entrate.NOME_TABELLA +" WHERE " + Entrate.IDUTENTE + " = " +utente.getidUtente();
 		try{
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
@@ -105,7 +112,7 @@ public class WrapEntrate extends Entrate implements IWrapperEntity{
 		Vector<Object> entrate = new Vector<Object>();
 		Connection cn = DBUtil.getConnection();
 		
-		String sql = "SELECT * FROM " + NOME_TABELLA ;
+		String sql = "SELECT * FROM " + Entrate.NOME_TABELLA ;
 		try{
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
@@ -337,6 +344,139 @@ public class WrapEntrate extends Entrate implements IWrapperEntity{
 		}
 		DBUtil.closeConnection();
 		return ok;
+	}
+
+
+	@Override
+	public AbstractOggettoEntita getentitaPadre() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public String getdata() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void setdata(String data) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public String getdescrizione() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void setdescrizione(String descrizione) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public String getFisseoVar() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void setFisseoVar(String FisseoVar) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public int getidEntrate() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public void setidEntrate(int idEntrate) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public int getidUtente() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public void setidUtente(int idUtente) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public double getinEuro() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public void setinEuro(double inEuro) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public String getnome() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void setnome(String nome) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public Utenti getUtenti() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void setUtenti(Utenti utenti) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void setDataIns(String date) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public String getDataIns() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

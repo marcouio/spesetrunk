@@ -6,12 +6,12 @@ import java.util.Vector;
 
 import domain.AbstractOggettoEntita;
 import domain.Budget;
-import domain.wrapper.WrapBudget1;
+import domain.wrapper.WrapBudget;
 
 public class CacheBudget extends AbstractCacheBase{
 	
 	private static CacheBudget singleton;
-	WrapBudget1 budgetDAO = new WrapBudget1();
+	WrapBudget budgetDAO = new WrapBudget();
 	
 	private CacheBudget(){
 		cache = new HashMap<String, AbstractOggettoEntita>();
@@ -50,7 +50,7 @@ public class CacheBudget extends AbstractCacheBase{
 	 * @return
 	 */
 	private Budget caricaBudget(String id){
-		return (Budget) new WrapBudget1().selectById(Integer.parseInt(id));
+		return (Budget) new WrapBudget().selectById(Integer.parseInt(id));
 	}
 	
 	
