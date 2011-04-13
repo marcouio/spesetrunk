@@ -6,22 +6,29 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Iterator;
+import java.util.Observable;
+import java.util.Set;
 import java.util.Vector;
 
 import business.DBUtil;
+import domain.AbstractOggettoEntita;
+import domain.Entrate;
+import domain.SingleSpesa;
 import domain.Utenti;
 
-public class WrapUtenti extends Utenti implements IWrapperEntity {
+public class WrapUtenti extends Observable implements IWrapperEntity, IUtenti {
 
-	/**
-	 * 
-	 */
+	private Utenti utente;
 	private static final long serialVersionUID = 1L;
 
+	public WrapUtenti() {
+		utente = new Utenti();
+	}
+	
 	@Override
 	public Object selectById(int id) {
 		Connection cn = DBUtil.getConnection();
-		String sql = "SELECT * FROM " + NOME_TABELLA + " WHERE " + ID + "=" + id;
+		String sql = "SELECT * FROM " + Utenti.NOME_TABELLA + " WHERE " + Utenti.ID + "=" + id;
 		Utenti utente = null;
 		try {
 			Statement st = cn.createStatement();
@@ -57,7 +64,7 @@ public class WrapUtenti extends Utenti implements IWrapperEntity {
 	public Vector<Object> selectAll() {
 		Vector<Object> utenti = new Vector<Object>();
 		Connection cn = DBUtil.getConnection();
-		String sql = "SELECT * FROM " + NOME_TABELLA;
+		String sql = "SELECT * FROM " + Utenti.NOME_TABELLA;
 
 		try {
 
@@ -87,7 +94,7 @@ public class WrapUtenti extends Utenti implements IWrapperEntity {
 	}
 
 	public Utenti utenteLogin(String username, String password) {
-		String sql = "SELECT * FROM " + NOME_TABELLA + " WHERE " + USERNAME + " = '" + username + "' AND " + PASSWORD
+		String sql = "SELECT * FROM " + Utenti.NOME_TABELLA + " WHERE " + Utenti.USERNAME + " = '" + username + "' AND " + Utenti.PASSWORD
 				+ "='" + password + "'";
 		Connection cn = DBUtil.getConnection();
 		Utenti utente = new Utenti();
@@ -221,7 +228,7 @@ public class WrapUtenti extends Utenti implements IWrapperEntity {
 	}
 
 	public Utenti selectByUserAndPass(String user, String pass) {
-		String sql = "SELECT * FROM " + NOME_TABELLA + " WHERE " + USERNAME + " = '" + user + "' AND " + PASSWORD
+		String sql = "SELECT * FROM " + Utenti.NOME_TABELLA + " WHERE " + Utenti.USERNAME + " = '" + user + "' AND " + Utenti.PASSWORD
 				+ "='" + pass + "'";
 		Connection cn = DBUtil.getConnection();
 		Utenti utente =null;
@@ -248,6 +255,81 @@ public class WrapUtenti extends Utenti implements IWrapperEntity {
 		}
 		return utente;
 
+	}
+
+	@Override
+	public int getidUtente() {
+		return utente.getidUtente();
+	}
+
+	@Override
+	public void setidUtente(int idUtente) {
+		utente.setidUtente(idUtente);
+	}
+
+	@Override
+	public String getpassword() {
+		return utente.getpassword();
+	}
+
+	@Override
+	public void setpassword(String password) {
+		utente.setpassword(password);
+	}
+
+	@Override
+	public String getusername() {
+		return utente.getusername();
+	}
+
+	@Override
+	public void setusername(String username) {
+		utente.setusername(username);
+	}
+
+	@Override
+	public Set<Entrate> getEntrates() {
+		return utente.getEntrates();
+	}
+
+	@Override
+	public void setEntrates(Set<Entrate> entrates) {
+		utente.setEntrates(entrates);
+	}
+
+	@Override
+	public Set<SingleSpesa> getSingleSpesas() {
+		return utente.getSingleSpesas();
+	}
+
+	@Override
+	public void setSingleSpesas(Set<SingleSpesa> singleSpesas) {
+		utente.setSingleSpesas(singleSpesas);
+	}
+
+	@Override
+	public void setNome(String nome) {
+		utente.setNome(nome);
+	}
+
+	@Override
+	public String getnome() {
+		return utente.getnome();
+	}
+
+	@Override
+	public void setCognome(String cognome) {
+		utente.setCognome(cognome);
+	}
+
+	@Override
+	public String getCognome() {
+		return utente.getCognome();
+	}
+
+	@Override
+	public AbstractOggettoEntita getentitaPadre() {
+		return utente;
 	}
 
 }

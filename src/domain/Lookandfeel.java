@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="LOOKANDFEEL")
-public class Lookandfeel extends AbstractOggettoEntita implements Serializable {
+public class Lookandfeel extends AbstractOggettoEntita implements Serializable,ILookandfeel {
 	private static final long serialVersionUID = 1L;
 
 	public static final String NOME_TABELLA = "lookAndFeel";

@@ -6,17 +6,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Iterator;
+import java.util.Observable;
+import java.util.Set;
 import java.util.Vector;
 
 import business.DBUtil;
+import domain.AbstractOggettoEntita;
+import domain.CatSpese;
 import domain.Gruppi;
+import domain.IGruppi;
 
-public class WrapGruppi extends Gruppi implements IWrapperEntity{
+public class WrapGruppi extends Observable implements IWrapperEntity, IGruppi{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+	private Gruppi gruppo;
+	
+	public WrapGruppi() {
+		gruppo = new Gruppi();
+	}
 
 	@Override
 	public Object selectById(int id) {
@@ -217,6 +224,51 @@ public class WrapGruppi extends Gruppi implements IWrapperEntity{
 				}
 			}
 			return gruppo;
+	}
+
+	@Override
+	public AbstractOggettoEntita getentitaPadre() {
+		return gruppo;
+	}
+
+	@Override
+	public String getdescrizione() {
+		return gruppo.getdescrizione();
+	}
+
+	@Override
+	public void setdescrizione(String descrizione) {
+		gruppo.setdescrizione(descrizione);
+	}
+
+	@Override
+	public int getidGruppo() {
+		return gruppo.getidGruppo();
+	}
+
+	@Override
+	public void setidGruppo(int idGruppo) {
+		gruppo.setidGruppo(idGruppo);
+	}
+
+	@Override
+	public String getnome() {
+		return gruppo.getnome();
+	}
+
+	@Override
+	public void setnome(String nome) {
+		gruppo.setnome(nome);
+	}
+
+	@Override
+	public Set<CatSpese> getCatSpeses() {
+		return gruppo.getCatSpeses();
+	}
+
+	@Override
+	public void setCatSpeses(Set<CatSpese> catSpeses) {
+		gruppo.setCatSpeses(catSpeses);
 	}
 
 	

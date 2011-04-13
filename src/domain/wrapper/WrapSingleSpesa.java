@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Observable;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
@@ -21,16 +22,19 @@ import business.cache.CacheUtenti;
 import domain.AbstractOggettoEntita;
 import domain.CatSpese;
 import domain.Entrate;
+import domain.ISingleSpesa;
 import domain.SingleSpesa;
 import domain.Utenti;
 
-public class WrapSingleSpesa extends SingleSpesa implements IWrapperEntity{
+public class WrapSingleSpesa extends Observable implements IWrapperEntity, ISingleSpesa{
 
-	/**
-	 * 
-	 */
+	private SingleSpesa uscita;
 	private static final long serialVersionUID = 1L;
 
+	public WrapSingleSpesa() {
+		uscita = new SingleSpesa();
+	}
+	
 	@Override
 	public Object selectById(int id) {
 		Connection cn = DBUtil.getConnection();
@@ -117,7 +121,7 @@ public class WrapSingleSpesa extends SingleSpesa implements IWrapperEntity{
 		Map<String, AbstractOggettoEntita> mappaUtenti =  CacheUtenti.getSingleton().getAllUtenti();
 		Map<String, AbstractOggettoEntita> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
 		Connection cn = DBUtil.getConnection();
-		String sql = "SELECT * FROM " + NOME_TABELLA ;
+		String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA ;
 		try{
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
@@ -355,6 +359,91 @@ public class WrapSingleSpesa extends SingleSpesa implements IWrapperEntity{
 		}
 		DBUtil.closeConnection();
 		return ok;
+	}
+
+	@Override
+	public String getData() {
+		return uscita.getData();
+	}
+
+	@Override
+	public void setData(String Data) {
+		uscita.setData(Data);
+	}
+
+	@Override
+	public String getdescrizione() {
+		return uscita.getdescrizione();
+	}
+
+	@Override
+	public void setdescrizione(String descrizione) {
+		uscita.setdescrizione(descrizione);
+	}
+
+	@Override
+	public int getidSpesa() {
+		return uscita.getidSpesa();
+	}
+
+	@Override
+	public void setidSpesa(int idSpesa) {
+		uscita.setidSpesa(idSpesa);
+	}
+	
+	@Override
+	public double getinEuro() {
+		return uscita.getinEuro();
+	}
+
+	@Override
+	public void setinEuro(double d) {
+		uscita.setinEuro(d);
+	}
+
+	@Override
+	public String getnome() {
+		return uscita.getnome();
+	}
+
+	@Override
+	public void setnome(String nome) {
+		uscita.setnome(nome);
+	}
+
+	@Override
+	public CatSpese getCatSpese() {
+		return uscita.getCatSpese();
+	}
+
+	@Override
+	public void setCatSpese(CatSpese catSpese) {
+		uscita.setCatSpese(catSpese);
+	}
+
+	@Override
+	public Utenti getUtenti() {
+		return uscita.getUtenti();
+	}
+
+	@Override
+	public void setUtenti(Utenti utenti) {
+		uscita.setUtenti(utenti);
+	}
+
+	@Override
+	public void setDataIns(String dataIns) {
+		uscita.setDataIns(dataIns);
+	}
+
+	@Override
+	public String getDataIns() {
+		return uscita.getDataIns();
+	}
+
+	@Override
+	public AbstractOggettoEntita getentitaPadre() {
+		return uscita;
 	}
 
 

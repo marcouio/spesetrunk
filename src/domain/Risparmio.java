@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="RISPARMIO")
-public class Risparmio extends AbstractOggettoEntita implements Serializable {
+public class Risparmio extends AbstractOggettoEntita implements Serializable, IRisparmio {
 	private static final long serialVersionUID = 1L;
 
 	public static final String NOME_TABELLA = "risparmio";

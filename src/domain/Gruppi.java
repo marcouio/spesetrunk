@@ -12,7 +12,7 @@ import java.util.Set;
 @Entity
 
 @Table(name="GRUPPI")
-public class Gruppi extends AbstractOggettoEntita implements Serializable {
+public class Gruppi extends AbstractOggettoEntita implements Serializable, IGruppi {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name="descrizione", nullable=false, length=2000000000)
