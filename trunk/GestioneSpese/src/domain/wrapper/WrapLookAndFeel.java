@@ -5,18 +5,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Iterator;
+import java.util.Observable;
 import java.util.Vector;
 
 import business.DBUtil;
+import domain.AbstractOggettoEntita;
+import domain.ILookandfeel;
 import domain.Lookandfeel;
 
-public class WrapLookAndFeel extends Lookandfeel implements IWrapperEntity {
+public class WrapLookAndFeel extends Observable implements IWrapperEntity,ILookandfeel {
 
-	/**
-	 * 
-	 */
+	private Lookandfeel lookandfeel;
 	private static final long serialVersionUID = 1L;
 
+	public WrapLookAndFeel(){
+		lookandfeel = new Lookandfeel();
+	}
+	
 	@Override
 	public Object selectById(int id) {
 		Connection cn = DBUtil.getConnection();
@@ -132,6 +137,51 @@ public class WrapLookAndFeel extends Lookandfeel implements IWrapperEntity {
 	public boolean deleteAll() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public AbstractOggettoEntita getentitaPadre() {
+		return lookandfeel;
+	}
+
+	@Override
+	public int getidLook() {
+		return lookandfeel.getidLook();
+	}
+
+	@Override
+	public void setidLook(int idLook) {
+		lookandfeel.setidLook(idLook);
+	}
+
+	@Override
+	public String getnome() {
+		return lookandfeel.getnome();
+	}
+
+	@Override
+	public void setnome(String nome) {
+		lookandfeel.setnome(nome);
+	}
+
+	@Override
+	public int getusato() {
+		return lookandfeel.getusato();
+	}
+
+	@Override
+	public void setusato(int usato) {
+		lookandfeel.setusato(usato);
+	}
+
+	@Override
+	public String getvalore() {
+		return lookandfeel.getvalore();
+	}
+
+	@Override
+	public void setvalore(String valore) {
+		lookandfeel.setvalore(valore);
 	}
 
 }

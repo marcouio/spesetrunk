@@ -19,7 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="cat_spese", schema="DEFAULT")
-public class CatSpese extends AbstractOggettoEntita implements Serializable {
+public class CatSpese extends AbstractOggettoEntita implements Serializable,ICatSpese {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name="descrizione", nullable=false, length=2000000000)
@@ -29,8 +29,8 @@ public class CatSpese extends AbstractOggettoEntita implements Serializable {
 	@Column(name="idCategoria", nullable=false)
 	private int idCategoria;
 
-	@Column(name="idGruppo", nullable=false)
-	private int idGruppo;
+//	@Column(name="idGruppo", nullable=false)
+//	private int idGruppo;
 
 	@Column(name="importanza", nullable=false, length=2000000000)
 	private String importanza;
@@ -73,14 +73,6 @@ public class CatSpese extends AbstractOggettoEntita implements Serializable {
 	public void setidCategoria(int idCategoria) {
 		this.idCategoria = idCategoria;
 		this.idEntita = Integer.toString(idCategoria);
-	}
-
-	public int getidGruppo() {
-		return this.idGruppo;
-	}
-
-	public void setidGruppo(int idGruppo) {
-		this.idGruppo = idGruppo;
 	}
 
 	public String getimportanza() {

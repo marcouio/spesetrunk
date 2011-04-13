@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Iterator;
+import java.util.Observable;
 import java.util.Set;
 import java.util.Vector;
 
@@ -18,7 +19,7 @@ import domain.Gruppi;
 import domain.ICatSpese;
 import domain.SingleSpesa;
 
-public class WrapCatSpese implements IWrapperEntity,ICatSpese{
+public class WrapCatSpese extends Observable implements IWrapperEntity,ICatSpese{
 
 	/**
 	 * 
@@ -167,7 +168,7 @@ public class WrapCatSpese implements IWrapperEntity,ICatSpese{
 		
 		CatSpese categoria = (CatSpese) oggettoEntita;
 		String sql = "UPDATE "+CatSpese.NOME_TABELLA+ " SET " +CatSpese.DESCRIZIONE+ " = " +categoria.getdescrizione()+", "+CatSpese.IMPORTANZA+" = "
-		+categoria.getimportanza()+", "+CatSpese.NOME+ " = " +categoria.getnome()+", "+CatSpese.IDGRUPPO+ " = " +categoria.getidGruppo()
+		+categoria.getimportanza()+", "+CatSpese.NOME+ " = " +categoria.getnome()+", "+CatSpese.IDGRUPPO+ " = " +categoria.getGruppi().getidGruppo()
 		+" WHERE "+ CatSpese.ID +" = "+categoria.getidCategoria();
 		try {
 			Statement st = cn.createStatement();
@@ -235,16 +236,6 @@ public class WrapCatSpese implements IWrapperEntity,ICatSpese{
 	@Override
 	public void setidCategoria(int idCategoria) {
 		categoria.setidCategoria(idCategoria);
-	}
-
-	@Override
-	public int getidGruppo() {
-		return categoria.getidGruppo();
-	}
-
-	@Override
-	public void setidGruppo(int idGruppo) {
-		categoria.setidGruppo(idGruppo);
 	}
 
 	@Override

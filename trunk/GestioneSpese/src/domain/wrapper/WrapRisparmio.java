@@ -6,22 +6,27 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Iterator;
+import java.util.Observable;
 import java.util.Vector;
 
 import business.DBUtil;
+import domain.AbstractOggettoEntita;
+import domain.IRisparmio;
 import domain.Risparmio;
 
-public class WrapRisparmio extends Risparmio implements IWrapperEntity{
+public class WrapRisparmio extends Observable implements IWrapperEntity,IRisparmio{
 
-	/**
-	 * 
-	 */
+	private Risparmio risparmio;
 	private static final long serialVersionUID = 1L;
 
+	public WrapRisparmio() {
+		risparmio = new Risparmio();
+	}
+	
 	@Override
 	public Object selectById(int id) {
 		Connection cn = DBUtil.getConnection();
-		String sql = "SELECT * FROM " + NOME_TABELLA + " WHERE " + ID + "=" +id;
+		String sql = "SELECT * FROM " + Risparmio.NOME_TABELLA + " WHERE " + Risparmio.ID + "=" +id;
 		Risparmio risparmio = null;
 		try{
 			
@@ -179,6 +184,37 @@ public class WrapRisparmio extends Risparmio implements IWrapperEntity{
 		}
 		DBUtil.closeConnection();		
 		return ok;
+	}
+
+	@Override
+	public AbstractOggettoEntita getentitaPadre() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getidRisparmio() {
+		return risparmio.getidRisparmio();
+	}
+
+	@Override
+	public void setidRisparmio(int idRisparmio) {
+		risparmio.setidRisparmio(idRisparmio);
+	}
+
+	@Override
+	public double getPerSulTotale() {
+		return risparmio.getPerSulTotale();
+	}
+
+	@Override
+	public void setPerSulTotale(double PerSulTotale) {
+		risparmio.setPerSulTotale(PerSulTotale);
+	}
+
+	@Override
+	public String getnome() {
+		return risparmio.getnome();
 	}
 
 }

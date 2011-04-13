@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Iterator;
+import java.util.Observable;
 import java.util.Vector;
 
 import view.impostazioni.Impostazioni;
@@ -16,7 +17,7 @@ import domain.AbstractOggettoEntita;
 import domain.Entrate;
 import domain.Utenti;
 
-public class WrapEntrate implements IWrapperEntity, IEntrate{
+public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate{
 
 	/**
 	 * 
@@ -320,7 +321,6 @@ public class WrapEntrate implements IWrapperEntity, IEntrate{
 		+" ORDER BY "+ Entrate.DATAINS +" DESC";
 
 		try {
-			//TODO inserire controllo: si puo' cancellare l'ultima spesa solo se l'ha inserita lo stesso utente che la cancella
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			if(rs.next()){
@@ -349,134 +349,102 @@ public class WrapEntrate implements IWrapperEntity, IEntrate{
 
 	@Override
 	public AbstractOggettoEntita getentitaPadre() {
-		// TODO Auto-generated method stub
-		return null;
+		return entrate;
 	}
 
 
 	@Override
 	public String getdata() {
-		// TODO Auto-generated method stub
-		return null;
+		return entrate.getdata();
 	}
 
 
 	@Override
 	public void setdata(String data) {
-		// TODO Auto-generated method stub
-		
+		entrate.setdata(data);
 	}
 
 
 	@Override
 	public String getdescrizione() {
-		// TODO Auto-generated method stub
-		return null;
+		return entrate.getdescrizione();
 	}
 
 
 	@Override
 	public void setdescrizione(String descrizione) {
-		// TODO Auto-generated method stub
-		
+		entrate.setdescrizione(descrizione);
 	}
 
 
 	@Override
 	public String getFisseoVar() {
-		// TODO Auto-generated method stub
-		return null;
+		return entrate.getFisseoVar();
 	}
 
 
 	@Override
 	public void setFisseoVar(String FisseoVar) {
-		// TODO Auto-generated method stub
-		
+		entrate.setFisseoVar(FisseoVar);
 	}
 
 
 	@Override
 	public int getidEntrate() {
-		// TODO Auto-generated method stub
-		return 0;
+		return entrate.getidEntrate();
 	}
 
 
 	@Override
 	public void setidEntrate(int idEntrate) {
-		// TODO Auto-generated method stub
-		
+		entrate.setidEntrate(idEntrate);
 	}
-
-
-	@Override
-	public int getidUtente() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
-	@Override
-	public void setidUtente(int idUtente) {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 	@Override
 	public double getinEuro() {
-		// TODO Auto-generated method stub
-		return 0;
+		return entrate.getinEuro();
 	}
 
 
 	@Override
 	public void setinEuro(double inEuro) {
-		// TODO Auto-generated method stub
-		
+		entrate.setinEuro(inEuro);
 	}
 
 
 	@Override
 	public String getnome() {
-		// TODO Auto-generated method stub
-		return null;
+		return entrate.getnome();
 	}
 
 
 	@Override
 	public void setnome(String nome) {
-		// TODO Auto-generated method stub
-		
+		entrate.setnome(nome);
 	}
 
 
 	@Override
 	public Utenti getUtenti() {
-		// TODO Auto-generated method stub
-		return null;
+		return entrate.getUtenti();
 	}
 
 
 	@Override
 	public void setUtenti(Utenti utenti) {
-		// TODO Auto-generated method stub
-		
+		entrate.setUtenti(utenti);
 	}
 
 
 	@Override
 	public void setDataIns(String date) {
-		// TODO Auto-generated method stub
-		
+		entrate.setDataIns(date);
 	}
 
 
 	@Override
 	public String getDataIns() {
-		// TODO Auto-generated method stub
-		return null;
+		return entrate.getDataIns();
 	}
 
 }

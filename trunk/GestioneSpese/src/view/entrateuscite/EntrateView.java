@@ -29,9 +29,6 @@ import domain.wrapper.WrapEntrate;
 
 public class EntrateView extends OggettoVistaBase {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private static EntrateView singleton;
 	

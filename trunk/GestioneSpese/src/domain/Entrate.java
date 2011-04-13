@@ -9,6 +9,8 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import domain.wrapper.IEntrate;
+
 
 /**
  * The persistent class for the ENTRATE database table.
@@ -16,7 +18,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="ENTRATE")
-public class Entrate extends AbstractOggettoEntita implements Serializable {
+public class Entrate extends AbstractOggettoEntita implements Serializable, IEntrate {
 	private static final long serialVersionUID = 1L;
 	
 	public static final String NOME_TABELLA = "entrate";
@@ -49,8 +51,8 @@ public class Entrate extends AbstractOggettoEntita implements Serializable {
 	@Column(name="idEntrate", nullable=false)
 	private int idEntrate;
 
-	@Column(name="idUtente", nullable=false)
-	private int idUtente;
+//	@Column(name="idUtente", nullable=false)
+//	private int idUtente;
 
 	@Column(name="inEuro", nullable=false)
 	private double inEuro;
@@ -100,14 +102,6 @@ public class Entrate extends AbstractOggettoEntita implements Serializable {
 	public void setidEntrate(int idEntrate) {
 		this.idEntita = Integer.toString(idEntrate);
 		this.idEntrate = idEntrate;
-	}
-
-	public int getidUtente() {
-		return this.idUtente;
-	}
-
-	public void setidUtente(int idUtente) {
-		this.idUtente = idUtente;
 	}
 
 	public double getinEuro() {

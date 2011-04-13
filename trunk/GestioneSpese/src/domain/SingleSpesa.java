@@ -16,7 +16,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="SINGLESPESA")
-public class SingleSpesa extends AbstractOggettoEntita implements Serializable {
+public class SingleSpesa extends AbstractOggettoEntita implements Serializable, ISingleSpesa {
 	private static final long serialVersionUID = 1L;
 
 	public static final String NOME_TABELLA = "single_spesa";
@@ -87,14 +87,6 @@ public class SingleSpesa extends AbstractOggettoEntita implements Serializable {
 		this.descrizione = descrizione;
 	}
 
-	public int getidCategorie() {
-		return this.idCategorie;
-	}
-
-	public void setidCategorie(int idCategorie) {
-		this.idCategorie = idCategorie;
-	}
-
 	public int getidSpesa() {
 		return this.idSpesa;
 	}
@@ -102,14 +94,6 @@ public class SingleSpesa extends AbstractOggettoEntita implements Serializable {
 	public void setidSpesa(int idSpesa) {
 		this.idEntita = Integer.toString(idSpesa);
 		this.idSpesa = idSpesa;
-	}
-
-	public int getidUtente() {
-		return this.idUtente;
-	}
-
-	public void setidUtente(int idUtente) {
-		this.idUtente = idUtente;
 	}
 
 	public double getinEuro() {
