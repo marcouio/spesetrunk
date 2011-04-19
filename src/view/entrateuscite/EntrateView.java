@@ -23,6 +23,7 @@ import business.AltreUtil;
 import business.Controllore;
 import business.DBUtil;
 import business.Database;
+import business.comandi.CommandDeleteEntrata;
 import business.comandi.CommandInserisciEntrata;
 import domain.Entrate;
 import domain.wrapper.WrapEntrate;
@@ -158,9 +159,12 @@ public class EntrateView extends AbstractEntrateView {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if(modelEntrate.DeleteLastEntrate()){
+					setEntrate();
+//					if(modelEntrate.DeleteLastEntrate()){
+				if(Controllore.getSingleton().getCommandManager().invocaComando(new CommandDeleteEntrata(modelEntrate),Entrate.NOME_TABELLA)){
 					log.fine("Cancellata ultima spesa inserita");
 					update(modelEntrate, null);
+					Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
 					JOptionPane.showMessageDialog(null,"Ok, ultima entrata eliminata correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
 					}
 				} catch (Exception e2) {
@@ -187,6 +191,12 @@ public class EntrateView extends AbstractEntrateView {
 						JOptionPane.showMessageDialog(null, "Ok, entrata inserita correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
 						log.fine("Entrata inserita, nome: "
 								+ modelEntrate.getnome() +", id: " +modelEntrate.getidEntrate());
+						try {
+							Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
+							update(modelEntrate, null);
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
 					}
 				}else{
 					JOptionPane.showMessageDialog(null,"E' necessario riempire tutti i campi","Non ci siamo!",JOptionPane.ERROR_MESSAGE,new ImageIcon("./imgUtil/index.jpeg"));
@@ -194,11 +204,7 @@ public class EntrateView extends AbstractEntrateView {
 				}
 				
 			}
-			{
-				update(modelEntrate, null);
-			}
 		});
-
 	}
 	
 	/**
@@ -214,6 +220,9 @@ public class EntrateView extends AbstractEntrateView {
 		setFisseOVar((String) cbTipo.getSelectedItem());
 		if(AltreUtil.checkData(tfData.getText())){
 			setcData(tfData.getText());
+		}else{
+			String messaggio = "La data va inserita con il seguente formato: aaaa/mm/gg";
+			JOptionPane.showMessageDialog(null,messaggio,"Non ci siamo!", JOptionPane.ERROR_MESSAGE,new ImageIcon("./imgUtil/index.jpeg"));
 		}
 		if(AltreUtil.checkDouble(tfEuro.getText())){
 			Double euro = Double.parseDouble(tfEuro.getText());

@@ -13,6 +13,7 @@ import java.util.Vector;
 import business.DBUtil;
 import domain.AbstractOggettoEntita;
 import domain.Entrate;
+import domain.IUtenti;
 import domain.SingleSpesa;
 import domain.Utenti;
 
