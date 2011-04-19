@@ -15,6 +15,7 @@ import business.DBUtil;
 import business.cache.CacheUtenti;
 import domain.AbstractOggettoEntita;
 import domain.Entrate;
+import domain.IEntrate;
 import domain.Utenti;
 
 public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate{

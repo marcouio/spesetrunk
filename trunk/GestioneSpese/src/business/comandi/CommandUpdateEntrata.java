@@ -5,7 +5,7 @@ import java.util.HashMap;
 import business.cache.CacheEntrate;
 import domain.AbstractOggettoEntita;
 import domain.Entrate;
-import domain.wrapper.IEntrate;
+import domain.IEntrate;
 import domain.wrapper.WrapEntrate;
 
 public class CommandUpdateEntrata extends AbstractCommand{

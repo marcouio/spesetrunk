@@ -848,9 +848,9 @@ public class Database {
 		SottoPannelloCategorie2.getCategorieCombo().validate();
 		SottoPannelloCategorie2.getCategorieCombo().repaint();
 		
-		Uscite.getSingleton().getCategorie().setModel(model);
-		Uscite.getSingleton().getCategorie().validate();
-		Uscite.getSingleton().getCategorie().repaint();
+		Uscite.getSingleton().getComboCategorie().setModel(model);
+		Uscite.getSingleton().getComboCategorie().validate();
+		Uscite.getSingleton().getComboCategorie().repaint();
 	}
 
 	
