@@ -162,7 +162,7 @@ public class Uscite extends OggettoVistaBase {
 		lblPannelloUscite.setBounds(42, 24, 136, 36);
 		add(lblPannelloUscite);
 		
-		final WrapSingleSpesa modelSingleSpesa = Controllore.getSingleton().getModel().getModelUscita();
+		final WrapSingleSpesa modelSingleSpesa = new WrapSingleSpesa();
 		
 		
 		//Bottone Elimina
@@ -172,7 +172,7 @@ public class Uscite extends OggettoVistaBase {
 				try {
 					//TODO metodo che restituisce ultima spesa oppure usare getLast() del CommandManager
 //					if(Controllore.getSingleton().getCommandManager().invocaComando(new CommandDeleteSpesa())){}
-					if(Controllore.getSingleton().getModel().getModelUscita().deleteLastSpesa()){
+					if(modelSingleSpesa.deleteLastSpesa()){
 						Database.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
 						JOptionPane.showMessageDialog(null,"Ok, ultima uscita eliminata correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
 					}

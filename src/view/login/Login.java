@@ -16,7 +16,6 @@ import view.impostazioni.RaccogliImpostazioni;
 import business.Controllore;
 import business.Database;
 import domain.Utenti;
-import domain.wrapper.Model;
 import domain.wrapper.WrapUtenti;
 
 public class Login extends JDialog {
@@ -59,9 +58,7 @@ public class Login extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Controllore controllore = Controllore.getSingleton();
-				Model model = controllore.getModel();
-				WrapUtenti utentiwrap = model.getModelUtenti();
+				WrapUtenti utentiwrap = new WrapUtenti();
 				Utenti utente = utentiwrap.selectByUserAndPass(user.getText(), pass.getText());
 				if(utente!=null){
 					Controllore.setUtenteLogin(utente);

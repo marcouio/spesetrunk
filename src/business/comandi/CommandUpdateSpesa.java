@@ -2,9 +2,9 @@ package business.comandi;
 
 import java.util.HashMap;
 
-import business.Controllore;
 import business.cache.CacheEntrate;
 import domain.AbstractOggettoEntita;
+import domain.ISingleSpesa;
 import domain.SingleSpesa;
 import domain.wrapper.WrapSingleSpesa;
 
@@ -15,10 +15,10 @@ public class CommandUpdateSpesa extends AbstractCommand{
 	final private WrapSingleSpesa wrap;
 	private HashMap<String, AbstractOggettoEntita> mappaCache;
 	
-	public CommandUpdateSpesa(SingleSpesa oldEntita,SingleSpesa newEntita) {
-		this.newEntita = newEntita;
+	public CommandUpdateSpesa(SingleSpesa oldEntita,ISingleSpesa newEntita) {
+		this.newEntita = (SingleSpesa) newEntita;
 		this.oldEntita = oldEntita;
-		this.wrap = Controllore.getSingleton().getModel().getModelUscita();
+		this.wrap = new WrapSingleSpesa();
 		CacheEntrate cache = CacheEntrate.getSingleton();
 		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
 	}

@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Observable;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
@@ -13,7 +14,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 
-import view.OggettoVistaBase;
 import view.font.ButtonF;
 import view.font.LabelTesto;
 import view.font.LabelTitolo;
@@ -27,14 +27,14 @@ import business.comandi.CommandInserisciEntrata;
 import domain.Entrate;
 import domain.wrapper.WrapEntrate;
 
-public class EntrateView extends OggettoVistaBase {
+public class EntrateView extends AbstractEntrateView {
 
 	private static final long serialVersionUID = 1L;
 	private static EntrateView singleton;
 	
 	static private ArrayList<String> lista;
 	
-	private final WrapEntrate modelEntrate = Controllore.getSingleton().getModel().getModelEntrate();
+	
 	private TextFieldF tfNome;
 	private TextAreaF taDescrizione;
 	private JComboBox cbTipo;
@@ -71,6 +71,7 @@ public class EntrateView extends OggettoVistaBase {
 	 * Create the panel.
 	 */
 	private EntrateView() {
+		super(new WrapEntrate());
 		setLayout(null);
 		
 		LabelTesto lblNomeSpesa = new LabelTesto("Nome Spesa");
@@ -157,10 +158,10 @@ public class EntrateView extends OggettoVistaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if(Controllore.getSingleton().getModel().getModelEntrate().DeleteLastEntrate()){
+					if(modelEntrate.DeleteLastEntrate()){
 					log.fine("Cancellata ultima spesa inserita");
-					Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
-						JOptionPane.showMessageDialog(null,"Ok, ultima entrata eliminata correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
+					update(modelEntrate, null);
+					JOptionPane.showMessageDialog(null,"Ok, ultima entrata eliminata correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
 					}
 				} catch (Exception e2) {
 					e2.printStackTrace();
@@ -174,90 +175,57 @@ public class EntrateView extends OggettoVistaBase {
 		TextAreaF vuota = new TextAreaF("");
 		vuota.setBounds(393, 167, 317, 75);
 		add(vuota);
+		
 		inserisci.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if (!(getcNome().equals("")) && !(getcDescrizione().equals("")) && !(cbTipo.getSelectedItem().equals("")) && cbTipo.getSelectedItem() != null) {
-					if (getdEuro()!=null) {
-						if (getcData()!=null) {
-							
-							Entrate entr = new Entrate();
-							entr.setnome(getcNome());
-							entr.setdescrizione(getcDescrizione());
-							entr.setUtenti(Controllore.getSingleton().getUtenteLogin());
-							entr.setDataIns(DBUtil.dataToString(new Date(), "yyyy/MM/dd"));
-							if (cbTipo.getSelectedItem() != null && !(cbTipo.getSelectedItem().equals("")))
-								entr.setFisseoVar((String) cbTipo.getSelectedItem());
-							
-							entr.setinEuro(AltreUtil.arrotondaDecimaliDouble(getdEuro()));
-							entr.setdata(getcData());
 
-							if(Controllore.getSingleton().getCommandManager().invocaComando(new CommandInserisciEntrata(entr), Entrate.NOME_TABELLA)){
-								JOptionPane.showMessageDialog(null, "Ok, entrata inserita correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
-								log.fine("Entrata inserita, id: "
-										+ entr.getnome());
-							}
-						}
-						try {
-							Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
-						} catch (Exception e1) {
-							log.severe("Aggiornamenti su pannelli non riusciti");
-							e1.printStackTrace();
-						}
-					}else
-						JOptionPane.showMessageDialog(null,
-							"Valore in Euro inserito non correttamente",
-							"Non ci siamo!", JOptionPane.ERROR_MESSAGE,
-							new ImageIcon("./imgUtil/index.jpeg"));
-				} else
-					JOptionPane.showMessageDialog(null,
-							"E' necessario riempire tutti i campi",
-							"Non ci siamo!",
-							JOptionPane.ERROR_MESSAGE,
-							new ImageIcon("./imgUtil/index.jpeg"));
-					log.severe("Entrata non inserita: e' necessario riempire tutti i campi");
-
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setEntrate();
+				if(modelEntrate.getnome()!=null && modelEntrate.getdescrizione() !=null && modelEntrate.getdata()!=null && modelEntrate.getDataIns()!=null &&
+				   modelEntrate.getFisseoVar()!=null && modelEntrate.getinEuro()!=0.0 && modelEntrate.getUtenti()!=null){
+					if(Controllore.getSingleton().getCommandManager().invocaComando(new CommandInserisciEntrata(modelEntrate), Entrate.NOME_TABELLA)){
+						JOptionPane.showMessageDialog(null, "Ok, entrata inserita correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
+						log.fine("Entrata inserita, nome: "
+								+ modelEntrate.getnome() +", id: " +modelEntrate.getidEntrate());
+					}
+				}else{
+					JOptionPane.showMessageDialog(null,"E' necessario riempire tutti i campi","Non ci siamo!",JOptionPane.ERROR_MESSAGE,new ImageIcon("./imgUtil/index.jpeg"));
+							log.severe("Entrata non inserita: e' necessario riempire tutti i campi");
+				}
+				
+			}
+			{
+				update(modelEntrate, null);
 			}
 		});
 
 	}
-
-	protected String getcNome() {
-		return tfNome.getText();
-	}
-
-	protected void setcNome(String cNome) {
-		this.tfNome.setText(cNome);
-	}
-
-	protected String getcData() {
-		if(AltreUtil.checkData(tfData.getText()))
-			return tfData.getText();
-		else
-			return null;
-	}
-
-	protected void setcData(String cData) {
-		this.tfData.setText(cData);
-	}
-
-	protected Double getdEuro() {
-		if(AltreUtil.checkDouble(tfEuro.getText()))
-			return Double.parseDouble(tfEuro.getText());
-		else{
-			return null;
-		}
-	}
-
-	protected void setdEuro(Double dEuro) {
-		this.tfEuro.setText(Double.toString(dEuro));
-	}
-
+	
 	/**
 	 * @return the lista
 	 */
 	public static ArrayList<String> getLista() {
 		return EntrateView.lista;
 	}
+	
+	private void setEntrate(){
+		setcNome(tfNome.getText());
+		setcDescrizione(taDescrizione.getText());
+		setFisseOVar((String) cbTipo.getSelectedItem());
+		if(AltreUtil.checkData(tfData.getText())){
+			setcData(tfData.getText());
+		}
+		if(AltreUtil.checkDouble(tfEuro.getText())){
+			Double euro = Double.parseDouble(tfEuro.getText());
+			setdEuro(AltreUtil.arrotondaDecimaliDouble(euro));
+		}else{
+			String messaggio = "Valore in Euro inserito non correttamente";
+			JOptionPane.showMessageDialog(null,messaggio,"Non ci siamo!", JOptionPane.ERROR_MESSAGE,new ImageIcon("./imgUtil/index.jpeg"));
+		}
+		setUtenti(Controllore.getSingleton().getUtenteLogin());
+		setDataIns(DBUtil.dataToString(new Date(), "yyyy/MM/dd"));
+	}
+
 
 	/**
 	 * @param lista the lista to set
@@ -266,12 +234,13 @@ public class EntrateView extends OggettoVistaBase {
 		EntrateView.lista = lista;
 	}
 
-	public String getcDescrizione() {
-		return taDescrizione.getText();
-	}
-
-	public void setcDescrizione(String cDescrizione) {
-		this.taDescrizione.setText(cDescrizione);
+	@Override
+	public void update(Observable o, Object arg) {
+		tfNome.setText(getcNome());
+		taDescrizione.setText(getcDescrizione());
+		cbTipo.setSelectedItem(getFisseOVar());
+		tfData.setText(getcData());
+		tfEuro.setText(getdEuro().toString());
 	}
 
 }

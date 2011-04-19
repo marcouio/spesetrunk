@@ -20,7 +20,7 @@ import domain.wrapper.WrapUtenti;
 public class Controllore {
 
 	private static GeneralFrame view;
-	private Model model = Model.getSingleton();
+//	private Model model = Model.getSingleton();
 	protected static FinestraListaComandi historyCommands;
 	private static Utenti utenteLogin;
 	private static CommandManager commandManager;
@@ -118,12 +118,12 @@ public class Controllore {
 	public Utenti getUtenteLogin() {
 		return utenteLogin;
 	}
-	public void setModel(Model model) {
-		this.model = model;
-	}
-	public Model getModel() {
-		return model;
-	}
+//	public void setModel(Model model) {
+//		this.model = model;
+//	}
+//	public Model getModel() {
+//		return model;
+//	}
 	public static void setUtenteLogin(Utenti utenteLogin) {
 		Controllore.utenteLogin = utenteLogin;
 	}
