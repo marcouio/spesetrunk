@@ -2,18 +2,20 @@ package business.comandi;
 
 import java.util.HashMap;
 
-import business.Controllore;
 import business.cache.CacheCategorie;
 import domain.AbstractOggettoEntita;
 import domain.CatSpese;
+import domain.ICatSpese;
+import domain.wrapper.IWrapperEntity;
+import domain.wrapper.WrapCatSpese;
 
 public class CommandDeleteCategoria extends AbstractCommand{
 
-	public CommandDeleteCategoria(AbstractOggettoEntita entita) {
+	public CommandDeleteCategoria(ICatSpese entita) {
 		CacheCategorie cache = CacheCategorie.getSingleton();
 		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
-		this.wrap = Controllore.getSingleton().getModel().getModelCategorie();
-		this.entita = entita;
+		this.wrap = new WrapCatSpese();
+		this.entita = ((IWrapperEntity) entita).getentitaPadre();
 	}
 	
 	@Override

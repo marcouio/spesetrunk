@@ -11,10 +11,8 @@ import view.font.ButtonF;
 import view.font.LabelTesto;
 import view.font.LabelTitolo;
 import view.font.TextFieldF;
-import business.Controllore;
 import business.cache.CacheUtenti;
 import domain.Utenti;
-import domain.wrapper.Model;
 import domain.wrapper.WrapUtenti;
 
 public class Registrazione extends JDialog {
@@ -86,9 +84,7 @@ public class Registrazione extends JDialog {
 				String sCognome = cognome.getText();
 				String sPass = password.getText();
 				String sUser = username.getText();
-				Controllore controllore = Controllore.getSingleton();
-				Model model = controllore.getModel();
-				WrapUtenti utentiwrap = model.getModelUtenti();
+				WrapUtenti utentiwrap = new WrapUtenti();
 				if(!sNome.equals("") && !sCognome.equals("") && !sPass.equals("") && !sUser.equals("")){
 					Utenti utente = new Utenti();
 					utente.setNome(sNome);

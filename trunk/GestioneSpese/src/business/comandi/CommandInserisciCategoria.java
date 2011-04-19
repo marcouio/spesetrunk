@@ -2,11 +2,12 @@ package business.comandi;
 
 import java.util.HashMap;
 
-import business.Controllore;
 import business.cache.CacheCategorie;
 import domain.AbstractOggettoEntita;
 import domain.CatSpese;
+import domain.ICatSpese;
 import domain.wrapper.IWrapperEntity;
+import domain.wrapper.WrapCatSpese;
 
 public class CommandInserisciCategoria extends AbstractCommand{
 
@@ -15,11 +16,11 @@ public class CommandInserisciCategoria extends AbstractCommand{
 	final private IWrapperEntity wrap;
 	private HashMap<String, AbstractOggettoEntita> mappaCache;
 	
-	public CommandInserisciCategoria(CatSpese entita){
+	public CommandInserisciCategoria(ICatSpese entita){
 		CacheCategorie cache = CacheCategorie.getSingleton();
 		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
-		this.wrap = Controllore.getSingleton().getModel().getModelCategorie();
-		this.entita = entita;
+		this.wrap = new WrapCatSpese();
+		this.entita = ((IWrapperEntity) entita).getentitaPadre();
 	}
 	
 	@Override

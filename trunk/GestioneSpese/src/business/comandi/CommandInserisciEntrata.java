@@ -2,25 +2,24 @@ package business.comandi;
 
 import java.util.HashMap;
 
-import business.Controllore;
 import business.cache.CacheEntrate;
 import domain.AbstractOggettoEntita;
-import domain.CatSpese;
 import domain.Entrate;
+import domain.wrapper.IEntrate;
 import domain.wrapper.IWrapperEntity;
+import domain.wrapper.WrapEntrate;
 
 public class CommandInserisciEntrata extends AbstractCommand{
 
 	
-	final private AbstractOggettoEntita entita;
 	final private IWrapperEntity wrap;
 	private HashMap<String, AbstractOggettoEntita> mappaCache;
 	
-	public CommandInserisciEntrata(Entrate entita){
+	public CommandInserisciEntrata(IEntrate entita){
 		CacheEntrate cache = CacheEntrate.getSingleton();
 		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
-		this.wrap = Controllore.getSingleton().getModel().getModelEntrate();
-		this.entita = entita;
+		this.wrap = new WrapEntrate();
+		this.entita = ((IWrapperEntity) entita).getentitaPadre();
 		
 	}
 	

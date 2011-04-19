@@ -2,10 +2,10 @@ package business.comandi;
 
 import java.util.HashMap;
 
-import business.Controllore;
 import business.cache.CacheEntrate;
 import domain.AbstractOggettoEntita;
 import domain.Entrate;
+import domain.wrapper.IEntrate;
 import domain.wrapper.WrapEntrate;
 
 public class CommandUpdateEntrata extends AbstractCommand{
@@ -14,10 +14,10 @@ public class CommandUpdateEntrata extends AbstractCommand{
 	final private Entrate oldEntita;
 	final private WrapEntrate wrap;
 	
-	public CommandUpdateEntrata(Entrate oldEntita,Entrate newEntita) {
-		this.newEntita = newEntita;
+	public CommandUpdateEntrata(Entrate oldEntita,IEntrate newEntita) {
+		this.newEntita = (Entrate) newEntita;
 		this.oldEntita = oldEntita;
-		this.wrap = Controllore.getSingleton().getModel().getModelEntrate();
+		this.wrap = new WrapEntrate();
 		CacheEntrate cache = CacheEntrate.getSingleton();
 		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
 	}
