@@ -8,37 +8,35 @@ import javax.swing.table.DefaultTableModel;
 import view.font.TableF;
 import business.Controllore;
 
-public class FinestraListaComandi extends JFrame{
+public class FinestraListaComandi extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private TableF table;
-	private JScrollPane scrollPane;
+	private TableF            table;
+	private JScrollPane       scrollPane;
 
 	public FinestraListaComandi() {
 		setResizable(false);
 		getContentPane().setLayout(null);
-		
+		this.setTitle("Lista comandi");
 		table = new TableF();
 		Object[][] dati = generaDati();
-//		Object[][] dati2 = {{"ciao"},{"ciao"},{"ciao"}};
-		table.setModel(new DefaultTableModel(dati, new String[]{"Lista Comandi"}));
-		
+		table.setModel(new DefaultTableModel(dati, new String[] { "Lista Comandi" }));
+
 		table.setBounds(12, 12, 254, 61);
-		
+
 		scrollPane = new JScrollPane();
-        scrollPane.setViewportView(table);
+		scrollPane.setViewportView(table);
 
-        //Add the scroll pane to this panel.
-        getContentPane().add(scrollPane);
-        scrollPane.setBounds(21, 23, 214, 337);
+		// Add the scroll pane to this panel.
+		getContentPane().add(scrollPane);
+		scrollPane.setBounds(21, 23, 214, 337);
 
-		
 	}
 
 	public Object[][] generaDati() {
 		return Controllore.getSingleton().getCommandManager().generaDati();
 	}
-	
+
 	public TableF getTable() {
 		return table;
 	}
@@ -49,7 +47,7 @@ public class FinestraListaComandi extends JFrame{
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				JFrame f = new JFrame();

@@ -31,7 +31,7 @@ import domain.wrapper.WrapEntrate;
 public class EntrateView extends AbstractEntrateView {
 
 	private static final long serialVersionUID = 1L;
-	private static EntrateView singleton;
+//	private static EntrateView singleton;
 	
 	static private ArrayList<String> lista;
 	
@@ -47,32 +47,20 @@ public class EntrateView extends AbstractEntrateView {
 			public void run() {
 				JFrame inst = new JFrame();	
 				inst.setSize(950, 700);
-				inst.getContentPane().add(new EntrateView());
+				inst.getContentPane().add(new EntrateView(new WrapEntrate()));
 				inst.setLocationRelativeTo(null);
 				inst.setVisible(true);
 				
 			}
 		});
 	}
-	
-	
-	
-	public static final EntrateView getSingleton() {
-		if (singleton == null) {
-			synchronized (EntrateView.class) {
-				if (singleton == null) {
-					singleton = new EntrateView();
-				}
-			} // if
-		} // if
-		return singleton;
-	} // getSingleton()
-	
+
 	/**
 	 * Create the panel.
 	 */
-	private EntrateView() {
-		super(new WrapEntrate());
+	public EntrateView(WrapEntrate entrate) {
+		super(entrate);
+		modelEntrate.addObserver(this);
 		setLayout(null);
 		
 		LabelTesto lblNomeSpesa = new LabelTesto("Nome Spesa");
@@ -160,12 +148,10 @@ public class EntrateView extends AbstractEntrateView {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					setEntrate();
-//					if(modelEntrate.DeleteLastEntrate()){
-				if(Controllore.getSingleton().getCommandManager().invocaComando(new CommandDeleteEntrata(modelEntrate),Entrate.NOME_TABELLA)){
-					log.fine("Cancellata ultima spesa inserita");
-					update(modelEntrate, null);
-					Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
-					JOptionPane.showMessageDialog(null,"Ok, ultima entrata eliminata correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
+					if(Controllore.getSingleton().getCommandManager().invocaComando(new CommandDeleteEntrata(modelEntrate),Entrate.NOME_TABELLA)){
+						log.fine("Cancellata ultima spesa inserita");
+						Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
+						JOptionPane.showMessageDialog(null,"Ok, ultima entrata eliminata correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
 					}
 				} catch (Exception e2) {
 					e2.printStackTrace();
@@ -185,15 +171,15 @@ public class EntrateView extends AbstractEntrateView {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setEntrate();
-				if(modelEntrate.getnome()!=null && modelEntrate.getdescrizione() !=null && modelEntrate.getdata()!=null && modelEntrate.getDataIns()!=null &&
-				   modelEntrate.getFisseoVar()!=null && modelEntrate.getinEuro()!=0.0 && modelEntrate.getUtenti()!=null){
+				
+				if(getcNome()!=null && getcDescrizione() !=null && getcData()!=null && getDataIns()!=null 
+								&& getFisseOVar()!=null && getdEuro()!=0.0 && getUtenti()!=null){
 					if(Controllore.getSingleton().getCommandManager().invocaComando(new CommandInserisciEntrata(modelEntrate), Entrate.NOME_TABELLA)){
 						JOptionPane.showMessageDialog(null, "Ok, entrata inserita correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
 						log.fine("Entrata inserita, nome: "
 								+ modelEntrate.getnome() +", id: " +modelEntrate.getidEntrate());
 						try {
 							Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
-							update(modelEntrate, null);
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
@@ -250,6 +236,7 @@ public class EntrateView extends AbstractEntrateView {
 		cbTipo.setSelectedItem(getFisseOVar());
 		tfData.setText(getcData());
 		tfEuro.setText(getdEuro().toString());
+		
 	}
 
 }

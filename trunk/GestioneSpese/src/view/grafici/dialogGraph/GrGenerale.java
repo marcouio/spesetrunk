@@ -23,7 +23,7 @@ import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import view.font.ButtonF;
-import view.impostazioni.Categorie;
+import view.impostazioni.CategorieView;
 import business.AltreUtil;
 import business.DBUtil;
 import business.Database;

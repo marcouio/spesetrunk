@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import domain.wrapper.WrapCatSpese;
+
 import view.OggettoVistaBase;
 
 public class RaccogliImpostazioni extends OggettoVistaBase{
@@ -15,7 +17,7 @@ public class RaccogliImpostazioni extends OggettoVistaBase{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private Categorie categorie;
+	private CategorieView categorie;
 	private Impostazioni impostazioni;
 	private SettingGruppi settingGruppi; 
 	
@@ -39,7 +41,7 @@ public class RaccogliImpostazioni extends OggettoVistaBase{
 		this.setLayout(null);
 		settingGruppi = SettingGruppi.getSingleton();
 		settingGruppi.setBounds(350, 250, 626, 300);
-		categorie = Categorie.getSingleton();
+		categorie = new CategorieView(new WrapCatSpese());
 		categorie.setBounds(10, 0, 355, 550);
 		impostazioni = Impostazioni.getSingleton();
 		impostazioni.setBounds(350, 0, 626, 250);
@@ -53,7 +55,7 @@ public class RaccogliImpostazioni extends OggettoVistaBase{
 	/**
 	 * @return the categorie
 	 */
-	public Categorie getCategorie() {
+	public CategorieView getCategorie() {
 		return categorie;
 	}
 
@@ -61,7 +63,7 @@ public class RaccogliImpostazioni extends OggettoVistaBase{
 	/**
 	 * @param categorie the categorie to set
 	 */
-	public void setCategorie(Categorie categorie) {
+	public void setCategorie(CategorieView categorie) {
 		this.categorie = categorie;
 	}
 

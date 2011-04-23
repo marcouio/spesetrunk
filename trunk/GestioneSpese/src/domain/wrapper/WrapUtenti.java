@@ -332,5 +332,14 @@ public class WrapUtenti extends Observable implements IWrapperEntity, IUtenti {
 	public AbstractOggettoEntita getentitaPadre() {
 		return utente;
 	}
+	@Override
+	public void notifyObservers() {
+		super.notifyObservers();
+	}
+	
+	@Override
+	protected synchronized void setChanged() {
+		super.setChanged();
+	}
 
 }

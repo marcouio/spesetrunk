@@ -119,6 +119,7 @@ public class CatSpese extends AbstractOggettoEntita implements Serializable,ICat
 		return nome;
 	}
 	
+	
 	public static final String NOME_TABELLA="cat_spese";
 	public static final String ID ="idCategoria";
 	public static final String DESCRIZIONE ="descrizione";

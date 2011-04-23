@@ -19,14 +19,14 @@ import domain.Gruppi;
 import domain.ICatSpese;
 import domain.SingleSpesa;
 
-public class WrapCatSpese extends Observable implements IWrapperEntity,ICatSpese{
+public class WrapCatSpese extends Observable implements IWrapperEntity, ICatSpese {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private CatSpese categoria;
-	
+	private final CatSpese    categoria;
+
 	public WrapCatSpese() {
 		categoria = new CatSpese();
 	}
@@ -34,18 +34,19 @@ public class WrapCatSpese extends Observable implements IWrapperEntity,ICatSpese
 	@Override
 	public Object selectById(int id) {
 		Connection cn = DBUtil.getConnection();
-		String sql = "SELECT * FROM "+CatSpese.NOME_TABELLA+" WHERE "+CatSpese.ID+" = " +id;
-		
+		String sql = "SELECT * FROM " + CatSpese.NOME_TABELLA + " WHERE " + CatSpese.ID + " = " + id;
+
 		CatSpese categorie = null;
-		
+
 		try {
-			
+
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
-			if(rs.next()){
+			if (rs.next()) {
 				categorie = new CatSpese();
-				Gruppi gruppo =  CacheGruppi.getSingleton().getGruppo(Integer.toString(rs.getInt(5)));
-//				Gruppi gruppo =  Controllore.getSingleton().getCacheGruppi().getGruppo(Integer.toString(rs.getInt(5)));
+				Gruppi gruppo = CacheGruppi.getSingleton().getGruppo(Integer.toString(rs.getInt(5)));
+				// Gruppi gruppo =
+				// Controllore.getSingleton().getCacheGruppi().getGruppo(Integer.toString(rs.getInt(5)));
 				categorie.setidCategoria(rs.getInt(1));
 				categorie.setdescrizione(rs.getString(2));
 				categorie.setimportanza(rs.getString(3));
@@ -76,13 +77,13 @@ public class WrapCatSpese extends Observable implements IWrapperEntity,ICatSpese
 	public Vector<Object> selectAll() {
 		Vector<Object> categorie = new Vector<Object>();
 		Connection cn = DBUtil.getConnection();
-		String sql = "SELECT * FROM " + CatSpese.NOME_TABELLA ;
-		try{
+		String sql = "SELECT * FROM " + CatSpese.NOME_TABELLA;
+		try {
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
-			while(rs.next()){
-				
-				Gruppi gruppo =  CacheGruppi.getSingleton().getGruppo(Integer.toString(rs.getInt(5)));
+			while (rs.next()) {
+
+				Gruppi gruppo = CacheGruppi.getSingleton().getGruppo(Integer.toString(rs.getInt(5)));
 				CatSpese categoria = new CatSpese();
 				categoria.setidCategoria(rs.getInt(1));
 				categoria.setdescrizione(rs.getString(2));
@@ -91,10 +92,10 @@ public class WrapCatSpese extends Observable implements IWrapperEntity,ICatSpese
 				categoria.setGruppi(gruppo);
 				categorie.add(categoria);
 			}
-		
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				cn.close();
 			} catch (SQLException e) {
@@ -102,7 +103,7 @@ public class WrapCatSpese extends Observable implements IWrapperEntity,ICatSpese
 			}
 		}
 		return categorie;
-		
+
 	}
 
 	@Override
@@ -111,16 +112,16 @@ public class WrapCatSpese extends Observable implements IWrapperEntity,ICatSpese
 		Connection cn = DBUtil.getConnection();
 		String sql = "";
 		try {
-			CatSpese categoria = (CatSpese)oggettoEntita;
-			
-			sql="INSERT INTO " + CatSpese.NOME_TABELLA + " (" + CatSpese.DESCRIZIONE+", "+CatSpese.IMPORTANZA+", "+CatSpese.NOME+", "+CatSpese.IDGRUPPO+") VALUES(?,?,?,?)";
+			CatSpese categoria = (CatSpese) oggettoEntita;
+
+			sql = "INSERT INTO " + CatSpese.NOME_TABELLA + " (" + CatSpese.DESCRIZIONE + ", " + CatSpese.IMPORTANZA + ", " + CatSpese.NOME + ", " + CatSpese.IDGRUPPO + ") VALUES(?,?,?,?)";
 			PreparedStatement ps = cn.prepareStatement(sql);
 			ps.setString(1, categoria.getdescrizione());
 			ps.setString(2, categoria.getimportanza());
 			ps.setString(3, categoria.getnome());
 			if (categoria.getGruppi() != null)
 				ps.setInt(4, categoria.getGruppi().getidGruppo());
-			
+
 			ps.executeUpdate();
 			ok = true;
 		} catch (Exception e) {
@@ -140,24 +141,24 @@ public class WrapCatSpese extends Observable implements IWrapperEntity,ICatSpese
 	@Override
 	public boolean delete(int id) {
 		boolean ok = false;
-		String sql = "DELETE FROM "+CatSpese.NOME_TABELLA+" WHERE "+CatSpese.ID+" = "+id;
+		String sql = "DELETE FROM " + CatSpese.NOME_TABELLA + " WHERE " + CatSpese.ID + " = " + id;
 		Connection cn = DBUtil.getConnection();
-		
+
 		try {
 			Statement st = cn.createStatement();
 			st.executeUpdate(sql);
-			ok=true;
-			
+			ok = true;
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ok=false;
+			ok = false;
 		}
 		try {
 			cn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		DBUtil.closeConnection();		
+		DBUtil.closeConnection();
 		return ok;
 	}
 
@@ -165,19 +166,19 @@ public class WrapCatSpese extends Observable implements IWrapperEntity,ICatSpese
 	public boolean update(Object oggettoEntita) {
 		boolean ok = false;
 		Connection cn = DBUtil.getConnection();
-		
+
 		CatSpese categoria = (CatSpese) oggettoEntita;
-		String sql = "UPDATE "+CatSpese.NOME_TABELLA+ " SET " +CatSpese.DESCRIZIONE+ " = " +categoria.getdescrizione()+", "+CatSpese.IMPORTANZA+" = "
-		+categoria.getimportanza()+", "+CatSpese.NOME+ " = " +categoria.getnome()+", "+CatSpese.IDGRUPPO+ " = " +categoria.getGruppi().getidGruppo()
-		+" WHERE "+ CatSpese.ID +" = "+categoria.getidCategoria();
+		String sql = "UPDATE " + CatSpese.NOME_TABELLA + " SET " + CatSpese.DESCRIZIONE + " = '" + categoria.getdescrizione() + "', " + CatSpese.IMPORTANZA + " = '"
+		                + categoria.getimportanza() + "', " + CatSpese.NOME + " = '" + categoria.getnome() + "', " + CatSpese.IDGRUPPO + " = " + categoria.getGruppi().getidGruppo()
+		                + " WHERE " + CatSpese.ID + " = " + categoria.getidCategoria();
 		try {
 			Statement st = cn.createStatement();
 			st.executeUpdate(sql);
-			ok=true;
-			
+			ok = true;
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ok=false;
+			ok = false;
 		}
 		try {
 			cn.close();
@@ -192,24 +193,24 @@ public class WrapCatSpese extends Observable implements IWrapperEntity,ICatSpese
 	@Override
 	public boolean deleteAll() {
 		boolean ok = false;
-		String sql = "DELETE FROM "+CatSpese.NOME_TABELLA;
+		String sql = "DELETE FROM " + CatSpese.NOME_TABELLA;
 		Connection cn = DBUtil.getConnection();
-		
+
 		try {
 			Statement st = cn.createStatement();
 			st.executeUpdate(sql);
-			ok=true;
-			
+			ok = true;
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ok=false;
+			ok = false;
 		}
 		try {
 			cn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		DBUtil.closeConnection();		
+		DBUtil.closeConnection();
 		return ok;
 	}
 
@@ -265,7 +266,7 @@ public class WrapCatSpese extends Observable implements IWrapperEntity,ICatSpese
 
 	@Override
 	public void setBudget(Budget budget) {
-		categoria.setBudget(budget);			
+		categoria.setBudget(budget);
 	}
 
 	@Override
@@ -275,7 +276,7 @@ public class WrapCatSpese extends Observable implements IWrapperEntity,ICatSpese
 
 	@Override
 	public void setGruppi(Gruppi gruppi) {
-		categoria.setGruppi(gruppi);		
+		categoria.setGruppi(gruppi);
 	}
 
 	@Override
@@ -285,8 +286,17 @@ public class WrapCatSpese extends Observable implements IWrapperEntity,ICatSpese
 
 	@Override
 	public void setSingleSpesas(Set<SingleSpesa> singleSpesas) {
-		categoria.setSingleSpesas(singleSpesas);		
+		categoria.setSingleSpesas(singleSpesas);
 	}
-	
-	
+
+	@Override
+	public void notifyObservers() {
+		super.notifyObservers();
+	}
+
+	@Override
+	public synchronized void setChanged() {
+		super.setChanged();
+	}
+
 }

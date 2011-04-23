@@ -34,7 +34,7 @@ public class SettingGruppi extends OggettoVistaBase {
 	
 	public static final SettingGruppi getSingleton() {
         if (singleton == null) {
-            synchronized (Categorie.class) {
+            synchronized (CategorieView.class) {
                 if (singleton == null) {
                     singleton = new SettingGruppi();
                 }

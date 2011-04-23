@@ -445,6 +445,14 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity, ISing
 	public AbstractOggettoEntita getentitaPadre() {
 		return uscita;
 	}
-
+	@Override
+	public void notifyObservers() {
+		super.notifyObservers();
+	}
+	
+	@Override
+	protected synchronized void setChanged() {
+		super.setChanged();
+	}
 
 }
