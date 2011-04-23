@@ -448,4 +448,19 @@ public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate{
 		return entrate.getDataIns();
 	}
 
+
+	@Override
+	public void notifyObservers() {
+		super.notifyObservers();
+	}
+
+
+	@Override
+	public
+	synchronized void setChanged() {
+		super.setChanged();
+	}
+	
+	
+
 }

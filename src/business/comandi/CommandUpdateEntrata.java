@@ -8,13 +8,13 @@ import domain.Entrate;
 import domain.IEntrate;
 import domain.wrapper.WrapEntrate;
 
-public class CommandUpdateEntrata extends AbstractCommand{
+public class CommandUpdateEntrata extends AbstractCommand {
 
-	final private Entrate newEntita;
-	final private Entrate oldEntita;
+	final private Entrate     newEntita;
+	final private Entrate     oldEntita;
 	final private WrapEntrate wrap;
-	
-	public CommandUpdateEntrata(Entrate oldEntita,IEntrate newEntita) {
+
+	public CommandUpdateEntrata(Entrate oldEntita, IEntrate newEntita) {
 		this.newEntita = (Entrate) newEntita;
 		this.oldEntita = oldEntita;
 		this.wrap = new WrapEntrate();
@@ -24,8 +24,8 @@ public class CommandUpdateEntrata extends AbstractCommand{
 
 	@Override
 	public boolean execute() {
-		if(newEntita instanceof Entrate){		
-			if(wrap.update(newEntita)){
+		if (newEntita instanceof Entrate) {
+			if (wrap.update(newEntita)) {
 				return true;
 			}
 		}
@@ -34,15 +34,16 @@ public class CommandUpdateEntrata extends AbstractCommand{
 
 	@Override
 	public boolean unExecute() {
-		if(oldEntita instanceof Entrate){
-			if(wrap.update(oldEntita)){
+		if (oldEntita instanceof Entrate) {
+			if (wrap.update(oldEntita)) {
 				return true;
 			}
 		}
 		return false;
 	}
+
 	@Override
 	public String toString() {
-		return "Modificata Entrata " + ((Entrate)entita).getnome();
+		return "Modificata Entrata " + (newEntita).getnome();
 	}
 }

@@ -183,5 +183,14 @@ public class WrapLookAndFeel extends Observable implements IWrapperEntity,ILooka
 	public void setvalore(String valore) {
 		lookandfeel.setvalore(valore);
 	}
+	@Override
+	public void notifyObservers() {
+		super.notifyObservers();
+	}
+	
+	@Override
+	protected synchronized void setChanged() {
+		super.setChanged();
+	}
 
 }

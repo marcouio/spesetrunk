@@ -21,7 +21,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import view.font.ButtonF;
-import view.impostazioni.Categorie;
+import view.impostazioni.CategorieView;
 import business.DBUtil;
 import business.Database;
 import view.componenti.movimenti.DialogHandler;
@@ -56,7 +56,7 @@ public class GrUscite1 extends JDialog implements ActionListener {
 	public GrUscite1() throws SQLException, IOException {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(null);
-		Vector<CatSpese> categorie = Categorie.getCategorieSpesa();
+		Vector<CatSpese> categorie = CategorieView.getCategorieSpesa();
 		Connection cn = DBUtil.getConnection();
 		// Grafico a barre
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();

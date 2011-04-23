@@ -7,7 +7,6 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.FileNotFoundException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -31,23 +30,22 @@ public class GeneralFrame extends JFrame {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	private static JTabbedPane tabGenerale;
-	private static JPanel tabSetting;
+	private static final long    serialVersionUID = 1L;
+	private final JPanel         contentPane;
+	private static JTabbedPane   tabGenerale;
+	private static JPanel        tabSetting;
 	private static PannelloDati2 tabDatiGenerali;
-	private static PerMesiF tabPermesi;
-	private static Movimenti tabMovimenti;
-	private static Grafici tabGrafici;
-	private static Report tabReport;
-	private static Help tabHelp;
-	private static EntryCharge iec;
-	private static NewSql consolle;
-	private static GeneralFrame singleton;
-	
-	public static void main(String[] args){
+	private static PerMesiF      tabPermesi;
+	private static Movimenti     tabMovimenti;
+	private static Grafici       tabGrafici;
+	private static EntryCharge   iec;
+	private static NewSql        consolle;
+	private static GeneralFrame  singleton;
+
+	public static void main(String[] args) {
 
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				DBUtil.closeConnection();
 				GeneralFrame inst = new GeneralFrame();
@@ -57,19 +55,18 @@ public class GeneralFrame extends JFrame {
 			}
 		});
 	}
-	
 
 	public static final GeneralFrame getSingleton() {
-        if (singleton == null) {
-            synchronized (Impostazioni.class) {
-                if (singleton == null) {
-                    singleton = new GeneralFrame();
-                }
-            } // if
-        } // if
-        return singleton;
-    } // getSingleton()
-	
+		if (singleton == null) {
+			synchronized (Impostazioni.class) {
+				if (singleton == null) {
+					singleton = new GeneralFrame();
+				}
+			} // if
+		} // if
+		return singleton;
+	} // getSingleton()
+
 	/**
 	 * Create the frame.
 	 */
@@ -81,111 +78,97 @@ public class GeneralFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
-		
-		MyMenu menu = new MyMenu();
-		contentPane.add(menu);		
 
-		//tabGenerale
+		MyMenu menu = new MyMenu();
+		contentPane.add(menu);
+
+		// tabGenerale
 		tabGenerale = new JTabbedPane();
 		tabGenerale.setFont(new Font("Eras Light ITC", Font.BOLD, 14));
 		tabGenerale.setBounds(0, 31, 970, 650);
-			
-		
+
 		tabSetting = new RaccogliImpostazioni();
 		tabSetting.setBounds(0, 0, 200, 550);
-		
 
-		//pannello consolle sql
+		// pannello consolle sql
 		consolle = new NewSql();
-				
-		//pannello dati
+
+		// pannello dati
 		tabDatiGenerali = new PannelloDati2();
-		
-		//Divisione di spese e entrate per mese
+
+		// Divisione di spese e entrate per mese
 		tabPermesi = new PerMesiF();
-//		TabellaUscita.getTable().setRowHeight(27);
-//		TabellaEntrata.getTable().setRowHeight(27);
-		
-		
-		//movimenti
+
+		// movimenti
 		tabMovimenti = new Movimenti();
-		
-		//grafici
+
+		// grafici
 		tabGrafici = new Grafici();
-		
-		//report 
-		try {
-			tabReport = new Report();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		//help
-		tabHelp = new Help();
-		
-		//pannello di entrata e uscita 
+
+		// pannello di entrata e uscita
 		iec = new EntryCharge();
-	
+
 		this.getContentPane().add(tabGenerale);
-		
+
 		tabGenerale.addTab("Setting", tabSetting);
 		tabGenerale.addTab("Entrate/Uscite", iec);
 		tabGenerale.addTab("Dati Generali", tabDatiGenerali);
 		tabGenerale.addTab("Mesi", tabPermesi);
 		tabGenerale.addTab("Movimenti", tabMovimenti);
-		
 		tabGenerale.addTab("Grafici", tabGrafici);
 		tabGenerale.addTab("ConsolleSQL", consolle);
-		tabGenerale.addTab("Report", tabReport);
-		
+
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowDeiconified(WindowEvent e) {
 				Controllore.getFinestraHistory().setVisible(true);
-				relocateFinestraHistory();
-//				super.windowDeiconified(e);
+				relocateFinestreLaterali();
+				// super.windowDeiconified(e);
 			}
+
 			@Override
 			public void windowClosed(WindowEvent e) {
 				Controllore.getSingleton().quit();
-//				super.windowClosed(e);
+				// super.windowClosed(e);
 			}
+
 			@Override
 			public void windowIconified(WindowEvent e) {
 				Controllore.getFinestraHistory().setVisible(false);
-//				super.windowIconified(e);
+				// super.windowIconified(e);
 			}
-			
+
 		});
-		
+
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
 				resizeView();
-				relocateFinestraHistory();
-//				super.componentResized(e);
+				relocateFinestreLaterali();
+				// super.componentResized(e);
 			}
+
 			@Override
 			public void componentMoved(ComponentEvent e) {
-				relocateFinestraHistory();
-//				super.componentMoved(e);
+				relocateFinestreLaterali();
+				// super.componentMoved(e);
 			}
 		});
-		
+
 		repaint();
 	}
-	
-	private void relocateFinestraHistory() {
+
+	private void relocateFinestreLaterali() {
 		Point p = getLocation();
 		Dimension d = getSize();
-		p.setLocation(p.x+d.width+5, p.y);
+		p.setLocation(p.x + d.width + 5, p.y);
 		Controllore.getFinestraHistory().setLocation(p);
+		Controllore.getReport().setLocation(p);
 	}
 
 	private void resizeView() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public JTabbedPane getTabGenerale() {
@@ -234,22 +217,6 @@ public class GeneralFrame extends JFrame {
 
 	public void setTabGrafici(Grafici tabGrafici) {
 		GeneralFrame.tabGrafici = tabGrafici;
-	}
-
-	public Report getTabReport() {
-		return tabReport;
-	}
-
-	public void setTabReport(Report tabReport) {
-		GeneralFrame.tabReport = tabReport;
-	}
-
-	public Help getTabHelp() {
-		return tabHelp;
-	}
-
-	public void setTabHelp(Help tabHelp) {
-		GeneralFrame.tabHelp = tabHelp;
 	}
 
 	public EntryCharge getIec() {

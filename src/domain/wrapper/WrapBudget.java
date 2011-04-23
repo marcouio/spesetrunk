@@ -248,5 +248,14 @@ public class WrapBudget extends Observable implements IWrapperEntity, IBudget{
 	public String getnome() {
 		return budget.getnome();
 	}
+	@Override
+	public void notifyObservers() {
+		super.notifyObservers();
+	}
+	
+	@Override
+	protected synchronized void setChanged() {
+		super.setChanged();
+	}
 
 }
