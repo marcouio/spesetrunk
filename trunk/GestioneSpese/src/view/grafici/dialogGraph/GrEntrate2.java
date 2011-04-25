@@ -24,12 +24,11 @@ import business.Database;
 
 public class GrEntrate2 extends JDialog implements ActionListener {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Entrate Mensili
+	 * 
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
@@ -52,27 +51,27 @@ public class GrEntrate2 extends JDialog implements ActionListener {
 
 		final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		final JFreeChart chart = ChartFactory.createLineChart(
-				"Entrate Mensili", "Mesi", "Euro", dataset,
-				PlotOrientation.VERTICAL, true, true, true);
-		
+		                "Entrate Mensili", "Mesi", "Euro", dataset,
+		                PlotOrientation.VERTICAL, true, true, true);
+
 		getContentPane().setLayout(null);
 		for (int i = 1; i <= 12; i++) {
 			dataset.setValue(Database.getSingleton().totaleEntrateMese(i), "Euro",
-					Integer.toString(i));
+			                Integer.toString(i));
 		}
 		GregorianCalendar data = new GregorianCalendar();
 		String dataMinuti = "" + data.get(Calendar.HOUR_OF_DAY)
-				+ data.get(Calendar.MINUTE);
+		                + data.get(Calendar.MINUTE);
 		try {
 			ChartUtilities.saveChartAsPNG(new java.io.File(
-					"./immagini/Entrate2" + dataMinuti + ".png"), chart, 550,
-					550);
+			                "./immagini/Entrate2" + dataMinuti + ".png"), chart, 550,
+			                550);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		ImageIcon image = new ImageIcon("./immagini/Entrate2" + dataMinuti
-				+ ".png");
+		                + ".png");
 		JLabel immagine = new JLabel(image);
 		JButton chiudi = new ButtonF("Chiudi");
 		immagine.setBounds(12, 22, 618, 546);

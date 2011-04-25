@@ -18,30 +18,29 @@ import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 
-import domain.Entrate;
-
 import view.componenti.movimenti.DialogHandler;
 import view.font.ButtonF;
 import business.DBUtil;
 import business.Database;
+import domain.Entrate;
 
 public class GrEntrate1 extends JDialog implements ActionListener {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	private DefaultPieDataset dataset;
-	private double entrateFisse = Database.totaleEntrateAnnoCategoria(Entrate.IMPORTANZA_FISSE);
-	private double enrateVariabili = Database.totaleEntrateAnnoCategoria(Entrate.IMPORTANZA_VARIABILI);
+	private static final long       serialVersionUID = 1L;
+	private final DefaultPieDataset dataset;
+	private final double            entrateFisse     = Database.totaleEntrateAnnoCategoria(Entrate.IMPORTANZA_FISSE);
+	private final double            enrateVariabili  = Database.totaleEntrateAnnoCategoria(Entrate.IMPORTANZA_VARIABILI);
 
 	/**
-	 * Create the dialog.
+	 * Entrate per tipo. Create the dialog.
 	 * 
 	 * @throws SQLException
 	 * @throws IOException
 	 */
-	
+
 	public static void main(String[] args) {
 		try {
 			GrEntrate1 dialog = new GrEntrate1(new JFrame(), "Entrate", true);
@@ -51,9 +50,9 @@ public class GrEntrate1 extends JDialog implements ActionListener {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public GrEntrate1(JFrame frame, String title, boolean modal)
-			throws SQLException, IOException {
+	                throws SQLException, IOException {
 		super();
 
 		dataset = new DefaultPieDataset();
@@ -61,20 +60,20 @@ public class GrEntrate1 extends JDialog implements ActionListener {
 		dataset.setValue("Variabili", enrateVariabili);
 		setBounds(100, 100, 650, 650);
 		JFreeChart chart = ChartFactory.createPieChart("Entrate", dataset,
-				true, true, true);
+		                true, true, true);
 		GregorianCalendar data = new GregorianCalendar();
 
 		String dataMinuti = "" + data.get(Calendar.HOUR_OF_DAY)
-				+ data.get(Calendar.MINUTE);
+		                + data.get(Calendar.MINUTE);
 
 		ChartUtilities.saveChartAsPNG(new java.io.File("./immagini/torta"
-				+ dataMinuti + ".png"), chart, 560, 530);
+		                + dataMinuti + ".png"), chart, 560, 530);
 		getContentPane().setLayout(null);
 
 		DBUtil.closeConnection();
 		ImageIcon image = new ImageIcon("./immagini/torta" + dataMinuti
-				+ ".png");
-		JLabel immagine = new JLabel();		
+		                + ".png");
+		JLabel immagine = new JLabel();
 		immagine.setIcon(image);
 		getContentPane().add(immagine);
 		JButton chiudi = new ButtonF("Chiudi");

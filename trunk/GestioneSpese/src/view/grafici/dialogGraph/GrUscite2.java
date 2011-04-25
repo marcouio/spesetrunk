@@ -19,19 +19,16 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import view.componenti.movimenti.DialogHandler;
 import view.font.ButtonF;
 import business.Database;
-import view.componenti.movimenti.DialogHandler;
 
 public class GrUscite2 extends JDialog implements ActionListener {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Launch the application.
+	 * Suddivise per mesi. Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
@@ -49,36 +46,36 @@ public class GrUscite2 extends JDialog implements ActionListener {
 	public GrUscite2() {
 		final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		final JFreeChart chart = ChartFactory.createLineChart("Uscite Mensili",
-				"Mesi", "Euro", dataset, PlotOrientation.VERTICAL, true, true,
-				true);
+		                "Mesi", "Euro", dataset, PlotOrientation.VERTICAL, true, true,
+		                true);
 		getContentPane().setLayout(null);
 		for (int i = 1; i <= 12; i++) {
-			dataset.setValue(Database.getSingleton().totaleUsciteMese(i), "Euro",Integer.toString(i));
+			dataset.setValue(Database.getSingleton().totaleUsciteMese(i), "Euro", Integer.toString(i));
 		}
 
 		GregorianCalendar data = new GregorianCalendar();
 
 		String dataMinuti = "" + data.get(Calendar.HOUR_OF_DAY)
-				+ data.get(Calendar.MINUTE);
+		                + data.get(Calendar.MINUTE);
 
 		try {
 			ChartUtilities.saveChartAsPNG(new java.io.File("./immagini/LineChartUscite2"
-					+ dataMinuti + ".png"), chart, 550, 600);
+			                + dataMinuti + ".png"), chart, 550, 600);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		ImageIcon image = new ImageIcon("./immagini/LineChartUscite2"
-				+ dataMinuti + ".png");
+		                + dataMinuti + ".png");
 		JLabel label = new JLabel(image);
-		
+
 		JButton chiudi = new ButtonF("Chiudi");
 		chiudi.setActionCommand("chiudi");
-		
+
 		label.setBounds(12, 22, 618, 546);
 		chiudi.setBounds(269, 580, 97, 30);
 		setBounds(100, 100, 650, 650);
-		
+
 		getContentPane().add(label);
 		getContentPane().add(chiudi);
 		chiudi.addActionListener(new DialogHandler(this));

@@ -2,19 +2,19 @@ package view.entrateuscite;
 
 import java.util.Observer;
 
-import view.OggettoVistaBase;
+import javax.swing.JDialog;
+
 import domain.Utenti;
 import domain.wrapper.WrapEntrate;
 
-public abstract class AbstractEntrateView extends OggettoVistaBase implements Observer{
-	
-	private static final long	serialVersionUID	= 1703525939065075165L;
-	public WrapEntrate modelEntrate = null;
-	
+public abstract class AbstractEntrateView extends JDialog implements Observer {
+
+	private static final long serialVersionUID = 1703525939065075165L;
+	public WrapEntrate        modelEntrate     = null;
+
 	public AbstractEntrateView(WrapEntrate modelEntrate) {
 		this.modelEntrate = modelEntrate;
 	}
-	
 
 	protected String getcNome() {
 		return modelEntrate.getnome();
@@ -40,7 +40,6 @@ public abstract class AbstractEntrateView extends OggettoVistaBase implements Ob
 		modelEntrate.setinEuro(dEuro);
 	}
 
-
 	public String getcDescrizione() {
 		return modelEntrate.getdescrizione();
 	}
@@ -48,29 +47,29 @@ public abstract class AbstractEntrateView extends OggettoVistaBase implements Ob
 	public void setcDescrizione(String cDescrizione) {
 		modelEntrate.setdescrizione(cDescrizione);
 	}
-	
-	public Utenti getUtenti(){
+
+	public Utenti getUtenti() {
 		return modelEntrate.getUtenti();
 	}
-	
-	public void setUtenti(Utenti utente){
+
+	public void setUtenti(Utenti utente) {
 		modelEntrate.setUtenti(utente);
 	}
-	
-	public String getFisseOVar(){
+
+	public String getFisseOVar() {
 		return modelEntrate.getFisseoVar();
 	}
-	
-	public void setFisseOVar(String FisseVar){
+
+	public void setFisseOVar(String FisseVar) {
 		modelEntrate.setFisseoVar(FisseVar);
 	}
-	
-	public String getDataIns(){
+
+	public String getDataIns() {
 		return modelEntrate.getDataIns();
 	}
-	
-	public void setDataIns(String date){
+
+	public void setDataIns(String date) {
 		modelEntrate.setDataIns(date);
 	}
-	
+
 }

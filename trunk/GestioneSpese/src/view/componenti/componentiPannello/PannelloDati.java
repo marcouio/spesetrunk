@@ -8,7 +8,7 @@ import javax.swing.WindowConstants;
 
 import view.OggettoVistaBase;
 
-public class PannelloDati2 extends OggettoVistaBase {
+public class PannelloDati extends OggettoVistaBase {
 
 	/**
 	 * 
@@ -19,17 +19,18 @@ public class PannelloDati2 extends OggettoVistaBase {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		frame.pack();
+		frame.setBounds(0, 0, 500, 500);
 		frame.setVisible(true);
-		frame.getContentPane().add(new PannelloDati2());
+		frame.getContentPane().add(new PannelloDati());
 	}
 
 	private static SottoPannelloDatiSpese   pannelloSpese;
 	private static SottoPannelloDatiEntrate pannelloEntrate;
 	private static SottoPannelloMesi        pannelloMesi;
-	private static SottoPannelloCategorie   pannelloCategorie;
+	private static CostruttoreSottoPannello pannelloCategorie;
 	private static SottoPannelloTotali      pannelloTotali;
 
-	public PannelloDati2() {
+	public PannelloDati() {
 		super();
 		initGUI();
 	}
@@ -37,19 +38,20 @@ public class PannelloDati2 extends OggettoVistaBase {
 	private void initGUI() {
 		try {
 			this.setSize(new Dimension(400, 600));
-			setLayout(new GridLayout(3, 2));
+			setLayout(new GridLayout(1, 0, 0, 0));
 
 			pannelloSpese = new SottoPannelloDatiSpese();
 			pannelloEntrate = new SottoPannelloDatiEntrate();
 			pannelloMesi = new SottoPannelloMesi();
-			pannelloCategorie = new SottoPannelloCategorie();
+			pannelloCategorie = new SottoPannelloCategorie().getPannello();
 			pannelloTotali = new SottoPannelloTotali();
 
-			this.add(pannelloSpese.getPannello());
-			this.add(pannelloTotali.getPannello());
-			this.add(pannelloCategorie.getPannello());
-			this.add(pannelloMesi.getPannello());
-			this.add(pannelloEntrate.getPannello());
+			// this.add(pannelloSpese);
+			// this.add(pannelloTotali);
+			// pannelloTotali.setLayout(new GridLayout(1, 0, 0, 0));
+			this.add(pannelloCategorie);
+			// this.add(pannelloMesi);
+			// this.add(pannelloEntrate);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -68,7 +70,7 @@ public class PannelloDati2 extends OggettoVistaBase {
 	 *            the pannelloSpese to set
 	 */
 	public static void setPannelloSpese(SottoPannelloDatiSpese pannelloSpese) {
-		PannelloDati2.pannelloSpese = pannelloSpese;
+		PannelloDati.pannelloSpese = pannelloSpese;
 	}
 
 	/**
@@ -83,7 +85,7 @@ public class PannelloDati2 extends OggettoVistaBase {
 	 *            the pannelloEntrate to set
 	 */
 	public static void setPannelloEntrate(SottoPannelloDatiEntrate pannelloEntrate) {
-		PannelloDati2.pannelloEntrate = pannelloEntrate;
+		PannelloDati.pannelloEntrate = pannelloEntrate;
 	}
 
 	/**
@@ -98,13 +100,13 @@ public class PannelloDati2 extends OggettoVistaBase {
 	 *            the pannelloMesi to set
 	 */
 	public static void setPannelloMesi(SottoPannelloMesi pannelloMesi) {
-		PannelloDati2.pannelloMesi = pannelloMesi;
+		PannelloDati.pannelloMesi = pannelloMesi;
 	}
 
 	/**
 	 * @return the pannelloCategorie
 	 */
-	public static SottoPannelloCategorie getPannelloCategorie() {
+	public static CostruttoreSottoPannello getPannelloCategorie() {
 		return pannelloCategorie;
 	}
 
@@ -112,8 +114,8 @@ public class PannelloDati2 extends OggettoVistaBase {
 	 * @param pannelloCategorie
 	 *            the pannelloCategorie to set
 	 */
-	public static void setPannelloCategorie(SottoPannelloCategorie pannelloCategorie) {
-		PannelloDati2.pannelloCategorie = pannelloCategorie;
+	public static void setPannelloCategorie(CostruttoreSottoPannello pannelloCategorie) {
+		PannelloDati.pannelloCategorie = pannelloCategorie;
 	}
 
 	/**
@@ -128,7 +130,7 @@ public class PannelloDati2 extends OggettoVistaBase {
 	 *            the pannelloTotali to set
 	 */
 	public static void setPannelloTotali(SottoPannelloTotali pannelloTotali) {
-		PannelloDati2.pannelloTotali = pannelloTotali;
+		PannelloDati.pannelloTotali = pannelloTotali;
 	}
 
 }

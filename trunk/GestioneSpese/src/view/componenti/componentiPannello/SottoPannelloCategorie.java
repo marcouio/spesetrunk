@@ -1,27 +1,25 @@
 package view.componenti.componentiPannello;
 
-import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
-import view.OggettoVistaBase;
 import view.font.LabelTesto;
-import view.font.LabelTitolo;
 import view.font.TextFieldF;
 import business.Database;
 import business.cache.CacheCategorie;
 import domain.CatSpese;
 
-public class SottoPannelloCategorie extends OggettoVistaBase {
+public class SottoPannelloCategorie {
 
 	/**
 	 * 
@@ -29,119 +27,119 @@ public class SottoPannelloCategorie extends OggettoVistaBase {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	* Auto-generated main method to display this 
-	* JPanel inside a new JFrame.
-	*/
+	 * Auto-generated main method to display this JPanel inside a new JFrame.
+	 */
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		frame.getContentPane().add(new SottoPannelloCategorie());
+		SottoPannelloCategorie pan = new SottoPannelloCategorie();
+		frame.getContentPane().add(pan.getPannello());
+		frame.setBounds(0, 0, (pan.getPannello().getWidth() +
+		                pan.getPannello().distanzaDalBordoX * 2) * 3, (pan.getPannello().getHeight() +
+		                pan.getPannello().distanzaDalBordoY * 2) * 2);
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
 	}
 
-	private JLabel jLabel5;
-	private static JComboBox CategorieCombo;
-	private JLabel jLabel9Categorie;
-	private JLabel jLabel11;
-	private JLabel jLabel6;
+	private JLabel            jLabel5;
+
+	private JLabel            jLabel11;
+	private JLabel            jLabel6;
+	private JSeparator        jSeparator2;
+
+	private static JComboBox  categorieCombo;
 	private static JTextField totaleMeseCategoria;
 	private static JTextField totaleAnnualeCateg;
-	private JSeparator jSeparator2;
-	
 
+	JComponent[]              componenti = new JComponent[3];
+	JLabel[]                  labels     = new JLabel[3];
+	CostruttoreSottoPannello  pannello;
 
 	public SottoPannelloCategorie() {
 		super();
 		initGUI();
+		pannello = new CostruttoreSottoPannello(componenti, labels);
 	}
-	
+
 	private void initGUI() {
 		try {
-			
-			jLabel5 = new LabelTitolo();
-			this.add(jLabel5);
+
+			jLabel5 = new LabelTesto();
+			// this.add(jLabel5);
 			jLabel5.setText("Categorie");
 			jLabel5.setBounds(177, 25, 90, 19);
-			
-			jLabel9Categorie = new LabelTesto();
-			this.add(jLabel9Categorie);
-			jLabel9Categorie.setText("Categorie");
-			jLabel9Categorie.setBounds(16, 67, 67, 14);
-			
+			labels[0] = jLabel5;
+
 			jLabel11 = new LabelTesto();
-			this.add(jLabel11);
+			// this.add(jLabel11);
 			jLabel11.setText("Totale Anno");
-			jLabel11.setBounds(164, 66, 78, 14);
-			
+			jLabel11.setBounds(135, 67, 78, 14);
+			labels[1] = jLabel11;
+
 			jLabel6 = new LabelTesto();
-			this.add(jLabel6);
+			// this.add(jLabel6);
 			jLabel6.setText("Totale Mese");
-			jLabel6.setBounds(317, 67, 106, 14);
-			
-			totaleMeseCategoria = new TextFieldF();
-			this.add(totaleMeseCategoria);
-			totaleMeseCategoria.setColumns(10);
-			totaleMeseCategoria.setText("0.0");
-			totaleMeseCategoria.setBounds(317, 85, 106, 27);
-			
+			jLabel6.setBounds(253, 67, 106, 14);
+			labels[2] = jLabel6;
+
 			totaleAnnualeCateg = new TextFieldF();
-			this.add(totaleAnnualeCateg);
+			// this.add(totaleAnnualeCateg);
 			totaleAnnualeCateg.setColumns(10);
 			totaleAnnualeCateg.setText("0.0");
-			totaleAnnualeCateg.setBounds(164, 84, 106, 27);
+			totaleAnnualeCateg.setBounds(135, 83, 106, 27);
+			componenti[1] = totaleAnnualeCateg;
 
-			jSeparator2 = new JSeparator();
-			this.add(jSeparator2);
-			jSeparator2.setBounds(10, 128, 420, 16);
-			
+			totaleMeseCategoria = new TextFieldF();
+			// this.add(totaleMeseCategoria);
+			totaleMeseCategoria.setColumns(10);
+			totaleMeseCategoria.setText("0.0");
+			totaleMeseCategoria.setBounds(253, 83, 106, 27);
+			componenti[2] = totaleMeseCategoria;
+
+			// jSeparator2 = new JSeparator();
+			// this.add(jSeparator2);
+			// jSeparator2.setBounds(10, 128, 349, 16);
+
 			// CategoriaSpese
-			Object[]cate = CacheCategorie.getSingleton().arrayCategorie();
-			CategorieCombo = new JComboBox();
-			this.add(CategorieCombo);
-			CategorieCombo.setBounds(16, 85, 106, 27);
-			CategorieCombo.addItem("");
-			
-			for(int i=0; i<cate.length; i++){
-				CategorieCombo.addItem(cate[i]);
-			}
-			CategorieCombo.setSelectedIndex(0);
-			CategorieCombo.addItemListener(new ItemListener() {
+			categorieCombo = new JComboBox(CacheCategorie.getSingleton().getVettoreCategoriePerCombo());
+
+			// this.add(categorieCombo);
+			categorieCombo.setBounds(16, 85, 106, 27);
+
+			categorieCombo.setSelectedIndex(0);
+			categorieCombo.addItemListener(new ItemListener() {
 
 				@Override
 				public void itemStateChanged(ItemEvent e) {
 					CatSpese spese = null;
-					if (CategorieCombo.getSelectedIndex() != 0) {
-						spese = (CatSpese) CategorieCombo.getSelectedItem();
-						int mese = new GregorianCalendar().get(Calendar.MONTH);
+					if (categorieCombo.getSelectedIndex() != 0) {
+						spese = (CatSpese) categorieCombo.getSelectedItem();
+						int mese = new GregorianCalendar().get(Calendar.MONTH) + 1;
 						double spesa = 0;
 						try {
-							//TODO
 							spesa = Database.speseMeseCategoria(mese, spese.getidCategoria());
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
-						
-						//TODO
+
 						totaleAnnualeCateg.setText(Double.toString(Database.totaleUscitaAnnoCategoria(spese.getidCategoria())));
 						totaleMeseCategoria.setText(Double.toString(spesa));
 					}
 				}
 			});
-		
-			this.setPreferredSize(new Dimension(440, 150));
-			this.setLayout(null);
+			componenti[0] = categorieCombo;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	public static JComboBox getCategorieCombo() {
-		return CategorieCombo;
+		return categorieCombo;
 	}
 
 	public static void setCategorieCombo(JComboBox categorieCombo) {
-		CategorieCombo = categorieCombo;
+		SottoPannelloCategorie.categorieCombo = categorieCombo;
 	}
 
 	public static JTextField getTotaleMeseCategoria() {
@@ -159,14 +157,36 @@ public class SottoPannelloCategorie extends OggettoVistaBase {
 	public static void setTotaleAnnualeCateg(JTextField totaleAnnualeCateg) {
 		SottoPannelloCategorie.totaleAnnualeCateg = totaleAnnualeCateg;
 	}
-	
-	public static void azzeraCampi(){
+
+	public static void azzeraCampi() {
 		getCategorieCombo().setSelectedIndex(0);
-		CategorieCombo.setSelectedIndex(0);
-		getTotaleAnnualeCateg().setText("0.0");
+		categorieCombo.setSelectedIndex(0);
 		totaleAnnualeCateg.setText("0.0");
-		getTotaleMeseCategoria().setText("0.0");
 		totaleMeseCategoria.setText("0.0");
 	}
-	
+
+	protected CostruttoreSottoPannello getPannello() {
+		return pannello;
+	}
+
+	protected void setPannello(CostruttoreSottoPannello pannello) {
+		this.pannello = pannello;
+	}
+
+	protected JComponent[] getComponenti() {
+		return componenti;
+	}
+
+	protected void setComponenti(JComponent[] componenti) {
+		this.componenti = componenti;
+	}
+
+	protected JLabel[] getLabels() {
+		return labels;
+	}
+
+	protected void setLabels(JLabel[] labels) {
+		this.labels = labels;
+	}
+
 }

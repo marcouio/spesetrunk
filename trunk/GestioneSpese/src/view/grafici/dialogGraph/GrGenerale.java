@@ -22,21 +22,17 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import view.componenti.movimenti.DialogHandler;
 import view.font.ButtonF;
-import view.impostazioni.CategorieView;
 import business.AltreUtil;
 import business.DBUtil;
 import business.Database;
-import view.componenti.movimenti.DialogHandler;
 import business.cache.CacheCategorie;
 import domain.CatSpese;
 
 public class GrGenerale extends JDialog implements ActionListener {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private static final long                          serialVersionUID = 1L;
 	private static HashMap<Integer, ArrayList<Double>> mappaGennaio;
 	private static HashMap<Integer, ArrayList<Double>> mappaFebbraio;
 	private static HashMap<Integer, ArrayList<Double>> mappaMarzo;
@@ -49,12 +45,10 @@ public class GrGenerale extends JDialog implements ActionListener {
 	private static HashMap<Integer, ArrayList<Double>> mappaOttobre;
 	private static HashMap<Integer, ArrayList<Double>> mappaNovembre;
 	private static HashMap<Integer, ArrayList<Double>> mappaDicembre;
-	Vector<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
-
-	// Vector<CatSpese> categorie = new Database().Spese();
+	Vector<CatSpese>                                   categorie        = CacheCategorie.getSingleton().getVettoreCategorie();
 
 	/**
-	 * Launch the application.
+	 * Uscite mensili per categoria Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
@@ -87,8 +81,8 @@ public class GrGenerale extends JDialog implements ActionListener {
 
 		final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		final JFreeChart chart = ChartFactory.createLineChart(
-				"Uscite Mensili per categoria", "Categorie", "Euro", dataset,
-				PlotOrientation.VERTICAL, true, true, true);
+		                "Uscite Mensili per categoria", "Categorie", "Euro", dataset,
+		                PlotOrientation.VERTICAL, true, true, true);
 		CategoryPlot plot = chart.getCategoryPlot();
 		LineAndShapeRenderer renderer = new LineAndShapeRenderer(true, true);
 		renderer.setSeriesShapesFilled(0, true);
@@ -108,57 +102,41 @@ public class GrGenerale extends JDialog implements ActionListener {
 		ArrayList<Double> ListaValori12 = mappaDicembre.get(12);
 
 		for (int i = 0; i < ListaValori1.size(); i++) {
-			dataset.addValue(ListaValori1.get(i), "Gennaio", categorie.get(i)
-					.getnome());
-			dataset.addValue(ListaValori2.get(i), "Febbraio", categorie.get(i)
-					.getnome());
-			dataset.addValue(ListaValori3.get(i), "Marzo", categorie.get(i)
-					.getnome());
-			dataset.addValue(ListaValori4.get(i), "Aprile", categorie.get(i)
-					.getnome());
-			dataset.addValue(ListaValori5.get(i), "Maggio", categorie.get(i)
-					.getnome());
-			dataset.addValue(ListaValori6.get(i), "Giugno", categorie.get(i)
-					.getnome());
-			dataset.addValue(ListaValori7.get(i), "Luglio", categorie.get(i)
-					.getnome());
-			dataset.addValue(ListaValori8.get(i), "Agosto", categorie.get(i)
-					.getnome());
-			dataset.addValue(ListaValori9.get(i), "Settembre", categorie.get(i)
-					.getnome());
-			dataset.addValue(ListaValori10.get(i), "Ottobre", categorie.get(i)
-					.getnome());
-			dataset.addValue(ListaValori11.get(i), "Novembre", categorie.get(i)
-					.getnome());
-			dataset.addValue(ListaValori12.get(i), "Dicembre", categorie.get(i)
-					.getnome());
+			dataset.addValue(ListaValori1.get(i), "Gennaio", categorie.get(i).getnome());
+			dataset.addValue(ListaValori2.get(i), "Febbraio", categorie.get(i).getnome());
+			dataset.addValue(ListaValori3.get(i), "Marzo", categorie.get(i).getnome());
+			dataset.addValue(ListaValori4.get(i), "Aprile", categorie.get(i).getnome());
+			dataset.addValue(ListaValori5.get(i), "Maggio", categorie.get(i).getnome());
+			dataset.addValue(ListaValori6.get(i), "Giugno", categorie.get(i).getnome());
+			dataset.addValue(ListaValori7.get(i), "Luglio", categorie.get(i).getnome());
+			dataset.addValue(ListaValori8.get(i), "Agosto", categorie.get(i).getnome());
+			dataset.addValue(ListaValori9.get(i), "Settembre", categorie.get(i).getnome());
+			dataset.addValue(ListaValori10.get(i), "Ottobre", categorie.get(i).getnome());
+			dataset.addValue(ListaValori11.get(i), "Novembre", categorie.get(i).getnome());
+			dataset.addValue(ListaValori12.get(i), "Dicembre", categorie.get(i).getnome());
 		}
 
 		GregorianCalendar data = new GregorianCalendar();
-		String dataMinuti = "" + data.get(Calendar.HOUR_OF_DAY)
-				+ data.get(Calendar.MINUTE);
+		String dataMinuti = "" + data.get(Calendar.HOUR_OF_DAY) + data.get(Calendar.MINUTE);
 
 		try {
-			ChartUtilities.saveChartAsPNG(new java.io.File(
-					"immagini/LineChartGen1" + dataMinuti + ".png"), chart,
-					550, 510);
+			ChartUtilities.saveChartAsPNG(new java.io.File("immagini/LineChartGen1" + dataMinuti + ".png"), chart, 550, 510);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		DBUtil.closeConnection();
-		ImageIcon image = new ImageIcon("immagini/LineChartGen1" + dataMinuti
-				+ ".png");
+		ImageIcon image = new ImageIcon("immagini/LineChartGen1" + dataMinuti + ".png");
 		getContentPane().setLayout(null);
 		JLabel label = new JLabel(image);
 		label.setBounds(12, 12, 630, 498);
-		
+
 		JButton chiudi = new ButtonF("Chiudi");
 		chiudi.setActionCommand("chiudi");
-		
+
 		label.setBounds(12, 22, 618, 546);
 		chiudi.setBounds(269, 580, 97, 30);
 		setBounds(100, 100, 650, 650);
-		
+
 		getContentPane().add(label);
 		getContentPane().add(chiudi);
 		chiudi.addActionListener(new DialogHandler(this));
@@ -174,8 +152,7 @@ public class GrGenerale extends JDialog implements ActionListener {
 			CatSpese cat = categorie.get(i);
 			double speseMeseCategoria;
 			try {
-				speseMeseCategoria = AltreUtil
-						.arrotondaDecimaliDouble(Database.speseMeseCategoria(mese, cat.getidCategoria()));
+				speseMeseCategoria = AltreUtil.arrotondaDecimaliDouble(Database.speseMeseCategoria(mese, cat.getidCategoria()));
 				listaSpeseMeseCategoria.add(speseMeseCategoria);
 			} catch (Exception e) {
 				e.printStackTrace();

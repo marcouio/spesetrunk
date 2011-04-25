@@ -20,7 +20,7 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
-import view.componenti.componentiPannello.SottoPannelloCategorie2;
+import view.componenti.componentiPannello.SottoPannelloCategorie;
 import view.componenti.componentiPannello.SottoPannelloDatiEntrate;
 import view.componenti.componentiPannello.SottoPannelloDatiSpese;
 import view.componenti.componentiPannello.SottoPannelloMesi;
@@ -28,7 +28,6 @@ import view.componenti.componentiPannello.SottoPannelloTotali;
 import view.font.TableF;
 import view.impostazioni.CategorieView;
 import view.impostazioni.Impostazioni;
-import view.impostazioni.SettingGruppi;
 import view.tabelle.TabellaEntrata;
 import view.tabelle.TabellaUscita;
 import business.cache.CacheCategorie;
@@ -301,7 +300,8 @@ public class Database {
 	 * @return double
 	 * @throws Exception
 	 */
-	public static double speseMeseCategoria(int mese, int categoria) throws Exception {
+	public static double speseMeseCategoria(int mese, int categoria)
+	    throws Exception {
 
 		double spesaTotMeseCat = 0.0;
 		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
@@ -368,7 +368,8 @@ public class Database {
 	 * @return double
 	 * @throws Exception
 	 */
-	public double entrateMeseTipo(int mese, String tipoEntrata) throws Exception {
+	public double entrateMeseTipo(int mese, String tipoEntrata)
+	    throws Exception {
 		double entrateMeseTipo = 0;
 		ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtenteEAnno();
 		for (int i = 0; i < listaEntrate.size(); i++) {
@@ -671,7 +672,7 @@ public class Database {
 			aggiornamentoGenerale(Entrate.NOME_TABELLA);
 			aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
 			SottoPannelloMesi.azzeraCampi();
-			SottoPannelloCategorie2.azzeraCampi();
+			SottoPannelloCategorie.azzeraCampi();
 			SottoPannelloTotali.getPercentoFutili().setText(Double.toString(percentoUscite(CatSpese.IMPORTANZA_FUTILE)));
 			SottoPannelloTotali.getPercentoVariabili().setText(Double.toString(percentoUscite(CatSpese.IMPORTANZA_VARIABILE)));
 			SottoPannelloTotali.getAvanzo().setText(Double.toString(AltreUtil.arrotondaDecimaliDouble((EAnnuale()) - (Annuale()))));
@@ -689,7 +690,8 @@ public class Database {
 	 * @param tipo
 	 * @throws Exception
 	 */
-	public static void aggiornamentoGenerale(String tipo) throws Exception {
+	public static void aggiornamentoGenerale(String tipo)
+	    throws Exception {
 		// TODO Implementare un codice che gestisce tutti gli aggiornamenti
 		// dell'applicazione
 
@@ -738,25 +740,24 @@ public class Database {
 			e.printStackTrace();
 		}
 		JComboBox gruppi = categoria.getComboGruppi();
-		JComboBox gruppi1 = SettingGruppi.getSingleton().getComboGruppi();
 
 		gruppi.setSelectedIndex(0);
 		int i = 1;
 		for (i = 1; i <= max; i++) {
 
-			Gruppi gruppo1 = (Gruppi) gruppi1.getItemAt(i);
+			Gruppi gruppo1 = (Gruppi) gruppi.getItemAt(i);
 			if (gruppo1 == null) {
 				gruppo1 = new Gruppi();
 				gruppo1.setidGruppo(-1);
 			}
 			if (gruppo.getidGruppo() == gruppo1.getidGruppo()) {
-				gruppi1.removeItemAt(i);
+				gruppi.removeItemAt(i);
 				CatSpese categoriaPresa = CacheCategorie.getSingleton().getCatSpese(Integer.toString(gruppo.getidGruppo()));
 				// non è possibile sostituirlo la categoria presa dal database
 				// con quella passata nel parametro
 				// perché il parametro mantiene i vecchi settaggi e non si
 				// aggiorna
-				gruppi1.insertItemAt(categoriaPresa, i);
+				gruppi.insertItemAt(categoriaPresa, i);
 				DBUtil.closeConnection();
 			}
 		}
@@ -858,9 +859,9 @@ public class Database {
 	public static void aggiornamentoComboBox(Vector<CatSpese> categorie) {
 		DefaultComboBoxModel model = new DefaultComboBoxModel(categorie);
 
-		SottoPannelloCategorie2.getCategorieCombo().setModel(model);
-		SottoPannelloCategorie2.getCategorieCombo().validate();
-		SottoPannelloCategorie2.getCategorieCombo().repaint();
+		SottoPannelloCategorie.getCategorieCombo().setModel(model);
+		SottoPannelloCategorie.getCategorieCombo().validate();
+		SottoPannelloCategorie.getCategorieCombo().repaint();
 		// TODO tornare singleton o creare nuova vista ogni volta
 		// UsciteView.getSingleton().getComboCategorie().setModel(model);
 		// UsciteView.getSingleton().getComboCategorie().validate();
