@@ -1,9 +1,11 @@
 package view.mymenu;
 
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -12,6 +14,18 @@ import javax.swing.SwingUtilities;
 
 import view.FinestraListaComandi;
 import view.Report;
+import view.entrateuscite.EntrateView;
+import view.entrateuscite.UsciteView;
+import view.grafici.dialogGraph.GrEntrate1;
+import view.grafici.dialogGraph.GrEntrate2;
+import view.grafici.dialogGraph.GrGenerale;
+import view.grafici.dialogGraph.GrGenerale2;
+import view.grafici.dialogGraph.GrUscite1;
+import view.grafici.dialogGraph.GrUscite2;
+import view.impostazioni.CategorieView;
+import view.impostazioni.Impostazioni;
+import view.impostazioni.SettingGruppi;
+import business.AltreUtil;
 import business.Controllore;
 import business.ascoltatoriMenu.AscoltatoreAvanti;
 import business.ascoltatoriMenu.AscoltatoreCaricaDatabase;
@@ -19,6 +33,9 @@ import business.ascoltatoriMenu.AscoltatoreIndietro;
 import business.ascoltatoriMenu.AscoltatoreInfo;
 import business.ascoltatoriMenu.AscoltatoreLogin;
 import business.ascoltatoriMenu.AscoltatoreRegistrazione;
+import domain.wrapper.WrapCatSpese;
+import domain.wrapper.WrapEntrate;
+import domain.wrapper.WrapSingleSpesa;
 
 public class MyMenu extends JMenuBar {
 
@@ -96,22 +113,183 @@ public class MyMenu extends JMenuBar {
 		mnStrumenti.add(mnImpostazioni);
 
 		JMenuItem mntmConfigurazione = new JMenuItem("Configurazioni");
+		mntmConfigurazione.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				final Impostazioni dialog = new Impostazioni();
+				dialog.pack();
+				dialog.setVisible(true);
+				dialog.setModalityType(ModalityType.APPLICATION_MODAL);
+			}
+		});
 		mnImpostazioni.add(mntmConfigurazione);
 
 		JMenuItem mntmCategorie = new JMenuItem("Categorie");
+		mntmCategorie.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				final CategorieView dialog2 = new CategorieView(new
+				                WrapCatSpese());
+				dialog2.pack();
+				dialog2.setVisible(true);
+				// dialog2.setBounds(0, 0, 260, 556);
+				dialog2.setModalityType(ModalityType.APPLICATION_MODAL);
+			}
+		});
 		mnImpostazioni.add(mntmCategorie);
 
 		JMenuItem mntmGr = new JMenuItem("Gruppi");
+		mntmGr.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				final SettingGruppi dialog = new SettingGruppi();
+				dialog.pack();
+				dialog.setVisible(true);
+				dialog.setModalityType(ModalityType.APPLICATION_MODAL);
+			}
+		});
 		mnImpostazioni.add(mntmGr);
 
 		JMenu mnGrafici = new JMenu("Grafici");
 		mnStrumenti.add(mnGrafici);
 
-		JMenuItem mntmSaldoUscite = new JMenuItem("Saldo Uscite");
-		mnGrafici.add(mntmSaldoUscite);
+		JMenu mnEntrate = new JMenu("Entrate");
+		mnGrafici.add(mnEntrate);
 
-		JMenuItem mntmSaldoEntrate = new JMenuItem("Saldo Entrate");
-		mnGrafici.add(mntmSaldoEntrate);
+		JMenuItem mntmEntratePerTipo = new JMenuItem("Per tipo");
+		mnEntrate.add(mntmEntratePerTipo);
+
+		JMenuItem mntmEntrateMensili = new JMenuItem("Mensili");
+		mnEntrate.add(mntmEntrateMensili);
+
+		JMenu mnUscite = new JMenu("Uscite");
+		mnGrafici.add(mnUscite);
+
+		JMenuItem mntmMensiliPerCategoria = new JMenuItem("Mensili per categoria");
+		mnUscite.add(mntmMensiliPerCategoria);
+
+		JMenuItem mntmPerCategorie = new JMenuItem("Per categorie");
+		mntmPerCategorie.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					GrUscite1 dialog = new GrUscite1();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setVisible(true);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		mnUscite.add(mntmPerCategorie);
+
+		JMenuItem mntmPerMesi = new JMenuItem("Per mesi");
+		mntmPerMesi.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					GrUscite2 dialog = new GrUscite2();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setVisible(true);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
+		mnUscite.add(mntmPerMesi);
+		mntmMensiliPerCategoria.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AltreUtil.deleteFileDaDirectory2("./immagini/");
+				final GrGenerale dialog = new GrGenerale();
+				dialog.setSize(700, 700);
+				dialog.setVisible(true);
+				dialog.setModalityType(ModalityType.APPLICATION_MODAL);
+			}
+		});
+
+		JMenu mnTotali = new JMenu("Totali");
+		mnGrafici.add(mnTotali);
+
+		JMenuItem mntmSaldo = new JMenuItem("Saldo");
+		mntmSaldo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					GrGenerale2 dialog = new GrGenerale2();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setSize(700, 700);
+					dialog.setVisible(true);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		mnTotali.add(mntmSaldo);
+
+		JMenu mnDati = new JMenu("Dati");
+		mnStrumenti.add(mnDati);
+
+		JMenuItem mntmEntrate = new JMenuItem("Entrate");
+		mntmEntrate.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				EntrateView dialog = new EntrateView(new WrapEntrate());
+				dialog.setLocationRelativeTo(null);
+				dialog.setBounds(0, 0, 347, 318);
+				dialog.setVisible(true);
+			}
+		});
+		mnDati.add(mntmEntrate);
+
+		JMenuItem mntmUscite = new JMenuItem("Uscite");
+		mntmUscite.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					UsciteView dialog = new UsciteView(new WrapSingleSpesa());
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setBounds(0, 0, 347, 407);
+					dialog.setVisible(true);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		mnDati.add(mntmUscite);
+		mntmEntrateMensili.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					GrEntrate2 dialog = new GrEntrate2();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setVisible(true);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+
+			}
+		});
+		mntmEntratePerTipo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame f = new JFrame();
+				try {
+					AltreUtil.deleteFileDaDirectory2("./immagini/");
+					final GrEntrate1 dialog = new GrEntrate1(f, null, true);
+					dialog.setSize(700, 700);
+					dialog.setVisible(true);
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setModalityType(ModalityType.APPLICATION_MODAL);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				} finally {
+					f.dispose();
+				}
+			}
+		});
 
 		JMenu help = new JMenu("Help");
 		add(help);

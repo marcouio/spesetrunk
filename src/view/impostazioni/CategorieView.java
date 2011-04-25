@@ -10,17 +10,15 @@ import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import view.font.ButtonF;
 import view.font.LabelTesto;
-import view.font.LabelTitolo;
 import view.font.TextAreaF;
 import view.font.TextFieldF;
 import business.Controllore;
@@ -49,15 +47,15 @@ public class CategorieView extends AbstractCategorieView {
 	private static final long       serialVersionUID = 1L;
 
 	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		frame.getContentPane().add(new CategorieView(new WrapCatSpese()));
-		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		frame.pack();
-		frame.setVisible(true);
+		CategorieView dialog = new CategorieView(new WrapCatSpese());
+		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		// dialog.setBounds(0, 0, 260, 556);
+		dialog.setVisible(true);
 	}
 
 	public CategorieView(WrapCatSpese cat) {
 		super(cat);
+
 		modelCatSpese.addObserver(this);
 		initGUI();
 	}
@@ -65,22 +63,24 @@ public class CategorieView extends AbstractCategorieView {
 	private void initGUI() {
 		try {
 
-			this.setPreferredSize(new Dimension(355, 550));
-			this.setVisible(true);
-			this.setLayout(null);
+			setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			setModalityType(ModalityType.APPLICATION_MODAL);
+			setTitle("Categorie");
+			this.setPreferredSize(new Dimension(260, 556));
+			setLayout(null);
 
 			initLabel();
 
 			// Nome Spesa
 			tfNome = new TextFieldF();
-			tfNome.setBounds(63, 100, 206, 26);
+			tfNome.setBounds(26, 37, 206, 26);
 
 			// Descrizione
 			taDescrizione = new TextAreaF(
 			                "Inserisci la descrizione della categoria", 50, 25);
 			taDescrizione.setLineWrap(true);
 			taDescrizione.setWrapStyleWord(true);
-			taDescrizione.setBounds(63, 154, 206, 88);
+			taDescrizione.setBounds(26, 91, 206, 88);
 
 			// importanza Spesa
 			cbImportanza = new JComboBox();
@@ -88,11 +88,11 @@ public class CategorieView extends AbstractCategorieView {
 			cbImportanza.addItem("Futili");
 			cbImportanza.addItem("Variabili");
 			cbImportanza.addItem("Fisse");
-			cbImportanza.setBounds(63, 273, 206, 25);
+			cbImportanza.setBounds(26, 210, 206, 25);
 
 			// bottone invia
 			ButtonF inserisci = new ButtonF();
-			inserisci.setBounds(63, 368, 206, 25);
+			inserisci.setBounds(26, 305, 206, 25);
 			inserisci.setText("Inserisci Categoria");
 
 			Vector<Gruppi> vettoreGruppi = CacheGruppi.getSingleton()
@@ -102,13 +102,13 @@ public class CategorieView extends AbstractCategorieView {
 			for (int i = 0; i < vettoreGruppi.size(); i++) {
 				cbGruppi.addItem(vettoreGruppi.get(i));
 			}
-			cbGruppi.setBounds(63, 328, 206, 25);
-			add(cbGruppi);
+			cbGruppi.setBounds(26, 265, 206, 25);
+			getContentPane().add(cbGruppi);
 
 			categorieSpesa = CacheCategorie.getSingleton()
 			                .getVettoreCategoriePerCombo(CacheCategorie.getSingleton().getAllCategorie());
 			cbCategorie = new JComboBox(categorieSpesa);
-			cbCategorie.setBounds(63, 443, 206, 25);
+			cbCategorie.setBounds(26, 380, 206, 25);
 			cbCategorie.addItemListener(new ItemListener() {
 
 				@Override
@@ -127,7 +127,7 @@ public class CategorieView extends AbstractCategorieView {
 
 			// bottone Update
 			ButtonF aggiorna = new ButtonF();
-			aggiorna.setBounds(63, 484, 100, 25);
+			aggiorna.setBounds(26, 421, 100, 25);
 			aggiorna.setText("Aggiorna");
 			aggiorna.addActionListener(new ActionListener() {
 
@@ -216,7 +216,7 @@ public class CategorieView extends AbstractCategorieView {
 			// bottone cancella
 			ButtonF cancella = new ButtonF();
 			cancella.setText("Cancella");
-			cancella.setBounds(169, 484, 100, 25);
+			cancella.setBounds(132, 421, 100, 25);
 			cancella.addActionListener(new ActionListener() {
 
 				@Override
@@ -224,12 +224,7 @@ public class CategorieView extends AbstractCategorieView {
 					setCategoria();
 					if (cbCategorie.getSelectedItem() != null
 					                && categoria != null) {
-						if (Controllore
-						                .getSingleton()
-						                .getCommandManager()
-						                .invocaComando(
-						                                new CommandDeleteCategoria(
-						                                                modelCatSpese), "tutto")) {
+						if (Controllore.getSingleton().getCommandManager().invocaComando(new CommandDeleteCategoria(modelCatSpese), "tutto")) {
 							cbCategorie.removeItem(categoria);
 							JOptionPane.showMessageDialog(null,
 							                "Categoria cancellata!", "Perfetto!",
@@ -238,22 +233,17 @@ public class CategorieView extends AbstractCategorieView {
 					} else {
 						JOptionPane.showMessageDialog(null, "Impossibile cancellare una categoria inesistente!", "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
 					}
-					log.fine("Cancellata categoria " + categoria);
+					// log.fine("Cancellata categoria " + categoria);
 				}
 			});
 
-			this.add(cancella);
-			this.add(inserisci);
-			this.add(taDescrizione);
-			this.add(cbImportanza);
-			this.add(tfNome);
-			this.add(cbCategorie);
-			this.add(aggiorna);
-
-			JSeparator separator = new JSeparator();
-			separator.setOrientation(JSeparator.VERTICAL);
-			separator.setBounds(319, 33, 13, 505);
-			add(separator);
+			getContentPane().add(cancella);
+			getContentPane().add(inserisci);
+			getContentPane().add(taDescrizione);
+			getContentPane().add(cbImportanza);
+			getContentPane().add(tfNome);
+			getContentPane().add(cbCategorie);
+			getContentPane().add(aggiorna);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -309,40 +299,35 @@ public class CategorieView extends AbstractCategorieView {
 	}
 
 	private void initLabel() {
-		// intestazione
-		JLabel intestazione = new LabelTitolo();
-		intestazione.setBounds(100, 44, 175, 20);
-		intestazione.setText("Pannello Categorie");
 
 		// Label nome
 		JLabel labelNome = new LabelTesto();
-		labelNome.setBounds(63, 75, 100, 25);
+		labelNome.setBounds(26, 12, 100, 25);
 		labelNome.setText("Categoria");
 
 		// Label descrizione
 		JLabel labelDescrizione = new LabelTesto();
-		labelDescrizione.setBounds(63, 128, 90, 25);
+		labelDescrizione.setBounds(26, 65, 90, 25);
 		labelDescrizione.setText("Descrizione");
 
 		// Label Importanza
 		JLabel labelCategorie = new LabelTesto();
-		labelCategorie.setBounds(63, 247, 100, 25);
+		labelCategorie.setBounds(26, 184, 100, 25);
 		labelCategorie.setText("Importanza");
 
 		// Label Combo Categorie
 		JLabel labelComboCategorie = new LabelTesto();
-		labelComboCategorie.setBounds(63, 415, 100, 25);
+		labelComboCategorie.setBounds(26, 352, 100, 25);
 		labelComboCategorie.setText("Lista Categorie");
 
 		LabelTesto lbltstGruppo = new LabelTesto();
 		lbltstGruppo.setText("Gruppo");
-		lbltstGruppo.setBounds(63, 302, 100, 25);
-		add(lbltstGruppo);
-		this.add(labelDescrizione);
-		this.add(labelCategorie);
-		this.add(labelNome);
-		this.add(intestazione);
-		this.add(labelComboCategorie);
+		lbltstGruppo.setBounds(26, 239, 100, 25);
+		getContentPane().add(lbltstGruppo);
+		getContentPane().add(labelDescrizione);
+		getContentPane().add(labelCategorie);
+		getContentPane().add(labelNome);
+		getContentPane().add(labelComboCategorie);
 
 	}
 }

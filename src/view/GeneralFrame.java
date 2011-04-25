@@ -16,10 +16,7 @@ import javax.swing.border.EmptyBorder;
 
 import view.componenti.componentiPannello.PannelloDati2;
 import view.componenti.movimenti.Movimenti;
-import view.entrateuscite.EntryCharge;
-import view.grafici.Grafici;
 import view.impostazioni.Impostazioni;
-import view.impostazioni.RaccogliImpostazioni;
 import view.mymenu.MyMenu;
 import view.tabelle.PerMesiF;
 import business.Controllore;
@@ -28,17 +25,16 @@ import business.DBUtil;
 public class GeneralFrame extends JFrame {
 
 	/**
-	 * 
-	 */
+         * 
+         */
 	private static final long    serialVersionUID = 1L;
 	private final JPanel         contentPane;
 	private static JTabbedPane   tabGenerale;
-	private static JPanel        tabSetting;
+	// private static JPanel tabSetting;
 	private static PannelloDati2 tabDatiGenerali;
 	private static PerMesiF      tabPermesi;
 	private static Movimenti     tabMovimenti;
-	private static Grafici       tabGrafici;
-	private static EntryCharge   iec;
+	// private static EntryCharge iec;
 	private static NewSql        consolle;
 	private static GeneralFrame  singleton;
 
@@ -87,8 +83,8 @@ public class GeneralFrame extends JFrame {
 		tabGenerale.setFont(new Font("Eras Light ITC", Font.BOLD, 14));
 		tabGenerale.setBounds(0, 31, 970, 650);
 
-		tabSetting = new RaccogliImpostazioni();
-		tabSetting.setBounds(0, 0, 200, 550);
+		// tabSetting = new RaccogliImpostazioni();
+		// tabSetting.setBounds(0, 0, 200, 550);
 
 		// pannello consolle sql
 		consolle = new NewSql();
@@ -102,20 +98,16 @@ public class GeneralFrame extends JFrame {
 		// movimenti
 		tabMovimenti = new Movimenti();
 
-		// grafici
-		tabGrafici = new Grafici();
-
-		// pannello di entrata e uscita
-		iec = new EntryCharge();
+		// // pannello di entrata e uscita
+		// iec = new EntryCharge();
 
 		this.getContentPane().add(tabGenerale);
 
-		tabGenerale.addTab("Setting", tabSetting);
-		tabGenerale.addTab("Entrate/Uscite", iec);
+		// tabGenerale.addTab("Setting", tabSetting);
+		// tabGenerale.addTab("Entrate/Uscite", iec);
 		tabGenerale.addTab("Dati Generali", tabDatiGenerali);
 		tabGenerale.addTab("Mesi", tabPermesi);
 		tabGenerale.addTab("Movimenti", tabMovimenti);
-		tabGenerale.addTab("Grafici", tabGrafici);
 		tabGenerale.addTab("ConsolleSQL", consolle);
 
 		addWindowListener(new WindowAdapter() {
@@ -179,14 +171,6 @@ public class GeneralFrame extends JFrame {
 		GeneralFrame.tabGenerale = tabGenerale;
 	}
 
-	public JPanel getTabSetting() {
-		return tabSetting;
-	}
-
-	public void setTabSetting(JPanel tabSetting) {
-		GeneralFrame.tabSetting = tabSetting;
-	}
-
 	public PannelloDati2 getTabDatiGenerali() {
 		return tabDatiGenerali;
 	}
@@ -211,21 +195,13 @@ public class GeneralFrame extends JFrame {
 		GeneralFrame.tabMovimenti = tabMovimenti;
 	}
 
-	public Grafici getTabGrafici() {
-		return tabGrafici;
-	}
-
-	public void setTabGrafici(Grafici tabGrafici) {
-		GeneralFrame.tabGrafici = tabGrafici;
-	}
-
-	public EntryCharge getIec() {
-		return iec;
-	}
-
-	public void setIec(EntryCharge iec) {
-		GeneralFrame.iec = iec;
-	}
+	// public EntryCharge getIec() {
+	// return iec;
+	// }
+	//
+	// public void setIec(EntryCharge iec) {
+	// GeneralFrame.iec = iec;
+	// }
 
 	public NewSql getConsolle() {
 		return consolle;

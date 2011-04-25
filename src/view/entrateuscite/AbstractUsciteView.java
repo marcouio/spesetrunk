@@ -2,20 +2,21 @@ package view.entrateuscite;
 
 import java.util.Observer;
 
-import view.OggettoVistaBase;
+import javax.swing.JDialog;
+
 import domain.CatSpese;
 import domain.Utenti;
 import domain.wrapper.WrapSingleSpesa;
 
-public abstract class AbstractUsciteView extends OggettoVistaBase implements Observer{
+public abstract class AbstractUsciteView extends JDialog implements Observer {
 
-	private static final long	serialVersionUID	= 1L;
-	public WrapSingleSpesa modelUscita = null;
-	
+	private static final long serialVersionUID = 1L;
+	public WrapSingleSpesa    modelUscita      = null;
+
 	public AbstractUsciteView(WrapSingleSpesa modelUscita) {
 		this.modelUscita = modelUscita;
 	}
-	
+
 	protected String getcNome() {
 		return modelUscita.getnome();
 	}
@@ -40,7 +41,6 @@ public abstract class AbstractUsciteView extends OggettoVistaBase implements Obs
 		modelUscita.setinEuro(dEuro);
 	}
 
-
 	public String getcDescrizione() {
 		return modelUscita.getdescrizione();
 	}
@@ -48,28 +48,28 @@ public abstract class AbstractUsciteView extends OggettoVistaBase implements Obs
 	public void setcDescrizione(String cDescrizione) {
 		modelUscita.setdescrizione(cDescrizione);
 	}
-	
-	public Utenti getUtenti(){
+
+	public Utenti getUtenti() {
 		return modelUscita.getUtenti();
 	}
-	
-	public void setUtenti(Utenti utente){
+
+	public void setUtenti(Utenti utente) {
 		modelUscita.setUtenti(utente);
 	}
-	
-	public CatSpese getCategoria(){
+
+	public CatSpese getCategoria() {
 		return modelUscita.getCatSpese();
 	}
-	
-	public void setCategoria(CatSpese catSpese){
+
+	public void setCategoria(CatSpese catSpese) {
 		modelUscita.setCatSpese(catSpese);
 	}
-	
-	public String getDataIns(){
+
+	public String getDataIns() {
 		return modelUscita.getDataIns();
 	}
-	
-	public void setDataIns(String date){
+
+	public void setDataIns(String date) {
 		modelUscita.setDataIns(date);
 	}
 

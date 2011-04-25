@@ -20,22 +20,19 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import view.componenti.movimenti.DialogHandler;
 import view.font.ButtonF;
-import view.impostazioni.CategorieView;
 import business.DBUtil;
 import business.Database;
-import view.componenti.movimenti.DialogHandler;
+import business.cache.CacheCategorie;
 import domain.CatSpese;
 
 public class GrUscite1 extends JDialog implements ActionListener {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Launch the application.
+	 * Uscite per categoria Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
@@ -56,7 +53,7 @@ public class GrUscite1 extends JDialog implements ActionListener {
 	public GrUscite1() throws SQLException, IOException {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(null);
-		Vector<CatSpese> categorie = CategorieView.getCategorieSpesa();
+		Vector<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
 		Connection cn = DBUtil.getConnection();
 		// Grafico a barre
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -64,33 +61,33 @@ public class GrUscite1 extends JDialog implements ActionListener {
 		for (int i = 0; i < categorie.size(); i++) {
 			CatSpese categoria = categorie.get(i);
 			double uscita = Database.totaleUscitaAnnoCategoria(categoria
-					.getidCategoria());
+			                .getidCategoria());
 			dataset.setValue(uscita, "Euro", categoria.getnome());
 		}
 
 		JFreeChart chart = ChartFactory.createBarChart("Uscite",
-				"Categorie di spesa", "Euro", dataset,
-				PlotOrientation.VERTICAL, true, true, true);
+		                "Categorie di spesa", "Euro", dataset,
+		                PlotOrientation.VERTICAL, true, true, true);
 		GregorianCalendar data = new GregorianCalendar();
 
 		String dataMinuti = "" + data.get(Calendar.HOUR_OF_DAY)
-				+ data.get(Calendar.MINUTE);
+		                + data.get(Calendar.MINUTE);
 
 		ChartUtilities.saveChartAsPNG(new java.io.File("./immagini/barUscite"
-				+ dataMinuti + ".png"), chart, 550, 550);
+		                + dataMinuti + ".png"), chart, 550, 550);
 		getContentPane().setLayout(null);
 		cn.close();
 		ImageIcon image = new ImageIcon("./immagini/barUscite" + dataMinuti
-				+ ".png");
-		JLabel immagine = new JLabel(image);		
+		                + ".png");
+		JLabel immagine = new JLabel(image);
 		dispose();
 		JButton chiudi = new ButtonF("Chiudi");
 		chiudi.setActionCommand("chiudi");
-		
+
 		immagine.setBounds(12, 22, 618, 546);
 		chiudi.setBounds(269, 580, 97, 30);
 		setBounds(100, 100, 650, 650);
-		
+
 		getContentPane().add(immagine);
 		getContentPane().add(chiudi);
 		chiudi.addActionListener(new DialogHandler(this));

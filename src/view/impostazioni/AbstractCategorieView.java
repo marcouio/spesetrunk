@@ -3,11 +3,12 @@ package view.impostazioni;
 import java.util.Observable;
 import java.util.Observer;
 
-import view.OggettoVistaBase;
+import javax.swing.JDialog;
+
 import domain.Gruppi;
 import domain.wrapper.WrapCatSpese;
 
-public class AbstractCategorieView extends OggettoVistaBase implements Observer {
+public class AbstractCategorieView extends JDialog implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	public WrapCatSpese       modelCatSpese    = null;
