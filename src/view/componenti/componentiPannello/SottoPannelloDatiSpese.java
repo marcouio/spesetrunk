@@ -1,14 +1,12 @@
 package view.componenti.componentiPannello;
 
-import java.util.ArrayList;
-
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
-import view.font.LabelTesto;
+import view.font.LabelTestoPiccolo;
 import view.font.TextFieldF;
 import business.AltreUtil;
 import business.Database;
@@ -35,9 +33,48 @@ public class SottoPannelloDatiSpese {
 	private static double     mensile;
 	private static double     mensile2;
 
-	ArrayList<JComponent>     componenti = new ArrayList<JComponent>();
-	ArrayList<JLabel>         labels     = new ArrayList<JLabel>();
+	JComponent[]              componenti = new JComponent[3];
+	JLabel[]                  labels     = new JLabel[3];
 	CostruttoreSottoPannello  pannello;
+
+	private void initGUI() {
+		try {
+
+			JLabel meseincorso = new LabelTestoPiccolo("Anno in corso");
+			labels[2] = meseincorso;
+			meseincorso.setBounds(164, 66, 141, 14);
+
+			speseAnnuali = new TextFieldF();
+			componenti[2] = speseAnnuali;
+			speseAnnuali.setBounds(164, 84, 106, 27);
+			speseAnnuali.setColumns(8);
+
+			JLabel label = new LabelTestoPiccolo("Mese prec.");
+			label.setBounds(317, 67, 123, 14);
+			labels[1] = label;
+
+			mensile = Database.Mensile();
+			mesePrecUsc = new TextFieldF();
+			mesePrecUsc.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(mensile)));
+			mesePrecUsc.setBounds(317, 85, 106, 27);
+			componenti[1] = mesePrecUsc;
+
+			JLabel label2 = new LabelTestoPiccolo("Mese in corso");
+			label2.setBounds(16, 67, 136, 13);
+			labels[0] = label2;
+
+			annuale = Database.Annuale();
+			speseAnnuali.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(annuale)));
+
+			meseInCors = new TextFieldF();
+			mensile2 = Database.MensileInCorso();
+			meseInCors.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(mensile2)));
+			componenti[0] = meseInCors;
+			meseInCors.setBounds(16, 85, 106, 27);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static JTextField getMeseInCors() {
 		return meseInCors;
@@ -85,70 +122,19 @@ public class SottoPannelloDatiSpese {
 		pannello = new CostruttoreSottoPannello(componenti, labels);
 	}
 
-	private void initGUI() {
-		try {
-
-			// JLabel Intestazione = new LabelTitolo("Spese Dati");
-			// Intestazione.setBounds(177, 25, 93, 19);
-			// this.add(Intestazione);
-
-			JLabel meseincorso = new LabelTesto("Anno in corso");
-			labels.add(meseincorso);
-			meseincorso.setBounds(164, 66, 141, 14);
-
-			speseAnnuali = new TextFieldF();
-			componenti.add(speseAnnuali);
-			speseAnnuali.setBounds(164, 84, 106, 27);
-			speseAnnuali.setColumns(8);
-
-			JLabel label = new LabelTesto("Mese prec.");
-			label.setBounds(317, 67, 123, 14);
-			labels.add(label);
-
-			mensile = Database.Mensile();
-			mesePrecUsc = new TextFieldF();
-			mesePrecUsc.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(mensile)));
-			mesePrecUsc.setBounds(317, 85, 106, 27);
-			componenti.add(mesePrecUsc);
-			mesePrecUsc.setColumns(9);
-
-			JLabel label2 = new LabelTesto("Mese in corso");
-			label2.setBounds(16, 67, 136, 13);
-			labels.add(label2);
-
-			annuale = Database.Annuale();
-			speseAnnuali.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(annuale)));
-
-			// JSeparator separator = new JSeparator();
-			// separator.setBounds(10, 128, 420, 16);
-			// this.add(separator);
-			meseInCors = new TextFieldF();
-			mensile2 = Database.MensileInCorso();
-			meseInCors.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(mensile2)));
-			componenti.add(meseInCors);
-			meseInCors.setColumns(8);
-			meseInCors.setBounds(16, 85, 106, 27);
-
-			// this.setPreferredSize(new Dimension(440, 150));
-			// this.setLayout(null);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	protected ArrayList<JComponent> getComponenti() {
+	protected JComponent[] getComponenti() {
 		return componenti;
 	}
 
-	protected void setComponenti(ArrayList<JComponent> componenti) {
+	protected void setComponenti(JComponent[] componenti) {
 		this.componenti = componenti;
 	}
 
-	protected ArrayList<JLabel> getLabels() {
+	protected JLabel[] getLabels() {
 		return labels;
 	}
 
-	protected void setLabels(ArrayList<JLabel> labels) {
+	protected void setLabels(JLabel[] labels) {
 		this.labels = labels;
 	}
 

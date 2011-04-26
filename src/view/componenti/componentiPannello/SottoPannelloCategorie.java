@@ -13,7 +13,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
-import view.font.LabelTesto;
+import view.font.LabelTestoPiccolo;
 import view.font.TextFieldF;
 import business.Database;
 import business.cache.CacheCategorie;
@@ -64,19 +64,19 @@ public class SottoPannelloCategorie {
 	private void initGUI() {
 		try {
 
-			jLabel5 = new LabelTesto();
+			jLabel5 = new LabelTestoPiccolo();
 			// this.add(jLabel5);
 			jLabel5.setText("Categorie");
 			jLabel5.setBounds(177, 25, 90, 19);
 			labels[0] = jLabel5;
 
-			jLabel11 = new LabelTesto();
+			jLabel11 = new LabelTestoPiccolo();
 			// this.add(jLabel11);
 			jLabel11.setText("Totale Anno");
 			jLabel11.setBounds(135, 67, 78, 14);
 			labels[1] = jLabel11;
 
-			jLabel6 = new LabelTesto();
+			jLabel6 = new LabelTestoPiccolo();
 			// this.add(jLabel6);
 			jLabel6.setText("Totale Mese");
 			jLabel6.setBounds(253, 67, 106, 14);
