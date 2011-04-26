@@ -1,8 +1,6 @@
 package view.componenti.componentiPannello;
 
-import java.awt.Dimension;
-import java.awt.GridLayout;
-
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
@@ -36,9 +34,10 @@ public class PannelloDati2 extends OggettoVistaBase {
 
 	private void initGUI() {
 		try {
-			this.setSize(new Dimension(400, 600));
-			setLayout(new GridLayout(3, 2));
-
+			// this.setSize(new Dimension(400, 600));
+			// setLayout(new DirectionalFlowLayout(FlowLayout.CENTER,
+			// DirectionalFlowLayout.VERTICAL_DIRECTION));
+			setLayout(new BoxLayout(this, 1));
 			pannelloSpese = new SottoPannelloDatiSpese();
 			pannelloEntrate = new SottoPannelloDatiEntrate();
 			pannelloMesi = new SottoPannelloMesi();
