@@ -119,7 +119,7 @@ public class SottoPannelloDatiSpese {
 	public SottoPannelloDatiSpese() {
 		super();
 		initGUI();
-		pannello = new CostruttoreSottoPannello(componenti, labels);
+		pannello = new CostruttoreSottoPannello(componenti, labels, CostruttoreSottoPannello.VERTICAL);
 	}
 
 	protected JComponent[] getComponenti() {

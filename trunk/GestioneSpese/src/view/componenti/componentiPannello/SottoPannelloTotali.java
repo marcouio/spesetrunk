@@ -44,7 +44,7 @@ public class SottoPannelloTotali {
 	public SottoPannelloTotali() {
 		super();
 		initGUI();
-		pannello = new CostruttoreSottoPannello(componenti, labels);
+		pannello = new CostruttoreSottoPannello(componenti, labels, CostruttoreSottoPannello.VERTICAL);
 	}
 
 	private void initGUI() {

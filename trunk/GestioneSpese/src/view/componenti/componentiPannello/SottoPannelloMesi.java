@@ -43,7 +43,7 @@ public class SottoPannelloMesi {
 	public SottoPannelloMesi() {
 		super();
 		initGUI();
-		pannello = new CostruttoreSottoPannello(componenti, labels);
+		pannello = new CostruttoreSottoPannello(componenti, labels, CostruttoreSottoPannello.VERTICAL);
 	}
 
 	private void initGUI() {
