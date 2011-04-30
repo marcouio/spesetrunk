@@ -1,10 +1,12 @@
 package view.componenti.componentiPannello;
 
-import javax.swing.BoxLayout;
+import java.awt.FlowLayout;
+
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import view.OggettoVistaBase;
+import view.layout.DirectionalFlowLayout;
 
 public class PannelloDati2 extends OggettoVistaBase {
 
@@ -34,10 +36,8 @@ public class PannelloDati2 extends OggettoVistaBase {
 
 	private void initGUI() {
 		try {
-			// this.setSize(new Dimension(400, 600));
-			// setLayout(new DirectionalFlowLayout(FlowLayout.CENTER,
-			// DirectionalFlowLayout.VERTICAL_DIRECTION));
-			setLayout(new BoxLayout(this, 1));
+			setLayout(new DirectionalFlowLayout(FlowLayout.LEFT,
+			                DirectionalFlowLayout.HORIZONTAL_DIRECTION));
 			pannelloSpese = new SottoPannelloDatiSpese();
 			pannelloEntrate = new SottoPannelloDatiEntrate();
 			pannelloMesi = new SottoPannelloMesi();
