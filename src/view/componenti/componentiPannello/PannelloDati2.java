@@ -10,9 +10,6 @@ import view.layout.DirectionalFlowLayout;
 
 public class PannelloDati2 extends OggettoVistaBase {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public static void main(String[] args) {
@@ -20,7 +17,8 @@ public class PannelloDati2 extends OggettoVistaBase {
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
-		frame.getContentPane().add(new PannelloDati2());
+		PannelloDati2 dati2 = new PannelloDati2();
+		frame.getContentPane().add(dati2);
 	}
 
 	private static SottoPannelloDatiSpese   pannelloSpese;
@@ -36,8 +34,7 @@ public class PannelloDati2 extends OggettoVistaBase {
 
 	private void initGUI() {
 		try {
-			setLayout(new DirectionalFlowLayout(FlowLayout.LEFT,
-			                DirectionalFlowLayout.HORIZONTAL_DIRECTION));
+			setLayout(new DirectionalFlowLayout(FlowLayout.LEFT, DirectionalFlowLayout.HORIZONTAL_DIRECTION));
 			pannelloSpese = new SottoPannelloDatiSpese();
 			pannelloEntrate = new SottoPannelloDatiEntrate();
 			pannelloMesi = new SottoPannelloMesi();

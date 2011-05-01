@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,19 +19,14 @@ import view.font.ButtonF;
 import view.font.LabelTesto;
 import view.font.TableF;
 import view.font.TextFieldF;
-import business.AltreUtil;
 import business.Database;
 import domain.Entrate;
 import domain.wrapper.Model;
 
-public class ListaMovEntrat extends view.OggettoVistaBase {
+public abstract class AbstractListaMov extends view.OggettoVistaBase {
 
 	private static final long  serialVersionUID = 1L;
-	static int                 numEntry         = 10;
-	private ButtonF            pulsanteNMovimenti;
-	private static String[][]  movimenti;
-	private ButtonF            deleteButton;
-	private ButtonF            updateButton;
+	static int                 numMovimenti     = 10;
 	private static JTable      table;
 	private static JTable      table1;
 	private static JScrollPane scrollPane;
@@ -41,20 +36,21 @@ public class ListaMovEntrat extends view.OggettoVistaBase {
 
 		JFrame frame = new JFrame();
 
-		frame.getContentPane().add(new ListaMovEntrat());
+		// frame.getContentPane().add(new AbstractListaMov());
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
 	}
 
-	public ListaMovEntrat() {
+	public AbstractListaMov() {
 		super();
 		initGUI();
 	}
 
 	private void initGUI() {
 		try {
-			final DialogEntrateMov dialog = new DialogEntrateMov();
+
+			final JDialog dialog = createDialog();
 			this.setLayout(null);
 			this.setSize(500, 250);
 			this.setPreferredSize(new Dimension(800, 505));
@@ -64,13 +60,16 @@ public class ListaMovEntrat extends view.OggettoVistaBase {
 			campo = new TextFieldF();
 			campo.setBounds(255, 26, 60, 25);
 			campo.setText("10");
-			numEntry = Integer.parseInt(campo.getText());
+			numMovimenti = Integer.parseInt(campo.getText());
 			this.add(campo);
-			pulsanteNMovimenti = new ButtonF("Cambia");
+			ButtonF pulsanteNMovimenti = new ButtonF("Cambia");
 			pulsanteNMovimenti.setBounds(317, 27, 90, 25);
 			this.add(pulsanteNMovimenti);
 
-			final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
+			final String[] nomiColonne = createNomiColonne();
+
+			// final String[] nomiColonne = (String[])
+			// AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
 
 			// modifica movimenti visibili
 			pulsanteNMovimenti.addActionListener(new ActionListener() {
@@ -84,21 +83,12 @@ public class ListaMovEntrat extends view.OggettoVistaBase {
 					}
 				}
 			});
-			movimenti = Model.getSingleton().movimentiEntrate(numEntry, Entrate.NOME_TABELLA);
+			// movimenti = Model.getSingleton().movimentiEntrate(numMovimenti,
+			// Entrate.NOME_TABELLA);
+			String[][] movimenti = createMovimenti();
 
 			table = new TableF(movimenti, nomiColonne);
-			table.setPreferredScrollableViewportSize(new Dimension(800, 450));
-			table.getColumn("idEntrate").setPreferredWidth(70);
-			table.getColumn("euro").setPreferredWidth(90);
-			table.getColumn("nome").setPreferredWidth(120);
-			table.getColumn("data").setPreferredWidth(120);
-			table.getColumn("descrizione").setPreferredWidth(250);
-			table.getColumn("inserimento").setPreferredWidth(120);
-			table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-			table.setRowHeight(26);
-			table.setFillsViewportHeight(true);
-			table.setBounds(30, 100, 500, 200);
-			table.addMouseListener(new AscoltatoreMouseMovEntrate(table));
+			impostaTable(table);
 
 			// Create the scroll pane and add the table to it.
 			scrollPane = new JScrollPane();
@@ -108,12 +98,12 @@ public class ListaMovEntrat extends view.OggettoVistaBase {
 			this.add(scrollPane);
 			scrollPane.setBounds(21, 89, 700, 308);
 
-			updateButton = new ButtonF();
+			ButtonF updateButton = new ButtonF();
 			this.add(updateButton);
 			updateButton.setText("Aggiorna");
 			updateButton.setBounds(193, 427, 95, 21);
 
-			deleteButton = new ButtonF();
+			ButtonF deleteButton = new ButtonF();
 			this.add(deleteButton);
 			deleteButton.setText("Cancella");
 			deleteButton.setBounds(299, 427, 82, 21);
@@ -153,28 +143,28 @@ public class ListaMovEntrat extends view.OggettoVistaBase {
 
 	}
 
+	public abstract void impostaTable(JTable table);
+
+	public abstract String[][] createMovimenti();
+
+	public abstract String[] createNomiColonne();
+
+	public abstract JDialog createDialog();
+
 	public static JTextField getCampo() {
 		return campo;
 	}
 
 	public void setCampo(JTextField campo) {
-		ListaMovEntrat.campo = campo;
+		AbstractListaMov.campo = campo;
 	}
 
 	public static int getNumEntry() {
-		return ListaMovEntrat.numEntry;
+		return AbstractListaMov.numMovimenti;
 	}
 
 	public void setNumEntry(int numEntry) {
-		ListaMovEntrat.numEntry = numEntry;
-	}
-
-	public JButton getPulsante() {
-		return pulsanteNMovimenti;
-	}
-
-	public void setPulsante(ButtonF pulsante) {
-		this.pulsanteNMovimenti = pulsante;
+		AbstractListaMov.numMovimenti = numEntry;
 	}
 
 	public static JTable getTable1() {
@@ -182,7 +172,7 @@ public class ListaMovEntrat extends view.OggettoVistaBase {
 	}
 
 	public static void setTable1(JTable table1) {
-		ListaMovEntrat.table1 = table1;
+		AbstractListaMov.table1 = table1;
 	}
 
 	public static JScrollPane getScrollPane() {
@@ -190,27 +180,11 @@ public class ListaMovEntrat extends view.OggettoVistaBase {
 	}
 
 	public static void setScrollPane(JScrollPane scrollPane) {
-		ListaMovEntrat.scrollPane = scrollPane;
+		AbstractListaMov.scrollPane = scrollPane;
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
-	}
-
-	public void setDeleteButton(ButtonF deleteButton) {
-		this.deleteButton = deleteButton;
-	}
-
-	public void setUpdateButton(ButtonF updateButton) {
-		this.updateButton = updateButton;
-	}
-
-	public static String[][] getMovimenti() {
-		return movimenti;
-	}
-
-	public static void setMovimenti(String[][] movimenti) {
-		ListaMovEntrat.movimenti = movimenti;
 	}
 
 	public static JTable getTable() {
@@ -218,15 +192,7 @@ public class ListaMovEntrat extends view.OggettoVistaBase {
 	}
 
 	public static void setTable(JTable table) {
-		ListaMovEntrat.table = table;
-	}
-
-	public JButton getUpdateButton() {
-		return updateButton;
-	}
-
-	public JButton getDeleteButton() {
-		return deleteButton;
+		AbstractListaMov.table = table;
 	}
 
 }

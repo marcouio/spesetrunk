@@ -3,26 +3,17 @@ package view.sidebar;
 import java.awt.BorderLayout;
 
 import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.table.DefaultTableModel;
 
-public class ExpanderTester extends JFrame {
+public class ExpanderTester3 extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	public ExpanderTester() {}
-
-	public static void main(String[] args) {
-
-		ExpanderTester frame = new ExpanderTester();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(0, 0, 1024, 708);
-
+	public ExpanderTester3() {
 		JPanel listPanel = new JPanel(new BorderLayout());
 
 		SideBar sideBar = new SideBar();
@@ -54,32 +45,32 @@ public class ExpanderTester extends JFrame {
 		SideBar ss2 = new SideBar(sideBar, m2, 0, 0);
 		sideBar.addSection(ss2);
 
-		DefaultListModel model = new DefaultListModel();
-		model.add(0, "Bill Gates");
-		model.add(1, "Steven Spielberg");
-		model.add(2, "Donald Trump");
-		model.add(2, "Steve Jobs");
-		model.add(2, "Steve Jobs");
-		model.add(2, "Steve Jobs");
-		model.add(2, "Steve Jobs");
-		model.add(2, "Steve Jobs");
-		model.add(2, "Steve Jobs");
+		JPanel pannell = new JPanel();
 
-		model.add(2, "Steve Jobs");
-		model.add(2, "Steve Jobs");
+		pannell.setLayout(new BoxLayout(pannell, 1));
+		for (int i = 0; i < 5; i++) {
+			SidebarSectionModel modelInterno = new SidebarSectionModel("Thinkers", new JPanel(), "JTable");
+			ComponenteSideBar button = new ComponenteSideBar(sideBar, modelInterno, 0, 0);
+			pannell.add(button);
+		}
 
-		JList list = new JList();
-
-		list.setModel(model);
-
-		SidebarSectionModel m3 = new SidebarSectionModel("Dealers", list, "JList");
-		SideBar ss3 = new SideBar(sideBar, m3, 0, 0);
-		sideBar.addSection(ss3);
+		SidebarSectionModel m22 = new SidebarSectionModel("provaa", pannell, "JTable");
+		SideBar componente = new SideBar(sideBar, m22, 0, 0);
+		sideBar.addSection(componente);
 
 		listPanel.add(sideBar, BorderLayout.WEST);
 
-		frame.getContentPane().setLayout(new BorderLayout());
-		frame.getContentPane().add(listPanel);
-		frame.setVisible(true);
+		this.getContentPane().setLayout(new BorderLayout());
+		this.getContentPane().add(listPanel);
+		this.setVisible(true);
+
+	}
+
+	public static void main(String[] args) {
+
+		ExpanderTester3 frame = new ExpanderTester3();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(0, 0, 1024, 708);
+
 	}
 }
