@@ -23,6 +23,8 @@ public class CostruttoreSottoPannello extends JPanel {
 	private final int         altezzaComponent       = 30;
 	private int               indiceX                = distanzaDalBordoX;
 	private int               indiceY                = distanzaDalBordoY;
+	private JComponent[]      componenti;
+	private JLabel[]          labels;
 
 	public static final int   HORIZONTAL             = 0;
 	public static final int   VERTICAL               = 1;
@@ -42,6 +44,8 @@ public class CostruttoreSottoPannello extends JPanel {
 	 */
 	public CostruttoreSottoPannello(final JComponent[] componenti, final JLabel[] labels, int orientation) {
 		super();
+		this.componenti = componenti;
+		this.labels = labels;
 		if (orientation == VERTICAL) {
 			initGUI(componenti, labels);
 			// TODO dimensione pannello
@@ -51,6 +55,11 @@ public class CostruttoreSottoPannello extends JPanel {
 			initComponentsOrizzontale(componenti);
 			this.setPreferredSize(new Dimension((this.getMaxWidth(componenti) + this.distanzaDalBordoX * 2) * componenti.length, (this.getMaxHeight(componenti) + this.distanzaDalBordoY * 2) * 2));
 		}
+	}
+
+	@Override
+	public Dimension getPreferredSize() {
+		return new Dimension((this.getMaxWidth(componenti) + this.distanzaDalBordoX * 2) * componenti.length, (this.getMaxHeight(componenti) + this.distanzaDalBordoY * 2) * 3);
 	}
 
 	public CostruttoreSottoPannello(ArrayList<JComponent> componenti, ArrayList<JLabel> labels, int orientation) {
