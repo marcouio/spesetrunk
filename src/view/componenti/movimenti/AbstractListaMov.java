@@ -25,12 +25,12 @@ import domain.wrapper.Model;
 
 public abstract class AbstractListaMov extends view.OggettoVistaBase {
 
-	private static final long  serialVersionUID = 1L;
-	static int                 numMovimenti     = 10;
-	private static JTable      table;
-	private static JTable      table1;
-	private static JScrollPane scrollPane;
-	private static JTextField  campo;
+	private static final long serialVersionUID = 1L;
+	static int                numMovimenti     = 10;
+	private JTable            table;
+	private JTable            table1;
+	private JScrollPane       scrollPane;
+	private JTextField        campo;
 
 	public static void main(String[] args) {
 
@@ -151,12 +151,12 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 
 	public abstract JDialog createDialog();
 
-	public static JTextField getCampo() {
+	public JTextField getCampo() {
 		return campo;
 	}
 
 	public void setCampo(JTextField campo) {
-		AbstractListaMov.campo = campo;
+		this.campo = campo;
 	}
 
 	public static int getNumEntry() {
@@ -167,32 +167,28 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 		AbstractListaMov.numMovimenti = numEntry;
 	}
 
-	public static JTable getTable1() {
+	public JTable getTable1() {
 		return table1;
 	}
 
-	public static void setTable1(JTable table1) {
-		AbstractListaMov.table1 = table1;
+	public void setTable1(JTable table1) {
+		this.table1 = table1;
 	}
 
-	public static JScrollPane getScrollPane() {
+	public JScrollPane getScrollPane() {
 		return scrollPane;
 	}
 
-	public static void setScrollPane(JScrollPane scrollPane) {
-		AbstractListaMov.scrollPane = scrollPane;
+	public void setScrollPane(JScrollPane scrollPane) {
+		this.scrollPane = scrollPane;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public static JTable getTable() {
+	public JTable getTable() {
 		return table;
 	}
 
-	public static void setTable(JTable table) {
-		AbstractListaMov.table = table;
+	public void setTable(JTable table) {
+		this.table = table;
 	}
 
 }

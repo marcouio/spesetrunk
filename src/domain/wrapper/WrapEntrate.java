@@ -18,31 +18,30 @@ import domain.Entrate;
 import domain.IEntrate;
 import domain.Utenti;
 
-public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate{
+public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Entrate entrate;
-	
+	private final Entrate     entrate;
+
 	public WrapEntrate() {
 		entrate = new Entrate();
 	}
-	
-	
+
 	@Override
 	public Object selectById(int id) {
 		Connection cn = DBUtil.getConnection();
-		String sql = "SELECT * FROM "+Entrate.NOME_TABELLA+" WHERE "+Entrate.ID+" = " +id;
-		
+		String sql = "SELECT * FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.ID + " = " + id;
+
 		Entrate entrata = null;
-		
+
 		try {
-			
+
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
-			if(rs.next()){
+			if (rs.next()) {
 				entrata = new Entrate();
 				Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
 				entrata.setidEntrate(rs.getInt(1));
@@ -79,12 +78,12 @@ public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate{
 		Vector<Object> entrate = new Vector<Object>();
 		Utenti utente = Controllore.getSingleton().getUtenteLogin();
 		Connection cn = DBUtil.getConnection();
-		String sql = "SELECT * FROM " + Entrate.NOME_TABELLA +" WHERE " + Entrate.IDUTENTE + " = " +utente.getidUtente();
-		try{
+		String sql = "SELECT * FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.IDUTENTE + " = " + utente.getidUtente();
+		try {
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
-			while(rs.next()){
-				
+			while (rs.next()) {
+
 				Entrate entrata = new Entrate();
 				entrata.setidEntrate(rs.getInt(1));
 				entrata.setdescrizione(rs.getString(2));
@@ -96,10 +95,10 @@ public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate{
 				entrata.setDataIns(rs.getString(8));
 				entrate.add(entrata);
 			}
-		
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				cn.close();
 			} catch (SQLException e) {
@@ -108,17 +107,17 @@ public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate{
 		}
 		return entrate;
 	}
-	
+
 	@Override
 	public Vector<Object> selectAll() {
 		Vector<Object> entrate = new Vector<Object>();
 		Connection cn = DBUtil.getConnection();
-		
-		String sql = "SELECT * FROM " + Entrate.NOME_TABELLA ;
-		try{
+
+		String sql = "SELECT * FROM " + Entrate.NOME_TABELLA;
+		try {
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
-			while(rs.next()){
+			while (rs.next()) {
 				Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
 				Entrate entrata = new Entrate();
 				entrata.setidEntrate(rs.getInt(1));
@@ -131,10 +130,10 @@ public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate{
 				entrata.setDataIns(rs.getString(8));
 				entrate.add(entrata);
 			}
-		
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				cn.close();
 			} catch (SQLException e) {
@@ -150,27 +149,27 @@ public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate{
 		Connection cn = DBUtil.getConnection();
 		String sql = "";
 		try {
-			Entrate entrata = (Entrate)oggettoEntita;
-			
-			sql="INSERT INTO " + Entrate.NOME_TABELLA + " (" + Entrate.DESCRIZIONE+", "+Entrate.FISSEOVAR+", "
-			+Entrate.INEURO+", "+Entrate.DATA+", "+Entrate.NOME+", "+Entrate.IDUTENTE+", "+Entrate.DATAINS
-			+") VALUES (?,?,?,?,?,?,?)";
+			Entrate entrata = (Entrate) oggettoEntita;
+
+			sql = "INSERT INTO " + Entrate.NOME_TABELLA + " (" + Entrate.DESCRIZIONE + ", " + Entrate.FISSEOVAR + ", "
+			                + Entrate.INEURO + ", " + Entrate.DATA + ", " + Entrate.NOME + ", " + Entrate.IDUTENTE + ", " + Entrate.DATAINS
+			                + ") VALUES (?,?,?,?,?,?,?)";
 			PreparedStatement ps = cn.prepareStatement(sql);
-			//descrizione
+			// descrizione
 			ps.setString(1, entrata.getdescrizione());
-			//tipo
+			// tipo
 			ps.setString(2, entrata.getFisseoVar());
-			//euro
+			// euro
 			ps.setDouble(3, entrata.getinEuro());
-			//data
+			// data
 			ps.setString(4, entrata.getdata());
-			//nome
+			// nome
 			ps.setString(5, entrata.getnome());
-			//idutente
+			// idutente
 			ps.setInt(6, entrata.getUtenti().getidUtente());
-			//datains
+			// datains
 			ps.setString(7, entrata.getDataIns());
-			
+
 			ps.executeUpdate();
 			ok = true;
 		} catch (Exception e) {
@@ -190,24 +189,24 @@ public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate{
 	@Override
 	public boolean delete(int id) {
 		boolean ok = false;
-		String sql = "DELETE FROM "+Entrate.NOME_TABELLA+" WHERE "+Entrate.ID+" = "+id;
+		String sql = "DELETE FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.ID + " = " + id;
 		Connection cn = DBUtil.getConnection();
-		
+
 		try {
 			Statement st = cn.createStatement();
 			st.executeUpdate(sql);
-			ok=true;
-			
+			ok = true;
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ok=false;
+			ok = false;
 		}
 		try {
 			cn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		DBUtil.closeConnection();		
+		DBUtil.closeConnection();
 		return ok;
 	}
 
@@ -215,20 +214,20 @@ public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate{
 	public boolean update(Object oggettoEntita) {
 		boolean ok = false;
 		Connection cn = DBUtil.getConnection();
-		
+
 		Entrate entrata = (Entrate) oggettoEntita;
-		String sql = "UPDATE "+Entrate.NOME_TABELLA+ " SET " +Entrate.DESCRIZIONE+ " = " +entrata.getdescrizione()+", "+Entrate.FISSEOVAR+" = "
-		+entrata.getFisseoVar()+", "+Entrate.INEURO+ " = " +entrata.getinEuro()+", "+Entrate.DATA+ " = " +entrata.getdata()
-		+Entrate.NOME+ " = " + entrata.getnome()+Entrate.IDUTENTE +" = "+entrata.getUtenti().getidUtente()
-		+Entrate.DATAINS+ " = " + entrata.getDataIns()+" WHERE "+ Entrate.ID +" = "+entrata.getidEntrate();
+		String sql = "UPDATE " + Entrate.NOME_TABELLA + " SET " + Entrate.DESCRIZIONE + " = '" + entrata.getdescrizione() + "', " + Entrate.FISSEOVAR + " = '"
+		                + entrata.getFisseoVar() + "', " + Entrate.INEURO + " = " + entrata.getinEuro() + ", " + Entrate.DATA + " = '" + entrata.getdata() + "', "
+		                + Entrate.NOME + " = '" + entrata.getnome() + "', " + Entrate.IDUTENTE + " = " + entrata.getUtenti().getidUtente() + ", "
+		                + Entrate.DATAINS + " = '" + entrata.getDataIns() + "' WHERE " + Entrate.ID + " = " + entrata.getidEntrate();
 		try {
 			Statement st = cn.createStatement();
 			st.executeUpdate(sql);
-			ok=true;
-			
+			ok = true;
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ok=false;
+			ok = false;
 		}
 		try {
 			cn.close();
@@ -242,63 +241,64 @@ public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate{
 	@Override
 	public boolean deleteAll() {
 		boolean ok = false;
-		String sql = "DELETE FROM "+Entrate.NOME_TABELLA;
+		String sql = "DELETE FROM " + Entrate.NOME_TABELLA;
 		Connection cn = DBUtil.getConnection();
-		
+
 		try {
 			Statement st = cn.createStatement();
 			st.executeUpdate(sql);
-			ok=true;
-			
+			ok = true;
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ok=false;
+			ok = false;
 		}
 		try {
 			cn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		DBUtil.closeConnection();		
+		DBUtil.closeConnection();
 		return ok;
 	}
-	
+
 	// metodo che restituisce le ultime dieci entrate
 	/**
-	 * Permette di ottenere un vettore con un numero di entita' entrate 
-	 * inserito come parametro
+	 * Permette di ottenere un vettore con un numero di entita' entrate inserito
+	 * come parametro
 	 * 
 	 * @param numEntry
 	 * @return Vector<Entrate>
 	 */
 	public Vector<Entrate> dieciEntrate(int numEntry) {
-		Vector<Entrate>entrate=null;
+		Vector<Entrate> entrate = null;
 		Utenti utente = Controllore.getSingleton().getUtenteLogin();
 		int idUtente = 0;
-		if(utente!=null)
-			idUtente=utente.getidUtente();
-		
-		//TODO verificare che impostazioni venga pescato correttamente (non passare dal controller?)
-		String sql = "SELECT * FROM "+Entrate.NOME_TABELLA+" where "+Entrate.DATA
-		+" BETWEEN '"+Impostazioni.getAnno()+"/01/01"+"'"+" AND '"+Impostazioni.getAnno()+"/12/31"+"'"
-		+" AND "+Entrate.IDUTENTE+ " = " + idUtente +" ORDER BY "+Entrate.ID+" desc limit 0,"+numEntry;
+		if (utente != null)
+			idUtente = utente.getidUtente();
+
+		// TODO verificare che impostazioni venga pescato correttamente (non
+		// passare dal controller?)
+		String sql = "SELECT * FROM " + Entrate.NOME_TABELLA + " where " + Entrate.DATA
+		                + " BETWEEN '" + Impostazioni.getAnno() + "/01/01" + "'" + " AND '" + Impostazioni.getAnno() + "/12/31" + "'"
+		                + " AND " + Entrate.IDUTENTE + " = " + idUtente + " ORDER BY " + Entrate.ID + " desc limit 0," + numEntry;
 		Connection cn = DBUtil.getConnection();
 		try {
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			entrate = new Vector<Entrate>();
-				while (rs.next()) {
-					Entrate e = new Entrate();
-					e.setdata(rs.getString(5));
-					e.setdescrizione(rs.getString(2));
-					e.setFisseoVar(rs.getString(3));
-					e.setidEntrate(rs.getInt(1));
-					e.setinEuro(rs.getDouble(4));
-					e.setnome(rs.getString(6));
-					e.setUtenti(utente);
-					e.setDataIns(rs.getString(8));
-					entrate.add(e);
-				}			
+			while (rs.next()) {
+				Entrate e = new Entrate();
+				e.setdata(rs.getString(5));
+				e.setdescrizione(rs.getString(2));
+				e.setFisseoVar(rs.getString(3));
+				e.setidEntrate(rs.getInt(1));
+				e.setinEuro(rs.getDouble(4));
+				e.setnome(rs.getString(6));
+				e.setUtenti(utente);
+				e.setDataIns(rs.getString(8));
+				entrate.add(e);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -311,32 +311,32 @@ public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate{
 		return entrate;
 
 	}
-	
+
 	/**
 	 * Cancella l'ultima entita' "Entrate" inserita
 	 */
 	public boolean DeleteLastEntrate() {
-		boolean ok= false;
+		boolean ok = false;
 		Connection cn = DBUtil.getConnection();
-		String sql = "SELECT * FROM "+ Entrate.NOME_TABELLA + " WHERE "+ Entrate.IDUTENTE + " = "+ Controllore.getSingleton().getUtenteLogin().getidUtente() 
-		+" ORDER BY "+ Entrate.DATAINS +" DESC";
+		String sql = "SELECT * FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.IDUTENTE + " = " + Controllore.getSingleton().getUtenteLogin().getidUtente()
+		                + " ORDER BY " + Entrate.DATAINS + " DESC";
 
 		try {
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
-			if(rs.next()){
-				String sql2 = "DELETE FROM "+Entrate.NOME_TABELLA+" WHERE "+Entrate.ID+"=?";
+			if (rs.next()) {
+				String sql2 = "DELETE FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.ID + "=?";
 				PreparedStatement ps = cn.prepareStatement(sql2);
 				ps.setInt(1, rs.getInt(1));
 				ps.executeUpdate();
 				ok = true;
 
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			//TODO gestire log
-//			log.severe("Operazione SQL di delete 'SingleSpesa' non eseguita:"+e.getMessage());
+			// TODO gestire log
+			// log.severe("Operazione SQL di delete 'SingleSpesa' non eseguita:"+e.getMessage());
 		}
 		try {
 			cn.close();
@@ -347,54 +347,45 @@ public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate{
 		return ok;
 	}
 
-
 	@Override
 	public AbstractOggettoEntita getentitaPadre() {
 		return entrate;
 	}
-
 
 	@Override
 	public String getdata() {
 		return entrate.getdata();
 	}
 
-
 	@Override
 	public void setdata(String data) {
 		entrate.setdata(data);
 	}
-
 
 	@Override
 	public String getdescrizione() {
 		return entrate.getdescrizione();
 	}
 
-
 	@Override
 	public void setdescrizione(String descrizione) {
 		entrate.setdescrizione(descrizione);
 	}
-
 
 	@Override
 	public String getFisseoVar() {
 		return entrate.getFisseoVar();
 	}
 
-
 	@Override
 	public void setFisseoVar(String FisseoVar) {
 		entrate.setFisseoVar(FisseoVar);
 	}
 
-
 	@Override
 	public int getidEntrate() {
 		return entrate.getidEntrate();
 	}
-
 
 	@Override
 	public void setidEntrate(int idEntrate) {
@@ -406,61 +397,49 @@ public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate{
 		return entrate.getinEuro();
 	}
 
-
 	@Override
 	public void setinEuro(double inEuro) {
 		entrate.setinEuro(inEuro);
 	}
-
 
 	@Override
 	public String getnome() {
 		return entrate.getnome();
 	}
 
-
 	@Override
 	public void setnome(String nome) {
 		entrate.setnome(nome);
 	}
-
 
 	@Override
 	public Utenti getUtenti() {
 		return entrate.getUtenti();
 	}
 
-
 	@Override
 	public void setUtenti(Utenti utenti) {
 		entrate.setUtenti(utenti);
 	}
-
 
 	@Override
 	public void setDataIns(String date) {
 		entrate.setDataIns(date);
 	}
 
-
 	@Override
 	public String getDataIns() {
 		return entrate.getDataIns();
 	}
-
 
 	@Override
 	public void notifyObservers() {
 		super.notifyObservers();
 	}
 
-
 	@Override
-	public
-	synchronized void setChanged() {
+	public synchronized void setChanged() {
 		super.setChanged();
 	}
-	
-	
 
 }

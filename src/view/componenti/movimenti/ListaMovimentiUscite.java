@@ -8,6 +8,7 @@ import javax.swing.JTable;
 import business.AltreUtil;
 import domain.SingleSpesa;
 import domain.wrapper.Model;
+import domain.wrapper.WrapSingleSpesa;
 
 public class ListaMovimentiUscite extends AbstractListaMov {
 
@@ -25,7 +26,7 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 
 	@Override
 	public JDialog createDialog() {
-		return new DialogUsciteMov();
+		return new DialogUsciteMov(new WrapSingleSpesa());
 	}
 
 	@Override

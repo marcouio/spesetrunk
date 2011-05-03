@@ -54,4 +54,21 @@ public class Movimenti extends OggettoVistaBase {
 			e.printStackTrace();
 		}
 	}
+
+	public ListaMovimentiEntrate getTabMovEntrate() {
+		return tabMovEntrate;
+	}
+
+	protected void setTabMovEntrate(ListaMovimentiEntrate tabMovEntrate) {
+		this.tabMovEntrate = tabMovEntrate;
+	}
+
+	public ListaMovimentiUscite getTabMovUscite() {
+		return tabMovUscite;
+	}
+
+	protected void setTabMovUscite(ListaMovimentiUscite tabMovUscite) {
+		this.tabMovUscite = tabMovUscite;
+	}
+
 }

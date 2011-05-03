@@ -14,6 +14,7 @@ import javax.swing.SwingUtilities;
 
 import view.FinestraListaComandi;
 import view.Report;
+import view.componenti.componentiPannello.PannelloAScomparsa2;
 import view.entrateuscite.EntrateView;
 import view.entrateuscite.UsciteView;
 import view.grafici.dialogGraph.GrEntrate1;
@@ -89,6 +90,16 @@ public class MyMenu extends JMenuBar {
 
 		final JCheckBoxMenuItem mntmReport = new JCheckBoxMenuItem("Report");
 		finestre.add(mntmReport);
+
+		final JCheckBoxMenuItem chckbxmntmDati = new JCheckBoxMenuItem("Riepilogo dati");
+		chckbxmntmDati.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				PannelloAScomparsa2 pas = Controllore.getPannelloDati();
+				Controllore.setVisibilitaFinestre(pas, finestre, chckbxmntmDati);
+			}
+		});
+		finestre.add(chckbxmntmDati);
 		mntmReport.addActionListener(new ActionListener() {
 
 			@Override
@@ -132,7 +143,6 @@ public class MyMenu extends JMenuBar {
 				                WrapCatSpese());
 				dialog2.pack();
 				dialog2.setVisible(true);
-				// dialog2.setBounds(0, 0, 260, 556);
 				dialog2.setModalityType(ModalityType.APPLICATION_MODAL);
 			}
 		});
@@ -228,7 +238,7 @@ public class MyMenu extends JMenuBar {
 		});
 		mnTotali.add(mntmSaldo);
 
-		JMenu mnDati = new JMenu("Dati");
+		JMenu mnDati = new JMenu("Inserimento dati");
 		mnStrumenti.add(mnDati);
 
 		JMenuItem mntmEntrate = new JMenuItem("Entrate");

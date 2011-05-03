@@ -20,7 +20,7 @@ public class SottoPannelloDatiEntrate {
 	 */
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		// frame.getContentPane().add(new SottoPannelloDatiEntrate());
+		frame.getContentPane().add(new SottoPannelloDatiEntrate().getPannello());
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);

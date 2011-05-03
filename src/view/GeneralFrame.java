@@ -14,7 +14,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import view.componenti.componentiPannello.PannelloDati2;
 import view.componenti.movimenti.Movimenti;
 import view.impostazioni.Impostazioni;
 import view.mymenu.MyMenu;
@@ -24,19 +23,13 @@ import business.DBUtil;
 
 public class GeneralFrame extends JFrame {
 
-	/**
-         * 
-         */
-	private static final long    serialVersionUID = 1L;
-	private final JPanel         contentPane;
-	private static JTabbedPane   tabGenerale;
-	// private static JPanel tabSetting;
-	private static PannelloDati2 tabDatiGenerali;
-	private static PerMesiF      tabPermesi;
-	private static Movimenti     tabMovimenti;
-	// private static EntryCharge iec;
-	private static NewSql        consolle;
-	private static GeneralFrame  singleton;
+	private static final long   serialVersionUID = 1L;
+	private final JPanel        contentPane;
+	private static JTabbedPane  tabGenerale;
+	private static PerMesiF     tabPermesi;
+	private static Movimenti    tabMovimenti;
+	private static NewSql       consolle;
+	private static GeneralFrame singleton;
 
 	public static void main(String[] args) {
 
@@ -83,14 +76,8 @@ public class GeneralFrame extends JFrame {
 		tabGenerale.setFont(new Font("Eras Light ITC", Font.BOLD, 14));
 		tabGenerale.setBounds(0, 31, 970, 650);
 
-		// tabSetting = new RaccogliImpostazioni();
-		// tabSetting.setBounds(0, 0, 200, 550);
-
 		// pannello consolle sql
 		consolle = new NewSql();
-
-		// pannello dati
-		tabDatiGenerali = new PannelloDati2();
 
 		// Divisione di spese e entrate per mese
 		tabPermesi = new PerMesiF();
@@ -98,14 +85,8 @@ public class GeneralFrame extends JFrame {
 		// movimenti
 		tabMovimenti = new Movimenti();
 
-		// // pannello di entrata e uscita
-		// iec = new EntryCharge();
-
 		this.getContentPane().add(tabGenerale);
 
-		// tabGenerale.addTab("Setting", tabSetting);
-		// tabGenerale.addTab("Entrate/Uscite", iec);
-		tabGenerale.addTab("Dati Generali", tabDatiGenerali);
 		tabGenerale.addTab("Mesi", tabPermesi);
 		tabGenerale.addTab("Movimenti", tabMovimenti);
 		tabGenerale.addTab("ConsolleSQL", consolle);
@@ -115,19 +96,16 @@ public class GeneralFrame extends JFrame {
 			public void windowDeiconified(WindowEvent e) {
 				Controllore.getFinestraHistory().setVisible(true);
 				relocateFinestreLaterali();
-				// super.windowDeiconified(e);
 			}
 
 			@Override
 			public void windowClosed(WindowEvent e) {
 				Controllore.getSingleton().quit();
-				// super.windowClosed(e);
 			}
 
 			@Override
 			public void windowIconified(WindowEvent e) {
 				Controllore.getFinestraHistory().setVisible(false);
-				// super.windowIconified(e);
 			}
 
 		});
@@ -137,13 +115,11 @@ public class GeneralFrame extends JFrame {
 			public void componentResized(ComponentEvent e) {
 				resizeView();
 				relocateFinestreLaterali();
-				// super.componentResized(e);
 			}
 
 			@Override
 			public void componentMoved(ComponentEvent e) {
 				relocateFinestreLaterali();
-				// super.componentMoved(e);
 			}
 		});
 
@@ -156,6 +132,7 @@ public class GeneralFrame extends JFrame {
 		p.setLocation(p.x + d.width + 5, p.y);
 		Controllore.getFinestraHistory().setLocation(p);
 		Controllore.getReport().setLocation(p);
+		Controllore.getPannelloDati().setLocation(p);
 	}
 
 	private void resizeView() {
@@ -169,14 +146,6 @@ public class GeneralFrame extends JFrame {
 
 	public void setTabGenerale(JTabbedPane tabGenerale) {
 		GeneralFrame.tabGenerale = tabGenerale;
-	}
-
-	public PannelloDati2 getTabDatiGenerali() {
-		return tabDatiGenerali;
-	}
-
-	public void setTabDatiGenerali(PannelloDati2 tabDatiGenerali) {
-		GeneralFrame.tabDatiGenerali = tabDatiGenerali;
 	}
 
 	public PerMesiF getTabPermesi() {
@@ -194,14 +163,6 @@ public class GeneralFrame extends JFrame {
 	public void setTabMovimenti(Movimenti tabMovimenti) {
 		GeneralFrame.tabMovimenti = tabMovimenti;
 	}
-
-	// public EntryCharge getIec() {
-	// return iec;
-	// }
-	//
-	// public void setIec(EntryCharge iec) {
-	// GeneralFrame.iec = iec;
-	// }
 
 	public NewSql getConsolle() {
 		return consolle;

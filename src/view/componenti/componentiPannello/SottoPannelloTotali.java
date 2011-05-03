@@ -24,7 +24,7 @@ public class SottoPannelloTotali {
 	 */
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		// frame.getContentPane().add(new SottoPannelloTotali());
+		frame.getContentPane().add(new SottoPannelloTotali().getPannello());
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);

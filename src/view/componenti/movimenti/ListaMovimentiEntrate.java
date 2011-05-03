@@ -7,6 +7,7 @@ import javax.swing.JTable;
 import business.AltreUtil;
 import domain.Entrate;
 import domain.wrapper.Model;
+import domain.wrapper.WrapEntrate;
 
 public class ListaMovimentiEntrate extends AbstractListaMov {
 
@@ -24,7 +25,7 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 
 	@Override
 	public DialogEntrateMov createDialog() {
-		return new DialogEntrateMov();
+		return new DialogEntrateMov(new WrapEntrate());
 	}
 
 	@Override
