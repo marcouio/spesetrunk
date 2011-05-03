@@ -12,6 +12,7 @@ import javax.swing.UIManager;
 import view.FinestraListaComandi;
 import view.GeneralFrame;
 import view.Report;
+import view.componenti.componentiPannello.PannelloAScomparsa2;
 import business.cache.CacheGruppi;
 import business.cache.CacheLookAndFeel;
 import business.cache.CacheUtenti;
@@ -25,6 +26,7 @@ import domain.wrapper.WrapUtenti;
 public class Controllore {
 
 	private static GeneralFrame            view;
+	protected static PannelloAScomparsa2   pannelloDati;
 	protected static FinestraListaComandi  historyCommands;
 	protected static Report                report;
 	private static Utenti                  utenteLogin;
@@ -68,6 +70,11 @@ public class Controllore {
 				historyCommands.setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
 				historyCommands.setVisible(false);
 				finestre.add(historyCommands);
+
+				pannelloDati = new PannelloAScomparsa2();
+				pannelloDati.setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
+				pannelloDati.setVisible(false);
+				finestre.add(pannelloDati);
 
 				try {
 					report = new Report();
@@ -181,6 +188,10 @@ public class Controllore {
 		Controllore.report = report;
 	}
 
+	public static PannelloAScomparsa2 getPannelloDati() {
+		return pannelloDati;
+	}
+
 	public static FinestraListaComandi getFinestraHistory() {
 		return historyCommands;
 	}
@@ -195,8 +206,12 @@ public class Controllore {
 
 	public void quit() {
 		view.setVisible(false);
-		historyCommands.setVisible(false);
 		view.dispose();
+		pannelloDati.setVisible(false);
+		pannelloDati.dispose();
+		report.setVisible(false);
+		report.dispose();
+		historyCommands.setVisible(false);
 		historyCommands.dispose();
 		System.exit(0);
 	}

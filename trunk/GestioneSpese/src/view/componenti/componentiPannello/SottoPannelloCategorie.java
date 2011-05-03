@@ -9,7 +9,6 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
@@ -21,9 +20,6 @@ import domain.CatSpese;
 
 public class SottoPannelloCategorie {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -45,7 +41,6 @@ public class SottoPannelloCategorie {
 
 	private JLabel            jLabel11;
 	private JLabel            jLabel6;
-	private JSeparator        jSeparator2;
 
 	private static JComboBox  categorieCombo;
 	private static JTextField totaleMeseCategoria;
@@ -95,10 +90,6 @@ public class SottoPannelloCategorie {
 			totaleMeseCategoria.setText("0.0");
 			totaleMeseCategoria.setBounds(253, 83, 106, 27);
 			componenti[2] = totaleMeseCategoria;
-
-			// jSeparator2 = new JSeparator();
-			// this.add(jSeparator2);
-			// jSeparator2.setBounds(10, 128, 349, 16);
 
 			// CategoriaSpese
 			categorieCombo = new JComboBox(CacheCategorie.getSingleton().getVettoreCategoriePerCombo());

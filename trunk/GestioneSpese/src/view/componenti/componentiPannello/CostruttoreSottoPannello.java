@@ -37,6 +37,7 @@ public class CostruttoreSottoPannello extends JPanel {
 		f.getContentPane().add(pan);
 		f.setVisible(true);
 		f.setBounds(0, 0, (pan.getMaxWidth(componenti) + pan.distanzaDalBordoX * 2) * 3, (pan.getMaxHeight(componenti) + pan.distanzaDalBordoY * 2) * 2);
+		f.setSize(500, 500);
 	}
 
 	/**
@@ -49,7 +50,7 @@ public class CostruttoreSottoPannello extends JPanel {
 		if (orientation == VERTICAL) {
 			initGUI(componenti, labels);
 			// TODO dimensione pannello
-			this.setPreferredSize(new Dimension((this.getMaxWidth(componenti) + this.distanzaDalBordoX * 2) * componenti.length, (this.getMaxHeight(componenti) + this.distanzaDalBordoY * 2) * 2));
+			this.setPreferredSize(new Dimension((this.getMaxWidth(componenti) + this.distanzaDalBordoX * 2), (this.getMaxHeight(componenti) + this.distanzaDalBordoY * 2) * componenti.length));
 		} else {
 			initLabelOrizzontale(labels);
 			initComponentsOrizzontale(componenti);

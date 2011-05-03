@@ -72,4 +72,7 @@ public abstract class AbstractEntrateView extends JDialog implements Observer {
 		modelEntrate.setDataIns(date);
 	}
 
+	public void setnEntrate(String idEntrata) {
+		modelEntrate.setidEntrate(Integer.parseInt(idEntrata));
+	}
 }
