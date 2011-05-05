@@ -1,35 +1,43 @@
 package view;
 
 import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
+import view.bottoni.Bottone;
+import view.bottoni.PannelloBottoni;
 import view.componenti.movimenti.Movimenti;
 import view.impostazioni.Impostazioni;
 import view.mymenu.MyMenu;
+import view.sidebar.ToggleBtn;
 import view.tabelle.PerMesiF;
 import business.Controllore;
 import business.DBUtil;
 
 public class GeneralFrame extends JFrame {
 
-	private static final long   serialVersionUID = 1L;
-	private final JPanel        contentPane;
-	private static JTabbedPane  tabGenerale;
-	private static PerMesiF     tabPermesi;
-	private static Movimenti    tabMovimenti;
-	private static NewSql       consolle;
-	private static GeneralFrame singleton;
+	private static final long       serialVersionUID = 1L;
+	private final JPanel            contentPane;
+	// private static JTabbedPane tabGenerale;
+	private static PerMesiF         tabPermesi;
+	private static Movimenti        tabMovimenti;
+	private static NewSql           consolle;
+	private static GeneralFrame     singleton;
+	private final ArrayList<JPanel> listaPannelli    = new ArrayList<JPanel>();
 
 	public static void main(String[] args) {
 
@@ -71,25 +79,34 @@ public class GeneralFrame extends JFrame {
 		MyMenu menu = new MyMenu();
 		contentPane.add(menu);
 
+		createPannelloBottoni();
+
 		// tabGenerale
-		tabGenerale = new JTabbedPane();
-		tabGenerale.setFont(new Font("Eras Light ITC", Font.BOLD, 14));
-		tabGenerale.setBounds(0, 31, 970, 650);
+		// tabGenerale = new JTabbedPane();
+		// tabGenerale.setFont(new Font("Eras Light ITC", Font.BOLD, 14));
+		// tabGenerale.setBounds(0, 70, 970, 650);
 
 		// pannello consolle sql
 		consolle = new NewSql();
-
-		// Divisione di spese e entrate per mese
-		tabPermesi = new PerMesiF();
-
+		consolle.setBounds(0, 70, 970, 650);
 		// movimenti
 		tabMovimenti = new Movimenti();
+		tabMovimenti.setBounds(0, 70, 970, 650);
+		// Divisione di spese e entrate per mese
+		tabPermesi = new PerMesiF();
+		tabPermesi.setBounds(0, 70, 970, 650);
 
-		this.getContentPane().add(tabGenerale);
+		// this.getContentPane().add(tabGenerale);
 
-		tabGenerale.addTab("Mesi", tabPermesi);
-		tabGenerale.addTab("Movimenti", tabMovimenti);
-		tabGenerale.addTab("ConsolleSQL", consolle);
+		contentPane.add(tabMovimenti);
+		listaPannelli.add(tabMovimenti);
+		contentPane.add(tabPermesi);
+		listaPannelli.add(tabPermesi);
+		contentPane.add(consolle);
+		listaPannelli.add(consolle);
+		// tabGenerale.addTab("Mesi", tabPermesi);
+		// tabGenerale.addTab("Movimenti", tabMovimenti);
+		// tabGenerale.addTab("ConsolleSQL", consolle);
 
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -126,6 +143,48 @@ public class GeneralFrame extends JFrame {
 		repaint();
 	}
 
+	private void createPannelloBottoni() {
+		PannelloBottoni pannelloBottoni = new PannelloBottoni();
+		ToggleBtn bottoni3 = new ToggleBtn("Movimenti", new ImageIcon("/home/kiwi/Immagini/prova.png"));
+		bottoni3.settaggioBottoneStandard();
+		Bottone b3 = new Bottone(bottoni3);
+		bottoni3.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (JPanel pannello : listaPannelli) {
+					pannello.setVisible(false);
+				}
+				tabPermesi.setVisible(true);
+			}
+		});
+
+		// **************************************
+		JPanel pp = new JPanel();
+		pp.add(new JLabel("Ciao"));
+		pp.setLayout(new GridLayout(1, 1));
+		b3.setContent(pp);
+		// *****************************************
+
+		bottoni3.setPadre(b3);
+
+		ToggleBtn bottoni2 = new ToggleBtn("Mesi", new ImageIcon("/home/kiwi/Immagini/prova.png"));
+		bottoni2.settaggioBottoneStandard();
+		Bottone b2 = new Bottone(bottoni2);
+		bottoni2.setPadre(b2);
+
+		ToggleBtn bottoni = new ToggleBtn("ConsolleSQL", new ImageIcon("/home/kiwi/Immagini/prova.png"));
+		bottoni.settaggioBottoneStandard();
+		Bottone b = new Bottone(bottoni);
+		bottoni.setPadre(b);
+
+		pannelloBottoni.addBottone(b);
+		pannelloBottoni.addBottone(b2);
+		pannelloBottoni.addBottone(b3);
+		contentPane.add(pannelloBottoni);
+		pannelloBottoni.setBounds(0, 20, this.getWidth(), 90);
+	}
+
 	private void relocateFinestreLaterali() {
 		Point p = getLocation();
 		Dimension d = getSize();
@@ -140,13 +199,13 @@ public class GeneralFrame extends JFrame {
 
 	}
 
-	public JTabbedPane getTabGenerale() {
-		return tabGenerale;
-	}
-
-	public void setTabGenerale(JTabbedPane tabGenerale) {
-		GeneralFrame.tabGenerale = tabGenerale;
-	}
+	// public JTabbedPane getTabGenerale() {
+	// return tabGenerale;
+	// }
+	//
+	// public void setTabGenerale(JTabbedPane tabGenerale) {
+	// GeneralFrame.tabGenerale = tabGenerale;
+	// }
 
 	public PerMesiF getTabPermesi() {
 		return tabPermesi;
