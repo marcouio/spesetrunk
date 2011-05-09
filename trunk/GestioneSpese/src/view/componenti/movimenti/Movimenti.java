@@ -23,8 +23,6 @@ public class Movimenti extends OggettoVistaBase {
 	}
 
 	private JTabbedPane           tabGenerale;
-	// private ListaMovEntrat tabMovEntrate;
-	// private ListaMovUscite tabMovUscite;
 	private ListaMovimentiEntrate tabMovEntrate;
 	private ListaMovimentiUscite  tabMovUscite;
 

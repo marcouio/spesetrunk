@@ -1,38 +1,36 @@
 package view;
 
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import view.bottoni.Bottone;
 import view.bottoni.PannelloBottoni;
+import view.bottoni.ToggleBtn;
 import view.componenti.movimenti.Movimenti;
+import view.entrateuscite.EntrateView;
+import view.entrateuscite.UsciteView;
 import view.impostazioni.Impostazioni;
 import view.mymenu.MyMenu;
-import view.sidebar.ToggleBtn;
 import view.tabelle.PerMesiF;
 import business.Controllore;
 import business.DBUtil;
+import domain.wrapper.WrapEntrate;
+import domain.wrapper.WrapSingleSpesa;
 
 public class GeneralFrame extends JFrame {
 
 	private static final long       serialVersionUID = 1L;
 	private final JPanel            contentPane;
-	// private static JTabbedPane tabGenerale;
 	private static PerMesiF         tabPermesi;
 	private static Movimenti        tabMovimenti;
 	private static NewSql           consolle;
@@ -80,75 +78,103 @@ public class GeneralFrame extends JFrame {
 		contentPane.add(menu);
 
 		createPannelloBottoni();
-
-		// tabGenerale
-		// tabGenerale = new JTabbedPane();
-		// tabGenerale.setFont(new Font("Eras Light ITC", Font.BOLD, 14));
-		// tabGenerale.setBounds(0, 70, 970, 650);
-
-		// pannello consolle sql
 		consolle = new NewSql();
-		consolle.setBounds(0, 70, 970, 650);
+		consolle.setBounds(40, 70, 970, 650);
+
 		// movimenti
 		tabMovimenti = new Movimenti();
-		tabMovimenti.setBounds(0, 70, 970, 650);
-		// Divisione di spese e entrate per mese
+		tabMovimenti.getTabMovUscite().setBounds(40, 100, 970, 650);
+		tabMovimenti.getTabMovEntrate().setBounds(40, 100, 970, 650);
+
+		// Divisione di spese e entrate per5 mese
 		tabPermesi = new PerMesiF();
-		tabPermesi.setBounds(0, 70, 970, 650);
+		tabPermesi.setBounds(40, 70, 970, 650);
 
 		// this.getContentPane().add(tabGenerale);
 
-		contentPane.add(tabMovimenti);
-		listaPannelli.add(tabMovimenti);
+		contentPane.add(tabMovimenti.getTabMovEntrate());
+		contentPane.add(tabMovimenti.getTabMovUscite());
+		listaPannelli.add(tabMovimenti.getTabMovEntrate());
+		listaPannelli.add(tabMovimenti.getTabMovUscite());
 		contentPane.add(tabPermesi);
 		listaPannelli.add(tabPermesi);
 		contentPane.add(consolle);
 		listaPannelli.add(consolle);
-		// tabGenerale.addTab("Mesi", tabPermesi);
-		// tabGenerale.addTab("Movimenti", tabMovimenti);
-		// tabGenerale.addTab("ConsolleSQL", consolle);
 
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowDeiconified(WindowEvent e) {
-				Controllore.getFinestraHistory().setVisible(true);
-				relocateFinestreLaterali();
-			}
+		for (JPanel pannello : listaPannelli) {
+			pannello.setVisible(false);
+		}
+		tabMovimenti.getTabMovUscite().setVisible(true);
 
-			@Override
-			public void windowClosed(WindowEvent e) {
-				Controllore.getSingleton().quit();
-			}
-
-			@Override
-			public void windowIconified(WindowEvent e) {
-				Controllore.getFinestraHistory().setVisible(false);
-			}
-
-		});
-
-		addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentResized(ComponentEvent e) {
-				resizeView();
-				relocateFinestreLaterali();
-			}
-
-			@Override
-			public void componentMoved(ComponentEvent e) {
-				relocateFinestreLaterali();
-			}
-		});
+		MyWindowListener windowListener = new MyWindowListener();
+		this.addWindowListener(windowListener);
+		this.addComponentListener(windowListener);
 
 		repaint();
 	}
 
 	private void createPannelloBottoni() {
 		PannelloBottoni pannelloBottoni = new PannelloBottoni();
-		ToggleBtn bottoni3 = new ToggleBtn("Movimenti", new ImageIcon("/home/kiwi/Immagini/prova.png"));
-		bottoni3.settaggioBottoneStandard();
-		Bottone b3 = new Bottone(bottoni3);
-		bottoni3.addActionListener(new ActionListener() {
+		ImageIcon icona = new ImageIcon("/home/kiwi/Immagini/prova.png");
+		ToggleBtn toggleMovimenti = new ToggleBtn("Movimenti", icona);
+		toggleMovimenti.settaggioBottoneStandard();
+		Bottone bottoneMovimenti = new Bottone(toggleMovimenti);
+		toggleMovimenti.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (JPanel pannello : listaPannelli) {
+					pannello.setVisible(false);
+				}
+				tabMovimenti.getTabMovUscite().setVisible(true);
+			}
+		});
+
+		// **************************************
+		final ToggleBtn toggleMovimentiUscite = new ToggleBtn("Uscite", icona);
+		toggleMovimentiUscite.settaggioBottoneStandard();
+		Bottone bottoneMovimentiUscite = new Bottone(toggleMovimentiUscite);
+		toggleMovimentiUscite.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (JPanel pannello : listaPannelli) {
+					pannello.setVisible(false);
+				}
+				tabMovimenti.getTabMovUscite().setVisible(true);
+				toggleMovimentiUscite.setSelected(false);
+			}
+		});
+
+		final ToggleBtn toggleMovimentiEntrate = new ToggleBtn("Entrate", icona);
+		toggleMovimentiEntrate.settaggioBottoneStandard();
+		final Bottone bottoneMovimentiEntrate = new Bottone(toggleMovimentiEntrate);
+		toggleMovimentiEntrate.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (JPanel pannello : listaPannelli) {
+					pannello.setVisible(false);
+				}
+				tabMovimenti.getTabMovEntrate().setVisible(true);
+				toggleMovimentiEntrate.setSelected(false);
+				bottoneMovimentiEntrate.getContenuto().getGruppoBottoni().clearSelection();
+				bottoneMovimentiEntrate.getBottone().setSelected(false);
+			}
+		});
+
+		PannelloBottoni pp = new PannelloBottoni();
+		pp.addBottone(bottoneMovimentiEntrate);
+		pp.addBottone(bottoneMovimentiUscite);
+		bottoneMovimenti.setContenuto(pp);
+		// *****************************************
+		toggleMovimenti.setPadre(bottoneMovimenti);
+
+		ToggleBtn toggleMesi = new ToggleBtn("Mesi", new ImageIcon("/home/kiwi/Immagini/prova.png"));
+		toggleMesi.settaggioBottoneStandard();
+		Bottone bottoneMesi = new Bottone(toggleMesi);
+		toggleMesi.setPadre(bottoneMesi);
+		toggleMesi.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -159,53 +185,88 @@ public class GeneralFrame extends JFrame {
 			}
 		});
 
-		// **************************************
-		JPanel pp = new JPanel();
-		pp.add(new JLabel("Ciao"));
-		pp.setLayout(new GridLayout(1, 1));
-		b3.setContent(pp);
-		// *****************************************
+		ToggleBtn toggleSql = new ToggleBtn("ConsolleSQL", new ImageIcon("/home/kiwi/Immagini/prova.png"));
+		toggleSql.settaggioBottoneStandard();
+		Bottone bottoneSql = new Bottone(toggleSql);
+		toggleSql.setPadre(bottoneSql);
+		toggleSql.addActionListener(new ActionListener() {
 
-		bottoni3.setPadre(b3);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (JPanel pannello : listaPannelli) {
+					pannello.setVisible(false);
+				}
+				consolle.setVisible(true);
+			}
+		});
 
-		ToggleBtn bottoni2 = new ToggleBtn("Mesi", new ImageIcon("/home/kiwi/Immagini/prova.png"));
-		bottoni2.settaggioBottoneStandard();
-		Bottone b2 = new Bottone(bottoni2);
-		bottoni2.setPadre(b2);
+		ToggleBtn toggleEntrateUscite = new ToggleBtn("Inserimento Dati", new ImageIcon("/home/kiwi/Immagini/prova.png"));
+		toggleEntrateUscite.settaggioBottoneStandard();
+		final Bottone bottoneEntrateUscite = new Bottone(toggleEntrateUscite);
+		toggleEntrateUscite.setPadre(bottoneEntrateUscite);
 
-		ToggleBtn bottoni = new ToggleBtn("ConsolleSQL", new ImageIcon("/home/kiwi/Immagini/prova.png"));
-		bottoni.settaggioBottoneStandard();
-		Bottone b = new Bottone(bottoni);
-		bottoni.setPadre(b);
+		final ToggleBtn toggleInsUscite = new ToggleBtn("Uscite", icona);
+		toggleInsUscite.settaggioBottoneStandard();
+		Bottone bottoneInsUscite = new Bottone(toggleInsUscite);
+		toggleInsUscite.addActionListener(new ActionListener() {
 
-		pannelloBottoni.addBottone(b);
-		pannelloBottoni.addBottone(b2);
-		pannelloBottoni.addBottone(b3);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					PannelloBottoni pannelloEntrateUscite = bottoneEntrateUscite.getContenuto();
+					UsciteView dialog = new UsciteView(new WrapSingleSpesa());
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setBounds(0, 0, 347, 407);
+					dialog.setVisible(true);
+					pannelloEntrateUscite.getGruppoBottoni().clearSelection();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		final ToggleBtn toggleInsEntrate = new ToggleBtn("Entrate", icona);
+		toggleInsEntrate.settaggioBottoneStandard();
+		Bottone bottoneInsEntrate = new Bottone(toggleInsEntrate);
+		toggleInsEntrate.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				PannelloBottoni pannelloEntrateUscite = bottoneEntrateUscite.getContenuto();
+				EntrateView dialog = new EntrateView(new WrapEntrate());
+				dialog.setLocationRelativeTo(null);
+				dialog.setBounds(0, 0, 347, 318);
+				dialog.setVisible(true);
+				pannelloEntrateUscite.getGruppoBottoni().clearSelection();
+			}
+		});
+
+		PannelloBottoni EntrateUsciteContenuto = new PannelloBottoni();
+		EntrateUsciteContenuto.addBottone(bottoneInsEntrate);
+		EntrateUsciteContenuto.addBottone(bottoneInsUscite);
+		bottoneEntrateUscite.setContenuto(EntrateUsciteContenuto);
+
+		pannelloBottoni.addBottone(bottoneSql);
+		pannelloBottoni.addBottone(bottoneMesi);
+		pannelloBottoni.addBottone(bottoneMovimenti);
+		pannelloBottoni.addBottone(bottoneEntrateUscite);
+
 		contentPane.add(pannelloBottoni);
 		pannelloBottoni.setBounds(0, 20, this.getWidth(), 90);
 	}
 
-	private void relocateFinestreLaterali() {
-		Point p = getLocation();
-		Dimension d = getSize();
+	public static void relocateFinestreLaterali() {
+		Point p = GeneralFrame.getSingleton().getLocation();
+		Dimension d = GeneralFrame.getSingleton().getSize();
 		p.setLocation(p.x + d.width + 5, p.y);
 		Controllore.getFinestraHistory().setLocation(p);
 		Controllore.getReport().setLocation(p);
 		Controllore.getPannelloDati().setLocation(p);
 	}
 
-	private void resizeView() {
+	public static void resizeView() {
 		// TODO Auto-generated method stub
-
 	}
-
-	// public JTabbedPane getTabGenerale() {
-	// return tabGenerale;
-	// }
-	//
-	// public void setTabGenerale(JTabbedPane tabGenerale) {
-	// GeneralFrame.tabGenerale = tabGenerale;
-	// }
 
 	public PerMesiF getTabPermesi() {
 		return tabPermesi;

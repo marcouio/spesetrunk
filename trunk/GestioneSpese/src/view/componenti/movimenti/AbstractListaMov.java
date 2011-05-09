@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,7 +27,7 @@ import domain.wrapper.Model;
 public abstract class AbstractListaMov extends view.OggettoVistaBase {
 
 	private static final long serialVersionUID = 1L;
-	static int                numMovimenti     = 10;
+	int                       numMovimenti     = 10;
 	private JTable            table;
 	private JTable            table1;
 	private JScrollPane       scrollPane;
@@ -36,7 +37,6 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 
 		JFrame frame = new JFrame();
 
-		// frame.getContentPane().add(new AbstractListaMov());
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
@@ -52,25 +52,22 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 
 			final JDialog dialog = createDialog();
 			this.setLayout(null);
-			this.setSize(500, 250);
-			this.setPreferredSize(new Dimension(800, 505));
+			this.setPreferredSize(new Dimension(1000, 605));
 			JLabel movim = new LabelTesto("Movimenti:");
-			movim.setBounds(166, 20, 89, 30);
+			movim.setBounds(143, 22, 89, 30);
 			this.add(movim);
 			campo = new TextFieldF();
-			campo.setBounds(255, 26, 60, 25);
+			campo.setBounds(94, 25, 43, 25);
 			campo.setText("10");
 			numMovimenti = Integer.parseInt(campo.getText());
 			this.add(campo);
 			ButtonF pulsanteNMovimenti = new ButtonF("Cambia");
-			pulsanteNMovimenti.setBounds(317, 27, 90, 25);
+			pulsanteNMovimenti.setBounds(219, 26, 72, 25);
 			this.add(pulsanteNMovimenti);
 
 			final String[] nomiColonne = createNomiColonne();
 
-			// final String[] nomiColonne = (String[])
-			// AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
-
+			// TODO aggiungere listener all'interno delle classi figlie
 			// modifica movimenti visibili
 			pulsanteNMovimenti.addActionListener(new ActionListener() {
 
@@ -83,8 +80,6 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 					}
 				}
 			});
-			// movimenti = Model.getSingleton().movimentiEntrate(numMovimenti,
-			// Entrate.NOME_TABELLA);
 			String[][] movimenti = createMovimenti();
 
 			table = new TableF(movimenti, nomiColonne);
@@ -96,17 +91,37 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 
 			// Add the scroll pane to this panel.
 			this.add(scrollPane);
-			scrollPane.setBounds(21, 89, 700, 308);
+			scrollPane.setBounds(21, 89, 850, 308);
 
 			ButtonF updateButton = new ButtonF();
 			this.add(updateButton);
 			updateButton.setText("Aggiorna");
-			updateButton.setBounds(193, 427, 95, 21);
+			updateButton.setBounds(684, 403, 95, 21);
 
 			ButtonF deleteButton = new ButtonF();
 			this.add(deleteButton);
 			deleteButton.setText("Cancella");
-			deleteButton.setBounds(299, 427, 82, 21);
+			deleteButton.setBounds(790, 403, 82, 21);
+
+			JButton btnFiltraMovimenti = new JButton("Filtra Movimenti");
+			btnFiltraMovimenti.setBounds(334, 25, 179, 25);
+			btnFiltraMovimenti.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					try {
+						FiltraDialog dialog = new FiltraDialog();
+						dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+						dialog.setVisible(true);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+
+				}
+			});
+			add(btnFiltraMovimenti);
+
+			// TODO implementare actionlistener all'interno delle sottoclassi
 			deleteButton.addActionListener(new ActionListener() {
 
 				@Override
@@ -143,7 +158,16 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 
 	}
 
-	public abstract void impostaTable(JTable table);
+	private void impostaTable(JTable table2) {
+		table2.setPreferredScrollableViewportSize(new Dimension(900, 550));
+		table2.setFillsViewportHeight(true);
+		table2.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		table2.setRowHeight(26);
+		table2.setBounds(30, 100, 900, 300);
+		impostaTableSpecifico(table2);
+	}
+
+	public abstract void impostaTableSpecifico(JTable table);
 
 	public abstract String[][] createMovimenti();
 
@@ -159,12 +183,12 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 		this.campo = campo;
 	}
 
-	public static int getNumEntry() {
-		return AbstractListaMov.numMovimenti;
+	public int getNumEntry() {
+		return this.numMovimenti;
 	}
 
 	public void setNumEntry(int numEntry) {
-		AbstractListaMov.numMovimenti = numEntry;
+		this.numMovimenti = numEntry;
 	}
 
 	public JTable getTable1() {
@@ -190,5 +214,4 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 	public void setTable(JTable table) {
 		this.table = table;
 	}
-
 }

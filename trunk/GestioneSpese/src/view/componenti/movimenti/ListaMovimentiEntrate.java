@@ -1,7 +1,5 @@
 package view.componenti.movimenti;
 
-import java.awt.Dimension;
-
 import javax.swing.JTable;
 
 import business.AltreUtil;
@@ -29,19 +27,13 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 	}
 
 	@Override
-	public void impostaTable(JTable table) {
-		table.setPreferredScrollableViewportSize(new Dimension(800,
-		                 450));
+	public void impostaTableSpecifico(JTable table) {
 		table.getColumn("idEntrate").setPreferredWidth(70);
 		table.getColumn("euro").setPreferredWidth(90);
 		table.getColumn("nome").setPreferredWidth(120);
 		table.getColumn("data").setPreferredWidth(120);
 		table.getColumn("descrizione").setPreferredWidth(250);
 		table.getColumn("inserimento").setPreferredWidth(120);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		table.setRowHeight(26);
-		table.setFillsViewportHeight(true);
-		table.setBounds(30, 100, 500, 200);
 		table.addMouseListener(new AscoltatoreMouseMovEntrate(table));
 	}
 
