@@ -71,6 +71,17 @@ public class MyMenu extends JMenuBar {
 		registra.addActionListener(registrazione);
 		file.add(registra);
 
+		JMenuItem chiudi = new JMenuItem("Chiudi");
+		chiudi.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+
+			}
+		});
+		file.add(chiudi);
+
 		JMenu modifica = new JMenu("Modifica");
 		add(modifica);
 
