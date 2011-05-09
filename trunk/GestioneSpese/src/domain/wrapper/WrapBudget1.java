@@ -10,10 +10,11 @@ import java.util.Vector;
 
 import business.DBUtil;
 import business.cache.CacheCategorie;
+import domain.AbstractOggettoEntita;
 import domain.Budget;
 import domain.CatSpese;
 
-public class WrapBudget1 extends Budget implements IWrapperEntity{
+public class WrapBudget1 extends Budget implements IWrapperEntity {
 
 	/**
 	 * 
@@ -23,15 +24,15 @@ public class WrapBudget1 extends Budget implements IWrapperEntity{
 	@Override
 	public Object selectById(int id) {
 		Connection cn = DBUtil.getConnection();
-		String sql = "SELECT * FROM "+Budget.NOME_TABELLA+" WHERE "+Budget.ID+" = " +id;
-		
+		String sql = "SELECT * FROM " + Budget.NOME_TABELLA + " WHERE " + Budget.ID + " = " + id;
+
 		Budget budget = null;
-		
+
 		try {
-			
+
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
-			if(rs.next()){
+			if (rs.next()) {
 				budget = new Budget();
 				budget.setidBudget(rs.getInt(1));
 				CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(2)));
@@ -63,11 +64,11 @@ public class WrapBudget1 extends Budget implements IWrapperEntity{
 	public Vector<Object> selectAll() {
 		Vector<Object> budgets = new Vector<Object>();
 		Connection cn = DBUtil.getConnection();
-		String sql = "SELECT * FROM " + Budget.NOME_TABELLA ;
-		try{
+		String sql = "SELECT * FROM " + Budget.NOME_TABELLA;
+		try {
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
-			while(rs.next()){
+			while (rs.next()) {
 				Budget budget = new Budget();
 				budget.setidBudget(rs.getInt(1));
 				CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(2)));
@@ -75,10 +76,10 @@ public class WrapBudget1 extends Budget implements IWrapperEntity{
 				budget.setpercSulTot(rs.getDouble(3));
 				budgets.add(budget);
 			}
-		
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				cn.close();
 			} catch (SQLException e) {
@@ -94,14 +95,14 @@ public class WrapBudget1 extends Budget implements IWrapperEntity{
 		Connection cn = DBUtil.getConnection();
 		String sql = "";
 		try {
-			Budget budget = (Budget)oggettoEntita;
-			
-			sql="INSERT INTO " + Budget.NOME_TABELLA + " (" + Budget.IDCATEGORIE+", "+Budget.PERCSULTOT+") VALUES(?,?)";
+			Budget budget = (Budget) oggettoEntita;
+
+			sql = "INSERT INTO " + Budget.NOME_TABELLA + " (" + Budget.IDCATEGORIE + ", " + Budget.PERCSULTOT + ") VALUES(?,?)";
 			PreparedStatement ps = cn.prepareStatement(sql);
 			if (budget.getCatSpese() != null)
 				ps.setInt(1, budget.getCatSpese().getidCategoria());
-			ps.setDouble(2, budget.getpercSulTot());			
-			
+			ps.setDouble(2, budget.getpercSulTot());
+
 			ps.executeUpdate();
 			ok = true;
 		} catch (Exception e) {
@@ -121,17 +122,17 @@ public class WrapBudget1 extends Budget implements IWrapperEntity{
 	@Override
 	public boolean delete(int id) {
 		boolean ok = false;
-		String sql = "DELETE FROM "+Budget.NOME_TABELLA+" WHERE "+Budget.ID+" = "+id;
+		String sql = "DELETE FROM " + Budget.NOME_TABELLA + " WHERE " + Budget.ID + " = " + id;
 		Connection cn = DBUtil.getConnection();
-		
+
 		try {
 			Statement st = cn.createStatement();
 			st.executeUpdate(sql);
-			ok=true;
-			
+			ok = true;
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ok=false;
+			ok = false;
 		}
 		try {
 			cn.close();
@@ -146,18 +147,18 @@ public class WrapBudget1 extends Budget implements IWrapperEntity{
 	public boolean update(Object oggettoEntita) {
 		boolean ok = false;
 		Connection cn = DBUtil.getConnection();
-		
+
 		Budget budget = (Budget) oggettoEntita;
-		String sql = "UPDATE "+Budget.NOME_TABELLA+ " SET " +Budget.IDCATEGORIE+ " = " +budget.getidCategorie()+", "+Budget.PERCSULTOT+" = "+budget.getpercSulTot()+
-				" WHERE "+ Budget.ID +" = "+budget.getidBudget();
+		String sql = "UPDATE " + Budget.NOME_TABELLA + " SET " + Budget.IDCATEGORIE + " = " + budget.getidCategorie() + ", " + Budget.PERCSULTOT + " = " + budget.getpercSulTot() +
+		                " WHERE " + Budget.ID + " = " + budget.getidBudget();
 		try {
 			Statement st = cn.createStatement();
 			st.executeUpdate(sql);
-			ok=true;
-			
+			ok = true;
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ok=false;
+			ok = false;
 		}
 		try {
 			cn.close();
@@ -171,17 +172,17 @@ public class WrapBudget1 extends Budget implements IWrapperEntity{
 	@Override
 	public boolean deleteAll() {
 		boolean ok = false;
-		String sql = "DELETE FROM "+Budget.NOME_TABELLA;
+		String sql = "DELETE FROM " + Budget.NOME_TABELLA;
 		Connection cn = DBUtil.getConnection();
-		
+
 		try {
 			Statement st = cn.createStatement();
 			st.executeUpdate(sql);
-			ok=true;
-			
+			ok = true;
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ok=false;
+			ok = false;
 		}
 		try {
 			cn.close();
@@ -190,6 +191,12 @@ public class WrapBudget1 extends Budget implements IWrapperEntity{
 		}
 		DBUtil.closeConnection();
 		return ok;
+	}
+
+	@Override
+	public AbstractOggettoEntita getentitaPadre() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
