@@ -125,14 +125,14 @@ public class AltreUtil {
 		return files;
 	}
 
-	public static String[] deleteFileDaDirectory(String Dir, String iniziali) {
+	public static String[] deleteFileDaDirectory(String Dir, String treCharIniziali) {
 		File dir = new File(Dir);
 		String[] files = dir.list();
 
 		for (int i = 0; i < files.length; i++) {
 			File f = new File(dir, files[i]);
 			if (f.isDirectory() == false
-					&& f.getName().substring(0, 3).equals(iniziali)) {
+					&& f.getName().substring(0, 3).equals(treCharIniziali)) {
 				f.delete();
 			}
 
