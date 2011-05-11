@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 
 public class AltreUtil {
 
-	static Logger log;
+	static Logger      log;
 	static FileHandler fileLog;
 
 	public static boolean checkDouble(String Doble) {
@@ -27,40 +27,31 @@ public class AltreUtil {
 		return ok;
 	}
 
-	public static boolean checkData(String Data) {
+	public static boolean checkData(String data) {
 		boolean ok = true;
-		try {
-			int anno = Integer.parseInt(Data.substring(0, 4));
-			int mese = Integer.parseInt(Data.substring(5, 7));
-			int giorno = Integer.parseInt(Data.substring(8, 10));
-			new GregorianCalendar(anno, mese, giorno);
-		} catch (NumberFormatException e2) {
-			ok = false;
-			JOptionPane
-					.showMessageDialog(
-							null,
-							"Inserire la data con valori numerici e con il formato suggerito: AAAA/MM/GG",
-							"Non ci siamo!", JOptionPane.ERROR_MESSAGE,
-							new ImageIcon("imgUtil/index.jpeg"));
-			log.severe("La data non e' inserita in maniera corretta: "
-					+ e2.getMessage());
-		} catch (IllegalArgumentException e1) {
-			ok = false;
-			JOptionPane.showMessageDialog(null, "Non hai inserito una data!",
-					"Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon(
-							"immgUtil/index.jpeg"));
-			log.severe("La data non e' inserita in maniera corretta: "
-					+ e1.getMessage());
-		} catch (StringIndexOutOfBoundsException e3) {
-			ok = false;
-			JOptionPane.showMessageDialog(
-					null,
-					"Numero di caratteri errato per una data: "
-							+ e3.getMessage(), "Non ci siamo!",
-					JOptionPane.ERROR_MESSAGE, new ImageIcon(
-							"imgUtil/index.jpeg"));
-			log.severe("La data non e' inserita in maniera corretta: "
-					+ e3.getMessage());
+		if (data != null) {
+			try {
+				int anno = Integer.parseInt(data.substring(0, 4));
+				int mese = Integer.parseInt(data.substring(5, 7));
+				int giorno = Integer.parseInt(data.substring(8, 10));
+				new GregorianCalendar(anno, mese, giorno);
+
+			} catch (NumberFormatException e2) {
+				ok = false;
+				JOptionPane.showMessageDialog(null, "Inserire la data con valori numerici e con il formato suggerito: AAAA/MM/GG",
+				                            "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
+				log.severe("La data non e' inserita in maniera corretta: " + e2.getMessage());
+			} catch (IllegalArgumentException e1) {
+				ok = false;
+				JOptionPane.showMessageDialog(null, "Non hai inserito una data!", "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("immgUtil/index.jpeg"));
+				log.severe("La data non e' inserita in maniera corretta: " + e1.getMessage());
+			} catch (StringIndexOutOfBoundsException e3) {
+				ok = false;
+				JOptionPane.showMessageDialog(null, "Numero di caratteri errato per una data: " + e3.getMessage(), "Non ci siamo!",
+				                JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
+				log.severe("La data non e' inserita in maniera corretta: "
+				                + e3.getMessage());
+			}
 		}
 		return ok;
 	}
@@ -132,7 +123,7 @@ public class AltreUtil {
 		for (int i = 0; i < files.length; i++) {
 			File f = new File(dir, files[i]);
 			if (f.isDirectory() == false
-					&& f.getName().substring(0, 3).equals(treCharIniziali)) {
+			                && f.getName().substring(0, 3).equals(treCharIniziali)) {
 				f.delete();
 			}
 
@@ -180,7 +171,5 @@ public class AltreUtil {
 			nomiColonne[i] = nomi.get(i);
 		return nomiColonne;
 	}
-	
-	
 
 }
