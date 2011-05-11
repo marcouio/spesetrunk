@@ -10,6 +10,7 @@ import java.util.Observable;
 import java.util.Vector;
 
 import view.impostazioni.Impostazioni;
+import business.AltreUtil;
 import business.Controllore;
 import business.DBUtil;
 import business.cache.CacheUtenti;
@@ -260,6 +261,69 @@ public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate 
 		}
 		DBUtil.closeConnection();
 		return ok;
+	}
+
+	// metodo che restituisce le ultime dieci entrate
+	/**
+	 * Permette di ottenere un vettore con un numero di entita' entrate inserito
+	 * come parametro
+	 * 
+	 * @param numEntry
+	 * @return Vector<Entrate>
+	 */
+	public Vector<Entrate> movimentiEntrateFiltrati(String dataDa, String dataA, String nome, String euro, String categoria) {
+		Vector<Entrate> entrate = null;
+		Utenti utente = Controllore.getSingleton().getUtenteLogin();
+		int idUtente = 0;
+		if (utente != null)
+			idUtente = utente.getidUtente();
+
+		// TODO verificare che impostazioni venga pescato correttamente (non
+		// passare dal controller?)
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT * FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.IDUTENTE + " = " + idUtente);
+		if (AltreUtil.checkData(dataDa) && AltreUtil.checkData(dataA)) {
+			sql.append(" AND " + Entrate.DATA + " BETWEEN '" + dataDa + "'" + " AND '" + dataA + "'");
+		} else if (AltreUtil.checkData(dataDa)) {
+			sql.append(" AND " + Entrate.DATA + " = '" + dataDa + "'");
+		}
+		if (nome != null) {
+			sql.append(" AND " + Entrate.NOME + " = '" + nome + "'");
+		}
+		if (AltreUtil.checkDouble(euro)) {
+			sql.append(" AND " + Entrate.INEURO + " = " + euro);
+		}
+		if (categoria != null) {
+			sql.append(" AND " + Entrate.FISSEOVAR + " = '" + categoria + "'");
+		}
+		Connection cn = DBUtil.getConnection();
+		try {
+			Statement st = cn.createStatement();
+			ResultSet rs = st.executeQuery(sql.toString());
+			entrate = new Vector<Entrate>();
+			while (rs.next()) {
+				Entrate e = new Entrate();
+				e.setdata(rs.getString(5));
+				e.setdescrizione(rs.getString(2));
+				e.setFisseoVar(rs.getString(3));
+				e.setidEntrate(rs.getInt(1));
+				e.setinEuro(rs.getDouble(4));
+				e.setnome(rs.getString(6));
+				e.setUtenti(utente);
+				e.setDataIns(rs.getString(8));
+				entrate.add(e);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			cn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBUtil.closeConnection();
+		return entrate;
+
 	}
 
 	// metodo che restituisce le ultime dieci entrate

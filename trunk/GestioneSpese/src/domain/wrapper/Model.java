@@ -257,6 +257,60 @@ public class Model {
 	 * @param tabella
 	 * @return String[][]
 	 */
+	public String[][] movimentiFiltratiEntrate(int numEntry, String tabella, Vector<Entrate> entry1) {
+		Vector<String> nomi = Database.getSingleton().nomiColonne(tabella);
+
+		if (entry1.size() > 0 && (entry1.size() == numEntry || entry1.size() >= numEntry)) {
+			movimentiEntrate = new String[numEntry][nomi.size()];
+			for (int x = 0; x < entry1.size(); x++) {
+				Entrate entrate = entry1.get(x);
+				movimentiEntrate[x][0] = entrate.getdata().toString();
+				movimentiEntrate[x][1] = entrate.getnome();
+				movimentiEntrate[x][2] = entrate.getdescrizione();
+				movimentiEntrate[x][3] = Double.toString(entrate.getinEuro());
+				movimentiEntrate[x][4] = entrate.getFisseoVar();
+				movimentiEntrate[x][5] = Integer.toString(entrate.getidEntrate());
+				movimentiEntrate[x][6] = entrate.getDataIns();
+
+			}
+		} else if (entry1.size() > 0 && entry1.size() < numEntry) {
+			movimentiEntrate = new String[numEntry][nomi.size()];
+			for (int x = 0; x < entry1.size(); x++) {
+				Entrate entrate = entry1.get(x);
+				movimentiEntrate[x][0] = entrate.getdata().toString();
+				movimentiEntrate[x][1] = entrate.getnome();
+				movimentiEntrate[x][2] = entrate.getdescrizione();
+				movimentiEntrate[x][3] = Double.toString(entrate.getinEuro());
+				movimentiEntrate[x][4] = entrate.getFisseoVar();
+				movimentiEntrate[x][5] = Integer.toString(entrate.getidEntrate());
+				movimentiEntrate[x][6] = entrate.getDataIns();
+			}
+			for (int y = entry1.size(); y < numEntry; y++) {
+				for (int z = 0; z < nomi.size(); z++)
+					movimentiEntrate[y][z] = "0";
+			}
+		} else {
+			movimentiEntrate = new String[numEntry][nomi.size()];
+			for (int x = 0; x < numEntry; x++) {
+				for (int z = 0; z < nomi.size(); z++)
+					movimentiEntrate[x][z] = "0";
+			}
+		}
+		DBUtil.closeConnection();
+		return movimentiEntrate;
+	}
+
+	/**
+	 * Valorizza una matrice utile per i pannelli movimenti in entrata. crea il
+	 * numero di righe specificato in parametro con le entita' della tabella
+	 * passata in parametro
+	 * 
+	 * }
+	 * 
+	 * @param numEntry
+	 * @param tabella
+	 * @return String[][]
+	 */
 	public String[][] movimentiEntrate(int numEntry, String tabella) {
 		Vector<String> nomi = Database.getSingleton().nomiColonne(tabella);
 		Vector<Entrate> entry1 = Model.getSingleton().modelEntrate.dieciEntrate(numEntry);
@@ -302,6 +356,54 @@ public class Model {
 	}
 
 	// *************************************MOVIMENTI-USCITE***********************************
+
+	public String[][] movimentiFiltratiUscite(int numUscite, String tabella, Vector<SingleSpesa> uscite) {
+		Vector<String> nomi = Database.getSingleton().nomiColonne(tabella);
+
+		if (uscite.size() > 0 && (uscite.size() == numUscite || uscite.size() >= numUscite)) {
+			movimentiUscite = new String[numUscite][nomi.size()];
+			for (int x = 0; x < numUscite; x++) {
+				SingleSpesa uscita = uscite.get(x);
+				movimentiUscite[x][0] = uscita.getData();
+				movimentiUscite[x][1] = uscita.getnome();
+				movimentiUscite[x][2] = uscita.getdescrizione();
+				movimentiUscite[x][3] = Double.toString(uscita.getinEuro());
+				movimentiUscite[x][4] = uscita.getCatSpese().getnome();
+				movimentiUscite[x][5] = Integer.toString(uscita.getidSpesa());
+				movimentiUscite[x][6] = uscita.getDataIns();
+
+			}
+		} else if (uscite.size() > 0 && uscite.size() < numUscite) {
+
+			movimentiUscite = new String[numUscite][nomi.size()];
+			for (int x = 0; x < uscite.size(); x++) {
+
+				SingleSpesa uscita = uscite.get(x);
+				movimentiUscite[x][0] = uscita.getData();
+				movimentiUscite[x][1] = uscita.getnome();
+				movimentiUscite[x][2] = uscita.getdescrizione();
+				movimentiUscite[x][3] = Double.toString(uscita.getinEuro());
+				movimentiUscite[x][4] = uscita.getCatSpese() != null ? uscita.getCatSpese().getnome() : "Nessuna";
+				movimentiUscite[x][5] = Integer.toString(uscita.getidSpesa());
+				movimentiUscite[x][6] = uscita.getDataIns();
+
+				for (int y = uscite.size(); y < numUscite; y++) {
+					for (int z = 0; z < nomi.size(); z++)
+						movimentiUscite[y][z] = "0";
+				}
+			}
+		} else {
+			movimentiUscite = new String[numUscite][nomi.size()];
+			for (int x = 0; x < numUscite; x++) {
+				for (int z = 0; z < nomi.size(); z++)
+					movimentiUscite[x][z] = "0";
+			}
+
+		}
+		DBUtil.closeConnection();
+		return movimentiUscite;
+
+	}
 
 	/**
 	 * Il metodo genera una matrice di movimenti in uscita con numero di righe
