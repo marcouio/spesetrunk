@@ -1,5 +1,12 @@
 package view.componenti.movimenti;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Vector;
+
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JTable;
 
 import business.AltreUtil;
@@ -37,4 +44,52 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 		table.addMouseListener(new AscoltatoreMouseMovEntrate(table));
 	}
 
+	@Override
+	public ActionListener getListener() {
+		return new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					FiltraDialog dialog = new FiltraDialog() {
+
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public String[][] getMovimenti() {
+							Vector<Entrate> entrate = Model.getSingleton().getModelEntrate().movimentiEntrateFiltrati(getDataDa(), getDataA(), getNome(), Double.toString(getEuro()), getCategoria());
+							return Model.getSingleton().movimentiFiltratiEntrate(25, Entrate.NOME_TABELLA, entrate);
+						}
+
+						{
+							// array per Categori
+
+							ArrayList<String> lista = new ArrayList<String>();
+							lista.add("");
+							lista.add("Variabili");
+							lista.add("Fisse");
+							comboBoxCat = new JComboBox(lista.toArray());
+
+							comboBoxCat.setBounds(512, 26, 89, 25);
+							getContentPane().add(comboBoxCat);
+						}
+
+						@Override
+						protected String getCategoria() {
+							if (comboBoxCat.getSelectedItem() != null) {
+								categoria = (String) comboBoxCat.getSelectedItem();
+							}
+							return categoria;
+						}
+
+					};
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setVisible(true);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+
+			}
+		};
+	}
 }

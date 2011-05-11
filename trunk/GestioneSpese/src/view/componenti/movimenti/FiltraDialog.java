@@ -4,28 +4,44 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import view.font.ButtonF;
 import view.font.LabelTesto;
 import view.font.TextFieldF;
+import business.AltreUtil;
 
-public class FiltraDialog extends JDialog {
+public abstract class FiltraDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-	private TextFieldF        textField;
-	private TextFieldF        textField_1;
-	private TextFieldF        textField_2;
-	private TextFieldF        textField_3;
-	private TextFieldF        textField_4;
+	private TextFieldF        tfDa;
+	private TextFieldF        tfA;
+	private TextFieldF        tfNome;
+	private TextFieldF        tfEuro;
+	protected JComboBox       comboBoxCat;
+
+	private String            dataDa;
+	private String            dataA;
+	private String            nome;
+	private Double            euro;
+	protected String          categoria;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			FiltraDialog dialog = new FiltraDialog();
+			FiltraDialog dialog = new FiltraDialog() {
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public String[][] getMovimenti() {
+					return null;
+				}
+			};
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -53,10 +69,11 @@ public class FiltraDialog extends JDialog {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						        // TODO Auto-generated method stub
-
-					        }
+						getMovimenti();
+						dispose();
+					}
 				});
+
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
@@ -73,10 +90,10 @@ public class FiltraDialog extends JDialog {
 			}
 		}
 		{
-			textField = new TextFieldF();
-			textField.setColumns(10);
-			textField.setBounds(62, 26, 89, 25);
-			getContentPane().add(textField);
+			tfDa = new TextFieldF();
+			tfDa.setColumns(10);
+			tfDa.setBounds(62, 26, 89, 25);
+			getContentPane().add(tfDa);
 		}
 		{
 			LabelTesto label = new LabelTesto("Da:");
@@ -89,16 +106,16 @@ public class FiltraDialog extends JDialog {
 			getContentPane().add(label);
 		}
 		{
-			textField_1 = new TextFieldF();
-			textField_1.setColumns(10);
-			textField_1.setBounds(62, 56, 89, 25);
-			getContentPane().add(textField_1);
+			tfA = new TextFieldF();
+			tfA.setColumns(10);
+			tfA.setBounds(62, 56, 89, 25);
+			getContentPane().add(tfA);
 		}
 		{
-			textField_2 = new TextFieldF();
-			textField_2.setColumns(10);
-			textField_2.setBounds(209, 26, 89, 25);
-			getContentPane().add(textField_2);
+			tfNome = new TextFieldF();
+			tfNome.setColumns(10);
+			tfNome.setBounds(209, 26, 89, 25);
+			getContentPane().add(tfNome);
 		}
 		{
 			LabelTesto label = new LabelTesto("Nome:");
@@ -111,22 +128,75 @@ public class FiltraDialog extends JDialog {
 			getContentPane().add(label);
 		}
 		{
-			textField_3 = new TextFieldF();
-			textField_3.setColumns(10);
-			textField_3.setBounds(341, 26, 89, 25);
-			getContentPane().add(textField_3);
+			tfEuro = new TextFieldF();
+			tfEuro.setColumns(10);
+			tfEuro.setBounds(341, 26, 89, 25);
+			getContentPane().add(tfEuro);
 		}
 		{
 			LabelTesto label = new LabelTesto("Categoria:");
 			label.setBounds(436, 26, 82, 15);
 			getContentPane().add(label);
 		}
-		{
-			textField_4 = new TextFieldF();
-			textField_4.setColumns(10);
-			textField_4.setBounds(512, 26, 89, 25);
-			getContentPane().add(textField_4);
-		}
+		// {
+		// comboBoxCat = new
+		// JComboBox(CacheCategorie.getSingleton().getVettoreCategoriePerCombo());
+		// comboBoxCat.setBounds(512, 26, 89, 25);
+		// getContentPane().add(comboBoxCat);
+		// }
 	}
 
+	public abstract String[][] getMovimenti();
+
+	protected String getDataDa() {
+		if (!tfDa.getText().equals("")) {
+			dataDa = tfDa.getText();
+		}
+		return dataDa;
+	}
+
+	protected void setDataDa(String dataDa) {
+		this.dataDa = dataDa;
+	}
+
+	protected String getDataA() {
+		if (!tfA.getText().equals("")) {
+			dataA = tfA.getText();
+		}
+		return dataA;
+	}
+
+	protected void setDataA(String dataA) {
+		this.dataA = dataA;
+	}
+
+	protected String getNome() {
+		if (!tfNome.getText().equals("")) {
+			nome = tfNome.getText();
+		}
+		return nome;
+	}
+
+	protected void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	protected Double getEuro() {
+		if (AltreUtil.checkDouble(tfEuro.getText())) {
+			euro = Double.parseDouble(tfEuro.getText());
+		}
+		return euro;
+	}
+
+	protected void setEuro(double euro) {
+		this.euro = euro;
+	}
+
+	protected String getCategoria() {
+		return categoria;
+	}
+
+	protected void setCategoria(String categoria) {
+		this.categoria = categoria;
+	}
 }

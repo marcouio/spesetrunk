@@ -32,6 +32,11 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 	private JTable            table1;
 	private JScrollPane       scrollPane;
 	private JTextField        campo;
+	String[][]                movimenti;
+
+	protected void setMovimenti(String[][] movimenti) {
+		this.movimenti = movimenti;
+	}
 
 	public static void main(String[] args) {
 
@@ -80,7 +85,7 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 					}
 				}
 			});
-			String[][] movimenti = createMovimenti();
+			movimenti = createMovimenti();
 
 			table = new TableF(movimenti, nomiColonne);
 			impostaTable(table);
@@ -105,20 +110,8 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 
 			JButton btnFiltraMovimenti = new JButton("Filtra Movimenti");
 			btnFiltraMovimenti.setBounds(334, 25, 179, 25);
-			btnFiltraMovimenti.addActionListener(new ActionListener() {
+			btnFiltraMovimenti.addActionListener(getListener());
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					try {
-						FiltraDialog dialog = new FiltraDialog();
-						dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-						dialog.setVisible(true);
-					} catch (Exception e1) {
-						e1.printStackTrace();
-					}
-
-				}
-			});
 			add(btnFiltraMovimenti);
 
 			// TODO implementare actionlistener all'interno delle sottoclassi
@@ -157,6 +150,8 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 		}
 
 	}
+
+	public abstract ActionListener getListener();
 
 	private void impostaTable(JTable table2) {
 		table2.setPreferredScrollableViewportSize(new Dimension(900, 550));
