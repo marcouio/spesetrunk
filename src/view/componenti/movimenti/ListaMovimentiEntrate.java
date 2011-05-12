@@ -18,6 +18,10 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 
 	private static final long serialVersionUID = 1L;
 
+	public ListaMovimentiEntrate() {
+		pulsanteNMovimenti.addActionListener(new AscoltatoreNumeroMovimenti(Entrate.NOME_TABELLA, createNomiColonne(), campo));
+	}
+
 	@Override
 	public String[][] createMovimenti() {
 		return Model.getSingleton().movimentiEntrate(numMovimenti, Entrate.NOME_TABELLA);
@@ -57,8 +61,10 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 
 						@Override
 						public String[][] getMovimenti() {
-							Vector<Entrate> entrate = Model.getSingleton().getModelEntrate().movimentiEntrateFiltrati(getDataDa(), getDataA(), getNome(), Double.toString(getEuro()), getCategoria());
-							return Model.getSingleton().movimentiFiltratiEntrate(25, Entrate.NOME_TABELLA, entrate);
+							Vector<Entrate> entrate = Model.getSingleton().getModelEntrate().movimentiEntrateFiltrati(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
+							String[][] mov = Model.getSingleton().movimentiFiltratiEntratePerNumero(Entrate.NOME_TABELLA, entrate);
+							Model.aggiornaMovimentiEntrateDaFiltro(createNomiColonne(), mov);
+							return mov;
 						}
 
 						{
@@ -76,7 +82,7 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 
 						@Override
 						protected String getCategoria() {
-							if (comboBoxCat.getSelectedItem() != null) {
+							if (comboBoxCat.getSelectedItem() != null && comboBoxCat.getSelectedIndex() != 0) {
 								categoria = (String) comboBoxCat.getSelectedItem();
 							}
 							return categoria;

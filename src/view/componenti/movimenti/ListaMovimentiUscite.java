@@ -20,6 +20,10 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 
 	private static final long serialVersionUID = 1L;
 
+	public ListaMovimentiUscite() {
+		pulsanteNMovimenti.addActionListener(new AscoltatoreNumeroMovimenti(SingleSpesa.NOME_TABELLA, createNomiColonne(), campo));
+	}
+
 	@Override
 	public String[][] createMovimenti() {
 		return Model.getSingleton().movimentiUscite(numMovimenti, SingleSpesa.NOME_TABELLA);
@@ -62,7 +66,9 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 						@Override
 						public String[][] getMovimenti() {
 							Vector<SingleSpesa> uscite = Model.getSingleton().getModelUscita().movimentiUsciteFiltrate(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
-							return Model.getSingleton().movimentiFiltratiUscite(25, Entrate.NOME_TABELLA, uscite);
+							String[][] mov = Model.getSingleton().movimentiFiltratiUscitePerNumero(Entrate.NOME_TABELLA, uscite);
+							Model.aggiornaMovimentiUsciteDaFiltro(createNomiColonne(), mov);
+							return mov;
 						}
 
 						{

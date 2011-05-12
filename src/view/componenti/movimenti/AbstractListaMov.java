@@ -5,12 +5,10 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -22,7 +20,6 @@ import view.font.TableF;
 import view.font.TextFieldF;
 import business.Database;
 import domain.Entrate;
-import domain.wrapper.Model;
 
 public abstract class AbstractListaMov extends view.OggettoVistaBase {
 
@@ -31,8 +28,9 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 	private JTable            table;
 	private JTable            table1;
 	private JScrollPane       scrollPane;
-	private JTextField        campo;
+	protected JTextField      campo;
 	String[][]                movimenti;
+	protected ButtonF         pulsanteNMovimenti;
 
 	protected void setMovimenti(String[][] movimenti) {
 		this.movimenti = movimenti;
@@ -59,32 +57,22 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 			this.setLayout(null);
 			this.setPreferredSize(new Dimension(1000, 605));
 			JLabel movim = new LabelTesto("Movimenti:");
-			movim.setBounds(143, 22, 89, 30);
+			movim.setBounds(70, 33, 89, 30);
 			this.add(movim);
 			campo = new TextFieldF();
-			campo.setBounds(94, 25, 43, 25);
+			campo.setBounds(21, 36, 43, 25);
 			campo.setText("10");
 			numMovimenti = Integer.parseInt(campo.getText());
 			this.add(campo);
-			ButtonF pulsanteNMovimenti = new ButtonF("Cambia");
-			pulsanteNMovimenti.setBounds(219, 26, 72, 25);
+			pulsanteNMovimenti = new ButtonF("Cambia");
+			pulsanteNMovimenti.setBounds(146, 37, 72, 25);
 			this.add(pulsanteNMovimenti);
 
 			final String[] nomiColonne = createNomiColonne();
 
 			// TODO aggiungere listener all'interno delle classi figlie
-			// modifica movimenti visibili
-			pulsanteNMovimenti.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					try {
-						Model.aggiornaMovimentiEntrateDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
-					} catch (Exception e1) {
-						JOptionPane.showMessageDialog(null, "Inserire un valore numerico: " + e1.getMessage(), "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
-					}
-				}
-			});
+			// modifica movimenti visibili ATTENZIONEEE!!!
+			// pulsanteNMovimenti
 			movimenti = createMovimenti();
 
 			table = new TableF(movimenti, nomiColonne);
@@ -109,7 +97,7 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 			deleteButton.setBounds(790, 403, 82, 21);
 
 			JButton btnFiltraMovimenti = new JButton("Filtra Movimenti");
-			btnFiltraMovimenti.setBounds(334, 25, 179, 25);
+			btnFiltraMovimenti.setBounds(376, 36, 179, 25);
 			btnFiltraMovimenti.addActionListener(getListener());
 
 			add(btnFiltraMovimenti);

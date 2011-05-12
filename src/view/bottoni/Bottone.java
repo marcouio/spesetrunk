@@ -40,13 +40,16 @@ public class Bottone extends JPanel {
 	private void init() {
 		this.setLayout(new GridLayout(2, 1));
 		if (contenuto != null) {
-			this.contenuto.setLayout(new GridLayout(1, 0));
+			this.contenuto.setLayout(new GridLayout(0, 1));
 		}
 	}
 
 	public void espandi() {
 		setEspanso(true);
 		if (contenuto != null) {
+			this.setLayout(new GridLayout(2, 1));
+			GridLayout lay = new GridLayout(1, 0);
+			contenuto.setLayout(lay);
 			contenuto.setVisible(true);
 		}
 		revalidate();
