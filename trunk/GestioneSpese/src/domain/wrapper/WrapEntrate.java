@@ -271,7 +271,7 @@ public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate 
 	 * @param numEntry
 	 * @return Vector<Entrate>
 	 */
-	public Vector<Entrate> movimentiEntrateFiltrati(String dataDa, String dataA, String nome, String euro, String categoria) {
+	public Vector<Entrate> movimentiEntrateFiltrati(String dataDa, String dataA, String nome, Double euro, String categoria) {
 		Vector<Entrate> entrate = null;
 		Utenti utente = Controllore.getSingleton().getUtenteLogin();
 		int idUtente = 0;
@@ -290,7 +290,7 @@ public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate 
 		if (nome != null) {
 			sql.append(" AND " + Entrate.NOME + " = '" + nome + "'");
 		}
-		if (AltreUtil.checkDouble(euro)) {
+		if (euro != null) {
 			sql.append(" AND " + Entrate.INEURO + " = " + euro);
 		}
 		if (categoria != null) {

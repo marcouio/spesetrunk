@@ -299,7 +299,7 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity, ISing
 		if (euro != null) {
 			sql.append(" AND " + SingleSpesa.INEURO + " = " + euro);
 		}
-		if (catSpese != null) {
+		if (catSpese != null && Integer.parseInt(catSpese) != 0) {
 			sql.append(" AND " + SingleSpesa.IDCATEGORIE + " = " + Integer.parseInt(catSpese));
 		}
 		Connection cn = DBUtil.getConnection();

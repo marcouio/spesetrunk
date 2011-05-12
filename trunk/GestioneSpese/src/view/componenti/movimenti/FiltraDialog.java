@@ -138,12 +138,6 @@ public abstract class FiltraDialog extends JDialog {
 			label.setBounds(436, 26, 82, 15);
 			getContentPane().add(label);
 		}
-		// {
-		// comboBoxCat = new
-		// JComboBox(CacheCategorie.getSingleton().getVettoreCategoriePerCombo());
-		// comboBoxCat.setBounds(512, 26, 89, 25);
-		// getContentPane().add(comboBoxCat);
-		// }
 	}
 
 	public abstract String[][] getMovimenti();

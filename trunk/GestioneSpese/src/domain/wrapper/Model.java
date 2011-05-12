@@ -257,8 +257,10 @@ public class Model {
 	 * @param tabella
 	 * @return String[][]
 	 */
-	public String[][] movimentiFiltratiEntrate(int numEntry, String tabella, Vector<Entrate> entry1) {
+	public String[][] movimentiFiltratiEntratePerNumero(String tabella, Vector<Entrate> entry1) {
 		Vector<String> nomi = Database.getSingleton().nomiColonne(tabella);
+
+		int numEntry = entry1.size();
 
 		if (entry1.size() > 0 && (entry1.size() == numEntry || entry1.size() >= numEntry)) {
 			movimentiEntrate = new String[numEntry][nomi.size()];
@@ -357,8 +359,10 @@ public class Model {
 
 	// *************************************MOVIMENTI-USCITE***********************************
 
-	public String[][] movimentiFiltratiUscite(int numUscite, String tabella, Vector<SingleSpesa> uscite) {
+	public String[][] movimentiFiltratiUscitePerNumero(String tabella, Vector<SingleSpesa> uscite) {
 		Vector<String> nomi = Database.getSingleton().nomiColonne(tabella);
+
+		int numUscite = uscite.size();
 
 		if (uscite.size() > 0 && (uscite.size() == numUscite || uscite.size() >= numUscite)) {
 			movimentiUscite = new String[numUscite][nomi.size()];
@@ -413,6 +417,24 @@ public class Model {
 	 * @param nomiColonne
 	 * @param numUscite
 	 */
+	public static void aggiornaMovimentiUsciteDaFiltro(Object[] nomiColonne,
+	                 String[][] movimenti) {
+
+		JTable table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getTable1();
+		table1 = new TableF(movimenti, nomiColonne);
+		JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getScrollPane();
+		scrollPane.setViewportView(table1);
+		table1.addMouseListener(new AscoltatoreMouseMovUscite(table1));
+	}
+
+	/**
+	 * Il metodo genera una matrice di movimenti in uscita con numero di righe
+	 * passato in parametro. Aggiunge la tabella con i nuovi valori allo
+	 * scrollpane del pannello ListaMovEntrat. Infine gli applica un ascoltatore
+	 * 
+	 * @param nomiColonne
+	 * @param numUscite
+	 */
 	public static void aggiornaMovimentiUsciteDaEsterno(Object[] nomiColonne,
 	                int numUscite) {
 
@@ -422,6 +444,24 @@ public class Model {
 		JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getScrollPane();
 		scrollPane.setViewportView(table1);
 		table1.addMouseListener(new AscoltatoreMouseMovUscite(table1));
+	}
+
+	/**
+	 * Il metodo genera una matrice di movimenti in entrata con numero di righe
+	 * passato in parametro. Aggiunge la tabella con i nuovi valori allo
+	 * scrollpane del pannello ListaMovEntrat. Infine gli applica un ascoltatore
+	 * 
+	 * @param nomiColonne
+	 * @param numEntry
+	 */
+	public static void aggiornaMovimentiEntrateDaFiltro(Object[] nomiColonne,
+	                String[][] movimenti) {
+
+		JTable table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getTable1();
+		table1 = new TableF(movimenti, nomiColonne);
+		JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getScrollPane();
+		scrollPane.setViewportView(table1);
+		table1.addMouseListener(new AscoltatoreMouseMovEntrate(table1));
 	}
 
 	/**

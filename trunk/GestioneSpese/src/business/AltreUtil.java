@@ -52,6 +52,8 @@ public class AltreUtil {
 				log.severe("La data non e' inserita in maniera corretta: "
 				                + e3.getMessage());
 			}
+		} else {
+			ok = false;
 		}
 		return ok;
 	}
