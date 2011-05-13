@@ -1,5 +1,6 @@
 package view.bottoni;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,11 +15,11 @@ import javax.swing.SwingUtilities;
 
 public class PannelloBottoni extends JPanel implements ActionListener {
 
-	private static final long        serialVersionUID = 1L;
-	public static final int          MODE_PIENO       = 0;
+	private static final long          serialVersionUID = 1L;
+	public static final int            MODE_PIENO       = 0;
 
-	private final ArrayList<Bottone> listaBottoni     = new ArrayList<Bottone>();
-	private final ButtonGroup        gruppoBottoni    = new ButtonGroup();
+	protected final ArrayList<Bottone> listaBottoni     = new ArrayList<Bottone>();
+	protected final ButtonGroup        gruppoBottoni    = new ButtonGroup();
 
 	public static void main(String[] args) {
 
@@ -80,8 +81,8 @@ public class PannelloBottoni extends JPanel implements ActionListener {
 
 	}
 
-	private void init() {
-		this.setLayout(new GridLayout(1, 0));
+	protected void init() {
+		this.setLayout(new GridLayout(1, 4));
 	}
 
 	public void addBottone(Bottone bottone) {
@@ -89,6 +90,7 @@ public class PannelloBottoni extends JPanel implements ActionListener {
 		this.gruppoBottoni.add(bottone.getBottone());
 		this.listaBottoni.add(bottone);
 		if (bottone.getBottone() != null) {
+			bottone.getBottone().setPreferredSize(new Dimension(getWidth(), 50));
 			bottone.getBottone().addActionListener(this);
 		}
 	}

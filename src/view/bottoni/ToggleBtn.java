@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -55,7 +56,7 @@ public class ToggleBtn extends JToggleButton {
 	public void paintComponent(final Graphics g) {
 		this.setIcon(new ImageIcon());
 		this.setText(s);
-		this.setIconTextGap(15);
+		this.setIconTextGap(42);
 		super.paintComponent(g);
 		this.setIcon(i);
 		getIcon().paintIcon(this, g, distanzaBordoImageX, getHeight() / 2 - i.getIconHeight() / 2);
@@ -69,7 +70,9 @@ public class ToggleBtn extends JToggleButton {
 		final int w = getWidth();
 		final int h = getHeight();
 		g.setColor(selected); // background color
-		g.fillRect(0, 0, w, h);
+		g.fillRoundRect(1, 1, w - 1, h - 1, 7, 7);
+		g.setColor(Color.WHITE);
+		g.drawRoundRect(1, 1, w - 2, h - 2, 7, 7);
 		g.setColor(foreground); // foreground color
 		if (i != null) {
 			g.drawImage(i.getImage(), distanzaBordoImageX, getHeight() / 2 - i.getIconHeight() / 2, null);
@@ -77,11 +80,12 @@ public class ToggleBtn extends JToggleButton {
 		if (s != null && i != null) {
 			g.drawString(s, i.getIconWidth() + distanzaBordoImageX + distanzaBordoXTestoDaIcona, (h + g.getFontMetrics().getAscent()) / 2 - 1);
 		} else {
-			g.drawString(s, 16 + distanzaBordoImageX + distanzaBordoXTestoDaIcona, (h + g.getFontMetrics().getAscent()) / 2 - 1);
+			g.drawString(s, 25 + distanzaBordoImageX + distanzaBordoXTestoDaIcona, (h + g.getFontMetrics().getAscent()) / 2 - 1);
 		}
 	}
 
 	public void settaggioBottoneStandard() {
+		BorderFactory.createEtchedBorder();
 		this.setRolloverEnabled(true);
 		this.setBackground(Color.WHITE);
 		this.setHorizontalAlignment(SwingConstants.LEFT); // allinea il
