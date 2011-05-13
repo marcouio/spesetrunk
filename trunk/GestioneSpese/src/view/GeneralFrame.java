@@ -15,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 
 import view.bottoni.Bottone;
 import view.bottoni.PannelloBottoni;
+import view.bottoni.PannelloBottoniInterno;
 import view.bottoni.ToggleBtn;
 import view.componenti.movimenti.Movimenti;
 import view.entrateuscite.EntrateView;
@@ -79,16 +80,16 @@ public class GeneralFrame extends JFrame {
 
 		createPannelloBottoni();
 		consolle = new NewSql();
-		consolle.setBounds(40, 70, 970, 650);
+		consolle.setBounds(20, 58, 970, 650);
 
 		// movimenti
 		tabMovimenti = new Movimenti();
-		tabMovimenti.getTabMovUscite().setBounds(40, 100, 970, 650);
-		tabMovimenti.getTabMovEntrate().setBounds(40, 100, 970, 650);
+		tabMovimenti.getTabMovUscite().setBounds(0, 110, 970, 650);
+		tabMovimenti.getTabMovEntrate().setBounds(0, 110, 970, 650);
 
 		// Divisione di spese e entrate per5 mese
 		tabPermesi = new PerMesiF();
-		tabPermesi.setBounds(40, 70, 970, 650);
+		tabPermesi.setBounds(20, 58, 1000, 750);
 
 		// this.getContentPane().add(tabGenerale);
 
@@ -115,8 +116,8 @@ public class GeneralFrame extends JFrame {
 
 	private void createPannelloBottoni() {
 		PannelloBottoni pannelloBottoni = new PannelloBottoni();
-		ImageIcon icona = new ImageIcon("/home/kiwi/Immagini/prova.png");
-		ToggleBtn toggleMovimenti = new ToggleBtn("Movimenti", icona);
+		ImageIcon iconaMovimenti = new ImageIcon("imgUtil/controlli.gif");
+		ToggleBtn toggleMovimenti = new ToggleBtn("Movimenti", iconaMovimenti);
 		toggleMovimenti.settaggioBottoneStandard();
 		Bottone bottoneMovimenti = new Bottone(toggleMovimenti);
 		toggleMovimenti.addActionListener(new ActionListener() {
@@ -131,7 +132,7 @@ public class GeneralFrame extends JFrame {
 		});
 
 		// **************************************
-		final ToggleBtn toggleMovimentiUscite = new ToggleBtn("Uscite", icona);
+		final ToggleBtn toggleMovimentiUscite = new ToggleBtn("Uscite", iconaMovimenti);
 		toggleMovimentiUscite.settaggioBottoneStandard();
 		Bottone bottoneMovimentiUscite = new Bottone(toggleMovimentiUscite);
 		toggleMovimentiUscite.addActionListener(new ActionListener() {
@@ -146,7 +147,7 @@ public class GeneralFrame extends JFrame {
 			}
 		});
 
-		final ToggleBtn toggleMovimentiEntrate = new ToggleBtn("Entrate", icona);
+		final ToggleBtn toggleMovimentiEntrate = new ToggleBtn("Entrate", iconaMovimenti);
 		toggleMovimentiEntrate.settaggioBottoneStandard();
 		final Bottone bottoneMovimentiEntrate = new Bottone(toggleMovimentiEntrate);
 		toggleMovimentiEntrate.addActionListener(new ActionListener() {
@@ -163,14 +164,19 @@ public class GeneralFrame extends JFrame {
 			}
 		});
 
-		PannelloBottoni pp = new PannelloBottoni();
-		pp.addBottone(bottoneMovimentiEntrate);
-		pp.addBottone(bottoneMovimentiUscite);
+		PannelloBottoniInterno pp = new PannelloBottoniInterno();
+		ArrayList<Bottone> dueButton = new ArrayList<Bottone>();
+		dueButton.add(bottoneMovimentiUscite);
+		dueButton.add(bottoneMovimentiEntrate);
+		// pp.addBottone(bottoneMovimentiEntrate);
+		// pp.addBottone(bottoneMovimentiUscite);
+		pp.addDueBottoni(dueButton);
 		bottoneMovimenti.setContenuto(pp);
 		// *****************************************
 		toggleMovimenti.setPadre(bottoneMovimenti);
 
-		ToggleBtn toggleMesi = new ToggleBtn("Mesi", new ImageIcon("/home/kiwi/Immagini/prova.png"));
+		ImageIcon iconaUscite = new ImageIcon("imgUtil/blocktable_32.png");
+		ToggleBtn toggleMesi = new ToggleBtn("Mesi", iconaUscite);
 		toggleMesi.settaggioBottoneStandard();
 		Bottone bottoneMesi = new Bottone(toggleMesi);
 		toggleMesi.setPadre(bottoneMesi);
@@ -185,7 +191,8 @@ public class GeneralFrame extends JFrame {
 			}
 		});
 
-		ToggleBtn toggleSql = new ToggleBtn("ConsolleSQL", new ImageIcon("/home/kiwi/Immagini/prova.png"));
+		ImageIcon iconaSQL = new ImageIcon("imgUtil/sql.gif");
+		ToggleBtn toggleSql = new ToggleBtn("ConsolleSQL", iconaSQL);
 		toggleSql.settaggioBottoneStandard();
 		Bottone bottoneSql = new Bottone(toggleSql);
 		toggleSql.setPadre(bottoneSql);
@@ -200,12 +207,13 @@ public class GeneralFrame extends JFrame {
 			}
 		});
 
-		ToggleBtn toggleEntrateUscite = new ToggleBtn("Inserimento Dati", new ImageIcon("/home/kiwi/Immagini/prova.png"));
+		ImageIcon iconaSoldi = new ImageIcon("imgUtil/soldi.gif");
+		ToggleBtn toggleEntrateUscite = new ToggleBtn("Inserimento Dati", iconaSoldi);
 		toggleEntrateUscite.settaggioBottoneStandard();
 		final Bottone bottoneEntrateUscite = new Bottone(toggleEntrateUscite);
 		toggleEntrateUscite.setPadre(bottoneEntrateUscite);
 
-		final ToggleBtn toggleInsUscite = new ToggleBtn("Uscite", icona);
+		final ToggleBtn toggleInsUscite = new ToggleBtn("Uscite", iconaSoldi);
 		toggleInsUscite.settaggioBottoneStandard();
 		Bottone bottoneInsUscite = new Bottone(toggleInsUscite);
 		toggleInsUscite.addActionListener(new ActionListener() {
@@ -225,7 +233,7 @@ public class GeneralFrame extends JFrame {
 			}
 		});
 
-		final ToggleBtn toggleInsEntrate = new ToggleBtn("Entrate", icona);
+		final ToggleBtn toggleInsEntrate = new ToggleBtn("Entrate", iconaSoldi);
 		toggleInsEntrate.settaggioBottoneStandard();
 		Bottone bottoneInsEntrate = new Bottone(toggleInsEntrate);
 		toggleInsEntrate.addActionListener(new ActionListener() {
@@ -241,9 +249,13 @@ public class GeneralFrame extends JFrame {
 			}
 		});
 
-		PannelloBottoni EntrateUsciteContenuto = new PannelloBottoni();
-		EntrateUsciteContenuto.addBottone(bottoneInsEntrate);
-		EntrateUsciteContenuto.addBottone(bottoneInsUscite);
+		PannelloBottoniInterno EntrateUsciteContenuto = new PannelloBottoniInterno();
+		// EntrateUsciteContenuto.addBottone(bottoneInsEntrate);
+		// EntrateUsciteContenuto.addBottone(bottoneInsUscite);
+		ArrayList<Bottone> dueBottoni = new ArrayList<Bottone>();
+		dueBottoni.add(bottoneInsUscite);
+		dueBottoni.add(bottoneInsEntrate);
+		EntrateUsciteContenuto.addDueBottoni(dueBottoni);
 		bottoneEntrateUscite.setContenuto(EntrateUsciteContenuto);
 
 		pannelloBottoni.addBottone(bottoneSql);
@@ -252,7 +264,7 @@ public class GeneralFrame extends JFrame {
 		pannelloBottoni.addBottone(bottoneEntrateUscite);
 
 		contentPane.add(pannelloBottoni);
-		pannelloBottoni.setBounds(0, 20, this.getWidth(), 90);
+		pannelloBottoni.setBounds(0, 20, this.getWidth(), 94);
 	}
 
 	public static void relocateFinestreLaterali() {

@@ -1,6 +1,6 @@
 package view.bottoni;
 
-import java.awt.GridLayout;
+import java.awt.BorderLayout;
 
 import javax.swing.AbstractButton;
 import javax.swing.JPanel;
@@ -21,35 +21,31 @@ public class Bottone extends JPanel {
 	public Bottone(AbstractButton bottone) {
 		init();
 		this.bottone = bottone;
-		this.add(bottone);
-		contenuto.setLayout(new GridLayout(1, 0));
+		this.add(bottone, BorderLayout.NORTH);
 	}
 
 	public Bottone(PannelloBottoni contenuto) {
 		init();
 		this.contenuto = contenuto;
-		this.add(this.contenuto);
+		this.add(this.contenuto, BorderLayout.SOUTH);
 	}
 
 	public Bottone(PannelloBottoni contenuto, AbstractButton bottone) {
 		init();
 		this.contenuto = contenuto;
 		this.bottone = bottone;
+		this.add(this.bottone, BorderLayout.NORTH);
+		this.add(this.contenuto, BorderLayout.SOUTH);
+
 	}
 
 	private void init() {
-		this.setLayout(new GridLayout(2, 1));
-		if (contenuto != null) {
-			this.contenuto.setLayout(new GridLayout(0, 1));
-		}
+		this.setLayout(new BorderLayout());
 	}
 
 	public void espandi() {
 		setEspanso(true);
 		if (contenuto != null) {
-			this.setLayout(new GridLayout(2, 1));
-			GridLayout lay = new GridLayout(1, 0);
-			contenuto.setLayout(lay);
 			contenuto.setVisible(true);
 		}
 		revalidate();

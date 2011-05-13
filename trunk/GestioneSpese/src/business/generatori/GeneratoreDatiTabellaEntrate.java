@@ -11,7 +11,7 @@ public class GeneratoreDatiTabellaEntrate extends AbstractGeneratoreDatiTabella 
 	@Override
 	public Object getOggettoMatrice(int i, int x) {
 		try {
-			return Double.toString(Database.getSingleton().entrateMeseTipo((i+1), getNomiColonna()[x]));
+			return Double.toString(Database.getSingleton().entrateMeseTipo((i + 1), getNomiColonna()[x]));
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -22,7 +22,7 @@ public class GeneratoreDatiTabellaEntrate extends AbstractGeneratoreDatiTabella 
 
 	@Override
 	public String[] getNomiColonna() {
-		String[] nomiColonne = {"Fisse","Variabili"};
+		String[] nomiColonne = { "Mesi", "Fisse", "Variabili" };
 		return nomiColonne;
 	}
 

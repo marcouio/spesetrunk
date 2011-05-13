@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -57,22 +56,20 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 			this.setLayout(null);
 			this.setPreferredSize(new Dimension(1000, 605));
 			JLabel movim = new LabelTesto("Movimenti:");
-			movim.setBounds(70, 33, 89, 30);
+			movim.setBounds(24, 5, 89, 30);
 			this.add(movim);
 			campo = new TextFieldF();
-			campo.setBounds(21, 36, 43, 25);
-			campo.setText("10");
+			campo.setBounds(105, 8, 43, 25);
+			campo.setText("20");
 			numMovimenti = Integer.parseInt(campo.getText());
 			this.add(campo);
-			pulsanteNMovimenti = new ButtonF("Cambia");
-			pulsanteNMovimenti.setBounds(146, 37, 72, 25);
+			pulsanteNMovimenti = new ButtonF();
+			pulsanteNMovimenti.setText("Cambia");
+			pulsanteNMovimenti.setBounds(164, 9, 89, 25);
 			this.add(pulsanteNMovimenti);
 
 			final String[] nomiColonne = createNomiColonne();
 
-			// TODO aggiungere listener all'interno delle classi figlie
-			// modifica movimenti visibili ATTENZIONEEE!!!
-			// pulsanteNMovimenti
 			movimenti = createMovimenti();
 
 			table = new TableF(movimenti, nomiColonne);
@@ -84,20 +81,21 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 
 			// Add the scroll pane to this panel.
 			this.add(scrollPane);
-			scrollPane.setBounds(21, 89, 850, 308);
+			scrollPane.setBounds(21, 38, 948, 386);
 
 			ButtonF updateButton = new ButtonF();
 			this.add(updateButton);
 			updateButton.setText("Aggiorna");
-			updateButton.setBounds(684, 403, 95, 21);
+			updateButton.setBounds(780, 438, 95, 21);
 
 			ButtonF deleteButton = new ButtonF();
 			this.add(deleteButton);
 			deleteButton.setText("Cancella");
-			deleteButton.setBounds(790, 403, 82, 21);
+			deleteButton.setBounds(887, 438, 82, 21);
 
-			JButton btnFiltraMovimenti = new JButton("Filtra Movimenti");
-			btnFiltraMovimenti.setBounds(376, 36, 179, 25);
+			ButtonF btnFiltraMovimenti = new ButtonF();
+			btnFiltraMovimenti.setText("Filtra Movimenti");
+			btnFiltraMovimenti.setBounds(277, 8, 179, 25);
 			btnFiltraMovimenti.addActionListener(getListener());
 
 			add(btnFiltraMovimenti);
@@ -146,7 +144,7 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 		table2.setFillsViewportHeight(true);
 		table2.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table2.setRowHeight(26);
-		table2.setBounds(30, 100, 900, 300);
+		table2.setBounds(0, 100, 900, 300);
 		impostaTableSpecifico(table2);
 	}
 

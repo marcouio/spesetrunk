@@ -39,12 +39,13 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 
 	@Override
 	public void impostaTableSpecifico(JTable table) {
-		table.getColumn("idEntrate").setPreferredWidth(70);
-		table.getColumn("euro").setPreferredWidth(90);
-		table.getColumn("nome").setPreferredWidth(120);
-		table.getColumn("data").setPreferredWidth(120);
-		table.getColumn("descrizione").setPreferredWidth(250);
-		table.getColumn("inserimento").setPreferredWidth(120);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		// table.getColumn("idEntrate").setPreferredWidth(70);
+		// table.getColumn("euro").setPreferredWidth(90);
+		// table.getColumn("nome").setPreferredWidth(120);
+		// table.getColumn("data").setPreferredWidth(120);
+		// table.getColumn("descrizione").setPreferredWidth(250);
+		// table.getColumn("inserimento").setPreferredWidth(120);
 		table.addMouseListener(new AscoltatoreMouseMovEntrate(table));
 	}
 

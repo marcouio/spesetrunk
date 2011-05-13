@@ -61,6 +61,7 @@ public class Controllore {
 				DBUtil.closeConnection();
 				Controllore.getSingleton();
 				view = GeneralFrame.getSingleton();
+				view.setResizable(false);
 				setStartUtenteLogin();
 				view.setTitle("Gestionale spese familiari");
 				view.setLocationByPlatform(true);
