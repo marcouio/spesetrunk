@@ -117,6 +117,7 @@ public class GeneralFrame extends JFrame {
 	private void createPannelloBottoni() {
 		PannelloBottoni pannelloBottoni = new PannelloBottoni();
 		ImageIcon iconaMovimenti = new ImageIcon("imgUtil/controlli.gif");
+		ImageIcon iconaMovimentiPic = new ImageIcon("imgUtil/controlli_pic.gif");
 		ToggleBtn toggleMovimenti = new ToggleBtn("Movimenti", iconaMovimenti);
 		toggleMovimenti.settaggioBottoneStandard();
 		Bottone bottoneMovimenti = new Bottone(toggleMovimenti);
@@ -132,7 +133,7 @@ public class GeneralFrame extends JFrame {
 		});
 
 		// **************************************
-		final ToggleBtn toggleMovimentiUscite = new ToggleBtn("Uscite", iconaMovimenti);
+		final ToggleBtn toggleMovimentiUscite = new ToggleBtn("Uscite", iconaMovimentiPic, -1, 20);
 		toggleMovimentiUscite.settaggioBottoneStandard();
 		Bottone bottoneMovimentiUscite = new Bottone(toggleMovimentiUscite);
 		toggleMovimentiUscite.addActionListener(new ActionListener() {
@@ -147,7 +148,7 @@ public class GeneralFrame extends JFrame {
 			}
 		});
 
-		final ToggleBtn toggleMovimentiEntrate = new ToggleBtn("Entrate", iconaMovimenti);
+		final ToggleBtn toggleMovimentiEntrate = new ToggleBtn("Entrate", iconaMovimentiPic, -1, 20);
 		toggleMovimentiEntrate.settaggioBottoneStandard();
 		final Bottone bottoneMovimentiEntrate = new Bottone(toggleMovimentiEntrate);
 		toggleMovimentiEntrate.addActionListener(new ActionListener() {
@@ -208,12 +209,13 @@ public class GeneralFrame extends JFrame {
 		});
 
 		ImageIcon iconaSoldi = new ImageIcon("imgUtil/soldi.gif");
+		ImageIcon iconaSoldiPic = new ImageIcon("imgUtil/soldi_pic.gif");
 		ToggleBtn toggleEntrateUscite = new ToggleBtn("Inserimento Dati", iconaSoldi);
 		toggleEntrateUscite.settaggioBottoneStandard();
 		final Bottone bottoneEntrateUscite = new Bottone(toggleEntrateUscite);
 		toggleEntrateUscite.setPadre(bottoneEntrateUscite);
 
-		final ToggleBtn toggleInsUscite = new ToggleBtn("Uscite", iconaSoldi);
+		final ToggleBtn toggleInsUscite = new ToggleBtn("Uscite", iconaSoldiPic, -1, 20);
 		toggleInsUscite.settaggioBottoneStandard();
 		Bottone bottoneInsUscite = new Bottone(toggleInsUscite);
 		toggleInsUscite.addActionListener(new ActionListener() {
@@ -233,7 +235,7 @@ public class GeneralFrame extends JFrame {
 			}
 		});
 
-		final ToggleBtn toggleInsEntrate = new ToggleBtn("Entrate", iconaSoldi);
+		final ToggleBtn toggleInsEntrate = new ToggleBtn("Entrate", iconaSoldiPic, -1, 20);
 		toggleInsEntrate.settaggioBottoneStandard();
 		Bottone bottoneInsEntrate = new Bottone(toggleInsEntrate);
 		toggleInsEntrate.addActionListener(new ActionListener() {
@@ -250,8 +252,6 @@ public class GeneralFrame extends JFrame {
 		});
 
 		PannelloBottoniInterno EntrateUsciteContenuto = new PannelloBottoniInterno();
-		// EntrateUsciteContenuto.addBottone(bottoneInsEntrate);
-		// EntrateUsciteContenuto.addBottone(bottoneInsUscite);
 		ArrayList<Bottone> dueBottoni = new ArrayList<Bottone>();
 		dueBottoni.add(bottoneInsUscite);
 		dueBottoni.add(bottoneInsEntrate);

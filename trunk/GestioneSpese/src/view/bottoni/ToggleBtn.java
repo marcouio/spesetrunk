@@ -17,20 +17,20 @@ import javax.swing.border.Border;
  * La classe estende JToggleButton per modificarne il funzionamento di default
  */
 public class ToggleBtn extends JToggleButton {
-	private static final long serialVersionUID    = 1L;
+	private static final long serialVersionUID            = 1L;
 	String                    s;
 	ImageIcon                 i;
 
 	MyIcon                    icona;
 	private JPanel            padre;
-	private int               distanzaBordoImageX = 10;
-	private int               xPartenzaTesto      = 38;
+	private int               distanzaBordoImageX         = 10;
+	private int               xPartenzaTesto              = 38;
 
-	Color                     colorForeground     = Color.GRAY;
-	Color                     colorBackground     = new Color(167, 243, 239);
+	Color                     colorForegroundSelected     = Color.GRAY;
+	Color                     colorBackgroundSelected     = new Color(167, 243, 239);
 
-	Color                     colorForegroundIcon = Color.BLACK;
-	Color                     colorBackgroundIcon = new Color(252, 228, 179);
+	Color                     colorForegroundIconRollover = Color.BLACK;
+	Color                     colorSelectedIconRollover   = new Color(252, 228, 179);
 
 	public MyIcon getMyIcon() {
 		return icona != null ? icona : new MyIcon();
@@ -82,7 +82,7 @@ public class ToggleBtn extends JToggleButton {
 		getIcon().paintIcon(this, g, distanzaBordoImageX, getHeight() / 2 - i.getIconHeight() / 2);
 		if (this.isSelected()) {
 			// effetto pulsante premuto ridefinito
-			disegnaBottone(g, colorForeground, colorBackground);
+			disegnaBottone(g, colorForegroundSelected, colorBackgroundSelected);
 		}
 	}// end paint
 
@@ -148,76 +148,76 @@ public class ToggleBtn extends JToggleButton {
 		return padre;
 	}
 
-	protected String getS() {
+	public String getS() {
 		return s;
 	}
 
-	protected void setS(String s) {
+	public void setS(String s) {
 		this.s = s;
 	}
 
-	protected ImageIcon getI() {
+	public ImageIcon getI() {
 		return i;
 	}
 
-	protected void setI(ImageIcon i) {
+	public void setI(ImageIcon i) {
 		this.i = i;
 	}
 
-	protected MyIcon getIcona() {
+	public MyIcon getIcona() {
 		return icona;
 	}
 
-	protected void setIcona(MyIcon icona) {
+	public void setIcona(MyIcon icona) {
 		this.icona = icona;
 	}
 
-	protected int getDistanzaBordoImageX() {
+	public int getXDistanzaBordoImage() {
 		return distanzaBordoImageX;
 	}
 
-	protected void setDistanzaBordoImageX(int distanzaBordoImageX) {
+	public void setXDistanzaBordoImage(int distanzaBordoImageX) {
 		this.distanzaBordoImageX = distanzaBordoImageX;
 	}
 
-	protected int getxPartenzaTesto() {
+	public int getxPartenzaTesto() {
 		return xPartenzaTesto;
 	}
 
-	protected void setxPartenzaTesto(int xPartenzaTesto) {
+	public void setxPartenzaTesto(int xPartenzaTesto) {
 		this.xPartenzaTesto = xPartenzaTesto;
 	}
 
-	protected Color getColorForeground() {
-		return colorForeground;
+	public Color getColorForegroundSelected() {
+		return colorForegroundSelected;
 	}
 
-	protected void setColorForeground(Color colorForeground) {
-		this.colorForeground = colorForeground;
+	public void setColorForegroundSelected(Color colorForeground) {
+		this.colorForegroundSelected = colorForeground;
 	}
 
-	protected Color getColorBackground() {
-		return colorBackground;
+	public Color getColorBackgroundSelected() {
+		return colorBackgroundSelected;
 	}
 
-	protected void setColorBackground(Color colorBackground) {
-		this.colorBackground = colorBackground;
+	public void setColorBackgroundSelected(Color colorBackground) {
+		this.colorBackgroundSelected = colorBackground;
 	}
 
-	protected Color getColorForegroundIcon() {
-		return colorForegroundIcon;
+	public Color getColorForegroundIcon() {
+		return colorForegroundIconRollover;
 	}
 
-	protected void setColorForegroundIcon(Color colorForegroundIcon) {
-		this.colorForegroundIcon = colorForegroundIcon;
+	public void setColorForegroundIcon(Color colorForegroundIcon) {
+		this.colorForegroundIconRollover = colorForegroundIcon;
 	}
 
-	protected Color getColorBackgroundIcon() {
-		return colorBackgroundIcon;
+	public Color getColorBackgroundIcon() {
+		return colorSelectedIconRollover;
 	}
 
-	protected void setColorBackgroundIcon(Color colorBackgroundIcon) {
-		this.colorBackgroundIcon = colorBackgroundIcon;
+	public void setColorBackgroundIcon(Color colorBackgroundIcon) {
+		this.colorSelectedIconRollover = colorBackgroundIcon;
 	}
 
 	/**
@@ -243,7 +243,7 @@ public class ToggleBtn extends JToggleButton {
 		public void paintIcon(final Component c, final Graphics g, final int x,
 		                final int y) {
 			if (g != null) {
-				disegnaBottone(g, colorForegroundIcon, colorBackgroundIcon);
+				disegnaBottone(g, colorForegroundIconRollover, colorSelectedIconRollover);
 			}
 		}
 	}
