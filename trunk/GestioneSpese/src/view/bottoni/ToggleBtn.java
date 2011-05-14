@@ -26,8 +26,11 @@ public class ToggleBtn extends JToggleButton {
 	private int               distanzaBordoImageX = 10;
 	private int               xPartenzaTesto      = 38;
 
-	Color                     colorForeground;
-	Color                     colorBackground;
+	Color                     colorForeground     = Color.GRAY;
+	Color                     colorBackground     = new Color(167, 243, 239);
+
+	Color                     colorForegroundIcon = Color.BLACK;
+	Color                     colorBackgroundIcon = new Color(252, 228, 179);
 
 	public MyIcon getMyIcon() {
 		return icona != null ? icona : new MyIcon();
@@ -79,7 +82,7 @@ public class ToggleBtn extends JToggleButton {
 		getIcon().paintIcon(this, g, distanzaBordoImageX, getHeight() / 2 - i.getIconHeight() / 2);
 		if (this.isSelected()) {
 			// effetto pulsante premuto ridefinito
-			disegnaBottone(g, Color.GRAY, new Color(167, 243, 239));
+			disegnaBottone(g, colorForeground, colorBackground);
 		}
 	}// end paint
 
@@ -107,10 +110,11 @@ public class ToggleBtn extends JToggleButton {
 
 	}
 
+	// metodo da verificare
 	private int calcolaTextGap(Icon i) {
 		if (i != null) {
 			if (xPartenzaTesto > (i.getIconWidth() - distanzaBordoImageX)) {
-				return xPartenzaTesto - (i.getIconWidth() - distanzaBordoImageX + 7);
+				return xPartenzaTesto - (i.getIconWidth());
 			} else {
 				return 0;
 			}
@@ -144,6 +148,78 @@ public class ToggleBtn extends JToggleButton {
 		return padre;
 	}
 
+	protected String getS() {
+		return s;
+	}
+
+	protected void setS(String s) {
+		this.s = s;
+	}
+
+	protected ImageIcon getI() {
+		return i;
+	}
+
+	protected void setI(ImageIcon i) {
+		this.i = i;
+	}
+
+	protected MyIcon getIcona() {
+		return icona;
+	}
+
+	protected void setIcona(MyIcon icona) {
+		this.icona = icona;
+	}
+
+	protected int getDistanzaBordoImageX() {
+		return distanzaBordoImageX;
+	}
+
+	protected void setDistanzaBordoImageX(int distanzaBordoImageX) {
+		this.distanzaBordoImageX = distanzaBordoImageX;
+	}
+
+	protected int getxPartenzaTesto() {
+		return xPartenzaTesto;
+	}
+
+	protected void setxPartenzaTesto(int xPartenzaTesto) {
+		this.xPartenzaTesto = xPartenzaTesto;
+	}
+
+	protected Color getColorForeground() {
+		return colorForeground;
+	}
+
+	protected void setColorForeground(Color colorForeground) {
+		this.colorForeground = colorForeground;
+	}
+
+	protected Color getColorBackground() {
+		return colorBackground;
+	}
+
+	protected void setColorBackground(Color colorBackground) {
+		this.colorBackground = colorBackground;
+	}
+
+	protected Color getColorForegroundIcon() {
+		return colorForegroundIcon;
+	}
+
+	protected void setColorForegroundIcon(Color colorForegroundIcon) {
+		this.colorForegroundIcon = colorForegroundIcon;
+	}
+
+	protected Color getColorBackgroundIcon() {
+		return colorBackgroundIcon;
+	}
+
+	protected void setColorBackgroundIcon(Color colorBackgroundIcon) {
+		this.colorBackgroundIcon = colorBackgroundIcon;
+	}
+
 	/**
 	 * ﻿ * Estende la classe Icon per settarla come Icon di default al rollover
 	 * di ﻿ * ToggleBtn ﻿
@@ -167,7 +243,7 @@ public class ToggleBtn extends JToggleButton {
 		public void paintIcon(final Component c, final Graphics g, final int x,
 		                final int y) {
 			if (g != null) {
-				disegnaBottone(g, Color.BLACK, new Color(252, 228, 179));
+				disegnaBottone(g, colorForegroundIcon, colorBackgroundIcon);
 			}
 		}
 	}
