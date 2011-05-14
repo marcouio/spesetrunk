@@ -1,2 +1,2 @@
-14-mag-2011 1.18.52 business.AltreUtil setLog
+14-mag-2011 16.51.14 business.AltreUtil setLog
 INFO: Start programma!
