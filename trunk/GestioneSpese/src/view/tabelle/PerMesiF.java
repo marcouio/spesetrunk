@@ -23,12 +23,12 @@ public class PerMesiF extends OggettoVistaBase {
 		frame.setVisible(true);
 	}
 
-	private static TabellaEntrata       tabEntrate = new TabellaEntrata();
-	private static TabellaUscita        tabUscite  = new TabellaUscita();
-	private static TabellaEntrataGruppi tabEG      = new TabellaEntrataGruppi();
-	private static TabellaUscitaGruppi  tabUG      = new TabellaUscitaGruppi();
+	private static TabellaEntrata      tabEntrate = new TabellaEntrata();
+	private static TabellaUscita       tabUscite  = new TabellaUscita();
+	// private static TabellaEntrataGruppi tabEG = new TabellaEntrataGruppi();
+	private static TabellaUscitaGruppi tabUG      = new TabellaUscitaGruppi();
 
-	private JTabbedPane                 tabGenerale;
+	private JTabbedPane                tabGenerale;
 
 	public PerMesiF() {
 		super();
@@ -43,12 +43,11 @@ public class PerMesiF extends OggettoVistaBase {
 			tabGenerale = new JTabbedPane();
 			tabGenerale.setBounds(12, 65, 930, 468);
 			tabGenerale.addTab("Entrate", tabEntrate);
-			tabGenerale.addTab("Uscite Gruppi", tabUG);
-
 			tabGenerale.addTab("Uscite", tabUscite);
+			tabGenerale.addTab("Gruppi di uscite", tabUG);
 
 			tabUscite.setBounds(26, 10, 400, 400);
-			tabGenerale.addTab("Entrate Gruppi", tabEG);
+			// tabGenerale.addTab("Entrate Gruppi", tabEG);
 			// TabellaUscita.getTable().setRowHeight(27);
 			// TabellaEntrata.getTable().setRowHeight(27);
 			tabEntrate.setBounds(26, 10, 400, 400);
