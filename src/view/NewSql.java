@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -11,6 +12,7 @@ import java.util.Iterator;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,12 +25,15 @@ import view.font.LabelTitolo;
 import view.font.TextAreaF;
 import business.DBUtil;
 import business.Database;
+import domain.CatSpese;
+import domain.Entrate;
+import domain.Gruppi;
+import domain.Note;
+import domain.SingleSpesa;
+import domain.Utenti;
 
 public class NewSql extends OggettoVistaBase {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JTextArea         areaSql;
 	private JTextArea         result;
@@ -91,17 +96,52 @@ public class NewSql extends OggettoVistaBase {
 			ButtonF buttonF = new ButtonF();
 			buttonF.setBackground(Color.WHITE);
 			ImageIcon image = new ImageIcon("imgUtil/info.gif");
-			// BufferedImage bi = new BufferedImage(56, 48,
-			// BufferedImage.TYPE_INT_RGB);
-			// Graphics2D g = (Graphics2D) bi.getGraphics();
-			// g.setColor(buttonF.getBackground());
-			// g.fillRoundRect(0, 0, 56, 48, 7, 7);
-			// g.drawImage(image.getImage(), 3, 0, null);
-			//
-			// ImageIcon icon = new ImageIcon(bi.getSubimage(0, 0, 56, 48));
 			buttonF.setIcon(image);
 			buttonF.setBounds(870, 80, 56, 48);
 			add(buttonF);
+			buttonF.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					StringBuffer sb = new StringBuffer();
+					sb.append("Tabelle principali: \n");
+					sb.append(Entrate.NOME_TABELLA + ", " + SingleSpesa.NOME_TABELLA + ", ");
+					sb.append(CatSpese.NOME_TABELLA + ", " + Utenti.NOME_TABELLA + ", " + Gruppi.NOME_TABELLA);
+					sb.append(", " + Note.NOME_TABELLA);
+					sb.append("\n\n");
+					sb.append("La consolle supporta sia operazioni di select, sia operazioni di modifica");
+					sb.append("\n\n");
+					sb.append("Per maggiori informazioni e istruzioni, consultare il manuale nella sezione di help");
+					final JDialog d = new JDialog();
+					d.setLayout(new BorderLayout());
+					d.setSize(400, 180);
+					TextAreaF lt = new TextAreaF();
+
+					// specifica se �true� di andare a capo automaticamente a
+					// fine riga
+					lt.setLineWrap(true);
+					// va a capo con la parola se �true� o col singolo carattere
+					// se �false�
+					lt.setWrapStyleWord(true);
+					lt.setAutoscrolls(true);
+
+					lt.setText(sb.toString());
+					lt.setEditable(false);
+					d.add(lt, BorderLayout.NORTH);
+					ButtonF b = new ButtonF();
+					d.add(b, BorderLayout.CENTER);
+					b.setText("Chiudi");
+					b.setBounds(0, 150, d.getWidth(), 30);
+					b.addActionListener(new ActionListener() {
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							d.dispose();
+						}
+					});
+					d.setVisible(true);
+				}
+			});
 			bottoneSvuota.addActionListener(new ActionListener() {
 
 				@Override
@@ -131,12 +171,12 @@ public class NewSql extends OggettoVistaBase {
 							String finale = "";
 							int i = 0;
 							for (i = 0; i < lista.size(); i++) {
-								String porzione = DBUtil.creaStringStessaDimensione((String) lista.get(i), 14);
+								String porzione = DBUtil.creaStringStessaDimensione((String) lista.get(i), 17);
 								riga = riga + porzione;
 							}
 							String trattini = "";
 
-							for (int x = 0; x < (i * 15); x++) {
+							for (int x = 0; x < (i * 17); x++) {
 								trattini = trattini + "-";
 								finale = finale + "*";
 							}

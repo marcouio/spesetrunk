@@ -21,9 +21,6 @@ import domain.SingleSpesa;
 
 public class WrapCatSpese extends Observable implements IWrapperEntity, ICatSpese {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private final CatSpese    categoria;
 

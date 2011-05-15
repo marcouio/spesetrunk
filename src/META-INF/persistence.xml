@@ -9,16 +9,16 @@
 		<class>domain.SingleSpesa</class>
 		<class>domain.Utenti</class>
 		<class>domain.Lookandfeel</class>
-		
+		<class>domain.Note</class>
 		
 		<properties>
-            		<property name="eclipselink.target-database" value="DEFAULT"/>
-	            	<property name="eclipselink.jdbc.url" value="jdbc:sqlite:G:\workspace\GestioneSpese.sqlite"/>
-	            	<property name="eclipselink.jdbc.driver" value="org.sqlite.JDBC"/>
+       		<property name="eclipselink.target-database" value="DEFAULT"/>
+          	<property name="eclipselink.jdbc.url" value="jdbc:sqlite:/home/kiwi/Documenti/Workspace/GestioneSpese.sqlite"/>
+          	<property name="eclipselink.jdbc.driver" value="org.sqlite.JDBC"/>
 	        <!-- 	<property name="eclipselink.ddl-generation" value="drop-and-create-tables"/> -->
 	    		<property name="eclipselink.ddl-generation" value="create-tables"/>
-	            	<property name="eclipselink.logging.level" value="FINE"/>
-	        </properties>
+           	<property name="eclipselink.logging.level" value="FINE"/>
+        </properties>
 	        
 	</persistence-unit>
 </persistence>
