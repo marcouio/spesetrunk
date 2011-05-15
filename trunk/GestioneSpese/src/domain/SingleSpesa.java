@@ -15,7 +15,7 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name="SINGLESPESA")
+@Table(name="SINGLE_SPESA")
 public class SingleSpesa extends AbstractOggettoEntita implements Serializable, ISingleSpesa {
 	private static final long serialVersionUID = 1L;
 
@@ -71,68 +71,84 @@ public class SingleSpesa extends AbstractOggettoEntita implements Serializable, 
     		this.idEntita = Integer.toString(idSpesa);
     }
 
-	public String getData() {
+	@Override
+    public String getData() {
 		return this.Data;
 	}
 
-	public void setData(String Data) {
+	@Override
+    public void setData(String Data) {
 		this.Data = Data;
 	}
 
-	public String getdescrizione() {
+	@Override
+    public String getdescrizione() {
 		return this.descrizione;
 	}
 
-	public void setdescrizione(String descrizione) {
+	@Override
+    public void setdescrizione(String descrizione) {
 		this.descrizione = descrizione;
 	}
 
-	public int getidSpesa() {
+	@Override
+    public int getidSpesa() {
 		return this.idSpesa;
 	}
 
-	public void setidSpesa(int idSpesa) {
+	@Override
+    public void setidSpesa(int idSpesa) {
 		this.idEntita = Integer.toString(idSpesa);
 		this.idSpesa = idSpesa;
 	}
 
-	public double getinEuro() {
+	@Override
+    public double getinEuro() {
 		return this.inEuro;
 	}
 
-	public void setinEuro(double d) {
+	@Override
+    public void setinEuro(double d) {
 		this.inEuro = d;
 	}
 
-	public String getnome() {
+	@Override
+    public String getnome() {
 		return this.nome;
 	}
 
-	public void setnome(String nome) {
+	@Override
+    public void setnome(String nome) {
 		this.nome = nome;
 	}
 
-	public CatSpese getCatSpese() {
+	@Override
+    public CatSpese getCatSpese() {
 		return this.catSpese;
 	}
 
-	public void setCatSpese(CatSpese catSpese) {
+	@Override
+    public void setCatSpese(CatSpese catSpese) {
 		this.catSpese = catSpese;
 	}
 	
-	public Utenti getUtenti() {
+	@Override
+    public Utenti getUtenti() {
 		return this.utenti;
 	}
 
-	public void setUtenti(Utenti utenti) {
+	@Override
+    public void setUtenti(Utenti utenti) {
 		this.utenti = utenti;
 	}
 
-	public void setDataIns(String dataIns) {
+	@Override
+    public void setDataIns(String dataIns) {
 		this.dataIns = dataIns;
 	}
 
-	public String getDataIns() {
+	@Override
+    public String getDataIns() {
 		return dataIns;
 	}
 	
