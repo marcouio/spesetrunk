@@ -96,7 +96,7 @@ public class CacheCategorie extends AbstractCacheBase {
 		Vector<CatSpese> catSenzaGruppo = new Vector<CatSpese>();
 		for (int i = 0; i < allCategorie.size(); i++) {
 			CatSpese categoria = allCategorie.get(i);
-			if (categoria.getGruppi() == null || categoria.getGruppi().getidGruppo() == 0) {
+			if (categoria.getGruppi() == null || categoria.getGruppi().getnome().equals("No Gruppo")) {
 				catSenzaGruppo.add(categoria);
 			}
 		}
