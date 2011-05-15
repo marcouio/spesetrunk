@@ -1,3 +1,2 @@
 - Tabella note e promemoria spese da pagare o entrate da ricevere
-- Repaint movimento dopo filtro
 - Creazione alert per il budget
