@@ -1,2 +1,4 @@
 - Tabella note e promemoria spese da pagare o entrate da ricevere
 - Creazione alert per il budget
+- creare pannello inserimento note da usare anche per l'update
+- implementare parte finale di undo e redo
