@@ -10,12 +10,12 @@ import javax.swing.SwingUtilities;
 import business.cache.CacheNote;
 import domain.Note;
 
-public class NoteWiew extends JFrame {
+public class MostraNoteWiew extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JScrollPane       scrollPane;
 
-	public NoteWiew() {
+	public MostraNoteWiew() {
 		setResizable(false);
 		getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
 		this.scrollPane = new JScrollPane();
@@ -35,7 +35,7 @@ public class NoteWiew extends JFrame {
 			@Override
 			public void run() {
 				JFrame f = new JFrame();
-				NoteWiew fe = new NoteWiew();
+				MostraNoteWiew fe = new MostraNoteWiew();
 				f.getContentPane().add(fe);
 				f.setVisible(true);
 				f.setSize(280, 500);

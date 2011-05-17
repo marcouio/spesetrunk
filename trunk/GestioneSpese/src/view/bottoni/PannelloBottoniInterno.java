@@ -19,7 +19,7 @@ public class PannelloBottoniInterno extends PannelloBottoni {
 		if (listaBottoni.size() == 0) {
 			this.add(bottone, BorderLayout.NORTH);
 		} else {
-			this.add(bottone, BorderLayout.EAST);
+			this.add(bottone, BorderLayout.CENTER);
 		}
 		this.gruppoBottoni.add(bottone.getBottone());
 		this.listaBottoni.add(bottone);
