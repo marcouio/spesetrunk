@@ -2,3 +2,4 @@
 - Creazione alert per il budget
 - creare pannello inserimento note da usare anche per l'update
 - implementare parte finale di undo e redo
+- look and feel deve cambiare anche nel pannello di configurazione
