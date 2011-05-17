@@ -189,7 +189,7 @@ public class WrapNote extends Observable implements IWrapperEntity, INote {
 
 			sql = "INSERT INTO " + Note.NOME_TABELLA + " (" + Note.DESCRIZIONE + ", " + Entrate.DATA
 			                + ", " + Entrate.NOME + ", " + Entrate.IDUTENTE + ", " + Entrate.DATAINS
-			                + ") VALUES (?,?,?,?,?,?,?)";
+			                + ") VALUES (?,?,?,?,?)";
 			PreparedStatement ps = cn.prepareStatement(sql);
 			// descrizione
 			ps.setString(1, nota.getDescrizione());
