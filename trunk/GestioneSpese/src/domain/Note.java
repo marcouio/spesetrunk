@@ -50,7 +50,10 @@ public class Note extends AbstractOggettoEntita implements Serializable, INote {
 	@JoinColumns({})
 	private Utenti             utenti;
 
-	public Note() {}
+	public Note() {
+		if (idNote != 0)
+			this.idEntita = Integer.toString(idNote);
+	}
 
 	@Override
 	public String getData() {
@@ -89,6 +92,7 @@ public class Note extends AbstractOggettoEntita implements Serializable, INote {
 
 	@Override
 	public void setIdNote(int _idNote_) {
+		this.idEntita = Integer.toString(_idNote_);
 		this.idNote = _idNote_;
 	}
 

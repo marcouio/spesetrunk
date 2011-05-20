@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
@@ -16,6 +17,7 @@ import view.font.TextFieldF;
 import business.AltreUtil;
 import business.Controllore;
 import business.DBUtil;
+import business.cache.CacheNote;
 import business.comandi.CommandInserisciNota;
 import domain.wrapper.WrapNote;
 
@@ -27,7 +29,7 @@ public class NoteView extends AbstractNoteView {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				NoteView dialog = new NoteView(new WrapNote(), new MostraNoteWiew());
+				NoteView dialog = new NoteView(new WrapNote(), new MostraNoteView());
 				dialog.setLocationRelativeTo(null);
 				dialog.setBounds(0, 0, 346, 250);
 				dialog.setVisible(true);
@@ -39,7 +41,7 @@ public class NoteView extends AbstractNoteView {
 	private final TextAreaF  descrizione;
 	private final TextFieldF data;
 
-	public NoteView(WrapNote note, final MostraNoteWiew padre) {
+	public NoteView(WrapNote note, final JFrame padre) {
 		super(note);
 		setTitle("Pannello Nota");
 		getContentPane().setLayout(null);
@@ -50,6 +52,7 @@ public class NoteView extends AbstractNoteView {
 		getContentPane().add(lbltstNota);
 
 		nota = new TextFieldF();
+		nota.setText("Nome della nota");
 		nota.setColumns(10);
 		nota.setBounds(12, 38, 150, 27);
 		getContentPane().add(nota);
@@ -75,6 +78,7 @@ public class NoteView extends AbstractNoteView {
 		data = new TextFieldF();
 		data.setColumns(10);
 		data.setBounds(181, 38, 150, 27);
+		data.setText(DBUtil.dataToString(new Date(), "yyyy/MM/dd"));
 		getContentPane().add(data);
 		JButton btnInserisci = new ButtonF();
 		btnInserisci.setText("Inserisci");
@@ -84,15 +88,30 @@ public class NoteView extends AbstractNoteView {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				updateNote();
-				Controllore.getSingleton().getCommandManager().invocaComando(new CommandInserisciNota(wrapNote), null);
-				padre.aggiornaVista();
+				int id = CacheNote.getSingleton().getAllNoteForUtenteEAnno().size();
+				WrapNote wNote = new WrapNote();
+				wNote.setIdNote(id);
+				wNote.getentitaPadre().setIdEntita(Integer.toString(id));
+				updateNote(wNote);
+				if (nonEsistonoCampiNonValorizzati()) {
+					Controllore.getSingleton().getCommandManager().invocaComando(new CommandInserisciNota(wNote), null);
+					((MostraNoteView) padre).aggiornaVista();
+					dispose();
+				}
 			}
 
 		});
 	}
 
-	private void updateNote() {
+	private boolean nonEsistonoCampiNonValorizzati() {
+		return getNome() != null && getDescrizione() != null && getData() != null && getDataIns() != null
+		                && getUtenti() != null;
+	}
+
+	private void updateNote(WrapNote wNote) {
+		if (wNote != null) {
+			wrapNote = wNote;
+		}
 		setNome(nota.getText());
 
 		if (AltreUtil.checkData(data.getText())) {

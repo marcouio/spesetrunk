@@ -11,8 +11,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
 import view.font.ButtonF;
-import business.Controllore;
-import business.comandi.CommandDeleteNota;
+import view.font.TextAreaF;
 import domain.Note;
 
 public class PannelloNota extends JPanel {
@@ -20,19 +19,22 @@ public class PannelloNota extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private final Note        nota;
+	private final JFrame      padre;
 
-	public PannelloNota(final Note nota) {
-		this.nota = nota;
+	public PannelloNota(final Note note2, JFrame padre) {
+		this.nota = note2;
+		this.padre = padre;
+		// this.setSize(width, height)
 		setLayout(null);
 
 		JLabel lNome = new JLabel();
 		lNome.setText(this.nota.getnome());
-		lNome.setBounds(12, 12, 175, 15);
+		lNome.setBounds(4, 16, 150, 15);
 		add(lNome);
 
-		JTextArea taDescrizione = new JTextArea();
+		JTextArea taDescrizione = new TextAreaF();
 		taDescrizione.setText(this.nota.getDescrizione());
-		taDescrizione.setBounds(12, 63, 251, 85);
+		taDescrizione.setBounds(6, 63, 190, 85);
 		add(taDescrizione);
 
 		// specifica se �true� di andare a capo automaticamente a
@@ -46,33 +48,27 @@ public class PannelloNota extends JPanel {
 
 		JLabel lData = new JLabel();
 		lData.setText(this.nota.getData());
-		lData.setBounds(12, 36, 175, 15);
+		lData.setBounds(6, 36, 148, 15);
 		add(lData);
 
-		JButton button = new ButtonF();
-		button.setText("Canc");
-		button.addActionListener(new ActionListener() {
+		JButton eliminaNota = new ButtonF();
+		eliminaNota.setText("-");
+		eliminaNota.addActionListener(new AscoltatoreEliminaNota(this, note2));
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Controllore.getSingleton().getCommandManager().invocaComando(new CommandDeleteNota(nota), null);
-			}
-		});
-
-		button.setBounds(186, 12, 77, 15);
-		add(button);
+		eliminaNota.setBounds(149, 17, 44, 15);
+		add(eliminaNota);
 
 		ButtonF btnfAggiorna = new ButtonF();
 		btnfAggiorna.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				        // TODO creare pannello di inserimento e modifica
-			        }
+
+			}
 		});
 
-		btnfAggiorna.setText("Cambia");
-		btnfAggiorna.setBounds(186, 36, 77, 15);
+		btnfAggiorna.setText("!=");
+		btnfAggiorna.setBounds(147, 36, 46, 15);
 		add(btnfAggiorna);
 	}
 
@@ -86,11 +82,16 @@ public class PannelloNota extends JPanel {
 				nota.setNome("nome");
 				nota.setDescrizione("descrizione");
 				nota.setData("2011/11/11");
-				PannelloNota fe = new PannelloNota(nota);
+				PannelloNota fe = new PannelloNota(nota, f);
 				f.getContentPane().add(fe);
 				f.setVisible(true);
 				f.setSize(280, 195);
 			}
 		});
+	}
+
+	public JFrame getPadre() {
+		return padre;
+
 	}
 }

@@ -1,8 +1,6 @@
 package view.note;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -14,57 +12,44 @@ import javax.swing.SwingUtilities;
 import view.font.ButtonF;
 import business.cache.CacheNote;
 import domain.Note;
-import domain.wrapper.WrapNote;
 
-public class MostraNoteWiew extends JFrame {
+public class MostraNoteView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JScrollPane       scrollPane;
 	private final JPanel      pannello;
 
-	public MostraNoteWiew() {
+	public MostraNoteView() {
 		ArrayList<Note> note = CacheNote.getSingleton().getAllNoteForUtenteEAnno();
-
+		this.setSize(250, 425);
 		setResizable(true);
 		getContentPane().setLayout(null);
 
 		scrollPane = new JScrollPane();
 
 		pannello = new JPanel();
-		// pannello.setLayout(new GridLayout(note.size(), 1, 0, 0));
 		getContentPane().add(scrollPane);
 		scrollPane.setViewportView(pannello);
 		pannello.setLayout(null);
-		scrollPane.setBounds(10, 40, 258, 384);
+		scrollPane.setBounds(10, 40, 240, 350);
 
 		this.setTitle("Note");
-
-		final NoteView dialog = new NoteView(new WrapNote(), this);
 
 		JButton inserisci = new ButtonF();
 		inserisci.setText("+");
 		getContentPane().add(inserisci);
 
-		inserisci.setBounds(95, 0, 90, 30);
-		inserisci.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				dialog.setLocationRelativeTo(null);
-				dialog.setBounds(0, 0, 347, 318);
-				dialog.setVisible(true);
-
-			}
-		});
+		inserisci.setBounds(82, 0, 90, 30);
+		inserisci.addActionListener(new AscoltatoreApriPannelloInserisciNota(this));
 		for (int i = 0; i < note.size(); i++) {
-			Note note2 = note.get(i);
-			PannelloNota pNota = new PannelloNota(note2);
+			Note nota = note.get(i);
+			PannelloNota pNota = new PannelloNota(nota, this);
 			pannello.add(pNota);
-			pannello.setPreferredSize(new Dimension(300, 170 * note.size()));
+			pannello.setPreferredSize(new Dimension(220, 180 * note.size()));
 			if (i == 0) {
-				pNota.setBounds(0, 0, 260, 170);
+				pNota.setBounds(0, 0, 220, 170);
 			} else {
-				pNota.setBounds(0, i * 170, 260, 200);
+				pNota.setBounds(0, i * 170, 220, 170);
 			}
 		}
 
@@ -75,7 +60,7 @@ public class MostraNoteWiew extends JFrame {
 
 			@Override
 			public void run() {
-				MostraNoteWiew fe = new MostraNoteWiew();
+				MostraNoteView fe = new MostraNoteView();
 				fe.setVisible(true);
 				fe.setSize(280, 500);
 			}
@@ -91,21 +76,25 @@ public class MostraNoteWiew extends JFrame {
 	}
 
 	public void aggiornaVista() {
-		this.invalidate();
-		this.repaint();
 		ArrayList<Note> note = CacheNote.getSingleton().getAllNoteForUtenteEAnno();
+		pannello.removeAll();
 		for (int i = 0; i < note.size(); i++) {
-			Note note2 = note.get(i);
-			PannelloNota pNota = new PannelloNota(note2);
+			Note nota = note.get(i);
+			System.out.println(nota.getnome());
+			PannelloNota pNota = new PannelloNota(nota, this);
 			pannello.add(pNota);
-			pannello.setPreferredSize(new Dimension(300, 170 * note.size()));
+			pannello.setPreferredSize(new Dimension(220, 180 * note.size()));
 			if (i == 0) {
-				pNota.setBounds(0, 0, 260, 170);
+				pNota.setBounds(0, 0, 220, 170);
 			} else {
-				pNota.setBounds(0, i * 170, 260, 200);
+				pNota.setBounds(0, i * 170, 220, 170);
 			}
 		}
-		this.invalidate();
+		// TODO non si aggiorna...!!!
+		JScrollPane pane = scrollPane;
+		pane.setViewportView(pannello);
+		setScrollPane(pane);
+		this.validate();
 		this.repaint();
 	}
 }

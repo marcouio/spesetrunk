@@ -274,6 +274,7 @@ public class GeneralFrame extends JFrame {
 		Controllore.getFinestraHistory().setLocation(p);
 		Controllore.getReport().setLocation(p);
 		Controllore.getPannelloDati().setLocation(p);
+		Controllore.getNote().setLocation(p);
 	}
 
 	public static void resizeView() {
