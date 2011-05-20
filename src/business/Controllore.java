@@ -13,6 +13,7 @@ import view.FinestraListaComandi;
 import view.GeneralFrame;
 import view.Report;
 import view.componenti.componentiPannello.PannelloAScomparsa2;
+import view.note.MostraNoteView;
 import business.cache.CacheGruppi;
 import business.cache.CacheLookAndFeel;
 import business.cache.CacheUtenti;
@@ -28,6 +29,7 @@ public class Controllore {
 	private static GeneralFrame            view;
 	protected static PannelloAScomparsa2   pannelloDati;
 	protected static FinestraListaComandi  historyCommands;
+	protected static MostraNoteView        pannelloNote;
 	protected static Report                report;
 	private static Utenti                  utenteLogin;
 	private static CommandManager          commandManager;
@@ -56,6 +58,7 @@ public class Controllore {
 			e.printStackTrace();
 		}
 		SwingUtilities.invokeLater(new Runnable() {
+
 			@Override
 			public void run() {
 				DBUtil.closeConnection();
@@ -66,6 +69,11 @@ public class Controllore {
 				view.setTitle("Gestionale spese familiari");
 				view.setLocationByPlatform(true);
 				view.setVisible(true);
+
+				pannelloNote = new MostraNoteView();
+				pannelloNote.setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
+				pannelloNote.setVisible(false);
+				finestre.add(pannelloNote);
 
 				historyCommands = new FinestraListaComandi();
 				historyCommands.setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
@@ -179,6 +187,14 @@ public class Controllore {
 
 	public GeneralFrame getView() {
 		return view;
+	}
+
+	public static MostraNoteView getNote() {
+		return pannelloNote;
+	}
+
+	public static void setNote(MostraNoteView note) {
+		Controllore.pannelloNote = note;
 	}
 
 	public static Report getReport() {
