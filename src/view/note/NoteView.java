@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -19,6 +18,9 @@ import business.Controllore;
 import business.DBUtil;
 import business.cache.CacheNote;
 import business.comandi.CommandInserisciNota;
+import business.comandi.CommandUpdateNota;
+import domain.INote;
+import domain.Note;
 import domain.wrapper.WrapNote;
 
 public class NoteView extends AbstractNoteView {
@@ -40,8 +42,9 @@ public class NoteView extends AbstractNoteView {
 	private final TextFieldF nota;
 	private final TextAreaF  descrizione;
 	private final TextFieldF data;
+	private ButtonF          btnInserisci;
 
-	public NoteView(WrapNote note, final JFrame padre) {
+	public NoteView(final WrapNote note, final JFrame padre) {
 		super(note);
 		setTitle("Pannello Nota");
 		getContentPane().setLayout(null);
@@ -80,7 +83,8 @@ public class NoteView extends AbstractNoteView {
 		data.setBounds(181, 38, 150, 27);
 		data.setText(DBUtil.dataToString(new Date(), "yyyy/MM/dd"));
 		getContentPane().add(data);
-		JButton btnInserisci = new ButtonF();
+
+		btnInserisci = new ButtonF();
 		btnInserisci.setText("Inserisci");
 		btnInserisci.setBounds(13, 175, 318, 25);
 		getContentPane().add(btnInserisci);
@@ -89,14 +93,23 @@ public class NoteView extends AbstractNoteView {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int id = CacheNote.getSingleton().getAllNoteForUtenteEAnno().size();
-				WrapNote wNote = new WrapNote();
-				wNote.setIdNote(id);
-				wNote.getentitaPadre().setIdEntita(Integer.toString(id));
-				updateNote(wNote);
-				if (nonEsistonoCampiNonValorizzati()) {
-					Controllore.getSingleton().getCommandManager().invocaComando(new CommandInserisciNota(wNote), null);
-					((MostraNoteView) padre).aggiornaVista();
-					dispose();
+				if (e.getActionCommand().equals("Aggiorna")) {
+					updateNote(null);
+					if (nonEsistonoCampiNonValorizzati()) {
+						Controllore.getSingleton().getCommandManager().invocaComando(new CommandUpdateNota((Note) note.getentitaPadre(), (INote) wrapNote.getentitaPadre()), null);
+						((MostraNoteView) padre).aggiornaVista();
+						dispose();
+					}
+				} else {
+					WrapNote wNote = new WrapNote();
+					updateNote(wNote);
+					if (nonEsistonoCampiNonValorizzati()) {
+						wNote.setIdNote(id);
+						wNote.getentitaPadre().setIdEntita(Integer.toString(id));
+						Controllore.getSingleton().getCommandManager().invocaComando(new CommandInserisciNota(wNote), null);
+						((MostraNoteView) padre).aggiornaVista();
+						dispose();
+					}
 				}
 			}
 
@@ -104,8 +117,12 @@ public class NoteView extends AbstractNoteView {
 	}
 
 	private boolean nonEsistonoCampiNonValorizzati() {
-		return getNome() != null && getDescrizione() != null && getData() != null && getDataIns() != null
-		                && getUtenti() != null;
+		boolean ok = false;
+		if (getNome() != null && getDescrizione() != null && getData() != null && getDataIns() != null
+		                && getUtenti() != null) {
+			ok = true;
+		}
+		return ok;
 	}
 
 	private void updateNote(WrapNote wNote) {
@@ -124,5 +141,37 @@ public class NoteView extends AbstractNoteView {
 		setDescrizione(descrizione.getText());
 		setUtenti(Controllore.getSingleton().getUtenteLogin());
 		setDataIns(DBUtil.dataToString(new Date(), "yyyy/MM/dd"));
+	}
+
+	public void setNota(String stringNota) {
+		nota.setText(stringNota);
+	}
+
+	public void setTaDescrizione(String stringaDescrizione) {
+		descrizione.setText(stringaDescrizione);
+	}
+
+	public void settfData(String stringaData) {
+		data.setText(stringaData);
+	}
+
+	public TextFieldF getNota() {
+		return nota;
+	}
+
+	public TextAreaF gettaDescrizione() {
+		return descrizione;
+	}
+
+	public TextFieldF getftData() {
+		return data;
+	}
+
+	public ButtonF getBtnInserisci() {
+		return btnInserisci;
+	}
+
+	public void setBtnInserisci(ButtonF btnInserisci) {
+		this.btnInserisci = btnInserisci;
 	}
 }

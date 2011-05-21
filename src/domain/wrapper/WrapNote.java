@@ -248,8 +248,8 @@ public class WrapNote extends Observable implements IWrapperEntity, INote {
 		Connection cn = DBUtil.getConnection();
 
 		Note nota = (Note) oggettoEntita;
-		String sql = "UPDATE " + Note.NOME_TABELLA + " SET " + Note.DESCRIZIONE + " = '" + nota.getDescrizione() + "', " +
-		                ", " + Entrate.DATA + " = '" + nota.getData() + "', "
+		String sql = "UPDATE " + Note.NOME_TABELLA + " SET " + Note.DESCRIZIONE + " = '" + nota.getDescrizione() + "', "
+		                + Entrate.DATA + " = '" + nota.getData() + "', "
 		                + Entrate.NOME + " = '" + nota.getnome() + "', " + Entrate.IDUTENTE + " = " +
 		                nota.getUtenti().getidUtente() + ", " + Entrate.DATAINS + " = '" +
 		                nota.getDataIns() + "' WHERE " + Note.ID + " = " + nota.getIdNote();

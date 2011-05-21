@@ -1,8 +1,5 @@
 package view.note;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,6 +10,7 @@ import javax.swing.SwingUtilities;
 import view.font.ButtonF;
 import view.font.TextAreaF;
 import domain.Note;
+import domain.wrapper.WrapNote;
 
 public class PannelloNota extends JPanel {
 
@@ -53,19 +51,13 @@ public class PannelloNota extends JPanel {
 
 		JButton eliminaNota = new ButtonF();
 		eliminaNota.setText("-");
-		eliminaNota.addActionListener(new AscoltatoreEliminaNota(this, note2));
+		eliminaNota.addActionListener(new AscoltatoreEliminaNota(this, nota));
 
 		eliminaNota.setBounds(149, 17, 44, 15);
 		add(eliminaNota);
 
 		ButtonF btnfAggiorna = new ButtonF();
-		btnfAggiorna.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
+		btnfAggiorna.addActionListener(new AscoltatoreApriPannelloUpdateNote(this.padre, new WrapNote(nota)));
 
 		btnfAggiorna.setText("!=");
 		btnfAggiorna.setBounds(147, 36, 46, 15);
