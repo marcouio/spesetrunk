@@ -169,11 +169,9 @@ public class GeneralFrame extends JFrame {
 		ArrayList<Bottone> dueButton = new ArrayList<Bottone>();
 		dueButton.add(bottoneMovimentiUscite);
 		dueButton.add(bottoneMovimentiEntrate);
-		// pp.addBottone(bottoneMovimentiEntrate);
-		// pp.addBottone(bottoneMovimentiUscite);
 		pp.addDueBottoni(dueButton);
 		bottoneMovimenti.setContenuto(pp);
-		// *****************************************
+
 		toggleMovimenti.setPadre(bottoneMovimenti);
 
 		ImageIcon iconaUscite = new ImageIcon("imgUtil/blocktable_32.png");

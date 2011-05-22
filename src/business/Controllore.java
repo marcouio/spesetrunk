@@ -36,6 +36,7 @@ public class Controllore {
 	private static final ArrayList<JFrame> finestre = new ArrayList<JFrame>();
 
 	private static Controllore             singleton;
+	private static JFrame                  windowVisibile;
 
 	/**
 	 * Launch the application.
@@ -149,6 +150,7 @@ public class Controllore {
 		} else {
 			menuItem.setSelected(true);
 			finestraVisibile.setVisible(true);
+			setWindowVisibile(finestraVisibile);
 		}
 	}
 
@@ -217,7 +219,7 @@ public class Controllore {
 		Controllore.historyCommands = flc;
 	}
 
-	protected static ArrayList<JFrame> getFinestre() {
+	public static ArrayList<JFrame> getFinestre() {
 		return finestre;
 	}
 
@@ -232,4 +234,12 @@ public class Controllore {
 		historyCommands.dispose();
 		System.exit(0);
 	}
+
+	public static void setWindowVisibile(JFrame windowVisibile) {
+	    Controllore.windowVisibile = windowVisibile;
+    }
+
+	public static JFrame getWindowVisibile() {
+	    return windowVisibile;
+    }
 }

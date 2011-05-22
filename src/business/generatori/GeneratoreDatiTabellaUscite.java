@@ -19,7 +19,7 @@ public class GeneratoreDatiTabellaUscite extends AbstractGeneratoreDatiTabella {
 		try {
 			if (categorie == null)
 				categorie = CacheCategorie.getSingleton().getVettoreCategorie();
-			return Double.toString(Database.speseMeseCategoria(i + 1, Integer.parseInt(categorie.get(x).getIdEntita())));
+			return Double.toString(Database.speseMeseCategoria(i + 1, Integer.parseInt(categorie.get(x - 1).getIdEntita())));
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

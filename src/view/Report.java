@@ -219,7 +219,7 @@ public class Report extends JFrame {
 					nomiColonne[1] = "Variabili";
 					String[][] primo = new String[12][2];
 					for (int i = 0; i < 12; i++) {
-						for (int x = 0; x < 2; x++) {
+						for (int x = 1; x <= 2; x++) {
 							try {
 								Double entrataMeseTipo = Database.getSingleton().entrateMeseTipo((i + 1), nomiColonne[x]);
 								primo[i][x] = entrataMeseTipo.toString();
