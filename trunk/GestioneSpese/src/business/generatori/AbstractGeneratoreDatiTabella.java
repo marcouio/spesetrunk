@@ -35,7 +35,7 @@ public abstract class AbstractGeneratoreDatiTabella {
 			for (int x = 1; x < nomiColonne.length; x++) {
 				try {
 
-					matrice[i][x] = getOggettoMatrice(i, x - 1);
+					matrice[i][x] = getOggettoMatrice(i, x);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
