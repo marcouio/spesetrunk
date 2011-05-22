@@ -71,30 +71,25 @@ public class Controllore {
 				view.setLocationByPlatform(true);
 				view.setVisible(true);
 
-				pannelloNote = new MostraNoteView();
+				pannelloNote = getNote();
 				pannelloNote.setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
 				pannelloNote.setVisible(false);
 				finestre.add(pannelloNote);
 
-				historyCommands = new FinestraListaComandi();
+				historyCommands = getFinestraHistory();
 				historyCommands.setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
 				historyCommands.setVisible(false);
 				finestre.add(historyCommands);
 
-				pannelloDati = new PannelloAScomparsa2();
+				pannelloDati = getPannelloDati();
 				pannelloDati.setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
 				pannelloDati.setVisible(false);
 				finestre.add(pannelloDati);
 
-				try {
-					report = new Report();
-					report.setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
-					report.setVisible(false);
-					finestre.add(report);
-
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
+				report = getReport();
+				report.setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
+				report.setVisible(false);
+				finestre.add(report);
 
 			}
 		});
@@ -192,6 +187,9 @@ public class Controllore {
 	}
 
 	public static MostraNoteView getNote() {
+		if (pannelloNote == null) {
+			pannelloNote = new MostraNoteView();
+		}
 		return pannelloNote;
 	}
 
@@ -200,6 +198,13 @@ public class Controllore {
 	}
 
 	public static Report getReport() {
+		if (report == null) {
+			try {
+				report = new Report();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
 		return report;
 	}
 
@@ -208,10 +213,16 @@ public class Controllore {
 	}
 
 	public static PannelloAScomparsa2 getPannelloDati() {
+		if (pannelloDati == null) {
+			pannelloDati = new PannelloAScomparsa2();
+		}
 		return pannelloDati;
 	}
 
 	public static FinestraListaComandi getFinestraHistory() {
+		if (historyCommands == null) {
+			historyCommands = new FinestraListaComandi();
+		}
 		return historyCommands;
 	}
 
@@ -236,10 +247,10 @@ public class Controllore {
 	}
 
 	public static void setWindowVisibile(JFrame windowVisibile) {
-	    Controllore.windowVisibile = windowVisibile;
-    }
+		Controllore.windowVisibile = windowVisibile;
+	}
 
 	public static JFrame getWindowVisibile() {
-	    return windowVisibile;
-    }
+		return windowVisibile;
+	}
 }

@@ -113,14 +113,14 @@ public class MyMenu extends JMenuBar {
 		});
 		finestre.add(chckbxmntmDati);
 
-		JCheckBoxMenuItem mntmNote = new JCheckBoxMenuItem("Note");
+		final JCheckBoxMenuItem mntmNote = new JCheckBoxMenuItem("Note");
 		finestre.add(mntmNote);
 		mntmNote.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				MostraNoteView note = Controllore.getNote();
-				Controllore.setVisibilitaFinestre(note, finestre, listaComandi);
+				Controllore.setVisibilitaFinestre(note, finestre, mntmNote);
 			}
 		});
 		mntmReport.addActionListener(new ActionListener() {
