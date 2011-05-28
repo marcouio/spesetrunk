@@ -1,6 +1,6 @@
 package business.comandi;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JScrollPane;
@@ -10,9 +10,9 @@ import business.Controllore;
 
 public class CommandManager {
 
-	private static final List<AbstractCommand> history  = new LinkedList<AbstractCommand>();
-	private int                                indiceCorrente;
-	private static CommandManager              instance = new CommandManager();
+	private ArrayList<AbstractCommand> history  = new ArrayList<AbstractCommand>();
+	private int                        indiceCorrente;
+	private static CommandManager      instance = new CommandManager();
 
 	private CommandManager() {
 
@@ -22,12 +22,15 @@ public class CommandManager {
 		return instance;
 	}
 
-	public boolean undo(String tipo) {
-		if (history.size() > 0 && indiceCorrente > -1 && indiceCorrente < history.size()) {
-			AbstractCommand comando = history.get(indiceCorrente);
+	public boolean undo(final String tipo) {
+		if (history.size() > 0 && indiceCorrente > -1
+		                && indiceCorrente < history.size()) {
+			final AbstractCommand comando = history.get(indiceCorrente);
 			if (indiceCorrente > 0) {
 				if (comando.undoCommand(tipo)) {
-					System.out.println("operazione undo su comando all'indice: " + indiceCorrente);
+					System.out
+					                .println("operazione undo su comando all'indice: "
+					                                + indiceCorrente);
 					indiceCorrente--;
 					System.out.println("indice spostato a: " + indiceCorrente);
 					return true;
@@ -37,9 +40,10 @@ public class CommandManager {
 		return false;
 	}
 
-	public boolean redo(String tipo) {
-		if (history.size() > 0 && indiceCorrente > -1 && indiceCorrente < history.size()) {
-			AbstractCommand comando = history.get(indiceCorrente);
+	public boolean redo(final String tipo) {
+		if (history.size() > 0 && indiceCorrente > -1
+		                && indiceCorrente < history.size()) {
+			final AbstractCommand comando = history.get(indiceCorrente);
 			if (indiceCorrente < history.size() - 1) {
 				if (comando.doCommand(tipo)) {
 					System.out.println("operazione undo su comando all'indice: " + indiceCorrente);
@@ -60,7 +64,7 @@ public class CommandManager {
 	 * @param tipo
 	 * @return
 	 */
-	public boolean invocaComando(AbstractCommand comando, String tipo) {
+	public boolean invocaComando(final AbstractCommand comando, final String tipo) {
 		if (comando instanceof UndoCommand) {
 			if (undo(tipo)) {
 				aggiornaFinestraHistory();
@@ -82,7 +86,7 @@ public class CommandManager {
 		return false;
 	}
 
-	public AbstractCommand getLast(Class<AbstractCommand> nomeClasse) {
+	public AbstractCommand getLast(final Class<AbstractCommand> nomeClasse) {
 		AbstractCommand ultimoCommand = null;
 		if (history.size() > 0) {
 			for (int i = history.size() - 1; i <= 0; i--) {
@@ -102,16 +106,16 @@ public class CommandManager {
 	private void aggiornaFinestraHistory() {
 		TableF table = Controllore.getFinestraHistory().getTable();
 		table = new TableF(generaDati(), new String[] { "ListaComandi" });
-		JScrollPane scrollPane = Controllore.getFinestraHistory().getScrollPane();
+		final JScrollPane scrollPane = Controllore.getFinestraHistory().getScrollPane();
 		scrollPane.setViewportView(table);
 		table.setCellSelectionEnabled(false);
 	}
 
 	// TODO da spostare...
 	public Object[][] generaDati() {
-		int numeroColonne = 1;
-		LinkedList<AbstractCommand> listaComandi = (LinkedList<AbstractCommand>) getHistory();
-		Object[][] dati = new Object[listaComandi.size()][numeroColonne];
+		final int numeroColonne = 1;
+		final ArrayList<AbstractCommand> listaComandi = (ArrayList<AbstractCommand>) getHistory();
+		final Object[][] dati = new Object[listaComandi.size()][numeroColonne];
 		for (int i = 0; i < listaComandi.size(); i++) {
 			dati[i][0] = listaComandi.get(i);
 
