@@ -26,12 +26,13 @@ public class MostraNoteView extends JFrame {
 		getContentPane().setLayout(null);
 
 		scrollPane = new JScrollPane();
+		scrollPane.setBorder(null);
 
 		pannello = new JPanel();
 		getContentPane().add(scrollPane);
 		scrollPane.setViewportView(pannello);
 		pannello.setLayout(null);
-		scrollPane.setBounds(10, 40, 240, 350);
+		scrollPane.setBounds(10, 40, 230, 350);
 
 		this.setTitle("Note");
 

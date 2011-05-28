@@ -11,5 +11,9 @@ public class UndoCommand extends AbstractCommand {
 	public boolean unExecute() {
 		return true;
 	}
+	@Override
+	public String toString() {
+		return "Effettuato comando 'Indietro'";
+	}
 
 }

@@ -22,6 +22,7 @@ import business.Controllore;
 import business.DBUtil;
 import business.Database;
 import business.cache.CacheCategorie;
+import business.cache.CacheUscite;
 import business.comandi.CommandDeleteSpesa;
 import business.comandi.CommandInserisciSpesa;
 import domain.CatSpese;
@@ -201,6 +202,8 @@ public class UsciteView extends AbstractUsciteView {
 	}
 
 	private void setUscite() {
+		int idSpesa = (CacheUscite.getSingleton().getMaxId())+1;
+		getModelUscita().setidSpesa(idSpesa);
 		setcNome(tfNome.getText());
 		setcDescrizione(taDescrizione.getText());
 		setCategoria((CatSpese) cCategorie.getSelectedItem());

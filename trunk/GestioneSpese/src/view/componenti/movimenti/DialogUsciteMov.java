@@ -59,7 +59,8 @@ public class DialogUsciteMov extends AbstractUsciteView {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				DialogUsciteMov inst = new DialogUsciteMov(new WrapSingleSpesa());
+				DialogUsciteMov inst = new DialogUsciteMov(
+				                new WrapSingleSpesa());
 				inst.setVisible(true);
 			}
 		});
@@ -74,7 +75,8 @@ public class DialogUsciteMov extends AbstractUsciteView {
 		try {
 			// questo permette di mantenere il focus sulla dialog
 			this.setModalityType(ModalityType.APPLICATION_MODAL);
-			cbCategorie = new JComboBox(Model.getSingleton().getCategorieCombo(false));
+			cbCategorie = new JComboBox(Model.getSingleton().getCategorieCombo(
+			                false));
 			idSpesa.setEditable(false);
 			this.setLayout(new GridLayout(0, 2));
 			update.setSize(60, 40);
@@ -97,18 +99,25 @@ public class DialogUsciteMov extends AbstractUsciteView {
 					SingleSpesa oldSpesa = CacheUscite.getSingleton().getSingleSpesa(idSpesa.getText());
 
 					if (nonEsistonoCampiNonValorizzati()) {
-						if (Controllore.getSingleton().getCommandManager().invocaComando(new CommandUpdateSpesa(oldSpesa, (ISingleSpesa) modelUscita.getentitaPadre()), SingleSpesa.NOME_TABELLA)) {
+						if (Controllore.getSingleton().getCommandManager().invocaComando(
+						                                new CommandUpdateSpesa(oldSpesa, (ISingleSpesa) modelUscita.getentitaPadre()), SingleSpesa.NOME_TABELLA)) {
 							JOptionPane.showMessageDialog(null, "Ok, operazione eseguita correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
 						}
 						Model.aggiornaMovimentiUsciteDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
 						// chiude la dialog e rilascia le risorse
 						dispose();
 					} else
-						JOptionPane.showMessageDialog(null, "Tutti i dati devono essere valorizzati", "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
+						JOptionPane.showMessageDialog(null,
+						                "Tutti i dati devono essere valorizzati",
+						                "Non ci siamo!", JOptionPane.ERROR_MESSAGE,
+						                new ImageIcon("imgUtil/index.jpeg"));
 				}
 
 				private boolean nonEsistonoCampiNonValorizzati() {
-					return getcNome() != null && getcDescrizione() != null && getcData() != null && getDataIns() != null && getCategoria() != null && getdEuro() != 0.0 && getUtenti() != null;
+					return getcNome() != null && getcDescrizione() != null
+					                && getcData() != null && getDataIns() != null
+					                && getCategoria() != null && getdEuro() != 0.0
+					                && getUtenti() != null;
 				}
 			});
 
@@ -117,15 +126,15 @@ public class DialogUsciteMov extends AbstractUsciteView {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					setUscite();
-					if (idSpesa.getText() != null) {
-						SingleSpesa ss = CacheUscite.getSingleton().getSingleSpesa(idSpesa.getText());
-						if (ss != null) {
-							if (Controllore.getSingleton().getCommandManager().invocaComando(new CommandDeleteSpesa(ss), SingleSpesa.NOME_TABELLA)) {
-								JOptionPane.showMessageDialog(null, "Modifica eseguita correttamente", "Perfetto!", JOptionPane.INFORMATION_MESSAGE);
-							} else
-								JOptionPane.showMessageDialog(null, "Inserisci i dati correttamente", "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
-						}
-					}
+					if (Controllore.getSingleton().getCommandManager().invocaComando(new CommandDeleteSpesa(modelUscita), SingleSpesa.NOME_TABELLA)) {
+						JOptionPane.showMessageDialog(null,
+						                "Modifica eseguita correttamente", "Perfetto!",
+						                JOptionPane.INFORMATION_MESSAGE);
+					} else
+						JOptionPane.showMessageDialog(null,
+						                "Inserisci i dati correttamente",
+						                "Non ci siamo!", JOptionPane.ERROR_MESSAGE,
+						                new ImageIcon("imgUtil/index.jpeg"));
 					// chiude la dialog e rilascia le risorse
 					dispose();
 				}
@@ -154,6 +163,7 @@ public class DialogUsciteMov extends AbstractUsciteView {
 	}
 
 	private void setUscite() {
+		getModelUscita().setidSpesa(Integer.parseInt(idSpesa.getText()));
 		setcNome(tfNome.getText());
 		setcDescrizione(taDescrizione.getText());
 		setCategoria((CatSpese) cbCategorie.getSelectedItem());
@@ -161,14 +171,18 @@ public class DialogUsciteMov extends AbstractUsciteView {
 			setcData(tfData.getText());
 		} else {
 			String messaggio = "La data va inserita con il seguente formato: aaaa/mm/gg";
-			JOptionPane.showMessageDialog(null, messaggio, "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("./imgUtil/index.jpeg"));
+			JOptionPane.showMessageDialog(null, messaggio, "Non ci siamo!",
+			                JOptionPane.ERROR_MESSAGE, new ImageIcon(
+			                                "./imgUtil/index.jpeg"));
 		}
 		if (AltreUtil.checkDouble(tfEuro.getText())) {
 			Double euro = Double.parseDouble(tfEuro.getText());
 			setdEuro(AltreUtil.arrotondaDecimaliDouble(euro));
 		} else {
 			String messaggio = "Valore in Euro inserito non correttamente";
-			JOptionPane.showMessageDialog(null, messaggio, "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("./imgUtil/index.jpeg"));
+			JOptionPane.showMessageDialog(null, messaggio, "Non ci siamo!",
+			                JOptionPane.ERROR_MESSAGE, new ImageIcon(
+			                                "./imgUtil/index.jpeg"));
 		}
 		setUtenti(Controllore.getSingleton().getUtenteLogin());
 		setDataIns(tfDataIns.getText());

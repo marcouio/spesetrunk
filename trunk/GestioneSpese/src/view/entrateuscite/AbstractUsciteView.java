@@ -12,6 +12,15 @@ public abstract class AbstractUsciteView extends JDialog implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	public WrapSingleSpesa    modelUscita      = null;
+	
+	
+	public WrapSingleSpesa getModelUscita() {
+		return modelUscita;
+	}
+
+	public void setModelUscita(WrapSingleSpesa modelUscita) {
+		this.modelUscita = modelUscita;
+	}
 
 	public AbstractUsciteView(WrapSingleSpesa modelUscita) {
 		this.modelUscita = modelUscita;

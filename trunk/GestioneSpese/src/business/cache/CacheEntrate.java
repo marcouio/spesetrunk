@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Vector;
 
 import view.impostazioni.Impostazioni;
-
 import business.Controllore;
 import domain.AbstractOggettoEntita;
 import domain.Entrate;
@@ -111,6 +110,23 @@ public class CacheEntrate extends AbstractCacheBase{
 			}
 		}
 		return listaEntrate;
+	}
+	public int getMaxId() {
+		int maxId = 0;
+		Map<String, AbstractOggettoEntita> mappa = getAllEntrate();
+		Iterator<String> chiavi = mappa.keySet().iterator();
+		if(mappa!=null){
+			while(chiavi.hasNext()){
+				Entrate entrata = (Entrate) mappa.get(chiavi.next());
+				if(entrata!=null){
+					int idEntrate= entrata.getidEntrate();
+					if(idEntrate>maxId){
+						maxId = idEntrate;
+					}
+				}
+			}
+		}
+		return maxId;
 	}
 
 }

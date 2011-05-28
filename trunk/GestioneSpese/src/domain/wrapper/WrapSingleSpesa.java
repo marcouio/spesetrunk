@@ -455,6 +455,7 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity, ISing
 	@Override
 	public void setidSpesa(int idSpesa) {
 		uscita.setidSpesa(idSpesa);
+		uscita.setIdEntita(Integer.toString(idSpesa));
 	}
 
 	@Override

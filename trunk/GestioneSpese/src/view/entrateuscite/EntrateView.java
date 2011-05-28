@@ -21,6 +21,7 @@ import business.AltreUtil;
 import business.Controllore;
 import business.DBUtil;
 import business.Database;
+import business.cache.CacheEntrate;
 import business.comandi.CommandDeleteEntrata;
 import business.comandi.CommandInserisciEntrata;
 import domain.Entrate;
@@ -104,12 +105,12 @@ public class EntrateView extends AbstractEntrateView {
 		inserisci.setBounds(13, 238, 149, 27);
 		getContentPane().add(inserisci);
 
-		ButtonF elimina = new ButtonF();
-		elimina.setText("Elimina Ultima");
-		elimina.setBounds(184, 238, 144, 27);
-		getContentPane().add(elimina);
+		ButtonF eliminaUltima = new ButtonF();
+		eliminaUltima.setText("Elimina Ultima");
+		eliminaUltima.setBounds(184, 238, 144, 27);
+		getContentPane().add(eliminaUltima);
 
-		elimina.addActionListener(new ActionListener() {
+		eliminaUltima.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -196,6 +197,8 @@ public class EntrateView extends AbstractEntrateView {
 	}
 
 	private void setEntrate() {
+		int idEntrate = (CacheEntrate.getSingleton().getMaxId())+1;
+		getModelEntrate().setidEntrate(idEntrate);
 		setcNome(tfNome.getText());
 		setcDescrizione(taDescrizione.getText());
 		setFisseOVar((String) cbTipo.getSelectedItem());

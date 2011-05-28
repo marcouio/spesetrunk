@@ -16,6 +16,14 @@ public abstract class AbstractEntrateView extends JDialog implements Observer {
 		this.modelEntrate = modelEntrate;
 	}
 
+	public WrapEntrate getModelEntrate() {
+		return modelEntrate;
+	}
+
+	public void setModelEntrate(WrapEntrate modelEntrate) {
+		this.modelEntrate = modelEntrate;
+	}
+
 	protected String getcNome() {
 		return modelEntrate.getnome();
 	}
