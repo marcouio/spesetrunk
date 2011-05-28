@@ -111,5 +111,22 @@ public class CacheUscite extends AbstractCacheBase{
 		}
 		return listaUscite;
 	}
+	public int getMaxId() {
+		int maxId = 0;
+		Map<String, AbstractOggettoEntita> mappa = getAllUscite();
+		Iterator<String> chiavi = mappa.keySet().iterator();
+		if(mappa!=null){
+			while(chiavi.hasNext()){
+				SingleSpesa uscita = (SingleSpesa) mappa.get(chiavi.next());
+				if(uscita!=null){
+					int idSpesa = uscita.getidSpesa();
+					if(idSpesa>maxId){
+						maxId = idSpesa;
+					}
+				}
+			}
+		}
+		return maxId;
+	}
 	
 }

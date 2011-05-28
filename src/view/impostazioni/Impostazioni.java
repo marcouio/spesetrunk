@@ -199,7 +199,7 @@ public class Impostazioni extends JDialog {
 				public void actionPerformed(ActionEvent e) {
 					String look = "";
 					Lookandfeel valoreLook = (Lookandfeel) comboLook.getSelectedItem();
-					if (valoreLook != null) {
+					if (valoreLook != null && !valoreLook.getnome().equals("")) {
 						look = valoreLook.getvalore();
 
 						for (int i = 0; i < vettore.size(); i++) {

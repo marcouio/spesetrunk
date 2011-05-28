@@ -12,4 +12,9 @@ public class RedoCommand extends AbstractCommand {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "Effettuato comando 'Avanti'";
+	}
+
 }
