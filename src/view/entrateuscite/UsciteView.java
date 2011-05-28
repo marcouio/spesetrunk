@@ -25,7 +25,6 @@ import business.Database;
 import business.cache.CacheCategorie;
 import business.cache.CacheUscite;
 import business.comandi.CommandDeleteSpesa;
-import business.comandi.CommandInserisciSpesa;
 import domain.CatSpese;
 import domain.SingleSpesa;
 import domain.wrapper.WrapSingleSpesa;
@@ -39,13 +38,13 @@ public class UsciteView extends AbstractUsciteView {
 	private final TextAreaF   taDescrizione;
 	private static JComboBox  cCategorie;
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		try {
-			UsciteView dialog = new UsciteView(new WrapSingleSpesa());
+			final UsciteView dialog = new UsciteView(new WrapSingleSpesa());
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setBounds(0, 0, 347, 407);
 			dialog.setVisible(true);
-		} catch (Exception e1) {
+		} catch (final Exception e1) {
 			e1.printStackTrace();
 		}
 	}
@@ -53,7 +52,7 @@ public class UsciteView extends AbstractUsciteView {
 	/**
 	 * Create the panel.
 	 */
-	public UsciteView(WrapSingleSpesa spesa) {
+	public UsciteView(final WrapSingleSpesa spesa) {
 		super(spesa);
 		setTitle("Inserimento Spese");
 		setModalityType(ModalityType.APPLICATION_MODAL);
@@ -91,7 +90,7 @@ public class UsciteView extends AbstractUsciteView {
 		cCategorie.addItemListener(new ItemListener() {
 
 			@Override
-			public void itemStateChanged(ItemEvent e) {
+			public void itemStateChanged(final ItemEvent e) {
 				CatSpese spese = null;
 				if (cCategorie.getSelectedIndex() != 0) {
 					spese = (CatSpese) cCategorie.getSelectedItem();
@@ -109,7 +108,7 @@ public class UsciteView extends AbstractUsciteView {
 
 		tfData = new TextFieldF("0.0");
 		tfData.setColumns(10);
-		GregorianCalendar gc = new GregorianCalendar();
+		final GregorianCalendar gc = new GregorianCalendar();
 		tfData.setText(DBUtil.dataToString(gc.getTime(), "yyyy/MM/dd"));
 		tfData.setBounds(13, 189, 150, 27);
 		getContentPane().add(tfData);
@@ -120,10 +119,10 @@ public class UsciteView extends AbstractUsciteView {
 		getContentPane().add(tfEuro);
 
 		// Bottone Elimina
-		ButtonF eliminaUltima = new ButtonF();
+		final ButtonF eliminaUltima = new ButtonF();
 		eliminaUltima.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(final ActionEvent arg0) {
 				try {
 					// TODO metodo che restituisce ultima spesa oppure usare
 					// getLast() del CommandManager
@@ -133,7 +132,7 @@ public class UsciteView extends AbstractUsciteView {
 						Database.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
 						JOptionPane.showMessageDialog(null, "Ok, ultima uscita eliminata correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
 					}
-				} catch (Exception e1) {
+				} catch (final Exception e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage(), "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("./imgUtil/index.jpeg"));
 					e1.printStackTrace();
 				}
@@ -144,88 +143,69 @@ public class UsciteView extends AbstractUsciteView {
 		eliminaUltima.setBounds(184, 325, 147, 27);
 		getContentPane().add(eliminaUltima);
 
-		ButtonF inserisci = new ButtonF();
+		final ButtonF inserisci = new ButtonF();
 		inserisci.setText("Inserisci");
 		inserisci.setBounds(13, 325, 150, 27);
 		getContentPane().add(inserisci);
 
-		inserisci.addActionListener(new ActionListener() {
+		inserisci.addActionListener(new AscoltaInserisciUscite(this));
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setUscite();
-				if (nonEsistonoCampiNonValorizzati()) {
-					if (Controllore.getSingleton().getCommandManager().invocaComando(new CommandInserisciSpesa(modelUscita), SingleSpesa.NOME_TABELLA)) {
-						JOptionPane.showMessageDialog(null, "Ok, uscita inserita correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
-						// TODO log.fine("Uscita inserita, nome: "
-						// + modelUscita.getnome() + ", id: " +
-						// modelUscita.getidSpesa());
-					}
-				} else {
-					JOptionPane.showMessageDialog(null, "E' necessario riempire tutti i campi", "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("./imgUtil/index.jpeg"));
-					// TODO
-					// log.severe("Uscita non inserita: e' necessario riempire tutti i campi");
-				}
-
-			}
-
-		});
 	}
 
-	private boolean nonEsistonoCampiNonValorizzati() {
+	public boolean nonEsistonoCampiNonValorizzati() {
 		return getcNome() != null && getcDescrizione() != null && getcData() != null && getDataIns() != null && getCategoria() != null && getdEuro() != 0.0 && getUtenti() != null;
 	}
 
 	private void initLabel() {
-		LabelTesto lblNomeSpesa = new LabelTesto("Nome Spesa");
+		final LabelTesto lblNomeSpesa = new LabelTesto("Nome Spesa");
 		lblNomeSpesa.setBounds(13, 12, 118, 27);
 		getContentPane().add(lblNomeSpesa);
 
-		LabelTesto lblEuro = new LabelTesto("Euro");
+		final LabelTesto lblEuro = new LabelTesto("Euro");
 		lblEuro.setBounds(184, 163, 77, 27);
 		getContentPane().add(lblEuro);
 
-		LabelTesto lblCategorie = new LabelTesto("Categorie");
+		final LabelTesto lblCategorie = new LabelTesto("Categorie");
 		lblCategorie.setBounds(181, 12, 125, 27);
 		getContentPane().add(lblCategorie);
 
-		LabelTesto lblData = new LabelTesto("Data");
+		final LabelTesto lblData = new LabelTesto("Data");
 		lblData.setBounds(13, 163, 77, 27);
 		getContentPane().add(lblData);
 
-		LabelTesto lblDescrizione = new LabelTesto("Descrizione Spesa");
+		final LabelTesto lblDescrizione = new LabelTesto("Descrizione Spesa");
 		lblDescrizione.setBounds(14, 62, 212, 25);
 		getContentPane().add(lblDescrizione);
 
-		LabelTesto lblDescrizione_1 = new LabelTesto("Descrizione Categoria");
+		final LabelTesto lblDescrizione_1 = new LabelTesto("Descrizione Categoria");
 		lblDescrizione_1.setBounds(13, 216, 232, 27);
 		getContentPane().add(lblDescrizione_1);
 	}
 
-	private void setUscite() {
-		int idSpesa = (CacheUscite.getSingleton().getMaxId()) + 1;
+	public void setUscite() {
+		final int idSpesa = (CacheUscite.getSingleton().getMaxId()) + 1;
 		getModelUscita().setidSpesa(idSpesa);
 
-		CheckTesto checkTesto = new CheckTesto(tfNome.getText());
-		String nomeCheckato = checkTesto.getTesto();
+		final CheckTesto checkTesto = new CheckTesto(tfNome.getText());
+		final String nomeCheckato = checkTesto.getTesto();
 		setcNome(nomeCheckato);
 
 		checkTesto.setTesto(taDescrizione.getText());
-		String descrizioneCheckato = checkTesto.getTesto();
+		final String descrizioneCheckato = checkTesto.getTesto();
 		setcDescrizione(descrizioneCheckato);
 
 		setCategoria((CatSpese) cCategorie.getSelectedItem());
 		if (AltreUtil.checkData(tfData.getText())) {
 			setcData(tfData.getText());
 		} else {
-			String messaggio = "La data va inserita con il seguente formato: aaaa/mm/gg";
+			final String messaggio = "La data va inserita con il seguente formato: aaaa/mm/gg";
 			JOptionPane.showMessageDialog(null, messaggio, "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("./imgUtil/index.jpeg"));
 		}
 		if (AltreUtil.checkDouble(tfEuro.getText())) {
-			Double euro = Double.parseDouble(tfEuro.getText());
+			final Double euro = Double.parseDouble(tfEuro.getText());
 			setdEuro(AltreUtil.arrotondaDecimaliDouble(euro));
 		} else {
-			String messaggio = "Valore in Euro inserito non correttamente";
+			final String messaggio = "Valore in Euro inserito non correttamente";
 			JOptionPane.showMessageDialog(null, messaggio, "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("./imgUtil/index.jpeg"));
 		}
 		setUtenti(Controllore.getSingleton().getUtenteLogin());
@@ -243,12 +223,12 @@ public class UsciteView extends AbstractUsciteView {
 	 * @param categorie
 	 *            the categorie to set
 	 */
-	public void setComboCategorie(JComboBox categorie) {
+	public void setComboCategorie(final JComboBox categorie) {
 		UsciteView.cCategorie = categorie;
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update(final Observable o, final Object arg) {
 		tfNome.setText(getcNome());
 		taDescrizione.setText(getcDescrizione());
 		cCategorie.setSelectedItem(getCategoria());
