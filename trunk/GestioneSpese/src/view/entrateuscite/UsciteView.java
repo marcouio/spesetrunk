@@ -18,6 +18,7 @@ import view.font.LabelTesto;
 import view.font.TextAreaF;
 import view.font.TextFieldF;
 import business.AltreUtil;
+import business.CheckTesto;
 import business.Controllore;
 import business.DBUtil;
 import business.Database;
@@ -202,10 +203,17 @@ public class UsciteView extends AbstractUsciteView {
 	}
 
 	private void setUscite() {
-		int idSpesa = (CacheUscite.getSingleton().getMaxId())+1;
+		int idSpesa = (CacheUscite.getSingleton().getMaxId()) + 1;
 		getModelUscita().setidSpesa(idSpesa);
-		setcNome(tfNome.getText());
-		setcDescrizione(taDescrizione.getText());
+
+		CheckTesto checkTesto = new CheckTesto(tfNome.getText());
+		String nomeCheckato = checkTesto.getTesto();
+		setcNome(nomeCheckato);
+
+		checkTesto.setTesto(taDescrizione.getText());
+		String descrizioneCheckato = checkTesto.getTesto();
+		setcDescrizione(descrizioneCheckato);
+
 		setCategoria((CatSpese) cCategorie.getSelectedItem());
 		if (AltreUtil.checkData(tfData.getText())) {
 			setcData(tfData.getText());
