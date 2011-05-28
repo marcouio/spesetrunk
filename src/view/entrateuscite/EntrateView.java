@@ -18,6 +18,7 @@ import view.font.LabelTesto;
 import view.font.TextAreaF;
 import view.font.TextFieldF;
 import business.AltreUtil;
+import business.CheckTesto;
 import business.Controllore;
 import business.DBUtil;
 import business.Database;
@@ -117,7 +118,7 @@ public class EntrateView extends AbstractEntrateView {
 				try {
 					setEntrate();
 					if (Controllore.getSingleton().getCommandManager().invocaComando(new CommandDeleteEntrata(modelEntrate), Entrate.NOME_TABELLA)) {
-						// TODO log.fine("Cancellata ultima spesa inserita");
+						// log.fine("Cancellata ultima spesa inserita");
 						Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
 						JOptionPane.showMessageDialog(null, "Ok, ultima entrata eliminata correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
 					}
@@ -197,10 +198,18 @@ public class EntrateView extends AbstractEntrateView {
 	}
 
 	private void setEntrate() {
-		int idEntrate = (CacheEntrate.getSingleton().getMaxId())+1;
+		int idEntrate = (CacheEntrate.getSingleton().getMaxId()) + 1;
 		getModelEntrate().setidEntrate(idEntrate);
-		setcNome(tfNome.getText());
-		setcDescrizione(taDescrizione.getText());
+
+		CheckTesto checkTesto = new CheckTesto(tfNome.getText());
+
+		String nome = checkTesto.getTesto();
+		setcNome(nome);
+
+		checkTesto.setTesto(taDescrizione.getText());
+		String descri = checkTesto.getTesto();
+		setcDescrizione(descri);
+
 		setFisseOVar((String) cbTipo.getSelectedItem());
 		if (AltreUtil.checkData(tfData.getText())) {
 			setcData(tfData.getText());
