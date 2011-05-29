@@ -30,43 +30,40 @@ import domain.wrapper.WrapSingleSpesa;
 
 public class DialogUsciteMov extends AbstractUsciteView {
 
-	private static JLabel     labelEuro        = new LabelTesto("Euro");
-	private static JLabel     labelData        = new LabelTesto("Data");
-	private static JLabel     labelCategoria   = new LabelTesto("Categoria");
-	private static JLabel     labelDescrizione = new LabelTesto("Descrizione");
-	private static JLabel     labelNome        = new LabelTesto("Nome");
-	private static JLabel     labelDataIns     = new LabelTesto("Data Inserimento");
-	private static JLabel     labelIdSpesa     = new LabelTesto("Chiave Uscita");
+	private JLabel        labelEuro        = new LabelTesto("Euro");
+	private JLabel        labelData        = new LabelTesto("Data");
+	private JLabel        labelCategoria   = new LabelTesto("Categoria");
+	private JLabel        labelDescrizione = new LabelTesto("Descrizione");
+	private JLabel        labelNome        = new LabelTesto("Nome");
+	private JLabel        labelDataIns     = new LabelTesto("Data Inserimento");
+	private JLabel        labelIdSpesa     = new LabelTesto("Chiave Uscita");
 
-	private static JTextField tfEuro           = new TextFieldF();
-	private static JTextField tfData           = new TextFieldF();
-	private static JComboBox  cbCategorie;
-	// private static JTextField categoria = new TextFieldF();
-	private static JTextField taDescrizione    = new TextFieldF();
-	private static JTextField tfNome           = new TextFieldF();
-	private static JTextField tfDataIns        = new TextFieldF();
-	private static JTextField idSpesa          = new TextFieldF();
-	private final JButton     update           = new ButtonF("Aggiorna");
-	private final JButton     delete           = new ButtonF("Cancella");
-
-	private static final long serialVersionUID = 1L;
+	private JTextField    tfEuro           = new TextFieldF();
+	private JTextField    tfData           = new TextFieldF();
+	private JComboBox     cbCategorie;
+	// private JTextField categoria = new TextFieldF();
+	private JTextField    taDescrizione    = new TextFieldF();
+	private JTextField    tfNome           = new TextFieldF();
+	private JTextField    tfDataIns        = new TextFieldF();
+	private JTextField    idSpesa          = new TextFieldF();
+	private final JButton update           = new ButtonF("Aggiorna");
+	private final JButton delete           = new ButtonF("Cancella");
 
 	/**
 	 * Auto-generated main method to display this JDialog
 	 */
 
-	public static void main(String[] args) {
+	public void main(final String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				DialogUsciteMov inst = new DialogUsciteMov(
-				                new WrapSingleSpesa());
+				final DialogUsciteMov inst = new DialogUsciteMov(new WrapSingleSpesa());
 				inst.setVisible(true);
 			}
 		});
 	}
 
-	public DialogUsciteMov(WrapSingleSpesa uscita) {
+	public DialogUsciteMov(final WrapSingleSpesa uscita) {
 		super(uscita);
 		initGUI();
 	}
@@ -92,11 +89,11 @@ public class DialogUsciteMov extends AbstractUsciteView {
 			update.addActionListener(new ActionListener() {
 
 				@Override
-				public void actionPerformed(ActionEvent e) {
+				public void actionPerformed(final ActionEvent e) {
 					setUscite();
-					String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(SingleSpesa.NOME_TABELLA);
-					JTextField campo = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getCampo();
-					SingleSpesa oldSpesa = CacheUscite.getSingleton().getSingleSpesa(idSpesa.getText());
+					final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(SingleSpesa.NOME_TABELLA);
+					final JTextField campo = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getCampo();
+					final SingleSpesa oldSpesa = CacheUscite.getSingleton().getSingleSpesa(idSpesa.getText());
 
 					if (nonEsistonoCampiNonValorizzati()) {
 						if (Controllore.getSingleton().getCommandManager().invocaComando(
@@ -124,7 +121,7 @@ public class DialogUsciteMov extends AbstractUsciteView {
 			delete.addActionListener(new ActionListener() {
 
 				@Override
-				public void actionPerformed(ActionEvent e) {
+				public void actionPerformed(final ActionEvent e) {
 					setUscite();
 					if (Controllore.getSingleton().getCommandManager().invocaComando(new CommandDeleteSpesa(modelUscita), SingleSpesa.NOME_TABELLA)) {
 						JOptionPane.showMessageDialog(null,
@@ -157,7 +154,7 @@ public class DialogUsciteMov extends AbstractUsciteView {
 			this.add(update);
 			this.add(delete);
 			setSize(300, 500);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -170,16 +167,16 @@ public class DialogUsciteMov extends AbstractUsciteView {
 		if (AltreUtil.checkData(tfData.getText())) {
 			setcData(tfData.getText());
 		} else {
-			String messaggio = "La data va inserita con il seguente formato: aaaa/mm/gg";
+			final String messaggio = "La data va inserita con il seguente formato: aaaa/mm/gg";
 			JOptionPane.showMessageDialog(null, messaggio, "Non ci siamo!",
 			                JOptionPane.ERROR_MESSAGE, new ImageIcon(
 			                                "./imgUtil/index.jpeg"));
 		}
 		if (AltreUtil.checkDouble(tfEuro.getText())) {
-			Double euro = Double.parseDouble(tfEuro.getText());
+			final Double euro = Double.parseDouble(tfEuro.getText());
 			setdEuro(AltreUtil.arrotondaDecimaliDouble(euro));
 		} else {
-			String messaggio = "Valore in Euro inserito non correttamente";
+			final String messaggio = "Valore in Euro inserito non correttamente";
 			JOptionPane.showMessageDialog(null, messaggio, "Non ci siamo!",
 			                JOptionPane.ERROR_MESSAGE, new ImageIcon(
 			                                "./imgUtil/index.jpeg"));
@@ -188,60 +185,60 @@ public class DialogUsciteMov extends AbstractUsciteView {
 		setDataIns(tfDataIns.getText());
 	}
 
-	public static void setEuro(JTextField euro) {
-		DialogUsciteMov.tfEuro = euro;
+	public void setEuro(final JTextField euro) {
+		this.tfEuro = euro;
 	}
 
-	public static JTextField getEuro() {
+	public JTextField getEuro() {
 		return tfEuro;
 	}
 
-	public static void setData(JTextField data) {
-		DialogUsciteMov.tfData = data;
+	public void setData(final JTextField data) {
+		this.tfData = data;
 	}
 
-	public static JTextField getData() {
+	public JTextField getData() {
 		return tfData;
 	}
 
-	public static void setDescrizione(JTextField descrizione) {
-		DialogUsciteMov.taDescrizione = descrizione;
+	public void setDescrizione(final JTextField descrizione) {
+		this.taDescrizione = descrizione;
 	}
 
-	public static JTextField getDescrizione() {
+	public JTextField getDescrizione() {
 		return taDescrizione;
 	}
 
-	public static void setCategoria(JComboBox categoria) {
-		DialogUsciteMov.cbCategorie = categoria;
+	public void setCategoria(final JComboBox categoria) {
+		this.cbCategorie = categoria;
 	}
 
-	public static JComboBox getComboCategoria() {
+	public JComboBox getComboCategoria() {
 		return cbCategorie;
 	}
 
-	public static void setNome(JTextField nome) {
-		DialogUsciteMov.tfNome = nome;
+	public void setNome(final JTextField nome) {
+		this.tfNome = nome;
 	}
 
-	public static JTextField getNome() {
+	public JTextField getNome() {
 		return tfNome;
 	}
 
-	public static void setIdSpesa(JTextField idSpesa) {
-		DialogUsciteMov.idSpesa = idSpesa;
+	public void setIdSpesa(final JTextField idSpesa) {
+		this.idSpesa = idSpesa;
 	}
 
-	public static JTextField getIdSpesa() {
+	public JTextField getIdSpesa() {
 		return idSpesa;
 	}
 
-	public static JTextField getTfDataIns() {
+	public JTextField getTfDataIns() {
 		return tfDataIns;
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update(final Observable o, final Object arg) {
 		// TODO Auto-generated method stub
 
 	}

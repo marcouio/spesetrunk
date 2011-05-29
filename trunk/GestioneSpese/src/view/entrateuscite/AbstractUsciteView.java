@@ -10,19 +10,18 @@ import domain.wrapper.WrapSingleSpesa;
 
 public abstract class AbstractUsciteView extends JDialog implements Observer {
 
-	private static final long serialVersionUID = 1L;
-	public WrapSingleSpesa    modelUscita      = null;
-	
-	
+	public static final long serialVersionUID = 1L;
+	public WrapSingleSpesa   modelUscita      = null;
+
 	public WrapSingleSpesa getModelUscita() {
 		return modelUscita;
 	}
 
-	public void setModelUscita(WrapSingleSpesa modelUscita) {
+	public void setModelUscita(final WrapSingleSpesa modelUscita) {
 		this.modelUscita = modelUscita;
 	}
 
-	public AbstractUsciteView(WrapSingleSpesa modelUscita) {
+	public AbstractUsciteView(final WrapSingleSpesa modelUscita) {
 		this.modelUscita = modelUscita;
 	}
 
@@ -30,7 +29,7 @@ public abstract class AbstractUsciteView extends JDialog implements Observer {
 		return modelUscita.getnome();
 	}
 
-	protected void setcNome(String cNome) {
+	protected void setcNome(final String cNome) {
 		modelUscita.setnome(cNome);
 	}
 
@@ -38,7 +37,7 @@ public abstract class AbstractUsciteView extends JDialog implements Observer {
 		return modelUscita.getData();
 	}
 
-	protected void setcData(String cData) {
+	protected void setcData(final String cData) {
 		modelUscita.setData(cData);
 	}
 
@@ -46,7 +45,7 @@ public abstract class AbstractUsciteView extends JDialog implements Observer {
 		return modelUscita.getinEuro();
 	}
 
-	protected void setdEuro(Double dEuro) {
+	protected void setdEuro(final Double dEuro) {
 		modelUscita.setinEuro(dEuro);
 	}
 
@@ -54,7 +53,7 @@ public abstract class AbstractUsciteView extends JDialog implements Observer {
 		return modelUscita.getdescrizione();
 	}
 
-	public void setcDescrizione(String cDescrizione) {
+	public void setcDescrizione(final String cDescrizione) {
 		modelUscita.setdescrizione(cDescrizione);
 	}
 
@@ -62,7 +61,7 @@ public abstract class AbstractUsciteView extends JDialog implements Observer {
 		return modelUscita.getUtenti();
 	}
 
-	public void setUtenti(Utenti utente) {
+	public void setUtenti(final Utenti utente) {
 		modelUscita.setUtenti(utente);
 	}
 
@@ -70,7 +69,7 @@ public abstract class AbstractUsciteView extends JDialog implements Observer {
 		return modelUscita.getCatSpese();
 	}
 
-	public void setCategoria(CatSpese catSpese) {
+	public void setCategoria(final CatSpese catSpese) {
 		modelUscita.setCatSpese(catSpese);
 	}
 
@@ -78,7 +77,7 @@ public abstract class AbstractUsciteView extends JDialog implements Observer {
 		return modelUscita.getDataIns();
 	}
 
-	public void setDataIns(String date) {
+	public void setDataIns(final String date) {
 		modelUscita.setDataIns(date);
 	}
 

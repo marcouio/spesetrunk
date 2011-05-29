@@ -4,6 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
@@ -11,41 +12,43 @@ import domain.wrapper.Model;
 
 public class AscoltatoreMouseMovEntrate implements MouseListener {
 
-	private final JTable tabella;
+	private final DialogEntrateMov dialog;
+	private final JTable           tabella;
 
-	public AscoltatoreMouseMovEntrate(JTable tabella) {
+	public AscoltatoreMouseMovEntrate(final JTable tabella, final JDialog dialog) {
 		super();
 		this.tabella = tabella;
+		this.dialog = (DialogEntrateMov) dialog;
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
+	public void mouseClicked(final MouseEvent e) {
 
 		// JTable table = ListaMovEntrat.getTable();
-		JTable table = tabella;
+		final JTable table = tabella;
 		if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 1
 		                && (e.getSource() == table)) {
-			JTable tabella = (JTable) e.getSource();
-			int row = tabella.getSelectedRow();
-			JTextField idEntrate = DialogEntrateMov.getIdEntrate();
+			final JTable tabella = (JTable) e.getSource();
+			final int row = tabella.getSelectedRow();
+			final JTextField idEntrate = dialog.getIdEntrate();
 			idEntrate.setText((String) tabella.getValueAt(row, 5));
-			JTextField nome = DialogEntrateMov.getNome();
+			final JTextField nome = dialog.getNome();
 			nome.setText((String) tabella.getValueAt(row, 1));
-			JTextField descrizione = DialogEntrateMov.getDescrizione();
+			final JTextField descrizione = dialog.getDescrizione();
 			descrizione.setText((String) tabella.getValueAt(row, 2));
-			JComboBox tipoEntrata = DialogEntrateMov.getTipoEntrata();
-			String tipoEntry = (String) tabella.getValueAt(row, 4);
+			final JComboBox tipoEntrata = dialog.getTipoEntrata();
+			final String tipoEntry = (String) tabella.getValueAt(row, 4);
 
-			String[] listaEntr = Model.getNomiColonneEntrate();
+			final String[] listaEntr = Model.getNomiColonneEntrate();
 			for (int i = 0; i < listaEntr.length; i++) {
 				if (listaEntr[i].equals(tipoEntry))
 					tipoEntrata.setSelectedIndex(i);
 			}
-			JTextField data = DialogEntrateMov.getData();
+			final JTextField data = dialog.getData();
 			data.setText((String) tabella.getValueAt(row, 0));
-			JTextField euro = DialogEntrateMov.getEuro();
+			final JTextField euro = dialog.getEuro();
 			euro.setText((String) tabella.getValueAt(row, 3));
-			JTextField dataIns = DialogEntrateMov.getTfDataIns();
+			final JTextField dataIns = dialog.getTfDataIns();
 			dataIns.setText((String) tabella.getValueAt(row, 6));
 
 		}
@@ -53,25 +56,25 @@ public class AscoltatoreMouseMovEntrate implements MouseListener {
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
+	public void mousePressed(final MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
+	public void mouseReleased(final MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
+	public void mouseEntered(final MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
+	public void mouseExited(final MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}

@@ -8,6 +8,8 @@ import javax.swing.JTable;
 
 import view.componenti.movimenti.AscoltatoreMouseMovEntrate;
 import view.componenti.movimenti.AscoltatoreMouseMovUscite;
+import view.componenti.movimenti.DialogEntrateMov;
+import view.componenti.movimenti.DialogUsciteMov;
 import view.font.TableF;
 import business.Controllore;
 import business.DBUtil;
@@ -64,7 +66,7 @@ public class Model {
 		return modelCategorie;
 	}
 
-	public void setModelCategorie(WrapCatSpese modelCategorie) {
+	public void setModelCategorie(final WrapCatSpese modelCategorie) {
 		this.modelCategorie = modelCategorie;
 	}
 
@@ -72,7 +74,7 @@ public class Model {
 		return modelGruppi;
 	}
 
-	public void setModelGruppi(WrapGruppi modelGruppi) {
+	public void setModelGruppi(final WrapGruppi modelGruppi) {
 		this.modelGruppi = modelGruppi;
 	}
 
@@ -80,7 +82,7 @@ public class Model {
 		return modelBudget;
 	}
 
-	public void setModelBudget(WrapBudget modelBudget) {
+	public void setModelBudget(final WrapBudget modelBudget) {
 		this.modelBudget = modelBudget;
 	}
 
@@ -88,7 +90,7 @@ public class Model {
 		return modelEntrate;
 	}
 
-	public void setModelEntrate(WrapEntrate modelEntrate) {
+	public void setModelEntrate(final WrapEntrate modelEntrate) {
 		this.modelEntrate = modelEntrate;
 	}
 
@@ -96,7 +98,7 @@ public class Model {
 		return modelRisparmio;
 	}
 
-	public void setModelRisparmio(WrapRisparmio modelRisparmio) {
+	public void setModelRisparmio(final WrapRisparmio modelRisparmio) {
 		this.modelRisparmio = modelRisparmio;
 	}
 
@@ -104,7 +106,7 @@ public class Model {
 		return modelUscita;
 	}
 
-	public void setModelUscita(WrapSingleSpesa modelUscita) {
+	public void setModelUscita(final WrapSingleSpesa modelUscita) {
 		this.modelUscita = modelUscita;
 	}
 
@@ -112,7 +114,7 @@ public class Model {
 		return modelUtenti;
 	}
 
-	public void setModelUtenti(WrapUtenti modelUtenti) {
+	public void setModelUtenti(final WrapUtenti modelUtenti) {
 		this.modelUtenti = modelUtenti;
 	}
 
@@ -124,8 +126,8 @@ public class Model {
 
 	private static String[][] setTabellaUscitaPrimo() {
 
-		int numColonne = catSpese.size();
-		String[] nomiColonne = new String[numColonne];
+		final int numColonne = catSpese.size();
+		final String[] nomiColonne = new String[numColonne];
 
 		for (int i = 0; i < catSpese.size(); i++) {
 			nomiColonne[i] = catSpese.get(i).getnome();
@@ -137,7 +139,7 @@ public class Model {
 			for (int x = 0; x < catSpese.size(); x++) {
 				try {
 					primoUscite[i][x] = Double.toString(Database.speseMeseCategoria(i + 1, catSpese.get(x).getidCategoria()));
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -147,7 +149,7 @@ public class Model {
 
 	private static String[] nomiColonneUscite() {
 
-		int numColonne = catSpese.size();
+		final int numColonne = catSpese.size();
 		nomiColonneUscite = new String[numColonne];
 
 		for (int i = 0; i < catSpese.size(); i++) {
@@ -160,11 +162,11 @@ public class Model {
 		return setTabellaUscitaPrimo();
 	}
 
-	public static void setPrimoUscite(String[][] primo) {
+	public static void setPrimoUscite(final String[][] primo) {
 		Model.primoUscite = primo;
 	}
 
-	public static void setNomiColonneUscite(String[] nomiColonneUscite) {
+	public static void setNomiColonneUscite(final String[] nomiColonneUscite) {
 		Model.nomiColonneUscite = nomiColonneUscite;
 	}
 
@@ -176,8 +178,8 @@ public class Model {
 
 	private static String[][] setTabellaEntratePrimo() {
 
-		String[] nomiColonneEntrate = nomiColonneEntrate();
-		int numColonne = nomiColonneEntrate.length;
+		final String[] nomiColonneEntrate = nomiColonneEntrate();
+		final int numColonne = nomiColonneEntrate.length;
 
 		primoEntrate = new String[12][numColonne];
 
@@ -185,7 +187,7 @@ public class Model {
 			for (int x = 0; x < numColonne; x++) {
 				try {
 					primoEntrate[i][x] = Double.toString(Database.getSingleton().entrateMeseTipo(i + 1, nomiColonneEntrate[x]));
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -206,11 +208,11 @@ public class Model {
 		return setTabellaEntratePrimo();
 	}
 
-	public static void setPrimoEntrate(String[][] primo) {
+	public static void setPrimoEntrate(final String[][] primo) {
 		Model.primoUscite = primo;
 	}
 
-	public static void setNomiColonneEntrate(String[] nomiColonneEntrate) {
+	public static void setNomiColonneEntrate(final String[] nomiColonneEntrate) {
 		Model.nomiColonneEntrate = nomiColonneEntrate;
 	}
 
@@ -220,27 +222,27 @@ public class Model {
 
 	// *************************************CATEGORIE-PERCOMBOBOX***********************************
 
-	private Map<String, AbstractOggettoEntita> getCatPerCombo(boolean ricarica) {
-		CacheCategorie cache = CacheCategorie.getSingleton();
+	private Map<String, AbstractOggettoEntita> getCatPerCombo(final boolean ricarica) {
+		final CacheCategorie cache = CacheCategorie.getSingleton();
 		cache.setCaricata(!ricarica);
 		return cache.getAllCategorie();
 	}
 
-	public Object[] getCategorieCombo(boolean ricarica) {
-		Map<String, AbstractOggettoEntita> cat = getCatPerCombo(ricarica);
+	public Object[] getCategorieCombo(final boolean ricarica) {
+		final Map<String, AbstractOggettoEntita> cat = getCatPerCombo(ricarica);
 		return cat.values().toArray();
 	}
 
 	// *************************************GRUPPI-PERCOMBOBOX***********************************
 
-	private Map<String, AbstractOggettoEntita> getGruppiPerCombo(boolean ricarica) {
-		CacheGruppi cache = CacheGruppi.getSingleton();
+	private Map<String, AbstractOggettoEntita> getGruppiPerCombo(final boolean ricarica) {
+		final CacheGruppi cache = CacheGruppi.getSingleton();
 		cache.setCaricata(!ricarica);
 		return cache.getAllGruppi();
 	}
 
-	public Object[] getGruppiCombo(boolean ricarica) {
-		Map<String, AbstractOggettoEntita> gruppi = getGruppiPerCombo(ricarica);
+	public Object[] getGruppiCombo(final boolean ricarica) {
+		final Map<String, AbstractOggettoEntita> gruppi = getGruppiPerCombo(ricarica);
 		return gruppi.values().toArray();
 	}
 
@@ -257,15 +259,15 @@ public class Model {
 	 * @param tabella
 	 * @return String[][]
 	 */
-	public String[][] movimentiFiltratiEntratePerNumero(String tabella, Vector<Entrate> entry1) {
-		Vector<String> nomi = Database.getSingleton().nomiColonne(tabella);
+	public String[][] movimentiFiltratiEntratePerNumero(final String tabella, final Vector<Entrate> entry1) {
+		final Vector<String> nomi = Database.getSingleton().nomiColonne(tabella);
 
-		int numEntry = entry1.size();
+		final int numEntry = entry1.size();
 
 		if (entry1.size() > 0 && (entry1.size() == numEntry || entry1.size() >= numEntry)) {
 			movimentiEntrate = new String[numEntry][nomi.size()];
 			for (int x = 0; x < entry1.size(); x++) {
-				Entrate entrate = entry1.get(x);
+				final Entrate entrate = entry1.get(x);
 				movimentiEntrate[x][0] = entrate.getdata().toString();
 				movimentiEntrate[x][1] = entrate.getnome();
 				movimentiEntrate[x][2] = entrate.getdescrizione();
@@ -278,7 +280,7 @@ public class Model {
 		} else if (entry1.size() > 0 && entry1.size() < numEntry) {
 			movimentiEntrate = new String[numEntry][nomi.size()];
 			for (int x = 0; x < entry1.size(); x++) {
-				Entrate entrate = entry1.get(x);
+				final Entrate entrate = entry1.get(x);
 				movimentiEntrate[x][0] = entrate.getdata().toString();
 				movimentiEntrate[x][1] = entrate.getnome();
 				movimentiEntrate[x][2] = entrate.getdescrizione();
@@ -313,14 +315,14 @@ public class Model {
 	 * @param tabella
 	 * @return String[][]
 	 */
-	public String[][] movimentiEntrate(int numEntry, String tabella) {
-		Vector<String> nomi = Database.getSingleton().nomiColonne(tabella);
-		Vector<Entrate> entry1 = Model.getSingleton().modelEntrate.dieciEntrate(numEntry);
+	public String[][] movimentiEntrate(final int numEntry, final String tabella) {
+		final Vector<String> nomi = Database.getSingleton().nomiColonne(tabella);
+		final Vector<Entrate> entry1 = Model.getSingleton().modelEntrate.dieciEntrate(numEntry);
 
 		if (entry1.size() > 0 && (entry1.size() == numEntry || entry1.size() >= numEntry)) {
 			movimentiEntrate = new String[numEntry][nomi.size()];
 			for (int x = 0; x < entry1.size(); x++) {
-				Entrate entrate = entry1.get(x);
+				final Entrate entrate = entry1.get(x);
 				movimentiEntrate[x][0] = entrate.getdata().toString();
 				movimentiEntrate[x][1] = entrate.getnome();
 				movimentiEntrate[x][2] = entrate.getdescrizione();
@@ -333,7 +335,7 @@ public class Model {
 		} else if (entry1.size() > 0 && entry1.size() < numEntry) {
 			movimentiEntrate = new String[numEntry][nomi.size()];
 			for (int x = 0; x < entry1.size(); x++) {
-				Entrate entrate = entry1.get(x);
+				final Entrate entrate = entry1.get(x);
 				movimentiEntrate[x][0] = entrate.getdata().toString();
 				movimentiEntrate[x][1] = entrate.getnome();
 				movimentiEntrate[x][2] = entrate.getdescrizione();
@@ -359,15 +361,15 @@ public class Model {
 
 	// *************************************MOVIMENTI-USCITE***********************************
 
-	public String[][] movimentiFiltratiUscitePerNumero(String tabella, Vector<SingleSpesa> uscite) {
-		Vector<String> nomi = Database.getSingleton().nomiColonne(tabella);
+	public String[][] movimentiFiltratiUscitePerNumero(final String tabella, final Vector<SingleSpesa> uscite) {
+		final Vector<String> nomi = Database.getSingleton().nomiColonne(tabella);
 
-		int numUscite = uscite.size();
+		final int numUscite = uscite.size();
 
 		if (uscite.size() > 0 && (uscite.size() == numUscite || uscite.size() >= numUscite)) {
 			movimentiUscite = new String[numUscite][nomi.size()];
 			for (int x = 0; x < numUscite; x++) {
-				SingleSpesa uscita = uscite.get(x);
+				final SingleSpesa uscita = uscite.get(x);
 				movimentiUscite[x][0] = uscita.getData();
 				movimentiUscite[x][1] = uscita.getnome();
 				movimentiUscite[x][2] = uscita.getdescrizione();
@@ -382,7 +384,7 @@ public class Model {
 			movimentiUscite = new String[numUscite][nomi.size()];
 			for (int x = 0; x < uscite.size(); x++) {
 
-				SingleSpesa uscita = uscite.get(x);
+				final SingleSpesa uscita = uscite.get(x);
 				movimentiUscite[x][0] = uscita.getData();
 				movimentiUscite[x][1] = uscita.getnome();
 				movimentiUscite[x][2] = uscita.getdescrizione();
@@ -417,14 +419,14 @@ public class Model {
 	 * @param nomiColonne
 	 * @param numUscite
 	 */
-	public static void aggiornaMovimentiUsciteDaFiltro(Object[] nomiColonne,
-	                 String[][] movimenti) {
+	public static void aggiornaMovimentiUsciteDaFiltro(final Object[] nomiColonne,
+	                 final String[][] movimenti) {
 
 		JTable table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getTable1();
 		table1 = new TableF(movimenti, nomiColonne);
-		JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getScrollPane();
+		final JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getScrollPane();
 		scrollPane.setViewportView(table1);
-		table1.addMouseListener(new AscoltatoreMouseMovUscite(table1));
+		table1.addMouseListener(new AscoltatoreMouseMovUscite(table1, new DialogUsciteMov(new WrapSingleSpesa())));
 	}
 
 	/**
@@ -435,15 +437,15 @@ public class Model {
 	 * @param nomiColonne
 	 * @param numUscite
 	 */
-	public static void aggiornaMovimentiUsciteDaEsterno(Object[] nomiColonne,
-	                int numUscite) {
+	public static void aggiornaMovimentiUsciteDaEsterno(final Object[] nomiColonne,
+	                final int numUscite) {
 
-		String[][] movimenti = Model.getSingleton().movimentiUscite(numUscite, SingleSpesa.NOME_TABELLA);
+		final String[][] movimenti = Model.getSingleton().movimentiUscite(numUscite, SingleSpesa.NOME_TABELLA);
 		JTable table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getTable1();
 		table1 = new TableF(movimenti, nomiColonne);
-		JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getScrollPane();
+		final JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getScrollPane();
 		scrollPane.setViewportView(table1);
-		table1.addMouseListener(new AscoltatoreMouseMovUscite(table1));
+		table1.addMouseListener(new AscoltatoreMouseMovUscite(table1, new DialogUsciteMov(new WrapSingleSpesa())));
 	}
 
 	/**
@@ -454,14 +456,14 @@ public class Model {
 	 * @param nomiColonne
 	 * @param numEntry
 	 */
-	public static void aggiornaMovimentiEntrateDaFiltro(Object[] nomiColonne,
-	                String[][] movimenti) {
+	public static void aggiornaMovimentiEntrateDaFiltro(final Object[] nomiColonne,
+	                final String[][] movimenti) {
 
 		JTable table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getTable1();
 		table1 = new TableF(movimenti, nomiColonne);
-		JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getScrollPane();
+		final JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getScrollPane();
 		scrollPane.setViewportView(table1);
-		table1.addMouseListener(new AscoltatoreMouseMovEntrate(table1));
+		table1.addMouseListener(new AscoltatoreMouseMovEntrate(table1, new DialogEntrateMov(new WrapEntrate())));
 	}
 
 	/**
@@ -472,15 +474,15 @@ public class Model {
 	 * @param nomiColonne
 	 * @param numEntry
 	 */
-	public static void aggiornaMovimentiEntrateDaEsterno(Object[] nomiColonne,
-	                int numEntry) {
+	public static void aggiornaMovimentiEntrateDaEsterno(final Object[] nomiColonne,
+	                final int numEntry) {
 
-		String[][] movimenti = Model.getSingleton().movimentiEntrate(numEntry, Entrate.NOME_TABELLA);
+		final String[][] movimenti = Model.getSingleton().movimentiEntrate(numEntry, Entrate.NOME_TABELLA);
 		JTable table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getTable1();
 		table1 = new TableF(movimenti, nomiColonne);
-		JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getScrollPane();
+		final JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getScrollPane();
 		scrollPane.setViewportView(table1);
-		table1.addMouseListener(new AscoltatoreMouseMovEntrate(table1));
+		table1.addMouseListener(new AscoltatoreMouseMovEntrate(table1, new DialogEntrateMov(new WrapEntrate())));
 	}
 
 	/**
@@ -492,14 +494,14 @@ public class Model {
 	 * @param tabella
 	 * @return String[][]
 	 */
-	public String[][] movimentiUscite(int numUscite, String tabella) {
-		Vector<String> nomi = Database.getSingleton().nomiColonne(tabella);
-		Vector<SingleSpesa> uscite = Model.getSingleton().modelUscita.dieciUscite(numUscite);
+	public String[][] movimentiUscite(final int numUscite, final String tabella) {
+		final Vector<String> nomi = Database.getSingleton().nomiColonne(tabella);
+		final Vector<SingleSpesa> uscite = Model.getSingleton().modelUscita.dieciUscite(numUscite);
 
 		if (uscite.size() > 0 && (uscite.size() == numUscite || uscite.size() >= numUscite)) {
 			movimentiUscite = new String[numUscite][nomi.size()];
 			for (int x = 0; x < numUscite; x++) {
-				SingleSpesa uscita = uscite.get(x);
+				final SingleSpesa uscita = uscite.get(x);
 				movimentiUscite[x][0] = uscita.getData();
 				movimentiUscite[x][1] = uscita.getnome();
 				movimentiUscite[x][2] = uscita.getdescrizione();
@@ -514,7 +516,7 @@ public class Model {
 			movimentiUscite = new String[numUscite][nomi.size()];
 			for (int x = 0; x < uscite.size(); x++) {
 
-				SingleSpesa uscita = uscite.get(x);
+				final SingleSpesa uscita = uscite.get(x);
 				movimentiUscite[x][0] = uscita.getData();
 				movimentiUscite[x][1] = uscita.getnome();
 				movimentiUscite[x][2] = uscita.getdescrizione();
@@ -541,7 +543,7 @@ public class Model {
 
 	}
 
-	public void setModelLookAndFeel(WrapLookAndFeel modelLookAndFeel) {
+	public void setModelLookAndFeel(final WrapLookAndFeel modelLookAndFeel) {
 		this.modelLookAndFeel = modelLookAndFeel;
 	}
 

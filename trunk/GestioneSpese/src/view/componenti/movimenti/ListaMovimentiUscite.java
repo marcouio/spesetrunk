@@ -21,6 +21,7 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 	private static final long serialVersionUID = 1L;
 
 	public ListaMovimentiUscite() {
+		super();
 		pulsanteNMovimenti.addActionListener(new AscoltatoreNumeroMovimenti(SingleSpesa.NOME_TABELLA, createNomiColonne(), campo));
 	}
 
@@ -35,12 +36,12 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 	}
 
 	@Override
-	public JDialog createDialog() {
+	public DialogUsciteMov createDialog() {
 		return new DialogUsciteMov(new WrapSingleSpesa());
 	}
 
 	@Override
-	public void impostaTableSpecifico(JTable table) {
+	public void impostaTableSpecifico(final JTable table) {
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		// table.getColumn("idSpesa").setPreferredWidth(70);
 		// table.getColumn("euro").setPreferredWidth(90);
@@ -48,8 +49,8 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 		// table.getColumn("data").setPreferredWidth(120);
 		// table.getColumn("descrizione").setPreferredWidth(250);
 		// table.getColumn("inserimento").setPreferredWidth(120);
-
-		table.addMouseListener(new AscoltatoreMouseMovUscite(table));
+		// this.dialog = createDialog();
+		table.addMouseListener(new AscoltatoreMouseMovUscite(table, this.getDialog()));
 
 	}
 
@@ -58,15 +59,15 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 		return new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(final ActionEvent e) {
 				try {
-					FiltraDialog dialog = new FiltraDialog() {
+					final FiltraDialog dialog = new FiltraDialog() {
 						private static final long serialVersionUID = 1L;
 
 						@Override
 						public String[][] getMovimenti() {
-							Vector<SingleSpesa> uscite = Model.getSingleton().getModelUscita().movimentiUsciteFiltrate(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
-							String[][] mov = Model.getSingleton().movimentiFiltratiUscitePerNumero(Entrate.NOME_TABELLA, uscite);
+							final Vector<SingleSpesa> uscite = Model.getSingleton().getModelUscita().movimentiUsciteFiltrate(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
+							final String[][] mov = Model.getSingleton().movimentiFiltratiUscitePerNumero(Entrate.NOME_TABELLA, uscite);
 							Model.aggiornaMovimentiUsciteDaFiltro(createNomiColonne(), mov);
 							return mov;
 						}
@@ -81,7 +82,7 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 						@Override
 						protected String getCategoria() {
 							if (comboBoxCat.getSelectedItem() != null) {
-								int idCat = ((CatSpese) comboBoxCat.getSelectedItem()).getidCategoria();
+								final int idCat = ((CatSpese) comboBoxCat.getSelectedItem()).getidCategoria();
 								categoria = Integer.toString(idCat);
 							}
 							return categoria;
@@ -89,11 +90,16 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 					};
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
-				} catch (Exception e1) {
+				} catch (final Exception e1) {
 					e1.printStackTrace();
 				}
 
 			}
 		};
+	}
+
+	@Override
+	public JDialog getDialog() {
+		return dialog;
 	}
 }
