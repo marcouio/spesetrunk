@@ -19,6 +19,7 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 	private static final long serialVersionUID = 1L;
 
 	public ListaMovimentiEntrate() {
+		super();
 		pulsanteNMovimenti.addActionListener(new AscoltatoreNumeroMovimenti(Entrate.NOME_TABELLA, createNomiColonne(), campo));
 	}
 
@@ -38,7 +39,7 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 	}
 
 	@Override
-	public void impostaTableSpecifico(JTable table) {
+	public void impostaTableSpecifico(final JTable table) {
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		// table.getColumn("idEntrate").setPreferredWidth(70);
 		// table.getColumn("euro").setPreferredWidth(90);
@@ -46,7 +47,8 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 		// table.getColumn("data").setPreferredWidth(120);
 		// table.getColumn("descrizione").setPreferredWidth(250);
 		// table.getColumn("inserimento").setPreferredWidth(120);
-		table.addMouseListener(new AscoltatoreMouseMovEntrate(table));
+		// this.dialog = createDialog();
+		table.addMouseListener(new AscoltatoreMouseMovEntrate(table, this.getDialog()));
 	}
 
 	@Override
@@ -54,16 +56,16 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 		return new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(final ActionEvent e) {
 				try {
-					FiltraDialog dialog = new FiltraDialog() {
+					final FiltraDialog dialog = new FiltraDialog() {
 
 						private static final long serialVersionUID = 1L;
 
 						@Override
 						public String[][] getMovimenti() {
-							Vector<Entrate> entrate = Model.getSingleton().getModelEntrate().movimentiEntrateFiltrati(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
-							String[][] mov = Model.getSingleton().movimentiFiltratiEntratePerNumero(Entrate.NOME_TABELLA, entrate);
+							final Vector<Entrate> entrate = Model.getSingleton().getModelEntrate().movimentiEntrateFiltrati(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
+							final String[][] mov = Model.getSingleton().movimentiFiltratiEntratePerNumero(Entrate.NOME_TABELLA, entrate);
 							Model.aggiornaMovimentiEntrateDaFiltro(createNomiColonne(), mov);
 							return mov;
 						}
@@ -71,7 +73,7 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 						{
 							// array per Categori
 
-							ArrayList<String> lista = new ArrayList<String>();
+							final ArrayList<String> lista = new ArrayList<String>();
 							lista.add("");
 							lista.add("Variabili");
 							lista.add("Fisse");
@@ -92,11 +94,16 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 					};
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
-				} catch (Exception e1) {
+				} catch (final Exception e1) {
 					e1.printStackTrace();
 				}
 
 			}
 		};
+	}
+
+	@Override
+	public JDialog getDialog() {
+		return dialog;
 	}
 }

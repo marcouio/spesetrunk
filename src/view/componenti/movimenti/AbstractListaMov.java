@@ -30,14 +30,15 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 	protected JTextField      campo;
 	String[][]                movimenti;
 	protected ButtonF         pulsanteNMovimenti;
+	protected JDialog         dialog;
 
-	protected void setMovimenti(String[][] movimenti) {
+	protected void setMovimenti(final String[][] movimenti) {
 		this.movimenti = movimenti;
 	}
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 
-		JFrame frame = new JFrame();
+		final JFrame frame = new JFrame();
 
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		frame.pack();
@@ -46,16 +47,15 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 
 	public AbstractListaMov() {
 		super();
+		this.dialog = createDialog();
 		initGUI();
 	}
 
 	private void initGUI() {
 		try {
-
-			final JDialog dialog = createDialog();
 			this.setLayout(null);
 			this.setPreferredSize(new Dimension(1000, 605));
-			JLabel movim = new LabelTesto("Movimenti:");
+			final JLabel movim = new LabelTesto("Movimenti:");
 			movim.setBounds(24, 5, 89, 30);
 			this.add(movim);
 			campo = new TextFieldF();
@@ -83,17 +83,17 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 			this.add(scrollPane);
 			scrollPane.setBounds(21, 38, 948, 386);
 
-			ButtonF updateButton = new ButtonF();
+			final ButtonF updateButton = new ButtonF();
 			this.add(updateButton);
 			updateButton.setText("Aggiorna");
 			updateButton.setBounds(780, 438, 95, 21);
 
-			ButtonF deleteButton = new ButtonF();
+			final ButtonF deleteButton = new ButtonF();
 			this.add(deleteButton);
 			deleteButton.setText("Cancella");
 			deleteButton.setBounds(887, 438, 82, 21);
 
-			ButtonF btnFiltraMovimenti = new ButtonF();
+			final ButtonF btnFiltraMovimenti = new ButtonF();
 			btnFiltraMovimenti.setText("Filtra Movimenti");
 			btnFiltraMovimenti.setBounds(277, 8, 179, 25);
 			btnFiltraMovimenti.addActionListener(getListener());
@@ -104,13 +104,14 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 			deleteButton.addActionListener(new ActionListener() {
 
 				@Override
-				public void actionPerformed(ActionEvent e) {
+				public void actionPerformed(final ActionEvent e) {
 					try {
+						dialog = getDialog();
 						dialog.setSize(400, 220);
 						dialog.setVisible(true);
 						dialog.setModalityType(ModalityType.APPLICATION_MODAL);
 						Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
-					} catch (Exception e1) {
+					} catch (final Exception e1) {
 						e1.printStackTrace();
 					}
 				}
@@ -119,27 +120,29 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 			updateButton.addActionListener(new ActionListener() {
 
 				@Override
-				public void actionPerformed(ActionEvent e) {
+				public void actionPerformed(final ActionEvent e) {
 					dialog.setSize(400, 220);
 					dialog.setVisible(true);
 					dialog.setModalityType(ModalityType.APPLICATION_MODAL);
 					try {
 						Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
-					} catch (Exception e1) {
+					} catch (final Exception e1) {
 						e1.printStackTrace();
 					}
 				}
 			});
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 
+	public abstract JDialog getDialog();
+
 	public abstract ActionListener getListener();
 
-	private void impostaTable(JTable table2) {
+	private void impostaTable(final JTable table2) {
 		table2.setPreferredScrollableViewportSize(new Dimension(900, 550));
 		table2.setFillsViewportHeight(true);
 		table2.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -160,7 +163,7 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 		return campo;
 	}
 
-	public void setCampo(JTextField campo) {
+	public void setCampo(final JTextField campo) {
 		this.campo = campo;
 	}
 
@@ -168,7 +171,7 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 		return this.numMovimenti;
 	}
 
-	public void setNumEntry(int numEntry) {
+	public void setNumEntry(final int numEntry) {
 		this.numMovimenti = numEntry;
 	}
 
@@ -176,7 +179,7 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 		return table1;
 	}
 
-	public void setTable1(JTable table1) {
+	public void setTable1(final JTable table1) {
 		this.table1 = table1;
 	}
 
@@ -184,7 +187,7 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 		return scrollPane;
 	}
 
-	public void setScrollPane(JScrollPane scrollPane) {
+	public void setScrollPane(final JScrollPane scrollPane) {
 		this.scrollPane = scrollPane;
 	}
 
@@ -192,7 +195,7 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 		return table;
 	}
 
-	public void setTable(JTable table) {
+	public void setTable(final JTable table) {
 		this.table = table;
 	}
 }

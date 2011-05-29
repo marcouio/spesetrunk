@@ -29,43 +29,43 @@ import domain.wrapper.WrapEntrate;
 
 public class DialogEntrateMov extends AbstractEntrateView {
 
-	private static JLabel     labelEuro        = new LabelTesto("Euro");
-	private static JLabel     labelData        = new LabelTesto("Data");
-	private static JLabel     labelTipoEntrate = new LabelTesto("Tipo Entrata");
-	private static JLabel     labelDescrizione = new LabelTesto("Descrizione");
-	private static JLabel     labelNome        = new LabelTesto("Nome");
-	private static JLabel     labelDataIns     = new LabelTesto("Data Inserimento");
-	private static JLabel     labelIdEntrate   = new LabelTesto("Chiave Entrata");
+	private JLabel        labelEuro        = new LabelTesto("Euro");
+	private JLabel        labelData        = new LabelTesto("Data");
+	private JLabel        labelTipoEntrate = new LabelTesto("Tipo Entrata");
+	private JLabel        labelDescrizione = new LabelTesto("Descrizione");
+	private JLabel        labelNome        = new LabelTesto("Nome");
+	private JLabel        labelDataIns     = new LabelTesto("Data Inserimento");
+	private JLabel        labelIdEntrate   = new LabelTesto("Chiave Entrata");
 
-	private static JTextField tfEuro           = new TextFieldF();
-	private static JTextField tfDataIns        = new TextFieldF();
-	private static JTextField tfData           = new TextFieldF();
+	private JTextField    tfEuro           = new TextFieldF();
+	private JTextField    tfDataIns        = new TextFieldF();
+	private JTextField    tfData           = new TextFieldF();
 	// TODO verificare se � necessario sostituire campo tipoEntrata
-	private static JComboBox  cbTipoEntrata    = new JComboBox(Model.getNomiColonneEntrate());
-	// private static JTextField tipoEntrata = new TextFieldF();
-	private static JTextField taDescrizione    = new TextFieldF();
-	private static JTextField tfNome           = new TextFieldF();
-	private static JTextField idEntrate        = new TextFieldF();
-	private final JButton     update           = new ButtonF("Aggiorna");
-	private final JButton     delete           = new ButtonF("Cancella");
+	private JComboBox     cbTipoEntrata    = new JComboBox(Model.getNomiColonneEntrate());
+	// private JTextField tipoEntrata = new TextFieldF();
+	private JTextField    taDescrizione    = new TextFieldF();
+	private JTextField    tfNome           = new TextFieldF();
+	private JTextField    idEntrate        = new TextFieldF();
+	private final JButton update           = new ButtonF("Aggiorna");
+	private final JButton delete           = new ButtonF("Cancella");
 
-	private static final long serialVersionUID = 1L;
+	private final long    serialVersionUID = 1L;
 
 	/**
 	 * Auto-generated main method to display this JDialog
 	 */
 
-	public static void main(String[] args) {
+	public void main(final String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				DialogEntrateMov inst = new DialogEntrateMov(new WrapEntrate());
+				final DialogEntrateMov inst = new DialogEntrateMov(new WrapEntrate());
 				inst.setVisible(true);
 			}
 		});
 	}
 
-	public DialogEntrateMov(WrapEntrate entrate) {
+	public DialogEntrateMov(final WrapEntrate entrate) {
 		super(entrate);
 		initGUI();
 	}
@@ -89,19 +89,19 @@ public class DialogEntrateMov extends AbstractEntrateView {
 			update.addActionListener(new ActionListener() {
 
 				@Override
-				public void actionPerformed(ActionEvent e) {
+				public void actionPerformed(final ActionEvent e) {
 					setEntrate();
-					String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
-					JTextField campo = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getCampo();
+					final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
+					final JTextField campo = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getCampo();
 
-					Entrate oldEntrata = CacheEntrate.getSingleton().getEntrate(idEntrate.getText());
+					final Entrate oldEntrata = CacheEntrate.getSingleton().getEntrate(idEntrate.getText());
 
 					if (nonEsistonoCampiNonValorizzati()) {
 						if (Controllore.getSingleton().getCommandManager().invocaComando(new CommandUpdateEntrata(oldEntrata, (IEntrate) modelEntrate.getentitaPadre()), Entrate.NOME_TABELLA)) {
 							JOptionPane.showMessageDialog(null, "Ok, entrata inserita correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
 							try {
 								Model.aggiornaMovimentiEntrateDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
-							} catch (Exception e22) {
+							} catch (final Exception e22) {
 								JOptionPane.showMessageDialog(null, "Inserisci i dati correttamente", "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
 							}
 							// chiude la dialog e rilascia le risorse
@@ -117,8 +117,8 @@ public class DialogEntrateMov extends AbstractEntrateView {
 				String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
 
 				@Override
-				public void actionPerformed(ActionEvent e) {
-					JTextField campo = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getCampo();
+				public void actionPerformed(final ActionEvent e) {
+					final JTextField campo = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getCampo();
 					setEntrate();
 					if (idEntrate.getText() != null)
 						if (Controllore.getSingleton().getCommandManager().invocaComando(new CommandDeleteEntrata(modelEntrate), "tutto"))
@@ -153,7 +153,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 			this.add(update);
 			this.add(delete);
 			setSize(300, 500);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -163,56 +163,56 @@ public class DialogEntrateMov extends AbstractEntrateView {
 		                && getFisseOVar() != null && getdEuro() != 0.0 && getUtenti() != null;
 	}
 
-	public static void setEuro(JTextField euro) {
-		DialogEntrateMov.tfEuro = euro;
+	public void setEuro(final JTextField euro) {
+		this.tfEuro = euro;
 	}
 
-	public static JTextField getEuro() {
+	public JTextField getEuro() {
 		return tfEuro;
 	}
 
-	public static void setData(JTextField data) {
-		DialogEntrateMov.tfData = data;
+	public void setData(final JTextField data) {
+		this.tfData = data;
 	}
 
-	public static JTextField getData() {
+	public JTextField getData() {
 		return tfData;
 	}
 
-	public static void setDescrizione(JTextField descrizione) {
-		DialogEntrateMov.taDescrizione = descrizione;
+	public void setDescrizione(final JTextField descrizione) {
+		this.taDescrizione = descrizione;
 	}
 
-	public static JTextField getDescrizione() {
+	public JTextField getDescrizione() {
 		return taDescrizione;
 	}
 
-	public static void setTipoEntrata(JComboBox tipoEntrata) {
-		DialogEntrateMov.cbTipoEntrata = tipoEntrata;
+	public void setTipoEntrata(final JComboBox tipoEntrata) {
+		this.cbTipoEntrata = tipoEntrata;
 	}
 
-	public static JComboBox getTipoEntrata() {
+	public JComboBox getTipoEntrata() {
 		return cbTipoEntrata;
 	}
 
-	public static void setNome(JTextField nome) {
-		DialogEntrateMov.tfNome = nome;
+	public void setNome(final JTextField nome) {
+		this.tfNome = nome;
 	}
 
-	public static JTextField getNome() {
+	public JTextField getNome() {
 		return tfNome;
 	}
 
-	public static void setIdEntrate(JTextField idEntrate) {
-		DialogEntrateMov.idEntrate = idEntrate;
+	public void setIdEntrate(final JTextField idEntrate) {
+		this.idEntrate = idEntrate;
 	}
 
-	public static JTextField getIdEntrate() {
+	public JTextField getIdEntrate() {
 		return idEntrate;
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update(final Observable o, final Object arg) {
 		tfNome.setText(getcNome());
 		taDescrizione.setText(getcDescrizione());
 		cbTipoEntrata.setSelectedItem(getFisseOVar());
@@ -230,25 +230,25 @@ public class DialogEntrateMov extends AbstractEntrateView {
 		if (AltreUtil.checkData(tfData.getText())) {
 			setcData(tfData.getText());
 		} else {
-			String messaggio = "La data va inserita con il seguente formato: aaaa/mm/gg";
+			final String messaggio = "La data va inserita con il seguente formato: aaaa/mm/gg";
 			JOptionPane.showMessageDialog(null, messaggio, "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("./imgUtil/index.jpeg"));
 		}
 		if (AltreUtil.checkDouble(tfEuro.getText())) {
-			Double euro1 = Double.parseDouble(tfEuro.getText());
+			final Double euro1 = Double.parseDouble(tfEuro.getText());
 			setdEuro(AltreUtil.arrotondaDecimaliDouble(euro1));
 		} else {
-			String messaggio = "Valore in Euro inserito non correttamente";
+			final String messaggio = "Valore in Euro inserito non correttamente";
 			JOptionPane.showMessageDialog(null, messaggio, "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("./imgUtil/index.jpeg"));
 		}
 		setUtenti(Controllore.getSingleton().getUtenteLogin());
 	}
 
-	protected static JTextField getTfDataIns() {
+	protected JTextField getTfDataIns() {
 		return tfDataIns;
 	}
 
-	protected static void setTfDataIns(JTextField tfDataIns) {
-		DialogEntrateMov.tfDataIns = tfDataIns;
+	protected void setTfDataIns(final JTextField tfDataIns) {
+		this.tfDataIns = tfDataIns;
 	}
 
 }
