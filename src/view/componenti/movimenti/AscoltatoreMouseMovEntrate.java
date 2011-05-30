@@ -25,30 +25,30 @@ public class AscoltatoreMouseMovEntrate implements MouseListener {
 
 		// JTable table = ListaMovEntrat.getTable();
 		final JTable table = tabella;
-		dialog = new DialogEntrateMov(new WrapEntrate());
+		setDialog(new DialogEntrateMov(new WrapEntrate()));
 		if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 1
 		                && (e.getSource() == table)) {
-			final JTable tabella = (JTable) e.getSource();
-			final int row = tabella.getSelectedRow();
-			final JTextField idEntrate = dialog.getIdEntrate();
+			JTable tabella = (JTable) e.getSource();
+			int row = tabella.getSelectedRow();
+			JTextField idEntrate = dialog.getIdEntrate();
 			idEntrate.setText((String) tabella.getValueAt(row, 5));
-			final JTextField nome = dialog.getNome();
+			JTextField nome = dialog.getNome();
 			nome.setText((String) tabella.getValueAt(row, 1));
-			final JTextField descrizione = dialog.getDescrizione();
+			JTextField descrizione = dialog.getDescrizione();
 			descrizione.setText((String) tabella.getValueAt(row, 2));
-			final JComboBox tipoEntrata = dialog.getTipoEntrata();
-			final String tipoEntry = (String) tabella.getValueAt(row, 4);
+			JComboBox tipoEntrata = dialog.getTipoEntrata();
+			String tipoEntry = (String) tabella.getValueAt(row, 4);
 
-			final String[] listaEntr = Model.getNomiColonneEntrate();
+			String[] listaEntr = Model.getNomiColonneEntrate();
 			for (int i = 0; i < listaEntr.length; i++) {
 				if (listaEntr[i].equals(tipoEntry))
 					tipoEntrata.setSelectedIndex(i);
 			}
-			final JTextField data = dialog.getData();
+			JTextField data = dialog.getData();
 			data.setText((String) tabella.getValueAt(row, 0));
-			final JTextField euro = dialog.getEuro();
+			JTextField euro = dialog.getEuro();
 			euro.setText((String) tabella.getValueAt(row, 3));
-			final JTextField dataIns = dialog.getTfDataIns();
+			JTextField dataIns = dialog.getTfDataIns();
 			dataIns.setText((String) tabella.getValueAt(row, 6));
 
 		}

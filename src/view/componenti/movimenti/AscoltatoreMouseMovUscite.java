@@ -25,30 +25,31 @@ public class AscoltatoreMouseMovUscite implements MouseListener {
 	@Override
 	public void mouseClicked(final MouseEvent e) {
 
-		final JTable table = tabella;
-		dialog = new DialogUsciteMov(new WrapSingleSpesa());
+		JTable table = tabella;
+		setDialog(new DialogUsciteMov(new WrapSingleSpesa()));
 		if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 1
 		                && e.getSource() == table) {
-			final JTable tabella = (JTable) e.getSource();
-			final int row = tabella.getSelectedRow();
-			final JTextField idSpesa = dialog.getIdSpesa();
+			JTable tabella = (JTable) e.getSource();
+			int row = tabella.getSelectedRow();
+			JTextField idSpesa = dialog.getIdSpesa();
 			idSpesa.setText((String) tabella.getValueAt(row, 5));
-			final JTextField nome = dialog.getNome();
+			System.out.println((dialog).getIdSpesa().getText());
+			JTextField nome = dialog.getNome();
 			nome.setText((String) tabella.getValueAt(row, 1));
-			final JTextField descrizione = dialog.getDescrizione();
+			JTextField descrizione = dialog.getDescrizione();
 			descrizione.setText((String) tabella.getValueAt(row, 2));
 
-			final JComboBox categoria = dialog.getComboCategoria();
-			final Vector<CatSpese> cate = CacheCategorie.getSingleton().getVettoreCategorie();
+			JComboBox categoria = dialog.getComboCategoria();
+			Vector<CatSpese> cate = CacheCategorie.getSingleton().getVettoreCategorie();
 			for (int i = 0; i < cate.size(); i++) {
 				if (cate.get(i).getnome().equals(tabella.getValueAt(row, 4)))
 					categoria.setSelectedIndex(i);
 			}
-			final JTextField data = dialog.getData();
+			JTextField data = dialog.getData();
 			data.setText((String) tabella.getValueAt(row, 0));
-			final JTextField euro = dialog.getEuro();
+			JTextField euro = dialog.getEuro();
 			euro.setText((String) tabella.getValueAt(row, 3));
-			final JTextField dataIns = dialog.getTfDataIns();
+			JTextField dataIns = dialog.getTfDataIns();
 			dataIns.setText((String) tabella.getValueAt(row, 6));
 		}
 	}
