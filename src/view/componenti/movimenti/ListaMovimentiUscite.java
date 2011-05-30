@@ -20,7 +20,8 @@ import domain.wrapper.WrapSingleSpesa;
 
 public class ListaMovimentiUscite extends AbstractListaMov {
 
-	private static final long serialVersionUID = 1L;
+	private static final long         serialVersionUID = 1L;
+	private AscoltatoreMouseMovUscite ascoltatore;
 
 	public ListaMovimentiUscite() {
 		super();
@@ -45,14 +46,8 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 	@Override
 	public void impostaTableSpecifico(final JTable table) {
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		// table.getColumn("idSpesa").setPreferredWidth(70);
-		// table.getColumn("euro").setPreferredWidth(90);
-		// table.getColumn("nome").setPreferredWidth(120);
-		// table.getColumn("data").setPreferredWidth(120);
-		// table.getColumn("descrizione").setPreferredWidth(250);
-		// table.getColumn("inserimento").setPreferredWidth(120);
-		// this.dialog = createDialog();
-		table.addMouseListener(new AscoltatoreMouseMovUscite(table, this.getDialog()));
+		ascoltatore = new AscoltatoreMouseMovUscite(table, dialog);
+		table.addMouseListener(ascoltatore);
 
 	}
 
@@ -144,5 +139,13 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 	@Override
 	protected String getTipo() {
 		return SingleSpesa.NOME_TABELLA;
+	}
+
+	protected AscoltatoreMouseMovUscite getAscoltatore() {
+		return ascoltatore;
+	}
+
+	protected void setAscoltatore(final AscoltatoreMouseMovUscite ascoltatore) {
+		this.ascoltatore = ascoltatore;
 	}
 }
