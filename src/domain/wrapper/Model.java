@@ -8,8 +8,6 @@ import javax.swing.JTable;
 
 import view.componenti.movimenti.AscoltatoreMouseMovEntrate;
 import view.componenti.movimenti.AscoltatoreMouseMovUscite;
-import view.componenti.movimenti.DialogEntrateMov;
-import view.componenti.movimenti.DialogUsciteMov;
 import view.font.TableF;
 import business.Controllore;
 import business.DBUtil;
@@ -426,7 +424,7 @@ public class Model {
 		table1 = new TableF(movimenti, nomiColonne);
 		final JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getScrollPane();
 		scrollPane.setViewportView(table1);
-		table1.addMouseListener(new AscoltatoreMouseMovUscite(table1, new DialogUsciteMov(new WrapSingleSpesa())));
+		table1.addMouseListener(new AscoltatoreMouseMovUscite(table1));
 	}
 
 	/**
@@ -445,7 +443,7 @@ public class Model {
 		table1 = new TableF(movimenti, nomiColonne);
 		final JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getScrollPane();
 		scrollPane.setViewportView(table1);
-		table1.addMouseListener(new AscoltatoreMouseMovUscite(table1, new DialogUsciteMov(new WrapSingleSpesa())));
+		table1.addMouseListener(new AscoltatoreMouseMovUscite(table1));
 	}
 
 	/**
@@ -463,7 +461,7 @@ public class Model {
 		table1 = new TableF(movimenti, nomiColonne);
 		final JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getScrollPane();
 		scrollPane.setViewportView(table1);
-		table1.addMouseListener(new AscoltatoreMouseMovEntrate(table1, new DialogEntrateMov(new WrapEntrate())));
+		table1.addMouseListener(new AscoltatoreMouseMovEntrate(table1));
 	}
 
 	/**
@@ -482,7 +480,7 @@ public class Model {
 		table1 = new TableF(movimenti, nomiColonne);
 		final JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getScrollPane();
 		scrollPane.setViewportView(table1);
-		table1.addMouseListener(new AscoltatoreMouseMovEntrate(table1, new DialogEntrateMov(new WrapEntrate())));
+		table1.addMouseListener(new AscoltatoreMouseMovEntrate(table1));
 	}
 
 	/**

@@ -5,29 +5,28 @@ import java.awt.event.MouseListener;
 import java.util.Vector;
 
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import business.cache.CacheCategorie;
 import domain.CatSpese;
+import domain.wrapper.WrapSingleSpesa;
 
 public class AscoltatoreMouseMovUscite implements MouseListener {
 
 	private DialogUsciteMov dialog;
 	private final JTable    tabella;
 
-	public AscoltatoreMouseMovUscite(final JTable tabella, final JDialog dialog) {
+	public AscoltatoreMouseMovUscite(final JTable tabella) {
 		super();
 		this.tabella = tabella;
-		this.dialog = (DialogUsciteMov) dialog;
 	}
 
 	@Override
 	public void mouseClicked(final MouseEvent e) {
 
 		final JTable table = tabella;
-
+		dialog = new DialogUsciteMov(new WrapSingleSpesa());
 		if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 1
 		                && e.getSource() == table) {
 			final JTable tabella = (JTable) e.getSource();

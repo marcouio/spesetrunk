@@ -46,7 +46,7 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 	@Override
 	public void impostaTableSpecifico(final JTable table) {
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		ascoltatore = new AscoltatoreMouseMovUscite(table, dialog);
+		ascoltatore = new AscoltatoreMouseMovUscite(table);
 		table.addMouseListener(ascoltatore);
 
 	}
@@ -102,7 +102,8 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 			@Override
 			public void actionPerformed(final ActionEvent e) {
 				try {
-					dialog = getDialog();
+
+					dialog = ascoltatore.getDialog();
 					dialog.setSize(400, 220);
 					dialog.setVisible(true);
 					dialog.setModalityType(ModalityType.APPLICATION_MODAL);
@@ -117,7 +118,7 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {
-				dialog = getDialog();
+				dialog = ascoltatore.getDialog();
 				dialog.setSize(400, 220);
 				dialog.setVisible(true);
 				dialog.setModalityType(ModalityType.APPLICATION_MODAL);
