@@ -29,6 +29,7 @@ import view.impostazioni.SettingGruppi;
 import view.note.MostraNoteView;
 import business.AltreUtil;
 import business.Controllore;
+import business.InizializzatoreFinestre;
 import business.ascoltatoriMenu.AscoltatoreAvanti;
 import business.ascoltatoriMenu.AscoltatoreCaricaDatabase;
 import business.ascoltatoriMenu.AscoltatoreIndietro;
@@ -107,8 +108,14 @@ public class MyMenu extends JMenuBar {
 		chckbxmntmDati.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PannelloAScomparsa2 pas = Controllore.getPannelloDati();
-				Controllore.setVisibilitaFinestre(pas, finestre, chckbxmntmDati);
+				PannelloAScomparsa2 pas;
+				try {
+					pas = ((PannelloAScomparsa2)Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, null));
+					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(pas, finestre, chckbxmntmDati);
+					Controllore.getSingleton().getView().relocateFinestreLaterali();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		finestre.add(chckbxmntmDati);
@@ -119,24 +126,42 @@ public class MyMenu extends JMenuBar {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MostraNoteView note = Controllore.getNote();
-				Controllore.setVisibilitaFinestre(note, finestre, mntmNote);
+				MostraNoteView note;
+				try {
+					note = ((MostraNoteView)Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_NOTE, null));
+					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(note, finestre, mntmNote);
+					Controllore.getSingleton().getView().relocateFinestreLaterali();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				} 
 			}
 		});
 		mntmReport.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Report report = Controllore.getReport();
-				Controllore.setVisibilitaFinestre(report, finestre, mntmReport);
+				Report report;
+				try {
+					report = ((Report)Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_REPORT, null));
+					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(report, finestre, mntmReport);
+					Controllore.getSingleton().getView().relocateFinestreLaterali();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		listaComandi.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				FinestraListaComandi history = Controllore.getFinestraHistory();
-				Controllore.setVisibilitaFinestre(history, finestre, listaComandi);
+				FinestraListaComandi history;
+				try {
+					history = ((FinestraListaComandi)Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, null));
+					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(history, finestre, listaComandi);
+					Controllore.getSingleton().getView().relocateFinestreLaterali();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 

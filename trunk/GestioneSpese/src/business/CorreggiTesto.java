@@ -1,10 +1,10 @@
 package business;
 
-public class CheckTesto {
+public class CorreggiTesto {
 
 	private String testo;
 
-	public CheckTesto(String testo) {
+	public CorreggiTesto(String testo) {
 		this.testo = testo;
 		checkApici();
 	}

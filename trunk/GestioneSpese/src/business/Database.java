@@ -46,7 +46,7 @@ public class Database {
 
 	private static Database singleton;
 
-	static Logger           log = AltreUtil.getLog();
+	static Logger log = AltreUtil.getLog();
 
 	private Database() {
 
@@ -75,61 +75,64 @@ public class Database {
 	 * @param clausole
 	 * @return boolean
 	 */
-	public boolean eseguiIstruzioneSql(String comando, String tabella,
-	                HashMap<String, String> campi, HashMap<String, String> clausole) {
+	public boolean eseguiIstruzioneSql(final String comando, final String tabella, final HashMap<String, String> campi, final HashMap<String, String> clausole) {
 		boolean ok = false;
 		try {
 			ok = false;
 			// connection = DBUtil.getConnection();
-			StringBuffer sql = new StringBuffer();
-			String command = comando.toUpperCase();
+			final StringBuffer sql = new StringBuffer();
+			final String command = comando.toUpperCase();
 
 			if (tabella != null && comando != null) {
 				// comando
 				if (command.equals("INSERT")) {
 					sql.append(command).append(" INTO ").append(tabella);
 					sql.append("(");
-					Iterator<String> iterInsert = campi.keySet().iterator();
+					final Iterator<String> iterInsert = campi.keySet().iterator();
 
 					while (iterInsert.hasNext()) {
-						String prossimo = iterInsert.next();
+						final String prossimo = iterInsert.next();
 						// aggiunge nome colonna
 						sql.append(prossimo);
-						if (iterInsert.hasNext())
+						if (iterInsert.hasNext()) {
 							sql.append(", ");
+						}
 					}
 					sql.append(") ").append(" VALUES (");
-					Iterator<String> iterInsert2 = campi.keySet().iterator();
+					final Iterator<String> iterInsert2 = campi.keySet().iterator();
 					while (iterInsert2.hasNext()) {
-						String prossimo = iterInsert2.next();
+						final String prossimo = iterInsert2.next();
 						try {
 							sql.append(Integer.parseInt(campi.get(prossimo)));
-						} catch (NumberFormatException e) {
+						} catch (final NumberFormatException e) {
 							sql.append("'" + campi.get(prossimo) + "'");
 						}
-						if (iterInsert2.hasNext())
+						if (iterInsert2.hasNext()) {
 							sql.append(", ");
+						}
 					}
 
 					sql.append(")");
-					Connection cn = DBUtil.getConnection();
-					Statement st = cn.createStatement();
-					if (st.executeUpdate(sql.toString()) != 0)
+					final Connection cn = DBUtil.getConnection();
+					final Statement st = cn.createStatement();
+					if (st.executeUpdate(sql.toString()) != 0) {
 						ok = true;
+					}
 					cn.close();
 					System.out.println("Record inserito correttamente");
 				} else if (command.equals("UPDATE")) {
-					Iterator<String> iterUpdate = campi.keySet().iterator();
+					final Iterator<String> iterUpdate = campi.keySet().iterator();
 					sql.append(command).append(" " + tabella).append(" SET ");
 					while (iterUpdate.hasNext()) {
-						String prossimo = iterUpdate.next();
+						final String prossimo = iterUpdate.next();
 						sql.append(prossimo).append(" = ");
 						try {
 							if (campi.get(prossimo).contains(".")) {
 								sql.append(Double.parseDouble(campi.get(prossimo)));
-							} else
+							} else {
 								sql.append(Integer.parseInt(campi.get(prossimo)));
-						} catch (NumberFormatException e) {
+							}
+						} catch (final NumberFormatException e) {
 							sql.append("'" + campi.get(prossimo) + "'");
 						}
 						if (iterUpdate.hasNext()) {
@@ -138,76 +141,81 @@ public class Database {
 					}
 					if (!clausole.isEmpty()) {
 						sql.append(" WHERE 1=1");
-						Iterator<String> where = clausole.keySet().iterator();
+						final Iterator<String> where = clausole.keySet().iterator();
 
 						while (where.hasNext()) {
 							sql.append(" AND ");
-							String prossimo = where.next();
+							final String prossimo = where.next();
 							sql.append(prossimo).append(" = ");
 							try {
 								sql.append(Integer.parseInt(clausole.get(prossimo)));
-							} catch (NumberFormatException e) {
+							} catch (final NumberFormatException e) {
 								sql.append("'" + clausole.get(prossimo) + "'");
 							}
-							if (where.hasNext())
+							if (where.hasNext()) {
 								sql.append(", ");
+							}
 						}
 					}
-					Connection cn = DBUtil.getConnection();
-					Statement st = cn.createStatement();
-					if (st.executeUpdate(sql.toString()) != 0)
+					final Connection cn = DBUtil.getConnection();
+					final Statement st = cn.createStatement();
+					if (st.executeUpdate(sql.toString()) != 0) {
 						ok = true;
+					}
 					cn.close();
 				} else if (command.equals("DELETE")) {
 					sql.append(command).append(" FROM ").append(tabella);
 					if (!clausole.isEmpty()) {
 						sql.append(" WHERE 1=1");
-						Iterator<String> where = clausole.keySet().iterator();
+						final Iterator<String> where = clausole.keySet().iterator();
 						while (where.hasNext()) {
 							sql.append(" AND ");
 
-							String prossimo = where.next();
+							final String prossimo = where.next();
 							sql.append(prossimo).append(" = ");
 
 							try {
 								sql.append(Integer.parseInt(clausole.get(prossimo)));
-							} catch (NumberFormatException e) {
+							} catch (final NumberFormatException e) {
 								sql.append("'" + clausole.get(prossimo) + "'");
 							}
 						}
-						if (where.hasNext())
+						if (where.hasNext()) {
 							sql.append(", ");
-						Connection cn = DBUtil.getConnection();
-						Statement st = cn.createStatement();
-						if (st.executeUpdate(sql.toString()) != 0)
+						}
+						final Connection cn = DBUtil.getConnection();
+						final Statement st = cn.createStatement();
+						if (st.executeUpdate(sql.toString()) != 0) {
 							ok = true;
+						}
 						cn.close();
 					}
 
 				} else if (command.equals("SELECT")) {
 					sql.append(command);
-					if (campi == null)
+					if (campi == null) {
 						sql.append(" * ");
-					else {
-						Iterator<String> iterSelect = clausole.keySet().iterator();
+					} else {
+						final Iterator<String> iterSelect = clausole.keySet().iterator();
 						while (iterSelect.hasNext()) {
-							String prossimo = iterSelect.next();
+							final String prossimo = iterSelect.next();
 							sql.append(" " + prossimo);
 						}
-						if (iterSelect.hasNext())
+						if (iterSelect.hasNext()) {
 							sql.append(", ");
+						}
 
 					}
 					if (!clausole.isEmpty()) {
 						sql.append("WHERE 1=1");
-						Iterator<String> where = clausole.keySet().iterator();
+						final Iterator<String> where = clausole.keySet().iterator();
 						while (where.hasNext()) {
 							sql.append(" AND ");
-							String prossimo = where.next();
+							final String prossimo = where.next();
 							sql.append(prossimo).append(" = ");
 							try {
 								sql.append(Integer.parseInt(clausole.get(prossimo)));
-							} catch (NumberFormatException e) {
+							} catch (final NumberFormatException e) {
 								sql.append("'" + clausole.get(prossimo) + "'");
 							}
 						}
@@ -215,7 +223,7 @@ public class Database {
 				}
 			}
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		} finally {
 			DBUtil.closeConnection();
@@ -231,22 +239,22 @@ public class Database {
 	 * @return HashMap<String, ArrayList>
 	 */
 	@SuppressWarnings("rawtypes")
-	public HashMap<String, ArrayList> terminaleSql(String sql) {
-		HashMap<String, ArrayList> nomi = new HashMap<String, ArrayList>();
-		Connection cn = DBUtil.getConnection();
+	public HashMap<String, ArrayList> terminaleSql(final String sql) {
+		final HashMap<String, ArrayList> nomi = new HashMap<String, ArrayList>();
+		final Connection cn = DBUtil.getConnection();
 		if (sql.substring(0, 1).equals("s") || sql.substring(0, 1).equals("S")) {
 			try {
-				Statement st = cn.createStatement();
-				ResultSet rs = st.executeQuery(sql);
-				ResultSetMetaData rsmd = rs.getMetaData();
-				ArrayList<String> lista = new ArrayList<String>();
+				final Statement st = cn.createStatement();
+				final ResultSet rs = st.executeQuery(sql);
+				final ResultSetMetaData rsmd = rs.getMetaData();
+				final ArrayList<String> lista = new ArrayList<String>();
 				for (int i = 0; i < rsmd.getColumnCount(); i++) {
 					lista.add(rsmd.getColumnLabel(i + 1));
 				}
 				nomi.put("nomiColonne", lista);
 				int z = 0;
 				while (rs.next()) {
-					ArrayList<String> lista2 = new ArrayList<String>();
+					final ArrayList<String> lista2 = new ArrayList<String>();
 					z++;
 					for (int i = 1; i <= rsmd.getColumnCount(); i++) {
 						if (rsmd.getColumnType(i) == java.sql.Types.INTEGER) {
@@ -262,9 +270,8 @@ public class Database {
 					nomi.put("row" + z, lista2);
 				}
 
-			} catch (SQLException e) {
-				JOptionPane.showMessageDialog(null, "Operazione non eseguita: " + e.getMessage(), "Non va!", JOptionPane.ERROR_MESSAGE, new ImageIcon(
-				                "immgUtil/index.jpeg"));
+			} catch (final SQLException e) {
+				JOptionPane.showMessageDialog(null, "Operazione non eseguita: " + e.getMessage(), "Non va!", JOptionPane.ERROR_MESSAGE, new ImageIcon("immgUtil/index.jpeg"));
 				log.severe("Operazione SQL non eseguita:" + e.getMessage());
 				e.printStackTrace();
 			}
@@ -274,16 +281,15 @@ public class Database {
 			try {
 				st = cn.createStatement();
 				st.executeUpdate(sql);
-			} catch (SQLException e) {
-				JOptionPane.showMessageDialog(null, "Operazione non eseguita: " + e.getMessage(), "Non va!", JOptionPane.ERROR_MESSAGE, new ImageIcon(
-				                "immgUtil/index.jpeg"));
+			} catch (final SQLException e) {
+				JOptionPane.showMessageDialog(null, "Operazione non eseguita: " + e.getMessage(), "Non va!", JOptionPane.ERROR_MESSAGE, new ImageIcon("immgUtil/index.jpeg"));
 				log.severe("Operazione SQL non eseguita:" + e.getMessage());
 				e.printStackTrace();
 			}
 		}
 		try {
 			cn.close();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		DBUtil.closeConnection();
@@ -300,35 +306,35 @@ public class Database {
 	 * @return double
 	 * @throws Exception
 	 */
-	public static double speseMeseCategoria(int mese, int categoria)
-	    throws Exception {
+	public static double speseMeseCategoria(final int mese, final int categoria) throws Exception {
 
 		double spesaTotMeseCat = 0.0;
-		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
+		final ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
 
 		for (int i = 0; i < listaUscite.size(); i++) {
-			SingleSpesa uscita = listaUscite.get(i);
-			CatSpese cat = uscita.getCatSpese();
+			final SingleSpesa uscita = listaUscite.get(i);
+			final CatSpese cat = uscita.getCatSpese();
 			if (cat != null) {
-				Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
-				int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
-				if (mesee == mese && cat.getidCategoria() == categoria)
+				final Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
+				final int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
+				if (mesee == mese && cat.getidCategoria() == categoria) {
 					spesaTotMeseCat += uscita.getinEuro();
+				}
 			}
 		}
 		return AltreUtil.arrotondaDecimaliDouble(spesaTotMeseCat);
 	}
 
-	public static double speseMeseGruppo(int mese, int gruppo) {
+	public static double speseMeseGruppo(final int mese, final int gruppo) {
 		double spesaTotMeseGruppo = 0.0;
-		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
+		final ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
 		for (int i = 0; i < listaUscite.size(); i++) {
-			SingleSpesa uscita = listaUscite.get(i);
-			CatSpese cat = uscita.getCatSpese();
+			final SingleSpesa uscita = listaUscite.get(i);
+			final CatSpese cat = uscita.getCatSpese();
 			if (cat != null) {
-				Gruppi group = cat.getGruppi();
-				Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
-				int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
+				final Gruppi group = cat.getGruppi();
+				final Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
+				final int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
 				if (group != null && group.getidGruppo() != 0) {
 					if (mesee == mese && group.getidGruppo() == gruppo) {
 						spesaTotMeseGruppo += uscita.getinEuro();
@@ -339,19 +345,20 @@ public class Database {
 		return AltreUtil.arrotondaDecimaliDouble(spesaTotMeseGruppo);
 	}
 
-	public static double speseMeseSenzaGruppo(int mese, int categoria) {
+	public static double speseMeseSenzaGruppo(final int mese, final int categoria) {
 		double spesaTotMeseCat = 0.0;
-		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
+		final ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
 		for (int i = 0; i < listaUscite.size(); i++) {
-			SingleSpesa uscita = listaUscite.get(i);
-			CatSpese cat = uscita.getCatSpese();
+			final SingleSpesa uscita = listaUscite.get(i);
+			final CatSpese cat = uscita.getCatSpese();
 			if (cat != null) {
-				Gruppi group = cat.getGruppi();
-				Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
-				int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
+				final Gruppi group = cat.getGruppi();
+				final Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
+				final int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
 				if (group == null || group.getidGruppo() == 0) {
-					if (mesee == mese && cat.getidCategoria() == categoria)
+					if (mesee == mese && cat.getidCategoria() == categoria) {
 						spesaTotMeseCat += uscita.getinEuro();
+					}
 				}
 			}
 		}
@@ -368,18 +375,18 @@ public class Database {
 	 * @return double
 	 * @throws Exception
 	 */
-	public double entrateMeseTipo(int mese, String tipoEntrata)
-	    throws Exception {
+	public double entrateMeseTipo(final int mese, final String tipoEntrata) throws Exception {
 		double entrateMeseTipo = 0;
-		ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtenteEAnno();
+		final ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtenteEAnno();
 		for (int i = 0; i < listaEntrate.size(); i++) {
-			Entrate entrata = listaEntrate.get(i);
-			String cat = entrata.getFisseoVar();
-			Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), "yyyy/MM/dd");
-			int mesee = Integer.parseInt(DBUtil.dataToString(dataEntrata, "MM"));
+			final Entrate entrata = listaEntrate.get(i);
+			final String cat = entrata.getFisseoVar();
+			final Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), "yyyy/MM/dd");
+			final int mesee = Integer.parseInt(DBUtil.dataToString(dataEntrata, "MM"));
 
-			if (mesee == mese && cat.equals(tipoEntrata))
+			if (mesee == mese && cat.equals(tipoEntrata)) {
 				entrateMeseTipo += entrata.getinEuro();
+			}
 		}
 
 		return AltreUtil.arrotondaDecimaliDouble(entrateMeseTipo);
@@ -392,15 +399,16 @@ public class Database {
 	 * @param mese
 	 * @return totale mensile delle spese(double)
 	 */
-	public double totaleUsciteMese(int mese) {
+	public double totaleUsciteMese(final int mese) {
 		double totaleMese = 0;
-		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
+		final ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
 		for (int i = 0; i < listaUscite.size(); i++) {
-			SingleSpesa uscita = listaUscite.get(i);
-			Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
-			int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
-			if (mesee == mese)
+			final SingleSpesa uscita = listaUscite.get(i);
+			final Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
+			final int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
+			if (mesee == mese) {
 				totaleMese += uscita.getinEuro();
+			}
 		}
 		return AltreUtil.arrotondaDecimaliDouble(totaleMese);
 	}
@@ -412,48 +420,51 @@ public class Database {
 	 * @param mese
 	 * @return totale mensile delle spese(double)
 	 */
-	public double totaleEntrateMese(int mese) {
+	public double totaleEntrateMese(final int mese) {
 		double totaleMese = 0;
-		ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtenteEAnno();
+		final ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtenteEAnno();
 		for (int i = 0; i < listaEntrate.size(); i++) {
-			Entrate entrata = listaEntrate.get(i);
-			Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), "yyyy/MM/dd");
-			int mesee = Integer.parseInt(DBUtil.dataToString(dataEntrata, "MM"));
+			final Entrate entrata = listaEntrate.get(i);
+			final Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), "yyyy/MM/dd");
+			final int mesee = Integer.parseInt(DBUtil.dataToString(dataEntrata, "MM"));
 			// TODO serve l'anno??
-			int annoo = Integer.parseInt(DBUtil.dataToString(dataEntrata, "yyyy"));
-			if (mesee == mese)
+			final int annoo = Integer.parseInt(DBUtil.dataToString(dataEntrata, "yyyy"));
+			if (mesee == mese) {
 				totaleMese += entrata.getinEuro();
+			}
 		}
 
 		return AltreUtil.arrotondaDecimaliDouble(totaleMese);
 	}
 
-	public static double totaleUscitaAnnoCategoria(int categoria) {
+	public static double totaleUscitaAnnoCategoria(final int categoria) {
 		double totale = 0;
-		int anno = Impostazioni.getAnno();
-		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
+		final int anno = Impostazioni.getAnno();
+		final ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
 		for (int i = 0; i < listaUscite.size(); i++) {
-			SingleSpesa uscita = listaUscite.get(i);
-			int cat = uscita.getCatSpese().getidCategoria();
-			Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
-			int annoo = Integer.parseInt(DBUtil.dataToString(dataUscita, "yyyy"));
-			if (annoo == anno && cat == categoria)
+			final SingleSpesa uscita = listaUscite.get(i);
+			final int cat = uscita.getCatSpese().getidCategoria();
+			final Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
+			final int annoo = Integer.parseInt(DBUtil.dataToString(dataUscita, "yyyy"));
+			if (annoo == anno && cat == categoria) {
 				totale += uscita.getinEuro();
+			}
 		}
 		return AltreUtil.arrotondaDecimaliDouble(totale);
 	}
 
-	public static double totaleEntrateAnnoCategoria(String FissoOVar) {
+	public static double totaleEntrateAnnoCategoria(final String FissoOVar) {
 		double totale = 0;
-		int anno = Impostazioni.getAnno();
-		ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
+		final int anno = Impostazioni.getAnno();
+		final ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
 		for (int i = 0; i < listaEntrate.size(); i++) {
-			Entrate entrata = listaEntrate.get(i);
-			String FxOVar = entrata.getFisseoVar();
-			Date dataEntrate = DBUtil.stringToDate(entrata.getdata(), "yyyy/MM/dd");
-			int annoo = Integer.parseInt(DBUtil.dataToString(dataEntrate, "yyyy"));
-			if (annoo == anno && FxOVar.equals(FissoOVar))
+			final Entrate entrata = listaEntrate.get(i);
+			final String FxOVar = entrata.getFisseoVar();
+			final Date dataEntrate = DBUtil.stringToDate(entrata.getdata(), "yyyy/MM/dd");
+			final int annoo = Integer.parseInt(DBUtil.dataToString(dataEntrate, "yyyy"));
+			if (annoo == anno && FxOVar.equals(FissoOVar)) {
 				totale += entrata.getinEuro();
+			}
 		}
 		return AltreUtil.arrotondaDecimaliDouble(totale);
 	}
@@ -465,42 +476,40 @@ public class Database {
 	 * @param tabella
 	 * @return Vector<String>
 	 */
-	public Vector<String> nomiColonne(String tabella) {
+	public Vector<String> nomiColonne(final String tabella) {
 		Vector<String> colonne = null;
 		String sql = "";
-		if (tabella.equals(Entrate.NOME_TABELLA))
+		if (tabella.equals(Entrate.NOME_TABELLA)) {
 			sql = "SELECT " + Entrate.NOME_TABELLA + "." + Entrate.DATA + ", " + Entrate.NOME_TABELLA + "." + Entrate.NOME + ", " + Entrate.NOME_TABELLA + "."
-			                + Entrate.DESCRIZIONE + ", "
-			                + Entrate.NOME_TABELLA + "." + Entrate.INEURO + " as euro, " + Entrate.NOME_TABELLA + "." + Entrate.FISSEOVAR + " as categoria, "
-			                + Entrate.NOME_TABELLA + "."
-			                + Entrate.ID + ", " + Entrate.NOME_TABELLA + "." + Entrate.DATAINS + " as inserimento" + " FROM " + tabella + " order by " + Entrate.ID + " desc";
-		else if (tabella.equals(SingleSpesa.NOME_TABELLA))
+					+ Entrate.DESCRIZIONE + ", " + Entrate.NOME_TABELLA + "." + Entrate.INEURO + " as euro, " + Entrate.NOME_TABELLA + "." + Entrate.FISSEOVAR + " as categoria, "
+					+ Entrate.NOME_TABELLA + "." + Entrate.ID + ", " + Entrate.NOME_TABELLA + "." + Entrate.DATAINS + " as inserimento" + " FROM " + tabella + " order by "
+					+ Entrate.ID + " desc";
+		} else if (tabella.equals(SingleSpesa.NOME_TABELLA)) {
 			sql = "SELECT " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.DATA + " as data, " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.NOME + ", "
-			                + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.DESCRIZIONE + ", " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.INEURO
-			                + " as euro, " + CatSpese.NOME_TABELLA + "." + CatSpese.NOME + " as categoria, " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.ID + ", "
-			                + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.DATAINS + " as inserimento" + " FROM " + tabella + ", " + CatSpese.NOME_TABELLA + ", "
-			                + Utenti.NOME_TABELLA + " where " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.IDCATEGORIE + " = "
-			                + CatSpese.NOME_TABELLA + "." + CatSpese.ID + " and " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.IDUTENTE + " = " + Utenti.NOME_TABELLA + "."
-			                + Utenti.ID
-			                + " order by " + SingleSpesa.ID + " desc";
+					+ SingleSpesa.NOME_TABELLA + "." + SingleSpesa.DESCRIZIONE + ", " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.INEURO + " as euro, " + CatSpese.NOME_TABELLA
+					+ "." + CatSpese.NOME + " as categoria, " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.ID + ", " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.DATAINS
+					+ " as inserimento" + " FROM " + tabella + ", " + CatSpese.NOME_TABELLA + ", " + Utenti.NOME_TABELLA + " where " + SingleSpesa.NOME_TABELLA + "."
+					+ SingleSpesa.IDCATEGORIE + " = " + CatSpese.NOME_TABELLA + "." + CatSpese.ID + " and " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.IDUTENTE + " = "
+					+ Utenti.NOME_TABELLA + "." + Utenti.ID + " order by " + SingleSpesa.ID + " desc";
+		}
 
-		Connection cn = DBUtil.getConnection();
+		final Connection cn = DBUtil.getConnection();
 		try {
-			Statement st = cn.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-			ResultSetMetaData rsm = rs.getMetaData();
+			final Statement st = cn.createStatement();
+			final ResultSet rs = st.executeQuery(sql);
+			final ResultSetMetaData rsm = rs.getMetaData();
 			colonne = new Vector<String>();
 			for (int i = 1; i <= rsm.getColumnCount(); i++) {
 				colonne.add(rsm.getColumnName(i));
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 			log.severe("Errore nel caricamento dal database dei nomi delle colonne di " + tabella + ". " + e.getMessage());
 		}
 		DBUtil.closeConnection();
 		try {
 			cn.close();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		return colonne;
@@ -514,14 +523,15 @@ public class Database {
 	public static double EAnnuale() {
 		double Eannuale = 0;
 
-		int anno = Impostazioni.getAnno();
-		ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
+		final int anno = Impostazioni.getAnno();
+		final ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
 		for (int i = 0; i < listaEntrate.size(); i++) {
-			Entrate entrata = listaEntrate.get(i);
-			Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), "yyyy/MM/dd");
-			String annoDaData = DBUtil.dataToString(dataEntrata, "yyyy");
-			if (Integer.parseInt(annoDaData) == anno)
+			final Entrate entrata = listaEntrate.get(i);
+			final Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), "yyyy/MM/dd");
+			final String annoDaData = DBUtil.dataToString(dataEntrata, "yyyy");
+			if (Integer.parseInt(annoDaData) == anno) {
 				Eannuale += entrata.getinEuro();
+			}
 		}
 		return AltreUtil.arrotondaDecimaliDouble(Eannuale);
 	}
@@ -532,15 +542,16 @@ public class Database {
 	 * @return Metodo per calcolare il totale delle spese annuali
 	 */
 	public static double Annuale() {
-		int anno = Impostazioni.getAnno();
+		final int anno = Impostazioni.getAnno();
 		double annuale = 0;
-		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
+		final ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
 		for (int i = 0; i < listaUscite.size(); i++) {
-			SingleSpesa uscita = listaUscite.get(i);
-			Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
-			String annoDaData = DBUtil.dataToString(dataUscita, "yyyy");
-			if (Integer.parseInt(annoDaData) == anno)
+			final SingleSpesa uscita = listaUscite.get(i);
+			final Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
+			final String annoDaData = DBUtil.dataToString(dataUscita, "yyyy");
+			if (Integer.parseInt(annoDaData) == anno) {
 				annuale += uscita.getinEuro();
+			}
 		}
 		return AltreUtil.arrotondaDecimaliDouble(annuale);
 
@@ -554,15 +565,16 @@ public class Database {
 	 */
 	public static double Emensile() {
 		double Emensile10 = 0;
-		GregorianCalendar data = new GregorianCalendar();
-		ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
+		final GregorianCalendar data = new GregorianCalendar();
+		final ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
 		for (int i = 0; i < listaEntrate.size(); i++) {
-			Entrate entrata = listaEntrate.get(i);
-			Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), "yyyy/MM/dd");
-			int mese = Integer.parseInt(DBUtil.dataToString(dataEntrata, "MM"));
-			int anno = Integer.parseInt(DBUtil.dataToString(dataEntrata, "yyyy"));
-			if (mese == data.get(Calendar.MONTH) && anno == data.get(Calendar.YEAR))
+			final Entrate entrata = listaEntrate.get(i);
+			final Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), "yyyy/MM/dd");
+			final int mese = Integer.parseInt(DBUtil.dataToString(dataEntrata, "MM"));
+			final int anno = Integer.parseInt(DBUtil.dataToString(dataEntrata, "yyyy"));
+			if (mese == data.get(Calendar.MONTH) && anno == data.get(Calendar.YEAR)) {
 				Emensile10 += entrata.getinEuro();
+			}
 		}
 		return AltreUtil.arrotondaDecimaliDouble(Emensile10);
 
@@ -576,16 +588,17 @@ public class Database {
 	 */
 	public static double Mensile() {
 		double mensile1 = 0;
-		GregorianCalendar data = new GregorianCalendar();
-		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
+		final GregorianCalendar data = new GregorianCalendar();
+		final ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
 		for (int i = 0; i < listaUscite.size(); i++) {
-			SingleSpesa uscita = listaUscite.get(i);
-			Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
-			int mese = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
-			int anno = Integer.parseInt(DBUtil.dataToString(dataUscita, "yyyy"));
+			final SingleSpesa uscita = listaUscite.get(i);
+			final Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
+			final int mese = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
+			final int anno = Integer.parseInt(DBUtil.dataToString(dataUscita, "yyyy"));
 
-			if (mese == data.get(Calendar.MONTH) && anno == data.get(Calendar.YEAR))
+			if (mese == data.get(Calendar.MONTH) && anno == data.get(Calendar.YEAR)) {
 				mensile1 += uscita.getinEuro();
+			}
 		}
 		return AltreUtil.arrotondaDecimaliDouble(mensile1);
 
@@ -598,17 +611,18 @@ public class Database {
 	 *         precedente
 	 */
 	public static double EMensileInCorso() {
-		double Emensile = 0;
+		final double Emensile = 0;
 		double Emensile10 = 0;
-		GregorianCalendar data = new GregorianCalendar();
-		ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
+		final GregorianCalendar data = new GregorianCalendar();
+		final ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
 		for (int i = 0; i < listaEntrate.size(); i++) {
-			Entrate entrata = listaEntrate.get(i);
-			Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), "yyyy/MM/dd");
-			int mese = Integer.parseInt(DBUtil.dataToString(dataEntrata, "MM"));
-			int anno = Integer.parseInt(DBUtil.dataToString(dataEntrata, "yyyy"));
-			if (mese == (data.get(Calendar.MONTH) + 1) && anno == data.get(Calendar.YEAR))
+			final Entrate entrata = listaEntrate.get(i);
+			final Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), "yyyy/MM/dd");
+			final int mese = Integer.parseInt(DBUtil.dataToString(dataEntrata, "MM"));
+			final int anno = Integer.parseInt(DBUtil.dataToString(dataEntrata, "yyyy"));
+			if (mese == (data.get(Calendar.MONTH) + 1) && anno == data.get(Calendar.YEAR)) {
 				Emensile10 += entrata.getinEuro();
+			}
 		}
 		return AltreUtil.arrotondaDecimaliDouble(Emensile);
 
@@ -622,31 +636,32 @@ public class Database {
 	 */
 	public static double MensileInCorso() {
 		double mensile = 0;
-		GregorianCalendar data = new GregorianCalendar();
-		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
+		final GregorianCalendar data = new GregorianCalendar();
+		final ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
 		for (int i = 0; i < listaUscite.size(); i++) {
-			SingleSpesa uscita = listaUscite.get(i);
-			Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
-			int mese = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
-			int anno = Integer.parseInt(DBUtil.dataToString(dataUscita, "yyyy"));
+			final SingleSpesa uscita = listaUscite.get(i);
+			final Date dataUscita = DBUtil.stringToDate(uscita.getData(), "yyyy/MM/dd");
+			final int mese = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
+			final int anno = Integer.parseInt(DBUtil.dataToString(dataUscita, "yyyy"));
 
-			if (mese == (data.get(Calendar.MONTH) + 1) && anno == data.get(Calendar.YEAR))
+			if (mese == (data.get(Calendar.MONTH) + 1) && anno == data.get(Calendar.YEAR)) {
 				mensile += uscita.getinEuro();
+			}
 		}
 		return AltreUtil.arrotondaDecimaliDouble(mensile);
 	}
 
-	public static double percentoUscite(String importanza) {
+	public static double percentoUscite(final String importanza) {
 		double percentualeTipo = 0;
-		double totaleAnnuo = Annuale();
+		final double totaleAnnuo = Annuale();
 		double speseTipo = 0;
 
-		ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
+		final ArrayList<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
 		for (int i = 0; i < listaUscite.size(); i++) {
-			SingleSpesa uscita = listaUscite.get(i);
+			final SingleSpesa uscita = listaUscite.get(i);
 			if (uscita != null) {
 				if (uscita.getCatSpese() != null) {
-					String importanzaSpesa = uscita.getCatSpese().getimportanza();
+					final String importanzaSpesa = uscita.getCatSpese().getimportanza();
 					if (importanzaSpesa.equals(importanza)) {
 						speseTipo += uscita.getinEuro();
 					}
@@ -654,11 +669,13 @@ public class Database {
 			}
 		}
 
-		if (speseTipo != 0)
+		if (speseTipo != 0) {
 			if (totaleAnnuo != 0.0) {
 				percentualeTipo = speseTipo / totaleAnnuo * 100;
-			} else
+			} else {
 				percentualeTipo = 0;
+			}
+		}
 
 		return AltreUtil.arrotondaDecimaliDouble(percentualeTipo);
 
@@ -677,7 +694,7 @@ public class Database {
 			SottoPannelloTotali.getPercentoVariabili().setText(Double.toString(percentoUscite(CatSpese.IMPORTANZA_VARIABILE)));
 			SottoPannelloTotali.getAvanzo().setText(Double.toString(AltreUtil.arrotondaDecimaliDouble((EAnnuale()) - (Annuale()))));
 			DBUtil.closeConnection();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -690,27 +707,30 @@ public class Database {
 	 * @param tipo
 	 * @throws Exception
 	 */
-	public static void aggiornamentoGenerale(String tipo)
-	    throws Exception {
+	public static void aggiornamentoGenerale(final String tipo) throws Exception {
 		// TODO Implementare un codice che gestisce tutti gli aggiornamenti
 		// dell'applicazione
 
 		if (tipo.equals(SingleSpesa.NOME_TABELLA)) {
 			final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(SingleSpesa.NOME_TABELLA);
 			aggiornaTabellaUscite();
-			SottoPannelloDatiSpese.getMeseInCors().setText(Double.toString(MensileInCorso()));
-			SottoPannelloDatiSpese.getMesePrecUsc().setText(Double.toString(Mensile()));
-			SottoPannelloDatiSpese.getSpeseAnnuali().setText(Double.toString(Annuale()));
 			Model.aggiornaMovimentiUsciteDaEsterno(nomiColonne, 10);
-			DBUtil.closeConnection();
+			if (SottoPannelloDatiSpese.getMeseInCors() != null) {
+				SottoPannelloDatiSpese.getMeseInCors().setText(Double.toString(MensileInCorso()));
+				SottoPannelloDatiSpese.getMesePrecUsc().setText(Double.toString(Mensile()));
+				SottoPannelloDatiSpese.getSpeseAnnuali().setText(Double.toString(Annuale()));
+				DBUtil.closeConnection();
+			}
 		} else if (tipo.equals(Entrate.NOME_TABELLA)) {
 			final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
-			aggiornaTabellaEntrate();
-			SottoPannelloDatiEntrate.getEnAnCorso().setText(Double.toString(EAnnuale()));
-			SottoPannelloDatiEntrate.getEnMeCorso().setText(Double.toString(EMensileInCorso()));
-			SottoPannelloDatiEntrate.getEntrateMesePrec().setText(Double.toString(Emensile()));
 			Model.aggiornaMovimentiEntrateDaEsterno(nomiColonne, 10);
-			DBUtil.closeConnection();
+			aggiornaTabellaEntrate();
+			if (SottoPannelloDatiEntrate.getEnAnCorso() != null) {
+				SottoPannelloDatiEntrate.getEnAnCorso().setText(Double.toString(EAnnuale()));
+				SottoPannelloDatiEntrate.getEnMeCorso().setText(Double.toString(EMensileInCorso()));
+				SottoPannelloDatiEntrate.getEntrateMesePrec().setText(Double.toString(Emensile()));
+				DBUtil.closeConnection();
+			}
 		} else {
 			throw new Exception("Aggiornamento non gestito: " + tipo);
 		}
@@ -726,20 +746,20 @@ public class Database {
 	 * 
 	 * @param gruppo
 	 */
-	public static void aggiornaGruppi(Gruppi gruppo, CategorieView categoria) {
+	public static void aggiornaGruppi(final Gruppi gruppo, final CategorieView categoria) {
 		int max = 0;
-		String sql = "SELECT MAX(" + Gruppi.ID + ") FROM " + Gruppi.NOME_TABELLA;
-		Connection cn = DBUtil.getConnection();
+		final String sql = "SELECT MAX(" + Gruppi.ID + ") FROM " + Gruppi.NOME_TABELLA;
+		final Connection cn = DBUtil.getConnection();
 
 		try {
-			Statement st = cn.createStatement();
-			ResultSet rs = st.executeQuery(sql);
+			final Statement st = cn.createStatement();
+			final ResultSet rs = st.executeQuery(sql);
 			max = rs.getInt(1);
 			DBUtil.closeConnection();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
-		JComboBox gruppi = categoria.getComboGruppi();
+		final JComboBox gruppi = categoria.getComboGruppi();
 
 		gruppi.setSelectedIndex(0);
 		int i = 1;
@@ -752,7 +772,7 @@ public class Database {
 			}
 			if (gruppo.getidGruppo() == gruppo1.getidGruppo()) {
 				gruppi.removeItemAt(i);
-				CatSpese categoriaPresa = CacheCategorie.getSingleton().getCatSpese(Integer.toString(gruppo.getidGruppo()));
+				final CatSpese categoriaPresa = CacheCategorie.getSingleton().getCatSpese(Integer.toString(gruppo.getidGruppo()));
 				// non è possibile sostituirlo la categoria presa dal database
 				// con quella passata nel parametro
 				// perché il parametro mantiene i vecchi settaggi e non si
@@ -763,7 +783,7 @@ public class Database {
 		}
 		try {
 			cn.close();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		DBUtil.closeConnection();
@@ -781,21 +801,21 @@ public class Database {
 	 * 
 	 * @param CatSpese
 	 */
-	public static void aggiornaCategorie(CatSpese categoria) {
+	public static void aggiornaCategorie(final CatSpese categoria) {
 		int max = 0;
-		String sql = "SELECT MAX(" + CatSpese.ID + ") FROM " + CatSpese.NOME_TABELLA;
-		Connection cn = DBUtil.getConnection();
+		final String sql = "SELECT MAX(" + CatSpese.ID + ") FROM " + CatSpese.NOME_TABELLA;
+		final Connection cn = DBUtil.getConnection();
 
 		try {
-			Statement st = cn.createStatement();
-			ResultSet rs = st.executeQuery(sql);
+			final Statement st = cn.createStatement();
+			final ResultSet rs = st.executeQuery(sql);
 			max = rs.getInt(1);
 			DBUtil.closeConnection();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 
-		JComboBox categorie1 = CategorieView.getComboCategorie();
+		final JComboBox categorie1 = CategorieView.getComboCategorie();
 
 		int i = 1;
 		for (i = 1; i <= max; i++) {
@@ -807,7 +827,7 @@ public class Database {
 			}
 			if (categoria.getidCategoria() == catspese1.getidCategoria()) {
 				categorie1.removeItemAt(i);
-				CatSpese categoriaPresa = CacheCategorie.getSingleton().getCatSpese(Integer.toString(categoria.getidCategoria()));
+				final CatSpese categoriaPresa = CacheCategorie.getSingleton().getCatSpese(Integer.toString(categoria.getidCategoria()));
 				// non è possibile sostituirlo la categoria presa dal database
 				// con quella passata nel parametro
 				// perché il parametro mantiene i vecchi settaggi e non si
@@ -818,7 +838,7 @@ public class Database {
 		}
 		try {
 			cn.close();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		DBUtil.closeConnection();
@@ -834,9 +854,9 @@ public class Database {
 	 */
 	public static void aggiornaTabellaUscite() {
 
-		GeneratoreDatiTabellaUscite dati = new GeneratoreDatiTabellaUscite();
-		TableF table = GeneratoreDatiTabellaUscite.createTable(dati.getMatrice(), dati.getNomiColonna());
-		JScrollPane pane = TabellaUscita.getScrollPane();
+		final GeneratoreDatiTabellaUscite dati = new GeneratoreDatiTabellaUscite();
+		final TableF table = GeneratoreDatiTabellaUscite.createTable(dati.getMatrice(), dati.getNomiColonna());
+		final JScrollPane pane = TabellaUscita.getScrollPane();
 		pane.setViewportView(table);
 
 	}
@@ -850,18 +870,19 @@ public class Database {
 	 */
 	public static void aggiornaTabellaEntrate() {
 
-		GeneratoreDatiTabellaEntrate dati = new GeneratoreDatiTabellaEntrate();
-		TableF table = GeneratoreDatiTabellaEntrate.createTable(dati.getMatrice(), dati.getNomiColonna());
-		JScrollPane pane = TabellaEntrata.getScrollPane();
+		final GeneratoreDatiTabellaEntrate dati = new GeneratoreDatiTabellaEntrate();
+		final TableF table = GeneratoreDatiTabellaEntrate.createTable(dati.getMatrice(), dati.getNomiColonna());
+		final JScrollPane pane = TabellaEntrata.getScrollPane();
 		pane.setViewportView(table);
 	}
 
-	public static void aggiornamentoComboBox(Vector<CatSpese> categorie) {
-		DefaultComboBoxModel model = new DefaultComboBoxModel(categorie);
-
-		SottoPannelloCategorie.getCategorieCombo().setModel(model);
-		SottoPannelloCategorie.getCategorieCombo().validate();
-		SottoPannelloCategorie.getCategorieCombo().repaint();
+	public static void aggiornamentoComboBox(final Vector<CatSpese> categorie) {
+		final DefaultComboBoxModel model = new DefaultComboBoxModel(categorie);
+		if (SottoPannelloCategorie.getCategorieCombo() != null) {
+			SottoPannelloCategorie.getCategorieCombo().setModel(model);
+			SottoPannelloCategorie.getCategorieCombo().validate();
+			SottoPannelloCategorie.getCategorieCombo().repaint();
+		}
 		// TODO tornare singleton o creare nuova vista ogni volta
 		// UsciteView.getSingleton().getComboCategorie().setModel(model);
 		// UsciteView.getSingleton().getComboCategorie().validate();

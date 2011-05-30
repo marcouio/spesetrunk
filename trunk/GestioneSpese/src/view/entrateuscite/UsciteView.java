@@ -18,7 +18,7 @@ import view.font.LabelTesto;
 import view.font.TextAreaF;
 import view.font.TextFieldF;
 import business.AltreUtil;
-import business.CheckTesto;
+import business.CorreggiTesto;
 import business.Controllore;
 import business.DBUtil;
 import business.Database;
@@ -186,7 +186,7 @@ public class UsciteView extends AbstractUsciteView {
 		final int idSpesa = (CacheUscite.getSingleton().getMaxId()) + 1;
 		getModelUscita().setidSpesa(idSpesa);
 
-		final CheckTesto checkTesto = new CheckTesto(tfNome.getText());
+		final CorreggiTesto checkTesto = new CorreggiTesto(tfNome.getText());
 		final String nomeCheckato = checkTesto.getTesto();
 		setcNome(nomeCheckato);
 

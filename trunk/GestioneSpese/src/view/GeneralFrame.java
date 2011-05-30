@@ -17,14 +17,17 @@ import view.bottoni.Bottone;
 import view.bottoni.PannelloBottoni;
 import view.bottoni.PannelloBottoniInterno;
 import view.bottoni.ToggleBtn;
+import view.componenti.componentiPannello.PannelloAScomparsa2;
 import view.componenti.movimenti.Movimenti;
 import view.entrateuscite.EntrateView;
 import view.entrateuscite.UsciteView;
 import view.impostazioni.Impostazioni;
 import view.mymenu.MyMenu;
+import view.note.MostraNoteView;
 import view.tabelle.PerMesiF;
 import business.Controllore;
 import business.DBUtil;
+import business.InizializzatoreFinestre;
 import domain.wrapper.WrapEntrate;
 import domain.wrapper.WrapSingleSpesa;
 
@@ -107,9 +110,11 @@ public class GeneralFrame extends JFrame {
 		}
 		tabMovimenti.getTabMovUscite().setVisible(true);
 
-		MyWindowListener windowListener = new MyWindowListener();
+		MyWindowListener windowListener = new MyWindowListener(this);
 		this.addWindowListener(windowListener);
 		this.addComponentListener(windowListener);
+		this.addWindowFocusListener(windowListener);
+		this.addMouseListener(windowListener);
 
 		repaint();
 	}
@@ -265,14 +270,29 @@ public class GeneralFrame extends JFrame {
 		pannelloBottoni.setBounds(0, 20, this.getWidth(), 94);
 	}
 
-	public static void relocateFinestreLaterali() {
-		Point p = GeneralFrame.getSingleton().getLocation();
-		Dimension d = GeneralFrame.getSingleton().getSize();
-		p.setLocation(p.x + d.width + 5, p.y);
-		Controllore.getFinestraHistory().setLocation(p);
-		Controllore.getReport().setLocation(p);
-		Controllore.getPannelloDati().setLocation(p);
-		Controllore.getNote().setLocation(p);
+	public void relocateFinestreLaterali() {
+		if(Controllore.getSingleton().getInitFinestre().getFinestraVisibile()!=null){
+			Point p = GeneralFrame.getSingleton().getLocation();
+			Dimension d = GeneralFrame.getSingleton().getSize();
+			p.setLocation(p.x + d.width + 5, p.y);
+			try{
+				JFrame finestraVisibile = Controllore.getSingleton().getInitFinestre().getFinestraVisibile();
+				if(finestraVisibile instanceof PannelloAScomparsa2){
+					((PannelloAScomparsa2)Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, this)).setLocation(p);
+				}
+				else if(finestraVisibile instanceof FinestraListaComandi){
+					((FinestraListaComandi)Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, this)).setLocation(p);
+				}
+				else if(finestraVisibile instanceof MostraNoteView){
+					((MostraNoteView)Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_NOTE, this)).setLocation(p);
+				}
+				else if(finestraVisibile instanceof Report){
+					((Report)Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_REPORT, this)).setLocation(p);
+				}
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static void resizeView() {

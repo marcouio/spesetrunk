@@ -1,5 +1,6 @@
 package view.componenti.movimenti;
 
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import javax.swing.JDialog;
 import javax.swing.JTable;
 
 import business.AltreUtil;
+import business.Database;
 import domain.Entrate;
 import domain.wrapper.Model;
 import domain.wrapper.WrapEntrate;
@@ -64,7 +66,8 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 
 						@Override
 						public String[][] getMovimenti() {
-							final Vector<Entrate> entrate = Model.getSingleton().getModelEntrate().movimentiEntrateFiltrati(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
+							final Vector<Entrate> entrate = Model.getSingleton().getModelEntrate()
+									.movimentiEntrateFiltrati(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
 							final String[][] mov = Model.getSingleton().movimentiFiltratiEntratePerNumero(Entrate.NOME_TABELLA, entrate);
 							Model.aggiornaMovimentiEntrateDaFiltro(createNomiColonne(), mov);
 							return mov;
@@ -102,8 +105,48 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 		};
 	}
 
+	{
+		deleteButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(final ActionEvent e) {
+				try {
+					dialog = getDialog();
+					dialog.setSize(400, 220);
+					dialog.setVisible(true);
+					dialog.setModalityType(ModalityType.APPLICATION_MODAL);
+					Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
+				} catch (final Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		updateButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(final ActionEvent e) {
+				dialog = getDialog();
+				dialog.setSize(400, 220);
+				dialog.setVisible(true);
+				dialog.setModalityType(ModalityType.APPLICATION_MODAL);
+				try {
+					Database.aggiornamentoGenerale(getTipo());
+				} catch (final Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+
+	}
+
 	@Override
 	public JDialog getDialog() {
-		return dialog;
+		return dialog = createDialog();
+	}
+
+	@Override
+	protected String getTipo() {
+		return Entrate.NOME_TABELLA;
 	}
 }
