@@ -18,7 +18,8 @@ import domain.wrapper.WrapEntrate;
 
 public class ListaMovimentiEntrate extends AbstractListaMov {
 
-	private static final long serialVersionUID = 1L;
+	private static final long          serialVersionUID = 1L;
+	private AscoltatoreMouseMovEntrate ascoltatore;
 
 	public ListaMovimentiEntrate() {
 		super();
@@ -43,7 +44,8 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 	@Override
 	public void impostaTableSpecifico(final JTable table) {
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		table.addMouseListener(new AscoltatoreMouseMovEntrate(table, dialog));
+		ascoltatore = new AscoltatoreMouseMovEntrate(table, dialog);
+		table.addMouseListener(ascoltatore);
 	}
 
 	@Override
@@ -139,5 +141,13 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 	@Override
 	protected String getTipo() {
 		return Entrate.NOME_TABELLA;
+	}
+
+	protected AscoltatoreMouseMovEntrate getAscoltatore() {
+		return ascoltatore;
+	}
+
+	protected void setAscoltatore(final AscoltatoreMouseMovEntrate ascoltatore) {
+		this.ascoltatore = ascoltatore;
 	}
 }

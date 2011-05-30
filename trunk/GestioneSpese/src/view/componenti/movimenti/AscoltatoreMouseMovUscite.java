@@ -26,7 +26,6 @@ public class AscoltatoreMouseMovUscite implements MouseListener {
 	@Override
 	public void mouseClicked(final MouseEvent e) {
 
-		// JTable table = ListaMovEntrat.getTable();
 		final JTable table = tabella;
 
 		if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 1
