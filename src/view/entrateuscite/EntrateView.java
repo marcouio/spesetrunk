@@ -18,7 +18,7 @@ import view.font.LabelTesto;
 import view.font.TextAreaF;
 import view.font.TextFieldF;
 import business.AltreUtil;
-import business.CheckTesto;
+import business.CorreggiTesto;
 import business.Controllore;
 import business.DBUtil;
 import business.Database;
@@ -175,7 +175,7 @@ public class EntrateView extends AbstractEntrateView {
 		final int idEntrate = (CacheEntrate.getSingleton().getMaxId()) + 1;
 		getModelEntrate().setidEntrate(idEntrate);
 
-		final CheckTesto checkTesto = new CheckTesto(tfNome.getText());
+		final CorreggiTesto checkTesto = new CorreggiTesto(tfNome.getText());
 
 		final String nome = checkTesto.getTesto();
 		setcNome(nome);

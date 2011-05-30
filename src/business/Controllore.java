@@ -1,19 +1,10 @@
 package business;
 
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import view.FinestraListaComandi;
 import view.GeneralFrame;
-import view.Report;
-import view.componenti.componentiPannello.PannelloAScomparsa2;
-import view.note.MostraNoteView;
 import business.cache.CacheGruppi;
 import business.cache.CacheLookAndFeel;
 import business.cache.CacheUtenti;
@@ -26,25 +17,23 @@ import domain.wrapper.WrapUtenti;
 
 public class Controllore {
 
-	private static GeneralFrame            view;
-	protected static PannelloAScomparsa2   pannelloDati;
-	protected static FinestraListaComandi  historyCommands;
-	protected static MostraNoteView        pannelloNote;
-	protected static Report                report;
-	private static Utenti                  utenteLogin;
-	private static CommandManager          commandManager;
-	private static final ArrayList<JFrame> finestre = new ArrayList<JFrame>();
+	private static GeneralFrame view;
 
-	private static Controllore             singleton;
-	private static JFrame                  windowVisibile;
+	private static Utenti utenteLogin;
+	private static CommandManager commandManager;
+
+	private InizializzatoreFinestre initFinestre;
+	private static Controllore singleton;
+	private static JFrame windowVisibile;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		try {
-			CacheLookAndFeel cacheLook = CacheLookAndFeel.getSingleton();
-			java.util.Vector<Lookandfeel> vettore = cacheLook.getVettoreLooksPerCombo();
+			final CacheLookAndFeel cacheLook = CacheLookAndFeel.getSingleton();
+			final java.util.Vector<Lookandfeel> vettore = cacheLook
+					.getVettoreLooksPerCombo();
 
 			Lookandfeel look = null;
 			for (int i = 0; i < vettore.size(); i++) {
@@ -55,7 +44,7 @@ public class Controllore {
 			}
 
 			UIManager.setLookAndFeel(look.getvalore());
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
 			e.printStackTrace();
 		}
 		SwingUtilities.invokeLater(new Runnable() {
@@ -71,26 +60,6 @@ public class Controllore {
 				view.setLocationByPlatform(true);
 				view.setVisible(true);
 
-				pannelloNote = getNote();
-				pannelloNote.setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
-				pannelloNote.setVisible(false);
-				finestre.add(pannelloNote);
-
-				historyCommands = getFinestraHistory();
-				historyCommands.setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
-				historyCommands.setVisible(false);
-				finestre.add(historyCommands);
-
-				pannelloDati = getPannelloDati();
-				pannelloDati.setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
-				pannelloDati.setVisible(false);
-				finestre.add(pannelloDati);
-
-				report = getReport();
-				report.setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
-				report.setVisible(false);
-				finestre.add(report);
-
 			}
 		});
 	}
@@ -101,15 +70,15 @@ public class Controllore {
 	}
 
 	private static void setStartUtenteLogin() {
-		Utenti utenteGuest = CacheUtenti.getSingleton().getUtente("1");
+		final Utenti utenteGuest = CacheUtenti.getSingleton().getUtente("1");
 		if (utenteGuest == null || utenteGuest.getnome() == null) {
-			Utenti utente = new Utenti();
+			final Utenti utente = new Utenti();
 			utente.setidUtente(1);
 			utente.setusername("guest");
 			utente.setpassword("guest");
 			utente.setNome("guest");
 			utente.setCognome("guest");
-			WrapUtenti wrap = new WrapUtenti();
+			final WrapUtenti wrap = new WrapUtenti();
 			wrap.insert(utente);
 		}
 
@@ -117,35 +86,18 @@ public class Controllore {
 	}
 
 	private static void setStartGruppoZero() {
-		Gruppi gruppoZero = CacheGruppi.getSingleton().getGruppoPerNome("No Gruppo");
-		if (gruppoZero == null)
+		Gruppi gruppoZero = CacheGruppi.getSingleton().getGruppoPerNome(
+				"No Gruppo");
+		if (gruppoZero == null) {
 			gruppoZero = CacheGruppi.getSingleton().getGruppo("0");
+		}
 		if (gruppoZero == null || gruppoZero.getnome() == null) {
-			Gruppi gruppo = new Gruppi();
+			final Gruppi gruppo = new Gruppi();
 			gruppo.setidGruppo(0);
 			gruppo.setnome("No Gruppo");
 			gruppo.setdescrizione("Impostare per le spese senza gruppo");
-			WrapGruppi wrapG = new WrapGruppi();
+			final WrapGruppi wrapG = new WrapGruppi();
 			wrapG.insert(gruppo);
-		}
-	}
-
-	public static void setVisibilitaFinestre(JFrame finestraVisibile, JMenu menu, JCheckBoxMenuItem menuItem) {
-		boolean visibile = finestraVisibile.isVisible();
-		for (JFrame finestra : finestre) {
-			finestra.setVisible(false);
-		}
-		for (int i = 0; i < menu.getMenuComponents().length; i++) {
-			JCheckBoxMenuItem item = (JCheckBoxMenuItem) menu.getMenuComponents()[i];
-			item.setSelected(false);
-		}
-		if (visibile) {
-			menuItem.setSelected(false);
-			finestraVisibile.setVisible(false);
-		} else {
-			menuItem.setSelected(true);
-			finestraVisibile.setVisible(true);
-			setWindowVisibile(finestraVisibile);
 		}
 	}
 
@@ -164,21 +116,22 @@ public class Controllore {
 		return utenteLogin;
 	}
 
-	public static void setUtenteLogin(Utenti utenteLogin) {
+	public static void setUtenteLogin(final Utenti utenteLogin) {
 		Controllore.utenteLogin = utenteLogin;
 	}
 
 	public CommandManager getCommandManager() {
-		if (commandManager == null)
+		if (commandManager == null) {
 			commandManager = CommandManager.getIstance();
+		}
 		return commandManager;
 	}
 
-	public static void setCommandManager(CommandManager commandManager) {
+	public static void setCommandManager(final CommandManager commandManager) {
 		Controllore.commandManager = commandManager;
 	}
 
-	public static void setView(GeneralFrame view) {
+	public static void setView(final GeneralFrame view) {
 		Controllore.view = view;
 	}
 
@@ -186,71 +139,20 @@ public class Controllore {
 		return view;
 	}
 
-	public static MostraNoteView getNote() {
-		if (pannelloNote == null) {
-			pannelloNote = new MostraNoteView();
-		}
-		return pannelloNote;
-	}
-
-	public static void setNote(MostraNoteView note) {
-		Controllore.pannelloNote = note;
-	}
-
-	public static Report getReport() {
-		if (report == null) {
-			try {
-				report = new Report();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
-		return report;
-	}
-
-	public static void setReport(Report report) {
-		Controllore.report = report;
-	}
-
-	public static PannelloAScomparsa2 getPannelloDati() {
-		if (pannelloDati == null) {
-			pannelloDati = new PannelloAScomparsa2();
-		}
-		return pannelloDati;
-	}
-
-	public static FinestraListaComandi getFinestraHistory() {
-		if (historyCommands == null) {
-			historyCommands = new FinestraListaComandi();
-		}
-		return historyCommands;
-	}
-
-	public static void setFinestraHistory(FinestraListaComandi flc) {
-		Controllore.historyCommands = flc;
-	}
-
-	public static ArrayList<JFrame> getFinestre() {
-		return finestre;
-	}
-
 	public void quit() {
 		view.setVisible(false);
 		view.dispose();
-		pannelloDati.setVisible(false);
-		pannelloDati.dispose();
-		report.setVisible(false);
-		report.dispose();
-		historyCommands.setVisible(false);
-		historyCommands.dispose();
 		System.exit(0);
 	}
 
-	public static void setWindowVisibile(JFrame windowVisibile) {
-		Controllore.windowVisibile = windowVisibile;
+	public InizializzatoreFinestre getInitFinestre() {
+		if (initFinestre == null) {
+			initFinestre = new InizializzatoreFinestre();
+		}
+		return initFinestre;
 	}
 
-	public static JFrame getWindowVisibile() {
-		return windowVisibile;
+	public void setInitFinestre(final InizializzatoreFinestre initFinestre) {
+		this.initFinestre = initFinestre;
 	}
 }

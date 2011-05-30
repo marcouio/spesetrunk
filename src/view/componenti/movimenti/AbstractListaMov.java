@@ -1,8 +1,6 @@
 package view.componenti.movimenti;
 
-import java.awt.Dialog.ModalityType;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JDialog;
@@ -17,20 +15,20 @@ import view.font.ButtonF;
 import view.font.LabelTesto;
 import view.font.TableF;
 import view.font.TextFieldF;
-import business.Database;
-import domain.Entrate;
 
 public abstract class AbstractListaMov extends view.OggettoVistaBase {
 
 	private static final long serialVersionUID = 1L;
-	int                       numMovimenti     = 10;
-	private JTable            table;
-	private JTable            table1;
-	private JScrollPane       scrollPane;
-	protected JTextField      campo;
-	String[][]                movimenti;
-	protected ButtonF         pulsanteNMovimenti;
-	protected JDialog         dialog;
+	int numMovimenti = 10;
+	private JTable table;
+	private JTable table1;
+	private JScrollPane scrollPane;
+	protected JTextField campo;
+	String[][] movimenti;
+	protected ButtonF pulsanteNMovimenti;
+	protected JDialog dialog;
+	protected ButtonF updateButton;
+	protected ButtonF deleteButton;
 
 	protected void setMovimenti(final String[][] movimenti) {
 		this.movimenti = movimenti;
@@ -83,12 +81,12 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 			this.add(scrollPane);
 			scrollPane.setBounds(21, 38, 948, 386);
 
-			final ButtonF updateButton = new ButtonF();
+			updateButton = new ButtonF();
 			this.add(updateButton);
 			updateButton.setText("Aggiorna");
 			updateButton.setBounds(780, 438, 95, 21);
 
-			final ButtonF deleteButton = new ButtonF();
+			deleteButton = new ButtonF();
 			this.add(deleteButton);
 			deleteButton.setText("Cancella");
 			deleteButton.setBounds(887, 438, 82, 21);
@@ -101,42 +99,14 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 			add(btnFiltraMovimenti);
 
 			// TODO implementare actionlistener all'interno delle sottoclassi
-			deleteButton.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(final ActionEvent e) {
-					try {
-						dialog = getDialog();
-						dialog.setSize(400, 220);
-						dialog.setVisible(true);
-						dialog.setModalityType(ModalityType.APPLICATION_MODAL);
-						Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
-					} catch (final Exception e1) {
-						e1.printStackTrace();
-					}
-				}
-			});
-
-			updateButton.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(final ActionEvent e) {
-					dialog.setSize(400, 220);
-					dialog.setVisible(true);
-					dialog.setModalityType(ModalityType.APPLICATION_MODAL);
-					try {
-						Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
-					} catch (final Exception e1) {
-						e1.printStackTrace();
-					}
-				}
-			});
 
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 
 	}
+
+	protected abstract String getTipo();
 
 	public abstract JDialog getDialog();
 

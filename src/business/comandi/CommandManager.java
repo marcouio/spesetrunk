@@ -5,8 +5,10 @@ import java.util.List;
 
 import javax.swing.JScrollPane;
 
+import view.FinestraListaComandi;
 import view.font.TableF;
 import business.Controllore;
+import business.InizializzatoreFinestre;
 
 public class CommandManager {
 
@@ -104,9 +106,15 @@ public class CommandManager {
 	}
 
 	private void aggiornaFinestraHistory() {
-		TableF table = Controllore.getFinestraHistory().getTable();
+		TableF table;
+		JScrollPane scrollPane = null;
+		try {
+			table = ((FinestraListaComandi)Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, null)).getTable();
+			scrollPane = ((FinestraListaComandi)Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, null)).getScrollPane();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		table = new TableF(generaDati(), new String[] { "ListaComandi" });
-		final JScrollPane scrollPane = Controllore.getFinestraHistory().getScrollPane();
 		scrollPane.setViewportView(table);
 		table.setCellSelectionEnabled(false);
 	}

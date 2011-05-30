@@ -31,6 +31,7 @@ import view.font.TextFieldF;
 import business.Controllore;
 import business.DBUtil;
 import business.Database;
+import business.InizializzatoreFinestre;
 import business.cache.CacheLookAndFeel;
 import domain.Entrate;
 import domain.Lookandfeel;
@@ -237,7 +238,12 @@ public class Impostazioni extends JDialog {
 						        e1.printStackTrace();
 					        }
 
-					        FinestraListaComandi lista = Controllore.getFinestraHistory();
+					        FinestraListaComandi lista = null;
+							try {
+								lista = ((FinestraListaComandi)Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, null));
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							} 
 					        GeneralFrame frame = GeneralFrame.getSingleton();
 					        SwingUtilities.updateComponentTreeUI(lista);
 					        SwingUtilities.updateComponentTreeUI(frame);

@@ -66,7 +66,8 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 
 						@Override
 						public String[][] getMovimenti() {
-							final Vector<SingleSpesa> uscite = Model.getSingleton().getModelUscita().movimentiUsciteFiltrate(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
+							final Vector<SingleSpesa> uscite = Model.getSingleton().getModelUscita()
+									.movimentiUsciteFiltrate(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
 							final String[][] mov = Model.getSingleton().movimentiFiltratiUscitePerNumero(Entrate.NOME_TABELLA, uscite);
 							Model.aggiornaMovimentiUsciteDaFiltro(createNomiColonne(), mov);
 							return mov;
@@ -101,5 +102,10 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 	@Override
 	public JDialog getDialog() {
 		return dialog;
+	}
+
+	@Override
+	protected String getTipo() {
+		return SingleSpesa.NOME_TABELLA;
 	}
 }
