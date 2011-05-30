@@ -118,10 +118,12 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {
-				dialog = ascoltatore.getDialog();
-				dialog.setSize(400, 220);
-				dialog.setVisible(true);
-				dialog.setModalityType(ModalityType.APPLICATION_MODAL);
+				DialogUsciteMov dialogNew = ascoltatore.getDialog();
+				// dialog = ascoltatore.getDialog();
+				System.out.println((dialogNew).getIdSpesa().getText());
+				dialogNew.setSize(400, 220);
+				dialogNew.setVisible(true);
+				dialogNew.setModalityType(ModalityType.APPLICATION_MODAL);
 				try {
 					Database.aggiornamentoGenerale(getTipo());
 				} catch (final Exception e1) {
