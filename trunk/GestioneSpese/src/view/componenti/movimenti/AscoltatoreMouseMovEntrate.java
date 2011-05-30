@@ -4,21 +4,20 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import domain.wrapper.Model;
+import domain.wrapper.WrapEntrate;
 
 public class AscoltatoreMouseMovEntrate implements MouseListener {
 
 	private DialogEntrateMov dialog;
 	private final JTable     tabella;
 
-	public AscoltatoreMouseMovEntrate(final JTable tabella, final JDialog dialog) {
+	public AscoltatoreMouseMovEntrate(final JTable tabella) {
 		super();
 		this.tabella = tabella;
-		this.dialog = (DialogEntrateMov) dialog;
 	}
 
 	@Override
@@ -26,6 +25,7 @@ public class AscoltatoreMouseMovEntrate implements MouseListener {
 
 		// JTable table = ListaMovEntrat.getTable();
 		final JTable table = tabella;
+		dialog = new DialogEntrateMov(new WrapEntrate());
 		if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 1
 		                && (e.getSource() == table)) {
 			final JTable tabella = (JTable) e.getSource();
