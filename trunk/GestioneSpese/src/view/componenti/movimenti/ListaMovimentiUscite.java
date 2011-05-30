@@ -1,5 +1,6 @@
 package view.componenti.movimenti;
 
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
@@ -9,6 +10,7 @@ import javax.swing.JDialog;
 import javax.swing.JTable;
 
 import business.AltreUtil;
+import business.Database;
 import business.cache.CacheCategorie;
 import domain.CatSpese;
 import domain.Entrate;
@@ -67,7 +69,7 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 						@Override
 						public String[][] getMovimenti() {
 							final Vector<SingleSpesa> uscite = Model.getSingleton().getModelUscita()
-									.movimentiUsciteFiltrate(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
+							                .movimentiUsciteFiltrate(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
 							final String[][] mov = Model.getSingleton().movimentiFiltratiUscitePerNumero(Entrate.NOME_TABELLA, uscite);
 							Model.aggiornaMovimentiUsciteDaFiltro(createNomiColonne(), mov);
 							return mov;
@@ -97,6 +99,41 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 
 			}
 		};
+	}
+
+	{
+		deleteButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(final ActionEvent e) {
+				try {
+					dialog = getDialog();
+					dialog.setSize(400, 220);
+					dialog.setVisible(true);
+					dialog.setModalityType(ModalityType.APPLICATION_MODAL);
+					Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
+				} catch (final Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		updateButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(final ActionEvent e) {
+				dialog = getDialog();
+				dialog.setSize(400, 220);
+				dialog.setVisible(true);
+				dialog.setModalityType(ModalityType.APPLICATION_MODAL);
+				try {
+					Database.aggiornamentoGenerale(getTipo());
+				} catch (final Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+
 	}
 
 	@Override

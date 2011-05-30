@@ -14,8 +14,8 @@ import domain.CatSpese;
 
 public class AscoltatoreMouseMovUscite implements MouseListener {
 
-	private final DialogUsciteMov dialog;
-	private final JTable          tabella;
+	private DialogUsciteMov dialog;
+	private final JTable    tabella;
 
 	public AscoltatoreMouseMovUscite(final JTable tabella, final JDialog dialog) {
 		super();
@@ -77,6 +77,14 @@ public class AscoltatoreMouseMovUscite implements MouseListener {
 	public void mouseExited(final MouseEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	protected DialogUsciteMov getDialog() {
+		return dialog;
+	}
+
+	protected void setDialog(final DialogUsciteMov dialog) {
+		this.dialog = dialog;
 	}
 
 }
