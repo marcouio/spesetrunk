@@ -19,16 +19,16 @@ import view.font.TextFieldF;
 public abstract class AbstractListaMov extends view.OggettoVistaBase {
 
 	private static final long serialVersionUID = 1L;
-	int numMovimenti = 10;
-	private JTable table;
-	private JTable table1;
-	private JScrollPane scrollPane;
-	protected JTextField campo;
-	String[][] movimenti;
-	protected ButtonF pulsanteNMovimenti;
-	protected JDialog dialog;
-	protected ButtonF updateButton;
-	protected ButtonF deleteButton;
+	int                       numMovimenti     = 10;
+	JTable                    table;
+	private JTable            table1;
+	private JScrollPane       scrollPane;
+	protected JTextField      campo;
+	String[][]                movimenti;
+	protected ButtonF         pulsanteNMovimenti;
+	protected JDialog         dialog;
+	protected ButtonF         updateButton;
+	protected ButtonF         deleteButton;
 
 	protected void setMovimenti(final String[][] movimenti) {
 		this.movimenti = movimenti;

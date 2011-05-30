@@ -43,14 +43,7 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 	@Override
 	public void impostaTableSpecifico(final JTable table) {
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		// table.getColumn("idEntrate").setPreferredWidth(70);
-		// table.getColumn("euro").setPreferredWidth(90);
-		// table.getColumn("nome").setPreferredWidth(120);
-		// table.getColumn("data").setPreferredWidth(120);
-		// table.getColumn("descrizione").setPreferredWidth(250);
-		// table.getColumn("inserimento").setPreferredWidth(120);
-		// this.dialog = createDialog();
-		table.addMouseListener(new AscoltatoreMouseMovEntrate(table, this.getDialog()));
+		table.addMouseListener(new AscoltatoreMouseMovEntrate(table, dialog));
 	}
 
 	@Override
@@ -67,7 +60,7 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 						@Override
 						public String[][] getMovimenti() {
 							final Vector<Entrate> entrate = Model.getSingleton().getModelEntrate()
-									.movimentiEntrateFiltrati(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
+							                .movimentiEntrateFiltrati(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
 							final String[][] mov = Model.getSingleton().movimentiFiltratiEntratePerNumero(Entrate.NOME_TABELLA, entrate);
 							Model.aggiornaMovimentiEntrateDaFiltro(createNomiColonne(), mov);
 							return mov;
@@ -111,7 +104,6 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 			@Override
 			public void actionPerformed(final ActionEvent e) {
 				try {
-					dialog = getDialog();
 					dialog.setSize(400, 220);
 					dialog.setVisible(true);
 					dialog.setModalityType(ModalityType.APPLICATION_MODAL);
@@ -126,7 +118,6 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {
-				dialog = getDialog();
 				dialog.setSize(400, 220);
 				dialog.setVisible(true);
 				dialog.setModalityType(ModalityType.APPLICATION_MODAL);

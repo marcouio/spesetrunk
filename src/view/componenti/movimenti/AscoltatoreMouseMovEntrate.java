@@ -12,8 +12,8 @@ import domain.wrapper.Model;
 
 public class AscoltatoreMouseMovEntrate implements MouseListener {
 
-	private final DialogEntrateMov dialog;
-	private final JTable           tabella;
+	private DialogEntrateMov dialog;
+	private final JTable     tabella;
 
 	public AscoltatoreMouseMovEntrate(final JTable tabella, final JDialog dialog) {
 		super();
@@ -77,6 +77,14 @@ public class AscoltatoreMouseMovEntrate implements MouseListener {
 	public void mouseExited(final MouseEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	protected DialogEntrateMov getDialog() {
+		return dialog;
+	}
+
+	protected void setDialog(final DialogEntrateMov dialog) {
+		this.dialog = dialog;
 	}
 
 }
