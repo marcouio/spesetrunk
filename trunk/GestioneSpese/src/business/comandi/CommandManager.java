@@ -26,6 +26,9 @@ public class CommandManager {
 
 	public boolean undo(final String tipo) {
 		if (history.size() > 0 && indiceCorrente > -1) {
+			if (indiceCorrente > (history.size() - 1)) {
+				indiceCorrente = history.size() - 1;
+			}
 
 			final AbstractCommand comando = history.get(indiceCorrente);
 			if (comando.undoCommand(tipo)) {
@@ -40,7 +43,10 @@ public class CommandManager {
 
 	public boolean redo(final String tipo) {
 
-		if (history.size() > 0 && indiceCorrente > -1 && indiceCorrente < history.size()) {
+		if (history.size() > 0 && indiceCorrente >= -1 && indiceCorrente < history.size()) {
+			if (indiceCorrente == -1) {
+				indiceCorrente = 0;
+			}
 			final AbstractCommand comando = history.get(indiceCorrente);
 			if (comando.doCommand(tipo)) {
 				System.out.println("operazione undo su comando all'indice: " + indiceCorrente);
