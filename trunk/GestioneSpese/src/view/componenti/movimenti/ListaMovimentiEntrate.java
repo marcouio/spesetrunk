@@ -1,6 +1,5 @@
 package view.componenti.movimenti;
 
-import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -8,18 +7,14 @@ import java.util.Vector;
 
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JTable;
 
 import business.AltreUtil;
-import business.Database;
 import domain.Entrate;
 import domain.wrapper.Model;
-import domain.wrapper.WrapEntrate;
 
 public class ListaMovimentiEntrate extends AbstractListaMov {
 
-	private static final long          serialVersionUID = 1L;
-	private AscoltatoreMouseMovEntrate ascoltatore;
+	private static final long serialVersionUID = 1L;
 
 	public ListaMovimentiEntrate() {
 		super();
@@ -37,15 +32,9 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 	}
 
 	@Override
-	public DialogEntrateMov createDialog() {
-		return new DialogEntrateMov(new WrapEntrate());
-	}
-
-	@Override
-	public void impostaTableSpecifico(final JTable table) {
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		ascoltatore = new AscoltatoreMouseMovEntrate(table);
-		table.addMouseListener(ascoltatore);
+	public void impostaTableSpecifico() {
+		// this.getTable().setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		// this.getTable().addMouseListener(ascoltatore);
 	}
 
 	@Override
@@ -62,7 +51,7 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 						@Override
 						public String[][] getMovimenti() {
 							final Vector<Entrate> entrate = Model.getSingleton().getModelEntrate()
-							                .movimentiEntrateFiltrati(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
+									.movimentiEntrateFiltrati(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
 							final String[][] mov = Model.getSingleton().movimentiFiltratiEntratePerNumero(Entrate.NOME_TABELLA, entrate);
 							Model.aggiornaMovimentiEntrateDaFiltro(createNomiColonne(), mov);
 							return mov;
@@ -100,56 +89,9 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 		};
 	}
 
-	{
-		deleteButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(final ActionEvent e) {
-				try {
-					dialog = ascoltatore.getDialog();
-					dialog.setSize(400, 220);
-					dialog.setVisible(true);
-					dialog.setModalityType(ModalityType.APPLICATION_MODAL);
-					Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
-				} catch (final Exception e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-
-		updateButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(final ActionEvent e) {
-				dialog = ascoltatore.getDialog();
-				dialog.setSize(400, 220);
-				dialog.setVisible(true);
-				dialog.setModalityType(ModalityType.APPLICATION_MODAL);
-				try {
-					Database.aggiornamentoGenerale(getTipo());
-				} catch (final Exception e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-
-	}
-
-	@Override
-	public JDialog getDialog() {
-		return dialog = createDialog();
-	}
-
 	@Override
 	protected String getTipo() {
 		return Entrate.NOME_TABELLA;
 	}
 
-	protected AscoltatoreMouseMovEntrate getAscoltatore() {
-		return ascoltatore;
-	}
-
-	protected void setAscoltatore(final AscoltatoreMouseMovEntrate ascoltatore) {
-		this.ascoltatore = ascoltatore;
-	}
 }

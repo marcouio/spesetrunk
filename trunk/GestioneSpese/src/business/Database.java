@@ -714,7 +714,7 @@ public class Database {
 		if (tipo.equals(SingleSpesa.NOME_TABELLA)) {
 			final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(SingleSpesa.NOME_TABELLA);
 			aggiornaTabellaUscite();
-			Model.aggiornaMovimentiUsciteDaEsterno(nomiColonne, 10);
+			Model.aggiornaMovimentiUsciteDaEsterno(nomiColonne, 25);
 			if (SottoPannelloDatiSpese.getMeseInCors() != null) {
 				SottoPannelloDatiSpese.getMeseInCors().setText(Double.toString(MensileInCorso()));
 				SottoPannelloDatiSpese.getMesePrecUsc().setText(Double.toString(Mensile()));
@@ -723,7 +723,7 @@ public class Database {
 			}
 		} else if (tipo.equals(Entrate.NOME_TABELLA)) {
 			final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
-			Model.aggiornaMovimentiEntrateDaEsterno(nomiColonne, 10);
+			Model.aggiornaMovimentiEntrateDaEsterno(nomiColonne, 25);
 			aggiornaTabellaEntrate();
 			if (SottoPannelloDatiEntrate.getEnAnCorso() != null) {
 				SottoPannelloDatiEntrate.getEnAnCorso().setText(Double.toString(EAnnuale()));

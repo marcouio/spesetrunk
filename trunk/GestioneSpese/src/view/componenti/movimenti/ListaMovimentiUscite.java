@@ -1,27 +1,22 @@
 package view.componenti.movimenti;
 
-import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JTable;
 
 import business.AltreUtil;
-import business.Database;
 import business.cache.CacheCategorie;
 import domain.CatSpese;
 import domain.Entrate;
 import domain.SingleSpesa;
 import domain.wrapper.Model;
-import domain.wrapper.WrapSingleSpesa;
 
 public class ListaMovimentiUscite extends AbstractListaMov {
 
-	private static final long         serialVersionUID = 1L;
-	private AscoltatoreMouseMovUscite ascoltatore;
+	private static final long serialVersionUID = 1L;
 
 	public ListaMovimentiUscite() {
 		super();
@@ -39,15 +34,7 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 	}
 
 	@Override
-	public DialogUsciteMov createDialog() {
-		return new DialogUsciteMov(new WrapSingleSpesa());
-	}
-
-	@Override
-	public void impostaTableSpecifico(final JTable table) {
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		ascoltatore = new AscoltatoreMouseMovUscite(table);
-		table.addMouseListener(ascoltatore);
+	public void impostaTableSpecifico() {
 
 	}
 
@@ -64,7 +51,7 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 						@Override
 						public String[][] getMovimenti() {
 							final Vector<SingleSpesa> uscite = Model.getSingleton().getModelUscita()
-							                .movimentiUsciteFiltrate(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
+									.movimentiUsciteFiltrate(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
 							final String[][] mov = Model.getSingleton().movimentiFiltratiUscitePerNumero(Entrate.NOME_TABELLA, uscite);
 							Model.aggiornaMovimentiUsciteDaFiltro(createNomiColonne(), mov);
 							return mov;
@@ -96,59 +83,8 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 		};
 	}
 
-	{
-		deleteButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(final ActionEvent e) {
-				try {
-
-					dialog = ascoltatore.getDialog();
-					dialog.setSize(400, 220);
-					dialog.setVisible(true);
-					dialog.setModalityType(ModalityType.APPLICATION_MODAL);
-					Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
-				} catch (final Exception e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-
-		updateButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(final ActionEvent e) {
-				DialogUsciteMov dialogNew = ascoltatore.getDialog();
-				// dialog = ascoltatore.getDialog();
-				System.out.println((dialogNew).getIdSpesa().getText());
-				dialogNew.setSize(400, 220);
-				dialogNew.setVisible(true);
-				dialogNew.setModalityType(ModalityType.APPLICATION_MODAL);
-				try {
-					Database.aggiornamentoGenerale(getTipo());
-				} catch (final Exception e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-
-	}
-
-	@Override
-	public JDialog getDialog() {
-		return dialog;
-	}
-
 	@Override
 	protected String getTipo() {
 		return SingleSpesa.NOME_TABELLA;
-	}
-
-	protected AscoltatoreMouseMovUscite getAscoltatore() {
-		return ascoltatore;
-	}
-
-	protected void setAscoltatore(final AscoltatoreMouseMovUscite ascoltatore) {
-		this.ascoltatore = ascoltatore;
 	}
 }

@@ -17,18 +17,18 @@ import view.font.TableF;
 import view.font.TextFieldF;
 
 public abstract class AbstractListaMov extends view.OggettoVistaBase {
-
 	private static final long serialVersionUID = 1L;
-	int                       numMovimenti     = 10;
-	JTable                    table;
-	private JTable            table1;
-	private JScrollPane       scrollPane;
-	protected JTextField      campo;
-	String[][]                movimenti;
-	protected ButtonF         pulsanteNMovimenti;
-	protected JDialog         dialog;
-	protected ButtonF         updateButton;
-	protected ButtonF         deleteButton;
+	int numMovimenti = 10;
+	TableF table;
+	private JScrollPane scrollPane;
+	protected JTextField campo;
+	String[][] movimenti;
+	protected ButtonF pulsanteNMovimenti;
+	protected JDialog dialog;
+	protected ButtonF updateButton;
+	protected ButtonF deleteButton;
+
+	private AscoltatoreBottoniEntrata ascoltatore;
 
 	protected void setMovimenti(final String[][] movimenti) {
 		this.movimenti = movimenti;
@@ -45,7 +45,6 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 
 	public AbstractListaMov() {
 		super();
-		this.dialog = createDialog();
 		initGUI();
 	}
 
@@ -72,6 +71,11 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 
 			table = new TableF(movimenti, nomiColonne);
 			impostaTable(table);
+			if (this instanceof ListaMovimentiEntrate) {
+				table.addMouseListener(new AscoltatoreBottoniEntrata(this.getTable()));
+			} else if (this instanceof ListaMovimentiUscite) {
+				table.addMouseListener(new AscoltatoreBottoniUscita(this.getTable()));
+			}
 
 			// Create the scroll pane and add the table to it.
 			scrollPane = new JScrollPane();
@@ -81,24 +85,12 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 			this.add(scrollPane);
 			scrollPane.setBounds(21, 38, 948, 386);
 
-			updateButton = new ButtonF();
-			this.add(updateButton);
-			updateButton.setText("Aggiorna");
-			updateButton.setBounds(780, 438, 95, 21);
-
-			deleteButton = new ButtonF();
-			this.add(deleteButton);
-			deleteButton.setText("Cancella");
-			deleteButton.setBounds(887, 438, 82, 21);
-
 			final ButtonF btnFiltraMovimenti = new ButtonF();
 			btnFiltraMovimenti.setText("Filtra Movimenti");
 			btnFiltraMovimenti.setBounds(277, 8, 179, 25);
 			btnFiltraMovimenti.addActionListener(getListener());
 
 			add(btnFiltraMovimenti);
-
-			// TODO implementare actionlistener all'interno delle sottoclassi
 
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -108,8 +100,6 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 
 	protected abstract String getTipo();
 
-	public abstract JDialog getDialog();
-
 	public abstract ActionListener getListener();
 
 	private void impostaTable(final JTable table2) {
@@ -118,16 +108,16 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 		table2.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table2.setRowHeight(26);
 		table2.setBounds(0, 100, 900, 300);
-		impostaTableSpecifico(table2);
+		table2.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		table2.addMouseListener(ascoltatore);
+		impostaTableSpecifico();
 	}
 
-	public abstract void impostaTableSpecifico(JTable table);
+	public abstract void impostaTableSpecifico();
 
 	public abstract String[][] createMovimenti();
 
 	public abstract String[] createNomiColonne();
-
-	public abstract JDialog createDialog();
 
 	public JTextField getCampo() {
 		return campo;
@@ -145,14 +135,6 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 		this.numMovimenti = numEntry;
 	}
 
-	public JTable getTable1() {
-		return table1;
-	}
-
-	public void setTable1(final JTable table1) {
-		this.table1 = table1;
-	}
-
 	public JScrollPane getScrollPane() {
 		return scrollPane;
 	}
@@ -161,11 +143,12 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 		this.scrollPane = scrollPane;
 	}
 
-	public JTable getTable() {
+	public TableF getTable() {
 		return table;
 	}
 
-	public void setTable(final JTable table) {
+	public void setTable(final TableF table) {
 		this.table = table;
 	}
+
 }

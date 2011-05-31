@@ -18,34 +18,44 @@ public class TableF extends JTable {
 		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
 	}
 
-	public TableF(TableModel dm) {
+	public TableF(final TableModel dm) {
 		super(dm);
 		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
 	}
 
-	public TableF(TableModel dm, TableColumnModel cm) {
+	public TableF(final TableModel dm, final TableColumnModel cm) {
 		super(dm, cm);
 		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
 	}
 
-	public TableF(int numRows, int numColumns) {
+	public TableF(final int numRows, final int numColumns) {
 		super(numRows, numColumns);
 		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
 	}
 
-	public TableF(Vector rowData, Vector columnNames) {
+	public TableF(final Vector rowData, final Vector columnNames) {
 		super(rowData, columnNames);
 		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
 	}
 
-	public TableF(Object[][] rowData, Object[] columnNames) {
+	public TableF(final Object[][] rowData, final Object[] columnNames) {
 		super(rowData, columnNames);
 		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
 	}
 
-	public TableF(TableModel dm, TableColumnModel cm, ListSelectionModel sm) {
+	public TableF(final TableModel dm, final TableColumnModel cm, final ListSelectionModel sm) {
 		super(dm, cm, sm);
 		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public int getRowHeight() {
+		return 26;
+	}
+
+	@Override
+	public boolean isCellEditable(final int row, final int column) {
+		return false;
 	}
 
 }
