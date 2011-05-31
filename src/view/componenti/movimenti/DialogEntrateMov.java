@@ -165,15 +165,15 @@ public class DialogEntrateMov extends AbstractEntrateView {
 
 	@Override
 	public void update(final Observable o, final Object arg) {
-		tfNome.setText(getcNome());
-		taDescrizione.setText(getcDescrizione());
-		cbTipoEntrata.setSelectedItem(getFisseOVar());
-		tfData.setText(getcData());
-		tfEuro.setText(getdEuro().toString());
+		// tfNome.setText(getcNome());
+		// taDescrizione.setText(getcDescrizione());
+		// cbTipoEntrata.setSelectedItem(getFisseOVar());
+		// tfData.setText(getcData());
+		// tfEuro.setText(getdEuro().toString());
 
 	}
 
-	private void setEntrate() {
+	public void setEntrate() {
 		setDataIns(tfDataIns.getText());
 		setnEntrate(idEntrate.getText());
 		setcNome(tfNome.getText());
@@ -223,7 +223,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 				if (nonEsistonoCampiNonValorizzati()) {
 					if (Controllore.getSingleton().getCommandManager()
 							.invocaComando(new CommandUpdateEntrata(oldEntrata, (IEntrate) modelEntrate.getentitaPadre()), Entrate.NOME_TABELLA)) {
-						JOptionPane.showMessageDialog(null, "Ok, entrata inserita correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Ok, operazione eseguita correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
 						try {
 							Model.aggiornaMovimentiEntrateDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
 						} catch (final Exception e22) {

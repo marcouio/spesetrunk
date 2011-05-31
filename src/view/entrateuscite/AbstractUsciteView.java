@@ -4,6 +4,7 @@ import java.util.Observer;
 
 import javax.swing.JDialog;
 
+import business.CorreggiTesto;
 import domain.CatSpese;
 import domain.Utenti;
 import domain.wrapper.WrapSingleSpesa;
@@ -11,7 +12,7 @@ import domain.wrapper.WrapSingleSpesa;
 public abstract class AbstractUsciteView extends JDialog implements Observer {
 
 	public static final long serialVersionUID = 1L;
-	public WrapSingleSpesa   modelUscita      = null;
+	public WrapSingleSpesa modelUscita = null;
 
 	public WrapSingleSpesa getModelUscita() {
 		return modelUscita;
@@ -30,7 +31,8 @@ public abstract class AbstractUsciteView extends JDialog implements Observer {
 	}
 
 	protected void setcNome(final String cNome) {
-		modelUscita.setnome(cNome);
+		final CorreggiTesto correttoreTesto = new CorreggiTesto(cNome);
+		modelUscita.setnome(correttoreTesto.getTesto());
 	}
 
 	protected String getcData() {
@@ -54,7 +56,8 @@ public abstract class AbstractUsciteView extends JDialog implements Observer {
 	}
 
 	public void setcDescrizione(final String cDescrizione) {
-		modelUscita.setdescrizione(cDescrizione);
+		final CorreggiTesto correttoreTesto = new CorreggiTesto(cDescrizione);
+		modelUscita.setdescrizione(correttoreTesto.getTesto());
 	}
 
 	public Utenti getUtenti() {

@@ -4,15 +4,16 @@ import java.util.Observer;
 
 import javax.swing.JDialog;
 
+import business.CorreggiTesto;
 import domain.Utenti;
 import domain.wrapper.WrapEntrate;
 
 public abstract class AbstractEntrateView extends JDialog implements Observer {
 
 	private static final long serialVersionUID = 1703525939065075165L;
-	public WrapEntrate        modelEntrate     = null;
+	public WrapEntrate modelEntrate = null;
 
-	public AbstractEntrateView(WrapEntrate modelEntrate) {
+	public AbstractEntrateView(final WrapEntrate modelEntrate) {
 		this.modelEntrate = modelEntrate;
 	}
 
@@ -20,7 +21,7 @@ public abstract class AbstractEntrateView extends JDialog implements Observer {
 		return modelEntrate;
 	}
 
-	public void setModelEntrate(WrapEntrate modelEntrate) {
+	public void setModelEntrate(final WrapEntrate modelEntrate) {
 		this.modelEntrate = modelEntrate;
 	}
 
@@ -28,15 +29,16 @@ public abstract class AbstractEntrateView extends JDialog implements Observer {
 		return modelEntrate.getnome();
 	}
 
-	protected void setcNome(String cNome) {
-		modelEntrate.setnome(cNome);
+	protected void setcNome(final String cNome) {
+		final CorreggiTesto correttoreTesto = new CorreggiTesto(cNome);
+		modelEntrate.setnome(correttoreTesto.getTesto());
 	}
 
 	protected String getcData() {
 		return modelEntrate.getdata();
 	}
 
-	protected void setcData(String cData) {
+	protected void setcData(final String cData) {
 		modelEntrate.setdata(cData);
 	}
 
@@ -44,7 +46,7 @@ public abstract class AbstractEntrateView extends JDialog implements Observer {
 		return modelEntrate.getinEuro();
 	}
 
-	protected void setdEuro(Double dEuro) {
+	protected void setdEuro(final Double dEuro) {
 		modelEntrate.setinEuro(dEuro);
 	}
 
@@ -52,15 +54,16 @@ public abstract class AbstractEntrateView extends JDialog implements Observer {
 		return modelEntrate.getdescrizione();
 	}
 
-	public void setcDescrizione(String cDescrizione) {
-		modelEntrate.setdescrizione(cDescrizione);
+	public void setcDescrizione(final String cDescrizione) {
+		final CorreggiTesto correttoreTesto = new CorreggiTesto(cDescrizione);
+		modelEntrate.setdescrizione(correttoreTesto.getTesto());
 	}
 
 	public Utenti getUtenti() {
 		return modelEntrate.getUtenti();
 	}
 
-	public void setUtenti(Utenti utente) {
+	public void setUtenti(final Utenti utente) {
 		modelEntrate.setUtenti(utente);
 	}
 
@@ -68,19 +71,20 @@ public abstract class AbstractEntrateView extends JDialog implements Observer {
 		return modelEntrate.getFisseoVar();
 	}
 
-	public void setFisseOVar(String FisseVar) {
-		modelEntrate.setFisseoVar(FisseVar);
+	public void setFisseOVar(final String FisseVar) {
+		final CorreggiTesto correttoreTesto = new CorreggiTesto(FisseVar);
+		modelEntrate.setFisseoVar(correttoreTesto.getTesto());
 	}
 
 	public String getDataIns() {
 		return modelEntrate.getDataIns();
 	}
 
-	public void setDataIns(String date) {
+	public void setDataIns(final String date) {
 		modelEntrate.setDataIns(date);
 	}
 
-	public void setnEntrate(String idEntrata) {
+	public void setnEntrate(final String idEntrata) {
 		modelEntrate.setidEntrate(Integer.parseInt(idEntrata));
 	}
 }

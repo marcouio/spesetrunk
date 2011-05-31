@@ -14,43 +14,52 @@ import javax.swing.JOptionPane;
 
 public class AltreUtil {
 
-	static Logger      log;
+	static Logger log;
 	static FileHandler fileLog;
 
-	public static boolean checkDouble(String Doble) {
+	public static boolean checkInteger(final String integer) {
 		boolean ok = true;
 		try {
-			AltreUtil.arrotondaDecimaliDouble(Double.parseDouble(Doble));
-		} catch (Exception e) {
+			new Integer(integer);
+		} catch (final Exception e) {
 			ok = false;
 		}
 		return ok;
 	}
 
-	public static boolean checkData(String data) {
+	public static boolean checkDouble(final String Doble) {
+		boolean ok = true;
+		try {
+			AltreUtil.arrotondaDecimaliDouble(Double.parseDouble(Doble));
+		} catch (final Exception e) {
+			ok = false;
+		}
+		return ok;
+	}
+
+	public static boolean checkData(final String data) {
 		boolean ok = true;
 		if (data != null) {
 			try {
-				int anno = Integer.parseInt(data.substring(0, 4));
-				int mese = Integer.parseInt(data.substring(5, 7));
-				int giorno = Integer.parseInt(data.substring(8, 10));
+				final int anno = Integer.parseInt(data.substring(0, 4));
+				final int mese = Integer.parseInt(data.substring(5, 7));
+				final int giorno = Integer.parseInt(data.substring(8, 10));
 				new GregorianCalendar(anno, mese, giorno);
 
-			} catch (NumberFormatException e2) {
+			} catch (final NumberFormatException e2) {
 				ok = false;
-				JOptionPane.showMessageDialog(null, "Inserire la data con valori numerici e con il formato suggerito: AAAA/MM/GG",
-				                            "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
+				JOptionPane.showMessageDialog(null, "Inserire la data con valori numerici e con il formato suggerito: AAAA/MM/GG", "Non ci siamo!", JOptionPane.ERROR_MESSAGE,
+						new ImageIcon("imgUtil/index.jpeg"));
 				log.severe("La data non e' inserita in maniera corretta: " + e2.getMessage());
-			} catch (IllegalArgumentException e1) {
+			} catch (final IllegalArgumentException e1) {
 				ok = false;
 				JOptionPane.showMessageDialog(null, "Non hai inserito una data!", "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("immgUtil/index.jpeg"));
 				log.severe("La data non e' inserita in maniera corretta: " + e1.getMessage());
-			} catch (StringIndexOutOfBoundsException e3) {
+			} catch (final StringIndexOutOfBoundsException e3) {
 				ok = false;
-				JOptionPane.showMessageDialog(null, "Numero di caratteri errato per una data: " + e3.getMessage(), "Non ci siamo!",
-				                JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
-				log.severe("La data non e' inserita in maniera corretta: "
-				                + e3.getMessage());
+				JOptionPane.showMessageDialog(null, "Numero di caratteri errato per una data: " + e3.getMessage(), "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon(
+						"imgUtil/index.jpeg"));
+				log.severe("La data non e' inserita in maniera corretta: " + e3.getMessage());
 			}
 		} else {
 			ok = false;
@@ -69,15 +78,15 @@ public class AltreUtil {
 	 * @param d
 	 * @return un double arrotondato a due cifre
 	 */
-	public static double arrotondaDecimaliDouble(double d) {
+	public static double arrotondaDecimaliDouble(final double d) {
 		String arrotondato = null;
 		double decimaleArrotondato = 0;
-		String stringaDouble = Double.toString(d);
-		String interi = stringaDouble.substring(0, stringaDouble.indexOf("."));
-		double parteIntera = Double.parseDouble(interi);
-		double parteDecimali = d - parteIntera;
+		final String stringaDouble = Double.toString(d);
+		final String interi = stringaDouble.substring(0, stringaDouble.indexOf("."));
+		final double parteIntera = Double.parseDouble(interi);
+		final double parteDecimali = d - parteIntera;
 		if (parteDecimali * 100 != 0) {
-			double decimaliDaArrotondare = parteDecimali * 100;
+			final double decimaliDaArrotondare = parteDecimali * 100;
 			arrotondato = Long.toString(Math.round(decimaliDaArrotondare));
 			decimaleArrotondato = (Double.parseDouble(arrotondato)) / 100;
 		}
@@ -91,15 +100,15 @@ public class AltreUtil {
 	 * @return
 	 */
 	public static Logger getLog() {
-		if (log == null)
+		if (log == null) {
 			setLog();
-		else {
+		} else {
 			log = Logger.getLogger("com.entrateUscite2.0");
 		}
 		return log;
 	}
 
-	public static void setLog(Logger log) {
+	public static void setLog(final Logger log) {
 		AltreUtil.log = log;
 	}
 
@@ -107,25 +116,24 @@ public class AltreUtil {
 
 	}
 
-	public static String[] deleteFileDaDirectory2(String Dir) {
-		File dir = new File(Dir);
-		String[] files = dir.list();
+	public static String[] deleteFileDaDirectory2(final String Dir) {
+		final File dir = new File(Dir);
+		final String[] files = dir.list();
 
 		for (int i = 0; i < files.length; i++) {
-			File f = new File(dir, files[i]);
+			final File f = new File(dir, files[i]);
 			f.delete();
 		}
 		return files;
 	}
 
-	public static String[] deleteFileDaDirectory(String Dir, String treCharIniziali) {
-		File dir = new File(Dir);
-		String[] files = dir.list();
+	public static String[] deleteFileDaDirectory(final String Dir, final String treCharIniziali) {
+		final File dir = new File(Dir);
+		final String[] files = dir.list();
 
 		for (int i = 0; i < files.length; i++) {
-			File f = new File(dir, files[i]);
-			if (f.isDirectory() == false
-			                && f.getName().substring(0, 3).equals(treCharIniziali)) {
+			final File f = new File(dir, files[i]);
+			if (f.isDirectory() == false && f.getName().substring(0, 3).equals(treCharIniziali)) {
 				f.delete();
 			}
 
@@ -146,9 +154,9 @@ public class AltreUtil {
 			fileLog = new FileHandler("MyLog.txt", 50000, 1, true);
 			// fileLog = new FileHandler("Log/MyLog.txt",50000,1,true);
 			fileLog.setFormatter(new SimpleFormatter());
-		} catch (SecurityException e) {
+		} catch (final SecurityException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 		log.addHandler(fileLog);
@@ -165,12 +173,13 @@ public class AltreUtil {
 	 * @param tabella
 	 * @return Object[]
 	 */
-	public static Object[] generaNomiColonne(String tabella) {
+	public static Object[] generaNomiColonne(final String tabella) {
 		// nomi delle colonne
-		Vector<String> nomi = Database.getSingleton().nomiColonne(tabella);
+		final Vector<String> nomi = Database.getSingleton().nomiColonne(tabella);
 		final String[] nomiColonne = new String[nomi.size()];
-		for (int i = 0; i < nomi.size(); i++)
+		for (int i = 0; i < nomi.size(); i++) {
 			nomiColonne[i] = nomi.get(i);
+		}
 		return nomiColonne;
 	}
 

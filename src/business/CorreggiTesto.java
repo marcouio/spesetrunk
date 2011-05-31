@@ -4,22 +4,27 @@ public class CorreggiTesto {
 
 	private String testo;
 
-	public CorreggiTesto(String testo) {
+	public CorreggiTesto() {
+	}
+
+	public CorreggiTesto(final String testo) {
 		this.testo = testo;
 		checkApici();
 	}
 
-	private void checkApici() {
+	public String checkApici() {
 		if (testo.contains("'")) {
-			testo.replace("'", "\'");
+			final String nuovoTesto = testo.replace("'", "");
+			testo = nuovoTesto;
 		}
+		return testo;
 	}
 
 	public String getTesto() {
 		return testo;
 	}
 
-	public void setTesto(String testo) {
+	public void setTesto(final String testo) {
 		this.testo = testo;
 	}
 

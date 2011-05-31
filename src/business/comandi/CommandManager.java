@@ -12,9 +12,9 @@ import business.InizializzatoreFinestre;
 
 public class CommandManager {
 
-	private ArrayList<AbstractCommand> history  = new ArrayList<AbstractCommand>();
-	private int                        indiceCorrente;
-	private static CommandManager      instance = new CommandManager();
+	private ArrayList<AbstractCommand> history = new ArrayList<AbstractCommand>();
+	private int indiceCorrente;
+	private static CommandManager instance = new CommandManager();
 
 	private CommandManager() {
 
@@ -25,34 +25,28 @@ public class CommandManager {
 	}
 
 	public boolean undo(final String tipo) {
-		if (history.size() > 0 && indiceCorrente > -1
-		                && indiceCorrente < history.size()) {
+		if (history.size() > 0 && indiceCorrente > -1) {
+
 			final AbstractCommand comando = history.get(indiceCorrente);
-			if (indiceCorrente > 0) {
-				if (comando.undoCommand(tipo)) {
-					System.out
-					                .println("operazione undo su comando all'indice: "
-					                                + indiceCorrente);
-					indiceCorrente--;
-					System.out.println("indice spostato a: " + indiceCorrente);
-					return true;
-				}
+			if (comando.undoCommand(tipo)) {
+				System.out.println("operazione undo su comando all'indice: " + indiceCorrente);
+				indiceCorrente--;
+				System.out.println("indice spostato a: " + indiceCorrente);
+				return true;
 			}
 		}
 		return false;
 	}
 
 	public boolean redo(final String tipo) {
-		if (history.size() > 0 && indiceCorrente > -1
-		                && indiceCorrente < history.size()) {
+
+		if (history.size() > 0 && indiceCorrente > -1 && indiceCorrente < history.size()) {
 			final AbstractCommand comando = history.get(indiceCorrente);
-			if (indiceCorrente < history.size() - 1) {
-				if (comando.doCommand(tipo)) {
-					System.out.println("operazione undo su comando all'indice: " + indiceCorrente);
-					indiceCorrente++;
-					System.out.println("indice spostato a: " + indiceCorrente);
-					return true;
-				}
+			if (comando.doCommand(tipo)) {
+				System.out.println("operazione undo su comando all'indice: " + indiceCorrente);
+				indiceCorrente++;
+				System.out.println("indice spostato a: " + indiceCorrente);
+				return true;
 			}
 		}
 		return false;
@@ -109,9 +103,9 @@ public class CommandManager {
 		TableF table;
 		JScrollPane scrollPane = null;
 		try {
-			table = ((FinestraListaComandi)Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, null)).getTable();
-			scrollPane = ((FinestraListaComandi)Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, null)).getScrollPane();
-		} catch (Exception e) {
+			table = ((FinestraListaComandi) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, null)).getTable();
+			scrollPane = ((FinestraListaComandi) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, null)).getScrollPane();
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 		table = new TableF(generaDati(), new String[] { "ListaComandi" });

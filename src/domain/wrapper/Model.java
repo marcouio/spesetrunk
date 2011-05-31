@@ -4,10 +4,9 @@ import java.util.Map;
 import java.util.Vector;
 
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
-import view.componenti.movimenti.AscoltatoreMouseMovEntrate;
-import view.componenti.movimenti.AscoltatoreMouseMovUscite;
+import view.componenti.movimenti.AscoltatoreBottoniEntrata;
+import view.componenti.movimenti.AscoltatoreBottoniUscita;
 import view.font.TableF;
 import business.Controllore;
 import business.DBUtil;
@@ -21,21 +20,21 @@ import domain.SingleSpesa;
 
 public class Model {
 
-	private WrapCatSpese            modelCategorie;
-	private WrapGruppi              modelGruppi;
-	private WrapBudget              modelBudget;
-	private WrapEntrate             modelEntrate;
-	private WrapRisparmio           modelRisparmio;
-	private WrapSingleSpesa         modelUscita;
-	private WrapUtenti              modelUtenti;
-	private WrapLookAndFeel         modelLookAndFeel;
-	private static Model            singleton;
-	private static String[][]       primoUscite;
-	private static String[][]       primoEntrate;
-	private static String[]         nomiColonneUscite;
-	private static String[]         nomiColonneEntrate;
-	private static String[][]       movimentiEntrate;
-	private static String[][]       movimentiUscite;
+	private WrapCatSpese modelCategorie;
+	private WrapGruppi modelGruppi;
+	private WrapBudget modelBudget;
+	private WrapEntrate modelEntrate;
+	private WrapRisparmio modelRisparmio;
+	private WrapSingleSpesa modelUscita;
+	private WrapUtenti modelUtenti;
+	private WrapLookAndFeel modelLookAndFeel;
+	private static Model singleton;
+	private static String[][] primoUscite;
+	private static String[][] primoEntrate;
+	private static String[] nomiColonneUscite;
+	private static String[] nomiColonneEntrate;
+	private static String[][] movimentiEntrate;
+	private static String[][] movimentiUscite;
 
 	private static Vector<CatSpese> catSpese = CacheCategorie.getSingleton().getVettoreCategorie();
 
@@ -288,14 +287,16 @@ public class Model {
 				movimentiEntrate[x][6] = entrate.getDataIns();
 			}
 			for (int y = entry1.size(); y < numEntry; y++) {
-				for (int z = 0; z < nomi.size(); z++)
+				for (int z = 0; z < nomi.size(); z++) {
 					movimentiEntrate[y][z] = "0";
+				}
 			}
 		} else {
 			movimentiEntrate = new String[numEntry][nomi.size()];
 			for (int x = 0; x < numEntry; x++) {
-				for (int z = 0; z < nomi.size(); z++)
+				for (int z = 0; z < nomi.size(); z++) {
 					movimentiEntrate[x][z] = "0";
+				}
 			}
 		}
 		DBUtil.closeConnection();
@@ -343,14 +344,16 @@ public class Model {
 				movimentiEntrate[x][6] = entrate.getDataIns();
 			}
 			for (int y = entry1.size(); y < numEntry; y++) {
-				for (int z = 0; z < nomi.size(); z++)
+				for (int z = 0; z < nomi.size(); z++) {
 					movimentiEntrate[y][z] = "0";
+				}
 			}
 		} else {
 			movimentiEntrate = new String[numEntry][nomi.size()];
 			for (int x = 0; x < numEntry; x++) {
-				for (int z = 0; z < nomi.size(); z++)
+				for (int z = 0; z < nomi.size(); z++) {
 					movimentiEntrate[x][z] = "0";
+				}
 			}
 		}
 		DBUtil.closeConnection();
@@ -392,15 +395,17 @@ public class Model {
 				movimentiUscite[x][6] = uscita.getDataIns();
 
 				for (int y = uscite.size(); y < numUscite; y++) {
-					for (int z = 0; z < nomi.size(); z++)
+					for (int z = 0; z < nomi.size(); z++) {
 						movimentiUscite[y][z] = "0";
+					}
 				}
 			}
 		} else {
 			movimentiUscite = new String[numUscite][nomi.size()];
 			for (int x = 0; x < numUscite; x++) {
-				for (int z = 0; z < nomi.size(); z++)
+				for (int z = 0; z < nomi.size(); z++) {
 					movimentiUscite[x][z] = "0";
+				}
 			}
 
 		}
@@ -417,14 +422,13 @@ public class Model {
 	 * @param nomiColonne
 	 * @param numUscite
 	 */
-	public static void aggiornaMovimentiUsciteDaFiltro(final Object[] nomiColonne,
-	                 final String[][] movimenti) {
+	public static void aggiornaMovimentiUsciteDaFiltro(final Object[] nomiColonne, final String[][] movimenti) {
 
-		JTable table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getTable1();
+		TableF table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getTable();
 		table1 = new TableF(movimenti, nomiColonne);
 		final JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getScrollPane();
 		scrollPane.setViewportView(table1);
-		table1.addMouseListener(new AscoltatoreMouseMovUscite(table1));
+		table1.addMouseListener(new AscoltatoreBottoniUscita(table1));
 	}
 
 	/**
@@ -435,15 +439,14 @@ public class Model {
 	 * @param nomiColonne
 	 * @param numUscite
 	 */
-	public static void aggiornaMovimentiUsciteDaEsterno(final Object[] nomiColonne,
-	                final int numUscite) {
+	public static void aggiornaMovimentiUsciteDaEsterno(final Object[] nomiColonne, final int numUscite) {
 
 		final String[][] movimenti = Model.getSingleton().movimentiUscite(numUscite, SingleSpesa.NOME_TABELLA);
-		JTable table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getTable1();
+		TableF table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getTable();
 		table1 = new TableF(movimenti, nomiColonne);
 		final JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getScrollPane();
 		scrollPane.setViewportView(table1);
-		table1.addMouseListener(new AscoltatoreMouseMovUscite(table1));
+		table1.addMouseListener(new AscoltatoreBottoniUscita(table1));
 	}
 
 	/**
@@ -454,14 +457,13 @@ public class Model {
 	 * @param nomiColonne
 	 * @param numEntry
 	 */
-	public static void aggiornaMovimentiEntrateDaFiltro(final Object[] nomiColonne,
-	                final String[][] movimenti) {
+	public static void aggiornaMovimentiEntrateDaFiltro(final Object[] nomiColonne, final String[][] movimenti) {
 
-		JTable table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getTable1();
+		TableF table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getTable();
 		table1 = new TableF(movimenti, nomiColonne);
 		final JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getScrollPane();
 		scrollPane.setViewportView(table1);
-		table1.addMouseListener(new AscoltatoreMouseMovEntrate(table1));
+		table1.addMouseListener(new AscoltatoreBottoniEntrata(table1));
 	}
 
 	/**
@@ -472,15 +474,14 @@ public class Model {
 	 * @param nomiColonne
 	 * @param numEntry
 	 */
-	public static void aggiornaMovimentiEntrateDaEsterno(final Object[] nomiColonne,
-	                final int numEntry) {
+	public static void aggiornaMovimentiEntrateDaEsterno(final Object[] nomiColonne, final int numEntry) {
 
 		final String[][] movimenti = Model.getSingleton().movimentiEntrate(numEntry, Entrate.NOME_TABELLA);
-		JTable table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getTable1();
+		TableF table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getTable();
 		table1 = new TableF(movimenti, nomiColonne);
 		final JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getScrollPane();
 		scrollPane.setViewportView(table1);
-		table1.addMouseListener(new AscoltatoreMouseMovEntrate(table1));
+		table1.addMouseListener(new AscoltatoreBottoniEntrata(table1));
 	}
 
 	/**
@@ -524,15 +525,17 @@ public class Model {
 				movimentiUscite[x][6] = uscita.getDataIns();
 
 				for (int y = uscite.size(); y < numUscite; y++) {
-					for (int z = 0; z < nomi.size(); z++)
+					for (int z = 0; z < nomi.size(); z++) {
 						movimentiUscite[y][z] = "0";
+					}
 				}
 			}
 		} else {
 			movimentiUscite = new String[numUscite][nomi.size()];
 			for (int x = 0; x < numUscite; x++) {
-				for (int z = 0; z < nomi.size(); z++)
+				for (int z = 0; z < nomi.size(); z++) {
 					movimentiUscite[x][z] = "0";
+				}
 			}
 
 		}
