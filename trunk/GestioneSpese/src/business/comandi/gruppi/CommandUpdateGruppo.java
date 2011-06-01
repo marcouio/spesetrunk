@@ -2,7 +2,7 @@ package business.comandi.gruppi;
 
 import java.util.HashMap;
 
-import business.cache.CacheCategorie;
+import business.cache.CacheGruppi;
 import business.comandi.AbstractCommand;
 import domain.AbstractOggettoEntita;
 import domain.Gruppi;
@@ -11,16 +11,16 @@ import domain.wrapper.WrapGruppi;
 
 public class CommandUpdateGruppo extends AbstractCommand {
 
-	final private Gruppi newEntita;
-	final private Gruppi oldEntita;
-	final private WrapGruppi wrap;
+	final private Gruppi                                 newEntita;
+	final private Gruppi                                 oldEntita;
+	final private WrapGruppi                             wrap;
 	private final HashMap<String, AbstractOggettoEntita> mappaCache;
 
 	public CommandUpdateGruppo(final Gruppi oldEntita, final IGruppi newEntita) {
 		this.newEntita = (Gruppi) newEntita;
 		this.oldEntita = oldEntita;
 		this.wrap = new WrapGruppi();
-		final CacheCategorie cache = CacheCategorie.getSingleton();
+		final CacheGruppi cache = CacheGruppi.getSingleton();
 		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
 	}
 

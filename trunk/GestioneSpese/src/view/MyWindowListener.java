@@ -7,7 +7,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
-import java.awt.event.WindowStateListener;
 
 import javax.swing.JFrame;
 
@@ -16,14 +15,13 @@ import business.Controllore;
 public class MyWindowListener extends WindowAdapter implements WindowFocusListener, ComponentListener, MouseListener {
 
 	private GeneralFrame view;
+
 	public MyWindowListener(GeneralFrame view) {
 		super();
-		this.view = view; 
+		this.view = view;
 	}
-	
 
-
-//
+	//
 	@Override
 	public void windowDeiconified(WindowEvent e) {
 		if (Controllore.getSingleton().getInitFinestre().getFinestraVisibile() != null) {
@@ -42,9 +40,9 @@ public class MyWindowListener extends WindowAdapter implements WindowFocusListen
 	public void windowIconified(WindowEvent e) {
 		JFrame[] finestre = Controllore.getSingleton().getInitFinestre().getFinestre();
 		for (int i = 0; i < finestre.length; i++) {
-			
+
 			JFrame jFrame = finestre[i];
-			if(jFrame!=null){
+			if (jFrame != null) {
 				jFrame.setVisible(false);
 			}
 		}
@@ -59,8 +57,8 @@ public class MyWindowListener extends WindowAdapter implements WindowFocusListen
 	@Override
 	public void componentMoved(ComponentEvent e) {
 		if (Controllore.getSingleton().getInitFinestre().getFinestraVisibile() != null) {
-				Controllore.getSingleton().getInitFinestre().getFinestraVisibile().setVisible(true);
-				Controllore.getSingleton().getInitFinestre().getFinestraVisibile().setState(WindowEvent.WINDOW_DEICONIFIED);
+			Controllore.getSingleton().getInitFinestre().getFinestraVisibile().setVisible(true);
+			Controllore.getSingleton().getInitFinestre().getFinestraVisibile().setState(WindowEvent.WINDOW_DEICONIFIED);
 		}
 		view.relocateFinestreLaterali();
 	}
@@ -79,47 +77,39 @@ public class MyWindowListener extends WindowAdapter implements WindowFocusListen
 
 	@Override
 	public void windowGainedFocus(WindowEvent e) {
-//		if (Controllore.getSingleton().getInitFinestre().getFinestraVisibile() != null) {
-//			Controllore.getSingleton().getInitFinestre().getFinestraVisibile().setVisible(true);
-//		}
-//		view.relocateFinestreLaterali();
-//		
-		
+		// if
+		// (Controllore.getSingleton().getInitFinestre().getFinestraVisibile()
+		// != null) {
+		// Controllore.getSingleton().getInitFinestre().getFinestraVisibile().setVisible(true);
+		// }
+		// view.relocateFinestreLaterali();
+		//
+
 	}
-
-
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
-
-
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
-
-
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
-
-
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
-
-
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
@@ -129,7 +119,7 @@ public class MyWindowListener extends WindowAdapter implements WindowFocusListen
 			finVisibile.invalidate();
 			finVisibile.repaint();
 		}
-		
+
 	}
 
 }
