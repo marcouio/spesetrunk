@@ -14,7 +14,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import view.font.ButtonF;
-import view.font.LabelTesto;
+import view.font.LabelListaGruppi;
 import view.font.TextAreaF;
 import view.font.TextFieldF;
 import business.AltreUtil;
@@ -24,7 +24,7 @@ import business.DBUtil;
 import business.Database;
 import business.cache.CacheCategorie;
 import business.cache.CacheUscite;
-import business.comandi.CommandDeleteSpesa;
+import business.comandi.singlespese.CommandDeleteSpesa;
 import domain.CatSpese;
 import domain.SingleSpesa;
 import domain.wrapper.WrapSingleSpesa;
@@ -157,27 +157,27 @@ public class UsciteView extends AbstractUsciteView {
 	}
 
 	private void initLabel() {
-		final LabelTesto lblNomeSpesa = new LabelTesto("Nome Spesa");
+		final LabelListaGruppi lblNomeSpesa = new LabelListaGruppi("Nome Spesa");
 		lblNomeSpesa.setBounds(13, 12, 118, 27);
 		getContentPane().add(lblNomeSpesa);
 
-		final LabelTesto lblEuro = new LabelTesto("Euro");
+		final LabelListaGruppi lblEuro = new LabelListaGruppi("Euro");
 		lblEuro.setBounds(184, 163, 77, 27);
 		getContentPane().add(lblEuro);
 
-		final LabelTesto lblCategorie = new LabelTesto("Categorie");
+		final LabelListaGruppi lblCategorie = new LabelListaGruppi("Categorie");
 		lblCategorie.setBounds(181, 12, 125, 27);
 		getContentPane().add(lblCategorie);
 
-		final LabelTesto lblData = new LabelTesto("Data");
+		final LabelListaGruppi lblData = new LabelListaGruppi("Data");
 		lblData.setBounds(13, 163, 77, 27);
 		getContentPane().add(lblData);
 
-		final LabelTesto lblDescrizione = new LabelTesto("Descrizione Spesa");
+		final LabelListaGruppi lblDescrizione = new LabelListaGruppi("Descrizione Spesa");
 		lblDescrizione.setBounds(14, 62, 212, 25);
 		getContentPane().add(lblDescrizione);
 
-		final LabelTesto lblDescrizione_1 = new LabelTesto("Descrizione Categoria");
+		final LabelListaGruppi lblDescrizione_1 = new LabelListaGruppi("Descrizione Categoria");
 		lblDescrizione_1.setBounds(13, 216, 232, 27);
 		getContentPane().add(lblDescrizione_1);
 	}

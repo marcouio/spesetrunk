@@ -2,19 +2,25 @@ package business.generatori;
 
 import business.Database;
 
-public class GeneratoreDatiTabellaEntrate extends AbstractGeneratoreDatiTabella {
+/**
+ * A differenza da quanto dice il nome, la classe da la possibilità di creare
+ * anche le relative tabelle, sfruttando il metodo del padre abstract
+ * 
+ * @author marco.molinari
+ */
+public class GeneratoreDatiTabellaEntrate extends AbstractGeneratoreTabella {
 
 	public GeneratoreDatiTabellaEntrate() {
 		super();
 	}
 
 	@Override
-	public Object getOggettoMatrice(int i, int x) {
+	public Object getOggettoMatrice(final int i, final int x) {
 		try {
 			return Double.toString(Database.getSingleton().entrateMeseTipo((i + 1), getNomiColonna()[x]));
-		} catch (NumberFormatException e) {
+		} catch (final NumberFormatException e) {
 			e.printStackTrace();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -22,7 +28,7 @@ public class GeneratoreDatiTabellaEntrate extends AbstractGeneratoreDatiTabella 
 
 	@Override
 	public String[] getNomiColonna() {
-		String[] nomiColonne = { "Mesi", "Fisse", "Variabili" };
+		final String[] nomiColonne = { "Mesi", "Fisse", "Variabili" };
 		return nomiColonne;
 	}
 

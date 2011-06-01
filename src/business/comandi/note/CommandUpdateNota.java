@@ -1,8 +1,9 @@
-package business.comandi;
+package business.comandi.note;
 
 import java.util.HashMap;
 
 import business.cache.CacheNote;
+import business.comandi.AbstractCommand;
 import domain.AbstractOggettoEntita;
 import domain.INote;
 import domain.Note;

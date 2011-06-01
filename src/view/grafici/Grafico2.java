@@ -15,7 +15,7 @@ import javax.swing.WindowConstants;
 
 import view.OggettoVistaBase;
 import view.font.ButtonF;
-import view.font.LabelTesto;
+import view.font.LabelListaGruppi;
 import view.font.LabelTitolo;
 import view.grafici.dialogGraph.GrUscite1;
 import view.grafici.dialogGraph.GrUscite2;
@@ -76,7 +76,7 @@ public class Grafico2 extends OggettoVistaBase {
 			lblGrafico_1.setBounds(10, 195, 82, 17);
 			add(lblGrafico_1);
 			
-			JLabel lblQuestoGraficoVisualizza = new LabelTesto("Grafico a barre delle uscite annuali divise per categoria");
+			JLabel lblQuestoGraficoVisualizza = new LabelListaGruppi("Grafico a barre delle uscite annuali divise per categoria");
 			lblQuestoGraficoVisualizza.setVerticalAlignment(SwingConstants.TOP);
 			lblQuestoGraficoVisualizza.setBounds(20, 131, 395, 25);
 			add(lblQuestoGraficoVisualizza);
@@ -87,7 +87,7 @@ public class Grafico2 extends OggettoVistaBase {
 			label.setBounds(10, 98, 82, 17);
 			add(label);
 			
-			JLabel lblGraficoABarre = new LabelTesto("Grafico a barre dell'andamento delle uscite annuali divise per mesi");
+			JLabel lblGraficoABarre = new LabelListaGruppi("Grafico a barre dell'andamento delle uscite annuali divise per mesi");
 			lblGraficoABarre.setVerticalAlignment(SwingConstants.TOP);
 			lblGraficoABarre.setBounds(20, 231, 395, 25);
 			add(lblGraficoABarre);

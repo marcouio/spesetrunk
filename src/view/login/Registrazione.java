@@ -8,7 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import view.font.ButtonF;
-import view.font.LabelTesto;
+import view.font.LabelListaGruppi;
 import view.font.LabelTitolo;
 import view.font.TextFieldF;
 import business.cache.CacheUtenti;
@@ -27,11 +27,11 @@ public class Registrazione extends JDialog {
 	public Registrazione() {
 		this.setBounds(400, 300, 385, 300);
 		getContentPane().setLayout(null);
-		LabelTesto lblUsername = new LabelTesto("Username");
+		LabelListaGruppi lblUsername = new LabelListaGruppi("Username");
 		lblUsername.setBounds(58, 125, 88, 25);
 		getContentPane().add(lblUsername);
 		
-		LabelTesto lblPassword = new LabelTesto("Password");
+		LabelListaGruppi lblPassword = new LabelListaGruppi("Password");
 		lblPassword.setBounds(228, 125, 88, 25);
 		getContentPane().add(lblPassword);
 		
@@ -60,7 +60,7 @@ public class Registrazione extends JDialog {
 		cognome.setColumns(10);
 		getContentPane().add(cognome);
 		
-		LabelTesto lbltstCognome = new LabelTesto("Password");
+		LabelListaGruppi lbltstCognome = new LabelListaGruppi("Password");
 		lbltstCognome.setBounds(228, 56, 88, 25);
 		lbltstCognome.setText("Cognome");
 		getContentPane().add(lbltstCognome);
@@ -70,7 +70,7 @@ public class Registrazione extends JDialog {
 		nome.setColumns(10);
 		getContentPane().add(nome);
 		
-		LabelTesto lbltstNome = new LabelTesto("Username");
+		LabelListaGruppi lbltstNome = new LabelListaGruppi("Username");
 		lbltstNome.setBounds(58, 55, 88, 25);
 		lbltstNome.setText("Nome");
 		getContentPane().add(lbltstNome);

@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import view.font.ButtonF;
-import view.font.LabelTesto;
+import view.font.LabelListaGruppi;
 import view.font.TableF;
 import view.font.TextFieldF;
 
@@ -52,7 +52,7 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 		try {
 			this.setLayout(null);
 			this.setPreferredSize(new Dimension(1000, 605));
-			final JLabel movim = new LabelTesto("Movimenti:");
+			final JLabel movim = new LabelListaGruppi("Movimenti:");
 			movim.setBounds(24, 5, 89, 30);
 			this.add(movim);
 			campo = new TextFieldF();

@@ -15,13 +15,13 @@ import javax.swing.SwingUtilities;
 
 import view.entrateuscite.AbstractUsciteView;
 import view.font.ButtonF;
-import view.font.LabelTesto;
+import view.font.LabelListaGruppi;
 import view.font.TextFieldF;
 import business.AltreUtil;
 import business.Controllore;
 import business.cache.CacheUscite;
-import business.comandi.CommandDeleteSpesa;
-import business.comandi.CommandUpdateSpesa;
+import business.comandi.singlespese.CommandDeleteSpesa;
+import business.comandi.singlespese.CommandUpdateSpesa;
 import domain.CatSpese;
 import domain.ISingleSpesa;
 import domain.SingleSpesa;
@@ -31,13 +31,13 @@ import domain.wrapper.WrapSingleSpesa;
 public class DialogUsciteMov extends AbstractUsciteView {
 
 	private static final long serialVersionUID = 1L;
-	private JLabel labelEuro = new LabelTesto("Euro");
-	private JLabel labelData = new LabelTesto("Data");
-	private JLabel labelCategoria = new LabelTesto("Categoria");
-	private JLabel labelDescrizione = new LabelTesto("Descrizione");
-	private JLabel labelNome = new LabelTesto("Nome");
-	private JLabel labelDataIns = new LabelTesto("Data Inserimento");
-	private JLabel labelIdSpesa = new LabelTesto("Chiave Uscita");
+	private JLabel labelEuro = new LabelListaGruppi("Euro");
+	private JLabel labelData = new LabelListaGruppi("Data");
+	private JLabel labelCategoria = new LabelListaGruppi("Categoria");
+	private JLabel labelDescrizione = new LabelListaGruppi("Descrizione");
+	private JLabel labelNome = new LabelListaGruppi("Nome");
+	private JLabel labelDataIns = new LabelListaGruppi("Data Inserimento");
+	private JLabel labelIdSpesa = new LabelListaGruppi("Chiave Uscita");
 
 	private JTextField tfEuro = new TextFieldF();
 	private JTextField tfData = new TextFieldF();

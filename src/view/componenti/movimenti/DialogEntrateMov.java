@@ -16,13 +16,13 @@ import javax.swing.SwingUtilities;
 
 import view.entrateuscite.AbstractEntrateView;
 import view.font.ButtonF;
-import view.font.LabelTesto;
+import view.font.LabelListaGruppi;
 import view.font.TextFieldF;
 import business.AltreUtil;
 import business.Controllore;
 import business.cache.CacheEntrate;
-import business.comandi.CommandDeleteEntrata;
-import business.comandi.CommandUpdateEntrata;
+import business.comandi.entrate.CommandDeleteEntrata;
+import business.comandi.entrate.CommandUpdateEntrata;
 import domain.Entrate;
 import domain.IEntrate;
 import domain.wrapper.Model;
@@ -31,13 +31,13 @@ import domain.wrapper.WrapEntrate;
 public class DialogEntrateMov extends AbstractEntrateView {
 
 	private static final long serialVersionUID = 1L;
-	private JLabel labelEuro = new LabelTesto("Euro");
-	private JLabel labelData = new LabelTesto("Data");
-	private JLabel labelTipoEntrate = new LabelTesto("Tipo Entrata");
-	private JLabel labelDescrizione = new LabelTesto("Descrizione");
-	private JLabel labelNome = new LabelTesto("Nome");
-	private JLabel labelDataIns = new LabelTesto("Data Inserimento");
-	private JLabel labelIdEntrate = new LabelTesto("Chiave Entrata");
+	private JLabel labelEuro = new LabelListaGruppi("Euro");
+	private JLabel labelData = new LabelListaGruppi("Data");
+	private JLabel labelTipoEntrate = new LabelListaGruppi("Tipo Entrata");
+	private JLabel labelDescrizione = new LabelListaGruppi("Descrizione");
+	private JLabel labelNome = new LabelListaGruppi("Nome");
+	private JLabel labelDataIns = new LabelListaGruppi("Data Inserimento");
+	private JLabel labelIdEntrate = new LabelListaGruppi("Chiave Entrata");
 
 	private JTextField tfEuro = new TextFieldF();
 	private JTextField tfDataIns = new TextFieldF();

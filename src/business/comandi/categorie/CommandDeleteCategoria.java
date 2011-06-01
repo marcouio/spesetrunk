@@ -1,22 +1,18 @@
-package business.comandi;
+package business.comandi.categorie;
 
 import java.util.HashMap;
 
 import business.cache.CacheCategorie;
+import business.comandi.AbstractCommand;
 import domain.AbstractOggettoEntita;
 import domain.CatSpese;
 import domain.ICatSpese;
 import domain.wrapper.IWrapperEntity;
 import domain.wrapper.WrapCatSpese;
 
-public class CommandInserisciCategoria extends AbstractCommand{
+public class CommandDeleteCategoria extends AbstractCommand{
 
-	
-	final private AbstractOggettoEntita entita;
-	final private IWrapperEntity wrap;
-	private HashMap<String, AbstractOggettoEntita> mappaCache;
-	
-	public CommandInserisciCategoria(ICatSpese entita){
+	public CommandDeleteCategoria(ICatSpese entita) {
 		CacheCategorie cache = CacheCategorie.getSingleton();
 		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
 		this.wrap = new WrapCatSpese();
@@ -26,8 +22,8 @@ public class CommandInserisciCategoria extends AbstractCommand{
 	@Override
 	public boolean execute() {
 		if(entita instanceof CatSpese){
-			if(wrap.insert(entita)){
-				mappaCache.put(entita.getIdEntita(), entita);
+			if(wrap.delete(Integer.parseInt(entita.getIdEntita()))){
+				mappaCache.remove(entita.getIdEntita());
 				return true;
 			}
 		}
@@ -37,8 +33,8 @@ public class CommandInserisciCategoria extends AbstractCommand{
 	@Override
 	public boolean unExecute() {
 		if(entita instanceof CatSpese){
-			if(wrap.delete(Integer.parseInt(entita.getIdEntita()))){
-				mappaCache.remove(entita.getIdEntita());
+			if(wrap.insert(entita)){
+				mappaCache.put(entita.getIdEntita(), entita);
 				return true;
 			}
 		}
@@ -46,7 +42,6 @@ public class CommandInserisciCategoria extends AbstractCommand{
 	}
 	@Override
 	public String toString() {
-		return "Inserita Categoria " + ((CatSpese)entita).getnome();
+		return "Eliminata Categoria " + ((CatSpese)entita).getnome();
 	}
-
 }

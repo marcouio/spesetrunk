@@ -4,39 +4,69 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 
-import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
 
 /**
- * La classe estende JToggleButton per modificarne il funzionamento di default
+ * La classe estende JToggleButton per modificarne il funzionamento di default.
+ * L'utilità sta nella flessibilità con cui si possono gestire distanze, colori
+ * e icone
+ */
+/**
+ * @author marco.molinari
+ * 
  */
 public class ToggleBtn extends JToggleButton {
-	private static final long serialVersionUID            = 1L;
-	String                    s;
-	ImageIcon                 i;
+	private static final long serialVersionUID = 1L;
+	String s;
+	ImageIcon i;
 
-	MyIcon                    icona;
-	private JPanel            padre;
-	private int               distanzaBordoImageX         = 10;
-	private int               xPartenzaTesto              = 38;
+	MyIcon icona;
+	private JPanel padre;
 
-	Color                     colorForegroundSelected     = Color.GRAY;
-	Color                     colorBackgroundSelected     = new Color(167, 243, 239);
+	/**
+	 * La distanza dell'immagine dal bordo ovest
+	 * 
+	 * @return int
+	 */
+	private int distanzaBordoImageX = 10;
 
-	Color                     colorForegroundIconRollover = Color.BLACK;
-	Color                     colorSelectedIconRollover   = new Color(252, 228, 179);
+	/**
+	 * la coordinata x di partenza del testo
+	 * 
+	 * @return int
+	 */
+	private int xPartenzaTesto = 38;
+
+	/**
+	 * Colore del testo con il pulsante selezionato
+	 */
+	private Color colorForegroundSelected = Color.GRAY;
+
+	/**
+	 * Colore background con il pulsante selezionato
+	 */
+	private Color colorBackgroundSelected = new Color(167, 243, 239);
+
+	/**
+	 * dovrebbe settare il colore del testo nel rollover ma non viene preso! E'
+	 * inutile settarlo!!!!
+	 */
+	private Color colorForegroundIconRollover = Color.GREEN;
+
+	/**
+	 * Colore background del rollover
+	 */
+	private Color colorIconRollover = new Color(252, 228, 179);
 
 	public MyIcon getMyIcon() {
 		return icona != null ? icona : new MyIcon();
 	}
 
-	public ToggleBtn(final String text, final ImageIcon icon, final int xDistanzaBordoImmagine, int xPartenzaTesto) {
+	public ToggleBtn(final String text, final ImageIcon icon, final int xDistanzaBordoImmagine, final int xPartenzaTesto) {
 		this(text, icon);
 		this.distanzaBordoImageX = xDistanzaBordoImmagine != -1 ? xDistanzaBordoImmagine : distanzaBordoImageX;
 		this.xPartenzaTesto = xPartenzaTesto != -1 ? xPartenzaTesto : this.xPartenzaTesto;
@@ -47,7 +77,7 @@ public class ToggleBtn extends JToggleButton {
 		s = text;
 	}
 
-	public ToggleBtn(final String text, final ImageIcon icon, JPanel padre) {
+	public ToggleBtn(final String text, final ImageIcon icon, final JPanel padre) {
 		this(text, icon);
 		this.setPadre(padre);
 	}
@@ -73,26 +103,36 @@ public class ToggleBtn extends JToggleButton {
 		super.paintComponent(g);
 
 		// invece di far disegnare il testo al paintcomponent ho settato il text
-		// a "" e il testo passato nel costruttore lo disegno qui così ho un
+		// a "" nel costruttore e il testo lo disegno qui così ho un
 		// maggiore controllo
 		g.drawString(s != null ? s : "", getLarghezzaImmagine(i) + distanzaBordoImageX + calcolaTextGap(i), (getHeight() + g.getFontMetrics().getAscent()) / 2 - 1);
 
-		// reimposto l'icona a quella passata
+		// reimposto l'icona a quella passata e la disegno per il funzionamento
+		// default
 		this.setIcon(i);
 		getIcon().paintIcon(this, g, distanzaBordoImageX, getHeight() / 2 - i.getIconHeight() / 2);
+
 		if (this.isSelected()) {
 			// effetto pulsante premuto ridefinito
 			disegnaBottone(g, colorForegroundSelected, colorBackgroundSelected);
 		}
 	}// end paint
 
-	public void disegnaBottone(Graphics g, final Color foreground,
-	                final Color selected) {
+	/**
+	 * metodo di disegno interno alla classe del bottone
+	 * 
+	 * @param g
+	 * @param foreground
+	 * @param selected
+	 */
+	private void disegnaBottone(final Graphics g, final Color foreground, final Color selected) {
 		final int w = getWidth();
 		final int h = getHeight();
 		g.setColor(selected); // background color
+		// disegna il background del bottone
 		g.fillRoundRect(1, 1, w - 1, h - 1, 7, 7);
 		g.setColor(Color.WHITE);
+		// disegna il bordo
 		g.drawRoundRect(1, 1, w - 2, h - 2, 7, 7);
 		g.setColor(foreground); // foreground color
 		if (i != null) {
@@ -101,7 +141,7 @@ public class ToggleBtn extends JToggleButton {
 		g.drawString(s != null ? s : "", getLarghezzaImmagine(i) + distanzaBordoImageX + calcolaTextGap(i), (h + g.getFontMetrics().getAscent()) / 2 - 1);
 	}
 
-	private int getLarghezzaImmagine(Icon i) {
+	private int getLarghezzaImmagine(final Icon i) {
 		if (i != null) {
 			return i.getIconWidth();
 		} else {
@@ -111,7 +151,7 @@ public class ToggleBtn extends JToggleButton {
 	}
 
 	// metodo da verificare
-	private int calcolaTextGap(Icon i) {
+	private int calcolaTextGap(final Icon i) {
 		if (i != null) {
 			if (xPartenzaTesto > (i.getIconWidth() - distanzaBordoImageX)) {
 				return xPartenzaTesto - (i.getIconWidth());
@@ -123,16 +163,22 @@ public class ToggleBtn extends JToggleButton {
 		}
 	}
 
+	/**
+	 * Alcune scelte grafiche di settaggio.
+	 */
 	public void settaggioBottoneStandard() {
 
-		Border bordo = BorderFactory.createBevelBorder(BevelBorder.RAISED, Color.GRAY, Color.LIGHT_GRAY);
+		// final Border bordo =
+		// BorderFactory.createBevelBorder(BevelBorder.RAISED, Color.GRAY,
+		// Color.LIGHT_GRAY);
 		// Border bordo = BorderFactory.createEtchedBorder(EtchedBorder.RAISED,
 		// Color.RED, Color.GREEN);
-		this.setBorder(bordo);
+		this.setBorder(null);
 		this.setRolloverEnabled(true);
 		this.setBackground(Color.WHITE);
 		this.setHorizontalAlignment(SwingConstants.LEFT); // allinea il
-		                                                  // contenuto a sinitra
+															// contenuto a
+															// sinitra
 		if (this instanceof ToggleBtn) {
 			final Icon icona1 = (this).getMyIcon();
 			this.setRolloverIcon(icona1);
@@ -140,7 +186,7 @@ public class ToggleBtn extends JToggleButton {
 		this.setRolloverEnabled(true);
 	}
 
-	public void setPadre(JPanel padre) {
+	public void setPadre(final JPanel padre) {
 		this.padre = padre;
 	}
 
@@ -152,7 +198,7 @@ public class ToggleBtn extends JToggleButton {
 		return s;
 	}
 
-	public void setS(String s) {
+	public void setS(final String s) {
 		this.s = s;
 	}
 
@@ -160,7 +206,7 @@ public class ToggleBtn extends JToggleButton {
 		return i;
 	}
 
-	public void setI(ImageIcon i) {
+	public void setI(final ImageIcon i) {
 		this.i = i;
 	}
 
@@ -168,31 +214,56 @@ public class ToggleBtn extends JToggleButton {
 		return icona;
 	}
 
-	public void setIcona(MyIcon icona) {
+	public void setIcona(final MyIcon icona) {
 		this.icona = icona;
 	}
 
+	/**
+	 * Restituisce la distanza dell'immagine dal bordo ovest
+	 * 
+	 * @return int
+	 */
 	public int getXDistanzaBordoImage() {
 		return distanzaBordoImageX;
 	}
 
-	public void setXDistanzaBordoImage(int distanzaBordoImageX) {
+	/**
+	 * Setta la distanza dell'immagine dal bordo ovest
+	 * 
+	 * @param distanzaBordoImageX
+	 */
+	public void setXDistanzaBordoImage(final int distanzaBordoImageX) {
 		this.distanzaBordoImageX = distanzaBordoImageX;
 	}
 
+	/**
+	 * Prende la coordinata x di partenza del testo
+	 * 
+	 * @return int
+	 */
 	public int getxPartenzaTesto() {
 		return xPartenzaTesto;
 	}
 
-	public void setxPartenzaTesto(int xPartenzaTesto) {
+	/**
+	 * Setta la coordinata x di partenza del testo
+	 * 
+	 * @return
+	 */
+	public void setxPartenzaTesto(final int xPartenzaTesto) {
 		this.xPartenzaTesto = xPartenzaTesto;
 	}
 
+	/**
+	 * Restituisce il colore del testo con il pulsante è selezionato
+	 * 
+	 * @return
+	 */
 	public Color getColorForegroundSelected() {
 		return colorForegroundSelected;
 	}
 
-	public void setColorForegroundSelected(Color colorForeground) {
+	public void setColorForegroundSelected(final Color colorForeground) {
 		this.colorForegroundSelected = colorForeground;
 	}
 
@@ -200,24 +271,46 @@ public class ToggleBtn extends JToggleButton {
 		return colorBackgroundSelected;
 	}
 
-	public void setColorBackgroundSelected(Color colorBackground) {
+	public void setColorBackgroundSelected(final Color colorBackground) {
 		this.colorBackgroundSelected = colorBackground;
 	}
 
+	/**
+	 * Non serve ad un cazzo! il testo non cambia perché il rollover è gestito
+	 * dal super e questo lascia il testo
+	 * 
+	 * @return
+	 */
 	public Color getColorForegroundIcon() {
 		return colorForegroundIconRollover;
 	}
 
-	public void setColorForegroundIcon(Color colorForegroundIcon) {
+	/**
+	 * Non serve ad un cazzo! il testo non cambia perché il rollover è gestito
+	 * dal super e questo lascia il testo
+	 * 
+	 * @return
+	 */
+	public void setColorForegroundIcon(final Color colorForegroundIcon) {
 		this.colorForegroundIconRollover = colorForegroundIcon;
 	}
 
+	/**
+	 * Restituisce il colore del background del rollover
+	 * 
+	 * @return colorIconRollover
+	 */
 	public Color getColorBackgroundIcon() {
-		return colorSelectedIconRollover;
+		return colorIconRollover;
 	}
 
-	public void setColorBackgroundIcon(Color colorBackgroundIcon) {
-		this.colorSelectedIconRollover = colorBackgroundIcon;
+	/**
+	 * Setta il colore del background del rollover
+	 * 
+	 * @param colorBackgroundIcon
+	 */
+	public void setColorBackgroundIcon(final Color colorBackgroundIcon) {
+		this.colorIconRollover = colorBackgroundIcon;
 	}
 
 	/**
@@ -225,6 +318,7 @@ public class ToggleBtn extends JToggleButton {
 	 * di ﻿ * ToggleBtn ﻿
 	 */
 	private class MyIcon implements Icon {
+
 		public MyIcon() {
 			super();
 		}
@@ -240,10 +334,9 @@ public class ToggleBtn extends JToggleButton {
 		}
 
 		@Override
-		public void paintIcon(final Component c, final Graphics g, final int x,
-		                final int y) {
+		public void paintIcon(final Component c, final Graphics g, final int x, final int y) {
 			if (g != null) {
-				disegnaBottone(g, colorForegroundIconRollover, colorSelectedIconRollover);
+				disegnaBottone(g, colorForegroundIconRollover, colorIconRollover);
 			}
 		}
 	}

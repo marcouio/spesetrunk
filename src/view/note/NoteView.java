@@ -10,15 +10,15 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import view.font.ButtonF;
-import view.font.LabelTesto;
+import view.font.LabelListaGruppi;
 import view.font.TextAreaF;
 import view.font.TextFieldF;
 import business.AltreUtil;
 import business.Controllore;
 import business.DBUtil;
 import business.cache.CacheNote;
-import business.comandi.CommandInserisciNota;
-import business.comandi.CommandUpdateNota;
+import business.comandi.note.CommandInserisciNota;
+import business.comandi.note.CommandUpdateNota;
 import domain.INote;
 import domain.Note;
 import domain.wrapper.WrapNote;
@@ -49,7 +49,7 @@ public class NoteView extends AbstractNoteView {
 		setTitle("Pannello Nota");
 		getContentPane().setLayout(null);
 
-		LabelTesto lbltstNota = new LabelTesto("Nome Spesa");
+		LabelListaGruppi lbltstNota = new LabelListaGruppi("Nome Spesa");
 		lbltstNota.setText("Nota");
 		lbltstNota.setBounds(13, 12, 97, 27);
 		getContentPane().add(lbltstNota);
@@ -60,7 +60,7 @@ public class NoteView extends AbstractNoteView {
 		nota.setBounds(12, 38, 150, 27);
 		getContentPane().add(nota);
 
-		LabelTesto lbltstDa = new LabelTesto("Categorie");
+		LabelListaGruppi lbltstDa = new LabelListaGruppi("Categorie");
 		lbltstDa.setText("Data");
 		lbltstDa.setBounds(181, 12, 77, 27);
 		getContentPane().add(lbltstDa);
@@ -73,7 +73,7 @@ public class NoteView extends AbstractNoteView {
 		descrizione.setBounds(13, 89, 318, 75);
 		getContentPane().add(descrizione);
 
-		LabelTesto lbltstDescrizioneNota = new LabelTesto("Descrizione Spesa");
+		LabelListaGruppi lbltstDescrizioneNota = new LabelListaGruppi("Descrizione Spesa");
 		lbltstDescrizioneNota.setText("Descrizione Nota");
 		lbltstDescrizioneNota.setBounds(14, 64, 123, 25);
 		getContentPane().add(lbltstDescrizioneNota);

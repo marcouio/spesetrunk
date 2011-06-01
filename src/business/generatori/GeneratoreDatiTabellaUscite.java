@@ -6,7 +6,13 @@ import business.Database;
 import business.cache.CacheCategorie;
 import domain.CatSpese;
 
-public class GeneratoreDatiTabellaUscite extends AbstractGeneratoreDatiTabella {
+/**
+ * A differenza da quanto dice il nome, la classe da la possibilità di creare
+ * anche le relative tabelle, sfruttando il metodo del padre abstract
+ * 
+ * @author marco.molinari
+ */
+public class GeneratoreDatiTabellaUscite extends AbstractGeneratoreTabella {
 
 	Vector<CatSpese> categorie;
 
@@ -15,14 +21,15 @@ public class GeneratoreDatiTabellaUscite extends AbstractGeneratoreDatiTabella {
 	}
 
 	@Override
-	public Object getOggettoMatrice(int i, int x) {
+	public Object getOggettoMatrice(final int i, final int x) {
 		try {
-			if (categorie == null)
+			if (categorie == null) {
 				categorie = CacheCategorie.getSingleton().getVettoreCategorie();
+			}
 			return Double.toString(Database.speseMeseCategoria(i + 1, Integer.parseInt(categorie.get(x - 1).getIdEntita())));
-		} catch (NumberFormatException e) {
+		} catch (final NumberFormatException e) {
 			e.printStackTrace();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -30,11 +37,12 @@ public class GeneratoreDatiTabellaUscite extends AbstractGeneratoreDatiTabella {
 
 	@Override
 	public String[] getNomiColonna() {
-		if (categorie == null)
+		if (categorie == null) {
 			categorie = CacheCategorie.getSingleton().getVettoreCategorie();
+		}
 
-		int numColonne = categorie.size() + 1;
-		String[] nomiColonne = new String[numColonne];
+		final int numColonne = categorie.size() + 1;
+		final String[] nomiColonne = new String[numColonne];
 		nomiColonne[0] = "Mesi";
 		for (int i = 0; i < categorie.size(); i++) {
 			nomiColonne[i + 1] = categorie.get(i).getnome();

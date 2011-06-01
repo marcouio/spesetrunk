@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 
 import business.Controllore;
 import business.Database;
-import business.comandi.CommandInserisciEntrata;
+import business.comandi.entrate.CommandInserisciEntrata;
 import domain.Entrate;
 
 public class AscoltaInserisciEntrate implements ActionListener {

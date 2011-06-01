@@ -1,8 +1,9 @@
-package business.comandi;
+package business.comandi.singlespese;
 
 import java.util.HashMap;
 
 import business.cache.CacheUscite;
+import business.comandi.AbstractCommand;
 import domain.AbstractOggettoEntita;
 import domain.ISingleSpesa;
 import domain.SingleSpesa;

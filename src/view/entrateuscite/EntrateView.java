@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import view.font.ButtonF;
-import view.font.LabelTesto;
+import view.font.LabelListaGruppi;
 import view.font.TextAreaF;
 import view.font.TextFieldF;
 import business.AltreUtil;
@@ -23,7 +23,7 @@ import business.Controllore;
 import business.DBUtil;
 import business.Database;
 import business.cache.CacheEntrate;
-import business.comandi.CommandDeleteEntrata;
+import business.comandi.entrate.CommandDeleteEntrata;
 import domain.Entrate;
 import domain.wrapper.WrapEntrate;
 
@@ -140,25 +140,25 @@ public class EntrateView extends AbstractEntrateView {
 	}
 
 	private void initLabel() {
-		final LabelTesto lblNomeSpesa = new LabelTesto("Nome Spesa");
+		final LabelListaGruppi lblNomeSpesa = new LabelListaGruppi("Nome Spesa");
 		lblNomeSpesa.setText("Nome Entrata");
 		lblNomeSpesa.setBounds(13, 12, 97, 27);
 		getContentPane().add(lblNomeSpesa);
 
-		final LabelTesto lblEuro = new LabelTesto("Euro");
+		final LabelListaGruppi lblEuro = new LabelListaGruppi("Euro");
 		lblEuro.setBounds(184, 165, 77, 27);
 		getContentPane().add(lblEuro);
 
-		final LabelTesto lblCategorie = new LabelTesto("Categorie");
+		final LabelListaGruppi lblCategorie = new LabelListaGruppi("Categorie");
 		lblCategorie.setText("Tipo");
 		lblCategorie.setBounds(181, 12, 77, 27);
 		getContentPane().add(lblCategorie);
 
-		final LabelTesto lblData = new LabelTesto("Data");
+		final LabelListaGruppi lblData = new LabelListaGruppi("Data");
 		lblData.setBounds(13, 165, 77, 27);
 		getContentPane().add(lblData);
 
-		final LabelTesto lblDescrizione = new LabelTesto("Descrizione Spesa");
+		final LabelListaGruppi lblDescrizione = new LabelListaGruppi("Descrizione Spesa");
 		lblDescrizione.setText("Descrizione Entrata");
 		lblDescrizione.setBounds(14, 64, 123, 25);
 		getContentPane().add(lblDescrizione);

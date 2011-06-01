@@ -24,6 +24,13 @@ public class CommandManager {
 		return instance;
 	}
 
+	/**
+	 * Metodo che implementa l'azione "indietro". Accoglie il tipo (entrate o
+	 * uscite) per l'aggiornamento
+	 * 
+	 * @param tipo
+	 * @return boolean
+	 */
 	public boolean undo(final String tipo) {
 		if (history.size() > 0 && indiceCorrente > -1) {
 			if (indiceCorrente > (history.size() - 1)) {
@@ -41,6 +48,13 @@ public class CommandManager {
 		return false;
 	}
 
+	/**
+	 * Metodo che implementa l'azione "avanti". Accoglie il tipo (entrate o
+	 * uscite) per l'aggiornamento
+	 * 
+	 * @param tipo
+	 * @return boolean
+	 */
 	public boolean redo(final String tipo) {
 
 		if (history.size() > 0 && indiceCorrente >= -1 && indiceCorrente < history.size()) {
@@ -59,8 +73,10 @@ public class CommandManager {
 	}
 
 	/**
-	 * con il tipo si decide di aggiornare i pannelli riguardanti l'entrata o
-	 * l'uscita. altrimenti aggiorna tutto
+	 * Tutti i comandi devono essere richiamati all'interno di questo metodo in
+	 * quanto gestisce gli smistamenti anche per l'undo/redo. Con il tipo si
+	 * decide di aggiornare i pannelli riguardanti l'entrata o l'uscita.
+	 * altrimenti aggiorna tutto
 	 * 
 	 * @param comando
 	 * @param tipo
@@ -88,6 +104,12 @@ public class CommandManager {
 		return false;
 	}
 
+	/**
+	 * Restituisce l'ultimo comando eseguito del tipo passato come parametro
+	 * 
+	 * @param nomeClasse
+	 * @return
+	 */
 	public AbstractCommand getLast(final Class<AbstractCommand> nomeClasse) {
 		AbstractCommand ultimoCommand = null;
 		if (history.size() > 0) {
@@ -105,6 +127,10 @@ public class CommandManager {
 		return history;
 	}
 
+	/**
+	 * Richiamato dopo l'esecuzione di un comando andato a buon fine, aggiorna
+	 * il pannello history dei comandi
+	 */
 	private void aggiornaFinestraHistory() {
 		TableF table;
 		JScrollPane scrollPane = null;
@@ -120,6 +146,12 @@ public class CommandManager {
 	}
 
 	// TODO da spostare...
+
+	/**
+	 * Genera la matrice di dati da inserire nel pannello history
+	 * 
+	 * @return
+	 */
 	public Object[][] generaDati() {
 		final int numeroColonne = 1;
 		final ArrayList<AbstractCommand> listaComandi = (ArrayList<AbstractCommand>) getHistory();

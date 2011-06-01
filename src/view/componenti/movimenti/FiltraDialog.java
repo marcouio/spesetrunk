@@ -9,7 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import view.font.ButtonF;
-import view.font.LabelTesto;
+import view.font.LabelListaGruppi;
 import view.font.TextFieldF;
 import business.AltreUtil;
 
@@ -96,12 +96,12 @@ public abstract class FiltraDialog extends JDialog {
 			getContentPane().add(tfDa);
 		}
 		{
-			LabelTesto label = new LabelTesto("Da:");
+			LabelListaGruppi label = new LabelListaGruppi("Da:");
 			label.setBounds(36, 37, 43, 15);
 			getContentPane().add(label);
 		}
 		{
-			LabelTesto label = new LabelTesto("A:");
+			LabelListaGruppi label = new LabelListaGruppi("A:");
 			label.setBounds(46, 65, 43, 15);
 			getContentPane().add(label);
 		}
@@ -118,12 +118,12 @@ public abstract class FiltraDialog extends JDialog {
 			getContentPane().add(tfNome);
 		}
 		{
-			LabelTesto label = new LabelTesto("Nome:");
+			LabelListaGruppi label = new LabelListaGruppi("Nome:");
 			label.setBounds(163, 26, 55, 15);
 			getContentPane().add(label);
 		}
 		{
-			LabelTesto label = new LabelTesto("Euro:");
+			LabelListaGruppi label = new LabelListaGruppi("Euro:");
 			label.setBounds(303, 26, 55, 15);
 			getContentPane().add(label);
 		}
@@ -134,7 +134,7 @@ public abstract class FiltraDialog extends JDialog {
 			getContentPane().add(tfEuro);
 		}
 		{
-			LabelTesto label = new LabelTesto("Categoria:");
+			LabelListaGruppi label = new LabelListaGruppi("Categoria:");
 			label.setBounds(436, 26, 82, 15);
 			getContentPane().add(label);
 		}

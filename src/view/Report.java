@@ -20,7 +20,7 @@ import view.componenti.componentiPannello.SottoPannelloDatiSpese;
 import view.componenti.componentiPannello.SottoPannelloTotali;
 import view.font.ButtonF;
 import view.font.CheckBoxF;
-import view.font.LabelTesto;
+import view.font.LabelListaGruppi;
 import view.impostazioni.CategorieView;
 import business.AltreUtil;
 import business.DBUtil;
@@ -42,7 +42,7 @@ public class Report extends JFrame {
 	public Report() throws FileNotFoundException {
 		getContentPane().setLayout(null);
 		this.setTitle("Report");
-		JLabel Istruzioni = new LabelTesto("Seleziona cio' che vuoi far comparire nel report");
+		JLabel Istruzioni = new LabelListaGruppi("Seleziona cio' che vuoi far comparire nel report");
 		Istruzioni.setText("Seleziona:");
 		Istruzioni.setBounds(12, 12, 207, 20);
 		getContentPane().add(Istruzioni);

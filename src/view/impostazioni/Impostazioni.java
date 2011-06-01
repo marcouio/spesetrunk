@@ -26,7 +26,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import view.FinestraListaComandi;
 import view.GeneralFrame;
 import view.font.ButtonF;
-import view.font.LabelTesto;
+import view.font.LabelListaGruppi;
 import view.font.TextFieldF;
 import business.Controllore;
 import business.DBUtil;
@@ -40,11 +40,11 @@ import domain.wrapper.Model;
 
 public class Impostazioni extends JDialog {
 
-	private static final long   serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 	private static Impostazioni singleton;
 
-	public static void main(String[] args) {
-		Impostazioni dialog = new Impostazioni();
+	public static void main(final String[] args) {
+		final Impostazioni dialog = new Impostazioni();
 		dialog.pack();
 		dialog.setVisible(true);
 	}
@@ -60,12 +60,12 @@ public class Impostazioni extends JDialog {
 		return singleton;
 	} // getSingleton()
 
-	private JTextField        dataOdierna;
-	private JTextField        utente;
+	private JTextField dataOdierna;
+	private JTextField utente;
 	private ArrayList<String> listaLook;
-	private JComboBox         comboLook;
-	private TextFieldF        annotextField;
-	private static int        anno = new GregorianCalendar().get(Calendar.YEAR);
+	private JComboBox comboLook;
+	private TextFieldF annotextField;
+	private static int anno = new GregorianCalendar().get(Calendar.YEAR);
 	private static JTextField caricaDatabase;
 
 	public Impostazioni() {
@@ -78,13 +78,13 @@ public class Impostazioni extends JDialog {
 			this.setModalityType(ModalityType.APPLICATION_MODAL);
 			this.setTitle("Setting");
 			this.setPreferredSize(new Dimension(626, 250));
-			JLabel calendario = new LabelTesto("Data Odierna");
+			final JLabel calendario = new LabelListaGruppi("Data Odierna");
 			calendario.setBounds(22, 86, 87, 14);
 			dataOdierna = new TextFieldF();
 			dataOdierna.setBounds(140, 82, 113, 27);
 			dataOdierna.setEditable(false);
 
-			GregorianCalendar gc = new GregorianCalendar();
+			final GregorianCalendar gc = new GregorianCalendar();
 			dataOdierna.setText(DBUtil.dataToString(gc.getTime(), "dd-MM-yyyy"));
 			getContentPane().setLayout(null);
 			utente = new TextFieldF();
@@ -94,28 +94,28 @@ public class Impostazioni extends JDialog {
 			getContentPane().add(dataOdierna);
 			getContentPane().add(utente);
 
-			JLabel lblImpostaAnno = new LabelTesto("Imposta anno");
+			final JLabel lblImpostaAnno = new LabelListaGruppi("Imposta anno");
 			lblImpostaAnno.setBounds(278, 79, 97, 27);
 			getContentPane().add(lblImpostaAnno);
 
-			ButtonF btnChange = new ButtonF();
+			final ButtonF btnChange = new ButtonF();
 			btnChange.setText("Cambia");
 			btnChange.setBounds(504, 78, 91, 27);
 			btnChange.addActionListener(new ActionListener() {
 
 				@Override
-				public void actionPerformed(ActionEvent e) {
+				public void actionPerformed(final ActionEvent e) {
 					try {
 						anno = Integer.parseInt(annotextField.getText());
 						Database.aggiornamentoPerImpostazioni();
-					} catch (Exception e1) {
+					} catch (final Exception e1) {
 						e1.printStackTrace();
 					}
 				}
 			});
 			getContentPane().add(btnChange);
 
-			JLabel lblCaricaDatabase = new LabelTesto("Carica Database");
+			final JLabel lblCaricaDatabase = new LabelListaGruppi("Carica Database");
 			lblCaricaDatabase.setBounds(22, 183, 113, 14);
 			getContentPane().add(lblCaricaDatabase);
 
@@ -126,7 +126,7 @@ public class Impostazioni extends JDialog {
 			btnCarica.addActionListener(new ActionListener() {
 
 				@Override
-				public void actionPerformed(ActionEvent e) {
+				public void actionPerformed(final ActionEvent e) {
 					Database.aggiornamentoPerImpostazioni();
 				}
 			});
@@ -136,22 +136,22 @@ public class Impostazioni extends JDialog {
 			caricaDatabase.setText("GestioneSpese.sqlite");
 			getContentPane().add(caricaDatabase);
 
-			ButtonF button = new ButtonF();
+			final ButtonF button = new ButtonF();
 			button.setText("...");
 			button.setBounds(287, 179, 29, 27);
 			getContentPane().add(button);
 
-			ButtonF elimina = new ButtonF();
+			final ButtonF elimina = new ButtonF();
 			elimina.setText("Elimina");
 			elimina.addActionListener(new ActionListener() {
 				@Override
-				public void actionPerformed(ActionEvent arg0) {
+				public void actionPerformed(final ActionEvent arg0) {
 					if (Model.getSingleton().getModelEntrate().deleteAll() && Model.getSingleton().getModelUscita().deleteAll()) {
 						JOptionPane.showMessageDialog(null, "Ok, tutti i dati sono stati cancellati: puoi ripartire!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
 						try {
 							Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
 							Database.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
-						} catch (Exception e) {
+						} catch (final Exception e) {
 							e.getMessage();
 						}
 					}
@@ -161,16 +161,16 @@ public class Impostazioni extends JDialog {
 			elimina.setBounds(504, 125, 91, 27);
 			getContentPane().add(elimina);
 
-			JDesktopPane desktopPane = new JDesktopPane();
+			final JDesktopPane desktopPane = new JDesktopPane();
 			desktopPane.setBounds(94, 138, 1, 1);
 			getContentPane().add(desktopPane);
 
-			LabelTesto lbltstEliminaTuttiLe = new LabelTesto("Carica Database");
+			final LabelListaGruppi lbltstEliminaTuttiLe = new LabelListaGruppi("Carica Database");
 			lbltstEliminaTuttiLe.setText("Elimina dati per entrate e uscite");
 			lbltstEliminaTuttiLe.setBounds(278, 126, 232, 27);
 			getContentPane().add(lbltstEliminaTuttiLe);
 
-			LabelTesto lbltstUtente = new LabelTesto("Data Odierna");
+			final LabelListaGruppi lbltstUtente = new LabelListaGruppi("Data Odierna");
 			lbltstUtente.setText("Utente");
 			lbltstUtente.setBounds(22, 130, 87, 14);
 			getContentPane().add(lbltstUtente);
@@ -180,7 +180,7 @@ public class Impostazioni extends JDialog {
 			annotextField.setBounds(375, 78, 113, 27);
 			getContentPane().add(annotextField);
 
-			CacheLookAndFeel cacheLook = CacheLookAndFeel.getSingleton();
+			final CacheLookAndFeel cacheLook = CacheLookAndFeel.getSingleton();
 			final Vector<Lookandfeel> vettore = cacheLook.getVettoreLooksPerCombo();
 
 			Lookandfeel look = null;
@@ -197,83 +197,86 @@ public class Impostazioni extends JDialog {
 			comboLook.addActionListener(new ActionListener() {
 
 				@Override
-				public void actionPerformed(ActionEvent e) {
+				public void actionPerformed(final ActionEvent e) {
 					String look = "";
-					Lookandfeel valoreLook = (Lookandfeel) comboLook.getSelectedItem();
+					final Lookandfeel valoreLook = (Lookandfeel) comboLook.getSelectedItem();
 					if (valoreLook != null && !valoreLook.getnome().equals("")) {
 						look = valoreLook.getvalore();
 
 						for (int i = 0; i < vettore.size(); i++) {
-							Lookandfeel lookAnd = vettore.get(i);
+							final Lookandfeel lookAnd = vettore.get(i);
 							lookAnd.setusato(0);
-							HashMap<String, String> campi = new HashMap<String, String>();
-							HashMap<String, String> clausole = new HashMap<String, String>();
+							final HashMap<String, String> campi = new HashMap<String, String>();
+							final HashMap<String, String> clausole = new HashMap<String, String>();
 							campi.put(Lookandfeel.USATO, "0");
 							clausole.put(Lookandfeel.ID, Integer.toString(lookAnd.getidLook()));
 							Database.getSingleton().eseguiIstruzioneSql("update", Lookandfeel.NOME_TABELLA, campi, clausole);
 						}
 
 						valoreLook.setusato(1);
-						HashMap<String, String> campi = new HashMap<String, String>();
-						HashMap<String, String> clausole = new HashMap<String, String>();
+						final HashMap<String, String> campi = new HashMap<String, String>();
+						final HashMap<String, String> clausole = new HashMap<String, String>();
 						campi.put(Lookandfeel.USATO, "1");
 						clausole.put(Lookandfeel.ID, Integer.toString(valoreLook.getidLook()));
 						Database.getSingleton().eseguiIstruzioneSql("update", Lookandfeel.NOME_TABELLA, campi, clausole);
+					} else {
+						look = "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel";
 					}
-					        else
-						        look = "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel";
-					        try {
-						        UIManager.setLookAndFeel(look);
-					        } catch (ClassNotFoundException e1) {
-						        e1.printStackTrace();
-					        } catch (InstantiationException e1) {
-						        e1.printStackTrace();
-					        } catch (IllegalAccessException e1) {
-						        e1.printStackTrace();
-					        } catch (UnsupportedLookAndFeelException e1) {
-						        e1.printStackTrace();
-					        }
-					        catch (ClassCastException e1) {
-						        comboLook.setSelectedIndex(0);
-						        e1.printStackTrace();
-					        }
+					try {
+						UIManager.setLookAndFeel(look);
+					} catch (final ClassNotFoundException e1) {
+						comboLook.setSelectedIndex(0);
+						e1.printStackTrace();
+					} catch (final InstantiationException e1) {
+						comboLook.setSelectedIndex(0);
+						e1.printStackTrace();
+					} catch (final IllegalAccessException e1) {
+						comboLook.setSelectedIndex(0);
+						e1.printStackTrace();
+					} catch (final UnsupportedLookAndFeelException e1) {
+						comboLook.setSelectedIndex(0);
+						e1.printStackTrace();
+					} catch (final ClassCastException e1) {
+						comboLook.setSelectedIndex(0);
+						e1.printStackTrace();
+					}
 
-					        FinestraListaComandi lista = null;
-							try {
-								lista = ((FinestraListaComandi)Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, null));
-							} catch (Exception e1) {
-								e1.printStackTrace();
-							} 
-					        GeneralFrame frame = GeneralFrame.getSingleton();
-					        SwingUtilities.updateComponentTreeUI(lista);
-					        SwingUtilities.updateComponentTreeUI(frame);
-					        frame.setBounds(0, 0, 1000, 650);
+					FinestraListaComandi lista = null;
+					try {
+						lista = ((FinestraListaComandi) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, null));
+					} catch (final Exception e1) {
+						e1.printStackTrace();
+					}
+					final GeneralFrame frame = GeneralFrame.getSingleton();
+					SwingUtilities.updateComponentTreeUI(lista);
+					SwingUtilities.updateComponentTreeUI(frame);
+					frame.setBounds(0, 0, 1000, 650);
 
-				        }
+				}
 			});
 
-			JLabel labelLook = new JLabel("Look");
+			final JLabel labelLook = new JLabel("Look");
 			labelLook.setBounds(22, 29, 70, 15);
 			getContentPane().add(labelLook);
 			button.addActionListener(new ActionListener() {
 
 				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					JFileChooser fileopen = new JFileChooser();
-					FileFilter filter = new FileNameExtensionFilter("db files", "db");
+				public void actionPerformed(final ActionEvent arg0) {
+					final JFileChooser fileopen = new JFileChooser();
+					final FileFilter filter = new FileNameExtensionFilter("db files", "db");
 					fileopen.addChoosableFileFilter(filter);
 
-					int ret = fileopen.showDialog(null, "Open file");
+					final int ret = fileopen.showDialog(null, "Open file");
 
 					if (ret == JFileChooser.APPROVE_OPTION) {
-						File file = fileopen.getSelectedFile();
+						final File file = fileopen.getSelectedFile();
 						caricaDatabase.setText(file.getName());
 					}
 
 				}
 			});
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -282,7 +285,7 @@ public class Impostazioni extends JDialog {
 		return annotextField;
 	}
 
-	public void setAnnotextField(TextFieldF annotextField) {
+	public void setAnnotextField(final TextFieldF annotextField) {
 		this.annotextField = annotextField;
 	}
 
@@ -297,7 +300,7 @@ public class Impostazioni extends JDialog {
 	 * @param dataOdierna
 	 *            the dataOdierna to set
 	 */
-	public void setDataOdierna(JTextField dataOdierna) {
+	public void setDataOdierna(final JTextField dataOdierna) {
 		this.dataOdierna = dataOdierna;
 	}
 
@@ -312,7 +315,7 @@ public class Impostazioni extends JDialog {
 	 * @param listaLook
 	 *            the listaLook to set
 	 */
-	public void setListaLook(ArrayList<String> listaLook) {
+	public void setListaLook(final ArrayList<String> listaLook) {
 		this.listaLook = listaLook;
 	}
 
@@ -320,7 +323,7 @@ public class Impostazioni extends JDialog {
 		return anno;
 	}
 
-	public static void setAnno(int anno) {
+	public static void setAnno(final int anno) {
 		Impostazioni.anno = anno;
 	}
 
@@ -328,7 +331,7 @@ public class Impostazioni extends JDialog {
 		return caricaDatabase;
 	}
 
-	public static void setCaricaDatabase(JTextField caricaDatabase) {
+	public static void setCaricaDatabase(final JTextField caricaDatabase) {
 		Impostazioni.caricaDatabase = caricaDatabase;
 	}
 
@@ -343,7 +346,7 @@ public class Impostazioni extends JDialog {
 	 * @param utente
 	 *            the utente to set
 	 */
-	public void setUtente(JTextField utente) {
+	public void setUtente(final JTextField utente) {
 		this.utente = utente;
 	}
 
@@ -358,7 +361,7 @@ public class Impostazioni extends JDialog {
 	 * @param comboLook
 	 *            the comboLook to set
 	 */
-	public void setComboLook(JComboBox comboLook) {
+	public void setComboLook(final JComboBox comboLook) {
 		this.comboLook = comboLook;
 	}
 }
