@@ -23,6 +23,7 @@ import javax.swing.WindowConstants;
 import view.font.ButtonF;
 import view.font.LabelTitolo;
 import view.font.TextAreaF;
+import business.Controllore;
 import business.DBUtil;
 import business.Database;
 import domain.CatSpese;
@@ -188,6 +189,7 @@ public class NewSql extends OggettoVistaBase {
 						result.setText(totale + "\n");
 
 					} catch (Exception e1) {
+						Controllore.getLog().severe(e1.getMessage());
 						JOptionPane.showMessageDialog(null, e1.getMessage(), "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
 					}
 				}

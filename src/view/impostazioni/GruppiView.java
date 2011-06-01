@@ -28,10 +28,10 @@ import domain.wrapper.WrapGruppi;
 
 public class GruppiView extends AbstractGruppiView {
 
-	private Gruppi gruppi = null;
-	private JComboBox comboGruppi;
+	private Gruppi     gruppi = null;
+	private JComboBox  comboGruppi;
 	private TextFieldF nome;
-	private TextAreaF descrizione;
+	private TextAreaF  descrizione;
 
 	public GruppiView(final WrapGruppi gruppo) {
 		super(gruppo);
@@ -80,7 +80,7 @@ public class GruppiView extends AbstractGruppiView {
 						if (gruppo1 != null) {
 							comboGruppi.addItem(gruppo1);
 						}
-						final String messaggio = "Categoria inserita correttamente";
+						final String messaggio = "Gruppo inserito correttamente";
 						Alert.info(messaggio, Alert.TITLE_OK);
 						Controllore.getLog().info(messaggio);
 						modelGruppi.setChanged();
@@ -143,7 +143,7 @@ public class GruppiView extends AbstractGruppiView {
 						if (Controllore.getSingleton().getCommandManager().invocaComando(new CommandUpdateGruppo(oldGruppo, (IGruppi) modelGruppi.getentitaPadre()), "tutto")) {
 							Model.getSingleton().getGruppiCombo(true);
 							Database.aggiornamentoComboBox(CacheCategorie.getSingleton().getVettoreCategorie());
-							Alert.operazioniSegnalazioneInfo("Operazione eseguita correttamente");
+							Alert.operazioniSegnalazioneInfo("Aggiornata correttamente categoria " + modelGruppi.getnome());
 							modelGruppi.setChanged();
 							modelGruppi.notifyObservers();
 						}

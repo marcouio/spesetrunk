@@ -35,16 +35,16 @@ import domain.wrapper.WrapCatSpese;
 
 public class CategorieView extends AbstractCategorieView {
 
-	private CatSpese categoria = null;
-	private JTextArea taDescrizione;
-	private JComboBox cbImportanza;
-	private JTextField tfNome;
-	private static JComboBox cbCategorie;
+	private CatSpese                categoria        = null;
+	private JTextArea               taDescrizione;
+	private JComboBox               cbImportanza;
+	private JTextField              tfNome;
+	private static JComboBox        cbCategorie;
 	private static Vector<CatSpese> categorieSpesa;
-	final Database db = Database.getSingleton();
-	private JComboBox cbGruppi;
+	final Database                  db               = Database.getSingleton();
+	private JComboBox               cbGruppi;
 
-	private static final long serialVersionUID = 1L;
+	private static final long       serialVersionUID = 1L;
 
 	public static void main(final String[] args) {
 		final CategorieView dialog = new CategorieView(new WrapCatSpese());
@@ -144,18 +144,18 @@ public class CategorieView extends AbstractCategorieView {
 						}
 						try {
 							if (Controllore.getSingleton().getCommandManager()
-									.invocaComando(new CommandUpdateCategoria(oldCategoria, (ICatSpese) modelCatSpese.getentitaPadre()), "tutto")) {
+							                .invocaComando(new CommandUpdateCategoria(oldCategoria, (ICatSpese) modelCatSpese.getentitaPadre()), "tutto")) {
 								Database.aggiornaCategorie((CatSpese) modelCatSpese.getentitaPadre());
-								Alert.info("Operazione eseguita correttamente", Alert.TITLE_OK);
+								Alert.operazioniSegnalazioneInfo("Aggiornata correttamente categoria: " + modelCatSpese.getnome());
 								modelCatSpese.setChanged();
 								modelCatSpese.notifyObservers();
 							}
 						} catch (final Exception e22) {
 							e22.printStackTrace();
-							Alert.errore("Inserisci i dati correttamente: " + e22.getMessage(), Alert.TITLE_ERROR);
+							Alert.operazioniSegnalazioneErrore("Inserisci i dati correttamente: " + e22.getMessage());
 						}
 					} else {
-						Alert.errore("Impossibile aggiornare una categoria inesistente!", Alert.TITLE_ERROR);
+						Alert.operazioniSegnalazioneErrore("Impossibile aggiornare una categoria inesistente!");
 					}
 				}
 			});
@@ -175,7 +175,7 @@ public class CategorieView extends AbstractCategorieView {
 							if (categoria1 != null) {
 								cbCategorie.addItem(categoria1);
 							}
-							Alert.operazioniSegnalazioneInfo("Categoria inserita correttamente");
+							Alert.operazioniSegnalazioneInfo("Inserita correttamente categoria: " + modelCatSpese.getnome());
 							modelCatSpese.setChanged();
 							modelCatSpese.notifyObservers();
 						}
