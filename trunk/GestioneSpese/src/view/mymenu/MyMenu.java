@@ -24,8 +24,8 @@ import view.grafici.dialogGraph.GrGenerale2;
 import view.grafici.dialogGraph.GrUscite1;
 import view.grafici.dialogGraph.GrUscite2;
 import view.impostazioni.CategorieView;
+import view.impostazioni.GruppiView;
 import view.impostazioni.Impostazioni;
-import view.impostazioni.SettingGruppi;
 import view.note.MostraNoteView;
 import business.AltreUtil;
 import business.Controllore;
@@ -38,6 +38,7 @@ import business.ascoltatoriMenu.AscoltatoreLogin;
 import business.ascoltatoriMenu.AscoltatoreRegistrazione;
 import domain.wrapper.WrapCatSpese;
 import domain.wrapper.WrapEntrate;
+import domain.wrapper.WrapGruppi;
 import domain.wrapper.WrapSingleSpesa;
 
 public class MyMenu extends JMenuBar {
@@ -52,46 +53,46 @@ public class MyMenu extends JMenuBar {
 		this.setBounds(0, 0, 1000, 20);
 
 		// crea un menu
-		JMenu file = new JMenu("File");
+		final JMenu file = new JMenu("File");
 		this.add(file);
 
 		// item di un menu
-		JMenuItem menuItem = new JMenuItem("Altro database");
-		ActionListener ascolto = new AscoltatoreCaricaDatabase();
+		final JMenuItem menuItem = new JMenuItem("Altro database");
+		final ActionListener ascolto = new AscoltatoreCaricaDatabase();
 		menuItem.addActionListener(ascolto);
 		file.add(menuItem);
 
 		// item Login
-		JMenuItem menuItem2 = new JMenuItem("Login");
-		ActionListener login = new AscoltatoreLogin();
+		final JMenuItem menuItem2 = new JMenuItem("Login");
+		final ActionListener login = new AscoltatoreLogin();
 		menuItem2.addActionListener(login);
 		file.add(menuItem2);
 
 		// item Login
-		JMenuItem registra = new JMenuItem("Registrazione");
-		ActionListener registrazione = new AscoltatoreRegistrazione();
+		final JMenuItem registra = new JMenuItem("Registrazione");
+		final ActionListener registrazione = new AscoltatoreRegistrazione();
 		registra.addActionListener(registrazione);
 		file.add(registra);
 
-		JMenuItem chiudi = new JMenuItem("Chiudi");
+		final JMenuItem chiudi = new JMenuItem("Chiudi");
 		chiudi.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(final ActionEvent e) {
 				System.exit(0);
 
 			}
 		});
 		file.add(chiudi);
 
-		JMenu modifica = new JMenu("Modifica");
+		final JMenu modifica = new JMenu("Modifica");
 		add(modifica);
 
-		JMenuItem indietro = new JMenuItem("Indietro");
+		final JMenuItem indietro = new JMenuItem("Indietro");
 		indietro.addActionListener(new AscoltatoreIndietro());
 		modifica.add(indietro);
 
-		JMenuItem avanti = new JMenuItem("Avanti");
+		final JMenuItem avanti = new JMenuItem("Avanti");
 		avanti.addActionListener(new AscoltatoreAvanti());
 		modifica.add(avanti);
 
@@ -107,13 +108,13 @@ public class MyMenu extends JMenuBar {
 		final JCheckBoxMenuItem chckbxmntmDati = new JCheckBoxMenuItem("Riepilogo dati");
 		chckbxmntmDati.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(final ActionEvent e) {
 				PannelloAScomparsa2 pas;
 				try {
-					pas = ((PannelloAScomparsa2)Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, null));
+					pas = ((PannelloAScomparsa2) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, null));
 					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(pas, finestre, chckbxmntmDati);
 					Controllore.getSingleton().getView().relocateFinestreLaterali();
-				} catch (Exception e1) {
+				} catch (final Exception e1) {
 					e1.printStackTrace();
 				}
 			}
@@ -125,27 +126,27 @@ public class MyMenu extends JMenuBar {
 		mntmNote.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(final ActionEvent e) {
 				MostraNoteView note;
 				try {
-					note = ((MostraNoteView)Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_NOTE, null));
+					note = ((MostraNoteView) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_NOTE, null));
 					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(note, finestre, mntmNote);
 					Controllore.getSingleton().getView().relocateFinestreLaterali();
-				} catch (Exception e1) {
+				} catch (final Exception e1) {
 					e1.printStackTrace();
-				} 
+				}
 			}
 		});
 		mntmReport.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(final ActionEvent e) {
 				Report report;
 				try {
-					report = ((Report)Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_REPORT, null));
+					report = ((Report) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_REPORT, null));
 					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(report, finestre, mntmReport);
 					Controllore.getSingleton().getView().relocateFinestreLaterali();
-				} catch (Exception e1) {
+				} catch (final Exception e1) {
 					e1.printStackTrace();
 				}
 			}
@@ -153,28 +154,28 @@ public class MyMenu extends JMenuBar {
 		listaComandi.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(final ActionEvent e) {
 				FinestraListaComandi history;
 				try {
-					history = ((FinestraListaComandi)Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, null));
+					history = ((FinestraListaComandi) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, null));
 					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(history, finestre, listaComandi);
 					Controllore.getSingleton().getView().relocateFinestreLaterali();
-				} catch (Exception e1) {
+				} catch (final Exception e1) {
 					e1.printStackTrace();
 				}
 			}
 		});
 
-		JMenu mnStrumenti = new JMenu("Strumenti");
+		final JMenu mnStrumenti = new JMenu("Strumenti");
 		add(mnStrumenti);
 
-		JMenu mnImpostazioni = new JMenu("Impostazioni");
+		final JMenu mnImpostazioni = new JMenu("Impostazioni");
 		mnStrumenti.add(mnImpostazioni);
 
-		JMenuItem mntmConfigurazione = new JMenuItem("Configurazioni");
+		final JMenuItem mntmConfigurazione = new JMenuItem("Configurazioni");
 		mntmConfigurazione.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(final ActionEvent e) {
 				final Impostazioni dialog = new Impostazioni();
 				dialog.pack();
 				dialog.setVisible(true);
@@ -183,12 +184,11 @@ public class MyMenu extends JMenuBar {
 		});
 		mnImpostazioni.add(mntmConfigurazione);
 
-		JMenuItem mntmCategorie = new JMenuItem("Categorie");
+		final JMenuItem mntmCategorie = new JMenuItem("Categorie");
 		mntmCategorie.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				final CategorieView dialog2 = new CategorieView(new
-				                WrapCatSpese());
+			public void actionPerformed(final ActionEvent e) {
+				final CategorieView dialog2 = new CategorieView(new WrapCatSpese());
 				dialog2.pack();
 				dialog2.setVisible(true);
 				dialog2.setModalityType(ModalityType.APPLICATION_MODAL);
@@ -196,11 +196,11 @@ public class MyMenu extends JMenuBar {
 		});
 		mnImpostazioni.add(mntmCategorie);
 
-		JMenuItem mntmGr = new JMenuItem("Gruppi");
+		final JMenuItem mntmGr = new JMenuItem("Gruppi");
 		mntmGr.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				final SettingGruppi dialog = new SettingGruppi();
+			public void actionPerformed(final ActionEvent e) {
+				final GruppiView dialog = new GruppiView(new WrapGruppi());
 				dialog.pack();
 				dialog.setVisible(true);
 				dialog.setModalityType(ModalityType.APPLICATION_MODAL);
@@ -208,48 +208,48 @@ public class MyMenu extends JMenuBar {
 		});
 		mnImpostazioni.add(mntmGr);
 
-		JMenu mnGrafici = new JMenu("Grafici");
+		final JMenu mnGrafici = new JMenu("Grafici");
 		mnStrumenti.add(mnGrafici);
 
-		JMenu mnEntrate = new JMenu("Entrate");
+		final JMenu mnEntrate = new JMenu("Entrate");
 		mnGrafici.add(mnEntrate);
 
-		JMenuItem mntmEntratePerTipo = new JMenuItem("Per tipo");
+		final JMenuItem mntmEntratePerTipo = new JMenuItem("Per tipo");
 		mnEntrate.add(mntmEntratePerTipo);
 
-		JMenuItem mntmEntrateMensili = new JMenuItem("Mensili");
+		final JMenuItem mntmEntrateMensili = new JMenuItem("Mensili");
 		mnEntrate.add(mntmEntrateMensili);
 
-		JMenu mnUscite = new JMenu("Uscite");
+		final JMenu mnUscite = new JMenu("Uscite");
 		mnGrafici.add(mnUscite);
 
-		JMenuItem mntmMensiliPerCategoria = new JMenuItem("Mensili per categoria");
+		final JMenuItem mntmMensiliPerCategoria = new JMenuItem("Mensili per categoria");
 		mnUscite.add(mntmMensiliPerCategoria);
 
-		JMenuItem mntmPerCategorie = new JMenuItem("Per categorie");
+		final JMenuItem mntmPerCategorie = new JMenuItem("Per categorie");
 		mntmPerCategorie.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(final ActionEvent e) {
 				try {
-					GrUscite1 dialog = new GrUscite1();
+					final GrUscite1 dialog = new GrUscite1();
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
-				} catch (Exception e1) {
+				} catch (final Exception e1) {
 					e1.printStackTrace();
 				}
 			}
 		});
 		mnUscite.add(mntmPerCategorie);
 
-		JMenuItem mntmPerMesi = new JMenuItem("Per mesi");
+		final JMenuItem mntmPerMesi = new JMenuItem("Per mesi");
 		mntmPerMesi.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(final ActionEvent e) {
 				try {
-					GrUscite2 dialog = new GrUscite2();
+					final GrUscite2 dialog = new GrUscite2();
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
-				} catch (Exception ex) {
+				} catch (final Exception ex) {
 					ex.printStackTrace();
 				}
 			}
@@ -258,7 +258,7 @@ public class MyMenu extends JMenuBar {
 		mntmMensiliPerCategoria.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(final ActionEvent e) {
 				AltreUtil.deleteFileDaDirectory2("./immagini/");
 				final GrGenerale dialog = new GrGenerale();
 				dialog.setSize(700, 700);
@@ -267,33 +267,33 @@ public class MyMenu extends JMenuBar {
 			}
 		});
 
-		JMenu mnTotali = new JMenu("Totali");
+		final JMenu mnTotali = new JMenu("Totali");
 		mnGrafici.add(mnTotali);
 
-		JMenuItem mntmSaldo = new JMenuItem("Saldo");
+		final JMenuItem mntmSaldo = new JMenuItem("Saldo");
 		mntmSaldo.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(final ActionEvent e) {
 				try {
-					GrGenerale2 dialog = new GrGenerale2();
+					final GrGenerale2 dialog = new GrGenerale2();
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setSize(700, 700);
 					dialog.setVisible(true);
-				} catch (Exception e1) {
+				} catch (final Exception e1) {
 					e1.printStackTrace();
 				}
 			}
 		});
 		mnTotali.add(mntmSaldo);
 
-		JMenu mnDati = new JMenu("Inserimento dati");
+		final JMenu mnDati = new JMenu("Inserimento dati");
 		mnStrumenti.add(mnDati);
 
-		JMenuItem mntmEntrate = new JMenuItem("Entrate");
+		final JMenuItem mntmEntrate = new JMenuItem("Entrate");
 		mntmEntrate.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				EntrateView dialog = new EntrateView(new WrapEntrate());
+			public void actionPerformed(final ActionEvent e) {
+				final EntrateView dialog = new EntrateView(new WrapEntrate());
 				dialog.setLocationRelativeTo(null);
 				dialog.setBounds(0, 0, 347, 318);
 				dialog.setVisible(true);
@@ -301,16 +301,16 @@ public class MyMenu extends JMenuBar {
 		});
 		mnDati.add(mntmEntrate);
 
-		JMenuItem mntmUscite = new JMenuItem("Uscite");
+		final JMenuItem mntmUscite = new JMenuItem("Uscite");
 		mntmUscite.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(final ActionEvent e) {
 				try {
-					UsciteView dialog = new UsciteView(new WrapSingleSpesa());
+					final UsciteView dialog = new UsciteView(new WrapSingleSpesa());
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setBounds(0, 0, 347, 407);
 					dialog.setVisible(true);
-				} catch (Exception e1) {
+				} catch (final Exception e1) {
 					e1.printStackTrace();
 				}
 			}
@@ -319,12 +319,12 @@ public class MyMenu extends JMenuBar {
 		mntmEntrateMensili.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(final ActionEvent e) {
 				try {
-					GrEntrate2 dialog = new GrEntrate2();
+					final GrEntrate2 dialog = new GrEntrate2();
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
-				} catch (Exception e1) {
+				} catch (final Exception e1) {
 					e1.printStackTrace();
 				}
 
@@ -332,8 +332,8 @@ public class MyMenu extends JMenuBar {
 		});
 		mntmEntratePerTipo.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				JFrame f = new JFrame();
+			public void actionPerformed(final ActionEvent e) {
+				final JFrame f = new JFrame();
 				try {
 					AltreUtil.deleteFileDaDirectory2("./immagini/");
 					final GrEntrate1 dialog = new GrEntrate1(f, null, true);
@@ -341,7 +341,7 @@ public class MyMenu extends JMenuBar {
 					dialog.setVisible(true);
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setModalityType(ModalityType.APPLICATION_MODAL);
-				} catch (Exception e1) {
+				} catch (final Exception e1) {
 					e1.printStackTrace();
 				} finally {
 					f.dispose();
@@ -349,14 +349,14 @@ public class MyMenu extends JMenuBar {
 			}
 		});
 
-		JMenu help = new JMenu("Help");
+		final JMenu help = new JMenu("Help");
 		add(help);
 
-		JMenuItem info = new JMenuItem("Info");
+		final JMenuItem info = new JMenuItem("Info");
 		info.addActionListener(new AscoltatoreInfo());
 		help.add(info);
 
-		JMenuItem manuale = new JMenuItem("Manuale");
+		final JMenuItem manuale = new JMenuItem("Manuale");
 		help.add(manuale);
 
 	}
@@ -364,12 +364,12 @@ public class MyMenu extends JMenuBar {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
 			public void run() {
-				JFrame frame = new JFrame();
+				final JFrame frame = new JFrame();
 				frame.setSize(1000, 50);
 				frame.getContentPane().add(new MyMenu());
 				frame.setVisible(true);

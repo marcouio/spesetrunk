@@ -8,10 +8,15 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
+/**
+ * TableF non è altro che una JTable con la modifica dei font e dell'altezza
+ * delle righe, celle non editabili
+ * 
+ * @author marco.molinari
+ * 
+ */
 public class TableF extends JTable {
 
-	/**
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public TableF() {

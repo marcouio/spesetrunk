@@ -1,8 +1,9 @@
-package business.comandi;
+package business.comandi.categorie;
 
 import java.util.HashMap;
 
 import business.cache.CacheCategorie;
+import business.comandi.AbstractCommand;
 import domain.AbstractOggettoEntita;
 import domain.CatSpese;
 import domain.ICatSpese;

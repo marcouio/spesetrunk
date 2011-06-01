@@ -1,6 +1,7 @@
 package business.cache;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
@@ -8,15 +9,15 @@ import domain.AbstractOggettoEntita;
 import domain.Gruppi;
 import domain.wrapper.WrapGruppi;
 
-public class CacheGruppi extends AbstractCacheBase{
+public class CacheGruppi extends AbstractCacheBase {
 
 	private static CacheGruppi singleton;
-	
-	private CacheGruppi(){
+
+	private CacheGruppi() {
 		cache = new HashMap<String, AbstractOggettoEntita>();
 	}
-	
-	public static CacheGruppi getSingleton(){
+
+	public static CacheGruppi getSingleton() {
 		if (singleton == null) {
 			synchronized (CacheGruppi.class) {
 				if (singleton == null) {
@@ -28,44 +29,44 @@ public class CacheGruppi extends AbstractCacheBase{
 	}
 
 	WrapGruppi gruppiDAO = new WrapGruppi();
-	
-	public Gruppi getGruppo(String id){
-		Gruppi gruppo = (Gruppi) cache.get(id); 
-		if(gruppo == null){
+
+	public Gruppi getGruppo(final String id) {
+		Gruppi gruppo = (Gruppi) cache.get(id);
+		if (gruppo == null) {
 			gruppo = caricaGruppo(id);
-			if(gruppo!=null){
+			if (gruppo != null) {
 				cache.put(id, gruppo);
 			}
 		}
-	return (Gruppi)cache.get(id);
+		return (Gruppi) cache.get(id);
 	}
-	
-	public Gruppi getGruppoPerNome(String nome){
-		Gruppi gruppo = (Gruppi) cache.get(nome); 
-		if(gruppo == null){
+
+	public Gruppi getGruppoPerNome(final String nome) {
+		Gruppi gruppo = (Gruppi) cache.get(nome);
+		if (gruppo == null) {
 			gruppo = caricaGruppoPerNome(nome);
-			if(gruppo!=null){
+			if (gruppo != null) {
 				cache.put(Integer.toString(gruppo.getidGruppo()), gruppo);
 			}
 		}
-	return (Gruppi)cache.get(Integer.toString(gruppo.getidGruppo()));
+		return (Gruppi) cache.get(Integer.toString(gruppo.getidGruppo()));
 	}
 
-	private Gruppi caricaGruppoPerNome(String nome) {
-		return (Gruppi) new WrapGruppi().selectByNome(nome);
+	private Gruppi caricaGruppoPerNome(final String nome) {
+		return new WrapGruppi().selectByNome(nome);
 	}
 
-	private Gruppi caricaGruppo(String id){
+	private Gruppi caricaGruppo(final String id) {
 		return (Gruppi) new WrapGruppi().selectById(Integer.parseInt(id));
 	}
-	
-	public Map<String, AbstractOggettoEntita> chargeAllGruppi(){
-		Vector<Object>gruppi = gruppiDAO.selectAll();
-		if(gruppi!=null && gruppi.size()>0){
-			for(int i=0; i<gruppi.size();i++){
-				Gruppi gruppo = (Gruppi) gruppi.get(i);
-				int id = gruppo.getidGruppo();
-				if(cache.get(id) == null){
+
+	public Map<String, AbstractOggettoEntita> chargeAllGruppi() {
+		final Vector<Object> gruppi = gruppiDAO.selectAll();
+		if (gruppi != null && gruppi.size() > 0) {
+			for (int i = 0; i < gruppi.size(); i++) {
+				final Gruppi gruppo = (Gruppi) gruppi.get(i);
+				final int id = gruppo.getidGruppo();
+				if (cache.get(id) == null) {
 					cache.put(Integer.toString(id), gruppo);
 				}
 			}
@@ -73,35 +74,56 @@ public class CacheGruppi extends AbstractCacheBase{
 		}
 		return cache;
 	}
-	
-	public Map<String, AbstractOggettoEntita> getAllGruppi(){
-		if(caricata)
+
+	public Map<String, AbstractOggettoEntita> getAllGruppi() {
+		if (caricata) {
 			return cache;
-		else
+		} else {
 			return chargeAllGruppi();
+		}
 	}
-	
-	public Vector<Gruppi>getVettoreGruppiSenzaZero(){
-		Vector<Gruppi> gruppi = new Vector<Gruppi>();
-		Map<String, AbstractOggettoEntita> mappa = this.getAllGruppi();
-		Object[] lista = mappa.values().toArray();
-		for(int i=0;i<lista.length;i++){
-			Gruppi gruppo = (Gruppi) lista[i];
-			if(gruppo != null || gruppo.getnome()!=null)
-				if(!gruppo.getnome().equals("No Gruppo"))
+
+	public Vector<Gruppi> getVettoreGruppiSenzaZero() {
+		final Vector<Gruppi> gruppi = new Vector<Gruppi>();
+		final Map<String, AbstractOggettoEntita> mappa = this.getAllGruppi();
+		final Object[] lista = mappa.values().toArray();
+		for (int i = 0; i < lista.length; i++) {
+			final Gruppi gruppo = (Gruppi) lista[i];
+			if (gruppo != null && gruppo.getnome() != null) {
+				if (!gruppo.getnome().equals("No Gruppo")) {
 					gruppi.add((Gruppi) lista[i]);
+				}
+			}
 		}
 		return gruppi;
 	}
-	
-	public Vector<Gruppi>getVettoreGruppi(){
-		Vector<Gruppi> gruppi = new Vector<Gruppi>();
-		Map<String, AbstractOggettoEntita> mappa = this.getAllGruppi();
-		Object[] lista = mappa.values().toArray();
-		for(int i=lista.length-1;i>=0;i--){
+
+	public Vector<Gruppi> getVettoreGruppi() {
+		final Vector<Gruppi> gruppi = new Vector<Gruppi>();
+		final Map<String, AbstractOggettoEntita> mappa = this.getAllGruppi();
+		final Object[] lista = mappa.values().toArray();
+		for (int i = lista.length - 1; i >= 0; i--) {
 			gruppi.add((Gruppi) lista[i]);
 		}
 		return gruppi;
+	}
+
+	public int getMaxId() {
+		int maxId = 0;
+		final Map<String, AbstractOggettoEntita> mappa = getAllGruppi();
+		final Iterator<String> chiavi = mappa.keySet().iterator();
+		if (mappa != null) {
+			while (chiavi.hasNext()) {
+				final Gruppi gruppo = (Gruppi) mappa.get(chiavi.next());
+				if (gruppo != null) {
+					final int idGruppo = gruppo.getidGruppo();
+					if (idGruppo > maxId) {
+						maxId = idGruppo;
+					}
+				}
+			}
+		}
+		return maxId;
 	}
 
 }

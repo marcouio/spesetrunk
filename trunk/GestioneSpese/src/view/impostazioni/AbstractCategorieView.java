@@ -11,9 +11,9 @@ import domain.wrapper.WrapCatSpese;
 public class AbstractCategorieView extends JDialog implements Observer {
 
 	private static final long serialVersionUID = 1L;
-	public WrapCatSpese       modelCatSpese    = null;
+	public WrapCatSpese modelCatSpese = null;
 
-	public AbstractCategorieView(WrapCatSpese modelCatSpese) {
+	public AbstractCategorieView(final WrapCatSpese modelCatSpese) {
 		this.modelCatSpese = modelCatSpese;
 	}
 
@@ -21,7 +21,7 @@ public class AbstractCategorieView extends JDialog implements Observer {
 		return modelCatSpese.getnome();
 	}
 
-	protected void setcNome(String cNome) {
+	protected void setcNome(final String cNome) {
 		modelCatSpese.setnome(cNome);
 	}
 
@@ -29,7 +29,7 @@ public class AbstractCategorieView extends JDialog implements Observer {
 		return modelCatSpese.getdescrizione();
 	}
 
-	public void setcDescrizione(String cDescrizione) {
+	public void setcDescrizione(final String cDescrizione) {
 		modelCatSpese.setdescrizione(cDescrizione);
 	}
 
@@ -37,7 +37,7 @@ public class AbstractCategorieView extends JDialog implements Observer {
 		return modelCatSpese.getimportanza();
 	}
 
-	public void setcImportanza(String cImportanza) {
+	public void setcImportanza(final String cImportanza) {
 		modelCatSpese.setimportanza(cImportanza);
 	}
 
@@ -45,14 +45,22 @@ public class AbstractCategorieView extends JDialog implements Observer {
 		return modelCatSpese.getGruppi();
 	}
 
-	public void setGruppo(Gruppi gruppo) {
+	public void setGruppo(final Gruppi gruppo) {
 		modelCatSpese.setGruppi(gruppo);
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update(final Observable o, final Object arg) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public WrapCatSpese getModelCatSpese() {
+		return modelCatSpese;
+	}
+
+	public void setModelCatSpese(final WrapCatSpese modelCatSpese) {
+		this.modelCatSpese = modelCatSpese;
 	}
 
 }

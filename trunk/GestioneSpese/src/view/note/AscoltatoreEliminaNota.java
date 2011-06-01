@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
 import business.Controllore;
-import business.comandi.CommandDeleteNota;
+import business.comandi.note.CommandDeleteNota;
 import domain.Note;
 import domain.wrapper.WrapNote;
 

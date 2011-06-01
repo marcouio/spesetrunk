@@ -1,31 +1,32 @@
-package business.comandi;
+package business.comandi.singlespese;
 
 import java.util.HashMap;
 
-import business.cache.CacheEntrate;
+import business.cache.CacheUscite;
+import business.comandi.AbstractCommand;
 import domain.AbstractOggettoEntita;
-import domain.Entrate;
-import domain.IEntrate;
+import domain.ISingleSpesa;
+import domain.SingleSpesa;
 import domain.wrapper.IWrapperEntity;
-import domain.wrapper.WrapEntrate;
+import domain.wrapper.WrapSingleSpesa;
 
-public class CommandInserisciEntrata extends AbstractCommand{
+public class CommandInserisciSpesa extends AbstractCommand{
 
 	
+	final private AbstractOggettoEntita entita;
 	final private IWrapperEntity wrap;
 	private HashMap<String, AbstractOggettoEntita> mappaCache;
 	
-	public CommandInserisciEntrata(IEntrate entita){
-		CacheEntrate cache = CacheEntrate.getSingleton();
+	public CommandInserisciSpesa(ISingleSpesa entita){
+		CacheUscite cache = CacheUscite.getSingleton();
 		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
-		this.wrap = new WrapEntrate();
+		this.wrap = new WrapSingleSpesa();
 		this.entita = ((IWrapperEntity) entita).getentitaPadre();
-		
 	}
 	
 	@Override
 	public boolean execute() {
-		if(entita instanceof Entrate){
+		if(entita instanceof SingleSpesa){
 			if(wrap.insert(entita)){
 				mappaCache.put(entita.getIdEntita(), entita);
 				return true;
@@ -36,7 +37,7 @@ public class CommandInserisciEntrata extends AbstractCommand{
 
 	@Override
 	public boolean unExecute() {
-		if(entita instanceof Entrate){
+		if(entita instanceof SingleSpesa){
 			if(wrap.delete(Integer.parseInt(entita.getIdEntita()))){
 				mappaCache.remove(entita.getIdEntita());
 				return true;
@@ -46,7 +47,7 @@ public class CommandInserisciEntrata extends AbstractCommand{
 	}
 	@Override
 	public String toString() {
-		return "Inserita Entrata " + ((Entrate)entita).getnome();
+		return "Inserita Spesa " + ((SingleSpesa)entita).getnome();
 	}
 
 }

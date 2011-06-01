@@ -12,7 +12,6 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
-import java.util.logging.Logger;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -45,8 +44,6 @@ import domain.wrapper.Model;
 public class Database {
 
 	private static Database singleton;
-
-	static Logger log = AltreUtil.getLog();
 
 	private Database() {
 
@@ -232,8 +229,7 @@ public class Database {
 	}
 
 	/**
-	 * Il metodo esegue le stringhe di codice Sql inserite nel campo. Non esegue
-	 * ancora operazione e formule complesse: da implementare.
+	 * Il metodo esegue le stringhe di codice Sql inserite nel campo.
 	 * 
 	 * @param sql
 	 * @return HashMap<String, ArrayList>
@@ -272,7 +268,7 @@ public class Database {
 
 			} catch (final SQLException e) {
 				JOptionPane.showMessageDialog(null, "Operazione non eseguita: " + e.getMessage(), "Non va!", JOptionPane.ERROR_MESSAGE, new ImageIcon("immgUtil/index.jpeg"));
-				log.severe("Operazione SQL non eseguita:" + e.getMessage());
+				Controllore.getLog().severe("Operazione SQL non eseguita:" + e.getMessage());
 				e.printStackTrace();
 			}
 
@@ -283,7 +279,7 @@ public class Database {
 				st.executeUpdate(sql);
 			} catch (final SQLException e) {
 				JOptionPane.showMessageDialog(null, "Operazione non eseguita: " + e.getMessage(), "Non va!", JOptionPane.ERROR_MESSAGE, new ImageIcon("immgUtil/index.jpeg"));
-				log.severe("Operazione SQL non eseguita:" + e.getMessage());
+				Controllore.getLog().severe("Operazione SQL non eseguita:" + e.getMessage());
 				e.printStackTrace();
 			}
 		}
@@ -393,8 +389,8 @@ public class Database {
 	}
 
 	/**
-	 * Calcola interrogando il database il totale delle spese nel mese passato
-	 * come parametro
+	 * Calcola interrogando la cache il totale delle spese nel mese passato come
+	 * parametro
 	 * 
 	 * @param mese
 	 * @return totale mensile delle spese(double)
@@ -414,7 +410,7 @@ public class Database {
 	}
 
 	/**
-	 * Calcola interrogando il database il totale delle entrate nel mese passato
+	 * Calcola interrogando la cache il totale delle entrate nel mese passato
 	 * come parametro
 	 * 
 	 * @param mese
@@ -428,7 +424,8 @@ public class Database {
 			final Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), "yyyy/MM/dd");
 			final int mesee = Integer.parseInt(DBUtil.dataToString(dataEntrata, "MM"));
 			// TODO serve l'anno??
-			final int annoo = Integer.parseInt(DBUtil.dataToString(dataEntrata, "yyyy"));
+			// final int annoo =
+			// Integer.parseInt(DBUtil.dataToString(dataEntrata, "yyyy"));
 			if (mesee == mese) {
 				totaleMese += entrata.getinEuro();
 			}
@@ -504,7 +501,7 @@ public class Database {
 			}
 		} catch (final SQLException e) {
 			e.printStackTrace();
-			log.severe("Errore nel caricamento dal database dei nomi delle colonne di " + tabella + ". " + e.getMessage());
+			Controllore.getLog().severe("Errore nel caricamento dal database dei nomi delle colonne di " + tabella + ". " + e.getMessage());
 		}
 		DBUtil.closeConnection();
 		try {
@@ -516,8 +513,6 @@ public class Database {
 	}
 
 	/**
-	 * 
-	 * 
 	 * @return Metodo per calcolare il totale delle entrate annuali
 	 */
 	public static double EAnnuale() {
@@ -537,8 +532,6 @@ public class Database {
 	}
 
 	/**
-	 * 
-	 * 
 	 * @return Metodo per calcolare il totale delle spese annuali
 	 */
 	public static double Annuale() {
@@ -688,7 +681,9 @@ public class Database {
 		try {
 			aggiornamentoGenerale(Entrate.NOME_TABELLA);
 			aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
-			SottoPannelloMesi.azzeraCampi();
+			if (SottoPannelloMesi.getComboMese() != null) {
+				SottoPannelloMesi.azzeraCampi();
+			}
 			SottoPannelloCategorie.azzeraCampi();
 			SottoPannelloTotali.getPercentoFutili().setText(Double.toString(percentoUscite(CatSpese.IMPORTANZA_FUTILE)));
 			SottoPannelloTotali.getPercentoVariabili().setText(Double.toString(percentoUscite(CatSpese.IMPORTANZA_VARIABILE)));

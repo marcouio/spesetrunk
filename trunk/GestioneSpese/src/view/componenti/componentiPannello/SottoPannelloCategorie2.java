@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import view.OggettoVistaBase;
-import view.font.LabelTesto;
+import view.font.LabelListaGruppi;
 import view.font.LabelTitolo;
 import view.font.TextFieldF;
 import business.Database;
@@ -67,17 +67,17 @@ public class SottoPannelloCategorie2 extends OggettoVistaBase {
 			jLabel5.setText("Categorie");
 			jLabel5.setBounds(177, 25, 90, 19);
 			
-			jLabel9Categorie = new LabelTesto();
+			jLabel9Categorie = new LabelListaGruppi();
 			this.add(jLabel9Categorie);
 			jLabel9Categorie.setText("Categorie");
 			jLabel9Categorie.setBounds(16, 67, 67, 14);
 			
-			jLabel11 = new LabelTesto();
+			jLabel11 = new LabelListaGruppi();
 			this.add(jLabel11);
 			jLabel11.setText("Totale Anno");
 			jLabel11.setBounds(164, 66, 78, 14);
 			
-			jLabel6 = new LabelTesto();
+			jLabel6 = new LabelListaGruppi();
 			this.add(jLabel6);
 			jLabel6.setText("Totale Mese");
 			jLabel6.setBounds(317, 67, 106, 14);

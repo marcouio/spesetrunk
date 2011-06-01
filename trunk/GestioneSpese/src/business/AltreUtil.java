@@ -1,21 +1,16 @@
 package business;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.GregorianCalendar;
 import java.util.Vector;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class AltreUtil {
 
-	static Logger log;
-	static FileHandler fileLog;
+	// static Logger log;
+	// static FileHandler fileLog;
 
 	public static boolean checkInteger(final String integer) {
 		boolean ok = true;
@@ -50,16 +45,16 @@ public class AltreUtil {
 				ok = false;
 				JOptionPane.showMessageDialog(null, "Inserire la data con valori numerici e con il formato suggerito: AAAA/MM/GG", "Non ci siamo!", JOptionPane.ERROR_MESSAGE,
 						new ImageIcon("imgUtil/index.jpeg"));
-				log.severe("La data non e' inserita in maniera corretta: " + e2.getMessage());
+				LoggerOggetto.getLog().severe("La data non e' inserita in maniera corretta: " + e2.getMessage());
 			} catch (final IllegalArgumentException e1) {
 				ok = false;
 				JOptionPane.showMessageDialog(null, "Non hai inserito una data!", "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("immgUtil/index.jpeg"));
-				log.severe("La data non e' inserita in maniera corretta: " + e1.getMessage());
+				Controllore.getLog().severe("La data non e' inserita in maniera corretta: " + e1.getMessage());
 			} catch (final StringIndexOutOfBoundsException e3) {
 				ok = false;
 				JOptionPane.showMessageDialog(null, "Numero di caratteri errato per una data: " + e3.getMessage(), "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon(
 						"imgUtil/index.jpeg"));
-				log.severe("La data non e' inserita in maniera corretta: " + e3.getMessage());
+				Controllore.getLog().severe("La data non e' inserita in maniera corretta: " + e3.getMessage());
 			}
 		} else {
 			ok = false;
@@ -93,25 +88,6 @@ public class AltreUtil {
 		return parteIntera + (decimaleArrotondato);
 	}
 
-	/**
-	 * Restituisce il logger dell'applicazione. Viene creato se chiamato per la
-	 * prima volta.
-	 * 
-	 * @return
-	 */
-	public static Logger getLog() {
-		if (log == null) {
-			setLog();
-		} else {
-			log = Logger.getLogger("com.entrateUscite2.0");
-		}
-		return log;
-	}
-
-	public static void setLog(final Logger log) {
-		AltreUtil.log = log;
-	}
-
 	public AltreUtil() {
 
 	}
@@ -139,30 +115,6 @@ public class AltreUtil {
 
 		}
 		return files;
-	}
-
-	/**
-	 * Crea un Logger
-	 * 
-	 * @return Logger
-	 */
-	public static Logger setLog() {
-
-		log = Logger.getLogger("com.entrateUscite2.0");
-		try {
-			deleteFileDaDirectory("./", "MyL");
-			fileLog = new FileHandler("MyLog.txt", 50000, 1, true);
-			// fileLog = new FileHandler("Log/MyLog.txt",50000,1,true);
-			fileLog.setFormatter(new SimpleFormatter());
-		} catch (final SecurityException e) {
-			e.printStackTrace();
-		} catch (final IOException e) {
-			e.printStackTrace();
-		}
-		log.addHandler(fileLog);
-		log.setLevel(Level.ALL);
-		log.info("Start programma!");
-		return log;
 	}
 
 	/**

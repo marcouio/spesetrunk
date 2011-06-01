@@ -15,7 +15,7 @@ import javax.swing.JSeparator;
 
 import view.OggettoVistaBase;
 import view.font.ButtonF;
-import view.font.LabelTesto;
+import view.font.LabelListaGruppi;
 import view.font.LabelTitolo;
 import view.grafici.dialogGraph.GrGenerale;
 import view.grafici.dialogGraph.GrGenerale2;
@@ -61,7 +61,7 @@ public class Grafico3 extends OggettoVistaBase {
 		lblGrafico.setBounds(10, 94, 82, 17);
 		add(lblGrafico);
 		
-		JLabel lblIlGraficoMostra = new LabelTesto("Il saldo con il confronto fra entrate e uscite");
+		JLabel lblIlGraficoMostra = new LabelListaGruppi("Il saldo con il confronto fra entrate e uscite");
 		lblIlGraficoMostra.setBounds(20, 127, 395, 25);
 		add(lblIlGraficoMostra);
 		
@@ -87,7 +87,7 @@ public class Grafico3 extends OggettoVistaBase {
 		});
 		add(button);
 		
-		JLabel label_1 = new LabelTesto("Le uscite mensili suddivise per categorie");
+		JLabel label_1 = new LabelListaGruppi("Le uscite mensili suddivise per categorie");
 		label_1.setBounds(20, 227, 395, 25);
 		add(label_1);
 		

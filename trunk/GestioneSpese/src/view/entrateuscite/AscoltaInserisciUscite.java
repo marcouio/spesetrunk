@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import business.Controllore;
-import business.comandi.CommandInserisciSpesa;
+import business.comandi.singlespese.CommandInserisciSpesa;
 import domain.SingleSpesa;
 
 public class AscoltaInserisciUscite implements ActionListener {

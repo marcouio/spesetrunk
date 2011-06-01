@@ -11,7 +11,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 
 import view.font.ButtonF;
-import view.font.LabelTesto;
+import view.font.LabelListaGruppi;
 
 public class Help extends JDialog {
 
@@ -31,23 +31,23 @@ public class Help extends JDialog {
 		label.setBounds(36, 55, 138, 297);
 		add(label);
 		
-		JLabel lblGestionespese = new LabelTesto("GestioneSpese per la gestione economica familiare");
+		JLabel lblGestionespese = new LabelListaGruppi("GestioneSpese per la gestione economica familiare");
 		lblGestionespese.setBounds(184, 45, 391, 28);
 		add(lblGestionespese);
 		
-		JLabel lblVersione = new LabelTesto("Versione: 1.0.0");
+		JLabel lblVersione = new LabelListaGruppi("Versione: 1.0.0");
 		lblVersione.setBounds(184, 85, 240, 28);
 		add(lblVersione);
 		
-		JLabel lblVersione2 = new LabelTesto("Versione: 1.0.0");
+		JLabel lblVersione2 = new LabelListaGruppi("Versione: 1.0.0");
 		lblVersione2.setBounds(184, 85, 240, 28);
 		add(lblVersione2);
 		
-		JLabel lblMarcoMolinari = new LabelTesto("Copyright Marco Molinari 2010. All right reserved.");
+		JLabel lblMarcoMolinari = new LabelListaGruppi("Copyright Marco Molinari 2010. All right reserved.");
 		lblMarcoMolinari.setBounds(184, 124, 327, 28);
 		add(lblMarcoMolinari);
 		
-		JLabel help = new LabelTesto("Clicca qui per accedere all'Help");
+		JLabel help = new LabelListaGruppi("Clicca qui per accedere all'Help");
 		help.setText("Clicca sul bottone per l'Help");
 		help.setBounds(184, 163, 215, 28);
 		

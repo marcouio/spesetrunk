@@ -17,7 +17,7 @@ import javax.swing.SwingConstants;
 
 import view.OggettoVistaBase;
 import view.font.ButtonF;
-import view.font.LabelTesto;
+import view.font.LabelListaGruppi;
 import view.font.LabelTitolo;
 import view.grafici.dialogGraph.GrEntrate1;
 import view.grafici.dialogGraph.GrEntrate2;
@@ -82,24 +82,24 @@ public class Grafico1 extends OggettoVistaBase {
 		});
 		add(btnVisualizza_1);
 		
-		JLabel lblLentrateDiviseFra = new LabelTesto("Grafico con le entrate divise fra fisse e variabili");
+		JLabel lblLentrateDiviseFra = new LabelListaGruppi("Grafico con le entrate divise fra fisse e variabili");
 		lblLentrateDiviseFra.setVerticalAlignment(SwingConstants.TOP);
 		lblLentrateDiviseFra.setBounds(20, 115, 395, 25);
 		add(lblLentrateDiviseFra);
 		
-		JLabel label_1 = new LabelTesto("Grafico 1: ");
+		JLabel label_1 = new LabelListaGruppi("Grafico 1: ");
 		label_1.setForeground(Color.RED);
 		label_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
 		label_1.setBounds(10, 82, 82, 17);
 		add(label_1);
 		
-		JLabel label_2 = new LabelTesto("Grafico 2: ");
+		JLabel label_2 = new LabelListaGruppi("Grafico 2: ");
 		label_2.setForeground(Color.RED);
 		label_2.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
 		label_2.setBounds(10, 179, 82, 17);
 		add(label_2);
 		
-		JLabel lblGraficoABarre = new LabelTesto("Grafico a barre dell'andamento delle entrate annuali divise per mesi");
+		JLabel lblGraficoABarre = new LabelListaGruppi("Grafico a barre dell'andamento delle entrate annuali divise per mesi");
 		lblGraficoABarre.setVerticalAlignment(SwingConstants.TOP);
 		lblGraficoABarre.setBounds(20, 215, 395, 25);
 		add(lblGraficoABarre);

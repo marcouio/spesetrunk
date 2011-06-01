@@ -8,7 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import view.font.ButtonF;
-import view.font.LabelTesto;
+import view.font.LabelListaGruppi;
 import view.font.LabelTitolo;
 import view.font.TextFieldF;
 import view.impostazioni.Impostazioni;
@@ -27,11 +27,11 @@ public class Login extends JDialog {
 		getContentPane().setLayout(null);
 		this.setBounds(400, 300, 400, 220);
 		this.setTitle("Login");
-		LabelTesto lblUsername = new LabelTesto("Username");
+		LabelListaGruppi lblUsername = new LabelListaGruppi("Username");
 		lblUsername.setBounds(83, 69, 88, 25);
 		getContentPane().add(lblUsername);
 
-		LabelTesto lblPassword = new LabelTesto("Password");
+		LabelListaGruppi lblPassword = new LabelListaGruppi("Password");
 		lblPassword.setBounds(221, 68, 88, 25);
 		getContentPane().add(lblPassword);
 

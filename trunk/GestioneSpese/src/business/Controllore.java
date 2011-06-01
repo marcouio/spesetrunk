@@ -1,6 +1,7 @@
 package business;
 
-import javax.swing.JFrame;
+import java.util.logging.Logger;
+
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -24,7 +25,7 @@ public class Controllore {
 
 	private InizializzatoreFinestre initFinestre;
 	private static Controllore singleton;
-	private static JFrame windowVisibile;
+	private static Logger log;
 
 	/**
 	 * Launch the application.
@@ -32,8 +33,7 @@ public class Controllore {
 	public static void main(final String[] args) {
 		try {
 			final CacheLookAndFeel cacheLook = CacheLookAndFeel.getSingleton();
-			final java.util.Vector<Lookandfeel> vettore = cacheLook
-					.getVettoreLooksPerCombo();
+			final java.util.Vector<Lookandfeel> vettore = cacheLook.getVettoreLooksPerCombo();
 
 			Lookandfeel look = null;
 			for (int i = 0; i < vettore.size(); i++) {
@@ -67,6 +67,7 @@ public class Controllore {
 	private Controllore() {
 		setStartUtenteLogin();
 		setStartGruppoZero();
+		setLog(LoggerOggetto.getLog());
 	}
 
 	private static void setStartUtenteLogin() {
@@ -86,8 +87,7 @@ public class Controllore {
 	}
 
 	private static void setStartGruppoZero() {
-		Gruppi gruppoZero = CacheGruppi.getSingleton().getGruppoPerNome(
-				"No Gruppo");
+		Gruppi gruppoZero = CacheGruppi.getSingleton().getGruppoPerNome("No Gruppo");
 		if (gruppoZero == null) {
 			gruppoZero = CacheGruppi.getSingleton().getGruppo("0");
 		}
@@ -154,5 +154,13 @@ public class Controllore {
 
 	public void setInitFinestre(final InizializzatoreFinestre initFinestre) {
 		this.initFinestre = initFinestre;
+	}
+
+	public static void setLog(final Logger log) {
+		Controllore.log = log;
+	}
+
+	public static Logger getLog() {
+		return log;
 	}
 }

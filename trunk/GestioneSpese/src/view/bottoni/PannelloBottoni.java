@@ -15,18 +15,20 @@ import javax.swing.SwingUtilities;
 
 public class PannelloBottoni extends JPanel implements ActionListener {
 
-	private static final long          serialVersionUID = 1L;
-	public static final int            MODE_PIENO       = 0;
+	private static final long serialVersionUID = 1L;
+	public static final int MODE_PIENO = 0;
 
-	protected final ArrayList<Bottone> listaBottoni     = new ArrayList<Bottone>();
-	protected final ButtonGroup        gruppoBottoni    = new ButtonGroup();
+	private static final int ALTEZZA_BOTTONE = 50;
 
-	public static void main(String[] args) {
+	protected final ArrayList<Bottone> listaBottoni = new ArrayList<Bottone>();
+	protected final ButtonGroup gruppoBottoni = new ButtonGroup();
+
+	public static void main(final String[] args) {
 
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				JFrame inst = new JFrame();
+				final JFrame inst = new JFrame();
 				inst.setBounds(0, 0, 1000, 750);
 				inst.add(new PannelloBottoni(MODE_PIENO));
 				inst.setTitle("PannelloBottoni");
@@ -44,11 +46,11 @@ public class PannelloBottoni extends JPanel implements ActionListener {
 		init();
 	}
 
-	public PannelloBottoni(ArrayList<Bottone> bottoni) {
+	public PannelloBottoni(final ArrayList<Bottone> bottoni) {
 
 		init();
 
-		for (Bottone toggleBtn : bottoni) {
+		for (final Bottone toggleBtn : bottoni) {
 			listaBottoni.add(toggleBtn);
 			gruppoBottoni.add(toggleBtn.getBottone());
 			this.addBottone(toggleBtn);
@@ -56,26 +58,26 @@ public class PannelloBottoni extends JPanel implements ActionListener {
 
 	}
 
-	public PannelloBottoni(int mode) {
+	public PannelloBottoni(final int mode) {
 		init();
 
-		ToggleBtn bottoni1 = new ToggleBtn("Primo", new ImageIcon("/home/kiwi/Immagini/prova.png"));
-		ToggleBtn bottoni2 = new ToggleBtn("Secondo", new ImageIcon("/home/kiwi/Immagini/prova.png"));
-		ToggleBtn bottoni3 = new ToggleBtn("Terzo", new ImageIcon("/home/kiwi/Immagini/prova.png"));
+		final ToggleBtn bottoni1 = new ToggleBtn("Primo", new ImageIcon("/home/kiwi/Immagini/prova.png"));
+		final ToggleBtn bottoni2 = new ToggleBtn("Secondo", new ImageIcon("/home/kiwi/Immagini/prova.png"));
+		final ToggleBtn bottoni3 = new ToggleBtn("Terzo", new ImageIcon("/home/kiwi/Immagini/prova.png"));
 
 		bottoni1.settaggioBottoneStandard();
 		bottoni2.settaggioBottoneStandard();
 		bottoni3.settaggioBottoneStandard();
 
-		Bottone b1 = new Bottone(bottoni1);
-		Bottone b2 = new Bottone(bottoni2);
-		Bottone b3 = new Bottone(bottoni3);
+		final Bottone b1 = new Bottone(bottoni1);
+		final Bottone b2 = new Bottone(bottoni2);
+		final Bottone b3 = new Bottone(bottoni3);
 
 		this.addBottone(b3);
 		this.addBottone(b2);
 		this.addBottone(b1);
 
-		PannelloBottoni pp = new PannelloBottoni();
+		final PannelloBottoni pp = new PannelloBottoni();
 		pp.add(new JButton("ciaociao"));
 		b3.setContenuto(pp);
 
@@ -85,19 +87,19 @@ public class PannelloBottoni extends JPanel implements ActionListener {
 		this.setLayout(new GridLayout(1, 4));
 	}
 
-	public void addBottone(Bottone bottone) {
+	public void addBottone(final Bottone bottone) {
 		this.add(bottone);
 		this.gruppoBottoni.add(bottone.getBottone());
 		this.listaBottoni.add(bottone);
 		if (bottone.getBottone() != null) {
-			bottone.getBottone().setPreferredSize(new Dimension(getWidth(), 50));
+			bottone.getBottone().setPreferredSize(new Dimension(getWidth(), ALTEZZA_BOTTONE));
 			bottone.getBottone().addActionListener(this);
 		}
 	}
 
 	public void deselezionaBottoni() {
 		this.gruppoBottoni.clearSelection();
-		for (Bottone button : listaBottoni) {
+		for (final Bottone button : listaBottoni) {
 			button.contrai();
 		}
 	}
@@ -111,8 +113,8 @@ public class PannelloBottoni extends JPanel implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		Bottone b = ((Bottone) ((ToggleBtn) e.getSource()).getPadre());
+	public void actionPerformed(final ActionEvent e) {
+		final Bottone b = ((Bottone) ((ToggleBtn) e.getSource()).getPadre());
 		if (b != null) {
 			if (b.isEspanso()) {
 				deselezionaBottoni();

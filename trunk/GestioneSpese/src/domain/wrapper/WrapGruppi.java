@@ -16,39 +16,39 @@ import domain.CatSpese;
 import domain.Gruppi;
 import domain.IGruppi;
 
-public class WrapGruppi extends Observable implements IWrapperEntity, IGruppi{
+public class WrapGruppi extends Observable implements IWrapperEntity, IGruppi {
 
 	private static final long serialVersionUID = 1L;
 	private Gruppi gruppo;
-	
+
 	public WrapGruppi() {
 		gruppo = new Gruppi();
 	}
 
 	@Override
-	public Object selectById(int id) {
-		Connection cn = DBUtil.getConnection2();
-		String sql = "SELECT * FROM "+Gruppi.NOME_TABELLA+" WHERE "+Gruppi.ID+" = " +id;
-		
+	public Object selectById(final int id) {
+		final Connection cn = DBUtil.getConnection2();
+		final String sql = "SELECT * FROM " + Gruppi.NOME_TABELLA + " WHERE " + Gruppi.ID + " = " + id;
+
 		Gruppi gruppo = null;
-		
+
 		try {
-			
-			Statement st = cn.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-			if(rs.next()){
+
+			final Statement st = cn.createStatement();
+			final ResultSet rs = st.executeQuery(sql);
+			if (rs.next()) {
 				gruppo = new Gruppi();
 				gruppo.setidGruppo(rs.getInt(1));
 				gruppo.setnome(rs.getString(2));
 				gruppo.setdescrizione(rs.getString(3));
 			}
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
 				cn.close();
-			} catch (SQLException e) {
+			} catch (final SQLException e) {
 				e.printStackTrace();
 			}
 		}
@@ -57,64 +57,64 @@ public class WrapGruppi extends Observable implements IWrapperEntity, IGruppi{
 	}
 
 	@Override
-	public Iterator<Object> selectWhere(String where) {
+	public Iterator<Object> selectWhere(final String where) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Vector<Object> selectAll() {
-		Vector<Object> gruppi = new Vector<Object>();
-		Connection cn = DBUtil.getConnection();
-		String sql = "SELECT * FROM " + Gruppi.NOME_TABELLA +" ORDER BY "+Gruppi.ID+" asc";
-		try{
-			Statement st = cn.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-			
-			while(rs.next()){
-			
-				Gruppi gruppo = new Gruppi();
+		final Vector<Object> gruppi = new Vector<Object>();
+		final Connection cn = DBUtil.getConnection();
+		final String sql = "SELECT * FROM " + Gruppi.NOME_TABELLA + " ORDER BY " + Gruppi.ID + " asc";
+		try {
+			final Statement st = cn.createStatement();
+			final ResultSet rs = st.executeQuery(sql);
+
+			while (rs.next()) {
+
+				final Gruppi gruppo = new Gruppi();
 				gruppo.setidGruppo(rs.getInt(1));
 				gruppo.setnome(rs.getString(2));
 				gruppo.setdescrizione(rs.getString(3));
 				gruppi.add(gruppo);
 			}
-		
-		}catch (Exception e) {
+
+		} catch (final Exception e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				cn.close();
-			} catch (SQLException e) {
+			} catch (final SQLException e) {
 				e.printStackTrace();
 			}
 		}
 		return gruppi;
-		
+
 	}
 
 	@Override
-	public boolean insert(Object oggettoEntita) {
+	public boolean insert(final Object oggettoEntita) {
 		boolean ok = false;
-		Connection cn = DBUtil.getConnection();
+		final Connection cn = DBUtil.getConnection();
 		String sql = "";
 		try {
-			Gruppi gruppo = (Gruppi)oggettoEntita;
-			
-			sql="INSERT INTO " + Gruppi.NOME_TABELLA + " (" + Gruppi.NOME+", "+Gruppi.DESCRIZIONE+") VALUES(?,?)";
-			PreparedStatement ps = cn.prepareStatement(sql);
+			final Gruppi gruppo = (Gruppi) oggettoEntita;
+
+			sql = "INSERT INTO " + Gruppi.NOME_TABELLA + " (" + Gruppi.NOME + ", " + Gruppi.DESCRIZIONE + ") VALUES(?,?)";
+			final PreparedStatement ps = cn.prepareStatement(sql);
 			ps.setString(1, gruppo.getnome());
 			ps.setString(2, gruppo.getdescrizione());
-			
+
 			ps.executeUpdate();
 			ok = true;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			ok = false;
 			e.printStackTrace();
 		} finally {
 			try {
 				cn.close();
-			} catch (SQLException e) {
+			} catch (final SQLException e) {
 				e.printStackTrace();
 			}
 			DBUtil.closeConnection();
@@ -123,49 +123,49 @@ public class WrapGruppi extends Observable implements IWrapperEntity, IGruppi{
 	}
 
 	@Override
-	public boolean delete(int id) {
+	public boolean delete(final int id) {
 		boolean ok = false;
-		String sql = "DELETE FROM "+Gruppi.NOME_TABELLA+" WHERE "+Gruppi.ID+" = "+id;
-		Connection cn = DBUtil.getConnection();
-		
+		final String sql = "DELETE FROM " + Gruppi.NOME_TABELLA + " WHERE " + Gruppi.ID + " = " + id;
+		final Connection cn = DBUtil.getConnection();
+
 		try {
-			Statement st = cn.createStatement();
+			final Statement st = cn.createStatement();
 			st.executeUpdate(sql);
-			ok=true;
-			
-		} catch (SQLException e) {
+			ok = true;
+
+		} catch (final SQLException e) {
 			e.printStackTrace();
-			ok=false;
+			ok = false;
 		}
 		try {
 			cn.close();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
-		DBUtil.closeConnection();		
+		DBUtil.closeConnection();
 		return ok;
 	}
 
 	@Override
-	public boolean update(Object oggettoEntita) {
+	public boolean update(final Object oggettoEntita) {
 		boolean ok = false;
-		Connection cn = DBUtil.getConnection();
-		
-		Gruppi gruppo = (Gruppi) oggettoEntita;
-		String sql = "UPDATE "+Gruppi.NOME_TABELLA+ " SET " +Gruppi.NOME+ " = " +gruppo.getnome()+", "+Gruppi.DESCRIZIONE+" = "
-		+gruppo.getdescrizione()+" WHERE "+ Gruppi.ID +" = "+gruppo.getidGruppo();
+		final Connection cn = DBUtil.getConnection();
+
+		final Gruppi gruppo = (Gruppi) oggettoEntita;
+		final String sql = "UPDATE " + Gruppi.NOME_TABELLA + " SET " + Gruppi.NOME + " = '" + gruppo.getnome() + "', " + Gruppi.DESCRIZIONE + " = '" + gruppo.getdescrizione()
+				+ "' WHERE " + Gruppi.ID + " = " + gruppo.getidGruppo();
 		try {
-			Statement st = cn.createStatement();
+			final Statement st = cn.createStatement();
 			st.executeUpdate(sql);
-			ok=true;
-			
-		} catch (SQLException e) {
+			ok = true;
+
+		} catch (final SQLException e) {
 			e.printStackTrace();
-			ok=false;
+			ok = false;
 		}
 		try {
 			cn.close();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		DBUtil.closeConnection();
@@ -175,55 +175,55 @@ public class WrapGruppi extends Observable implements IWrapperEntity, IGruppi{
 	@Override
 	public boolean deleteAll() {
 		boolean ok = false;
-		String sql = "DELETE FROM "+Gruppi.NOME_TABELLA;
-		Connection cn = DBUtil.getConnection();
-		
+		final String sql = "DELETE FROM " + Gruppi.NOME_TABELLA;
+		final Connection cn = DBUtil.getConnection();
+
 		try {
-			Statement st = cn.createStatement();
+			final Statement st = cn.createStatement();
 			st.executeUpdate(sql);
-			ok=true;
-			
-		} catch (SQLException e) {
+			ok = true;
+
+		} catch (final SQLException e) {
 			e.printStackTrace();
-			ok=false;
+			ok = false;
 		}
 		try {
 			cn.close();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
-		DBUtil.closeConnection();		
+		DBUtil.closeConnection();
 		return ok;
 	}
 
-	public Gruppi selectByNome(String nome) {
-		
-			Connection cn = DBUtil.getConnection2();
-			String sql = "SELECT * FROM "+Gruppi.NOME_TABELLA+" WHERE "+Gruppi.NOME+" = \"" +nome+"\"";
-			
-			Gruppi gruppo = null;
-			
-			try {
-				
-				Statement st = cn.createStatement();
-				ResultSet rs = st.executeQuery(sql);
-				if(rs.next()){
-					gruppo = new Gruppi();
-					gruppo.setidGruppo(rs.getInt(1));
-					gruppo.setnome(rs.getString(2));
-					gruppo.setdescrizione(rs.getString(3));
-				}
+	public Gruppi selectByNome(final String nome) {
 
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					cn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+		final Connection cn = DBUtil.getConnection2();
+		final String sql = "SELECT * FROM " + Gruppi.NOME_TABELLA + " WHERE " + Gruppi.NOME + " = \"" + nome + "\"";
+
+		Gruppi gruppo = null;
+
+		try {
+
+			final Statement st = cn.createStatement();
+			final ResultSet rs = st.executeQuery(sql);
+			if (rs.next()) {
+				gruppo = new Gruppi();
+				gruppo.setidGruppo(rs.getInt(1));
+				gruppo.setnome(rs.getString(2));
+				gruppo.setdescrizione(rs.getString(3));
 			}
-			return gruppo;
+
+		} catch (final SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				cn.close();
+			} catch (final SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return gruppo;
 	}
 
 	@Override
@@ -237,7 +237,7 @@ public class WrapGruppi extends Observable implements IWrapperEntity, IGruppi{
 	}
 
 	@Override
-	public void setdescrizione(String descrizione) {
+	public void setdescrizione(final String descrizione) {
 		gruppo.setdescrizione(descrizione);
 	}
 
@@ -247,7 +247,7 @@ public class WrapGruppi extends Observable implements IWrapperEntity, IGruppi{
 	}
 
 	@Override
-	public void setidGruppo(int idGruppo) {
+	public void setidGruppo(final int idGruppo) {
 		gruppo.setidGruppo(idGruppo);
 	}
 
@@ -257,7 +257,7 @@ public class WrapGruppi extends Observable implements IWrapperEntity, IGruppi{
 	}
 
 	@Override
-	public void setnome(String nome) {
+	public void setnome(final String nome) {
 		gruppo.setnome(nome);
 	}
 
@@ -267,9 +267,18 @@ public class WrapGruppi extends Observable implements IWrapperEntity, IGruppi{
 	}
 
 	@Override
-	public void setCatSpeses(Set<CatSpese> catSpeses) {
+	public void setCatSpeses(final Set<CatSpese> catSpeses) {
 		gruppo.setCatSpeses(catSpeses);
 	}
 
-	
+	@Override
+	public void notifyObservers() {
+		super.notifyObservers();
+	}
+
+	@Override
+	public synchronized void setChanged() {
+		super.setChanged();
+	}
+
 }

@@ -29,6 +29,8 @@ public class InizializzatoreFinestre {
 	JFrame finestraVisibile;
 
 	public InizializzatoreFinestre() {
+		// inizializzo l'array list con le class per evitare di caricare tutto
+		// all'avvio del programma
 		this.finestreClass = new ArrayList<Class>();
 		finestreClass.add(PannelloAScomparsa2.class);
 		finestreClass.add(FinestraListaComandi.class);
@@ -38,47 +40,73 @@ public class InizializzatoreFinestre {
 
 	}
 
-	public JFrame getFinestra(final int index, final JFrame view)
-			throws InstantiationException, IllegalAccessException {
+	/**
+	 * Restituisce la finestra chiamata all'indice specifico. Se la finestra è
+	 * stata già creata la prende altrimenti crea l'istanza
+	 * 
+	 * @param index
+	 * @param view
+	 * @return
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 */
+	public JFrame getFinestra(final int index, final JFrame view) throws InstantiationException, IllegalAccessException {
 		if (finestre[index] == null) {
 			return creaIstanza(index, view);
 		} else {
 			final JFrame window = finestre[index];
 			if (view != null) {
-				window.setBounds(view.getX() + view.getWidth(), view.getY(),
-						250, 425);
+				window.setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
 			}
 			return window;
 		}
 	}
 
-	private JFrame creaIstanza(final int index, final JFrame view)
-			throws InstantiationException, IllegalAccessException {
+	/**
+	 * crea una nuova istanza della finestra chiamata all'indice dell'arraylist
+	 * finestreClass
+	 * 
+	 * @param index
+	 * @param view
+	 * @return
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 */
+	private JFrame creaIstanza(final int index, final JFrame view) throws InstantiationException, IllegalAccessException {
 		final Class<JFrame> finestra = finestreClass.get(index);
 		final JFrame newFinestra = finestra.newInstance();
 		finestre[index] = newFinestra;
 
 		if (view != null) {
-			newFinestra.setBounds(view.getX() + view.getWidth(), view.getY(),
-					250, 425);
+			newFinestra.setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
 			newFinestra.setVisible(false);
 		}
 		return newFinestra;
 	}
 
-	public void setVisibilitaFinestre(final JFrame finestraVisibile,
-			final JMenu menu, final JCheckBoxMenuItem menuItem) {
+	/**
+	 * Gestisce la visibilita: è visibile mai più di una finestra. Se la
+	 * finestra scelta è già visibile viene tolta la visibilità anche a quella
+	 * 
+	 * @param finestraVisibile
+	 * @param menu
+	 * @param menuItem
+	 */
+	public void setVisibilitaFinestre(final JFrame finestraVisibile, final JMenu menu, final JCheckBoxMenuItem menuItem) {
 		final boolean visibile = finestraVisibile.isVisible();
+		// oscura tutte le finestre
 		for (final JFrame finestra : finestre) {
 			if (finestra != null) {
 				finestra.setVisible(false);
 			}
 		}
+		// gestisce il check del menu
 		for (int i = 0; i < menu.getMenuComponents().length; i++) {
-			final JCheckBoxMenuItem item = (JCheckBoxMenuItem) menu
-					.getMenuComponents()[i];
+			final JCheckBoxMenuItem item = (JCheckBoxMenuItem) menu.getMenuComponents()[i];
 			item.setSelected(false);
 		}
+		// se già visibile oscura la finestra passata come parametro, altrimenti
+		// la visualizza
 		if (visibile) {
 			menuItem.setSelected(false);
 			finestraVisibile.setVisible(false);

@@ -5,19 +5,19 @@ import java.awt.Font;
 
 import javax.swing.JLabel;
 
-public class LabelTesto extends JLabel{
+public class LabelListaGruppi extends JLabel{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public LabelTesto() {
+	public LabelListaGruppi() {
 		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
 		setForeground(Color.darkGray);
 	}
 	
-	public LabelTesto(String string) {
+	public LabelListaGruppi(String string) {
 		super(string);
 		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
 		setForeground(Color.darkGray);
