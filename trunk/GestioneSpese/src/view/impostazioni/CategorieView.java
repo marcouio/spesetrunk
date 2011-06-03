@@ -1,8 +1,6 @@
 package view.impostazioni;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Observable;
@@ -15,41 +13,34 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
-import view.Alert;
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
 import view.font.TextAreaF;
 import view.font.TextFieldF;
-import business.Controllore;
 import business.CorreggiTesto;
 import business.Database;
 import business.cache.CacheCategorie;
 import business.cache.CacheGruppi;
-import business.comandi.categorie.CommandDeleteCategoria;
-import business.comandi.categorie.CommandInserisciCategoria;
-import business.comandi.categorie.CommandUpdateCategoria;
 import domain.CatSpese;
 import domain.Gruppi;
-import domain.ICatSpese;
 import domain.wrapper.WrapCatSpese;
 
 public class CategorieView extends AbstractCategorieView {
 
-	private CatSpese                categoria        = null;
-	private JTextArea               taDescrizione;
-	private JComboBox               cbImportanza;
-	private JTextField              tfNome;
-	private static JComboBox        cbCategorie;
-	private static Vector<CatSpese> categorieSpesa;
-	final Database                  db               = Database.getSingleton();
-	private JComboBox               cbGruppi;
+	private CatSpese categoria = null;
+	private JTextArea taDescrizione;
+	private JComboBox cbImportanza;
+	private JTextField tfNome;
+	private JComboBox cbCategorie;
+	private Vector<CatSpese> categorieSpesa;
+	final Database db = Database.getSingleton();
+	private JComboBox cbGruppi;
 
-	private static final long       serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
 	public static void main(final String[] args) {
 		final CategorieView dialog = new CategorieView(new WrapCatSpese());
 		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		// dialog.setBounds(0, 0, 260, 556);
 		dialog.setVisible(true);
 	}
 
@@ -94,7 +85,7 @@ public class CategorieView extends AbstractCategorieView {
 			inserisci.setBounds(26, 305, 206, 25);
 			inserisci.setText("Inserisci Categoria");
 
-			final Vector<Gruppi> vettoreGruppi = CacheGruppi.getSingleton().getVettoreGruppi();
+			final Vector<Gruppi> vettoreGruppi = CacheGruppi.getSingleton().getVettoreCategoriePerCombo(CacheGruppi.getSingleton().getAllGruppi());
 			// combo gruppi
 			cbGruppi = new JComboBox();
 			for (int i = 0; i < vettoreGruppi.size(); i++) {
@@ -125,84 +116,16 @@ public class CategorieView extends AbstractCategorieView {
 			final ButtonF aggiorna = new ButtonF();
 			aggiorna.setBounds(26, 421, 100, 25);
 			aggiorna.setText("Aggiorna");
-			aggiorna.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(final ActionEvent e) {
-
-					final CatSpese oldCategoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(categoria.getidCategoria()));
-
-					if (cbCategorie.getSelectedItem() != null) {
-						setCategoria();
-						if (categoria != null) {
-							modelCatSpese.setidCategoria(categoria.getidCategoria());
-						}
-
-						if (getGruppo() == null) {
-							final Gruppi gruppo = CacheGruppi.getSingleton().getGruppoPerNome("No Gruppo");
-							modelCatSpese.setGruppi(gruppo);
-						}
-						try {
-							if (Controllore.getSingleton().getCommandManager()
-							                .invocaComando(new CommandUpdateCategoria(oldCategoria, (ICatSpese) modelCatSpese.getentitaPadre()), "tutto")) {
-								Database.aggiornaCategorie((CatSpese) modelCatSpese.getentitaPadre());
-								Alert.operazioniSegnalazioneInfo("Aggiornata correttamente categoria: " + modelCatSpese.getnome());
-								modelCatSpese.setChanged();
-								modelCatSpese.notifyObservers();
-							}
-						} catch (final Exception e22) {
-							e22.printStackTrace();
-							Alert.operazioniSegnalazioneErrore("Inserisci i dati correttamente: " + e22.getMessage());
-						}
-					} else {
-						Alert.operazioniSegnalazioneErrore("Impossibile aggiornare una categoria inesistente!");
-					}
-				}
-			});
+			aggiorna.addActionListener(new AscoltatoreAggiornaCategoria(this));
 
 			// bottone insert
-			inserisci.addActionListener(new ActionListener() {
+			inserisci.addActionListener(new AscoltatoreInserisciCategoria(this));
 
-				private CatSpese categoria1;
-
-				@Override
-				public void actionPerformed(final ActionEvent e) {
-					setCategoria();
-					if (nonEsistonoCampiNonValorizzati()) {
-
-						if (Controllore.getSingleton().getCommandManager().invocaComando(new CommandInserisciCategoria(modelCatSpese), "tutto")) {
-							categoria1 = CacheCategorie.getSingleton().getCatSpese(Integer.toString(modelCatSpese.getidCategoria()));
-							if (categoria1 != null) {
-								cbCategorie.addItem(categoria1);
-							}
-							Alert.operazioniSegnalazioneInfo("Inserita correttamente categoria: " + modelCatSpese.getnome());
-							modelCatSpese.setChanged();
-							modelCatSpese.notifyObservers();
-						}
-					} else {
-						Alert.operazioniSegnalazioneErrore("E' necessario riempire tutti i campi");
-					}
-				}
-			});
 			// bottone cancella
 			final ButtonF cancella = new ButtonF();
 			cancella.setText("Cancella");
 			cancella.setBounds(132, 421, 100, 25);
-			cancella.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(final ActionEvent e) {
-					setCategoria();
-					if (cbCategorie.getSelectedItem() != null && categoria != null) {
-						if (Controllore.getSingleton().getCommandManager().invocaComando(new CommandDeleteCategoria(modelCatSpese), "tutto")) {
-							cbCategorie.removeItem(categoria);
-							Alert.operazioniSegnalazioneInfo("Cancellata la categoria: " + categoria);
-						}
-					} else {
-						Alert.operazioniSegnalazioneErrore("Impossibile cancellare una categoria inesistente!");
-					}
-				}
-			});
+			cancella.addActionListener(new AscoltatoreCancellaCategoria(this));
 
 			getContentPane().add(cancella);
 			getContentPane().add(inserisci);
@@ -221,10 +144,20 @@ public class CategorieView extends AbstractCategorieView {
 		return getcDescrizione() != null && getcImportanza() != null && getcNome() != null && getcImportanza() != null;
 	}
 
-	private void setCategoria() {
-		final int idCategorie = (CacheCategorie.getSingleton().getMaxId()) + 1;
-		getModelCatSpese().setidCategoria(idCategorie);
+	void setCategoria(final String actionCommand) {
 
+		if (actionCommand.equals("Inserisci")) {
+			final int idCategoria = (CacheCategorie.getSingleton().getMaxId()) + 1;
+			getModelCatSpese().setidCategoria(idCategoria);
+		} else {
+			final int idCategoriaDaCombo = getCategoria().getidCategoria();
+			if (idCategoriaDaCombo == 0) {
+				final int idCategorie = (CacheCategorie.getSingleton().getMaxId()) + 1;
+				getModelCatSpese().setidCategoria(idCategorie);
+			} else {
+				getModelCatSpese().setidCategoria(idCategoriaDaCombo);
+			}
+		}
 		final CorreggiTesto checkTestoNome = new CorreggiTesto(tfNome.getText());
 		setcNome(checkTestoNome.getTesto());
 
@@ -235,18 +168,18 @@ public class CategorieView extends AbstractCategorieView {
 
 	}
 
-	public static Vector<CatSpese> getCategorieSpesa() {
+	public Vector<CatSpese> getCategorieSpesa() {
 		return categorieSpesa;
 	}
 
-	public static void setCategorieSpesa(final Vector<CatSpese> categorieSpesa) {
-		CategorieView.categorieSpesa = categorieSpesa;
+	public void setCategorieSpesa(final Vector<CatSpese> categorieSpesa) {
+		this.categorieSpesa = categorieSpesa;
 	}
 
 	/**
 	 * @return the comboCategorie
 	 */
-	public static JComboBox getComboCategorie() {
+	public JComboBox getComboCategorie() {
 		return cbCategorie;
 	}
 
@@ -254,8 +187,8 @@ public class CategorieView extends AbstractCategorieView {
 	 * @param comboCategorie
 	 *            the comboCategorie to set
 	 */
-	public static void setComboCategorie(final JComboBox comboCategorie) {
-		CategorieView.cbCategorie = comboCategorie;
+	public void setComboCategorie(final JComboBox comboCategorie) {
+		this.cbCategorie = comboCategorie;
 	}
 
 	public JComboBox getComboGruppi() {
@@ -264,6 +197,10 @@ public class CategorieView extends AbstractCategorieView {
 
 	public void setComboGruppi(final JComboBox comboGruppi) {
 		this.cbGruppi = comboGruppi;
+	}
+
+	public CatSpese getCategoria() {
+		return categoria;
 	}
 
 	@Override
@@ -307,4 +244,5 @@ public class CategorieView extends AbstractCategorieView {
 		getContentPane().add(labelComboCategorie);
 
 	}
+
 }

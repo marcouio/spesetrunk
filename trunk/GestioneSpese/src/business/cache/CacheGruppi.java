@@ -108,6 +108,18 @@ public class CacheGruppi extends AbstractCacheBase {
 		return gruppi;
 	}
 
+	public Vector<Gruppi> getVettoreCategoriePerCombo(final Map<String, AbstractOggettoEntita> mappa) {
+		final Vector<Gruppi> gruppi = new Vector<Gruppi>();
+		final Object[] lista = mappa.values().toArray();
+		final Gruppi gruppo = new Gruppi();
+		gruppo.setnome("");
+		for (int i = 0; i < lista.length; i++) {
+			gruppi.add((Gruppi) lista[i]);
+		}
+		gruppi.add(0, gruppo);
+		return gruppi;
+	}
+
 	public int getMaxId() {
 		int maxId = 0;
 		final Map<String, AbstractOggettoEntita> mappa = getAllGruppi();

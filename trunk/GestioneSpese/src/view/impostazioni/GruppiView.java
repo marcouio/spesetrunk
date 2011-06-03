@@ -1,8 +1,6 @@
 package view.impostazioni;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Vector;
@@ -10,28 +8,20 @@ import java.util.Vector;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 
-import view.Alert;
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
 import view.font.TextAreaF;
 import view.font.TextFieldF;
-import business.Controllore;
-import business.Database;
-import business.cache.CacheCategorie;
 import business.cache.CacheGruppi;
-import business.comandi.gruppi.CommandInserisciGruppo;
-import business.comandi.gruppi.CommandUpdateGruppo;
 import domain.Gruppi;
-import domain.IGruppi;
-import domain.wrapper.Model;
 import domain.wrapper.WrapGruppi;
 
 public class GruppiView extends AbstractGruppiView {
 
-	private Gruppi     gruppi = null;
-	private JComboBox  comboGruppi;
+	private Gruppi gruppi = null;
+	private JComboBox comboGruppi;
 	private TextFieldF nome;
-	private TextAreaF  descrizione;
+	private TextAreaF descrizione;
 
 	public GruppiView(final WrapGruppi gruppo) {
 		super(gruppo);
@@ -61,39 +51,11 @@ public class GruppiView extends AbstractGruppiView {
 		getContentPane().add(descrizione);
 
 		final ButtonF inserisci = new ButtonF();
-		inserisci.setText("Inserisci Gruppo");
+		inserisci.setText("Inserisci");
 		inserisci.setBounds(26, 214, 206, 25);
 		getContentPane().add(inserisci);
 
-		inserisci.addActionListener(new ActionListener() {
-
-			private Gruppi gruppo1;
-
-			@Override
-			public void actionPerformed(final ActionEvent e) {
-
-				setGruppo();
-				if (nonEsistonoCampiNonValorizzati()) {
-
-					if (Controllore.getSingleton().getCommandManager().invocaComando(new CommandInserisciGruppo(modelGruppi), "tutto")) {
-						gruppo1 = CacheGruppi.getSingleton().getGruppo(Integer.toString(modelGruppi.getidGruppo()));
-						if (gruppo1 != null) {
-							comboGruppi.addItem(gruppo1);
-						}
-						final String messaggio = "Gruppo inserito correttamente";
-						Alert.info(messaggio, Alert.TITLE_OK);
-						Controllore.getLog().info(messaggio);
-						modelGruppi.setChanged();
-						modelGruppi.notifyObservers();
-					}
-				} else {
-					final String messaggio = "E' necessario riempire tutti i campi";
-					Alert.errore(messaggio, Alert.TITLE_ERROR);
-					Controllore.getLog().severe(messaggio);
-				}
-			}
-
-		});
+		inserisci.addActionListener(new AscoltatoreInserisciGruppo(this));
 
 		final Vector<Gruppi> vettoreGruppi = CacheGruppi.getSingleton().getVettoreGruppi();
 		comboGruppi = new JComboBox();
@@ -127,54 +89,13 @@ public class GruppiView extends AbstractGruppiView {
 		cancella.setBounds(131, 320, 100, 25);
 		getContentPane().add(cancella);
 
-		aggiorna.addActionListener(new ActionListener() {
+		aggiorna.addActionListener(new AscoltatoreAggiornaGruppo(this));
 
-			@Override
-			public void actionPerformed(final ActionEvent e) {
-
-				final Gruppi oldGruppo = CacheGruppi.getSingleton().getGruppo(Integer.toString(gruppi.getidGruppo()));
-
-				if (comboGruppi.getSelectedItem() != null) {
-					setGruppo();
-					if (gruppi != null) {
-						modelGruppi.setidGruppo(gruppi.getidGruppo());
-					}
-					try {
-						if (Controllore.getSingleton().getCommandManager().invocaComando(new CommandUpdateGruppo(oldGruppo, (IGruppi) modelGruppi.getentitaPadre()), "tutto")) {
-							Model.getSingleton().getGruppiCombo(true);
-							Database.aggiornamentoComboBox(CacheCategorie.getSingleton().getVettoreCategorie());
-							Alert.operazioniSegnalazioneInfo("Aggiornata correttamente categoria " + modelGruppi.getnome());
-							modelGruppi.setChanged();
-							modelGruppi.notifyObservers();
-						}
-					} catch (final Exception e22) {
-						e22.printStackTrace();
-						Alert.operazioniSegnalazioneErrore("Inserisci i dati correttamente: " + e22.getMessage());
-					}
-				} else {
-					Alert.operazioniSegnalazioneErrore("Impossibile aggiornare un gruppo inesistente!");
-				}
-			}
-		});
-
-		cancella.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(final ActionEvent e) {
-				if (comboGruppi.getSelectedIndex() != 0 && comboGruppi.getSelectedItem() != null && gruppi != null) {
-					Model.getSingleton().getModelUscita().delete(gruppi.getidGruppo());
-					Alert.operazioniSegnalazioneInfo("Cancellato correttamente gruppo: " + gruppi);
-				} else {
-					Alert.operazioniSegnalazioneErrore("Impossibile cancellare un gruppo inesistente!");
-				}
-				comboGruppi.removeItem(gruppi);
-				Database.aggiornamentoComboBox(CacheCategorie.getSingleton().getVettoreCategorie());
-			}
-		});
+		cancella.addActionListener(new AscoltatoreEliminaGruppo(this));
 
 	}
 
-	private boolean nonEsistonoCampiNonValorizzati() {
+	boolean nonEsistonoCampiNonValorizzati() {
 		return getDescrizione() != null && getNome() != null;
 	}
 
@@ -196,10 +117,28 @@ public class GruppiView extends AbstractGruppiView {
 
 	}
 
-	private void setGruppo() {
+	void setGruppo(final String actionCommand) {
+		if (actionCommand.equals("Inserisci")) {
+			final int idGruppo = (CacheGruppi.getSingleton().getMaxId()) + 1;
+			getModelGruppi().setidGruppo(idGruppo);
+		} else {
+			int idGruppoDaCombo = 0;
+			if (gruppi != null) {
+				// prendo l'id del gruppo selezionato dalla combo
+				idGruppoDaCombo = gruppi.getidGruppo();
+			}
+			// se non ha un id gli assegno prendendo il massimo degli id
+			// presenti
+			if (idGruppoDaCombo == 0) {
+				final int idGruppo = (CacheGruppi.getSingleton().getMaxId()) + 1;
+				getModelGruppi().setidGruppo(idGruppo);
 
-		final int idGruppo = (CacheGruppi.getSingleton().getMaxId()) + 1;
-		getModelGruppi().setidGruppo(idGruppo);
+				// altrimenti gli setto il suo
+			} else {
+				getModelGruppi().setidGruppo(idGruppoDaCombo);
+			}
+		}
+
 		setNome(nome.getText());
 		setDescrizione(descrizione.getText());
 

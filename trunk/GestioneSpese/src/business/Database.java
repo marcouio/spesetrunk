@@ -796,7 +796,7 @@ public class Database {
 	 * 
 	 * @param CatSpese
 	 */
-	public static void aggiornaCategorie(final CatSpese categoria) {
+	public static void aggiornaCategorie(final CatSpese categoria, final JComboBox comboCategorie) {
 		int max = 0;
 		final String sql = "SELECT MAX(" + CatSpese.ID + ") FROM " + CatSpese.NOME_TABELLA;
 		final Connection cn = DBUtil.getConnection();
@@ -810,7 +810,7 @@ public class Database {
 			e.printStackTrace();
 		}
 
-		final JComboBox categorie1 = CategorieView.getComboCategorie();
+		final JComboBox categorie1 = comboCategorie;
 
 		int i = 1;
 		for (i = 1; i <= max; i++) {

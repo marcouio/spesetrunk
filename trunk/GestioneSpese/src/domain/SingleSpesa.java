@@ -9,13 +9,12 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
 /**
  * The persistent class for the SINGLESPESA database table.
  * 
  */
 @Entity
-@Table(name="SINGLE_SPESA")
+@Table(name = "SINGLE_SPESA")
 public class SingleSpesa extends AbstractOggettoEntita implements Serializable, ISingleSpesa {
 	private static final long serialVersionUID = 1L;
 
@@ -29,132 +28,131 @@ public class SingleSpesa extends AbstractOggettoEntita implements Serializable, 
 	public static final String NOME = "nome";
 	public static final String IDUTENTE = "idUtente";
 
-	@Column(name="Data", nullable=false, length=2000000000)
+	@Column(name = "\"Data\"", nullable = false, length = 2000000000)
 	private String Data;
 
-	@Column(name="descrizione", nullable=false, length=2000000000)
+	@Column(name = "\"descrizione\"", nullable = false, length = 2000000000)
 	private String descrizione;
 
-	@Column(name="idCategorie", nullable=false)
+	@Column(name = "\"idCategorie\"", nullable = false)
 	private int idCategorie;
 
 	@Id
-	@Column(name="idSpesa", nullable=false)
+	@Column(name = "\"idSpesa\"", nullable = false)
 	private int idSpesa;
 
-	@Column(name="idUtente", nullable=false)
+	@Column(name = "\"idUtente\"", nullable = false)
 	private int idUtente;
 
-	@Column(name="inEuro", nullable=false)
+	@Column(name = "\"inEuro\"", nullable = false)
 	private double inEuro;
 
-	@Column(name="nome", nullable=false, length=2000000000)
+	@Column(name = "\"nome\"", nullable = false, length = 2000000000)
 	private String nome;
-	
-	@Column(name="dataIns", nullable=false, length=2000000000)
+
+	@Column(name = "\"dataIns\"", nullable = false, length = 2000000000)
 	private String dataIns;
 
-	//bi-directional many-to-one association to CatSpese
-    @ManyToOne
-	@JoinColumns({
-		})
+	// bi-directional many-to-one association to CatSpese
+	@ManyToOne
+	@JoinColumns({})
 	private CatSpese catSpese;
 
-	//bi-directional many-to-one association to Utenti
-    @ManyToOne
-	@JoinColumns({
-		})
+	// bi-directional many-to-one association to Utenti
+	@ManyToOne
+	@JoinColumns({})
 	private Utenti utenti;
 
-    public SingleSpesa() {
-    	if(idSpesa!=0)
-    		this.idEntita = Integer.toString(idSpesa);
-    }
+	public SingleSpesa() {
+		if (idSpesa != 0) {
+			this.idEntita = Integer.toString(idSpesa);
+		}
+	}
 
 	@Override
-    public String getData() {
+	public String getData() {
 		return this.Data;
 	}
 
 	@Override
-    public void setData(String Data) {
+	public void setData(final String Data) {
 		this.Data = Data;
 	}
 
 	@Override
-    public String getdescrizione() {
+	public String getdescrizione() {
 		return this.descrizione;
 	}
 
 	@Override
-    public void setdescrizione(String descrizione) {
+	public void setdescrizione(final String descrizione) {
 		this.descrizione = descrizione;
 	}
 
 	@Override
-    public int getidSpesa() {
+	public int getidSpesa() {
 		return this.idSpesa;
 	}
 
 	@Override
-    public void setidSpesa(int idSpesa) {
+	public void setidSpesa(final int idSpesa) {
 		this.idEntita = Integer.toString(idSpesa);
 		this.idSpesa = idSpesa;
 	}
 
 	@Override
-    public double getinEuro() {
+	public double getinEuro() {
 		return this.inEuro;
 	}
 
 	@Override
-    public void setinEuro(double d) {
+	public void setinEuro(final double d) {
 		this.inEuro = d;
 	}
 
 	@Override
-    public String getnome() {
+	public String getnome() {
 		return this.nome;
 	}
 
 	@Override
-    public void setnome(String nome) {
+	public void setnome(final String nome) {
 		this.nome = nome;
 	}
 
 	@Override
-    public CatSpese getCatSpese() {
+	public CatSpese getCatSpese() {
 		return this.catSpese;
 	}
 
 	@Override
-    public void setCatSpese(CatSpese catSpese) {
+	public void setCatSpese(final CatSpese catSpese) {
 		this.catSpese = catSpese;
 	}
-	
+
 	@Override
-    public Utenti getUtenti() {
+	public Utenti getUtenti() {
 		return this.utenti;
 	}
 
 	@Override
-    public void setUtenti(Utenti utenti) {
+	public void setUtenti(final Utenti utenti) {
 		this.utenti = utenti;
 	}
 
 	@Override
-    public void setDataIns(String dataIns) {
+	public void setDataIns(final String dataIns) {
 		this.dataIns = dataIns;
 	}
 
 	@Override
-    public String getDataIns() {
+	public String getDataIns() {
 		return dataIns;
 	}
-	
+
 	@Override
 	public String toString() {
 		return nome;
 	}
-	
+
 }

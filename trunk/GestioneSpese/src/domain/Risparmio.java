@@ -1,15 +1,18 @@
 package domain;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the RISPARMIO database table.
  * 
  */
 @Entity
-@Table(name="RISPARMIO")
+@Table(name = "RISPARMIO")
 public class Risparmio extends AbstractOggettoEntita implements Serializable, IRisparmio {
 	private static final long serialVersionUID = 1L;
 
@@ -18,37 +21,41 @@ public class Risparmio extends AbstractOggettoEntita implements Serializable, IR
 	public static final String PERCSULTOT = "PercSulTotale";
 
 	@Id
-	@Column(name="idRisparmio", nullable=false)
+	@Column(name = "\"idRisparmio\"", nullable = false)
 	private int idRisparmio;
 
-	@Column(name="PerSulTotale", nullable=false)
+	@Column(name = "\"PerSulTotale\"", nullable = false)
 	private double PerSulTotale;
 
-    public Risparmio() {
-    	if(idRisparmio!=0)
-    		this.idEntita = Integer.toString(idRisparmio);
-    }
+	public Risparmio() {
+		if (idRisparmio != 0) {
+			this.idEntita = Integer.toString(idRisparmio);
+		}
+	}
 
+	@Override
 	public int getidRisparmio() {
 		return this.idRisparmio;
 	}
 
-	public void setidRisparmio(int idRisparmio) {
+	@Override
+	public void setidRisparmio(final int idRisparmio) {
 		this.idEntita = Integer.toString(idRisparmio);
 		this.idRisparmio = idRisparmio;
 	}
 
+	@Override
 	public double getPerSulTotale() {
 		return this.PerSulTotale;
 	}
 
-	public void setPerSulTotale(double PerSulTotale) {
+	@Override
+	public void setPerSulTotale(final double PerSulTotale) {
 		this.PerSulTotale = PerSulTotale;
 	}
 
 	@Override
 	public String getnome() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
