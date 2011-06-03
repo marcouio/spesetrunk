@@ -16,38 +16,38 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "UTENTI")
 public class Utenti extends AbstractOggettoEntita implements Serializable {
-	private static final long  serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-	public static final String NOME_TABELLA     = "utenti";
-	public static final String ID               = "idUtente";
-	public static final String USERNAME         = "username";
-	public static final String PASSWORD         = "password";
-	public static final String NOME             = "nome";
-	public static final String COGNOME          = "cognome";
+	public static final String NOME_TABELLA = "utenti";
+	public static final String ID = "idUtente";
+	public static final String USERNAME = "username";
+	public static final String PASSWORD = "password";
+	public static final String NOME = "nome";
+	public static final String COGNOME = "cognome";
 
 	@Id
-	@Column(name = "idUtente", nullable = false)
-	private int                idUtente;
+	@Column(name = "\"idUtente\"", nullable = false)
+	private int idUtente;
 
-	@Column(name = "password", nullable = false, length = 2000000000)
-	private String             password;
+	@Column(name = "\"password\"", nullable = false, length = 2000000000)
+	private String password;
 
-	@Column(name = "username", nullable = false, length = 2000000000)
-	private String             username;
+	@Column(name = "\"username\"", nullable = false, length = 2000000000)
+	private String username;
 
-	@Column(name = "nome", nullable = false, length = 2000000000)
-	private String             nome;
+	@Column(name = "\"nome\"", nullable = false, length = 2000000000)
+	private String nome;
 
-	@Column(name = "cognome", nullable = false, length = 2000000000)
-	private String             cognome;
+	@Column(name = "\"cognome\"", nullable = false, length = 2000000000)
+	private String cognome;
 
 	// bi-directional many-to-one association to Entrate
 	@OneToMany(mappedBy = "utenti")
-	private Set<Entrate>       entrates;
+	private Set<Entrate> entrates;
 
 	// bi-directional many-to-one association to SingleSpesa
 	@OneToMany(mappedBy = "utenti")
-	private Set<SingleSpesa>   singleSpesas;
+	private Set<SingleSpesa> singleSpesas;
 
 	public Utenti() {
 		if (idUtente != 0) {
@@ -59,7 +59,7 @@ public class Utenti extends AbstractOggettoEntita implements Serializable {
 		return this.idUtente;
 	}
 
-	public void setidUtente(int idUtente) {
+	public void setidUtente(final int idUtente) {
 		this.idEntita = Integer.toString(idUtente);
 		this.idUtente = idUtente;
 	}
@@ -68,7 +68,7 @@ public class Utenti extends AbstractOggettoEntita implements Serializable {
 		return this.password;
 	}
 
-	public void setpassword(String password) {
+	public void setpassword(final String password) {
 		this.password = password;
 	}
 
@@ -76,7 +76,7 @@ public class Utenti extends AbstractOggettoEntita implements Serializable {
 		return this.username;
 	}
 
-	public void setusername(String username) {
+	public void setusername(final String username) {
 		this.username = username;
 	}
 
@@ -84,7 +84,7 @@ public class Utenti extends AbstractOggettoEntita implements Serializable {
 		return this.entrates;
 	}
 
-	public void setEntrates(Set<Entrate> entrates) {
+	public void setEntrates(final Set<Entrate> entrates) {
 		this.entrates = entrates;
 	}
 
@@ -92,11 +92,11 @@ public class Utenti extends AbstractOggettoEntita implements Serializable {
 		return this.singleSpesas;
 	}
 
-	public void setSingleSpesas(Set<SingleSpesa> singleSpesas) {
+	public void setSingleSpesas(final Set<SingleSpesa> singleSpesas) {
 		this.singleSpesas = singleSpesas;
 	}
 
-	public void setNome(String nome) {
+	public void setNome(final String nome) {
 		this.nome = nome;
 	}
 
@@ -105,7 +105,7 @@ public class Utenti extends AbstractOggettoEntita implements Serializable {
 		return nome;
 	}
 
-	public void setCognome(String cognome) {
+	public void setCognome(final String cognome) {
 		this.cognome = cognome;
 	}
 

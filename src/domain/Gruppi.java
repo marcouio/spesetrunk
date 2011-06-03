@@ -18,23 +18,24 @@ import javax.persistence.Table;
 public class Gruppi extends AbstractOggettoEntita implements Serializable, IGruppi {
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "descrizione", nullable = false, length = 2000000000)
-	private String            descrizione;
+	@Column(name = "\"descrizione\"", nullable = false, length = 2000000000)
+	private String descrizione;
 
 	@Id
-	@Column(name = "idGruppo", nullable = false)
-	private int               idGruppo;
+	@Column(name = "\"idGruppo\"", nullable = false)
+	private int idGruppo;
 
-	@Column(name = "nome", nullable = false, length = 2000000000)
-	private String            nome;
+	@Column(name = "\"nome\"", nullable = false, length = 2000000000)
+	private String nome;
 
 	// bi-directional many-to-one association to CatSpese
 	@OneToMany(mappedBy = "gruppi")
-	private Set<CatSpese>     catSpeses;
+	private Set<CatSpese> catSpeses;
 
 	public Gruppi() {
-		if (idGruppo != 0)
+		if (idGruppo != 0) {
 			this.idEntita = Integer.toString(idGruppo);
+		}
 	}
 
 	@Override
@@ -43,7 +44,7 @@ public class Gruppi extends AbstractOggettoEntita implements Serializable, IGrup
 	}
 
 	@Override
-	public void setdescrizione(String descrizione) {
+	public void setdescrizione(final String descrizione) {
 		this.descrizione = descrizione;
 	}
 
@@ -53,7 +54,7 @@ public class Gruppi extends AbstractOggettoEntita implements Serializable, IGrup
 	}
 
 	@Override
-	public void setidGruppo(int idGruppo) {
+	public void setidGruppo(final int idGruppo) {
 		this.idEntita = Integer.toString(idGruppo);
 		this.idGruppo = idGruppo;
 	}
@@ -64,7 +65,7 @@ public class Gruppi extends AbstractOggettoEntita implements Serializable, IGrup
 	}
 
 	@Override
-	public void setnome(String nome) {
+	public void setnome(final String nome) {
 		this.nome = nome;
 	}
 
@@ -74,7 +75,7 @@ public class Gruppi extends AbstractOggettoEntita implements Serializable, IGrup
 	}
 
 	@Override
-	public void setCatSpeses(Set<CatSpese> catSpeses) {
+	public void setCatSpeses(final Set<CatSpese> catSpeses) {
 		this.catSpeses = catSpeses;
 	}
 
@@ -84,7 +85,7 @@ public class Gruppi extends AbstractOggettoEntita implements Serializable, IGrup
 	}
 
 	public static final String NOME_TABELLA = "gruppi";
-	public static final String ID           = "idGruppo";
-	public static final String DESCRIZIONE  = "descrizione";
-	public static final String NOME         = "nome";
+	public static final String ID = "idGruppo";
+	public static final String DESCRIZIONE = "descrizione";
+	public static final String NOME = "nome";
 }

@@ -26,13 +26,13 @@ public class Budget extends AbstractOggettoEntita implements Serializable {
 	public static final String PERCSULTOT = "percSulTot";
 
 	@Id
-	@Column(name = "idBudget", nullable = false)
+	@Column(name = "\"idBudget\"", nullable = false)
 	private int idBudget;
 
-	@Column(name = "idCategorie", nullable = false)
+	@Column(name = "\"idCategorie\"", nullable = false)
 	private int idCategorie;
 
-	@Column(name = "percSulTot", nullable = false)
+	@Column(name = "\"percSulTot\"", nullable = false)
 	private double percSulTot;
 
 	// bi-directional one-to-one association to CatSpese

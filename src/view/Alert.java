@@ -18,9 +18,14 @@ public class Alert {
 		JOptionPane.showMessageDialog(null, messaggio, title, JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
 	}
 
-	public static void operazioniSegnalazioneErrore(final String messaggio) {
+	public static void operazioniSegnalazioneErroreGrave(final String messaggio) {
 		Alert.errore(messaggio, Alert.TITLE_ERROR);
 		Controllore.getLog().severe(messaggio);
+	}
+
+	public static void operazioniSegnalazioneErroreWarning(final String messaggio) {
+		Alert.errore(messaggio, Alert.TITLE_ERROR);
+		Controllore.getLog().warning(messaggio);
 	}
 
 	public static void operazioniSegnalazioneInfo(final String messaggio) {

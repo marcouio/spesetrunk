@@ -13,7 +13,8 @@
 		
 		<properties>
        		<property name="eclipselink.target-database" value="DEFAULT"/>
-          	<property name="eclipselink.jdbc.url" value="jdbc:sqlite:/home/kiwi/Documenti/Workspace/GestioneSpese.sqlite"/>
+<!--           	<property name="eclipselink.jdbc.url" value="jdbc:sqlite:/home/kiwi/Documenti/Workspace/GestioneSpese.sqlite"/> -->
+          	<property name="eclipselink.jdbc.url" value="jdbc:sqlite:F:/workspace/GestioneSpese.sqlite"/>
           	<property name="eclipselink.jdbc.driver" value="org.sqlite.JDBC"/>
 	        <!-- 	<property name="eclipselink.ddl-generation" value="drop-and-create-tables"/> -->
 	    		<property name="eclipselink.ddl-generation" value="create-tables"/>
