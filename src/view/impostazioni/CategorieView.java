@@ -27,14 +27,14 @@ import domain.wrapper.WrapCatSpese;
 
 public class CategorieView extends AbstractCategorieView {
 
-	private CatSpese          categoria        = null;
-	private JTextArea         taDescrizione;
-	private JComboBox         cbImportanza;
-	private JTextField        tfNome;
-	private JComboBox         cbCategorie;
-	private Vector<CatSpese>  categorieSpesa;
-	final Database            db               = Database.getSingleton();
-	private JComboBox         cbGruppi;
+	private CatSpese categoria = null;
+	private JTextArea taDescrizione;
+	private JComboBox cbImportanza;
+	private JTextField tfNome;
+	private JComboBox cbCategorie;
+	private Vector<CatSpese> categorieSpesa;
+	final Database db = Database.getSingleton();
+	private JComboBox cbGruppi;
 
 	private static final long serialVersionUID = 1L;
 
@@ -107,10 +107,10 @@ public class CategorieView extends AbstractCategorieView {
 						tfNome.setText(categoria.getnome());
 						taDescrizione.setText(categoria.getdescrizione());
 						cbImportanza.setSelectedItem(categoria.getimportanza());
-						int numeroGruppi = cbGruppi.getModel().getSize();
-						for (int i = 1; i < numeroGruppi; i++) {
-							Gruppi gruppo = (Gruppi) cbGruppi.getModel().getElementAt(i);
-							if (gruppo.getnome().equals(categoria.getnome())) {
+						final int numeroGruppi = cbGruppi.getModel().getSize();
+						for (int i = 0; i < numeroGruppi; i++) {
+							final Gruppi gruppo = (Gruppi) cbGruppi.getModel().getElementAt(i);
+							if (gruppo.getnome().equals(categoria.getGruppi().getnome())) {
 								cbGruppi.setSelectedIndex(i);
 							}
 						}
