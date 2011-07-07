@@ -13,7 +13,7 @@ import java.util.GregorianCalendar;
 import view.impostazioni.Impostazioni;
 
 public class DBUtil {
-	public static final String URL             = "jdbc:sqlite:../GestioneSpese.sqlite";
+	public static String URL = "jdbc:sqlite:../GestioneSpese.sqlite";
 	// public static final String
 	// URL="jdbc:sqlite:/home/marcouio/workspace/GestioneSpese.sqlite";
 	// public static final String
@@ -21,17 +21,17 @@ public class DBUtil {
 	// public static final String URL="jdbc:sqlite:../"+(new
 	// Impostazioni().getCaricaDatabase()) !=
 	// null?Impostazioni.getCaricaDatabase().getText():"entrate_uscite.db";
-	public static final String USR             = "root";
-	public static final String PWD             = "marco";
+	public static final String USR = "root";
+	public static final String PWD = "marco";
 	public static final String DRIVERCLASSNAME = "org.sqlite.JDBC";
-	private static Connection  connection      = null;
-	private static String      mese;
-	private static String      mesi;
+	private static Connection connection = null;
+	private static String mese;
+	private static String mesi;
 
 	static {
 		try {
 			Class.forName(DBUtil.DRIVERCLASSNAME);
-		} catch (ClassNotFoundException e) {
+		} catch (final ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 
@@ -46,7 +46,7 @@ public class DBUtil {
 	 * @param dimensione
 	 * @return String
 	 */
-	public static String creaStringStessaDimensione(String campo, int dimensione) {
+	public static String creaStringStessaDimensione(String campo, final int dimensione) {
 		if (campo.length() < dimensione) {
 			for (int i = campo.length(); i < dimensione + 1; i++) {
 				campo = campo + " ";
@@ -68,23 +68,24 @@ public class DBUtil {
 	 * @return String
 	 * @throws Exception
 	 */
-	public static String convertiMese2(int corrente)
-	    throws Exception {
-		if (corrente < 10)
+	public static String convertiMese2(final int corrente) throws Exception {
+		if (corrente < 10) {
 			mesi = "0" + corrente;
-		else if (corrente > 12) {
+		} else if (corrente > 12) {
 			throw new Exception("Mese non esistente");
 
-		} else
+		} else {
 			mesi = Integer.toString(corrente);
+		}
 		return mesi;
 	}
 
-	public static String convertiGiorno(int corrente) {
-		if (corrente < 10)
+	public static String convertiGiorno(final int corrente) {
+		if (corrente < 10) {
 			mesi = "0" + corrente;
-		else
+		} else {
 			mesi = Integer.toString(corrente);
+		}
 		return mesi;
 	}
 
@@ -97,17 +98,17 @@ public class DBUtil {
 	 * @param corrente
 	 * @return String
 	 */
-	public static String convertiMese(int corrente) {
+	public static String convertiMese(final int corrente) {
 
 		if (corrente == 1) {
-			int MESE = new GregorianCalendar().get(Calendar.MONTH) + 1;
+			final int MESE = new GregorianCalendar().get(Calendar.MONTH) + 1;
 			if (new GregorianCalendar().get(Calendar.MONTH) + 1 < 10) {
 				mese = "0" + MESE;
 			} else {
 				mese = Integer.toString(MESE);
 			}
 		} else if (corrente == 0) {
-			int MESE = new GregorianCalendar().get(Calendar.MONTH);
+			final int MESE = new GregorianCalendar().get(Calendar.MONTH);
 			if (new GregorianCalendar().get(Calendar.MONTH) < 10) {
 				mese = "0" + MESE;
 			} else {
@@ -126,22 +127,20 @@ public class DBUtil {
 	 * @return Date
 	 * @throws ParseException
 	 */
-	public static Date formatDate2(String data)
-	    throws ParseException {
+	public static Date formatDate2(final String data) throws ParseException {
 
-		DateFormat format = new SimpleDateFormat("dd-MMM-yyyy");
+		final DateFormat format = new SimpleDateFormat("dd-MMM-yyyy");
 
-		Date dataNuova = format.parse(data);
+		final Date dataNuova = format.parse(data);
 
 		return dataNuova;
 	}
 
-	public static Date formatDate3(String data)
-	    throws ParseException {
+	public static Date formatDate3(final String data) throws ParseException {
 
-		DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+		final DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
-		Date dataNuova = format.parse(data);
+		final Date dataNuova = format.parse(data);
 
 		return dataNuova;
 	}
@@ -156,12 +155,12 @@ public class DBUtil {
 	 * @param format
 	 * @return Date
 	 */
-	public static Date stringToDate(String date, String format) {
-		SimpleDateFormat formatter = new SimpleDateFormat(format);
+	public static Date stringToDate(final String date, final String format) {
+		final SimpleDateFormat formatter = new SimpleDateFormat(format);
 		Date dataConvertita = null;
 		try {
 			dataConvertita = formatter.parse(date);
-		} catch (ParseException e) {
+		} catch (final ParseException e) {
 			System.out.println("ERRORE stringToDate");
 		}
 		return dataConvertita;
@@ -176,8 +175,8 @@ public class DBUtil {
 	 * @param format
 	 * @return String
 	 */
-	public static String dataToString(Date date, String format) {
-		SimpleDateFormat formatter = new SimpleDateFormat(format);
+	public static String dataToString(final Date date, final String format) {
+		final SimpleDateFormat formatter = new SimpleDateFormat(format);
 		return formatter.format(date);
 	}
 
@@ -189,12 +188,11 @@ public class DBUtil {
 	 * @return Date
 	 * @throws ParseException
 	 */
-	public static Date formatDate(String data)
-	    throws ParseException {
+	public static Date formatDate(final String data) throws ParseException {
 
-		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+		final DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 
-		Date dataNuova = format.parse(data);
+		final Date dataNuova = format.parse(data);
 
 		return dataNuova;
 	}
@@ -207,12 +205,11 @@ public class DBUtil {
 	 * @return Date
 	 * @throws ParseException
 	 */
-	public static Date formatDateTime(String data)
-	    throws ParseException {
+	public static Date formatDateTime(final String data) throws ParseException {
 
-		DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+		final DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
-		Date dataNuova = format.parse(data);
+		final Date dataNuova = format.parse(data);
 
 		return dataNuova;
 	}
@@ -221,39 +218,42 @@ public class DBUtil {
 		Connection connection2 = null;
 		try {
 			connection2 = DriverManager.getConnection(DBUtil.URL);
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		return connection2;
 	}
 
-	/**
-	 * Metodo per ottenere una connessione al database
-	 * 
-	 * @return Connection
-	 */
+	// /**
+	// * Metodo per ottenere una connessione al database
+	// *
+	// * @return Connection
+	// */
+	// public static Connection getConnection() {
+	// try {
+	// // if(Impostazioni.getCaricaDatabase()==null){
+	// connection = DriverManager.getConnection(DBUtil.URL);
+	// // }else{
+	// // connection =
+	// //
+	// DriverManager.getConnection("jdbc:sqlite:"+Impostazioni.getCaricaDatabase().getText());
+	// // }
+	// } catch (final SQLException e) {
+	// e.printStackTrace();
+	// }
+	// return connection;
+	// }
+
 	public static Connection getConnection() {
 		try {
-			// if(Impostazioni.getCaricaDatabase()==null){
-			connection = DriverManager.getConnection(DBUtil.URL);
-			// }else{
-			// connection =
-			// DriverManager.getConnection("jdbc:sqlite:"+Impostazioni.getCaricaDatabase().getText());
-			// }
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return connection;
-	}
-
-	public static Connection getConnection(String fileDatabase) {
-		try {
-			if (Impostazioni.getCaricaDatabase() == null) {
-				connection = DriverManager.getConnection(DBUtil.URL);
-			} else {
-				connection = DriverManager.getConnection("jdbc:sqlite:" + fileDatabase);
+			if (Impostazioni.getCaricaDatabase() != null) {
+				final String posDb = Impostazioni.getCaricaDatabase().getText();
+				if (posDb != null && !posDb.equals("")) {
+					DBUtil.URL = "jdbc:sqlite:" + Impostazioni.getCaricaDatabase().getText();
+				}
 			}
-		} catch (SQLException e) {
+			connection = DriverManager.getConnection(DBUtil.URL);
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		return connection;
@@ -264,12 +264,13 @@ public class DBUtil {
 	 */
 	public static void closeConnection() {
 
-		if (connection != null)
+		if (connection != null) {
 			try {
 				connection.close();
-			} catch (SQLException e) {
+			} catch (final SQLException e) {
 				e.printStackTrace();
 			}
+		}
 
 	}
 
@@ -278,32 +279,32 @@ public class DBUtil {
 	 */
 	public static final int getLastDayMonth(final int mese, final int anno) {
 		switch (mese) {
-			case (1):
-				return 31;
-			case (2):
-				return new GregorianCalendar().isLeapYear(anno) ? 29 : 28;
-			case (3):
-				return 31;
-			case (4):
-				return 30;
-			case (5):
-				return 31;
-			case (6):
-				return 30;
-			case (7):
-				return 31;
-			case (8):
-				return 31;
-			case (9):
-				return 30;
-			case (10):
-				return 31;
-			case (11):
-				return 30;
-			case (12):
-				return 31;
-			default:
-				throw new ArrayIndexOutOfBoundsException(mese);
+		case (1):
+			return 31;
+		case (2):
+			return new GregorianCalendar().isLeapYear(anno) ? 29 : 28;
+		case (3):
+			return 31;
+		case (4):
+			return 30;
+		case (5):
+			return 31;
+		case (6):
+			return 30;
+		case (7):
+			return 31;
+		case (8):
+			return 31;
+		case (9):
+			return 30;
+		case (10):
+			return 31;
+		case (11):
+			return 30;
+		case (12):
+			return 31;
+		default:
+			throw new ArrayIndexOutOfBoundsException(mese);
 		}
 	}
 

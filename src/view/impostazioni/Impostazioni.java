@@ -7,7 +7,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.Vector;
 
 import javax.swing.JComboBox;
@@ -15,23 +14,17 @@ import javax.swing.JDesktopPane;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import view.FinestraListaComandi;
-import view.GeneralFrame;
+import view.Alert;
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
 import view.font.TextFieldF;
 import business.Controllore;
 import business.DBUtil;
 import business.Database;
-import business.InizializzatoreFinestre;
 import business.cache.CacheLookAndFeel;
 import domain.Entrate;
 import domain.Lookandfeel;
@@ -42,6 +35,7 @@ public class Impostazioni extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private static Impostazioni singleton;
+	private static String posDatabase = "";
 
 	public static void main(final String[] args) {
 		final Impostazioni dialog = new Impostazioni();
@@ -133,7 +127,7 @@ public class Impostazioni extends JDialog {
 
 			caricaDatabase = new TextFieldF();
 			caricaDatabase.setBounds(140, 179, 149, 27);
-			caricaDatabase.setText("GestioneSpese.sqlite");
+			caricaDatabase.setText(posDatabase);
 			getContentPane().add(caricaDatabase);
 
 			final ButtonF button = new ButtonF();
@@ -147,7 +141,7 @@ public class Impostazioni extends JDialog {
 				@Override
 				public void actionPerformed(final ActionEvent arg0) {
 					if (Model.getSingleton().getModelEntrate().deleteAll() && Model.getSingleton().getModelUscita().deleteAll()) {
-						JOptionPane.showMessageDialog(null, "Ok, tutti i dati sono stati cancellati: puoi ripartire!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
+						Alert.operazioniSegnalazioneInfo("Ok, tutti i dati sono stati cancellati: puoi ripartire!");
 						try {
 							Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
 							Database.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
@@ -194,66 +188,7 @@ public class Impostazioni extends JDialog {
 
 			comboLook.setBounds(140, 24, 115, 24);
 			getContentPane().add(comboLook);
-			comboLook.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(final ActionEvent e) {
-					String look = "";
-					final Lookandfeel valoreLook = (Lookandfeel) comboLook.getSelectedItem();
-					if (valoreLook != null && !valoreLook.getnome().equals("")) {
-						look = valoreLook.getvalore();
-
-						for (int i = 0; i < vettore.size(); i++) {
-							final Lookandfeel lookAnd = vettore.get(i);
-							lookAnd.setusato(0);
-							final HashMap<String, String> campi = new HashMap<String, String>();
-							final HashMap<String, String> clausole = new HashMap<String, String>();
-							campi.put(Lookandfeel.USATO, "0");
-							clausole.put(Lookandfeel.ID, Integer.toString(lookAnd.getidLook()));
-							Database.getSingleton().eseguiIstruzioneSql("update", Lookandfeel.NOME_TABELLA, campi, clausole);
-						}
-
-						valoreLook.setusato(1);
-						final HashMap<String, String> campi = new HashMap<String, String>();
-						final HashMap<String, String> clausole = new HashMap<String, String>();
-						campi.put(Lookandfeel.USATO, "1");
-						clausole.put(Lookandfeel.ID, Integer.toString(valoreLook.getidLook()));
-						Database.getSingleton().eseguiIstruzioneSql("update", Lookandfeel.NOME_TABELLA, campi, clausole);
-					} else {
-						look = "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel";
-					}
-					try {
-						UIManager.setLookAndFeel(look);
-					} catch (final ClassNotFoundException e1) {
-						comboLook.setSelectedIndex(0);
-						e1.printStackTrace();
-					} catch (final InstantiationException e1) {
-						comboLook.setSelectedIndex(0);
-						e1.printStackTrace();
-					} catch (final IllegalAccessException e1) {
-						comboLook.setSelectedIndex(0);
-						e1.printStackTrace();
-					} catch (final UnsupportedLookAndFeelException e1) {
-						comboLook.setSelectedIndex(0);
-						e1.printStackTrace();
-					} catch (final ClassCastException e1) {
-						comboLook.setSelectedIndex(0);
-						e1.printStackTrace();
-					}
-
-					FinestraListaComandi lista = null;
-					try {
-						lista = ((FinestraListaComandi) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, null));
-					} catch (final Exception e1) {
-						e1.printStackTrace();
-					}
-					final GeneralFrame frame = GeneralFrame.getSingleton();
-					SwingUtilities.updateComponentTreeUI(lista);
-					SwingUtilities.updateComponentTreeUI(frame);
-					frame.setBounds(0, 0, 1000, 650);
-
-				}
-			});
+			comboLook.addActionListener(new AscoltatoreLook(comboLook, vettore));
 
 			final JLabel labelLook = new JLabel("Look");
 			labelLook.setBounds(22, 29, 70, 15);
@@ -263,14 +198,15 @@ public class Impostazioni extends JDialog {
 				@Override
 				public void actionPerformed(final ActionEvent arg0) {
 					final JFileChooser fileopen = new JFileChooser();
-					final FileFilter filter = new FileNameExtensionFilter("db files", "db");
+					final FileFilter filter = new FileNameExtensionFilter("db files", "db", "sqlite");
 					fileopen.addChoosableFileFilter(filter);
 
 					final int ret = fileopen.showDialog(null, "Open file");
 
 					if (ret == JFileChooser.APPROVE_OPTION) {
 						final File file = fileopen.getSelectedFile();
-						caricaDatabase.setText(file.getName());
+						posDatabase = file.getAbsolutePath();
+						caricaDatabase.setText(posDatabase);
 					}
 
 				}
@@ -363,5 +299,13 @@ public class Impostazioni extends JDialog {
 	 */
 	public void setComboLook(final JComboBox comboLook) {
 		this.comboLook = comboLook;
+	}
+
+	public static String getPosDatabase() {
+		return posDatabase;
+	}
+
+	public static void setPosDatabase(final String posDatabase) {
+		Impostazioni.posDatabase = posDatabase;
 	}
 }

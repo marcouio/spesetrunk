@@ -36,6 +36,7 @@ public class AscoltatoreInserisciGruppo implements ActionListener {
 				final String messaggio = "Gruppo inserito correttamente";
 				Alert.info(messaggio, Alert.TITLE_OK);
 				Controllore.getLog().info(messaggio);
+
 				modelGruppi.setChanged();
 				modelGruppi.notifyObservers();
 				gruppiView.dispose();

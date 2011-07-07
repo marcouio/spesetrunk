@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 import view.componenti.componentiPannello.SottoPannelloCategorie;
 import view.componenti.componentiPannello.SottoPannelloDatiEntrate;
@@ -29,6 +30,8 @@ import view.impostazioni.CategorieView;
 import view.impostazioni.Impostazioni;
 import view.tabelle.TabellaEntrata;
 import view.tabelle.TabellaUscita;
+import view.tabelle.TabellaUscitaGruppi;
+import business.aggiornatori.ManagerAggiornatore;
 import business.cache.CacheCategorie;
 import business.cache.CacheEntrate;
 import business.cache.CacheUscite;
@@ -39,7 +42,6 @@ import domain.Entrate;
 import domain.Gruppi;
 import domain.SingleSpesa;
 import domain.Utenti;
-import domain.wrapper.Model;
 
 public class Database {
 
@@ -685,9 +687,11 @@ public class Database {
 				SottoPannelloMesi.azzeraCampi();
 			}
 			SottoPannelloCategorie.azzeraCampi();
-			SottoPannelloTotali.getPercentoFutili().setText(Double.toString(percentoUscite(CatSpese.IMPORTANZA_FUTILE)));
-			SottoPannelloTotali.getPercentoVariabili().setText(Double.toString(percentoUscite(CatSpese.IMPORTANZA_VARIABILE)));
-			SottoPannelloTotali.getAvanzo().setText(Double.toString(AltreUtil.arrotondaDecimaliDouble((EAnnuale()) - (Annuale()))));
+			if (SottoPannelloTotali.getPercentoFutili() != null) {
+				SottoPannelloTotali.getPercentoFutili().setText(Double.toString(percentoUscite(CatSpese.IMPORTANZA_FUTILE)));
+				SottoPannelloTotali.getPercentoVariabili().setText(Double.toString(percentoUscite(CatSpese.IMPORTANZA_VARIABILE)));
+				SottoPannelloTotali.getAvanzo().setText(Double.toString(AltreUtil.arrotondaDecimaliDouble((EAnnuale()) - (Annuale()))));
+			}
 			DBUtil.closeConnection();
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -709,7 +713,8 @@ public class Database {
 		if (tipo.equals(SingleSpesa.NOME_TABELLA)) {
 			final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(SingleSpesa.NOME_TABELLA);
 			aggiornaTabellaUscite();
-			Model.aggiornaMovimentiUsciteDaEsterno(nomiColonne, 25);
+			aggiornaTabellaGruppi();
+			ManagerAggiornatore.aggiornaMovimentiUsciteDaEsterno(nomiColonne, 25);
 			if (SottoPannelloDatiSpese.getMeseInCors() != null) {
 				SottoPannelloDatiSpese.getMeseInCors().setText(Double.toString(MensileInCorso()));
 				SottoPannelloDatiSpese.getMesePrecUsc().setText(Double.toString(Mensile()));
@@ -718,8 +723,9 @@ public class Database {
 			}
 		} else if (tipo.equals(Entrate.NOME_TABELLA)) {
 			final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
-			Model.aggiornaMovimentiEntrateDaEsterno(nomiColonne, 25);
+			ManagerAggiornatore.aggiornaMovimentiEntrateDaEsterno(nomiColonne, 25);
 			aggiornaTabellaEntrate();
+			aggiornaTabellaGruppi();
 			if (SottoPannelloDatiEntrate.getEnAnCorso() != null) {
 				SottoPannelloDatiEntrate.getEnAnCorso().setText(Double.toString(EAnnuale()));
 				SottoPannelloDatiEntrate.getEnMeCorso().setText(Double.toString(EMensileInCorso()));
@@ -837,6 +843,22 @@ public class Database {
 			e.printStackTrace();
 		}
 		DBUtil.closeConnection();
+	}
+
+	// aggiorno tabella uscite/mese in seguito a variazioni di altre tabelle
+	/**
+	 * il metodo aggiorna la matrice primo[][] che rappresenta i dati della
+	 * tabella uscite. Utile nel caso in cui vengano aggiornte altre tabelle e
+	 * si vogliano aggiornare anche questi dati.
+	 * 
+	 * @throws Exception
+	 */
+	public static void aggiornaTabellaGruppi() {
+
+		final JTable table = TabellaUscitaGruppi.getDatiPerTabella();
+		final JScrollPane pane = TabellaUscitaGruppi.getScrollPane();
+		pane.setViewportView(table);
+
 	}
 
 	// aggiorno tabella uscite/mese in seguito a variazioni di altre tabelle

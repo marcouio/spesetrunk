@@ -1,13 +1,12 @@
 package view.impostazioni;
 
-import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JDialog;
 
 import domain.wrapper.WrapGruppi;
 
-public class AbstractGruppiView extends JDialog implements Observer {
+public abstract class AbstractGruppiView extends JDialog implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	protected WrapGruppi modelGruppi = null;
@@ -32,12 +31,6 @@ public class AbstractGruppiView extends JDialog implements Observer {
 		modelGruppi.setdescrizione(descrizione);
 	}
 
-	@Override
-	public void update(final Observable arg0, final Object arg1) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public WrapGruppi getModelGruppi() {
 		return modelGruppi;
 	}
@@ -45,4 +38,5 @@ public class AbstractGruppiView extends JDialog implements Observer {
 	public void setModelGruppi(final WrapGruppi modelGruppi) {
 		this.modelGruppi = modelGruppi;
 	}
+
 }

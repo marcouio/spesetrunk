@@ -25,30 +25,29 @@ public class SottoPannelloCategorie {
 	/**
 	 * Auto-generated main method to display this JPanel inside a new JFrame.
 	 */
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		SottoPannelloCategorie pan = new SottoPannelloCategorie();
+	public static void main(final String[] args) {
+		final JFrame frame = new JFrame();
+		final SottoPannelloCategorie pan = new SottoPannelloCategorie();
 		frame.getContentPane().add(pan.getPannello());
-		frame.setBounds(0, 0, (pan.getPannello().getWidth() +
-		                pan.getPannello().distanzaDalBordoX * 2) * 3, (pan.getPannello().getHeight() +
-		                pan.getPannello().distanzaDalBordoY * 2) * 2);
+		frame.setBounds(0, 0, (pan.getPannello().getWidth() + pan.getPannello().distanzaDalBordoX * 2) * 3,
+				(pan.getPannello().getHeight() + pan.getPannello().distanzaDalBordoY * 2) * 2);
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
 	}
 
-	private JLabel            jLabel5;
+	private JLabel jLabel5;
 
-	private JLabel            jLabel11;
-	private JLabel            jLabel6;
+	private JLabel jLabel11;
+	private JLabel jLabel6;
 
-	private static JComboBox  categorieCombo;
+	private static JComboBox categorieCombo;
 	private static JTextField totaleMeseCategoria;
 	private static JTextField totaleAnnualeCateg;
 
-	JComponent[]              componenti = new JComponent[3];
-	JLabel[]                  labels     = new JLabel[3];
-	CostruttoreSottoPannello  pannello;
+	JComponent[] componenti = new JComponent[3];
+	JLabel[] labels = new JLabel[3];
+	CostruttoreSottoPannello pannello;
 
 	public SottoPannelloCategorie() {
 		super();
@@ -101,15 +100,15 @@ public class SottoPannelloCategorie {
 			categorieCombo.addItemListener(new ItemListener() {
 
 				@Override
-				public void itemStateChanged(ItemEvent e) {
+				public void itemStateChanged(final ItemEvent e) {
 					CatSpese spese = null;
 					if (categorieCombo.getSelectedIndex() != 0) {
 						spese = (CatSpese) categorieCombo.getSelectedItem();
-						int mese = new GregorianCalendar().get(Calendar.MONTH) + 1;
+						final int mese = new GregorianCalendar().get(Calendar.MONTH) + 1;
 						double spesa = 0;
 						try {
 							spesa = Database.speseMeseCategoria(mese, spese.getidCategoria());
-						} catch (Exception e1) {
+						} catch (final Exception e1) {
 							e1.printStackTrace();
 						}
 
@@ -120,7 +119,7 @@ public class SottoPannelloCategorie {
 			});
 			componenti[0] = categorieCombo;
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -129,7 +128,7 @@ public class SottoPannelloCategorie {
 		return categorieCombo;
 	}
 
-	public static void setCategorieCombo(JComboBox categorieCombo) {
+	public static void setCategorieCombo(final JComboBox categorieCombo) {
 		SottoPannelloCategorie.categorieCombo = categorieCombo;
 	}
 
@@ -137,7 +136,7 @@ public class SottoPannelloCategorie {
 		return totaleMeseCategoria;
 	}
 
-	public static void setTotaleMeseCategoria(JTextField totaleMeseCategoria) {
+	public static void setTotaleMeseCategoria(final JTextField totaleMeseCategoria) {
 		SottoPannelloCategorie.totaleMeseCategoria = totaleMeseCategoria;
 	}
 
@@ -145,22 +144,23 @@ public class SottoPannelloCategorie {
 		return totaleAnnualeCateg;
 	}
 
-	public static void setTotaleAnnualeCateg(JTextField totaleAnnualeCateg) {
+	public static void setTotaleAnnualeCateg(final JTextField totaleAnnualeCateg) {
 		SottoPannelloCategorie.totaleAnnualeCateg = totaleAnnualeCateg;
 	}
 
 	public static void azzeraCampi() {
-		getCategorieCombo().setSelectedIndex(0);
-		categorieCombo.setSelectedIndex(0);
-		totaleAnnualeCateg.setText("0.0");
-		totaleMeseCategoria.setText("0.0");
+		if (categorieCombo != null && totaleAnnualeCateg != null && totaleMeseCategoria != null) {
+			categorieCombo.setSelectedIndex(0);
+			totaleAnnualeCateg.setText("0.0");
+			totaleMeseCategoria.setText("0.0");
+		}
 	}
 
 	protected CostruttoreSottoPannello getPannello() {
 		return pannello;
 	}
 
-	protected void setPannello(CostruttoreSottoPannello pannello) {
+	protected void setPannello(final CostruttoreSottoPannello pannello) {
 		this.pannello = pannello;
 	}
 
@@ -168,7 +168,7 @@ public class SottoPannelloCategorie {
 		return componenti;
 	}
 
-	protected void setComponenti(JComponent[] componenti) {
+	protected void setComponenti(final JComponent[] componenti) {
 		this.componenti = componenti;
 	}
 
@@ -176,7 +176,7 @@ public class SottoPannelloCategorie {
 		return labels;
 	}
 
-	protected void setLabels(JLabel[] labels) {
+	protected void setLabels(final JLabel[] labels) {
 		this.labels = labels;
 	}
 

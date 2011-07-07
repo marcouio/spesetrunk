@@ -7,21 +7,21 @@ import java.util.Map;
 import java.util.Vector;
 
 import view.impostazioni.Impostazioni;
-
 import business.Controllore;
 import domain.AbstractOggettoEntita;
 import domain.SingleSpesa;
 import domain.Utenti;
 import domain.wrapper.WrapSingleSpesa;
 
-public class CacheUscite extends AbstractCacheBase{
+public class CacheUscite extends AbstractCacheBase {
 
 	private static CacheUscite singleton;
-	
-	private CacheUscite(){
+
+	private CacheUscite() {
 		cache = new HashMap<String, AbstractOggettoEntita>();
 	}
-	public static CacheUscite getSingleton(){
+
+	public static CacheUscite getSingleton() {
 		if (singleton == null) {
 			synchronized (CacheUscite.class) {
 				if (singleton == null) {
@@ -33,57 +33,57 @@ public class CacheUscite extends AbstractCacheBase{
 	}
 
 	WrapSingleSpesa usciteDAO = new WrapSingleSpesa();
-	
-	
-	public SingleSpesa getSingleSpesa(String id){
-		SingleSpesa uscita = (SingleSpesa) cache.get(id); 
-		if(uscita == null){
+
+	public SingleSpesa getSingleSpesa(final String id) {
+		SingleSpesa uscita = (SingleSpesa) cache.get(id);
+		if (uscita == null) {
 			uscita = caricaSingleSpesa(id);
-			if(uscita!=null){
+			if (uscita != null) {
 				cache.put(id, uscita);
 			}
 		}
-	return (SingleSpesa)cache.get(id);
+		return (SingleSpesa) cache.get(id);
 	}
-	
-	private SingleSpesa caricaSingleSpesa(String id){
+
+	private SingleSpesa caricaSingleSpesa(final String id) {
 		return (SingleSpesa) new WrapSingleSpesa().selectById(Integer.parseInt(id));
 	}
-	
-	private Map<String, AbstractOggettoEntita> chargeAllUscite(){
-		Vector<Object>uscite =usciteDAO.selectAll();
-		if(uscite!=null && uscite.size()>0){
-			for(int i=0; i<uscite.size();i++){
-				SingleSpesa uscita = (SingleSpesa) uscite.get(i);
-				int id = uscita.getidSpesa();
-				if(cache.get(id) == null){
+
+	private Map<String, AbstractOggettoEntita> chargeAllUscite() {
+		final Vector<Object> uscite = usciteDAO.selectAll();
+		if (uscite != null) {
+			for (int i = 0; i < uscite.size(); i++) {
+				final SingleSpesa uscita = (SingleSpesa) uscite.get(i);
+				final int id = uscita.getidSpesa();
+				if (cache.get(id) == null) {
 					cache.put(Integer.toString(id), uscita);
 				}
 			}
 			caricata = true;
-		}else{
-			cache=null;
+		} else {
+			cache = new HashMap<String, AbstractOggettoEntita>();
 		}
 		return cache;
 	}
-	
-	public Map<String, AbstractOggettoEntita> getAllUscite(){
-		if(caricata)
+
+	public Map<String, AbstractOggettoEntita> getAllUscite() {
+		if (caricata) {
 			return cache;
-		else
+		} else {
 			return chargeAllUscite();
+		}
 	}
-	
-	public ArrayList<SingleSpesa> getAllUsciteForUtente(){
-		ArrayList<SingleSpesa> listaUscite = new ArrayList<SingleSpesa>(); 
-		Map<String, AbstractOggettoEntita> mappa = getAllUscite();
-		Iterator<String> chiavi = mappa.keySet().iterator();
-		Utenti utente = Controllore.getSingleton().getUtenteLogin();
-		if(mappa!=null && utente!=null){
-			while(chiavi.hasNext()){
-				SingleSpesa uscita = (SingleSpesa) mappa.get(chiavi.next());
-				if(uscita!=null && uscita.getUtenti()!=null){
-					if(uscita.getUtenti().getidUtente()==utente.getidUtente()){
+
+	public ArrayList<SingleSpesa> getAllUsciteForUtente() {
+		final ArrayList<SingleSpesa> listaUscite = new ArrayList<SingleSpesa>();
+		final Map<String, AbstractOggettoEntita> mappa = getAllUscite();
+		final Iterator<String> chiavi = mappa.keySet().iterator();
+		final Utenti utente = Controllore.getSingleton().getUtenteLogin();
+		if (mappa != null && utente != null) {
+			while (chiavi.hasNext()) {
+				final SingleSpesa uscita = (SingleSpesa) mappa.get(chiavi.next());
+				if (uscita != null && uscita.getUtenti() != null) {
+					if (uscita.getUtenti().getidUtente() == utente.getidUtente()) {
 						listaUscite.add(uscita);
 					}
 				}
@@ -91,19 +91,20 @@ public class CacheUscite extends AbstractCacheBase{
 		}
 		return listaUscite;
 	}
-	public ArrayList<SingleSpesa> getAllUsciteForUtenteEAnno(){
-		ArrayList<SingleSpesa> listaUscite = new ArrayList<SingleSpesa>(); 
-		Map<String, AbstractOggettoEntita> mappa = getAllUscite();
-		Iterator<String> chiavi = mappa.keySet().iterator();
-		Utenti utente = Controllore.getSingleton().getUtenteLogin();
-		String annoDaText = Impostazioni.getSingleton().getAnnotextField().getText();
-		
-		if(mappa!=null && utente!=null){
-			while(chiavi.hasNext()){
-				SingleSpesa uscita = (SingleSpesa) mappa.get(chiavi.next());
-				if(uscita!=null && uscita.getUtenti()!=null){
-					String annoUscita = uscita.getData().substring(0, 4);
-					if(uscita.getUtenti().getidUtente()==utente.getidUtente() && annoUscita.equals(annoDaText) ){
+
+	public ArrayList<SingleSpesa> getAllUsciteForUtenteEAnno() {
+		final ArrayList<SingleSpesa> listaUscite = new ArrayList<SingleSpesa>();
+		final Map<String, AbstractOggettoEntita> mappa = getAllUscite();
+		final Iterator<String> chiavi = mappa.keySet().iterator();
+		final Utenti utente = Controllore.getSingleton().getUtenteLogin();
+		final String annoDaText = Impostazioni.getSingleton().getAnnotextField().getText();
+
+		if (mappa != null && utente != null) {
+			while (chiavi.hasNext()) {
+				final SingleSpesa uscita = (SingleSpesa) mappa.get(chiavi.next());
+				if (uscita != null && uscita.getUtenti() != null) {
+					final String annoUscita = uscita.getData().substring(0, 4);
+					if (uscita.getUtenti().getidUtente() == utente.getidUtente() && annoUscita.equals(annoDaText)) {
 						listaUscite.add(uscita);
 					}
 				}
@@ -111,16 +112,17 @@ public class CacheUscite extends AbstractCacheBase{
 		}
 		return listaUscite;
 	}
+
 	public int getMaxId() {
 		int maxId = 0;
-		Map<String, AbstractOggettoEntita> mappa = getAllUscite();
-		Iterator<String> chiavi = mappa.keySet().iterator();
-		if(mappa!=null){
-			while(chiavi.hasNext()){
-				SingleSpesa uscita = (SingleSpesa) mappa.get(chiavi.next());
-				if(uscita!=null){
-					int idSpesa = uscita.getidSpesa();
-					if(idSpesa>maxId){
+		final Map<String, AbstractOggettoEntita> mappa = getAllUscite();
+		final Iterator<String> chiavi = mappa.keySet().iterator();
+		if (mappa != null) {
+			while (chiavi.hasNext()) {
+				final SingleSpesa uscita = (SingleSpesa) mappa.get(chiavi.next());
+				if (uscita != null) {
+					final int idSpesa = uscita.getidSpesa();
+					if (idSpesa > maxId) {
 						maxId = idSpesa;
 					}
 				}
@@ -128,5 +130,5 @@ public class CacheUscite extends AbstractCacheBase{
 		}
 		return maxId;
 	}
-	
+
 }
