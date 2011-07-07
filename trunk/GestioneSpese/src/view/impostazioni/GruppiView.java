@@ -3,6 +3,7 @@ package view.impostazioni;
 import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.Observable;
 import java.util.Vector;
 
 import javax.swing.JComboBox;
@@ -92,6 +93,13 @@ public class GruppiView extends AbstractGruppiView {
 		aggiorna.addActionListener(new AscoltatoreAggiornaGruppo(this));
 
 		cancella.addActionListener(new AscoltatoreEliminaGruppo(this));
+
+	}
+
+	@Override
+	public void update(final Observable o, final Object arg) {
+		nome.setText(getNome());
+		descrizione.setText(getDescrizione());
 
 	}
 

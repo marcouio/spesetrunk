@@ -8,21 +8,25 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import view.impostazioni.Impostazioni;
+import business.Database;
+
 public class AscoltatoreCaricaDatabase implements ActionListener {
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		JFileChooser fileopen = new JFileChooser();
-	    FileFilter filter = new FileNameExtensionFilter("db files", "*.sqlite");
-	    fileopen.addChoosableFileFilter(filter);
+	public void actionPerformed(final ActionEvent e) {
+		final JFileChooser fileopen = new JFileChooser();
+		final FileFilter filter = new FileNameExtensionFilter("sqlite", "sqlite");
+		fileopen.addChoosableFileFilter(filter);
 
-	    int ret = fileopen.showDialog(null, "Open file");
+		final int ret = fileopen.showDialog(null, "Open file");
 
-	    if (ret == JFileChooser.APPROVE_OPTION) {
-	      File file = fileopen.getSelectedFile();
-//	      caricaDatabase.setText(file.getName());
-	    }
+		if (ret == JFileChooser.APPROVE_OPTION) {
+			final File file = fileopen.getSelectedFile();
+			Impostazioni.setPosDatabase(file.getAbsolutePath());
+			Impostazioni.getCaricaDatabase().setText(Impostazioni.getPosDatabase());
+			Database.aggiornamentoPerImpostazioni();
+		}
 
 	}
-
 }

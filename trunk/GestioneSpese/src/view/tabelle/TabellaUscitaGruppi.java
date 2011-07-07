@@ -23,6 +23,7 @@ public class TabellaUscitaGruppi extends OggettoVistaBase {
 	private static JTable table;
 
 	private static String[][] primo;
+	private static JScrollPane scrollPane;
 
 	public TabellaUscitaGruppi() {
 		super(new GridLayout(1, 0));
@@ -30,20 +31,19 @@ public class TabellaUscitaGruppi extends OggettoVistaBase {
 		getDatiPerTabella();
 
 		// Create the scroll pane and add the table to it.
-		final JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane = new JScrollPane(table);
 
 		// Add the scroll pane to this panel.
 		add(scrollPane);
 
 	}
 
-	private void getDatiPerTabella() {
+	public static JTable getDatiPerTabella() {
 		Vector<Gruppi> gruppi = null;
 		final CacheGruppi cacheGruppi = CacheGruppi.getSingleton();
 		if (cacheGruppi != null) {
 			gruppi = CacheGruppi.getSingleton().getVettoreGruppiSenzaZero();
 		}
-		// Database.speseMeseGruppo(mese, gruppo)
 		final Vector<CatSpese> catSpese = CacheCategorie.getSingleton().getCategorieSenzaGruppo();
 
 		final int numColonne = catSpese.size() + gruppi.size() + 1; // +1 perché
@@ -89,9 +89,10 @@ public class TabellaUscitaGruppi extends OggettoVistaBase {
 		table.setRowHeight(27);
 		table.setPreferredScrollableViewportSize(new Dimension(700, 300));
 		table.setFillsViewportHeight(true);
+		return table;
 	}
 
-	private void colonnaMesi() {
+	private static void colonnaMesi() {
 		primo[0][0] = "Gennaio";
 		primo[1][0] = "Febbraio";
 		primo[2][0] = "Marzo";
@@ -150,5 +151,13 @@ public class TabellaUscitaGruppi extends OggettoVistaBase {
 				}
 			}
 		});
+	}
+
+	public static JScrollPane getScrollPane() {
+		return scrollPane;
+	}
+
+	public static void setScrollPane(final JScrollPane scrollPane) {
+		TabellaUscitaGruppi.scrollPane = scrollPane;
 	}
 }

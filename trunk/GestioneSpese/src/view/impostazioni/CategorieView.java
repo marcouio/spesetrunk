@@ -18,7 +18,6 @@ import view.font.LabelListaGruppi;
 import view.font.TextAreaF;
 import view.font.TextFieldF;
 import business.CorreggiTesto;
-import business.Database;
 import business.cache.CacheCategorie;
 import business.cache.CacheGruppi;
 import domain.CatSpese;
@@ -33,7 +32,6 @@ public class CategorieView extends AbstractCategorieView {
 	private JTextField tfNome;
 	private JComboBox cbCategorie;
 	private Vector<CatSpese> categorieSpesa;
-	final Database db = Database.getSingleton();
 	private JComboBox cbGruppi;
 
 	private static final long serialVersionUID = 1L;
@@ -110,7 +108,7 @@ public class CategorieView extends AbstractCategorieView {
 						final int numeroGruppi = cbGruppi.getModel().getSize();
 						for (int i = 0; i < numeroGruppi; i++) {
 							final Gruppi gruppo = (Gruppi) cbGruppi.getModel().getElementAt(i);
-							if (gruppo.getnome().equals(categoria.getGruppi().getnome())) {
+							if (gruppo != null && gruppo.getnome().equals(categoria.getGruppi().getnome())) {
 								cbGruppi.setSelectedIndex(i);
 							}
 						}
