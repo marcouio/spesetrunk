@@ -91,14 +91,20 @@ public class ManagerAggiornatore {
 	 * @param nomiColonne
 	 * @param numUscite
 	 */
-	public static void aggiornaMovimentiUsciteDaEsterno(final Object[] nomiColonne, final int numUscite) {
+	public static boolean aggiornaMovimentiUsciteDaEsterno(final Object[] nomiColonne, final int numUscite) {
 
-		final String[][] movimenti = Model.getSingleton().movimentiUscite(numUscite, SingleSpesa.NOME_TABELLA);
-		TableF table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getTable();
-		table1 = new TableF(movimenti, nomiColonne);
-		final JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getScrollPane();
-		scrollPane.setViewportView(table1);
-		table1.addMouseListener(new AscoltatoreBottoniUscita(table1));
+		try{
+			final String[][] movimenti = Model.getSingleton().movimentiUscite(numUscite, SingleSpesa.NOME_TABELLA);
+			TableF table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getTable();
+			table1 = new TableF(movimenti, nomiColonne);
+			final JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getScrollPane();
+			scrollPane.setViewportView(table1);
+			table1.addMouseListener(new AscoltatoreBottoniUscita(table1));
+			return true;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	/**
@@ -126,14 +132,19 @@ public class ManagerAggiornatore {
 	 * @param nomiColonne
 	 * @param numEntry
 	 */
-	public static void aggiornaMovimentiEntrateDaEsterno(final Object[] nomiColonne, final int numEntry) {
-
-		final String[][] movimenti = Model.getSingleton().movimentiEntrate(numEntry, Entrate.NOME_TABELLA);
-		TableF table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getTable();
-		table1 = new TableF(movimenti, nomiColonne);
-		final JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getScrollPane();
-		scrollPane.setViewportView(table1);
-		table1.addMouseListener(new AscoltatoreBottoniEntrata(table1));
+	public static boolean aggiornaMovimentiEntrateDaEsterno(final Object[] nomiColonne, final int numEntry) {
+		try{
+			final String[][] movimenti = Model.getSingleton().movimentiEntrate(numEntry, Entrate.NOME_TABELLA);
+			TableF table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getTable();
+			table1 = new TableF(movimenti, nomiColonne);
+			final JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getScrollPane();
+			scrollPane.setViewportView(table1);
+			table1.addMouseListener(new AscoltatoreBottoniEntrata(table1));
+			return true;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	/**
@@ -153,10 +164,10 @@ public class ManagerAggiornatore {
 			}
 		} else if (tipo.equals(Entrate.NOME_TABELLA)) {
 			final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
-			aggiornaMovimentiEntrateDaEsterno(nomiColonne, 25);
-			aggiornaTabellaEntrate();
-			aggiornaTabellaGruppi();
-			aggiornaPannelloDatiEntrate();
+			if(aggiornaMovimentiEntrateDaEsterno(nomiColonne, 25) && aggiornaTabellaEntrate() &&
+			aggiornaTabellaGruppi() && aggiornaPannelloDatiEntrate()){
+				return true;
+			}
 		} else {
 			throw new Exception("Aggiornamento non gestito: " + tipo);
 		}
@@ -351,12 +362,17 @@ public class ManagerAggiornatore {
 	 * 
 	 * @throws Exception
 	 */
-	public static void aggiornaTabellaEntrate() {
-
-		final GeneratoreDatiTabellaEntrate dati = new GeneratoreDatiTabellaEntrate();
-		final TableF table = GeneratoreDatiTabellaEntrate.createTable(dati.getMatrice(), dati.getNomiColonna());
-		final JScrollPane pane = TabellaEntrata.getScrollPane();
-		pane.setViewportView(table);
+	public static boolean aggiornaTabellaEntrate() {
+		try{
+			final GeneratoreDatiTabellaEntrate dati = new GeneratoreDatiTabellaEntrate();
+			final TableF table = GeneratoreDatiTabellaEntrate.createTable(dati.getMatrice(), dati.getNomiColonna());
+			final JScrollPane pane = TabellaEntrata.getScrollPane();
+			pane.setViewportView(table);
+			return true;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }
