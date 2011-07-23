@@ -24,10 +24,12 @@ public class InizializzatoreFinestre {
 	protected static Report report;
 
 	JFrame[] finestre;
+	@SuppressWarnings("rawtypes")
 	ArrayList<Class> finestreClass;
 
 	JFrame finestraVisibile;
 
+	@SuppressWarnings("rawtypes")
 	public InizializzatoreFinestre() {
 		// inizializzo l'array list con le class per evitare di caricare tutto
 		// all'avvio del programma
@@ -73,6 +75,7 @@ public class InizializzatoreFinestre {
 	 * @throws IllegalAccessException
 	 */
 	private JFrame creaIstanza(final int index, final JFrame view) throws InstantiationException, IllegalAccessException {
+		@SuppressWarnings("unchecked")
 		final Class<JFrame> finestra = finestreClass.get(index);
 		final JFrame newFinestra = finestra.newInstance();
 		finestre[index] = newFinestra;

@@ -4,13 +4,14 @@ import java.awt.event.ActionEvent;
 
 import business.aggiornatori.AggiornatoreManager;
 
-public class AscoltatoreAggiornatoreEntrate extends AscoltatoreBase {
+public class AscoltatoreAggiornatoreNiente extends AscoltatoreBase {
 
-	public AscoltatoreAggiornatoreEntrate() {
+	public AscoltatoreAggiornatoreNiente() {
 		super(AggiornatoreManager.AGGIORNA_NULLA);
 	}
 
 	@Override
-	protected void actionPerformedOverride(final ActionEvent e) {}
+	protected void actionPerformedOverride(final ActionEvent e) {
+	}
 
 }

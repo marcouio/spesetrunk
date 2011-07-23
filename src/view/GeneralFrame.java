@@ -3,7 +3,6 @@ package view;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -28,26 +27,27 @@ import view.tabelle.PerMesiF;
 import business.Controllore;
 import business.DBUtil;
 import business.InizializzatoreFinestre;
+import business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import domain.wrapper.WrapEntrate;
 import domain.wrapper.WrapSingleSpesa;
 
 public class GeneralFrame extends JFrame {
 
-	private static final long       serialVersionUID = 1L;
-	private final JPanel            contentPane;
-	private static PerMesiF         tabPermesi;
-	private static Movimenti        tabMovimenti;
-	private static NewSql           consolle;
-	private static GeneralFrame     singleton;
-	private final ArrayList<JPanel> listaPannelli    = new ArrayList<JPanel>();
+	private static final long serialVersionUID = 1L;
+	private final JPanel contentPane;
+	private static PerMesiF tabPermesi;
+	private static Movimenti tabMovimenti;
+	private static NewSql consolle;
+	private static GeneralFrame singleton;
+	private final ArrayList<JPanel> listaPannelli = new ArrayList<JPanel>();
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				DBUtil.closeConnection();
-				GeneralFrame inst = new GeneralFrame();
+				final GeneralFrame inst = new GeneralFrame();
 				inst.setTitle("Gestionale spese familiari");
 				inst.setLocationRelativeTo(null);
 				inst.setVisible(true);
@@ -78,7 +78,7 @@ public class GeneralFrame extends JFrame {
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 
-		MyMenu menu = new MyMenu();
+		final MyMenu menu = new MyMenu();
 		contentPane.add(menu);
 
 		createPannelloBottoni();
@@ -105,12 +105,12 @@ public class GeneralFrame extends JFrame {
 		contentPane.add(consolle);
 		listaPannelli.add(consolle);
 
-		for (JPanel pannello : listaPannelli) {
+		for (final JPanel pannello : listaPannelli) {
 			pannello.setVisible(false);
 		}
 		tabMovimenti.getTabMovUscite().setVisible(true);
 
-		MyWindowListener windowListener = new MyWindowListener(this);
+		final MyWindowListener windowListener = new MyWindowListener(this);
 		this.addWindowListener(windowListener);
 		this.addComponentListener(windowListener);
 		this.addWindowFocusListener(windowListener);
@@ -120,17 +120,17 @@ public class GeneralFrame extends JFrame {
 	}
 
 	private void createPannelloBottoni() {
-		PannelloBottoni pannelloBottoni = new PannelloBottoni();
-		ImageIcon iconaMovimenti = new ImageIcon("imgUtil/controlli.gif");
-		ImageIcon iconaMovimentiPic = new ImageIcon("imgUtil/controlli_pic.gif");
-		ToggleBtn toggleMovimenti = new ToggleBtn("Movimenti", iconaMovimenti);
+		final PannelloBottoni pannelloBottoni = new PannelloBottoni();
+		final ImageIcon iconaMovimenti = new ImageIcon("imgUtil/controlli.gif");
+		final ImageIcon iconaMovimentiPic = new ImageIcon("imgUtil/controlli_pic.gif");
+		final ToggleBtn toggleMovimenti = new ToggleBtn("Movimenti", iconaMovimenti);
 		toggleMovimenti.settaggioBottoneStandard();
-		Bottone bottoneMovimenti = new Bottone(toggleMovimenti);
-		toggleMovimenti.addActionListener(new ActionListener() {
+		final Bottone bottoneMovimenti = new Bottone(toggleMovimenti);
+		toggleMovimenti.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				for (JPanel pannello : listaPannelli) {
+			public void actionPerformedOverride(final ActionEvent e) {
+				for (final JPanel pannello : listaPannelli) {
 					pannello.setVisible(false);
 				}
 				tabMovimenti.getTabMovUscite().setVisible(true);
@@ -140,12 +140,12 @@ public class GeneralFrame extends JFrame {
 		// **************************************
 		final ToggleBtn toggleMovimentiUscite = new ToggleBtn("Uscite", iconaMovimentiPic, -1, 20);
 		toggleMovimentiUscite.settaggioBottoneStandard();
-		Bottone bottoneMovimentiUscite = new Bottone(toggleMovimentiUscite);
-		toggleMovimentiUscite.addActionListener(new ActionListener() {
+		final Bottone bottoneMovimentiUscite = new Bottone(toggleMovimentiUscite);
+		toggleMovimentiUscite.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				for (JPanel pannello : listaPannelli) {
+			public void actionPerformedOverride(final ActionEvent e) {
+				for (final JPanel pannello : listaPannelli) {
 					pannello.setVisible(false);
 				}
 				tabMovimenti.getTabMovUscite().setVisible(true);
@@ -156,11 +156,11 @@ public class GeneralFrame extends JFrame {
 		final ToggleBtn toggleMovimentiEntrate = new ToggleBtn("Entrate", iconaMovimentiPic, -1, 20);
 		toggleMovimentiEntrate.settaggioBottoneStandard();
 		final Bottone bottoneMovimentiEntrate = new Bottone(toggleMovimentiEntrate);
-		toggleMovimentiEntrate.addActionListener(new ActionListener() {
+		toggleMovimentiEntrate.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				for (JPanel pannello : listaPannelli) {
+			public void actionPerformedOverride(final ActionEvent e) {
+				for (final JPanel pannello : listaPannelli) {
 					pannello.setVisible(false);
 				}
 				tabMovimenti.getTabMovEntrate().setVisible(true);
@@ -170,8 +170,8 @@ public class GeneralFrame extends JFrame {
 			}
 		});
 
-		PannelloBottoniInterno pp = new PannelloBottoniInterno();
-		ArrayList<Bottone> dueButton = new ArrayList<Bottone>();
+		final PannelloBottoniInterno pp = new PannelloBottoniInterno();
+		final ArrayList<Bottone> dueButton = new ArrayList<Bottone>();
 		dueButton.add(bottoneMovimentiUscite);
 		dueButton.add(bottoneMovimentiEntrate);
 		pp.addDueBottoni(dueButton);
@@ -179,60 +179,60 @@ public class GeneralFrame extends JFrame {
 
 		toggleMovimenti.setPadre(bottoneMovimenti);
 
-		ImageIcon iconaUscite = new ImageIcon("imgUtil/blocktable_32.png");
-		ToggleBtn toggleMesi = new ToggleBtn("Mesi", iconaUscite);
+		final ImageIcon iconaUscite = new ImageIcon("imgUtil/blocktable_32.png");
+		final ToggleBtn toggleMesi = new ToggleBtn("Mesi", iconaUscite);
 		toggleMesi.settaggioBottoneStandard();
-		Bottone bottoneMesi = new Bottone(toggleMesi);
+		final Bottone bottoneMesi = new Bottone(toggleMesi);
 		toggleMesi.setPadre(bottoneMesi);
-		toggleMesi.addActionListener(new ActionListener() {
+		toggleMesi.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				for (JPanel pannello : listaPannelli) {
+			public void actionPerformedOverride(final ActionEvent e) {
+				for (final JPanel pannello : listaPannelli) {
 					pannello.setVisible(false);
 				}
 				tabPermesi.setVisible(true);
 			}
 		});
 
-		ImageIcon iconaSQL = new ImageIcon("imgUtil/sql.gif");
-		ToggleBtn toggleSql = new ToggleBtn("ConsolleSQL", iconaSQL);
+		final ImageIcon iconaSQL = new ImageIcon("imgUtil/sql.gif");
+		final ToggleBtn toggleSql = new ToggleBtn("ConsolleSQL", iconaSQL);
 		toggleSql.settaggioBottoneStandard();
-		Bottone bottoneSql = new Bottone(toggleSql);
+		final Bottone bottoneSql = new Bottone(toggleSql);
 		toggleSql.setPadre(bottoneSql);
-		toggleSql.addActionListener(new ActionListener() {
+		toggleSql.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				for (JPanel pannello : listaPannelli) {
+			public void actionPerformedOverride(final ActionEvent e) {
+				for (final JPanel pannello : listaPannelli) {
 					pannello.setVisible(false);
 				}
 				consolle.setVisible(true);
 			}
 		});
 
-		ImageIcon iconaSoldi = new ImageIcon("imgUtil/soldi.gif");
-		ImageIcon iconaSoldiPic = new ImageIcon("imgUtil/soldi_pic.gif");
-		ToggleBtn toggleEntrateUscite = new ToggleBtn("Inserimento Dati", iconaSoldi);
+		final ImageIcon iconaSoldi = new ImageIcon("imgUtil/soldi.gif");
+		final ImageIcon iconaSoldiPic = new ImageIcon("imgUtil/soldi_pic.gif");
+		final ToggleBtn toggleEntrateUscite = new ToggleBtn("Inserimento Dati", iconaSoldi);
 		toggleEntrateUscite.settaggioBottoneStandard();
 		final Bottone bottoneEntrateUscite = new Bottone(toggleEntrateUscite);
 		toggleEntrateUscite.setPadre(bottoneEntrateUscite);
 
 		final ToggleBtn toggleInsUscite = new ToggleBtn("Uscite", iconaSoldiPic, -1, 20);
 		toggleInsUscite.settaggioBottoneStandard();
-		Bottone bottoneInsUscite = new Bottone(toggleInsUscite);
-		toggleInsUscite.addActionListener(new ActionListener() {
+		final Bottone bottoneInsUscite = new Bottone(toggleInsUscite);
+		toggleInsUscite.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformedOverride(final ActionEvent e) {
 				try {
-					PannelloBottoni pannelloEntrateUscite = bottoneEntrateUscite.getContenuto();
-					UsciteView dialog = new UsciteView(new WrapSingleSpesa());
+					final PannelloBottoni pannelloEntrateUscite = bottoneEntrateUscite.getContenuto();
+					final UsciteView dialog = new UsciteView(new WrapSingleSpesa());
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setBounds(0, 0, 347, 407);
 					dialog.setVisible(true);
 					pannelloEntrateUscite.getGruppoBottoni().clearSelection();
-				} catch (Exception e1) {
+				} catch (final Exception e1) {
 					e1.printStackTrace();
 				}
 			}
@@ -240,13 +240,13 @@ public class GeneralFrame extends JFrame {
 
 		final ToggleBtn toggleInsEntrate = new ToggleBtn("Entrate", iconaSoldiPic, -1, 20);
 		toggleInsEntrate.settaggioBottoneStandard();
-		Bottone bottoneInsEntrate = new Bottone(toggleInsEntrate);
-		toggleInsEntrate.addActionListener(new ActionListener() {
+		final Bottone bottoneInsEntrate = new Bottone(toggleInsEntrate);
+		toggleInsEntrate.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				PannelloBottoni pannelloEntrateUscite = bottoneEntrateUscite.getContenuto();
-				EntrateView dialog = new EntrateView(new WrapEntrate());
+			public void actionPerformedOverride(final ActionEvent e) {
+				final PannelloBottoni pannelloEntrateUscite = bottoneEntrateUscite.getContenuto();
+				final EntrateView dialog = new EntrateView(new WrapEntrate());
 				dialog.setLocationRelativeTo(null);
 				dialog.setBounds(0, 0, 347, 318);
 				dialog.setVisible(true);
@@ -254,8 +254,8 @@ public class GeneralFrame extends JFrame {
 			}
 		});
 
-		PannelloBottoniInterno EntrateUsciteContenuto = new PannelloBottoniInterno();
-		ArrayList<Bottone> dueBottoni = new ArrayList<Bottone>();
+		final PannelloBottoniInterno EntrateUsciteContenuto = new PannelloBottoniInterno();
+		final ArrayList<Bottone> dueBottoni = new ArrayList<Bottone>();
 		dueBottoni.add(bottoneInsUscite);
 		dueBottoni.add(bottoneInsEntrate);
 		EntrateUsciteContenuto.addDueBottoni(dueBottoni);
@@ -271,39 +271,32 @@ public class GeneralFrame extends JFrame {
 	}
 
 	public void relocateFinestreLaterali() {
-		if(Controllore.getSingleton().getInitFinestre().getFinestraVisibile()!=null){
-			Point p = GeneralFrame.getSingleton().getLocation();
-			Dimension d = GeneralFrame.getSingleton().getSize();
+		if (Controllore.getSingleton().getInitFinestre().getFinestraVisibile() != null) {
+			final Point p = GeneralFrame.getSingleton().getLocation();
+			final Dimension d = GeneralFrame.getSingleton().getSize();
 			p.setLocation(p.x + d.width + 5, p.y);
-			try{
-				JFrame finestraVisibile = Controllore.getSingleton().getInitFinestre().getFinestraVisibile();
-				if(finestraVisibile instanceof PannelloAScomparsa2){
-					((PannelloAScomparsa2)Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, this)).setLocation(p);
+			try {
+				final JFrame finestraVisibile = Controllore.getSingleton().getInitFinestre().getFinestraVisibile();
+				if (finestraVisibile instanceof PannelloAScomparsa2) {
+					((PannelloAScomparsa2) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, this)).setLocation(p);
+				} else if (finestraVisibile instanceof FinestraListaComandi) {
+					((FinestraListaComandi) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, this)).setLocation(p);
+				} else if (finestraVisibile instanceof MostraNoteView) {
+					((MostraNoteView) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_NOTE, this)).setLocation(p);
+				} else if (finestraVisibile instanceof Report) {
+					((Report) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_REPORT, this)).setLocation(p);
 				}
-				else if(finestraVisibile instanceof FinestraListaComandi){
-					((FinestraListaComandi)Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, this)).setLocation(p);
-				}
-				else if(finestraVisibile instanceof MostraNoteView){
-					((MostraNoteView)Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_NOTE, this)).setLocation(p);
-				}
-				else if(finestraVisibile instanceof Report){
-					((Report)Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_REPORT, this)).setLocation(p);
-				}
-			}catch (Exception e) {
+			} catch (final Exception e) {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	public static void resizeView() {
-		// TODO Auto-generated method stub
 	}
 
 	public PerMesiF getTabPermesi() {
 		return tabPermesi;
 	}
 
-	public void setTabPermesi(PerMesiF tabPermesi) {
+	public void setTabPermesi(final PerMesiF tabPermesi) {
 		GeneralFrame.tabPermesi = tabPermesi;
 	}
 
@@ -311,7 +304,7 @@ public class GeneralFrame extends JFrame {
 		return tabMovimenti;
 	}
 
-	public void setTabMovimenti(Movimenti tabMovimenti) {
+	public void setTabMovimenti(final Movimenti tabMovimenti) {
 		GeneralFrame.tabMovimenti = tabMovimenti;
 	}
 
@@ -319,7 +312,7 @@ public class GeneralFrame extends JFrame {
 		return consolle;
 	}
 
-	public void setConsolle(NewSql consolle) {
+	public void setConsolle(final NewSql consolle) {
 		GeneralFrame.consolle = consolle;
 	}
 

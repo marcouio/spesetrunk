@@ -1,16 +1,16 @@
 package view.impostazioni;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import view.Alert;
 import business.Controllore;
+import business.ascoltatori.AscoltatoreAggiornatoreTutto;
 import business.cache.CacheGruppi;
 import business.comandi.gruppi.CommandInserisciGruppo;
 import domain.Gruppi;
 import domain.wrapper.WrapGruppi;
 
-public class AscoltatoreInserisciGruppo implements ActionListener {
+public class AscoltatoreInserisciGruppo extends AscoltatoreAggiornatoreTutto {
 
 	private GruppiView gruppiView;
 
@@ -21,21 +21,21 @@ public class AscoltatoreInserisciGruppo implements ActionListener {
 	private Gruppi gruppo1;
 
 	@Override
-	public void actionPerformed(final ActionEvent e) {
+	protected void actionPerformedOverride(ActionEvent e) {
+		super.actionPerformedOverride(e);
 
 		gruppiView.setGruppo("Inserisci");
 		final WrapGruppi modelGruppi = gruppiView.getModelGruppi();
 
 		if (gruppiView.nonEsistonoCampiNonValorizzati()) {
 
-			if (Controllore.getSingleton().getCommandManager().invocaComando(new CommandInserisciGruppo(modelGruppi), "tutto")) {
+			if (Controllore.invocaComando(new CommandInserisciGruppo(modelGruppi))) {
 				gruppo1 = CacheGruppi.getSingleton().getGruppo(Integer.toString(modelGruppi.getidGruppo()));
 				if (gruppo1 != null) {
 					gruppiView.getComboGruppi().addItem(gruppo1);
 				}
 				final String messaggio = "Gruppo inserito correttamente";
-				Alert.info(messaggio, Alert.TITLE_OK);
-				Controllore.getLog().info(messaggio);
+				Alert.operazioniSegnalazioneInfo(messaggio);
 
 				modelGruppi.setChanged();
 				modelGruppi.notifyObservers();

@@ -2,6 +2,7 @@ package business.comandi.gruppi;
 
 import java.util.HashMap;
 
+import view.Alert;
 import business.cache.CacheGruppi;
 import business.comandi.AbstractCommand;
 import domain.AbstractOggettoEntita;
@@ -49,5 +50,20 @@ public class CommandUpdateGruppo extends AbstractCommand {
 	@Override
 	public String toString() {
 		return "Modificata Gruppo " + (newEntita).getnome();
+	}
+
+	@Override
+	public void scriviLogExecute(boolean isComandoEseguito) {
+		if (isComandoEseguito) {
+			Alert.operazioniSegnalazioneInfo("Aggiornato correttamente gruppo " + entita.getnome());
+		}
+
+	}
+
+	@Override
+	public void scriviLogUnExecute(boolean isComandoEseguito) {
+		if (isComandoEseguito) {
+			Alert.operazioniSegnalazioneInfo("Ripristinato gruppo " + entita.getnome() + " precedentemente cancellato");
+		}
 	}
 }

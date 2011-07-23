@@ -64,4 +64,7 @@ public class LoggerOggetto {
 		return log;
 	}
 
+	public static String getMessaggioErroreOperazione(final Exception e) {
+		return "Operazione non eseguita: " + e.getMessage();
+	}
 }

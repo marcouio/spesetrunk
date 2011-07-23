@@ -32,7 +32,7 @@ import domain.CatSpese;
 
 public class GrGenerale extends JDialog implements ActionListener {
 
-	private static final long                          serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 	private static HashMap<Integer, ArrayList<Double>> mappaGennaio;
 	private static HashMap<Integer, ArrayList<Double>> mappaFebbraio;
 	private static HashMap<Integer, ArrayList<Double>> mappaMarzo;
@@ -45,18 +45,18 @@ public class GrGenerale extends JDialog implements ActionListener {
 	private static HashMap<Integer, ArrayList<Double>> mappaOttobre;
 	private static HashMap<Integer, ArrayList<Double>> mappaNovembre;
 	private static HashMap<Integer, ArrayList<Double>> mappaDicembre;
-	Vector<CatSpese>                                   categorie        = CacheCategorie.getSingleton().getVettoreCategorie();
+	Vector<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
 
 	/**
 	 * Uscite mensili per categoria Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		try {
 
-			GrGenerale dialog = new GrGenerale();
+			final GrGenerale dialog = new GrGenerale();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -80,26 +80,24 @@ public class GrGenerale extends JDialog implements ActionListener {
 		mappaDicembre = creaMappaMese(12);
 
 		final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		final JFreeChart chart = ChartFactory.createLineChart(
-		                "Uscite Mensili per categoria", "Categorie", "Euro", dataset,
-		                PlotOrientation.VERTICAL, true, true, true);
-		CategoryPlot plot = chart.getCategoryPlot();
-		LineAndShapeRenderer renderer = new LineAndShapeRenderer(true, true);
+		final JFreeChart chart = ChartFactory.createLineChart("Uscite Mensili per categoria", "Categorie", "Euro", dataset, PlotOrientation.VERTICAL, true, true, true);
+		final CategoryPlot plot = chart.getCategoryPlot();
+		final LineAndShapeRenderer renderer = new LineAndShapeRenderer(true, true);
 		renderer.setSeriesShapesFilled(0, true);
 		plot.setRenderer(renderer);
 
-		ArrayList<Double> ListaValori1 = mappaGennaio.get(1);
-		ArrayList<Double> ListaValori2 = mappaFebbraio.get(2);
-		ArrayList<Double> ListaValori3 = mappaMarzo.get(3);
-		ArrayList<Double> ListaValori4 = mappaAprile.get(4);
-		ArrayList<Double> ListaValori5 = mappaMaggio.get(5);
-		ArrayList<Double> ListaValori6 = mappaGiugno.get(6);
-		ArrayList<Double> ListaValori7 = mappaLuglio.get(7);
-		ArrayList<Double> ListaValori8 = mappaAgosto.get(8);
-		ArrayList<Double> ListaValori9 = mappaSettembre.get(9);
-		ArrayList<Double> ListaValori10 = mappaOttobre.get(10);
-		ArrayList<Double> ListaValori11 = mappaNovembre.get(11);
-		ArrayList<Double> ListaValori12 = mappaDicembre.get(12);
+		final ArrayList<Double> ListaValori1 = mappaGennaio.get(1);
+		final ArrayList<Double> ListaValori2 = mappaFebbraio.get(2);
+		final ArrayList<Double> ListaValori3 = mappaMarzo.get(3);
+		final ArrayList<Double> ListaValori4 = mappaAprile.get(4);
+		final ArrayList<Double> ListaValori5 = mappaMaggio.get(5);
+		final ArrayList<Double> ListaValori6 = mappaGiugno.get(6);
+		final ArrayList<Double> ListaValori7 = mappaLuglio.get(7);
+		final ArrayList<Double> ListaValori8 = mappaAgosto.get(8);
+		final ArrayList<Double> ListaValori9 = mappaSettembre.get(9);
+		final ArrayList<Double> ListaValori10 = mappaOttobre.get(10);
+		final ArrayList<Double> ListaValori11 = mappaNovembre.get(11);
+		final ArrayList<Double> ListaValori12 = mappaDicembre.get(12);
 
 		for (int i = 0; i < ListaValori1.size(); i++) {
 			dataset.addValue(ListaValori1.get(i), "Gennaio", categorie.get(i).getnome());
@@ -116,21 +114,21 @@ public class GrGenerale extends JDialog implements ActionListener {
 			dataset.addValue(ListaValori12.get(i), "Dicembre", categorie.get(i).getnome());
 		}
 
-		GregorianCalendar data = new GregorianCalendar();
-		String dataMinuti = "" + data.get(Calendar.HOUR_OF_DAY) + data.get(Calendar.MINUTE);
+		final GregorianCalendar data = new GregorianCalendar();
+		final String dataMinuti = "" + data.get(Calendar.HOUR_OF_DAY) + data.get(Calendar.MINUTE);
 
 		try {
 			ChartUtilities.saveChartAsPNG(new java.io.File("immagini/LineChartGen1" + dataMinuti + ".png"), chart, 550, 510);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 		DBUtil.closeConnection();
-		ImageIcon image = new ImageIcon("immagini/LineChartGen1" + dataMinuti + ".png");
+		final ImageIcon image = new ImageIcon("immagini/LineChartGen1" + dataMinuti + ".png");
 		getContentPane().setLayout(null);
-		JLabel label = new JLabel(image);
+		final JLabel label = new JLabel(image);
 		label.setBounds(12, 12, 630, 498);
 
-		JButton chiudi = new ButtonF("Chiudi");
+		final JButton chiudi = new ButtonF("Chiudi");
 		chiudi.setActionCommand("chiudi");
 
 		label.setBounds(12, 22, 618, 546);
@@ -144,17 +142,17 @@ public class GrGenerale extends JDialog implements ActionListener {
 
 	}
 
-	public HashMap<Integer, ArrayList<Double>> creaMappaMese(int mese) {
-		HashMap<Integer, ArrayList<Double>> mappaMese = new HashMap<Integer, ArrayList<Double>>();
+	public HashMap<Integer, ArrayList<Double>> creaMappaMese(final int mese) {
+		final HashMap<Integer, ArrayList<Double>> mappaMese = new HashMap<Integer, ArrayList<Double>>();
 
-		ArrayList<Double> listaSpeseMeseCategoria = new ArrayList<Double>();
+		final ArrayList<Double> listaSpeseMeseCategoria = new ArrayList<Double>();
 		for (int i = 0; i < categorie.size(); i++) {
-			CatSpese cat = categorie.get(i);
+			final CatSpese cat = categorie.get(i);
 			double speseMeseCategoria;
 			try {
 				speseMeseCategoria = AltreUtil.arrotondaDecimaliDouble(Database.speseMeseCategoria(mese, cat.getidCategoria()));
 				listaSpeseMeseCategoria.add(speseMeseCategoria);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				e.printStackTrace();
 			}
 
@@ -164,7 +162,7 @@ public class GrGenerale extends JDialog implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		if (e.getActionCommand().equals("chiudi")) {
 			setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 			this.dispose();

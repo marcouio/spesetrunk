@@ -17,4 +17,14 @@ public class RedoCommand extends AbstractCommand {
 		return "Effettuato comando 'Avanti'";
 	}
 
+	@Override
+	public void scriviLogExecute(final boolean isComandoEseguito) {
+
+	}
+
+	@Override
+	public void scriviLogUnExecute(final boolean isComandoEseguito) {
+
+	}
+
 }

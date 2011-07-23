@@ -1,17 +1,17 @@
 package business.ascoltatoriMenu;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import business.Controllore;
+import business.ascoltatori.AscoltatoreAggiornatoreTutto;
 import business.comandi.CommandManager;
 import business.comandi.RedoCommand;
 
-public class AscoltatoreAvanti implements ActionListener {
+public class AscoltatoreAvanti extends AscoltatoreAggiornatoreTutto {
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		CommandManager managerComandi =  Controllore.getSingleton().getCommandManager();
-		managerComandi.invocaComando(new RedoCommand(),"tutto");
+	protected void actionPerformedOverride(final ActionEvent e) {
+		final CommandManager managerComandi = Controllore.getSingleton().getCommandManager();
+		managerComandi.invocaComando(new RedoCommand());
 	}
 }

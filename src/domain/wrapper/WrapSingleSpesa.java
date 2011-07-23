@@ -10,13 +10,12 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Vector;
 
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-
+import view.Alert;
 import view.impostazioni.Impostazioni;
 import business.AltreUtil;
 import business.Controllore;
 import business.DBUtil;
+import business.LoggerOggetto;
 import business.cache.CacheCategorie;
 import business.cache.CacheUscite;
 import business.cache.CacheUtenti;
@@ -27,8 +26,7 @@ import domain.ISingleSpesa;
 import domain.SingleSpesa;
 import domain.Utenti;
 
-public class WrapSingleSpesa extends Observable implements IWrapperEntity,
-		ISingleSpesa {
+public class WrapSingleSpesa extends Observable implements IWrapperEntity, ISingleSpesa {
 
 	private final SingleSpesa uscita;
 	private static final long serialVersionUID = 1L;
@@ -40,8 +38,7 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity,
 	@Override
 	public Object selectById(final int id) {
 		final Connection cn = DBUtil.getConnection();
-		final String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA
-				+ " WHERE " + SingleSpesa.ID + " = " + id;
+		final String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA + " WHERE " + SingleSpesa.ID + " = " + id;
 
 		SingleSpesa uscita = null;
 
@@ -50,10 +47,8 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity,
 			final ResultSet rs = st.executeQuery(sql);
 			if (rs.next()) {
 				uscita = new SingleSpesa();
-				final CatSpese categoria = CacheCategorie.getSingleton()
-						.getCatSpese(Integer.toString(rs.getInt(5)));
-				final Utenti utente = CacheUtenti.getSingleton().getUtente(
-						Integer.toString(rs.getInt(7)));
+				final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(5)));
+				final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
 				uscita.setidSpesa(rs.getInt(1));
 				uscita.setData(rs.getString(2));
 				uscita.setinEuro(rs.getDouble(3));
@@ -86,18 +81,14 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity,
 	public Vector<Object> selectAllForUtente() {
 		final Vector<Object> uscite = new Vector<Object>();
 		final Utenti utente = Controllore.getSingleton().getUtenteLogin();
-		final Map<String, AbstractOggettoEntita> mappaCategorie = CacheCategorie
-				.getSingleton().getAllCategorie();
+		final Map<String, AbstractOggettoEntita> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
 		final Connection cn = DBUtil.getConnection();
-		final String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA
-				+ " WHERE " + SingleSpesa.IDUTENTE + " = "
-				+ utente.getidUtente();
+		final String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA + " WHERE " + SingleSpesa.IDUTENTE + " = " + utente.getidUtente();
 		try {
 			final Statement st = cn.createStatement();
 			final ResultSet rs = st.executeQuery(sql);
 			while (rs.next()) {
-				final CatSpese categoria = (CatSpese) mappaCategorie
-						.get(Integer.toString(rs.getInt(5)));
+				final CatSpese categoria = (CatSpese) mappaCategorie.get(Integer.toString(rs.getInt(5)));
 
 				final SingleSpesa uscita = new SingleSpesa();
 				uscita.setidSpesa(rs.getInt(1));
@@ -127,20 +118,16 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity,
 	@Override
 	public Vector<Object> selectAll() {
 		final Vector<Object> uscite = new Vector<Object>();
-		final Map<String, AbstractOggettoEntita> mappaUtenti = CacheUtenti
-				.getSingleton().getAllUtenti();
-		final Map<String, AbstractOggettoEntita> mappaCategorie = CacheCategorie
-				.getSingleton().getAllCategorie();
+		final Map<String, AbstractOggettoEntita> mappaUtenti = CacheUtenti.getSingleton().getAllUtenti();
+		final Map<String, AbstractOggettoEntita> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
 		final Connection cn = DBUtil.getConnection();
 		final String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA;
 		try {
 			final Statement st = cn.createStatement();
 			final ResultSet rs = st.executeQuery(sql);
 			while (rs.next()) {
-				final Utenti utente = (Utenti) mappaUtenti.get(Integer
-						.toString(rs.getInt(7)));
-				final CatSpese categoria = (CatSpese) mappaCategorie
-						.get(Integer.toString(rs.getInt(5)));
+				final Utenti utente = (Utenti) mappaUtenti.get(Integer.toString(rs.getInt(7)));
+				final CatSpese categoria = (CatSpese) mappaCategorie.get(Integer.toString(rs.getInt(5)));
 
 				final SingleSpesa uscita = new SingleSpesa();
 				uscita.setidSpesa(rs.getInt(1));
@@ -175,11 +162,8 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity,
 		try {
 			final SingleSpesa uscita = (SingleSpesa) oggettoEntita;
 
-			sql = "INSERT INTO " + SingleSpesa.NOME_TABELLA + " ("
-					+ SingleSpesa.DATA + ", " + SingleSpesa.INEURO + ", "
-					+ SingleSpesa.DESCRIZIONE + ", " + SingleSpesa.IDCATEGORIE
-					+ ", " + SingleSpesa.NOME + ", " + SingleSpesa.IDUTENTE
-					+ ", " + SingleSpesa.DATAINS + ") VALUES (?,?,?,?,?,?,?)";
+			sql = "INSERT INTO " + SingleSpesa.NOME_TABELLA + " (" + SingleSpesa.DATA + ", " + SingleSpesa.INEURO + ", " + SingleSpesa.DESCRIZIONE + ", " + SingleSpesa.IDCATEGORIE
+					+ ", " + SingleSpesa.NOME + ", " + SingleSpesa.IDUTENTE + ", " + SingleSpesa.DATAINS + ") VALUES (?,?,?,?,?,?,?)";
 			final PreparedStatement ps = cn.prepareStatement(sql);
 			final String data = uscita.getData();
 			ps.setString(1, data);
@@ -196,8 +180,7 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity,
 			ps.setString(7, dataIns);
 			ps.executeUpdate();
 			ok = true;
-			CacheUscite.getSingleton().getCache()
-					.put(Integer.toString(uscita.getidSpesa()), uscita);
+			CacheUscite.getSingleton().getCache().put(Integer.toString(uscita.getidSpesa()), uscita);
 			System.out.println("Stampata uscita: " + uscita);
 		} catch (final Exception e) {
 			ok = false;
@@ -216,8 +199,7 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity,
 	@Override
 	public boolean delete(final int id) {
 		boolean ok = false;
-		final String sql = "DELETE FROM " + SingleSpesa.NOME_TABELLA
-				+ " WHERE " + SingleSpesa.ID + " = " + id;
+		final String sql = "DELETE FROM " + SingleSpesa.NOME_TABELLA + " WHERE " + SingleSpesa.ID + " = " + id;
 		final Connection cn = DBUtil.getConnection();
 
 		try {
@@ -244,17 +226,10 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity,
 		final Connection cn = DBUtil.getConnection();
 
 		final SingleSpesa uscita = (SingleSpesa) oggettoEntita;
-		final String sql = "UPDATE " + SingleSpesa.NOME_TABELLA + " SET "
-				+ SingleSpesa.DATA + " = '" + uscita.getData() + "', "
-				+ SingleSpesa.INEURO + " = " + uscita.getinEuro() + ", "
-				+ SingleSpesa.DESCRIZIONE + " = '" + uscita.getdescrizione()
-				+ "', " + SingleSpesa.IDCATEGORIE + " = "
-				+ uscita.getCatSpese().getidCategoria() + ", "
-				+ SingleSpesa.NOME + " = '" + uscita.getnome() + "', "
-				+ SingleSpesa.IDUTENTE + " = "
-				+ uscita.getUtenti().getidUtente() + ", " + SingleSpesa.DATAINS
-				+ " = '" + uscita.getDataIns() + "' WHERE " + SingleSpesa.ID
-				+ " = " + uscita.getidSpesa();
+		final String sql = "UPDATE " + SingleSpesa.NOME_TABELLA + " SET " + SingleSpesa.DATA + " = '" + uscita.getData() + "', " + SingleSpesa.INEURO + " = " + uscita.getinEuro()
+				+ ", " + SingleSpesa.DESCRIZIONE + " = '" + uscita.getdescrizione() + "', " + SingleSpesa.IDCATEGORIE + " = " + uscita.getCatSpese().getidCategoria() + ", "
+				+ SingleSpesa.NOME + " = '" + uscita.getnome() + "', " + SingleSpesa.IDUTENTE + " = " + uscita.getUtenti().getidUtente() + ", " + SingleSpesa.DATAINS + " = '"
+				+ uscita.getDataIns() + "' WHERE " + SingleSpesa.ID + " = " + uscita.getidSpesa();
 		try {
 			final Statement st = cn.createStatement();
 			st.executeUpdate(sql);
@@ -304,9 +279,7 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity,
 	 * @param dieci
 	 * @return Vector<SingleSpesa>
 	 */
-	public Vector<SingleSpesa> movimentiUsciteFiltrate(final String dataDa,
-			final String dataA, final String nome, final Double euro,
-			final String catSpese) {
+	public Vector<SingleSpesa> movimentiUsciteFiltrate(final String dataDa, final String dataA, final String nome, final Double euro, final String catSpese) {
 		Vector<SingleSpesa> sSpesa = null;
 
 		final Utenti utente = Controllore.getSingleton().getUtenteLogin();
@@ -316,12 +289,9 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity,
 		}
 
 		final StringBuffer sql = new StringBuffer();
-		sql.append("SELECT * FROM " + SingleSpesa.NOME_TABELLA + " WHERE "
-				+ SingleSpesa.IDUTENTE + " = " + idUtente);
-		if (AltreUtil.checkData(dataDa) && AltreUtil.checkData(dataA)
-				&& dataDa != null && dataA != null) {
-			sql.append(" AND " + SingleSpesa.DATA + " BETWEEN '" + dataDa + "'"
-					+ " AND '" + dataA + "'");
+		sql.append("SELECT * FROM " + SingleSpesa.NOME_TABELLA + " WHERE " + SingleSpesa.IDUTENTE + " = " + idUtente);
+		if (AltreUtil.checkData(dataDa) && AltreUtil.checkData(dataA) && dataDa != null && dataA != null) {
+			sql.append(" AND " + SingleSpesa.DATA + " BETWEEN '" + dataDa + "'" + " AND '" + dataA + "'");
 		} else if (AltreUtil.checkData(dataDa) && dataDa != null) {
 			sql.append(" AND " + SingleSpesa.DATA + " = '" + dataDa + "'");
 		}
@@ -332,8 +302,7 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity,
 			sql.append(" AND " + SingleSpesa.INEURO + " = " + euro);
 		}
 		if (catSpese != null && Integer.parseInt(catSpese) != 0) {
-			sql.append(" AND " + SingleSpesa.IDCATEGORIE + " = "
-					+ Integer.parseInt(catSpese));
+			sql.append(" AND " + SingleSpesa.IDCATEGORIE + " = " + Integer.parseInt(catSpese));
 		}
 		final Connection cn = DBUtil.getConnection();
 
@@ -342,8 +311,7 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity,
 			final ResultSet rs = st.executeQuery(sql.toString());
 			sSpesa = new Vector<SingleSpesa>();
 			while (rs.next()) {
-				final CatSpese categoria = CacheCategorie.getSingleton()
-						.getCatSpese(rs.getString(5));
+				final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(rs.getString(5));
 				final SingleSpesa ss = new SingleSpesa();
 				ss.setidSpesa(rs.getInt(1));
 				ss.setData(rs.getString(2));
@@ -356,8 +324,7 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity,
 				sSpesa.add(ss);
 			}
 		} catch (final SQLException e) {
-			// TODO implementare log
-			// log.severe("Impossibile caricare il record da single_spesa: "+e.getMessage());
+			Controllore.getLog().severe(LoggerOggetto.getMessaggioErroreOperazione(e));
 			e.printStackTrace();
 		}
 		try {
@@ -386,12 +353,8 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity,
 			idUtente = utente.getidUtente();
 		}
 
-		final String sql = "select * from " + SingleSpesa.NOME_TABELLA
-				+ " where " + SingleSpesa.DATA + " BETWEEN '"
-				+ Impostazioni.getAnno() + "/01/01'" + " AND '"
-				+ Impostazioni.getAnno() + "/12/31'" + " AND "
-				+ SingleSpesa.IDUTENTE + " = " + idUtente + " ORDER BY "
-				+ SingleSpesa.ID + " desc limit 0," + dieci;
+		final String sql = "select * from " + SingleSpesa.NOME_TABELLA + " where " + SingleSpesa.DATA + " BETWEEN '" + Impostazioni.getAnno() + "/01/01'" + " AND '"
+				+ Impostazioni.getAnno() + "/12/31'" + " AND " + SingleSpesa.IDUTENTE + " = " + idUtente + " ORDER BY " + SingleSpesa.ID + " desc limit 0," + dieci;
 		final Connection cn = DBUtil.getConnection();
 
 		try {
@@ -399,8 +362,7 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity,
 			final ResultSet rs = st.executeQuery(sql);
 			sSpesa = new Vector<SingleSpesa>();
 			while (rs.next()) {
-				final CatSpese categoria = CacheCategorie.getSingleton()
-						.getCatSpese(rs.getString(5));
+				final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(rs.getString(5));
 				final SingleSpesa ss = new SingleSpesa();
 				ss.setidSpesa(rs.getInt(1));
 				ss.setData(rs.getString(2));
@@ -433,9 +395,7 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity,
 	public boolean deleteLastSpesa() {
 		boolean ok = false;
 		final Connection cn = DBUtil.getConnection();
-		final String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA
-				+ " WHERE " + Entrate.IDUTENTE + " = "
-				+ Controllore.getSingleton().getUtenteLogin().getidUtente()
+		final String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA + " WHERE " + Entrate.IDUTENTE + " = " + Controllore.getSingleton().getUtenteLogin().getidUtente()
 				+ " ORDER BY " + SingleSpesa.DATAINS + " DESC";
 
 		try {
@@ -446,23 +406,18 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity,
 				ss = new SingleSpesa();
 				ss.setidSpesa(rs.getInt(1));
 
-				final String sql2 = "DELETE FROM " + SingleSpesa.NOME_TABELLA
-						+ " WHERE " + SingleSpesa.ID + "=?";
+				final String sql2 = "DELETE FROM " + SingleSpesa.NOME_TABELLA + " WHERE " + SingleSpesa.ID + "=?";
 				final PreparedStatement ps = cn.prepareStatement(sql2);
 				ps.setInt(1, ss.getidSpesa());
 				ps.executeUpdate();
 				ok = true;
 			} else {
-				JOptionPane.showMessageDialog(null,
-						"Non ci sono uscite per l'utente loggato",
-						"Non ci siamo!", JOptionPane.ERROR_MESSAGE,
-						new ImageIcon("imgUtil/index.jpeg"));
+				Alert.operazioniSegnalazioneErroreWarning("Non ci sono uscite per l'utente loggato");
 			}
 
 		} catch (final Exception e) {
 			e.printStackTrace();
-			// TODO gestire log
-			// log.severe("Operazione SQL di delete 'SingleSpesa' non eseguita:"+e.getMessage());
+			Controllore.getLog().severe(LoggerOggetto.getMessaggioErroreOperazione(e));
 		}
 		try {
 			cn.close();

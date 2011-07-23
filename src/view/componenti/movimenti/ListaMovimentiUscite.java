@@ -8,6 +8,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 
 import business.AltreUtil;
+import business.aggiornatori.AggiornatoreManager;
 import business.cache.CacheCategorie;
 import domain.CatSpese;
 import domain.Entrate;
@@ -53,7 +54,7 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 							final Vector<SingleSpesa> uscite = Model.getSingleton().getModelUscita()
 									.movimentiUsciteFiltrate(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
 							final String[][] mov = Model.getSingleton().movimentiFiltratiUscitePerNumero(Entrate.NOME_TABELLA, uscite);
-							Model.aggiornaMovimentiUsciteDaFiltro(createNomiColonne(), mov);
+							AggiornatoreManager.aggiornaMovimentiUsciteDaFiltro(createNomiColonne(), mov);
 							return mov;
 						}
 

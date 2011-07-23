@@ -1,16 +1,13 @@
 package view.entrateuscite;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-
+import view.Alert;
 import business.Controllore;
+import business.ascoltatori.AscoltatoreAggiornatoreUscite;
 import business.comandi.singlespese.CommandInserisciSpesa;
-import domain.SingleSpesa;
 
-public class AscoltaInserisciUscite implements ActionListener {
+public class AscoltaInserisciUscite extends AscoltatoreAggiornatoreUscite {
 
 	private UsciteView view;
 
@@ -19,21 +16,16 @@ public class AscoltaInserisciUscite implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(final ActionEvent e) {
+	protected void actionPerformedOverride(ActionEvent e) {
+		super.actionPerformedOverride(e);
 		view.setUscite();
 		if (view.nonEsistonoCampiNonValorizzati()) {
-			if (Controllore.getSingleton().getCommandManager().invocaComando(new CommandInserisciSpesa(view.getModelUscita()), SingleSpesa.NOME_TABELLA)) {
-				JOptionPane.showMessageDialog(null, "Ok, uscita inserita correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
-				// TODO log.fine("Uscita inserita, nome: "
-				// + modelUscita.getnome() + ", id: " +
-				// modelUscita.getidSpesa());
+			if (!Controllore.invocaComando(new CommandInserisciSpesa(view.getModelUscita()))) {
+				Alert.operazioniSegnalazioneErroreGrave("Inserimento spesa " + view.getModelUscita().getnome() + "non riusciuta");
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "E' necessario riempire tutti i campi", "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("./imgUtil/index.jpeg"));
-			// TODO
-			// log.severe("Uscita non inserita: e' necessario riempire tutti i campi");
+			Alert.info("E' necessario riempire tutti i campi", Alert.TITLE_ERROR);
 		}
-
 	}
 
 }

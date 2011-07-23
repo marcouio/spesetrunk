@@ -1,7 +1,6 @@
 package business.ascoltatoriMenu;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JFileChooser;
@@ -9,12 +8,16 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import view.impostazioni.Impostazioni;
-import business.Database;
+import business.aggiornatori.AggiornatoreManager;
+import business.ascoltatori.AscoltatoreAggiornatoreTutto;
 
-public class AscoltatoreCaricaDatabase implements ActionListener {
+public class AscoltatoreCaricaDatabase extends AscoltatoreAggiornatoreTutto {
 
 	@Override
-	public void actionPerformed(final ActionEvent e) {
+	protected void actionPerformedOverride(final ActionEvent e) {
+
+		super.actionPerformedOverride(e);
+
 		final JFileChooser fileopen = new JFileChooser();
 		final FileFilter filter = new FileNameExtensionFilter("sqlite", "sqlite");
 		fileopen.addChoosableFileFilter(filter);
@@ -25,8 +28,7 @@ public class AscoltatoreCaricaDatabase implements ActionListener {
 			final File file = fileopen.getSelectedFile();
 			Impostazioni.setPosDatabase(file.getAbsolutePath());
 			Impostazioni.getCaricaDatabase().setText(Impostazioni.getPosDatabase());
-			Database.aggiornamentoPerImpostazioni();
+			AggiornatoreManager.aggiornamentoPerImpostazioni();
 		}
-
 	}
 }

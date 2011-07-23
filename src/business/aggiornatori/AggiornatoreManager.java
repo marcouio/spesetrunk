@@ -4,13 +4,18 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import view.componenti.componentiPannello.SottoPannelloCategorie;
 import view.componenti.componentiPannello.SottoPannelloDatiEntrate;
 import view.componenti.componentiPannello.SottoPannelloDatiSpese;
+import view.componenti.componentiPannello.SottoPannelloMesi;
+import view.componenti.componentiPannello.SottoPannelloTotali;
 import view.componenti.movimenti.AscoltatoreBottoniEntrata;
 import view.componenti.movimenti.AscoltatoreBottoniUscita;
 import view.font.TableF;
@@ -31,23 +36,23 @@ import domain.Gruppi;
 import domain.SingleSpesa;
 import domain.wrapper.Model;
 
-public class ManagerAggiornatore {
+public class AggiornatoreManager {
 
 	public static final String AGGIORNA_ENTRATE = "entrate";
 	public static final String AGGIORNA_USCITE = "uscite";
 	public static final String AGGIORNA_ALL = "all";
 	public static final String AGGIORNA_NULLA = "nulla";
 
-	private static ManagerAggiornatore singleton;
+	private static AggiornatoreManager singleton;
 
-	public static ManagerAggiornatore getSingleton() {
+	public static AggiornatoreManager getSingleton() {
 		if (singleton == null) {
-			singleton = new ManagerAggiornatore();
+			singleton = new AggiornatoreManager();
 		}
 		return singleton;
 	}
 
-	private ManagerAggiornatore() {
+	private AggiornatoreManager() {
 	}
 
 	public IAggiornatore creaAggiornatore(final String cosaAggiornare) {
@@ -57,14 +62,45 @@ public class ManagerAggiornatore {
 		} else if (cosaAggiornare.equals(AGGIORNA_USCITE)) {
 			aggiornatore = new AggiornatoreUscite();
 		} else if (cosaAggiornare.equals(AGGIORNA_ALL)) {
-
+			aggiornatore = new AggiornatoreTotale();
 		} else if (cosaAggiornare.equals(AGGIORNA_NULLA)) {
-
+			aggiornatore = new AggiornatoreNull();
 		}
 		return aggiornatore;
 	}
 
 	// ***************************************** METODI AGGIORNAMENTO
+
+	public static boolean aggiornamentoPerImpostazioni() {
+		try {
+			if (SottoPannelloMesi.getComboMese() != null) {
+				SottoPannelloMesi.azzeraCampi();
+			}
+			SottoPannelloCategorie.azzeraCampi();
+			if (aggiornamentoGenerale(Entrate.NOME_TABELLA) && aggiornamentoGenerale(SingleSpesa.NOME_TABELLA) && aggiornaPannelloTotali()) {
+				return true;
+			}
+		} catch (final Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return false;
+	}
+
+	public static boolean aggiornaPannelloTotali() {
+		try {
+			if (SottoPannelloTotali.getPercentoFutili() != null) {
+				SottoPannelloTotali.getPercentoFutili().setText(Double.toString(Database.percentoUscite(CatSpese.IMPORTANZA_FUTILE)));
+				SottoPannelloTotali.getPercentoVariabili().setText(Double.toString(Database.percentoUscite(CatSpese.IMPORTANZA_VARIABILE)));
+				SottoPannelloTotali.getAvanzo().setText(Double.toString(AltreUtil.arrotondaDecimaliDouble((Database.EAnnuale()) - (Database.Annuale()))));
+			}
+			DBUtil.closeConnection();
+			return true;
+		} catch (final Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 
 	/**
 	 * Il metodo genera una matrice di movimenti in uscita con numero di righe
@@ -74,13 +110,19 @@ public class ManagerAggiornatore {
 	 * @param nomiColonne
 	 * @param numUscite
 	 */
-	public static void aggiornaMovimentiUsciteDaFiltro(final Object[] nomiColonne, final String[][] movimenti) {
+	public static boolean aggiornaMovimentiUsciteDaFiltro(final Object[] nomiColonne, final String[][] movimenti) {
+		try {
+			TableF table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getTable();
+			table1 = new TableF(movimenti, nomiColonne);
+			final JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getScrollPane();
+			scrollPane.setViewportView(table1);
+			table1.addMouseListener(new AscoltatoreBottoniUscita(table1));
+			return true;
+		} catch (final Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 
-		TableF table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getTable();
-		table1 = new TableF(movimenti, nomiColonne);
-		final JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getScrollPane();
-		scrollPane.setViewportView(table1);
-		table1.addMouseListener(new AscoltatoreBottoniUscita(table1));
 	}
 
 	/**
@@ -92,8 +134,7 @@ public class ManagerAggiornatore {
 	 * @param numUscite
 	 */
 	public static boolean aggiornaMovimentiUsciteDaEsterno(final Object[] nomiColonne, final int numUscite) {
-
-		try{
+		try {
 			final String[][] movimenti = Model.getSingleton().movimentiUscite(numUscite, SingleSpesa.NOME_TABELLA);
 			TableF table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getTable();
 			table1 = new TableF(movimenti, nomiColonne);
@@ -101,7 +142,7 @@ public class ManagerAggiornatore {
 			scrollPane.setViewportView(table1);
 			table1.addMouseListener(new AscoltatoreBottoniUscita(table1));
 			return true;
-		}catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -115,13 +156,18 @@ public class ManagerAggiornatore {
 	 * @param nomiColonne
 	 * @param numEntry
 	 */
-	public static void aggiornaMovimentiEntrateDaFiltro(final Object[] nomiColonne, final String[][] movimenti) {
-
-		TableF table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getTable();
-		table1 = new TableF(movimenti, nomiColonne);
-		final JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getScrollPane();
-		scrollPane.setViewportView(table1);
-		table1.addMouseListener(new AscoltatoreBottoniEntrata(table1));
+	public static boolean aggiornaMovimentiEntrateDaFiltro(final Object[] nomiColonne, final String[][] movimenti) {
+		try {
+			TableF table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getTable();
+			table1 = new TableF(movimenti, nomiColonne);
+			final JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getScrollPane();
+			scrollPane.setViewportView(table1);
+			table1.addMouseListener(new AscoltatoreBottoniEntrata(table1));
+			return true;
+		} catch (final Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	/**
@@ -133,7 +179,7 @@ public class ManagerAggiornatore {
 	 * @param numEntry
 	 */
 	public static boolean aggiornaMovimentiEntrateDaEsterno(final Object[] nomiColonne, final int numEntry) {
-		try{
+		try {
 			final String[][] movimenti = Model.getSingleton().movimentiEntrate(numEntry, Entrate.NOME_TABELLA);
 			TableF table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getTable();
 			table1 = new TableF(movimenti, nomiColonne);
@@ -141,7 +187,7 @@ public class ManagerAggiornatore {
 			scrollPane.setViewportView(table1);
 			table1.addMouseListener(new AscoltatoreBottoniEntrata(table1));
 			return true;
-		}catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -164,13 +210,13 @@ public class ManagerAggiornatore {
 			}
 		} else if (tipo.equals(Entrate.NOME_TABELLA)) {
 			final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
-			if(aggiornaMovimentiEntrateDaEsterno(nomiColonne, 25) && aggiornaTabellaEntrate() &&
-			aggiornaTabellaGruppi() && aggiornaPannelloDatiEntrate()){
+			if (aggiornaMovimentiEntrateDaEsterno(nomiColonne, 25) && aggiornaTabellaEntrate() && aggiornaTabellaGruppi() && aggiornaPannelloDatiEntrate()) {
 				return true;
 			}
 		} else {
 			throw new Exception("Aggiornamento non gestito: " + tipo);
 		}
+		return false;
 	}
 
 	public static boolean aggiornaPannelloDatiEntrate() {
@@ -363,16 +409,24 @@ public class ManagerAggiornatore {
 	 * @throws Exception
 	 */
 	public static boolean aggiornaTabellaEntrate() {
-		try{
+		try {
 			final GeneratoreDatiTabellaEntrate dati = new GeneratoreDatiTabellaEntrate();
 			final TableF table = GeneratoreDatiTabellaEntrate.createTable(dati.getMatrice(), dati.getNomiColonna());
 			final JScrollPane pane = TabellaEntrata.getScrollPane();
 			pane.setViewportView(table);
 			return true;
-		}catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 			return false;
 		}
 	}
 
+	public static void aggiornamentoComboBox(final Vector<CatSpese> categorie) {
+		final DefaultComboBoxModel model = new DefaultComboBoxModel(categorie);
+		if (SottoPannelloCategorie.getCategorieCombo() != null) {
+			SottoPannelloCategorie.getCategorieCombo().setModel(model);
+			SottoPannelloCategorie.getCategorieCombo().validate();
+			SottoPannelloCategorie.getCategorieCombo().repaint();
+		}
+	}
 }

@@ -4,10 +4,10 @@ import java.awt.event.ActionEvent;
 
 import business.aggiornatori.AggiornatoreManager;
 
-public class AscoltatoreAggiornatoreUscite extends AscoltatoreBase {
+public class AscoltatoreAggiornatoreTutto extends AscoltatoreBase {
 
-	public AscoltatoreAggiornatoreUscite() {
-		super(AggiornatoreManager.AGGIORNA_USCITE);
+	public AscoltatoreAggiornatoreTutto() {
+		super(AggiornatoreManager.AGGIORNA_ALL);
 	}
 
 	@Override

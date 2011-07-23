@@ -30,6 +30,7 @@ import view.note.MostraNoteView;
 import business.AltreUtil;
 import business.Controllore;
 import business.InizializzatoreFinestre;
+import business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import business.ascoltatoriMenu.AscoltatoreAvanti;
 import business.ascoltatoriMenu.AscoltatoreCaricaDatabase;
 import business.ascoltatoriMenu.AscoltatoreIndietro;
@@ -75,10 +76,10 @@ public class MyMenu extends JMenuBar {
 		file.add(registra);
 
 		final JMenuItem chiudi = new JMenuItem("Chiudi");
-		chiudi.addActionListener(new ActionListener() {
+		chiudi.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
-			public void actionPerformed(final ActionEvent e) {
+			public void actionPerformedOverride(final ActionEvent e) {
 				System.exit(0);
 
 			}
@@ -106,9 +107,9 @@ public class MyMenu extends JMenuBar {
 		finestre.add(mntmReport);
 
 		final JCheckBoxMenuItem chckbxmntmDati = new JCheckBoxMenuItem("Riepilogo dati");
-		chckbxmntmDati.addActionListener(new ActionListener() {
+		chckbxmntmDati.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
-			public void actionPerformed(final ActionEvent e) {
+			public void actionPerformedOverride(final ActionEvent e) {
 				PannelloAScomparsa2 pas;
 				try {
 					pas = ((PannelloAScomparsa2) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, null));
@@ -123,10 +124,10 @@ public class MyMenu extends JMenuBar {
 
 		final JCheckBoxMenuItem mntmNote = new JCheckBoxMenuItem("Note");
 		finestre.add(mntmNote);
-		mntmNote.addActionListener(new ActionListener() {
+		mntmNote.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
-			public void actionPerformed(final ActionEvent e) {
+			public void actionPerformedOverride(final ActionEvent e) {
 				MostraNoteView note;
 				try {
 					note = ((MostraNoteView) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_NOTE, null));
@@ -137,10 +138,10 @@ public class MyMenu extends JMenuBar {
 				}
 			}
 		});
-		mntmReport.addActionListener(new ActionListener() {
+		mntmReport.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
-			public void actionPerformed(final ActionEvent e) {
+			public void actionPerformedOverride(final ActionEvent e) {
 				Report report;
 				try {
 					report = ((Report) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_REPORT, null));
@@ -151,10 +152,10 @@ public class MyMenu extends JMenuBar {
 				}
 			}
 		});
-		listaComandi.addActionListener(new ActionListener() {
+		listaComandi.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
-			public void actionPerformed(final ActionEvent e) {
+			public void actionPerformedOverride(final ActionEvent e) {
 				FinestraListaComandi history;
 				try {
 					history = ((FinestraListaComandi) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, null));
@@ -173,9 +174,9 @@ public class MyMenu extends JMenuBar {
 		mnStrumenti.add(mnImpostazioni);
 
 		final JMenuItem mntmConfigurazione = new JMenuItem("Configurazioni");
-		mntmConfigurazione.addActionListener(new ActionListener() {
+		mntmConfigurazione.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
-			public void actionPerformed(final ActionEvent e) {
+			public void actionPerformedOverride(final ActionEvent e) {
 				final Impostazioni dialog = new Impostazioni();
 				dialog.pack();
 				dialog.setVisible(true);
@@ -185,9 +186,9 @@ public class MyMenu extends JMenuBar {
 		mnImpostazioni.add(mntmConfigurazione);
 
 		final JMenuItem mntmCategorie = new JMenuItem("Categorie");
-		mntmCategorie.addActionListener(new ActionListener() {
+		mntmCategorie.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
-			public void actionPerformed(final ActionEvent e) {
+			public void actionPerformedOverride(final ActionEvent e) {
 				final CategorieView dialog2 = new CategorieView(new WrapCatSpese());
 				dialog2.pack();
 				dialog2.setVisible(true);
@@ -197,9 +198,9 @@ public class MyMenu extends JMenuBar {
 		mnImpostazioni.add(mntmCategorie);
 
 		final JMenuItem mntmGr = new JMenuItem("Gruppi");
-		mntmGr.addActionListener(new ActionListener() {
+		mntmGr.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
-			public void actionPerformed(final ActionEvent e) {
+			public void actionPerformedOverride(final ActionEvent e) {
 				final GruppiView dialog = new GruppiView(new WrapGruppi());
 				dialog.pack();
 				dialog.setVisible(true);
@@ -227,9 +228,9 @@ public class MyMenu extends JMenuBar {
 		mnUscite.add(mntmMensiliPerCategoria);
 
 		final JMenuItem mntmPerCategorie = new JMenuItem("Per categorie");
-		mntmPerCategorie.addActionListener(new ActionListener() {
+		mntmPerCategorie.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
-			public void actionPerformed(final ActionEvent e) {
+			public void actionPerformedOverride(final ActionEvent e) {
 				try {
 					final GrUscite1 dialog = new GrUscite1();
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -242,9 +243,9 @@ public class MyMenu extends JMenuBar {
 		mnUscite.add(mntmPerCategorie);
 
 		final JMenuItem mntmPerMesi = new JMenuItem("Per mesi");
-		mntmPerMesi.addActionListener(new ActionListener() {
+		mntmPerMesi.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
-			public void actionPerformed(final ActionEvent e) {
+			public void actionPerformedOverride(final ActionEvent e) {
 				try {
 					final GrUscite2 dialog = new GrUscite2();
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -255,10 +256,10 @@ public class MyMenu extends JMenuBar {
 			}
 		});
 		mnUscite.add(mntmPerMesi);
-		mntmMensiliPerCategoria.addActionListener(new ActionListener() {
+		mntmMensiliPerCategoria.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
-			public void actionPerformed(final ActionEvent e) {
+			public void actionPerformedOverride(final ActionEvent e) {
 				AltreUtil.deleteFileDaDirectory2("./immagini/");
 				final GrGenerale dialog = new GrGenerale();
 				dialog.setSize(700, 700);
@@ -271,9 +272,9 @@ public class MyMenu extends JMenuBar {
 		mnGrafici.add(mnTotali);
 
 		final JMenuItem mntmSaldo = new JMenuItem("Saldo");
-		mntmSaldo.addActionListener(new ActionListener() {
+		mntmSaldo.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
-			public void actionPerformed(final ActionEvent e) {
+			public void actionPerformedOverride(final ActionEvent e) {
 				try {
 					final GrGenerale2 dialog = new GrGenerale2();
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -290,9 +291,9 @@ public class MyMenu extends JMenuBar {
 		mnStrumenti.add(mnDati);
 
 		final JMenuItem mntmEntrate = new JMenuItem("Entrate");
-		mntmEntrate.addActionListener(new ActionListener() {
+		mntmEntrate.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
-			public void actionPerformed(final ActionEvent e) {
+			public void actionPerformedOverride(final ActionEvent e) {
 				final EntrateView dialog = new EntrateView(new WrapEntrate());
 				dialog.setLocationRelativeTo(null);
 				dialog.setBounds(0, 0, 347, 318);
@@ -302,9 +303,9 @@ public class MyMenu extends JMenuBar {
 		mnDati.add(mntmEntrate);
 
 		final JMenuItem mntmUscite = new JMenuItem("Uscite");
-		mntmUscite.addActionListener(new ActionListener() {
+		mntmUscite.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
-			public void actionPerformed(final ActionEvent e) {
+			public void actionPerformedOverride(final ActionEvent e) {
 				try {
 					final UsciteView dialog = new UsciteView(new WrapSingleSpesa());
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -316,10 +317,10 @@ public class MyMenu extends JMenuBar {
 			}
 		});
 		mnDati.add(mntmUscite);
-		mntmEntrateMensili.addActionListener(new ActionListener() {
+		mntmEntrateMensili.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
-			public void actionPerformed(final ActionEvent e) {
+			public void actionPerformedOverride(final ActionEvent e) {
 				try {
 					final GrEntrate2 dialog = new GrEntrate2();
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -330,9 +331,9 @@ public class MyMenu extends JMenuBar {
 
 			}
 		});
-		mntmEntratePerTipo.addActionListener(new ActionListener() {
+		mntmEntratePerTipo.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
-			public void actionPerformed(final ActionEvent e) {
+			public void actionPerformedOverride(final ActionEvent e) {
 				final JFrame f = new JFrame();
 				try {
 					AltreUtil.deleteFileDaDirectory2("./immagini/");

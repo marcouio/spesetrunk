@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import business.aggiornatori.ManagerAggiornatore;
+import business.aggiornatori.AggiornatoreManager;
 import domain.Entrate;
 import domain.SingleSpesa;
 
@@ -27,14 +27,14 @@ public class AscoltatoreNumeroMovimenti implements ActionListener {
 	public void actionPerformed(final ActionEvent e) {
 		if (tipo.equals(Entrate.NOME_TABELLA)) {
 			try {
-				ManagerAggiornatore.aggiornaMovimentiEntrateDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
+				AggiornatoreManager.aggiornaMovimentiEntrateDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
 			} catch (final Exception e1) {
 				JOptionPane.showMessageDialog(null, "Inserire un valore numerico: " + e1.getMessage(), "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon(
 						"imgUtil/index.jpeg"));
 			}
 		} else if (tipo.equals(SingleSpesa.NOME_TABELLA)) {
 			try {
-				ManagerAggiornatore.aggiornaMovimentiUsciteDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
+				AggiornatoreManager.aggiornaMovimentiUsciteDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
 			} catch (final Exception e1) {
 				JOptionPane.showMessageDialog(null, "Inserire un valore numerico: " + e1.getMessage(), "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon(
 						"imgUtil/index.jpeg"));

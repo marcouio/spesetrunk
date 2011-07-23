@@ -2,6 +2,7 @@ package business.comandi.gruppi;
 
 import java.util.HashMap;
 
+import view.Alert;
 import business.cache.CacheGruppi;
 import business.comandi.AbstractCommand;
 import domain.AbstractOggettoEntita;
@@ -12,8 +13,8 @@ import domain.wrapper.WrapGruppi;
 
 public class CommandInserisciGruppo extends AbstractCommand {
 
-	final private AbstractOggettoEntita entita;
-	final private IWrapperEntity wrap;
+	final private AbstractOggettoEntita            entita;
+	final private IWrapperEntity                   wrap;
 	private HashMap<String, AbstractOggettoEntita> mappaCache;
 
 	public CommandInserisciGruppo(final IGruppi entita) {
@@ -48,6 +49,21 @@ public class CommandInserisciGruppo extends AbstractCommand {
 	@Override
 	public String toString() {
 		return "Inserito Gruppo " + ((Gruppi) entita).getnome();
+	}
+
+	@Override
+	public void scriviLogExecute(boolean isComandoEseguito) {
+		if (isComandoEseguito) {
+			Alert.operazioniSegnalazioneInfo("Inserito correttamente gruppo " + entita.getnome());
+		}
+
+	}
+
+	@Override
+	public void scriviLogUnExecute(boolean isComandoEseguito) {
+		if (isComandoEseguito) {
+			Alert.operazioniSegnalazioneInfo("Ripristinato gruppo " + entita.getnome() + " precedentemente cancellato");
+		}
 	}
 
 }
