@@ -2,6 +2,7 @@ package business.comandi.gruppi;
 
 import java.util.HashMap;
 
+import view.Alert;
 import business.cache.CacheGruppi;
 import business.comandi.AbstractCommand;
 import domain.AbstractOggettoEntita;
@@ -44,5 +45,20 @@ public class CommandDeleteGruppo extends AbstractCommand {
 	@Override
 	public String toString() {
 		return "Eliminato Gruppo " + ((Gruppi) entita).getnome();
+	}
+
+	@Override
+	public void scriviLogExecute(boolean isComandoEseguito) {
+		if (isComandoEseguito) {
+			Alert.operazioniSegnalazioneInfo("Cancellata correttamente entrata " + entita.getnome());
+		}
+
+	}
+
+	@Override
+	public void scriviLogUnExecute(boolean isComandoEseguito) {
+		if (isComandoEseguito) {
+			Alert.operazioniSegnalazioneInfo("Ripristinata categoria " + entita.getnome() + " precedentemente cancellata");
+		}
 	}
 }

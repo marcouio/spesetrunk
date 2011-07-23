@@ -26,6 +26,7 @@ import view.font.TextAreaF;
 import business.Controllore;
 import business.DBUtil;
 import business.Database;
+import business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import domain.CatSpese;
 import domain.Entrate;
 import domain.Gruppi;
@@ -36,15 +37,15 @@ import domain.Utenti;
 public class NewSql extends OggettoVistaBase {
 
 	private static final long serialVersionUID = 1L;
-	private JTextArea areaSql;
-	private JTextArea result;
-	private JLabel labelResult;
-	private JButton bottone;
-	private JButton bottoneSvuota;
-	private JScrollPane jsp = null;
-	private String totale = "";
+	private JTextArea         areaSql;
+	private JTextArea         result;
+	private JLabel            labelResult;
+	private JButton           bottone;
+	private JButton           bottoneSvuota;
+	private JScrollPane       jsp              = null;
+	private String            totale           = "";
 
-	private String riga;
+	private String            riga;
 
 	public static void main(final String[] args) {
 		final JFrame frame = new JFrame();
@@ -100,10 +101,11 @@ public class NewSql extends OggettoVistaBase {
 			buttonF.setIcon(image);
 			buttonF.setBounds(870, 80, 56, 48);
 			add(buttonF);
-			buttonF.addActionListener(new ActionListener() {
+			buttonF.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 				@Override
-				public void actionPerformed(final ActionEvent e) {
+				protected void actionPerformedOverride(ActionEvent e) {
+					super.actionPerformedOverride(e);
 					final StringBuffer sb = new StringBuffer();
 					sb.append("Tabelle principali: \n");
 					sb.append(Entrate.NOME_TABELLA + ", " + SingleSpesa.NOME_TABELLA + ", ");

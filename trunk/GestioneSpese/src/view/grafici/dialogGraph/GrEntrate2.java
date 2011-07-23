@@ -31,12 +31,12 @@ public class GrEntrate2 extends JDialog implements ActionListener {
 	 * 
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		try {
-			GrEntrate2 dialog = new GrEntrate2();
+			final GrEntrate2 dialog = new GrEntrate2();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -50,30 +50,23 @@ public class GrEntrate2 extends JDialog implements ActionListener {
 	public GrEntrate2() throws SQLException, IOException {
 
 		final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		final JFreeChart chart = ChartFactory.createLineChart(
-		                "Entrate Mensili", "Mesi", "Euro", dataset,
-		                PlotOrientation.VERTICAL, true, true, true);
+		final JFreeChart chart = ChartFactory.createLineChart("Entrate Mensili", "Mesi", "Euro", dataset, PlotOrientation.VERTICAL, true, true, true);
 
 		getContentPane().setLayout(null);
 		for (int i = 1; i <= 12; i++) {
-			dataset.setValue(Database.getSingleton().totaleEntrateMese(i), "Euro",
-			                Integer.toString(i));
+			dataset.setValue(Database.getSingleton().totaleEntrateMese(i), "Euro", Integer.toString(i));
 		}
-		GregorianCalendar data = new GregorianCalendar();
-		String dataMinuti = "" + data.get(Calendar.HOUR_OF_DAY)
-		                + data.get(Calendar.MINUTE);
+		final GregorianCalendar data = new GregorianCalendar();
+		final String dataMinuti = "" + data.get(Calendar.HOUR_OF_DAY) + data.get(Calendar.MINUTE);
 		try {
-			ChartUtilities.saveChartAsPNG(new java.io.File(
-			                "./immagini/Entrate2" + dataMinuti + ".png"), chart, 550,
-			                550);
-		} catch (IOException e) {
+			ChartUtilities.saveChartAsPNG(new java.io.File("./immagini/Entrate2" + dataMinuti + ".png"), chart, 550, 550);
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 
-		ImageIcon image = new ImageIcon("./immagini/Entrate2" + dataMinuti
-		                + ".png");
-		JLabel immagine = new JLabel(image);
-		JButton chiudi = new ButtonF("Chiudi");
+		final ImageIcon image = new ImageIcon("./immagini/Entrate2" + dataMinuti + ".png");
+		final JLabel immagine = new JLabel(image);
+		final JButton chiudi = new ButtonF("Chiudi");
 		immagine.setBounds(12, 22, 618, 546);
 		chiudi.setBounds(269, 580, 97, 30);
 		setBounds(100, 100, 650, 650);
@@ -85,7 +78,7 @@ public class GrEntrate2 extends JDialog implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		if (e.getActionCommand().equals("chiudi")) {
 			setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 			// AltreUtil.deleteFileDaDirectory2("./immagini/");

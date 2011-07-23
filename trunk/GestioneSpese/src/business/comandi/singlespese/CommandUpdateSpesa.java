@@ -2,6 +2,7 @@ package business.comandi.singlespese;
 
 import java.util.HashMap;
 
+import view.Alert;
 import business.cache.CacheUscite;
 import business.comandi.AbstractCommand;
 import domain.AbstractOggettoEntita;
@@ -49,6 +50,21 @@ public class CommandUpdateSpesa extends AbstractCommand {
 	@Override
 	public String toString() {
 		return "Modificata Spesa " + (newEntita).getnome();
+	}
+
+	@Override
+	public void scriviLogExecute(final boolean isComandoEseguito) {
+		if (isComandoEseguito) {
+			Alert.operazioniSegnalazioneInfo("Aggiornata correttamente spesa " + oldEntita.getnome());
+		}
+
+	}
+
+	@Override
+	public void scriviLogUnExecute(final boolean isComandoEseguito) {
+		if (isComandoEseguito) {
+			Alert.operazioniSegnalazioneInfo("Ripristinata spesa " + oldEntita.getnome() + " precedentemente cancellata");
+		}
 	}
 
 }

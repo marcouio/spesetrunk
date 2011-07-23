@@ -1,37 +1,38 @@
 package view.login;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 
+import view.Alert;
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
 import view.font.LabelTitolo;
 import view.font.TextFieldF;
 import view.impostazioni.Impostazioni;
 import business.Controllore;
-import business.Database;
+import business.aggiornatori.AggiornatoreManager;
+import business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import domain.Utenti;
 import domain.wrapper.WrapUtenti;
 
 public class Login extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-	private final TextFieldF  user;
-	private final TextFieldF  pass;
+	private final TextFieldF user;
+	private final TextFieldF pass;
 
 	public Login() {
 		getContentPane().setLayout(null);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setModalityType(ModalityType.APPLICATION_MODAL);
 		this.setBounds(400, 300, 400, 220);
 		this.setTitle("Login");
-		LabelListaGruppi lblUsername = new LabelListaGruppi("Username");
+		final LabelListaGruppi lblUsername = new LabelListaGruppi("Username");
 		lblUsername.setBounds(83, 69, 88, 25);
 		getContentPane().add(lblUsername);
 
-		LabelListaGruppi lblPassword = new LabelListaGruppi("Password");
+		final LabelListaGruppi lblPassword = new LabelListaGruppi("Password");
 		lblPassword.setBounds(221, 68, 88, 25);
 		getContentPane().add(lblPassword);
 
@@ -45,33 +46,36 @@ public class Login extends JDialog {
 		pass.setBounds(221, 94, 86, 25);
 		getContentPane().add(pass);
 
-		LabelTitolo lblLogin = new LabelTitolo("LOGIN");
+		final LabelTitolo lblLogin = new LabelTitolo("LOGIN");
 		lblLogin.setBounds(171, 25, 57, 32);
 		getContentPane().add(lblLogin);
 
-		ButtonF btnEntra = new ButtonF("Entra");
+		final ButtonF btnEntra = new ButtonF("Entra");
 		btnEntra.setBounds(148, 148, 91, 23);
 		getContentPane().add(btnEntra);
 
-		btnEntra.addActionListener(new ActionListener() {
+		btnEntra.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				WrapUtenti utentiwrap = new WrapUtenti();
-				Utenti utente = utentiwrap.selectByUserAndPass(user.getText(), pass.getText());
+			public void actionPerformedOverride(final ActionEvent e) {
+				final WrapUtenti utentiwrap = new WrapUtenti();
+				final Utenti utente = utentiwrap.selectByUserAndPass(user.getText(), pass.getText());
 				if (utente != null) {
-					Controllore.setUtenteLogin(utente);
-					Impostazioni impostazioni = Impostazioni.getSingleton();
-					impostazioni.getUtente().setText(utente.getusername());
+					final Impostazioni impostazioni = Impostazioni.getSingleton();
 					try {
-						Database.aggiornamentoPerImpostazioni();
-					} catch (Exception e1) {
+						Controllore.setUtenteLogin(utente);
+						impostazioni.getUtente().setText(utente.getusername());
+						// TODO creare comando per sostituire tutto con nuova
+						// gestione
+						AggiornatoreManager.aggiornamentoPerImpostazioni();
+						Alert.info("Benvenuto, " + utente.getnome(), Alert.TITLE_OK);
+					} catch (final Exception e1) {
 						e1.printStackTrace();
 					}
 					impostazioni.repaint();
 					dispose();
 				} else {
-					JOptionPane.showMessageDialog(null, "Username o password non corretti", "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
+					Alert.operazioniSegnalazioneErroreGrave("Login non effettuato: username o password non corretti");
 				}
 
 			}

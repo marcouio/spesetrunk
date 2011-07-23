@@ -1,7 +1,6 @@
 package view.entrateuscite;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Date;
@@ -13,20 +12,20 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
+import view.Alert;
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
 import view.font.TextAreaF;
 import view.font.TextFieldF;
 import business.AltreUtil;
-import business.CorreggiTesto;
 import business.Controllore;
+import business.CorreggiTesto;
 import business.DBUtil;
-import business.Database;
+import business.ascoltatori.AscoltatoreAggiornatoreUscite;
 import business.cache.CacheCategorie;
 import business.cache.CacheUscite;
 import business.comandi.singlespese.CommandDeleteSpesa;
 import domain.CatSpese;
-import domain.SingleSpesa;
 import domain.wrapper.WrapSingleSpesa;
 
 public class UsciteView extends AbstractUsciteView {
@@ -120,20 +119,20 @@ public class UsciteView extends AbstractUsciteView {
 
 		// Bottone Elimina
 		final ButtonF eliminaUltima = new ButtonF();
-		eliminaUltima.addActionListener(new ActionListener() {
+		eliminaUltima.addActionListener(new AscoltatoreAggiornatoreUscite() {
+
 			@Override
-			public void actionPerformed(final ActionEvent arg0) {
+			protected void actionPerformedOverride(ActionEvent e) {
+				super.actionPerformedOverride(e);
 				try {
 					// TODO metodo che restituisce ultima spesa oppure usare
 					// getLast() del CommandManager
 					// if(modelUscita.deleteLastSpesa()){
-					if (Controllore.getSingleton().getCommandManager().invocaComando(new CommandDeleteSpesa(modelUscita), SingleSpesa.NOME_TABELLA)) {
-						update(modelUscita, null);
-						Database.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
-						JOptionPane.showMessageDialog(null, "Ok, ultima uscita eliminata correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
-					}
+					Controllore.invocaComando(new CommandDeleteSpesa(modelUscita));
+					// TODO verificare se necessario ripristinare l'update
+					// update(modelUscita, null);
 				} catch (final Exception e1) {
-					JOptionPane.showMessageDialog(null, e1.getMessage(), "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("./imgUtil/index.jpeg"));
+					Alert.operazioniSegnalazioneErroreGrave("Cancellazione della spesa " + modelUscita.getnome() + " non riuscita: " + e1.getMessage());
 					e1.printStackTrace();
 				}
 			}

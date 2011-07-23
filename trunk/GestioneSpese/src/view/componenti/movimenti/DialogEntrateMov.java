@@ -2,24 +2,24 @@ package view.componenti.movimenti;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Observable;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import view.Alert;
 import view.entrateuscite.AbstractEntrateView;
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
 import view.font.TextFieldF;
 import business.AltreUtil;
 import business.Controllore;
+import business.aggiornatori.AggiornatoreManager;
+import business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import business.cache.CacheEntrate;
 import business.comandi.entrate.CommandDeleteEntrata;
 import business.comandi.entrate.CommandUpdateEntrata;
@@ -42,9 +42,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 	private JTextField tfEuro = new TextFieldF();
 	private JTextField tfDataIns = new TextFieldF();
 	private JTextField tfData = new TextFieldF();
-	// TODO verificare se � necessario sostituire campo tipoEntrata
 	private JComboBox cbTipoEntrata = new JComboBox(Model.getNomiColonneEntrate());
-	// private JTextField tipoEntrata = new TextFieldF();
 	private JTextField taDescrizione = new TextFieldF();
 	private JTextField tfNome = new TextFieldF();
 	private JTextField idEntrate = new TextFieldF();
@@ -183,14 +181,14 @@ public class DialogEntrateMov extends AbstractEntrateView {
 			setcData(tfData.getText());
 		} else {
 			final String messaggio = "La data va inserita con il seguente formato: aaaa/mm/gg";
-			JOptionPane.showMessageDialog(null, messaggio, "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("./imgUtil/index.jpeg"));
+			Alert.operazioniSegnalazioneErroreGrave(Alert.getMessaggioErrore(messaggio));
 		}
 		if (AltreUtil.checkDouble(tfEuro.getText())) {
 			final Double euro1 = Double.parseDouble(tfEuro.getText());
 			setdEuro(AltreUtil.arrotondaDecimaliDouble(euro1));
 		} else {
 			final String messaggio = "Valore in Euro inserito non correttamente";
-			JOptionPane.showMessageDialog(null, messaggio, "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("./imgUtil/index.jpeg"));
+			Alert.operazioniSegnalazioneErroreGrave(Alert.getMessaggioErrore(messaggio));
 		}
 		setUtenti(Controllore.getSingleton().getUtenteLogin());
 	}
@@ -203,7 +201,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 		this.tfDataIns = tfDataIns;
 	}
 
-	public class AscoltatoreDialogEntrate implements ActionListener {
+	public class AscoltatoreDialogEntrate extends AscoltatoreAggiornatoreNiente {
 
 		JDialog dialog;
 
@@ -212,7 +210,8 @@ public class DialogEntrateMov extends AbstractEntrateView {
 		}
 
 		@Override
-		public void actionPerformed(final ActionEvent e) {
+		protected void actionPerformedOverride(final ActionEvent e) {
+			super.actionPerformedOverride(e);
 			if (e.getActionCommand().equals("Aggiorna")) {
 				setEntrate();
 				final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
@@ -221,19 +220,17 @@ public class DialogEntrateMov extends AbstractEntrateView {
 				final Entrate oldEntrata = CacheEntrate.getSingleton().getEntrate(idEntrate.getText());
 
 				if (nonEsistonoCampiNonValorizzati()) {
-					if (Controllore.getSingleton().getCommandManager()
-							.invocaComando(new CommandUpdateEntrata(oldEntrata, (IEntrate) modelEntrate.getentitaPadre()), Entrate.NOME_TABELLA)) {
-						JOptionPane.showMessageDialog(null, "Ok, operazione eseguita correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
+					if (Controllore.invocaComando(new CommandUpdateEntrata(oldEntrata, (IEntrate) modelEntrate.getentitaPadre()))) {
 						try {
-							Model.aggiornaMovimentiEntrateDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
+							AggiornatoreManager.aggiornaMovimentiEntrateDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
 						} catch (final Exception e22) {
-							JOptionPane.showMessageDialog(null, "Inserisci i dati correttamente", "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
+							Alert.operazioniSegnalazioneErroreGrave(Alert.getMessaggioErrore(e22.getMessage()));
 						}
 						// chiude la dialog e rilascia le risorse
 						dispose();
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "E' necessario riempire tutti i campi", "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("./imgUtil/index.jpeg"));
+					Alert.operazioniSegnalazioneErroreGrave("E' necessario riempire tutti i campi");
 				}
 				dialog.dispose();
 			} else if (e.getActionCommand().equals("Cancella")) {
@@ -241,17 +238,15 @@ public class DialogEntrateMov extends AbstractEntrateView {
 				final JTextField campo = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getCampo();
 				setEntrate();
 				if (idEntrate.getText() != null) {
-					if (Controllore.getSingleton().getCommandManager().invocaComando(new CommandDeleteEntrata(modelEntrate), Entrate.NOME_TABELLA)) {
-						JOptionPane.showMessageDialog(null, "Modifica eseguita correttamente", "Perfetto!", JOptionPane.INFORMATION_MESSAGE);
-					} else {
-						JOptionPane.showMessageDialog(null, "Inserisci i dati correttamente", "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
+					if (!Controllore.invocaComando(new CommandDeleteEntrata(modelEntrate))) {
+						Alert.operazioniSegnalazioneErroreGrave(Alert.getMessaggioErrore("Inserisci i dati correttamente"));
 					}
 				}
 
 				if (campo != null) {
-					Model.aggiornaMovimentiEntrateDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
+					AggiornatoreManager.aggiornaMovimentiEntrateDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
 				} else {
-					Model.aggiornaMovimentiEntrateDaEsterno(nomiColonne, 10);
+					AggiornatoreManager.aggiornaMovimentiEntrateDaEsterno(nomiColonne, 10);
 				}
 				// chiude la dialog e rilascia le risorse
 				dialog.dispose();

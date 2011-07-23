@@ -1,19 +1,21 @@
 package view.componenti.movimenti;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JDialog;
 
-public class DialogHandler implements ActionListener {
+import business.ascoltatori.AscoltatoreAggiornatoreNiente;
+
+public class DialogHandler extends AscoltatoreAggiornatoreNiente {
 	JDialog dia;
 
-	public DialogHandler(JDialog dialog) {
+	public DialogHandler(final JDialog dialog) {
 		dia = dialog;
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
+	protected void actionPerformedOverride(final ActionEvent e) {
+		super.actionPerformedOverride(e);
 		dia.dispose();
 	}
 

@@ -1,14 +1,14 @@
 package view.impostazioni;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
 
 import view.Alert;
 import business.Controllore;
-import business.Database;
+import business.aggiornatori.AggiornatoreManager;
+import business.ascoltatori.AscoltatoreAggiornatoreTutto;
 import business.cache.CacheCategorie;
 import business.cache.CacheGruppi;
 import business.comandi.gruppi.CommandUpdateGruppo;
@@ -16,7 +16,7 @@ import domain.Gruppi;
 import domain.IGruppi;
 import domain.wrapper.WrapGruppi;
 
-public class AscoltatoreAggiornaGruppo implements ActionListener {
+public class AscoltatoreAggiornaGruppo extends AscoltatoreAggiornatoreTutto {
 
 	private GruppiView gruppiView;
 
@@ -25,7 +25,8 @@ public class AscoltatoreAggiornaGruppo implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(final ActionEvent e) {
+	protected void actionPerformedOverride(final ActionEvent e) {
+		super.actionPerformedOverride(e);
 
 		final Gruppi gruppi = (Gruppi) gruppiView.getComboGruppi().getSelectedItem();
 		final WrapGruppi modelGruppi = gruppiView.getModelGruppi();
@@ -37,13 +38,13 @@ public class AscoltatoreAggiornaGruppo implements ActionListener {
 				modelGruppi.setidGruppo(gruppi.getidGruppo());
 			}
 			try {
-				if (Controllore.getSingleton().getCommandManager().invocaComando(new CommandUpdateGruppo(oldGruppo, (IGruppi) modelGruppi.getentitaPadre()), "tutto")) {
+				if (Controllore.invocaComando(new CommandUpdateGruppo(oldGruppo, (IGruppi) modelGruppi.getentitaPadre()))) {
 
 					final Vector<Gruppi> vectorGruppi = CacheGruppi.getSingleton().getVettoreCategoriePerCombo(CacheGruppi.getSingleton().getAllGruppi());
 					final DefaultComboBoxModel model = new DefaultComboBoxModel(vectorGruppi);
 					gruppiView.getComboGruppi().setModel(model);
 
-					Database.aggiornamentoComboBox(CacheCategorie.getSingleton().getVettoreCategorie());
+					AggiornatoreManager.aggiornamentoComboBox(CacheCategorie.getSingleton().getVettoreCategorie());
 					Alert.operazioniSegnalazioneInfo("Aggiornato correttamente gruppo " + modelGruppi.getnome());
 					modelGruppi.setChanged();
 					modelGruppi.notifyObservers();

@@ -51,7 +51,6 @@ public class AbstractCategorieView extends JDialog implements Observer {
 
 	@Override
 	public void update(final Observable o, final Object arg) {
-		// TODO Auto-generated method stub
 
 	}
 

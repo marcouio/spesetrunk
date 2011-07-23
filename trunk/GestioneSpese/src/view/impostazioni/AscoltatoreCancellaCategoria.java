@@ -1,13 +1,13 @@
 package view.impostazioni;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import view.Alert;
 import business.Controllore;
+import business.ascoltatori.AscoltatoreAggiornatoreTutto;
 import business.comandi.categorie.CommandDeleteCategoria;
 
-public class AscoltatoreCancellaCategoria implements ActionListener {
+public class AscoltatoreCancellaCategoria extends AscoltatoreAggiornatoreTutto {
 
 	CategorieView categorieView;
 
@@ -16,11 +16,11 @@ public class AscoltatoreCancellaCategoria implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(final ActionEvent e) {
+	protected void actionPerformedOverride(ActionEvent e) {
+		super.actionPerformedOverride(e);
 		if (categorieView.getComboCategorie().getSelectedItem() != null && categorieView.getCategoria() != null) {
 			categorieView.setCategoria("Cancella");
-			if (Controllore.getSingleton().getCommandManager().invocaComando(new CommandDeleteCategoria(categorieView.getModelCatSpese()), "tutto")) {
-				Alert.operazioniSegnalazioneInfo("Cancellata la categoria: " + categorieView.getCategoria());
+			if (Controllore.invocaComando(new CommandDeleteCategoria(categorieView.getModelCatSpese()))) {
 				categorieView.getComboCategorie().removeItem(categorieView.getCategoria());
 				categorieView.dispose();
 			}

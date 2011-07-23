@@ -12,9 +12,9 @@ import business.InizializzatoreFinestre;
 
 public class CommandManager {
 
-	private ArrayList<AbstractCommand> history = new ArrayList<AbstractCommand>();
-	private int indiceCorrente;
-	private static CommandManager instance = new CommandManager();
+	private ArrayList<AbstractCommand> history  = new ArrayList<AbstractCommand>();
+	private int                        indiceCorrente;
+	private static CommandManager      instance = new CommandManager();
 
 	private CommandManager() {
 
@@ -31,14 +31,14 @@ public class CommandManager {
 	 * @param tipo
 	 * @return boolean
 	 */
-	public boolean undo(final String tipo) {
+	public boolean undo() {
 		if (history.size() > 0 && indiceCorrente > -1) {
 			if (indiceCorrente > (history.size() - 1)) {
 				indiceCorrente = history.size() - 1;
 			}
 
 			final AbstractCommand comando = history.get(indiceCorrente);
-			if (comando.undoCommand(tipo)) {
+			if (comando.undoCommand()) {
 				System.out.println("operazione undo su comando all'indice: " + indiceCorrente);
 				indiceCorrente--;
 				System.out.println("indice spostato a: " + indiceCorrente);
@@ -55,14 +55,14 @@ public class CommandManager {
 	 * @param tipo
 	 * @return boolean
 	 */
-	public boolean redo(final String tipo) {
+	public boolean redo() {
 
 		if (history.size() > 0 && indiceCorrente >= -1 && indiceCorrente < history.size()) {
 			if (indiceCorrente == -1) {
 				indiceCorrente = 0;
 			}
 			final AbstractCommand comando = history.get(indiceCorrente);
-			if (comando.doCommand(tipo)) {
+			if (comando.doCommand()) {
 				System.out.println("operazione undo su comando all'indice: " + indiceCorrente);
 				indiceCorrente++;
 				System.out.println("indice spostato a: " + indiceCorrente);
@@ -82,19 +82,19 @@ public class CommandManager {
 	 * @param tipo
 	 * @return
 	 */
-	public boolean invocaComando(final AbstractCommand comando, final String tipo) {
+	public boolean invocaComando(final AbstractCommand comando) {
 		if (comando instanceof UndoCommand) {
-			if (undo(tipo)) {
+			if (undo()) {
 				aggiornaFinestraHistory();
 				return true;
 			}
 		} else if (comando instanceof RedoCommand) {
-			if (redo(tipo)) {
+			if (redo()) {
 				aggiornaFinestraHistory();
 				return true;
 			}
 		} else {
-			if (comando.doCommand(tipo)) {
+			if (comando.doCommand()) {
 				history.add(comando);
 				indiceCorrente = history.size() - 1;
 				aggiornaFinestraHistory();

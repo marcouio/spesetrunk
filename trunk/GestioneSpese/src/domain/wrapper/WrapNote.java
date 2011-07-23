@@ -11,6 +11,7 @@ import java.util.Vector;
 
 import business.Controllore;
 import business.DBUtil;
+import business.LoggerOggetto;
 import business.cache.CacheUtenti;
 import domain.AbstractOggettoEntita;
 import domain.Entrate;
@@ -22,7 +23,7 @@ public class WrapNote extends Observable implements IWrapperEntity, INote {
 
 	private final Note note;
 
-	public WrapNote(Note nota) {
+	public WrapNote(final Note nota) {
 		this.note = nota;
 	}
 
@@ -36,7 +37,7 @@ public class WrapNote extends Observable implements IWrapperEntity, INote {
 	}
 
 	@Override
-	public void setData(String _data_) {
+	public void setData(final String _data_) {
 		note.setData(_data_);
 	}
 
@@ -46,7 +47,7 @@ public class WrapNote extends Observable implements IWrapperEntity, INote {
 	}
 
 	@Override
-	public void setDataIns(String _dataIns_) {
+	public void setDataIns(final String _dataIns_) {
 		note.setDataIns(_dataIns_);
 	}
 
@@ -56,7 +57,7 @@ public class WrapNote extends Observable implements IWrapperEntity, INote {
 	}
 
 	@Override
-	public void setDescrizione(String _descrizione_) {
+	public void setDescrizione(final String _descrizione_) {
 		note.setDescrizione(_descrizione_);
 	}
 
@@ -66,7 +67,7 @@ public class WrapNote extends Observable implements IWrapperEntity, INote {
 	}
 
 	@Override
-	public void setIdNote(int _idNote_) {
+	public void setIdNote(final int _idNote_) {
 		note.setIdNote(_idNote_);
 	}
 
@@ -76,7 +77,7 @@ public class WrapNote extends Observable implements IWrapperEntity, INote {
 	}
 
 	@Override
-	public void setIdUtente(int _idUtente_) {
+	public void setIdUtente(final int _idUtente_) {
 		note.setIdUtente(_idUtente_);
 	}
 
@@ -86,12 +87,12 @@ public class WrapNote extends Observable implements IWrapperEntity, INote {
 	}
 
 	@Override
-	public void setNome(String _nome_) {
+	public void setNome(final String _nome_) {
 		note.setNome(_nome_);
 	}
 
 	@Override
-	public void setUtenti(Utenti utenti) {
+	public void setUtenti(final Utenti utenti) {
 		note.setUtenti(utenti);
 	}
 
@@ -106,16 +107,16 @@ public class WrapNote extends Observable implements IWrapperEntity, INote {
 	}
 
 	@Override
-	public Object selectById(int id) {
-		Connection cn = DBUtil.getConnection();
-		String sql = "SELECT * FROM " + Note.NOME_TABELLA + " WHERE " + Note.ID + " = " + id;
+	public Object selectById(final int id) {
+		final Connection cn = DBUtil.getConnection();
+		final String sql = "SELECT * FROM " + Note.NOME_TABELLA + " WHERE " + Note.ID + " = " + id;
 
 		Note note = null;
 
 		try {
 
-			Statement st = cn.createStatement();
-			ResultSet rs = st.executeQuery(sql);
+			final Statement st = cn.createStatement();
+			final ResultSet rs = st.executeQuery(sql);
 			if (rs.next()) {
 				note = new Note();
 				note.setIdNote(rs.getInt(1));
@@ -127,12 +128,12 @@ public class WrapNote extends Observable implements IWrapperEntity, INote {
 
 			}
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
 				cn.close();
-			} catch (SQLException e) {
+			} catch (final SQLException e) {
 				e.printStackTrace();
 			}
 			DBUtil.closeConnection();
@@ -141,23 +142,23 @@ public class WrapNote extends Observable implements IWrapperEntity, INote {
 	}
 
 	@Override
-	public Iterator<Object> selectWhere(String where) {
+	public Iterator<Object> selectWhere(final String where) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Vector<Object> selectAll() {
-		Vector<Object> entrate = new Vector<Object>();
-		Connection cn = DBUtil.getConnection();
+		final Vector<Object> entrate = new Vector<Object>();
+		final Connection cn = DBUtil.getConnection();
 
-		String sql = "SELECT * FROM " + Note.NOME_TABELLA;
+		final String sql = "SELECT * FROM " + Note.NOME_TABELLA;
 		try {
-			Statement st = cn.createStatement();
-			ResultSet rs = st.executeQuery(sql);
+			final Statement st = cn.createStatement();
+			final ResultSet rs = st.executeQuery(sql);
 			while (rs.next()) {
-				Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(4)));
-				Note nota = new Note();
+				final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(4)));
+				final Note nota = new Note();
 				nota.setIdNote(rs.getInt(1));
 				nota.setDescrizione(rs.getString(3));
 				nota.setData(rs.getString(6));
@@ -167,12 +168,12 @@ public class WrapNote extends Observable implements IWrapperEntity, INote {
 				entrate.add(nota);
 			}
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
 				cn.close();
-			} catch (SQLException e) {
+			} catch (final SQLException e) {
 				e.printStackTrace();
 			}
 		}
@@ -180,17 +181,16 @@ public class WrapNote extends Observable implements IWrapperEntity, INote {
 	}
 
 	@Override
-	public boolean insert(Object oggettoEntita) {
+	public boolean insert(final Object oggettoEntita) {
 		boolean ok = false;
-		Connection cn = DBUtil.getConnection();
+		final Connection cn = DBUtil.getConnection();
 		String sql = "";
 		try {
-			Note nota = (Note) oggettoEntita;
+			final Note nota = (Note) oggettoEntita;
 
-			sql = "INSERT INTO " + Note.NOME_TABELLA + " (" + Note.DESCRIZIONE + ", " + Entrate.DATA
-			                + ", " + Entrate.NOME + ", " + Entrate.IDUTENTE + ", " + Entrate.DATAINS
-			                + ") VALUES (?,?,?,?,?)";
-			PreparedStatement ps = cn.prepareStatement(sql);
+			sql = "INSERT INTO " + Note.NOME_TABELLA + " (" + Note.DESCRIZIONE + ", " + Entrate.DATA + ", " + Entrate.NOME + ", " + Entrate.IDUTENTE + ", " + Entrate.DATAINS
+					+ ") VALUES (?,?,?,?,?)";
+			final PreparedStatement ps = cn.prepareStatement(sql);
 			// descrizione
 			ps.setString(1, nota.getDescrizione());
 			// data
@@ -204,13 +204,13 @@ public class WrapNote extends Observable implements IWrapperEntity, INote {
 
 			ps.executeUpdate();
 			ok = true;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			ok = false;
 			e.printStackTrace();
 		} finally {
 			try {
 				cn.close();
-			} catch (SQLException e) {
+			} catch (final SQLException e) {
 				e.printStackTrace();
 			}
 			DBUtil.closeConnection();
@@ -219,23 +219,23 @@ public class WrapNote extends Observable implements IWrapperEntity, INote {
 	}
 
 	@Override
-	public boolean delete(int id) {
+	public boolean delete(final int id) {
 		boolean ok = false;
-		String sql = "DELETE FROM " + Note.NOME_TABELLA + " WHERE " + Note.ID + " = " + id;
-		Connection cn = DBUtil.getConnection();
+		final String sql = "DELETE FROM " + Note.NOME_TABELLA + " WHERE " + Note.ID + " = " + id;
+		final Connection cn = DBUtil.getConnection();
 
 		try {
-			Statement st = cn.createStatement();
+			final Statement st = cn.createStatement();
 			st.executeUpdate(sql);
 			ok = true;
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 			ok = false;
 		}
 		try {
 			cn.close();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		DBUtil.closeConnection();
@@ -243,28 +243,26 @@ public class WrapNote extends Observable implements IWrapperEntity, INote {
 	}
 
 	@Override
-	public boolean update(Object oggettoEntita) {
+	public boolean update(final Object oggettoEntita) {
 		boolean ok = false;
-		Connection cn = DBUtil.getConnection();
+		final Connection cn = DBUtil.getConnection();
 
-		Note nota = (Note) oggettoEntita;
-		String sql = "UPDATE " + Note.NOME_TABELLA + " SET " + Note.DESCRIZIONE + " = '" + nota.getDescrizione() + "', "
-		                + Entrate.DATA + " = '" + nota.getData() + "', "
-		                + Entrate.NOME + " = '" + nota.getnome() + "', " + Entrate.IDUTENTE + " = " +
-		                nota.getUtenti().getidUtente() + ", " + Entrate.DATAINS + " = '" +
-		                nota.getDataIns() + "' WHERE " + Note.ID + " = " + nota.getIdNote();
+		final Note nota = (Note) oggettoEntita;
+		final String sql = "UPDATE " + Note.NOME_TABELLA + " SET " + Note.DESCRIZIONE + " = '" + nota.getDescrizione() + "', " + Entrate.DATA + " = '" + nota.getData() + "', "
+				+ Entrate.NOME + " = '" + nota.getnome() + "', " + Entrate.IDUTENTE + " = " + nota.getUtenti().getidUtente() + ", " + Entrate.DATAINS + " = '" + nota.getDataIns()
+				+ "' WHERE " + Note.ID + " = " + nota.getIdNote();
 		try {
-			Statement st = cn.createStatement();
+			final Statement st = cn.createStatement();
 			st.executeUpdate(sql);
 			ok = true;
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 			ok = false;
 		}
 		try {
 			cn.close();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		DBUtil.closeConnection();
@@ -274,21 +272,21 @@ public class WrapNote extends Observable implements IWrapperEntity, INote {
 	@Override
 	public boolean deleteAll() {
 		boolean ok = false;
-		String sql = "DELETE FROM " + Note.NOME_TABELLA;
-		Connection cn = DBUtil.getConnection();
+		final String sql = "DELETE FROM " + Note.NOME_TABELLA;
+		final Connection cn = DBUtil.getConnection();
 
 		try {
-			Statement st = cn.createStatement();
+			final Statement st = cn.createStatement();
 			st.executeUpdate(sql);
 			ok = true;
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 			ok = false;
 		}
 		try {
 			cn.close();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		DBUtil.closeConnection();
@@ -300,30 +298,29 @@ public class WrapNote extends Observable implements IWrapperEntity, INote {
 	 */
 	public boolean DeleteLastNote() {
 		boolean ok = false;
-		Connection cn = DBUtil.getConnection();
-		String sql = "SELECT * FROM " + Note.NOME_TABELLA + " WHERE " + Note.IDUTENTE + " = " + Controllore.getSingleton().getUtenteLogin().getidUtente()
-		                + " ORDER BY " + Note.DATAINS + " DESC";
+		final Connection cn = DBUtil.getConnection();
+		final String sql = "SELECT * FROM " + Note.NOME_TABELLA + " WHERE " + Note.IDUTENTE + " = " + Controllore.getSingleton().getUtenteLogin().getidUtente() + " ORDER BY "
+				+ Note.DATAINS + " DESC";
 
 		try {
-			Statement st = cn.createStatement();
-			ResultSet rs = st.executeQuery(sql);
+			final Statement st = cn.createStatement();
+			final ResultSet rs = st.executeQuery(sql);
 			if (rs.next()) {
-				String sql2 = "DELETE FROM " + Note.NOME_TABELLA + " WHERE " + Note.ID + "=?";
-				PreparedStatement ps = cn.prepareStatement(sql2);
+				final String sql2 = "DELETE FROM " + Note.NOME_TABELLA + " WHERE " + Note.ID + "=?";
+				final PreparedStatement ps = cn.prepareStatement(sql2);
 				ps.setInt(1, rs.getInt(1));
 				ps.executeUpdate();
 				ok = true;
 
 			}
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
-			// TODO gestire log
-			// log.severe("Operazione SQL di delete 'SingleSpesa' non eseguita:"+e.getMessage());
+			Controllore.getLog().severe(LoggerOggetto.getMessaggioErroreOperazione(e));
 		}
 		try {
 			cn.close();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		DBUtil.closeConnection();

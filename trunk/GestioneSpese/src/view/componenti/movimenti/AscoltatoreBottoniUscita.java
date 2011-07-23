@@ -7,7 +7,7 @@ import java.util.Vector;
 
 import javax.swing.JTable;
 
-import business.Database;
+import business.aggiornatori.AggiornatoreManager;
 import business.cache.CacheCategorie;
 import domain.CatSpese;
 import domain.SingleSpesa;
@@ -82,7 +82,7 @@ public class AscoltatoreBottoniUscita extends MouseAdapter {
 			dialogNew.setVisible(true);
 		}
 		try {
-			Database.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
+			AggiornatoreManager.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
 		} catch (final Exception e1) {
 			e1.printStackTrace();
 		}

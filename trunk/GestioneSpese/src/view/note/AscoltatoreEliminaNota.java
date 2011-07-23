@@ -1,19 +1,20 @@
 package view.note;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
+import view.Alert;
 import business.Controllore;
+import business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import business.comandi.note.CommandDeleteNota;
 import domain.Note;
 import domain.wrapper.WrapNote;
 
-public class AscoltatoreEliminaNota implements ActionListener {
+public class AscoltatoreEliminaNota extends AscoltatoreAggiornatoreNiente {
 
 	PannelloNota pNota = null;
-	Note         nota  = null;
+	Note nota = null;
 
 	public AscoltatoreEliminaNota(final PannelloNota pNota, final Note nota) {
 		this.pNota = pNota;
@@ -21,10 +22,15 @@ public class AscoltatoreEliminaNota implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		WrapNote wn = new WrapNote(nota);
-		Controllore.getSingleton().getCommandManager().invocaComando(new CommandDeleteNota(wn), null);
-		JFrame f = pNota.getPadre();
+	protected void actionPerformedOverride(final ActionEvent e) {
+		super.actionPerformedOverride(e);
+		final WrapNote wn = new WrapNote(nota);
+		try {
+			Controllore.invocaComando(new CommandDeleteNota(wn));
+		} catch (final Exception e1) {
+			Alert.operazioniSegnalazioneErroreGrave("Nota " + nota.getnome() + " non eliminata: " + e1.getMessage());
+		}
+		final JFrame f = pNota.getPadre();
 		pNota.setVisible(false);
 		f.remove(pNota);
 		((MostraNoteView) f).aggiornaVista();

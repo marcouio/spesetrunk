@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -25,6 +24,7 @@ import business.AltreUtil;
 import business.Controllore;
 import business.DBUtil;
 import business.Database;
+import business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import business.cache.CacheCategorie;
 import domain.CatSpese;
 
@@ -97,18 +97,19 @@ public class Report extends JFrame {
 		btnGeneraReport.setBounds(22, 366, 197, 25);
 		getContentPane().add(btnGeneraReport);
 
-		btnGeneraReport.addActionListener(new ActionListener() {
+		btnGeneraReport.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
-			String trattini = "--------------------------------------------------------------------------";
-			private double usciteCategorieAnnuali;
-			private double totaleUsciteMese;
-			private double totaleEntrateMese;
+			String                         trattini  = "--------------------------------------------------------------------------";
+			private double                 usciteCategorieAnnuali;
+			private double                 totaleUsciteMese;
+			private double                 totaleEntrateMese;
 			private final Vector<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
-			private String[] nomiColonne;
-			private double entrateCategorieAnnuali;
+			private String[]               nomiColonne;
+			private double                 entrateCategorieAnnuali;
 
 			@Override
-			public void actionPerformed(final ActionEvent arg0) {
+			protected void actionPerformedOverride(ActionEvent e) {
+				super.actionPerformedOverride(e);
 				AltreUtil.deleteFileDaDirectory("./", "Rep");
 				final String data = DBUtil.dataToString(new Date(), "dd_MM_yyyy_HH_mm_ss");
 				FileOutputStream file = null;
@@ -203,8 +204,8 @@ public class Report extends JFrame {
 								final String stampa = "Le uscite per la categoria '" + nomiColonne[x] + "' ed il mese " + (i + 1) + " sono: " + primo[i][x] + ".";
 								Output.print(stampa);
 								Output.println(" ");
-							} catch (final Exception e) {
-								e.printStackTrace();
+							} catch (final Exception e1) {
+								e1.printStackTrace();
 							}
 						}
 					}
@@ -224,8 +225,8 @@ public class Report extends JFrame {
 								final String stampa = "Le entrate per la categoria '" + nomiColonne[x] + "' ed il mese " + (i + 1) + " sono: " + primo[i][x] + ".";
 								Output.print(stampa);
 								Output.print("\n");
-							} catch (final Exception e) {
-								e.printStackTrace();
+							} catch (final Exception e2) {
+								e2.printStackTrace();
 							}
 						}
 					}
@@ -269,6 +270,7 @@ public class Report extends JFrame {
 					Output.println(" ");
 				}
 				Output.println();
+
 			}
 		});
 		Controllore.getLog().info("Registrato Report: " + DBUtil.dataToString(new Date(), "dd/MM/yyyy HH:mm"));

@@ -9,6 +9,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 
 import business.AltreUtil;
+import business.aggiornatori.AggiornatoreManager;
 import domain.Entrate;
 import domain.wrapper.Model;
 
@@ -53,7 +54,7 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 							final Vector<Entrate> entrate = Model.getSingleton().getModelEntrate()
 									.movimentiEntrateFiltrati(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
 							final String[][] mov = Model.getSingleton().movimentiFiltratiEntratePerNumero(Entrate.NOME_TABELLA, entrate);
-							Model.aggiornaMovimentiEntrateDaFiltro(createNomiColonne(), mov);
+							AggiornatoreManager.aggiornaMovimentiEntrateDaFiltro(createNomiColonne(), mov);
 							return mov;
 						}
 

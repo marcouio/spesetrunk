@@ -6,7 +6,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JTable;
 
-import business.Database;
+import business.aggiornatori.AggiornatoreManager;
 import domain.Entrate;
 import domain.wrapper.Model;
 import domain.wrapper.WrapEntrate;
@@ -90,7 +90,7 @@ public class AscoltatoreBottoniEntrata extends MouseAdapter {
 			dialogNew.setEntrate();
 		}
 		try {
-			Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
+			AggiornatoreManager.aggiornamentoGenerale(Entrate.NOME_TABELLA);
 		} catch (final Exception e1) {
 			e1.printStackTrace();
 		}

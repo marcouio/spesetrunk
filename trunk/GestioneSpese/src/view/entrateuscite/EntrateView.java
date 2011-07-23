@@ -1,7 +1,6 @@
 package view.entrateuscite;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -13,18 +12,18 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import view.Alert;
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
 import view.font.TextAreaF;
 import view.font.TextFieldF;
 import business.AltreUtil;
-import business.CorreggiTesto;
 import business.Controllore;
+import business.CorreggiTesto;
 import business.DBUtil;
-import business.Database;
+import business.ascoltatori.AscoltatoreAggiornatoreEntrate;
 import business.cache.CacheEntrate;
 import business.comandi.entrate.CommandDeleteEntrata;
-import domain.Entrate;
 import domain.wrapper.WrapEntrate;
 
 public class EntrateView extends AbstractEntrateView {
@@ -110,24 +109,24 @@ public class EntrateView extends AbstractEntrateView {
 		eliminaUltima.setBounds(184, 238, 144, 27);
 		getContentPane().add(eliminaUltima);
 
-		eliminaUltima.addActionListener(new ActionListener() {
+		eliminaUltima.addActionListener(new AscoltatoreAggiornatoreEntrate() {
 
 			@Override
-			public void actionPerformed(final ActionEvent e) {
+			protected void actionPerformedOverride(ActionEvent e) {
+				super.actionPerformedOverride(e);
+
 				try {
 					setEntrate();
-					if (Controllore.getSingleton().getCommandManager().invocaComando(new CommandDeleteEntrata(modelEntrate), Entrate.NOME_TABELLA)) {
-						// log.fine("Cancellata ultima spesa inserita");
-						Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
-						JOptionPane.showMessageDialog(null, "Ok, ultima entrata eliminata correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
+					if (Controllore.invocaComando(new CommandDeleteEntrata(modelEntrate))) {
+						Alert.operazioniSegnalazioneInfo("Ok, entrata" + modelEntrate.getnome() + "eliminata correttamente!");
 					}
 				} catch (final Exception e2) {
 					e2.printStackTrace();
-					JOptionPane.showMessageDialog(null, e2.getMessage(), "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("./imgUtil/index.jpeg"));
-					// TODO log.severe(e2.getMessage());
+					Alert.operazioniSegnalazioneErroreGrave(e2.getMessage());
 					DBUtil.closeConnection();
 				}
 			}
+
 		});
 
 		inserisci.addActionListener(new AscoltaInserisciEntrate(this));

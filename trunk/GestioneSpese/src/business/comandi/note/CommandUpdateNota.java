@@ -2,6 +2,7 @@ package business.comandi.note;
 
 import java.util.HashMap;
 
+import view.Alert;
 import business.cache.CacheNote;
 import business.comandi.AbstractCommand;
 import domain.AbstractOggettoEntita;
@@ -11,15 +12,15 @@ import domain.wrapper.WrapNote;
 
 public class CommandUpdateNota extends AbstractCommand {
 
-	final private Note     newEntita;
-	final private Note     oldEntita;
+	final private Note newEntita;
+	final private Note oldEntita;
 	final private WrapNote wrap;
 
-	public CommandUpdateNota(Note oldEntita, INote newEntita) {
+	public CommandUpdateNota(final Note oldEntita, final INote newEntita) {
 		this.newEntita = (Note) newEntita;
 		this.oldEntita = oldEntita;
 		this.wrap = new WrapNote();
-		CacheNote cache = CacheNote.getSingleton();
+		final CacheNote cache = CacheNote.getSingleton();
 		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
 	}
 
@@ -46,5 +47,20 @@ public class CommandUpdateNota extends AbstractCommand {
 	@Override
 	public String toString() {
 		return "Modificata Nota " + (newEntita).getnome();
+	}
+
+	@Override
+	public void scriviLogExecute(final boolean isComandoEseguito) {
+		if (isComandoEseguito) {
+			Alert.operazioniSegnalazioneInfo("Aggiornata correttamente nota " + entita.getnome());
+		}
+
+	}
+
+	@Override
+	public void scriviLogUnExecute(final boolean isComandoEseguito) {
+		if (isComandoEseguito) {
+			Alert.operazioniSegnalazioneInfo("Ripristinata nota " + entita.getnome() + " precedentemente aggiornata");
+		}
 	}
 }

@@ -2,11 +2,7 @@ package business.comandi;
 
 import java.util.HashMap;
 
-import business.Database;
-import business.cache.CacheCategorie;
 import domain.AbstractOggettoEntita;
-import domain.Entrate;
-import domain.SingleSpesa;
 import domain.wrapper.IWrapperEntity;
 
 public abstract class AbstractCommand implements ICommand {
@@ -16,44 +12,24 @@ public abstract class AbstractCommand implements ICommand {
 	protected HashMap<String, AbstractOggettoEntita> mappaCache;
 
 	@Override
-	public boolean doCommand(String tipo) {
+	public boolean doCommand() {
 		if (execute()) {
-			try {
-				decidiCosaAggiornare(tipo);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
+			scriviLogExecute(true);
 			return true;
-		} else
+		} else {
+			scriviLogExecute(false);
 			return false;
+		}
 	}
 
 	@Override
-	public boolean undoCommand(String tipo) {
+	public boolean undoCommand() {
 		if (unExecute()) {
-			try {
-				decidiCosaAggiornare(tipo);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			scriviLogUnExecute(true);
 			return true;
-		} else
+		} else {
+			scriviLogUnExecute(false);
 			return false;
-	}
-
-	private void decidiCosaAggiornare(String tipo)
-	    throws Exception {
-		if (tipo != null) {
-			if (tipo.equals(Entrate.NOME_TABELLA)) {
-				Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
-			} else if (tipo.equals(SingleSpesa.NOME_TABELLA)) {
-				Database.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
-			} else {
-				Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
-				Database.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
-			}
-			Database.aggiornamentoComboBox(CacheCategorie.getSingleton().getVettoreCategoriePerCombo());
 		}
 	}
 
@@ -62,5 +38,11 @@ public abstract class AbstractCommand implements ICommand {
 
 	@Override
 	public abstract boolean unExecute();
+
+	@Override
+	public abstract void scriviLogExecute(boolean isComandoEseguito);
+
+	@Override
+	public abstract void scriviLogUnExecute(boolean isComandoEseguito);
 
 }

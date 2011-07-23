@@ -16,14 +16,14 @@ public class MyWindowListener extends WindowAdapter implements WindowFocusListen
 
 	private GeneralFrame view;
 
-	public MyWindowListener(GeneralFrame view) {
+	public MyWindowListener(final GeneralFrame view) {
 		super();
 		this.view = view;
 	}
 
 	//
 	@Override
-	public void windowDeiconified(WindowEvent e) {
+	public void windowDeiconified(final WindowEvent e) {
 		if (Controllore.getSingleton().getInitFinestre().getFinestraVisibile() != null) {
 			Controllore.getSingleton().getInitFinestre().getFinestraVisibile().setVisible(true);
 		}
@@ -31,17 +31,17 @@ public class MyWindowListener extends WindowAdapter implements WindowFocusListen
 	}
 
 	@Override
-	public void windowClosed(WindowEvent e) {
+	public void windowClosed(final WindowEvent e) {
 		Controllore.getSingleton().quit();
 		Controllore.getSingleton().getInitFinestre().quitFinestre();
 	}
 
 	@Override
-	public void windowIconified(WindowEvent e) {
-		JFrame[] finestre = Controllore.getSingleton().getInitFinestre().getFinestre();
+	public void windowIconified(final WindowEvent e) {
+		final JFrame[] finestre = Controllore.getSingleton().getInitFinestre().getFinestre();
 		for (int i = 0; i < finestre.length; i++) {
 
-			JFrame jFrame = finestre[i];
+			final JFrame jFrame = finestre[i];
 			if (jFrame != null) {
 				jFrame.setVisible(false);
 			}
@@ -49,13 +49,12 @@ public class MyWindowListener extends WindowAdapter implements WindowFocusListen
 	}
 
 	@Override
-	public void componentResized(ComponentEvent e) {
-		GeneralFrame.resizeView();
+	public void componentResized(final ComponentEvent e) {
 		view.relocateFinestreLaterali();
 	}
 
 	@Override
-	public void componentMoved(ComponentEvent e) {
+	public void componentMoved(final ComponentEvent e) {
 		if (Controllore.getSingleton().getInitFinestre().getFinestraVisibile() != null) {
 			Controllore.getSingleton().getInitFinestre().getFinestraVisibile().setVisible(true);
 			Controllore.getSingleton().getInitFinestre().getFinestraVisibile().setState(WindowEvent.WINDOW_DEICONIFIED);
@@ -64,56 +63,40 @@ public class MyWindowListener extends WindowAdapter implements WindowFocusListen
 	}
 
 	@Override
-	public void componentShown(ComponentEvent e) {
+	public void componentShown(final ComponentEvent e) {
 		view.relocateFinestreLaterali();
 
 	}
 
 	@Override
-	public void componentHidden(ComponentEvent e) {
+	public void componentHidden(final ComponentEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void windowGainedFocus(WindowEvent e) {
-		// if
-		// (Controllore.getSingleton().getInitFinestre().getFinestraVisibile()
-		// != null) {
-		// Controllore.getSingleton().getInitFinestre().getFinestraVisibile().setVisible(true);
-		// }
-		// view.relocateFinestreLaterali();
-		//
-
+	public void windowGainedFocus(final WindowEvent e) {
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+	public void mouseClicked(final MouseEvent e) {
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+	public void mouseEntered(final MouseEvent e) {
 	}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+	public void mouseExited(final MouseEvent e) {
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+	public void mousePressed(final MouseEvent e) {
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		JFrame finVisibile = Controllore.getSingleton().getInitFinestre().getFinestraVisibile();
+	public void mouseReleased(final MouseEvent e) {
+		final JFrame finVisibile = Controllore.getSingleton().getInitFinestre().getFinestraVisibile();
 		if (finVisibile != null) {
 			finVisibile.setVisible(true);
 			finVisibile.invalidate();

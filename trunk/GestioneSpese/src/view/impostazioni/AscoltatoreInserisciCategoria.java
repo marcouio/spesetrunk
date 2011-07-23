@@ -1,29 +1,30 @@
 package view.impostazioni;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import view.Alert;
 import business.Controllore;
+import business.ascoltatori.AscoltatoreAggiornatoreTutto;
 import business.cache.CacheCategorie;
 import business.comandi.categorie.CommandInserisciCategoria;
 import domain.CatSpese;
 
-public class AscoltatoreInserisciCategoria implements ActionListener {
+public class AscoltatoreInserisciCategoria extends AscoltatoreAggiornatoreTutto {
 
 	private CategorieView categorieView;
-	private CatSpese categoria1;
+	private CatSpese      categoria1;
 
 	public AscoltatoreInserisciCategoria(final CategorieView categorieView) {
 		this.categorieView = categorieView;
 	}
 
 	@Override
-	public void actionPerformed(final ActionEvent e) {
+	protected void actionPerformedOverride(ActionEvent e) {
+		super.actionPerformedOverride(e);
 		categorieView.setCategoria("Inserisci");
 		if (categorieView.nonEsistonoCampiNonValorizzati()) {
 
-			if (Controllore.getSingleton().getCommandManager().invocaComando(new CommandInserisciCategoria(categorieView.getModelCatSpese()), "tutto")) {
+			if (Controllore.invocaComando(new CommandInserisciCategoria(categorieView.getModelCatSpese()))) {
 				categoria1 = CacheCategorie.getSingleton().getCatSpese(Integer.toString(categorieView.getModelCatSpese().getidCategoria()));
 				if (categoria1 != null) {
 					categorieView.getComboCategorie().addItem(categoria1);
@@ -37,5 +38,4 @@ public class AscoltatoreInserisciCategoria implements ActionListener {
 			Alert.operazioniSegnalazioneErroreGrave("E' necessario riempire tutti i campi");
 		}
 	}
-
 }

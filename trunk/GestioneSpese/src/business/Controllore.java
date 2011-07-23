@@ -6,9 +6,11 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import view.GeneralFrame;
+import business.aggiornatori.AggiornatoreManager;
 import business.cache.CacheGruppi;
 import business.cache.CacheLookAndFeel;
 import business.cache.CacheUtenti;
+import business.comandi.AbstractCommand;
 import business.comandi.CommandManager;
 import domain.Gruppi;
 import domain.Lookandfeel;
@@ -22,7 +24,7 @@ public class Controllore {
 
 	private static Utenti utenteLogin;
 	private static CommandManager commandManager;
-
+	private static AggiornatoreManager aggiornatoreManager;
 	private InizializzatoreFinestre initFinestre;
 	private static Controllore singleton;
 	private static Logger log;
@@ -68,6 +70,10 @@ public class Controllore {
 		setStartUtenteLogin();
 		setStartGruppoZero();
 		setLog(LoggerOggetto.getLog());
+	}
+
+	public static boolean invocaComando(final AbstractCommand comando) {
+		return Controllore.getSingleton().getCommandManager().invocaComando(comando);
 	}
 
 	private static void setStartUtenteLogin() {
@@ -120,15 +126,18 @@ public class Controllore {
 		Controllore.utenteLogin = utenteLogin;
 	}
 
+	public AggiornatoreManager getAggiornatoreManager() {
+		if (aggiornatoreManager == null) {
+			aggiornatoreManager = AggiornatoreManager.getSingleton();
+		}
+		return aggiornatoreManager;
+	}
+
 	public CommandManager getCommandManager() {
 		if (commandManager == null) {
 			commandManager = CommandManager.getIstance();
 		}
 		return commandManager;
-	}
-
-	public static void setCommandManager(final CommandManager commandManager) {
-		Controllore.commandManager = commandManager;
 	}
 
 	public static void setView(final GeneralFrame view) {

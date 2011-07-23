@@ -2,6 +2,7 @@ package business.comandi.note;
 
 import java.util.HashMap;
 
+import view.Alert;
 import business.cache.CacheNote;
 import business.comandi.AbstractCommand;
 import domain.AbstractOggettoEntita;
@@ -44,6 +45,21 @@ public class CommandDeleteNota extends AbstractCommand {
 	@Override
 	public String toString() {
 		return "Eliminata Nota " + ((Note) entita).getnome();
+	}
+
+	@Override
+	public void scriviLogExecute(boolean isComandoEseguito) {
+		if (isComandoEseguito) {
+			Alert.operazioniSegnalazioneInfo("Cancellata correttamente nota " + entita.getnome());
+		}
+
+	}
+
+	@Override
+	public void scriviLogUnExecute(boolean isComandoEseguito) {
+		if (isComandoEseguito) {
+			Alert.operazioniSegnalazioneInfo("Ripristinata nota " + entita.getnome() + " precedentemente cancellata");
+		}
 	}
 
 }

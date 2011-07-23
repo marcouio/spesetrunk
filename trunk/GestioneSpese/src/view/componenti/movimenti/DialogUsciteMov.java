@@ -13,12 +13,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import view.Alert;
 import view.entrateuscite.AbstractUsciteView;
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
 import view.font.TextFieldF;
 import business.AltreUtil;
 import business.Controllore;
+import business.aggiornatori.AggiornatoreManager;
 import business.cache.CacheUscite;
 import business.comandi.singlespese.CommandDeleteSpesa;
 import business.comandi.singlespese.CommandUpdateSpesa;
@@ -129,14 +131,14 @@ public class DialogUsciteMov extends AbstractUsciteView {
 			setcData(tfData.getText());
 		} else {
 			final String messaggio = "La data va inserita con il seguente formato: aaaa/mm/gg";
-			JOptionPane.showMessageDialog(null, messaggio, "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("./imgUtil/index.jpeg"));
+			Alert.errore(messaggio, Alert.TITLE_ERROR);
 		}
 		if (AltreUtil.checkDouble(tfEuro.getText())) {
 			final Double euro = Double.parseDouble(tfEuro.getText());
 			setdEuro(AltreUtil.arrotondaDecimaliDouble(euro));
 		} else {
 			final String messaggio = "Valore in Euro inserito non correttamente";
-			JOptionPane.showMessageDialog(null, messaggio, "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("./imgUtil/index.jpeg"));
+			Alert.errore(messaggio, Alert.TITLE_ERROR);
 		}
 		setUtenti(Controllore.getSingleton().getUtenteLogin());
 		setDataIns(tfDataIns.getText());
@@ -196,7 +198,6 @@ public class DialogUsciteMov extends AbstractUsciteView {
 
 	@Override
 	public void update(final Observable o, final Object arg) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -217,23 +218,21 @@ public class DialogUsciteMov extends AbstractUsciteView {
 				final SingleSpesa oldSpesa = CacheUscite.getSingleton().getSingleSpesa(idSpesa.getText());
 
 				if (dialog.nonEsistonoCampiNonValorizzati()) {
-					if (Controllore.getSingleton().getCommandManager()
-							.invocaComando(new CommandUpdateSpesa(oldSpesa, (ISingleSpesa) modelUscita.getentitaPadre()), SingleSpesa.NOME_TABELLA)) {
-						JOptionPane.showMessageDialog(null, "Ok, operazione eseguita correttamente!", "Perfetto!!!", JOptionPane.INFORMATION_MESSAGE);
+					if (!Controllore.invocaComando(new CommandUpdateSpesa(oldSpesa, (ISingleSpesa) modelUscita.getentitaPadre()))) {
+						Alert.operazioniSegnalazioneErroreGrave("Spesa " + oldSpesa.getnome() + " non aggiornata");
 					}
-					Model.aggiornaMovimentiUsciteDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
+					AggiornatoreManager.aggiornaMovimentiUsciteDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
+
 					// chiude la dialog e rilascia le risorse
 					dispose();
 				} else {
-					JOptionPane.showMessageDialog(null, "Tutti i dati devono essere valorizzati", "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
+					Alert.operazioniSegnalazioneErroreGrave("Spesa " + oldSpesa.getnome() + " non aggiornata: tutti i dati devono essere valorizzati");
 				}
 
 			} else if (e.getActionCommand().equals("Cancella")) {
 				setUscite();
-				if (Controllore.getSingleton().getCommandManager().invocaComando(new CommandDeleteSpesa(modelUscita), SingleSpesa.NOME_TABELLA)) {
-					JOptionPane.showMessageDialog(null, "Modifica eseguita correttamente", "Perfetto!", JOptionPane.INFORMATION_MESSAGE);
-				} else {
-					JOptionPane.showMessageDialog(null, "Inserisci i dati correttamente", "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("imgUtil/index.jpeg"));
+				if (!Controllore.invocaComando(new CommandDeleteSpesa(modelUscita))) {
+					Alert.operazioniSegnalazioneErroreGrave("Spesa " + modelUscita.getnome() + " non aggiornata: tutti i dati devono essere valorizzati correttamente");
 				}
 				// chiude la dialog e rilascia le risorse
 				dispose();

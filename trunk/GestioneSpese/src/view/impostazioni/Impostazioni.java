@@ -2,7 +2,6 @@ package view.impostazioni;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,7 +23,9 @@ import view.font.LabelListaGruppi;
 import view.font.TextFieldF;
 import business.Controllore;
 import business.DBUtil;
-import business.Database;
+import business.aggiornatori.AggiornatoreManager;
+import business.ascoltatori.AscoltatoreAggiornatoreNiente;
+import business.ascoltatori.AscoltatoreAggiornatoreTutto;
 import business.cache.CacheLookAndFeel;
 import domain.Entrate;
 import domain.Lookandfeel;
@@ -95,13 +96,12 @@ public class Impostazioni extends JDialog {
 			final ButtonF btnChange = new ButtonF();
 			btnChange.setText("Cambia");
 			btnChange.setBounds(504, 78, 91, 27);
-			btnChange.addActionListener(new ActionListener() {
+			btnChange.addActionListener(new AscoltatoreAggiornatoreTutto() {
 
 				@Override
-				public void actionPerformed(final ActionEvent e) {
+				public void actionPerformedOverride(final ActionEvent e) {
 					try {
 						anno = Integer.parseInt(annotextField.getText());
-						Database.aggiornamentoPerImpostazioni();
 					} catch (final Exception e1) {
 						e1.printStackTrace();
 					}
@@ -117,11 +117,11 @@ public class Impostazioni extends JDialog {
 			btnCarica.setText("Carica");
 			btnCarica.setBounds(333, 179, 91, 27);
 			getContentPane().add(btnCarica);
-			btnCarica.addActionListener(new ActionListener() {
+			btnCarica.addActionListener(new AscoltatoreAggiornatoreTutto() {
 
 				@Override
-				public void actionPerformed(final ActionEvent e) {
-					Database.aggiornamentoPerImpostazioni();
+				public void actionPerformedOverride(final ActionEvent e) {
+					AggiornatoreManager.aggiornamentoPerImpostazioni();
 				}
 			});
 
@@ -137,14 +137,15 @@ public class Impostazioni extends JDialog {
 
 			final ButtonF elimina = new ButtonF();
 			elimina.setText("Elimina");
-			elimina.addActionListener(new ActionListener() {
+			elimina.addActionListener(new AscoltatoreAggiornatoreTutto() {
 				@Override
-				public void actionPerformed(final ActionEvent arg0) {
+				public void actionPerformedOverride(final ActionEvent arg0) {
 					if (Model.getSingleton().getModelEntrate().deleteAll() && Model.getSingleton().getModelUscita().deleteAll()) {
+						// TODO creare comando per eliminare tutto
 						Alert.operazioniSegnalazioneInfo("Ok, tutti i dati sono stati cancellati: puoi ripartire!");
 						try {
-							Database.aggiornamentoGenerale(Entrate.NOME_TABELLA);
-							Database.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
+							AggiornatoreManager.aggiornamentoGenerale(Entrate.NOME_TABELLA);
+							AggiornatoreManager.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
 						} catch (final Exception e) {
 							e.getMessage();
 						}
@@ -193,10 +194,10 @@ public class Impostazioni extends JDialog {
 			final JLabel labelLook = new JLabel("Look");
 			labelLook.setBounds(22, 29, 70, 15);
 			getContentPane().add(labelLook);
-			button.addActionListener(new ActionListener() {
+			button.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 				@Override
-				public void actionPerformed(final ActionEvent arg0) {
+				public void actionPerformedOverride(final ActionEvent arg0) {
 					final JFileChooser fileopen = new JFileChooser();
 					final FileFilter filter = new FileNameExtensionFilter("db files", "db", "sqlite");
 					fileopen.addChoosableFileFilter(filter);

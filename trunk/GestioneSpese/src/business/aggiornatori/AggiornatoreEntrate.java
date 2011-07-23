@@ -4,7 +4,11 @@ public class AggiornatoreEntrate extends AggiornatoreBase implements IAggiornato
 
 	@Override
 	public boolean aggiorna() {
-		// return super.aggiorna();
+		try {
+			return AggiornatoreManager.aggiornamentoGenerale(AggiornatoreManager.AGGIORNA_ENTRATE);
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 

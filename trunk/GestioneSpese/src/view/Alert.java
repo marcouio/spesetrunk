@@ -33,4 +33,8 @@ public class Alert {
 		Controllore.getLog().info(messaggio);
 	}
 
+	public static String getMessaggioErrore(final String messaggio) {
+		return "Operazione non eseguita: " + messaggio;
+	}
+
 }

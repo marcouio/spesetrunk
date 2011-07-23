@@ -1,14 +1,12 @@
 package view.note;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Date;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import view.Alert;
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
 import view.font.TextAreaF;
@@ -16,6 +14,7 @@ import view.font.TextFieldF;
 import business.AltreUtil;
 import business.Controllore;
 import business.DBUtil;
+import business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import business.cache.CacheNote;
 import business.comandi.note.CommandInserisciNota;
 import business.comandi.note.CommandUpdateNota;
@@ -88,17 +87,19 @@ public class NoteView extends AbstractNoteView {
 		btnInserisci.setText("Inserisci");
 		btnInserisci.setBounds(13, 175, 318, 25);
 		getContentPane().add(btnInserisci);
-		btnInserisci.addActionListener(new ActionListener() {
+		btnInserisci.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformedOverride(ActionEvent e) {
 				int id = CacheNote.getSingleton().getAllNoteForUtenteEAnno().size();
 				if (e.getActionCommand().equals("Aggiorna")) {
 					updateNote(null);
 					if (nonEsistonoCampiNonValorizzati()) {
-						Controllore.getSingleton().getCommandManager().invocaComando(new CommandUpdateNota((Note) note.getentitaPadre(), (INote) wrapNote.getentitaPadre()), null);
+						Controllore.invocaComando(new CommandUpdateNota((Note) note.getentitaPadre(), (INote) wrapNote.getentitaPadre()));
 						((MostraNoteView) padre).aggiornaVista();
 						dispose();
+					} else {
+						Alert.operazioniSegnalazioneErroreGrave("Nota non aggiornata: tutti i campi devono essere valorizzati");
 					}
 				} else {
 					WrapNote wNote = new WrapNote();
@@ -106,9 +107,11 @@ public class NoteView extends AbstractNoteView {
 					if (nonEsistonoCampiNonValorizzati()) {
 						wNote.setIdNote(id);
 						wNote.getentitaPadre().setIdEntita(Integer.toString(id));
-						Controllore.getSingleton().getCommandManager().invocaComando(new CommandInserisciNota(wNote), null);
+						Controllore.invocaComando(new CommandInserisciNota(wNote));
 						((MostraNoteView) padre).aggiornaVista();
 						dispose();
+					} else {
+						Alert.operazioniSegnalazioneErroreGrave("Nota non inserita: tutti i campi devono essere valorizzati");
 					}
 				}
 			}
@@ -135,7 +138,7 @@ public class NoteView extends AbstractNoteView {
 			setData(data.getText());
 		} else {
 			String messaggio = "La data va inserita con il seguente formato: aaaa/mm/gg";
-			JOptionPane.showMessageDialog(null, messaggio, "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("./imgUtil/index.jpeg"));
+			Alert.errore(messaggio, Alert.TITLE_ERROR);
 		}
 
 		setDescrizione(descrizione.getText());

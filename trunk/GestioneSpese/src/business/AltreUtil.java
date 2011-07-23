@@ -4,8 +4,7 @@ import java.io.File;
 import java.util.GregorianCalendar;
 import java.util.Vector;
 
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
+import view.Alert;
 
 public class AltreUtil {
 
@@ -43,18 +42,13 @@ public class AltreUtil {
 
 			} catch (final NumberFormatException e2) {
 				ok = false;
-				JOptionPane.showMessageDialog(null, "Inserire la data con valori numerici e con il formato suggerito: AAAA/MM/GG", "Non ci siamo!", JOptionPane.ERROR_MESSAGE,
-						new ImageIcon("imgUtil/index.jpeg"));
-				LoggerOggetto.getLog().severe("La data non e' inserita in maniera corretta: " + e2.getMessage());
+				Alert.operazioniSegnalazioneErroreGrave("Inserire la data con valori numerici e con il formato suggerito: AAAA/MM/GG");
 			} catch (final IllegalArgumentException e1) {
 				ok = false;
-				JOptionPane.showMessageDialog(null, "Non hai inserito una data!", "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("immgUtil/index.jpeg"));
-				Controllore.getLog().severe("La data non e' inserita in maniera corretta: " + e1.getMessage());
+				Alert.operazioniSegnalazioneErroreGrave(Alert.getMessaggioErrore("Non hai inserito una data, " + e1.getMessage()));
 			} catch (final StringIndexOutOfBoundsException e3) {
 				ok = false;
-				JOptionPane.showMessageDialog(null, "Numero di caratteri errato per una data: " + e3.getMessage(), "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon(
-						"imgUtil/index.jpeg"));
-				Controllore.getLog().severe("La data non e' inserita in maniera corretta: " + e3.getMessage());
+				Alert.operazioniSegnalazioneErroreGrave(Alert.getMessaggioErrore("Numero di caratteri errato per una data, " + e3.getMessage()));
 			}
 		} else {
 			ok = false;
@@ -92,6 +86,12 @@ public class AltreUtil {
 
 	}
 
+	/**
+	 * Cancella tutti i file all'interno della directory passato come parametro
+	 * 
+	 * @param Dir
+	 * @return
+	 */
 	public static String[] deleteFileDaDirectory2(final String Dir) {
 		final File dir = new File(Dir);
 		final String[] files = dir.list();
