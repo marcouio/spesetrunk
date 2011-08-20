@@ -16,7 +16,7 @@ public class AscoltaInserisciEntrate extends AscoltatoreAggiornatoreEntrate {
 	}
 
 	@Override
-	public void actionPerformed(final ActionEvent e) {
+	public void actionPerformedOverride(final ActionEvent e) {
 		view.setEntrate();
 
 		if (view.nonEsistonoCampiNonValorizzati()) {

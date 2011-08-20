@@ -7,7 +7,7 @@ import business.aggiornatori.AggiornatoreManager;
 public class AscoltatoreAggiornatoreEntrate extends AscoltatoreBase {
 
 	public AscoltatoreAggiornatoreEntrate() {
-		super(AggiornatoreManager.AGGIORNA_NULLA);
+		super(AggiornatoreManager.AGGIORNA_ENTRATE);
 	}
 
 	@Override
