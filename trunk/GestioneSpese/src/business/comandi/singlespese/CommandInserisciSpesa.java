@@ -54,7 +54,7 @@ public class CommandInserisciSpesa extends AbstractCommand {
 	@Override
 	public void scriviLogExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Cancellata correttamente spesa " + entita.getnome());
+			Alert.operazioniSegnalazioneInfo("Inserita correttamente spesa " + entita.getnome());
 		}
 
 	}
@@ -62,7 +62,7 @@ public class CommandInserisciSpesa extends AbstractCommand {
 	@Override
 	public void scriviLogUnExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Ripristinata spesa " + entita.getnome() + " precedentemente cancellata");
+			Alert.operazioniSegnalazioneInfo("Cancellata spesa " + entita.getnome() + " precedentemente inserita");
 		}
 	}
 
