@@ -1,2 +1,14 @@
-28-mag-2011 22.14.05 business.AltreUtil setLog
+20-ago-2011 19.33.57 business.LoggerOggetto creaLog
 INFO: Start programma!
+20-ago-2011 19.34.21 view.Alert operazioniSegnalazioneInfo
+INFO: Aggiornato correttamente gruppo Bollette
+20-ago-2011 19.34.22 view.Alert operazioniSegnalazioneInfo
+INFO: Aggiornato correttamente gruppo Bollette
+20-ago-2011 19.35.44 view.Alert operazioniSegnalazioneInfo
+INFO: Ripristinato gruppo Bollette precedentemente aggiornato
+20-ago-2011 19.37.17 view.Alert operazioniSegnalazioneInfo
+INFO: Aggiornato correttamente gruppo Bollette
+20-ago-2011 19.37.25 view.Alert operazioniSegnalazioneInfo
+INFO: Ripristinato gruppo Bollette precedentemente aggiornato
+20-ago-2011 19.37.29 view.Alert operazioniSegnalazioneInfo
+INFO: Aggiornato correttamente gruppo Bollette
