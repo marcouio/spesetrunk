@@ -52,7 +52,7 @@ public class CommandUpdateNota extends AbstractCommand {
 	@Override
 	public void scriviLogExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Aggiornata correttamente nota " + entita.getnome());
+			Alert.operazioniSegnalazioneInfo("Aggiornata correttamente nota " + newEntita.getnome());
 		}
 
 	}
@@ -60,7 +60,7 @@ public class CommandUpdateNota extends AbstractCommand {
 	@Override
 	public void scriviLogUnExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Ripristinata nota " + entita.getnome() + " precedentemente aggiornata");
+			Alert.operazioniSegnalazioneInfo("Ripristinata nota " + oldEntita.getnome() + " precedentemente aggiornata");
 		}
 	}
 }

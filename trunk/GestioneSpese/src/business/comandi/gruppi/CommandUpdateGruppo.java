@@ -55,7 +55,7 @@ public class CommandUpdateGruppo extends AbstractCommand {
 	@Override
 	public void scriviLogExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Aggiornato correttamente gruppo " + entita.getnome());
+			Alert.operazioniSegnalazioneInfo("Aggiornato correttamente gruppo " + newEntita.getnome());
 		}
 
 	}
@@ -63,7 +63,7 @@ public class CommandUpdateGruppo extends AbstractCommand {
 	@Override
 	public void scriviLogUnExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Ripristinato gruppo " + entita.getnome() + " precedentemente aggiornato");
+			Alert.operazioniSegnalazioneInfo("Ripristinato gruppo " + oldEntita.getnome() + " precedentemente aggiornato");
 		}
 	}
 }
