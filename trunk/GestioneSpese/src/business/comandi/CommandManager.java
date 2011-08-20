@@ -35,6 +35,7 @@ public class CommandManager {
 	 * 
 	 */
 	public boolean undo() {
+		//per effettuare l'operazione indietro i comandi eseguiti devono essere almeno 1 
 		if (history.size() > 0 && indiceCorrente > -1) {
 			if (indiceCorrente > (history.size() - 1)) {
 				indiceCorrente = history.size() - 1;
@@ -42,9 +43,7 @@ public class CommandManager {
 
 			final AbstractCommand comando = history.get(indiceCorrente);
 			if (comando.undoCommand()) {
-				System.out.println("operazione undo su comando all'indice: " + indiceCorrente);
 				indiceCorrente--;
-				System.out.println("indice spostato a: " + indiceCorrente);
 				return true;
 			}
 		}
@@ -62,8 +61,6 @@ public class CommandManager {
 			if (indiceCorrente < history.size()) {
 				final AbstractCommand comando = history.get(indiceCorrente);
 				if (comando.doCommand()) {
-					System.out.println("operazione undo su comando all'indice: " + indiceCorrente);
-					System.out.println("indice spostato a: " + indiceCorrente);
 					return true;
 				}
 			} else {
