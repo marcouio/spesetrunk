@@ -34,8 +34,6 @@ public class AscoltatoreInserisciGruppo extends AscoltatoreAggiornatoreTutto {
 				if (gruppo1 != null) {
 					gruppiView.getComboGruppi().addItem(gruppo1);
 				}
-				final String messaggio = "Gruppo inserito correttamente";
-				Alert.operazioniSegnalazioneInfo(messaggio);
 
 				modelGruppi.setChanged();
 				modelGruppi.notifyObservers();

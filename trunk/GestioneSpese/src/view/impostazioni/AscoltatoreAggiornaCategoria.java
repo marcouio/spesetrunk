@@ -39,7 +39,6 @@ public class AscoltatoreAggiornaCategoria extends AscoltatoreAggiornatoreTutto {
 			try {
 				if (Controllore.invocaComando(new CommandUpdateCategoria(oldCategoria, (ICatSpese) categorieView.getModelCatSpese().getentitaPadre()))) {
 					AggiornatoreManager.aggiornaCategorie((CatSpese) categorieView.getModelCatSpese().getentitaPadre(), categorieView.getComboCategorie());
-					Alert.operazioniSegnalazioneInfo("Aggiornata correttamente categoria: " + categorieView.getModelCatSpese().getnome());
 					categorieView.getModelCatSpese().setChanged();
 					categorieView.getModelCatSpese().notifyObservers();
 					categorieView.dispose();
