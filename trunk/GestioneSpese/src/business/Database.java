@@ -13,9 +13,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-
+import view.Alert;
 import view.impostazioni.Impostazioni;
 import business.cache.CacheEntrate;
 import business.cache.CacheUscite;
@@ -251,8 +249,7 @@ public class Database {
 				}
 
 			} catch (final SQLException e) {
-				JOptionPane.showMessageDialog(null, "Operazione non eseguita: " + e.getMessage(), "Non va!", JOptionPane.ERROR_MESSAGE, new ImageIcon("immgUtil/index.jpeg"));
-				Controllore.getLog().severe("Operazione SQL non eseguita:" + e.getMessage());
+				Alert.operazioniSegnalazioneErroreGrave("Operazione SQL non eseguita:" + e.getMessage());
 				e.printStackTrace();
 			}
 
@@ -262,8 +259,7 @@ public class Database {
 				st = cn.createStatement();
 				st.executeUpdate(sql);
 			} catch (final SQLException e) {
-				JOptionPane.showMessageDialog(null, "Operazione non eseguita: " + e.getMessage(), "Non va!", JOptionPane.ERROR_MESSAGE, new ImageIcon("immgUtil/index.jpeg"));
-				Controllore.getLog().severe("Operazione SQL non eseguita:" + e.getMessage());
+				Alert.operazioniSegnalazioneErroreGrave("Operazione SQL non eseguita:" + e.getMessage());
 				e.printStackTrace();
 			}
 		}
@@ -482,7 +478,7 @@ public class Database {
 			}
 		} catch (final SQLException e) {
 			e.printStackTrace();
-			Controllore.getLog().severe("Errore nel caricamento dal database dei nomi delle colonne di " + tabella + ". " + e.getMessage());
+			Controllore.getLog().severe("Errore nel caricamento dal database dei nomi delle colonne di " + tabella + ": " + e.getMessage());
 		}
 		DBUtil.closeConnection();
 		try {
@@ -654,246 +650,4 @@ public class Database {
 		return AltreUtil.arrotondaDecimaliDouble(percentualeTipo);
 
 	}
-
-	// ************************************** METODI DI AGGIORNAMENTO
-	// ***************************************
-	//
-	// public static void aggiornamentoPerImpostazioni() {
-	// try {
-	// aggiornamentoGenerale(Entrate.NOME_TABELLA);
-	// aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
-	// if (SottoPannelloMesi.getComboMese() != null) {
-	// SottoPannelloMesi.azzeraCampi();
-	// }
-	// SottoPannelloCategorie.azzeraCampi();
-	// if (SottoPannelloTotali.getPercentoFutili() != null) {
-	// SottoPannelloTotali.getPercentoFutili().setText(Double.toString(percentoUscite(CatSpese.IMPORTANZA_FUTILE)));
-	// SottoPannelloTotali.getPercentoVariabili().setText(Double.toString(percentoUscite(CatSpese.IMPORTANZA_VARIABILE)));
-	// SottoPannelloTotali.getAvanzo().setText(Double.toString(AltreUtil.arrotondaDecimaliDouble((EAnnuale())
-	// - (Annuale()))));
-	// }
-	// DBUtil.closeConnection();
-	// } catch (final Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-	//
-	// /**
-	// * Dopo una variazione o inserimento di un movimento permette
-	// * l'aggiornamento di tutti i pannelli rispetto al tipo (Uscita,
-	// * 'SingleSpesa.NOME_TABELLA', e Entrata, 'Entrate.NOME_TABELLA')
-	// *
-	// * @param tipo
-	// * @throws Exception
-	// */
-	// public static void aggiornamentoGenerale(final String tipo) throws
-	// Exception {
-	//
-	// if (tipo.equals(SingleSpesa.NOME_TABELLA)) {
-	// final String[] nomiColonne = (String[])
-	// AltreUtil.generaNomiColonne(SingleSpesa.NOME_TABELLA);
-	// aggiornaTabellaUscite();
-	// aggiornaTabellaGruppi();
-	// ManagerAggiornatore.aggiornaMovimentiUsciteDaEsterno(nomiColonne, 25);
-	// if (SottoPannelloDatiSpese.getMeseInCors() != null) {
-	// SottoPannelloDatiSpese.getMeseInCors().setText(Double.toString(MensileInCorso()));
-	// SottoPannelloDatiSpese.getMesePrecUsc().setText(Double.toString(Mensile()));
-	// SottoPannelloDatiSpese.getSpeseAnnuali().setText(Double.toString(Annuale()));
-	// DBUtil.closeConnection();
-	// }
-	// } else if (tipo.equals(Entrate.NOME_TABELLA)) {
-	// final String[] nomiColonne = (String[])
-	// AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
-	// ManagerAggiornatore.aggiornaMovimentiEntrateDaEsterno(nomiColonne, 25);
-	// aggiornaTabellaEntrate();
-	// aggiornaTabellaGruppi();
-	// if (SottoPannelloDatiEntrate.getEnAnCorso() != null) {
-	// SottoPannelloDatiEntrate.getEnAnCorso().setText(Double.toString(EAnnuale()));
-	// SottoPannelloDatiEntrate.getEnMeCorso().setText(Double.toString(EMensileInCorso()));
-	// SottoPannelloDatiEntrate.getEntrateMesePrec().setText(Double.toString(Emensile()));
-	// DBUtil.closeConnection();
-	// }
-	// } else {
-	// throw new Exception("Aggiornamento non gestito: " + tipo);
-	// }
-	// }
-	//
-	// /**
-	// * Il metodo aggiorna la combobox dei gruppi nel pannello Categorie
-	// * passandogli come parametro una entita 'Gruppi'. L'aggiornamento avviene
-	// * scorrendo gli elementi della combo: quando id del gruppo passato come
-	// * parametro e' lo stesso di quello nella combo, quest'ultimo viene
-	// * eliminato. Quindi aggiunge il nuovo gruppo nella stessa posizione di
-	// * quello eliminato
-	// *
-	// * @param gruppo
-	// */
-	// public static void aggiornaGruppi(final Gruppi gruppo, final
-	// CategorieView categoria) {
-	// int max = 0;
-	// final String sql = "SELECT MAX(" + Gruppi.ID + ") FROM " +
-	// Gruppi.NOME_TABELLA;
-	// final Connection cn = DBUtil.getConnection();
-	//
-	// try {
-	// final Statement st = cn.createStatement();
-	// final ResultSet rs = st.executeQuery(sql);
-	// max = rs.getInt(1);
-	// DBUtil.closeConnection();
-	// } catch (final SQLException e) {
-	// e.printStackTrace();
-	// }
-	// final JComboBox gruppi = categoria.getComboGruppi();
-	//
-	// gruppi.setSelectedIndex(0);
-	// int i = 1;
-	// for (i = 1; i <= max; i++) {
-	//
-	// Gruppi gruppo1 = (Gruppi) gruppi.getItemAt(i);
-	// if (gruppo1 == null) {
-	// gruppo1 = new Gruppi();
-	// gruppo1.setidGruppo(-1);
-	// }
-	// if (gruppo.getidGruppo() == gruppo1.getidGruppo()) {
-	// gruppi.removeItemAt(i);
-	// final CatSpese categoriaPresa =
-	// CacheCategorie.getSingleton().getCatSpese(Integer.toString(gruppo.getidGruppo()));
-	// // non è possibile sostituirlo la categoria presa dal database
-	// // con quella passata nel parametro
-	// // perché il parametro mantiene i vecchi settaggi e non si
-	// // aggiorna
-	// gruppi.insertItemAt(categoriaPresa, i);
-	// DBUtil.closeConnection();
-	// }
-	// }
-	// try {
-	// cn.close();
-	// } catch (final SQLException e) {
-	// e.printStackTrace();
-	// }
-	// DBUtil.closeConnection();
-	//
-	// }
-	//
-	// // aggiorna le categorie nel pannello di uscite
-	// /**
-	// * Il metodo aggiorna la combobox delle categorie nel pannello uscite
-	// * passandogli come parametro una entita CatSpese. L'aggiornamento avviene
-	// * scorrendo gli elementi della combo: quando id della categoria passata
-	// * come parametro e' lo stesso di quello nella combo, quest'ultima viene
-	// * eliminata. Quindi aggiunge la nuova categoria nella stessa posizione di
-	// * quella eliminata
-	// *
-	// * @param CatSpese
-	// */
-	// public static void aggiornaCategorie(final CatSpese categoria, final
-	// JComboBox comboCategorie) {
-	// int max = 0;
-	// final String sql = "SELECT MAX(" + CatSpese.ID + ") FROM " +
-	// CatSpese.NOME_TABELLA;
-	// final Connection cn = DBUtil.getConnection();
-	//
-	// try {
-	// final Statement st = cn.createStatement();
-	// final ResultSet rs = st.executeQuery(sql);
-	// max = rs.getInt(1);
-	// DBUtil.closeConnection();
-	// } catch (final SQLException e) {
-	// e.printStackTrace();
-	// }
-	//
-	// final JComboBox categorie1 = comboCategorie;
-	//
-	// int i = 1;
-	// for (i = 1; i <= max; i++) {
-	//
-	// CatSpese catspese1 = (CatSpese) categorie1.getItemAt(i);
-	// if (catspese1 == null) {
-	// catspese1 = new CatSpese();
-	// catspese1.setidCategoria(-1);
-	// }
-	// if (categoria.getidCategoria() == catspese1.getidCategoria()) {
-	// categorie1.removeItemAt(i);
-	// final CatSpese categoriaPresa =
-	// CacheCategorie.getSingleton().getCatSpese(Integer.toString(categoria.getidCategoria()));
-	// // non è possibile sostituirlo la categoria presa dal database
-	// // con quella passata nel parametro
-	// // perché il parametro mantiene i vecchi settaggi e non si
-	// // aggiorna
-	// categorie1.insertItemAt(categoriaPresa, i);
-	// DBUtil.closeConnection();
-	// }
-	// }
-	// try {
-	// cn.close();
-	// } catch (final SQLException e) {
-	// e.printStackTrace();
-	// }
-	// DBUtil.closeConnection();
-	// }
-	//
-	// // aggiorno tabella uscite/mese in seguito a variazioni di altre tabelle
-	// /**
-	// * il metodo aggiorna la matrice primo[][] che rappresenta i dati della
-	// * tabella uscite. Utile nel caso in cui vengano aggiornte altre tabelle e
-	// * si vogliano aggiornare anche questi dati.
-	// *
-	// * @throws Exception
-	// */
-	// public static void aggiornaTabellaGruppi() {
-	//
-	// final JTable table = TabellaUscitaGruppi.getDatiPerTabella();
-	// final JScrollPane pane = TabellaUscitaGruppi.getScrollPane();
-	// pane.setViewportView(table);
-	//
-	// }
-	//
-	// // aggiorno tabella uscite/mese in seguito a variazioni di altre tabelle
-	// /**
-	// * il metodo aggiorna la matrice primo[][] che rappresenta i dati della
-	// * tabella uscite. Utile nel caso in cui vengano aggiornte altre tabelle e
-	// * si vogliano aggiornare anche questi dati.
-	// *
-	// * @throws Exception
-	// */
-	// public static void aggiornaTabellaUscite() {
-	//
-	// final GeneratoreDatiTabellaUscite dati = new
-	// GeneratoreDatiTabellaUscite();
-	// final TableF table =
-	// GeneratoreDatiTabellaUscite.createTable(dati.getMatrice(),
-	// dati.getNomiColonna());
-	// final JScrollPane pane = TabellaUscita.getScrollPane();
-	// pane.setViewportView(table);
-	//
-	// }
-	//
-	// // aggiorno tabella entrate/mese in seguito a variazioni di altre tabelle
-	// /**
-	// * Metodo che serve per aggiornare la matrice entrate/mese dopo variazioni
-	// * avvenute in altri pannelli
-	// *
-	// * @throws Exception
-	// */
-	// public static void aggiornaTabellaEntrate() {
-	//
-	// final GeneratoreDatiTabellaEntrate dati = new
-	// GeneratoreDatiTabellaEntrate();
-	// final TableF table =
-	// GeneratoreDatiTabellaEntrate.createTable(dati.getMatrice(),
-	// dati.getNomiColonna());
-	// final JScrollPane pane = TabellaEntrata.getScrollPane();
-	// pane.setViewportView(table);
-	// }
-	//
-	// public static void aggiornamentoComboBox(final Vector<CatSpese>
-	// categorie) {
-	// final DefaultComboBoxModel model = new DefaultComboBoxModel(categorie);
-	// if (SottoPannelloCategorie.getCategorieCombo() != null) {
-	// SottoPannelloCategorie.getCategorieCombo().setModel(model);
-	// SottoPannelloCategorie.getCategorieCombo().validate();
-	// SottoPannelloCategorie.getCategorieCombo().repaint();
-	// }
-	// }
-
 }
