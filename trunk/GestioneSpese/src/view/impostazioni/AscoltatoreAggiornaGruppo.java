@@ -43,9 +43,7 @@ public class AscoltatoreAggiornaGruppo extends AscoltatoreAggiornatoreTutto {
 					final Vector<Gruppi> vectorGruppi = CacheGruppi.getSingleton().getVettoreCategoriePerCombo(CacheGruppi.getSingleton().getAllGruppi());
 					final DefaultComboBoxModel model = new DefaultComboBoxModel(vectorGruppi);
 					gruppiView.getComboGruppi().setModel(model);
-
 					AggiornatoreManager.aggiornamentoComboBox(CacheCategorie.getSingleton().getVettoreCategorie());
-					Alert.operazioniSegnalazioneInfo("Aggiornato correttamente gruppo " + modelGruppi.getnome());
 					modelGruppi.setChanged();
 					modelGruppi.notifyObservers();
 					gruppiView.dispose();
