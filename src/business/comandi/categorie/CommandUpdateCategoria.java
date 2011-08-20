@@ -56,14 +56,14 @@ public class CommandUpdateCategoria extends AbstractCommand implements ICommand 
 	@Override
 	public void scriviLogExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Aggiornata correttamente categoria " + entita.getnome());
+			Alert.operazioniSegnalazioneInfo("Aggiornata correttamente categoria " + newEntita.getnome());
 		}
 	}
 
 	@Override
 	public void scriviLogUnExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Ripristinata categoria " + entita.getnome() + " precedentemente aggiornata");
+			Alert.operazioniSegnalazioneInfo("Ripristinata categoria " + oldEntita.getnome() + " precedentemente aggiornata");
 		}
 	}
 }

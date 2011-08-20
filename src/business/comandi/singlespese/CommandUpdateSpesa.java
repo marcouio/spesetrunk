@@ -55,7 +55,7 @@ public class CommandUpdateSpesa extends AbstractCommand {
 	@Override
 	public void scriviLogExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Aggiornata correttamente spesa " + oldEntita.getnome());
+			Alert.operazioniSegnalazioneInfo("Aggiornata correttamente spesa " + newEntita.getnome());
 		}
 
 	}

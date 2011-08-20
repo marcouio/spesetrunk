@@ -60,7 +60,7 @@ public class CommandUpdateEntrata extends AbstractCommand implements ICommand {
 	@Override
 	public void scriviLogUnExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Ripristinata categoria " + entita.getnome() + " precedentemente aggiornata");
+			Alert.operazioniSegnalazioneInfo("Ripristinata categoria " + oldEntita.getnome() + " precedentemente aggiornata");
 		}
 	}
 }
