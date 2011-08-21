@@ -76,6 +76,9 @@ public class Controllore {
 		return Controllore.getSingleton().getCommandManager().invocaComando(comando);
 	}
 
+	/**
+	 * Controlla se esiste sul db l'utente guest, altrimenti lo crea
+	 */
 	private static void setStartUtenteLogin() {
 		final Utenti utenteGuest = CacheUtenti.getSingleton().getUtente("1");
 		if (utenteGuest == null || utenteGuest.getnome() == null) {
@@ -92,6 +95,9 @@ public class Controllore {
 		utenteLogin = CacheUtenti.getSingleton().getUtente("1");
 	}
 
+	/**
+	 * Controlla sul db se esiste il gruppo "No Gruppo", altrimenti lo crea
+	 */
 	private static void setStartGruppoZero() {
 		Gruppi gruppoZero = CacheGruppi.getSingleton().getGruppoPerNome("No Gruppo");
 		if (gruppoZero == null) {
