@@ -194,6 +194,16 @@ public class Impostazioni extends JDialog {
 			final JLabel labelLook = new JLabel("Look");
 			labelLook.setBounds(22, 29, 70, 15);
 			getContentPane().add(labelLook);
+			
+			JLabel lblLang = new JLabel("Language");
+			lblLang.setBounds(278, 29, 113, 15);
+			getContentPane().add(lblLang);
+			
+			JComboBox comboLanguage = new JComboBox(new Object[]{"it","en"});
+			comboLanguage.addActionListener(new AscoltatoreLanguage(comboLanguage));
+			comboLanguage.setBounds(396, 24, 115, 24);
+			getContentPane().add(comboLanguage);
+			
 			button.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 				@Override
