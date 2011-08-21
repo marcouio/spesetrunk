@@ -157,7 +157,7 @@ public class DBUtil {
 		try {
 			dataConvertita = formatter.parse(date);
 		} catch (final ParseException e) {
-			System.out.println("ERRORE stringToDate");
+			System.out.println("ERRORE del metodo stringToDate su DBUtil");
 		}
 		return dataConvertita;
 	}
@@ -219,26 +219,6 @@ public class DBUtil {
 		}
 		return connection2;
 	}
-
-	// /**
-	// * Metodo per ottenere una connessione al database
-	// *
-	// * @return Connection
-	// */
-	// public static Connection getConnection() {
-	// try {
-	// // if(Impostazioni.getCaricaDatabase()==null){
-	// connection = DriverManager.getConnection(DBUtil.URL);
-	// // }else{
-	// // connection =
-	// //
-	// DriverManager.getConnection("jdbc:sqlite:"+Impostazioni.getCaricaDatabase().getText());
-	// // }
-	// } catch (final SQLException e) {
-	// e.printStackTrace();
-	// }
-	// return connection;
-	// }
 
 	public static Connection getConnection() {
 		try {
