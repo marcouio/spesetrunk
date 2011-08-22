@@ -12,6 +12,8 @@ import business.cache.CacheLookAndFeel;
 import business.cache.CacheUtenti;
 import business.comandi.AbstractCommand;
 import business.comandi.CommandManager;
+import business.config.ConfiguratoreXml;
+import business.internazionalizzazione.I18NManager;
 import domain.Gruppi;
 import domain.Lookandfeel;
 import domain.Utenti;
@@ -20,14 +22,14 @@ import domain.wrapper.WrapUtenti;
 
 public class Controllore {
 
-	private static GeneralFrame view;
+	private static GeneralFrame        view;
 
-	private static Utenti utenteLogin;
-	private static CommandManager commandManager;
+	private static Utenti              utenteLogin;
+	private static CommandManager      commandManager;
 	private static AggiornatoreManager aggiornatoreManager;
-	private InizializzatoreFinestre initFinestre;
-	private static Controllore singleton;
-	private static Logger log;
+	private InizializzatoreFinestre    initFinestre;
+	private static Controllore         singleton;
+	private static Logger              log;
 
 	/**
 	 * Launch the application.
@@ -53,12 +55,13 @@ public class Controllore {
 
 			@Override
 			public void run() {
+				I18NManager.getSingleton().caricaMessaggi(ConfiguratoreXml.getSingleton().getLanguage(), null);
 				DBUtil.closeConnection();
 				Controllore.getSingleton();
 				view = GeneralFrame.getSingleton();
 				view.setResizable(false);
 				setStartUtenteLogin();
-				view.setTitle("Gestionale spese familiari");
+				view.setTitle(I18NManager.getSingleton().getMessaggio("titolo"));
 				view.setLocationByPlatform(true);
 				view.setVisible(true);
 
