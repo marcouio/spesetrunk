@@ -38,10 +38,10 @@ import domain.wrapper.Model;
 
 public class AggiornatoreManager {
 
-	public static final String AGGIORNA_ENTRATE = "entrate";
-	public static final String AGGIORNA_USCITE = "uscite";
-	public static final String AGGIORNA_ALL = "all";
-	public static final String AGGIORNA_NULLA = "nulla";
+	public static final String         AGGIORNA_ENTRATE = "entrate";
+	public static final String         AGGIORNA_USCITE  = "uscite";
+	public static final String         AGGIORNA_ALL     = "all";
+	public static final String         AGGIORNA_NULLA   = "nulla";
 
 	private static AggiornatoreManager singleton;
 
@@ -52,8 +52,7 @@ public class AggiornatoreManager {
 		return singleton;
 	}
 
-	private AggiornatoreManager() {
-	}
+	private AggiornatoreManager() {}
 
 	public IAggiornatore creaAggiornatore(final String cosaAggiornare) {
 		IAggiornatore aggiornatore = null;
@@ -181,12 +180,15 @@ public class AggiornatoreManager {
 	public static boolean aggiornaMovimentiEntrateDaEsterno(final Object[] nomiColonne, final int numEntry) {
 		try {
 			final String[][] movimenti = Model.getSingleton().movimentiEntrate(numEntry, Entrate.NOME_TABELLA);
-			TableF table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getTable();
-			table1 = new TableF(movimenti, nomiColonne);
-			final JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getScrollPane();
-			scrollPane.setViewportView(table1);
-			table1.addMouseListener(new AscoltatoreBottoniEntrata(table1));
-			return true;
+			if (Controllore.getSingleton().getView() != null) {
+				TableF table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getTable();
+				table1 = new TableF(movimenti, nomiColonne);
+				final JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getScrollPane();
+				scrollPane.setViewportView(table1);
+				table1.addMouseListener(new AscoltatoreBottoniEntrata(table1));
+				return true;
+			}
+			return false;
 		} catch (final Exception e) {
 			e.printStackTrace();
 			return false;
@@ -201,7 +203,8 @@ public class AggiornatoreManager {
 	 * @param tipo
 	 * @throws Exception
 	 */
-	public static boolean aggiornamentoGenerale(final String tipo) throws Exception {
+	public static boolean aggiornamentoGenerale(final String tipo)
+	    throws Exception {
 
 		if (tipo.equals(SingleSpesa.NOME_TABELLA)) {
 			final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(SingleSpesa.NOME_TABELLA);
