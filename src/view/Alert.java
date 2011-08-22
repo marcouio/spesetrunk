@@ -4,10 +4,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import business.Controllore;
+import business.internazionalizzazione.I18NManager;
 
 public class Alert {
 
-	public static final String TITLE_OK = "Perfetto!";
+	public static final String TITLE_OK    = I18NManager.getSingleton().getMessaggio("perfect");
 	public static final String TITLE_ERROR = "Non ci siamo!";
 
 	public static void info(final String messaggio, final String title) {

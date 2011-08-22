@@ -27,6 +27,7 @@ import business.aggiornatori.AggiornatoreManager;
 import business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import business.ascoltatori.AscoltatoreAggiornatoreTutto;
 import business.cache.CacheLookAndFeel;
+import business.config.ConfiguratoreXml;
 import domain.Entrate;
 import domain.Lookandfeel;
 import domain.SingleSpesa;
@@ -34,9 +35,9 @@ import domain.wrapper.Model;
 
 public class Impostazioni extends JDialog {
 
-	private static final long serialVersionUID = 1L;
+	private static final long   serialVersionUID = 1L;
 	private static Impostazioni singleton;
-	private static String posDatabase = "";
+	private static String       posDatabase      = "";
 
 	public static void main(final String[] args) {
 		final Impostazioni dialog = new Impostazioni();
@@ -55,12 +56,12 @@ public class Impostazioni extends JDialog {
 		return singleton;
 	} // getSingleton()
 
-	private JTextField dataOdierna;
-	private JTextField utente;
+	private JTextField        dataOdierna;
+	private JTextField        utente;
 	private ArrayList<String> listaLook;
-	private JComboBox comboLook;
-	private TextFieldF annotextField;
-	private static int anno = new GregorianCalendar().get(Calendar.YEAR);
+	private JComboBox         comboLook;
+	private TextFieldF        annotextField;
+	private static int        anno = new GregorianCalendar().get(Calendar.YEAR);
 	private static JTextField caricaDatabase;
 
 	public Impostazioni() {
@@ -194,16 +195,24 @@ public class Impostazioni extends JDialog {
 			final JLabel labelLook = new JLabel("Look");
 			labelLook.setBounds(22, 29, 70, 15);
 			getContentPane().add(labelLook);
-			
+
 			JLabel lblLang = new JLabel("Language");
 			lblLang.setBounds(278, 29, 113, 15);
 			getContentPane().add(lblLang);
-			
-			JComboBox comboLanguage = new JComboBox(new Object[]{"it","en"});
+
+			Object[] languages = new Object[] { "it", "en" };
+			JComboBox comboLanguage = new JComboBox(languages);
 			comboLanguage.addActionListener(new AscoltatoreLanguage(comboLanguage));
 			comboLanguage.setBounds(396, 24, 115, 24);
+			for (int i = 0; i < languages.length; i++) {
+				String lingua = ConfiguratoreXml.getSingleton().getLanguage();
+				if (languages[i].equals(lingua)) {
+					comboLanguage.setSelectedIndex(i);
+				}
+			}
+
 			getContentPane().add(comboLanguage);
-			
+
 			button.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 				@Override

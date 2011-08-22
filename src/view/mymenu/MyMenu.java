@@ -37,6 +37,7 @@ import business.ascoltatoriMenu.AscoltatoreIndietro;
 import business.ascoltatoriMenu.AscoltatoreInfo;
 import business.ascoltatoriMenu.AscoltatoreLogin;
 import business.ascoltatoriMenu.AscoltatoreRegistrazione;
+import business.internazionalizzazione.I18NManager;
 import domain.wrapper.WrapCatSpese;
 import domain.wrapper.WrapEntrate;
 import domain.wrapper.WrapGruppi;
@@ -86,7 +87,7 @@ public class MyMenu extends JMenuBar {
 		});
 		file.add(chiudi);
 
-		final JMenu modifica = new JMenu("Modifica");
+		final JMenu modifica = new JMenu(I18NManager.getSingleton().getMessaggio("edit"));
 		add(modifica);
 
 		final JMenuItem indietro = new JMenuItem("Indietro");
