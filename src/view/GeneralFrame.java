@@ -24,6 +24,7 @@ import view.impostazioni.Impostazioni;
 import view.mymenu.MyMenu;
 import view.note.MostraNoteView;
 import view.tabelle.PerMesiF;
+import business.AltreUtil;
 import business.Controllore;
 import business.DBUtil;
 import business.InizializzatoreFinestre;
@@ -49,7 +50,7 @@ public class GeneralFrame extends JFrame {
 			public void run() {
 				DBUtil.closeConnection();
 				final GeneralFrame inst = new GeneralFrame();
-				inst.setTitle(I18NManager.getSingleton().getMessaggio("titolo"));
+				inst.setTitle(I18NManager.getSingleton().getMessaggio("title"));
 				inst.setLocationRelativeTo(null);
 				inst.setVisible(true);
 			}
@@ -122,9 +123,9 @@ public class GeneralFrame extends JFrame {
 
 	private void createPannelloBottoni() {
 		final PannelloBottoni pannelloBottoni = new PannelloBottoni();
-		final ImageIcon iconaMovimenti = new ImageIcon("imgUtil/controlli.gif");
-		final ImageIcon iconaMovimentiPic = new ImageIcon("imgUtil/controlli_pic.gif");
-		final ToggleBtn toggleMovimenti = new ToggleBtn("Movimenti", iconaMovimenti);
+		final ImageIcon iconaMovimenti = new ImageIcon(AltreUtil.IMGUTILPATH+"controlli.gif");
+		final ImageIcon iconaMovimentiPic = new ImageIcon(AltreUtil.IMGUTILPATH+"controlli_pic.gif");
+		final ToggleBtn toggleMovimenti = new ToggleBtn(I18NManager.getSingleton().getMessaggio("transactions"), iconaMovimenti);
 		toggleMovimenti.settaggioBottoneStandard();
 		final Bottone bottoneMovimenti = new Bottone(toggleMovimenti);
 		toggleMovimenti.addActionListener(new AscoltatoreAggiornatoreNiente() {
@@ -138,8 +139,8 @@ public class GeneralFrame extends JFrame {
 			}
 		});
 
-		// **************************************
-		final ToggleBtn toggleMovimentiUscite = new ToggleBtn("Uscite", iconaMovimentiPic, -1, 20);
+		String uscite = I18NManager.getSingleton().getMessaggio("withdrawal");
+		final ToggleBtn toggleMovimentiUscite = new ToggleBtn(uscite, iconaMovimentiPic, -1, 20);
 		toggleMovimentiUscite.settaggioBottoneStandard();
 		final Bottone bottoneMovimentiUscite = new Bottone(toggleMovimentiUscite);
 		toggleMovimentiUscite.addActionListener(new AscoltatoreAggiornatoreNiente() {
@@ -153,8 +154,8 @@ public class GeneralFrame extends JFrame {
 				toggleMovimentiUscite.setSelected(false);
 			}
 		});
-
-		final ToggleBtn toggleMovimentiEntrate = new ToggleBtn("Entrate", iconaMovimentiPic, -1, 20);
+		String entrate = I18NManager.getSingleton().getMessaggio("income");
+		final ToggleBtn toggleMovimentiEntrate = new ToggleBtn(entrate, iconaMovimentiPic, -1, 20);
 		toggleMovimentiEntrate.settaggioBottoneStandard();
 		final Bottone bottoneMovimentiEntrate = new Bottone(toggleMovimentiEntrate);
 		toggleMovimentiEntrate.addActionListener(new AscoltatoreAggiornatoreNiente() {
@@ -180,8 +181,10 @@ public class GeneralFrame extends JFrame {
 
 		toggleMovimenti.setPadre(bottoneMovimenti);
 
-		final ImageIcon iconaUscite = new ImageIcon("imgUtil/blocktable_32.png");
-		final ToggleBtn toggleMesi = new ToggleBtn("Mesi", iconaUscite);
+		final ImageIcon iconaUscite = new ImageIcon(AltreUtil.IMGUTILPATH+"blocktable_32.png");
+		String mesi = I18NManager.getSingleton().getMessaggio("months");
+		
+		final ToggleBtn toggleMesi = new ToggleBtn(mesi, iconaUscite);
 		toggleMesi.settaggioBottoneStandard();
 		final Bottone bottoneMesi = new Bottone(toggleMesi);
 		toggleMesi.setPadre(bottoneMesi);
@@ -196,7 +199,7 @@ public class GeneralFrame extends JFrame {
 			}
 		});
 
-		final ImageIcon iconaSQL = new ImageIcon("imgUtil/sql.gif");
+		final ImageIcon iconaSQL = new ImageIcon(AltreUtil.IMGUTILPATH+"sql.gif");
 		final ToggleBtn toggleSql = new ToggleBtn("ConsolleSQL", iconaSQL);
 		toggleSql.settaggioBottoneStandard();
 		final Bottone bottoneSql = new Bottone(toggleSql);
@@ -212,14 +215,19 @@ public class GeneralFrame extends JFrame {
 			}
 		});
 
-		final ImageIcon iconaSoldi = new ImageIcon("imgUtil/soldi.gif");
-		final ImageIcon iconaSoldiPic = new ImageIcon("imgUtil/soldi_pic.gif");
-		final ToggleBtn toggleEntrateUscite = new ToggleBtn("Inserimento Dati", iconaSoldi);
+		final ImageIcon iconaSoldi = new ImageIcon(AltreUtil.IMGUTILPATH+"soldi.gif");
+		final ImageIcon iconaSoldiPic = new ImageIcon(AltreUtil.IMGUTILPATH+"soldi_pic.gif");
+
+		String addtransaction = I18NManager.getSingleton().getMessaggio("addtransaction");
+		final ToggleBtn toggleEntrateUscite = new ToggleBtn(addtransaction, iconaSoldi);
+		
 		toggleEntrateUscite.settaggioBottoneStandard();
 		final Bottone bottoneEntrateUscite = new Bottone(toggleEntrateUscite);
 		toggleEntrateUscite.setPadre(bottoneEntrateUscite);
 
-		final ToggleBtn toggleInsUscite = new ToggleBtn("Uscite", iconaSoldiPic, -1, 20);
+		String charge = I18NManager.getSingleton().getMessaggio("charge");
+		final ToggleBtn toggleInsUscite = new ToggleBtn(charge, iconaSoldiPic, -1, 20);
+		
 		toggleInsUscite.settaggioBottoneStandard();
 		final Bottone bottoneInsUscite = new Bottone(toggleInsUscite);
 		toggleInsUscite.addActionListener(new AscoltatoreAggiornatoreNiente() {
@@ -239,7 +247,9 @@ public class GeneralFrame extends JFrame {
 			}
 		});
 
-		final ToggleBtn toggleInsEntrate = new ToggleBtn("Entrate", iconaSoldiPic, -1, 20);
+		String income = I18NManager.getSingleton().getMessaggio("income");
+		final ToggleBtn toggleInsEntrate = new ToggleBtn(income, iconaSoldiPic, -1, 20);
+		
 		toggleInsEntrate.settaggioBottoneStandard();
 		final Bottone bottoneInsEntrate = new Bottone(toggleInsEntrate);
 		toggleInsEntrate.addActionListener(new AscoltatoreAggiornatoreNiente() {

@@ -51,7 +51,7 @@ public class Controllore {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			Alert.info("Operazione non presente: rigenerato", "");
+			Alert.info("Database non presente e non è stato rigenerato", "");
 		}
 		try {
 			final CacheLookAndFeel cacheLook = CacheLookAndFeel.getSingleton();
@@ -81,7 +81,7 @@ public class Controllore {
 				view = GeneralFrame.getSingleton();
 				view.setResizable(false);
 				setStartUtenteLogin();
-				view.setTitle(I18NManager.getSingleton().getMessaggio("titolo"));
+				view.setTitle(I18NManager.getSingleton().getMessaggio("title"));
 				view.setLocationByPlatform(true);
 				view.setVisible(true);
 
