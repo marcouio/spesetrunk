@@ -12,8 +12,8 @@ public class I18NManager {
 	}
 
 	private static I18NManager singleton;
-	private Locale             currentLocale;
-	private ResourceBundle     messages;
+	private Locale currentLocale;
+	private ResourceBundle messages;
 
 	/**
 	 * @return the singleton
@@ -28,11 +28,12 @@ public class I18NManager {
 	private I18NManager() {
 
 	}
-
 	public String getMessaggio(String key) {
-		return this.getMessages().getString(key);
+		if (this.getMessages() != null) {
+			return this.getMessages().getString(key);
+		}
+		return key;
 	}
-
 	private void creaLocale(final String language, final String country) {
 		if (language != null && country != null) {
 			setLocale(language, country);

@@ -20,12 +20,12 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class ConfiguratoreXml {
-
+	
+	private static ConfiguratoreXml singleton;
+	
 	public static final String      XMLPOSITION = "./config.xml";
 	private Document                document;
 	private NodeList                listaNodi;
-
-	private static ConfiguratoreXml singleton;
 
 	/**
 	 * @return the singleton
@@ -65,18 +65,11 @@ public class ConfiguratoreXml {
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	private Document createDocument(final File xml)
-	    throws ParserConfigurationException, SAXException, IOException {
+	private Document createDocument(final File xml) throws ParserConfigurationException, SAXException, IOException {
 		final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		final DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		final Document doc = dBuilder.parse(xml);
 		return doc;
-	}
-
-	public String getLanguage() {
-		Node nodo = ConfiguratoreXml.getSingleton().getNodo("lang");
-		Element elemento = ConfiguratoreXml.getElement(nodo);
-		return elemento.getAttribute("locale");
 	}
 
 	// This method writes a DOM document to a file
@@ -107,6 +100,12 @@ public class ConfiguratoreXml {
 		}
 	}
 
+	public String getLanguage(){
+		Node nodo = ConfiguratoreXml.getSingleton().getNodo("lang");
+		Element elemento = ConfiguratoreXml.getElement(nodo);
+		return elemento.getAttribute("locale");
+	}
+	
 	/**
 	 * Restituisce la lista di nodi interni ad un document creato dall'xml
 	 * passato come parametro
@@ -146,7 +145,7 @@ public class ConfiguratoreXml {
 	public Document getDocument() {
 		return document;
 	}
-
+	
 	/**
 	 * @return the listaNodi
 	 */
@@ -161,4 +160,5 @@ public class ConfiguratoreXml {
 	public void setListaNodi(NodeList listaNodi) {
 		this.listaNodi = listaNodi;
 	}
+
 }

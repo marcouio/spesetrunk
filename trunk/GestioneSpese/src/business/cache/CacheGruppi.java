@@ -49,7 +49,7 @@ public class CacheGruppi extends AbstractCacheBase {
 				cache.put(Integer.toString(gruppo.getidGruppo()), gruppo);
 			}
 		}
-		return (Gruppi) cache.get(Integer.toString(gruppo.getidGruppo()));
+		return gruppo;
 	}
 
 	private Gruppi caricaGruppoPerNome(final String nome) {

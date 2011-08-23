@@ -1,5 +1,6 @@
 package business;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -20,8 +21,10 @@ import business.cache.CacheUscite;
 import domain.CatSpese;
 import domain.Entrate;
 import domain.Gruppi;
+import domain.Lookandfeel;
 import domain.SingleSpesa;
 import domain.Utenti;
+import domain.wrapper.WrapLookAndFeel;
 
 public class Database {
 
@@ -29,7 +32,17 @@ public class Database {
 
 	private Database() {
 
-	};
+	}
+
+	public static void main(String[] args) {
+		try {
+			Database.getSingleton().generaDB();
+			System.out.println("Db generato");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	public static final Database getSingleton() {
 		if (singleton == null) {
@@ -40,6 +53,83 @@ public class Database {
 			} // if
 		} // if
 		return singleton;
+	}
+
+	public void generaDatiTabellaLook() {
+		WrapLookAndFeel wrap = new WrapLookAndFeel();
+
+		Lookandfeel plastic3d = new Lookandfeel();
+		plastic3d.setnome("Plastic3D");
+		plastic3d.setvalore("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
+		plastic3d.setusato(0);
+		wrap.insert(plastic3d);
+
+		Lookandfeel lipstick = new Lookandfeel();
+		lipstick.setnome("Lipstick");
+		lipstick.setvalore("com.lipstikLF.LipstikLookAndFeel");
+		lipstick.setusato(0);
+		wrap.insert(lipstick);
+
+		Lookandfeel nimbus = new Lookandfeel();
+		nimbus.setnome("Nimbus");
+		nimbus.setvalore("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+		nimbus.setusato(1);
+		wrap.insert(nimbus);
+
+		Lookandfeel tiny = new Lookandfeel();
+		tiny.setnome("Tiny");
+		tiny.setvalore("de.muntjak.tinylookandfeel.TinyLookAndFeel");
+		tiny.setusato(0);
+		wrap.insert(tiny);
+
+		Lookandfeel gtk = new Lookandfeel();
+		gtk.setnome("GTK+");
+		gtk.setvalore("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+		gtk.setusato(0);
+		wrap.insert(gtk);
+
+		Lookandfeel motif = new Lookandfeel();
+		motif.setnome("Motif");
+		motif.setvalore("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+		motif.setusato(0);
+		wrap.insert(motif);
+
+		Lookandfeel metal = new Lookandfeel();
+		metal.setnome("Metal");
+		metal.setvalore("javax.swing.plaf.metal.MetalLookAndFeel");
+		metal.setusato(0);
+		wrap.insert(metal);
+
+	}
+
+	public void generaDB() throws SQLException {
+		//per jar
+		//File db = new File("./GestioneSpese.sqlite");
+		File db = new File("../GestioneSpese.sqlite");
+		String sql = new String();
+		Connection cn = DBUtil.getConnection();
+		sql = "CREATE TABLE \"Utenti\" (\"idUtente\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , \"nome\" TEXT NOT NULL , \"cognome\" TEXT NOT NULL , \"username\" TEXT NOT NULL  UNIQUE , \"password\" TEXT NOT NULL );";
+		Statement st = cn.createStatement();
+		st.execute(sql.toString());
+		sql = "CREATE TABLE \"gruppi\" (\"idGruppo\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , \"nome\" TEXT NOT NULL , \"descrizione\" TEXT);";
+		st.execute(sql.toString());
+		sql = "CREATE TABLE \"lookAndFeel\" (\"idLook\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , \"nome\" TEXT NOT NULL , \"valore\" TEXT NOT NULL , \"usato\" INTEGER NOT NULL );";
+		st.execute(sql.toString());
+		sql = "CREATE TABLE \"risparmio\" (\"idRisparmio\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , \"PerSulTotale\" DOUBLE NOT NULL , \"nomeOggetto\" TEXT, \"costoOggetto\" DOUBLE);";
+		st.execute(sql.toString());
+		sql = "CREATE TABLE \"cat_spese\" (\"idCategoria\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\"descrizione\"  TEXT NOT NULL,\"importanza\"  TEXT NOT NULL,\"nome\"  TEXT NOT NULL,\"idGruppo\" INTEGER NOT NULL,CONSTRAINT \"keygruppo\" FOREIGN KEY (\"idGruppo\") REFERENCES \"gruppi\" (\"idGruppo\"));";
+		st.execute(sql.toString());
+		sql = "CREATE TABLE \"budget\" (\"idBudget\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\"idCategorie\"  INTEGER NOT NULL UNIQUE,\"percSulTot\"  DOUBLE NOT NULL,CONSTRAINT \"keyspesa\" FOREIGN KEY (\"idCategorie\") REFERENCES \"cat_spese\" (\"idCategoria\"));";
+		st.execute(sql.toString());
+		sql = "CREATE TABLE \"entrate\" (\"idEntrate\" INTEGER PRIMARY KEY  NOT NULL ,\"descrizione\" TEXT NOT NULL ,\"Fisse_o_Var\" TEXT NOT NULL ,\"inEuro\" INTEGER NOT NULL ,\"data\" TEXT NOT NULL ,\"nome\" TEXT NOT NULL ,\"idUtente\" INTEGER NOT NULL ,\"dataIns\" TEXT);";
+		st.execute(sql.toString());
+		sql = "CREATE TABLE \"single_spesa\" (\"idSpesa\" INTEGER PRIMARY KEY  NOT NULL ,\"Data\" TEXT NOT NULL ,\"inEuro\" INTEGER NOT NULL ,\"descrizione\" TEXT NOT NULL ,\"idCategorie\" INTEGER NOT NULL ,\"nome\" TEXT NOT NULL ,\"idUtente\" INTEGER NOT NULL ,\"dataIns\" TEXT);";
+		st.execute(sql.toString());
+		sql = "CREATE TABLE \"note\" (\"idNote\" INTEGER PRIMARY KEY  NOT NULL ,\"nome\" TEXT NOT NULL ,\"descrizione\" TEXT NOT NULL ,\"idUtente\" INTEGER NOT NULL ,\"data\" TEXT NOT NULL ,\"dataIns\" TEXT NOT NULL );";
+		st.execute(sql.toString());
+		cn.close();
+
+		generaDatiTabellaLook();
 	}
 
 	/**
@@ -54,7 +144,8 @@ public class Database {
 	 * @param clausole
 	 * @return boolean
 	 */
-	public boolean eseguiIstruzioneSql(final String comando, final String tabella, final HashMap<String, String> campi, final HashMap<String, String> clausole) {
+	public boolean eseguiIstruzioneSql(final String comando, final String tabella, final HashMap<String, String> campi,
+			final HashMap<String, String> clausole) {
 		boolean ok = false;
 		try {
 			ok = false;
@@ -454,17 +545,23 @@ public class Database {
 		Vector<String> colonne = null;
 		String sql = "";
 		if (tabella.equals(Entrate.NOME_TABELLA)) {
-			sql = "SELECT " + Entrate.NOME_TABELLA + "." + Entrate.DATA + ", " + Entrate.NOME_TABELLA + "." + Entrate.NOME + ", " + Entrate.NOME_TABELLA + "."
-					+ Entrate.DESCRIZIONE + ", " + Entrate.NOME_TABELLA + "." + Entrate.INEURO + " as euro, " + Entrate.NOME_TABELLA + "." + Entrate.FISSEOVAR + " as categoria, "
-					+ Entrate.NOME_TABELLA + "." + Entrate.ID + ", " + Entrate.NOME_TABELLA + "." + Entrate.DATAINS + " as inserimento" + " FROM " + tabella + " order by "
-					+ Entrate.ID + " desc";
+			sql = "SELECT " + Entrate.NOME_TABELLA + "." + Entrate.DATA + ", " + Entrate.NOME_TABELLA + "."
+					+ Entrate.NOME + ", " + Entrate.NOME_TABELLA + "." + Entrate.DESCRIZIONE + ", "
+					+ Entrate.NOME_TABELLA + "." + Entrate.INEURO + " as euro, " + Entrate.NOME_TABELLA + "."
+					+ Entrate.FISSEOVAR + " as categoria, " + Entrate.NOME_TABELLA + "." + Entrate.ID + ", "
+					+ Entrate.NOME_TABELLA + "." + Entrate.DATAINS + " as inserimento" + " FROM " + tabella
+					+ " order by " + Entrate.ID + " desc";
 		} else if (tabella.equals(SingleSpesa.NOME_TABELLA)) {
-			sql = "SELECT " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.DATA + " as data, " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.NOME + ", "
-					+ SingleSpesa.NOME_TABELLA + "." + SingleSpesa.DESCRIZIONE + ", " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.INEURO + " as euro, " + CatSpese.NOME_TABELLA
-					+ "." + CatSpese.NOME + " as categoria, " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.ID + ", " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.DATAINS
-					+ " as inserimento" + " FROM " + tabella + ", " + CatSpese.NOME_TABELLA + ", " + Utenti.NOME_TABELLA + " where " + SingleSpesa.NOME_TABELLA + "."
-					+ SingleSpesa.IDCATEGORIE + " = " + CatSpese.NOME_TABELLA + "." + CatSpese.ID + " and " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.IDUTENTE + " = "
-					+ Utenti.NOME_TABELLA + "." + Utenti.ID + " order by " + SingleSpesa.ID + " desc";
+			sql = "SELECT " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.DATA + " as data, "
+					+ SingleSpesa.NOME_TABELLA + "." + SingleSpesa.NOME + ", " + SingleSpesa.NOME_TABELLA + "."
+					+ SingleSpesa.DESCRIZIONE + ", " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.INEURO
+					+ " as euro, " + CatSpese.NOME_TABELLA + "." + CatSpese.NOME + " as categoria, "
+					+ SingleSpesa.NOME_TABELLA + "." + SingleSpesa.ID + ", " + SingleSpesa.NOME_TABELLA + "."
+					+ SingleSpesa.DATAINS + " as inserimento" + " FROM " + tabella + ", " + CatSpese.NOME_TABELLA
+					+ ", " + Utenti.NOME_TABELLA + " where " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.IDCATEGORIE
+					+ " = " + CatSpese.NOME_TABELLA + "." + CatSpese.ID + " and " + SingleSpesa.NOME_TABELLA + "."
+					+ SingleSpesa.IDUTENTE + " = " + Utenti.NOME_TABELLA + "." + Utenti.ID + " order by "
+					+ SingleSpesa.ID + " desc";
 		}
 
 		final Connection cn = DBUtil.getConnection();
@@ -478,7 +575,8 @@ public class Database {
 			}
 		} catch (final SQLException e) {
 			e.printStackTrace();
-			Controllore.getLog().severe("Errore nel caricamento dal database dei nomi delle colonne di " + tabella + ": " + e.getMessage());
+			Controllore.getLog().severe(
+					"Errore nel caricamento dal database dei nomi delle colonne di " + tabella + ": " + e.getMessage());
 		}
 		DBUtil.closeConnection();
 		try {

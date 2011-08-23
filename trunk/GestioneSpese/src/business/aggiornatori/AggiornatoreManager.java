@@ -11,6 +11,7 @@ import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import view.GeneralFrame;
 import view.componenti.componentiPannello.SottoPannelloCategorie;
 import view.componenti.componentiPannello.SottoPannelloDatiEntrate;
 import view.componenti.componentiPannello.SottoPannelloDatiSpese;
@@ -180,7 +181,7 @@ public class AggiornatoreManager {
 	public static boolean aggiornaMovimentiEntrateDaEsterno(final Object[] nomiColonne, final int numEntry) {
 		try {
 			final String[][] movimenti = Model.getSingleton().movimentiEntrate(numEntry, Entrate.NOME_TABELLA);
-			if (Controllore.getSingleton().getView() != null) {
+			if(Controllore.getSingleton().getView()!=null){
 				TableF table1 = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getTable();
 				table1 = new TableF(movimenti, nomiColonne);
 				final JScrollPane scrollPane = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getScrollPane();

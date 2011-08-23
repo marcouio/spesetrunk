@@ -199,14 +199,16 @@ public class Impostazioni extends JDialog {
 			JLabel lblLang = new JLabel("Language");
 			lblLang.setBounds(278, 29, 113, 15);
 			getContentPane().add(lblLang);
-
-			Object[] languages = new Object[] { "it", "en" };
+			
+			Object[] languages = new Object[]{"it","en"};
 			JComboBox comboLanguage = new JComboBox(languages);
+
 			comboLanguage.addActionListener(new AscoltatoreLanguage(comboLanguage));
 			comboLanguage.setBounds(396, 24, 115, 24);
+
 			for (int i = 0; i < languages.length; i++) {
 				String lingua = ConfiguratoreXml.getSingleton().getLanguage();
-				if (languages[i].equals(lingua)) {
+				if(languages[i].equals(lingua)){
 					comboLanguage.setSelectedIndex(i);
 				}
 			}

@@ -1,10 +1,15 @@
 package business;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import view.Alert;
 import view.GeneralFrame;
 import business.aggiornatori.AggiornatoreManager;
 import business.cache.CacheGruppi;
@@ -36,9 +41,21 @@ public class Controllore {
 	 */
 	public static void main(final String[] args) {
 		try {
+			Connection cn = DBUtil.getConnection();
+			String sql = "SELECT * FROM " + Lookandfeel.NOME_TABELLA;
+			Statement st = cn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+		} catch (SQLException e) {
+			try {
+				Database.getSingleton().generaDB();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			Alert.info("Operazione non presente: rigenerato", "");
+		}
+		try {
 			final CacheLookAndFeel cacheLook = CacheLookAndFeel.getSingleton();
 			final java.util.Vector<Lookandfeel> vettore = cacheLook.getVettoreLooksPerCombo();
-
 			Lookandfeel look = null;
 			for (int i = 0; i < vettore.size(); i++) {
 				look = vettore.get(i);
@@ -46,9 +63,12 @@ public class Controllore {
 					break;
 				}
 			}
-
-			UIManager.setLookAndFeel(look.getvalore());
-		} catch (final Throwable e) {
+			if (look.getvalore() != null) {
+				UIManager.setLookAndFeel(look.getvalore());
+			} else {
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			}
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 		SwingUtilities.invokeLater(new Runnable() {
@@ -72,7 +92,6 @@ public class Controllore {
 	private Controllore() {
 		setStartUtenteLogin();
 		setStartGruppoZero();
-		setLog(LoggerOggetto.getLog());
 	}
 
 	public static boolean invocaComando(final AbstractCommand comando) {
@@ -179,6 +198,9 @@ public class Controllore {
 	}
 
 	public static Logger getLog() {
+		if (log == null) {
+			log = LoggerOggetto.getLog();
+		}
 		return log;
 	}
 }
