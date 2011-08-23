@@ -19,8 +19,7 @@ import view.Alert;
 
 public class AltreUtil {
 
-	// static Logger log;
-	// static FileHandler fileLog;
+	public static final String IMGUTILPATH = "imgUtil/";
 
 	public static boolean checkInteger(final String integer) {
 		boolean ok = true;

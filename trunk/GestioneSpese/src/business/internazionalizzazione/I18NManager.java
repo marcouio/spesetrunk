@@ -29,7 +29,7 @@ public class I18NManager {
 
 	}
 	public String getMessaggio(String key) {
-		if (this.getMessages() != null) {
+		if (this.getMessages() != null && this.getMessages().getString(key)!=null) {
 			return this.getMessages().getString(key);
 		}
 		return key;
