@@ -3,26 +3,20 @@ package view;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.io.File;
-import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
+import business.ascoltatori.AscoltatoreAggiornatoreNiente;
+
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
-import business.ascoltatori.AscoltatoreAggiornatoreNiente;
 
 public class Help extends JDialog {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Create the panel.
-	 */
 	public Help() {
 		setLayout(null);
 		ImageIcon image = new ImageIcon("imgUtil/index1.jpeg");
@@ -64,12 +58,12 @@ public class Help extends JDialog {
 				Desktop desktop = Desktop.getDesktop();
 				try {
 					desktop.open(new File("help.pdf"));
-				} catch (IOException e1) {
-					e1.printStackTrace();
+				} catch (Exception e1) {
+					Alert.operazioniSegnalazioneErroreGrave(e1.getMessage());
 				}
+
 			}
 		});
 		add(btnHelp);
-
 	}
 }
