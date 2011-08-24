@@ -8,7 +8,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
+import business.AltreUtil;
 import business.ascoltatori.AscoltatoreAggiornatoreNiente;
+import business.internazionalizzazione.I18NManager;
 
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
@@ -19,36 +21,36 @@ public class Help extends JDialog {
 
 	public Help() {
 		setLayout(null);
-		ImageIcon image = new ImageIcon("imgUtil/index1.jpeg");
+		ImageIcon image = new ImageIcon(AltreUtil.IMGUTILPATH+"index1.jpeg");
 		JLabel label = new JLabel("");
 		label.setIcon(image);
 		label.setBounds(36, 55, 138, 297);
 		add(label);
 
-		JLabel lblGestionespese = new LabelListaGruppi("GestioneSpese per la gestione economica familiare");
+		JLabel lblGestionespese = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("description"));
 		lblGestionespese.setBounds(184, 45, 391, 28);
 		add(lblGestionespese);
 
-		JLabel lblVersione = new LabelListaGruppi("Versione: 1.0.0");
+		JLabel lblVersione = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("version"));
 		lblVersione.setBounds(184, 85, 240, 28);
 		add(lblVersione);
 
-		JLabel lblVersione2 = new LabelListaGruppi("Versione: 1.0.0");
+		JLabel lblVersione2 = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("version"));
 		lblVersione2.setBounds(184, 85, 240, 28);
 		add(lblVersione2);
 
-		JLabel lblMarcoMolinari = new LabelListaGruppi("Copyright Marco Molinari 2010. All right reserved.");
+		JLabel lblMarcoMolinari = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("copyright"));
 		lblMarcoMolinari.setBounds(184, 124, 327, 28);
 		add(lblMarcoMolinari);
 
-		JLabel help = new LabelListaGruppi("Clicca qui per accedere all'Help");
+		JLabel help = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("clickherehelp"));
 		help.setText("Clicca sul bottone per l'Help");
 		help.setBounds(184, 163, 215, 28);
 
 		add(help);
 
 		ButtonF btnHelp = new ButtonF();
-		btnHelp.setText("Help");
+		btnHelp.setText(I18NManager.getSingleton().getMessaggio("help"));
 		btnHelp.setBounds(389, 166, 91, 23);
 		btnHelp.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
