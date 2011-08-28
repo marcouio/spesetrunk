@@ -11,6 +11,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
+import business.internazionalizzazione.I18NManager;
+
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
 import view.font.TableF;
@@ -52,7 +54,7 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 		try {
 			this.setLayout(null);
 			this.setPreferredSize(new Dimension(1000, 605));
-			final JLabel movim = new LabelListaGruppi("Movimenti:");
+			final JLabel movim = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("transactions")+":");
 			movim.setBounds(24, 5, 89, 30);
 			this.add(movim);
 			campo = new TextFieldF();
@@ -61,7 +63,7 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 			numMovimenti = Integer.parseInt(campo.getText());
 			this.add(campo);
 			pulsanteNMovimenti = new ButtonF();
-			pulsanteNMovimenti.setText("Cambia");
+			pulsanteNMovimenti.setText(I18NManager.getSingleton().getMessaggio("change"));
 			pulsanteNMovimenti.setBounds(164, 9, 89, 25);
 			this.add(pulsanteNMovimenti);
 
@@ -86,7 +88,7 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 			scrollPane.setBounds(21, 38, 948, 386);
 
 			final ButtonF btnFiltraMovimenti = new ButtonF();
-			btnFiltraMovimenti.setText("Filtra Movimenti");
+			btnFiltraMovimenti.setText(I18NManager.getSingleton().getMessaggio("filtertrans"));
 			btnFiltraMovimenti.setBounds(277, 8, 179, 25);
 			btnFiltraMovimenti.addActionListener(getListener());
 

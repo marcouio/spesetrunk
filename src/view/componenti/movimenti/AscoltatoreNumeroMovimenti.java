@@ -3,11 +3,11 @@ package view.componenti.movimenti;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import view.Alert;
 import business.aggiornatori.AggiornatoreManager;
+import business.internazionalizzazione.I18NManager;
 import domain.Entrate;
 import domain.SingleSpesa;
 
@@ -29,15 +29,13 @@ public class AscoltatoreNumeroMovimenti implements ActionListener {
 			try {
 				AggiornatoreManager.aggiornaMovimentiEntrateDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
 			} catch (final Exception e1) {
-				JOptionPane.showMessageDialog(null, "Inserire un valore numerico: " + e1.getMessage(), "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon(
-						"imgUtil/index.jpeg"));
+				Alert.operazioniSegnalazioneErroreGrave(I18NManager.getSingleton().getMessaggio("insertnumber")+": "+e1.getMessage());
 			}
 		} else if (tipo.equals(SingleSpesa.NOME_TABELLA)) {
 			try {
 				AggiornatoreManager.aggiornaMovimentiUsciteDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
 			} catch (final Exception e1) {
-				JOptionPane.showMessageDialog(null, "Inserire un valore numerico: " + e1.getMessage(), "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon(
-						"imgUtil/index.jpeg"));
+				Alert.operazioniSegnalazioneErroreGrave(I18NManager.getSingleton().getMessaggio("insertnumber")+": "+e1.getMessage());
 			}
 		}
 	}
