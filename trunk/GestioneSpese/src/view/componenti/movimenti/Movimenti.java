@@ -4,13 +4,12 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
+import business.internazionalizzazione.I18NManager;
+
 import view.OggettoVistaBase;
 
 public class Movimenti extends OggettoVistaBase {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public static void main(String[] args) {
@@ -40,11 +39,11 @@ public class Movimenti extends OggettoVistaBase {
 
 			tabGenerale = new JTabbedPane();
 			tabGenerale.setBounds(65, 65, 800, 600);
-			tabGenerale.addTab("Movimenti Entrate", tabMovEntrate);
+			tabGenerale.addTab(I18NManager.getSingleton().getMessaggio("income")+" "+I18NManager.getSingleton().getMessaggio("transactions"), tabMovEntrate);
 
 			tabMovEntrate.setBounds(20, 10, 700, 500);
 			tabMovUscite = new ListaMovimentiUscite();
-			tabGenerale.addTab("Movimenti Uscite", tabMovUscite);
+			tabGenerale.addTab(I18NManager.getSingleton().getMessaggio("withdrawal")+" "+I18NManager.getSingleton().getMessaggio("transactions"), tabMovUscite);
 			tabMovUscite.setBounds(20, 10, 700, 500);
 
 			this.add(tabGenerale);

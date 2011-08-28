@@ -7,10 +7,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Observable;
 
-import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 
 import view.Alert;
 import view.font.ButtonF;
@@ -25,6 +23,7 @@ import business.ascoltatori.AscoltatoreAggiornatoreUscite;
 import business.cache.CacheCategorie;
 import business.cache.CacheUscite;
 import business.comandi.singlespese.CommandDeleteSpesa;
+import business.internazionalizzazione.I18NManager;
 import domain.CatSpese;
 import domain.wrapper.WrapSingleSpesa;
 
@@ -53,7 +52,7 @@ public class UsciteView extends AbstractUsciteView {
 	 */
 	public UsciteView(final WrapSingleSpesa spesa) {
 		super(spesa);
-		setTitle("Inserimento Spese");
+		setTitle(I18NManager.getSingleton().getMessaggio("insertcharge"));
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		modelUscita.addObserver(this);
@@ -62,7 +61,7 @@ public class UsciteView extends AbstractUsciteView {
 		initLabel();
 
 		taDescrizione = new TextAreaF();
-		taDescrizione.setText("Inserisci qui la descrizione della spesa");
+		taDescrizione.setText(I18NManager.getSingleton().getMessaggio("insertheredescr"));
 		taDescrizione.setBounds(13, 87, 318, 75);
 		taDescrizione.setLineWrap(true);
 		taDescrizione.setWrapStyleWord(true);
@@ -70,7 +69,7 @@ public class UsciteView extends AbstractUsciteView {
 		getContentPane().add(taDescrizione);
 
 		final TextAreaF descCateg = new TextAreaF();
-		descCateg.setText("Qui compare la descrizione delle categorie");
+		descCateg.setText(I18NManager.getSingleton().getMessaggio("heredesc"));
 		descCateg.setBounds(13, 242, 318, 75);
 		descCateg.setLineWrap(true);
 		descCateg.setWrapStyleWord(true);
@@ -156,27 +155,27 @@ public class UsciteView extends AbstractUsciteView {
 	}
 
 	private void initLabel() {
-		final LabelListaGruppi lblNomeSpesa = new LabelListaGruppi("Nome Spesa");
+		final LabelListaGruppi lblNomeSpesa = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("name"));
 		lblNomeSpesa.setBounds(13, 12, 118, 27);
 		getContentPane().add(lblNomeSpesa);
 
-		final LabelListaGruppi lblEuro = new LabelListaGruppi("Euro");
+		final LabelListaGruppi lblEuro = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("eur"));
 		lblEuro.setBounds(184, 163, 77, 27);
 		getContentPane().add(lblEuro);
 
-		final LabelListaGruppi lblCategorie = new LabelListaGruppi("Categorie");
+		final LabelListaGruppi lblCategorie = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("categories"));
 		lblCategorie.setBounds(181, 12, 125, 27);
 		getContentPane().add(lblCategorie);
 
-		final LabelListaGruppi lblData = new LabelListaGruppi("Data");
+		final LabelListaGruppi lblData = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("date"));
 		lblData.setBounds(13, 163, 77, 27);
 		getContentPane().add(lblData);
 
-		final LabelListaGruppi lblDescrizione = new LabelListaGruppi("Descrizione Spesa");
+		final LabelListaGruppi lblDescrizione = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("descr"));
 		lblDescrizione.setBounds(14, 62, 212, 25);
 		getContentPane().add(lblDescrizione);
 
-		final LabelListaGruppi lblDescrizione_1 = new LabelListaGruppi("Descrizione Categoria");
+		final LabelListaGruppi lblDescrizione_1 = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("descr")+" "+I18NManager.getSingleton().getMessaggio("category"));
 		lblDescrizione_1.setBounds(13, 216, 232, 27);
 		getContentPane().add(lblDescrizione_1);
 	}
@@ -197,15 +196,15 @@ public class UsciteView extends AbstractUsciteView {
 		if (AltreUtil.checkData(tfData.getText())) {
 			setcData(tfData.getText());
 		} else {
-			final String messaggio = "La data va inserita con il seguente formato: aaaa/mm/gg";
-			JOptionPane.showMessageDialog(null, messaggio, "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("./imgUtil/index.jpeg"));
+			final String messaggio = I18NManager.getSingleton().getMessaggio("datainformat");
+			Alert.operazioniSegnalazioneErroreGrave(messaggio);
 		}
 		if (AltreUtil.checkDouble(tfEuro.getText())) {
 			final Double euro = Double.parseDouble(tfEuro.getText());
 			setdEuro(AltreUtil.arrotondaDecimaliDouble(euro));
 		} else {
-			final String messaggio = "Valore in Euro inserito non correttamente";
-			JOptionPane.showMessageDialog(null, messaggio, "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("./imgUtil/index.jpeg"));
+			final String messaggio = I18NManager.getSingleton().getMessaggio("valorenotcorrect");
+			Alert.operazioniSegnalazioneErroreGrave(messaggio);
 		}
 		setUtenti(Controllore.getSingleton().getUtenteLogin());
 		setDataIns(DBUtil.dataToString(new Date(), "yyyy/MM/dd"));

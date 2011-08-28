@@ -10,6 +10,7 @@ import javax.swing.JDialog;
 
 import business.AltreUtil;
 import business.aggiornatori.AggiornatoreManager;
+import business.internazionalizzazione.I18NManager;
 import domain.Entrate;
 import domain.wrapper.Model;
 
@@ -63,8 +64,8 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 
 							final ArrayList<String> lista = new ArrayList<String>();
 							lista.add("");
-							lista.add("Variabili");
-							lista.add("Fisse");
+							lista.add(I18NManager.getSingleton().getMessaggio("variables"));
+							lista.add(I18NManager.getSingleton().getMessaggio("fixity"));
 							comboBoxCat = new JComboBox(lista.toArray());
 
 							comboBoxCat.setBounds(512, 26, 89, 25);
