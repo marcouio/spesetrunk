@@ -59,7 +59,7 @@ public class MyMenu extends JMenuBar {
 		this.add(file);
 
 		// item di un menu
-		final JMenuItem menuItem = new JMenuItem("Altro database");
+		final JMenuItem menuItem = new JMenuItem(I18NManager.getSingleton().getMessaggio("otherdatabase"));
 		final ActionListener ascolto = new AscoltatoreCaricaDatabase();
 		menuItem.addActionListener(ascolto);
 		file.add(menuItem);
@@ -71,12 +71,12 @@ public class MyMenu extends JMenuBar {
 		file.add(menuItem2);
 
 		// item Login
-		final JMenuItem registra = new JMenuItem("Registrazione");
+		final JMenuItem registra = new JMenuItem(I18NManager.getSingleton().getMessaggio("register"));
 		final ActionListener registrazione = new AscoltatoreRegistrazione();
 		registra.addActionListener(registrazione);
 		file.add(registra);
 
-		final JMenuItem chiudi = new JMenuItem("Chiudi");
+		final JMenuItem chiudi = new JMenuItem(I18NManager.getSingleton().getMessaggio("close"));
 		chiudi.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
@@ -90,24 +90,24 @@ public class MyMenu extends JMenuBar {
 		final JMenu modifica = new JMenu(I18NManager.getSingleton().getMessaggio("edit"));
 		add(modifica);
 
-		final JMenuItem indietro = new JMenuItem("Indietro");
+		final JMenuItem indietro = new JMenuItem(I18NManager.getSingleton().getMessaggio("undo"));
 		indietro.addActionListener(new AscoltatoreIndietro());
 		modifica.add(indietro);
 
-		final JMenuItem avanti = new JMenuItem("Avanti");
+		final JMenuItem avanti = new JMenuItem(I18NManager.getSingleton().getMessaggio("redo"));
 		avanti.addActionListener(new AscoltatoreAvanti());
 		modifica.add(avanti);
 
-		final JMenu finestre = new JMenu("Finestre");
+		final JMenu finestre = new JMenu(I18NManager.getSingleton().getMessaggio("windows"));
 		add(finestre);
 
-		final JCheckBoxMenuItem listaComandi = new JCheckBoxMenuItem("Comandi");
+		final JCheckBoxMenuItem listaComandi = new JCheckBoxMenuItem(I18NManager.getSingleton().getMessaggio("commands"));
 		finestre.add(listaComandi);
 
-		final JCheckBoxMenuItem mntmReport = new JCheckBoxMenuItem("Report");
+		final JCheckBoxMenuItem mntmReport = new JCheckBoxMenuItem(I18NManager.getSingleton().getMessaggio("report"));
 		finestre.add(mntmReport);
 
-		final JCheckBoxMenuItem chckbxmntmDati = new JCheckBoxMenuItem("Riepilogo dati");
+		final JCheckBoxMenuItem chckbxmntmDati = new JCheckBoxMenuItem(I18NManager.getSingleton().getMessaggio("summarydata"));
 		chckbxmntmDati.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
@@ -123,7 +123,7 @@ public class MyMenu extends JMenuBar {
 		});
 		finestre.add(chckbxmntmDati);
 
-		final JCheckBoxMenuItem mntmNote = new JCheckBoxMenuItem("Note");
+		final JCheckBoxMenuItem mntmNote = new JCheckBoxMenuItem(I18NManager.getSingleton().getMessaggio("notes"));
 		finestre.add(mntmNote);
 		mntmNote.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
@@ -168,13 +168,13 @@ public class MyMenu extends JMenuBar {
 			}
 		});
 
-		final JMenu mnStrumenti = new JMenu("Strumenti");
+		final JMenu mnStrumenti = new JMenu(I18NManager.getSingleton().getMessaggio("tools"));
 		add(mnStrumenti);
 
-		final JMenu mnImpostazioni = new JMenu("Impostazioni");
+		final JMenu mnImpostazioni = new JMenu(I18NManager.getSingleton().getMessaggio("options"));
 		mnStrumenti.add(mnImpostazioni);
 
-		final JMenuItem mntmConfigurazione = new JMenuItem("Configurazioni");
+		final JMenuItem mntmConfigurazione = new JMenuItem(I18NManager.getSingleton().getMessaggio("config"));
 		mntmConfigurazione.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
@@ -186,7 +186,7 @@ public class MyMenu extends JMenuBar {
 		});
 		mnImpostazioni.add(mntmConfigurazione);
 
-		final JMenuItem mntmCategorie = new JMenuItem("Categorie");
+		final JMenuItem mntmCategorie = new JMenuItem(I18NManager.getSingleton().getMessaggio("categories"));
 		mntmCategorie.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
@@ -198,7 +198,7 @@ public class MyMenu extends JMenuBar {
 		});
 		mnImpostazioni.add(mntmCategorie);
 
-		final JMenuItem mntmGr = new JMenuItem("Gruppi");
+		final JMenuItem mntmGr = new JMenuItem(I18NManager.getSingleton().getMessaggio("groups"));
 		mntmGr.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
@@ -210,29 +210,29 @@ public class MyMenu extends JMenuBar {
 		});
 		mnImpostazioni.add(mntmGr);
 
-		final JMenu mnGrafici = new JMenu("Grafici");
+		final JMenu mnGrafici = new JMenu(I18NManager.getSingleton().getMessaggio("charts"));
 		mnStrumenti.add(mnGrafici);
 
-		final JMenu mnEntrate = new JMenu("Entrate");
+		final JMenu mnEntrate = new JMenu(I18NManager.getSingleton().getMessaggio("entries"));
 		mnGrafici.add(mnEntrate);
 
-		final JMenuItem mntmEntratePerTipo = new JMenuItem("Per tipo");
+		final JMenuItem mntmEntratePerTipo = new JMenuItem(I18NManager.getSingleton().getMessaggio("fortype"));
 		mnEntrate.add(mntmEntratePerTipo);
 
-		final JMenuItem mntmEntrateMensili = new JMenuItem("Mensili");
+		final JMenuItem mntmEntrateMensili = new JMenuItem(I18NManager.getSingleton().getMessaggio("monthly"));
 		mnEntrate.add(mntmEntrateMensili);
 
-		final JMenu mnUscite = new JMenu("Uscite");
+		final JMenu mnUscite = new JMenu(I18NManager.getSingleton().getMessaggio("charge"));
 		mnGrafici.add(mnUscite);
 
-		final JMenuItem mntmMensiliPerCategoria = new JMenuItem("Mensili per categoria");
+		final JMenuItem mntmMensiliPerCategoria = new JMenuItem(I18NManager.getSingleton().getMessaggio("monthlycat"));
 		mnUscite.add(mntmMensiliPerCategoria);
 
-		final JMenuItem mntmPerCategorie = new JMenuItem("Per categorie");
+		final JMenuItem mntmPerCategorie = new JMenuItem(I18NManager.getSingleton().getMessaggio("forcategories"));
 		mntmPerCategorie.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				try {
+				try {	
 					final GrUscite1 dialog = new GrUscite1();
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
@@ -243,7 +243,7 @@ public class MyMenu extends JMenuBar {
 		});
 		mnUscite.add(mntmPerCategorie);
 
-		final JMenuItem mntmPerMesi = new JMenuItem("Per mesi");
+		final JMenuItem mntmPerMesi = new JMenuItem(I18NManager.getSingleton().getMessaggio("formonthly"));
 		mntmPerMesi.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
@@ -269,10 +269,10 @@ public class MyMenu extends JMenuBar {
 			}
 		});
 
-		final JMenu mnTotali = new JMenu("Totali");
+		final JMenu mnTotali = new JMenu(I18NManager.getSingleton().getMessaggio("totals"));
 		mnGrafici.add(mnTotali);
 
-		final JMenuItem mntmSaldo = new JMenuItem("Saldo");
+		final JMenuItem mntmSaldo = new JMenuItem(I18NManager.getSingleton().getMessaggio("balance"));
 		mntmSaldo.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
@@ -288,10 +288,10 @@ public class MyMenu extends JMenuBar {
 		});
 		mnTotali.add(mntmSaldo);
 
-		final JMenu mnDati = new JMenu("Inserimento dati");
+		final JMenu mnDati = new JMenu(I18NManager.getSingleton().getMessaggio("dataentry"));
 		mnStrumenti.add(mnDati);
 
-		final JMenuItem mntmEntrate = new JMenuItem("Entrate");
+		final JMenuItem mntmEntrate = new JMenuItem(I18NManager.getSingleton().getMessaggio("entries"));
 		mntmEntrate.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
@@ -303,7 +303,7 @@ public class MyMenu extends JMenuBar {
 		});
 		mnDati.add(mntmEntrate);
 
-		final JMenuItem mntmUscite = new JMenuItem("Uscite");
+		final JMenuItem mntmUscite = new JMenuItem(I18NManager.getSingleton().getMessaggio("charge"));
 		mntmUscite.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
@@ -358,7 +358,7 @@ public class MyMenu extends JMenuBar {
 		info.addActionListener(new AscoltatoreInfo());
 		help.add(info);
 
-		final JMenuItem manuale = new JMenuItem("Manuale");
+		final JMenuItem manuale = new JMenuItem(I18NManager.getSingleton().getMessaggio("userguide"));
 		help.add(manuale);
 
 	}
