@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 public class OggettoVistaBase extends JPanel {
-	// protected static Logger log;
 	protected Font titolo;
 
 	public OggettoVistaBase(final GridLayout gridLayout) {
@@ -18,13 +17,8 @@ public class OggettoVistaBase extends JPanel {
 	public OggettoVistaBase() {
 		super();
 		titolo = new Font("Tahoma", Font.BOLD | Font.ITALIC, 14);
-		// log = AltreUtil.getLog();
 
 	}
-
-	/**
-	 * 
-	 */
 	protected static final long serialVersionUID = 1L;
 
 	public static void main(final String[] args) {

@@ -26,6 +26,7 @@ import business.DBUtil;
 import business.Database;
 import business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import business.cache.CacheCategorie;
+import business.internazionalizzazione.I18NManager;
 import domain.CatSpese;
 
 public class Report extends JFrame {
@@ -40,60 +41,60 @@ public class Report extends JFrame {
 	public Report() throws FileNotFoundException {
 		getContentPane().setLayout(null);
 		this.setTitle("Report");
-		final JLabel Istruzioni = new LabelListaGruppi("Seleziona cio' che vuoi far comparire nel report");
-		Istruzioni.setText("Seleziona:");
+		final JLabel Istruzioni = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("selectreport"));
+		Istruzioni.setText(I18NManager.getSingleton().getMessaggio("select")+":");
 		Istruzioni.setBounds(12, 12, 207, 20);
 		getContentPane().add(Istruzioni);
 
-		final JCheckBox chckbxEntrateAnnuali = new CheckBoxF("Entrate Annuali");
+		final JCheckBox chckbxEntrateAnnuali = new CheckBoxF(I18NManager.getSingleton().getMessaggio("yearincome"));
 		chckbxEntrateAnnuali.setBounds(22, 40, 197, 23);
 		getContentPane().add(chckbxEntrateAnnuali);
 
-		final JCheckBox chckbxUsciteAnnuali = new CheckBoxF("Uscite Annuali");
+		final JCheckBox chckbxUsciteAnnuali = new CheckBoxF(I18NManager.getSingleton().getMessaggio("yearoutcome"));
 		chckbxUsciteAnnuali.setBounds(22, 67, 197, 23);
 		getContentPane().add(chckbxUsciteAnnuali);
 
-		final JCheckBox chckbxEntrateMensili = new CheckBoxF("Entrate Mensili");
+		final JCheckBox chckbxEntrateMensili = new CheckBoxF(I18NManager.getSingleton().getMessaggio("monthlyincome"));
 		chckbxEntrateMensili.setBounds(22, 94, 197, 23);
 		getContentPane().add(chckbxEntrateMensili);
 
-		final JCheckBox chckbxUsciteMensili = new CheckBoxF("Uscite Mensili");
+		final JCheckBox chckbxUsciteMensili = new CheckBoxF(I18NManager.getSingleton().getMessaggio("monthlyoutcome"));
 		chckbxUsciteMensili.setBounds(22, 121, 197, 23);
 		getContentPane().add(chckbxUsciteMensili);
 
-		final JCheckBox chckbxSpesePerCategorie = new CheckBoxF("Spese annuali di ogni categorie");
+		final JCheckBox chckbxSpesePerCategorie = new CheckBoxF(I18NManager.getSingleton().getMessaggio("catspeseyear"));
 		chckbxSpesePerCategorie.setBounds(22, 148, 197, 23);
 		getContentPane().add(chckbxSpesePerCategorie);
 
-		final JCheckBox chckbxEntratePerCategorie = new CheckBoxF("Entrate annuali di ogni categorie");
+		final JCheckBox chckbxEntratePerCategorie = new CheckBoxF(I18NManager.getSingleton().getMessaggio("catentrateyear"));
 		chckbxEntratePerCategorie.setBounds(22, 175, 197, 23);
 		getContentPane().add(chckbxEntratePerCategorie);
 
-		final JCheckBox chckbxSpeseMensCat = new CheckBoxF("Spese mensili di ogni categoria");
+		final JCheckBox chckbxSpeseMensCat = new CheckBoxF(I18NManager.getSingleton().getMessaggio("catspesemonth"));
 		chckbxSpeseMensCat.setBounds(22, 229, 197, 23);
 		getContentPane().add(chckbxSpeseMensCat);
 
-		final JCheckBox chckbxEntrateMensCategorie = new CheckBoxF("Entrate mensili di ogni categoria");
+		final JCheckBox chckbxEntrateMensCategorie = new CheckBoxF(I18NManager.getSingleton().getMessaggio("catentratemonth"));
 		chckbxEntrateMensCategorie.setBounds(22, 202, 197, 23);
 		getContentPane().add(chckbxEntrateMensCategorie);
 
-		final JCheckBox chckbxSpeseVariabili_1 = new CheckBoxF("% Spese variabili");
+		final JCheckBox chckbxSpeseVariabili_1 = new CheckBoxF("% " + I18NManager.getSingleton().getMessaggio("spesevar"));
 		chckbxSpeseVariabili_1.setBounds(22, 255, 197, 23);
 		getContentPane().add(chckbxSpeseVariabili_1);
 
-		final JCheckBox chckbxSpeseFutili_1 = new CheckBoxF("% Spese Futili");
+		final JCheckBox chckbxSpeseFutili_1 = new CheckBoxF("% "+ I18NManager.getSingleton().getMessaggio("spesefut"));
 		chckbxSpeseFutili_1.setBounds(22, 282, 197, 23);
 		getContentPane().add(chckbxSpeseFutili_1);
 
-		final JCheckBox chckbxMedie = new CheckBoxF("Medie annuali");
+		final JCheckBox chckbxMedie = new CheckBoxF(I18NManager.getSingleton().getMessaggio("annualaverages"));
 		chckbxMedie.setBounds(22, 336, 197, 23);
 		getContentPane().add(chckbxMedie);
 
-		final JCheckBox chckbxAvanzo = new CheckBoxF("Avanzo");
+		final JCheckBox chckbxAvanzo = new CheckBoxF(I18NManager.getSingleton().getMessaggio("avanzo"));
 		chckbxAvanzo.setBounds(22, 309, 197, 23);
 		getContentPane().add(chckbxAvanzo);
 
-		final JButton btnGeneraReport = new ButtonF("Genera Report");
+		final JButton btnGeneraReport = new ButtonF(I18NManager.getSingleton().getMessaggio("reports"));
 		btnGeneraReport.setBounds(22, 366, 197, 25);
 		getContentPane().add(btnGeneraReport);
 
