@@ -79,6 +79,9 @@ public class CostruttoreSottoPannello extends JPanel {
 		}
 	}
 
+	public CostruttoreSottoPannello() {
+	}
+
 	private void initGUI2(final JComponent[] componenti, final JLabel[] labels) {
 		this.setLayout(null);
 		initLabelOrizzontale(labels);

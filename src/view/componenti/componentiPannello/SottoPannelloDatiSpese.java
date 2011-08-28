@@ -10,10 +10,10 @@ import view.font.LabelTestoPiccolo;
 import view.font.TextFieldF;
 import business.AltreUtil;
 import business.Database;
+import business.internazionalizzazione.I18NManager;
 
 public class SottoPannelloDatiSpese {
 
-	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Auto-generated main method to display this JPanel inside a new JFrame.
@@ -40,7 +40,7 @@ public class SottoPannelloDatiSpese {
 	private void initGUI() {
 		try {
 
-			JLabel meseincorso = new LabelTestoPiccolo("Anno in corso");
+			JLabel meseincorso = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("thisyear"));
 			labels[2] = meseincorso;
 			meseincorso.setBounds(164, 66, 141, 14);
 
@@ -49,7 +49,7 @@ public class SottoPannelloDatiSpese {
 			speseAnnuali.setBounds(164, 84, 106, 27);
 			speseAnnuali.setColumns(8);
 
-			JLabel label = new LabelTestoPiccolo("Mese prec.");
+			JLabel label = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("lastmonth"));
 			label.setBounds(317, 67, 123, 14);
 			labels[1] = label;
 
@@ -59,7 +59,7 @@ public class SottoPannelloDatiSpese {
 			mesePrecUsc.setBounds(317, 85, 106, 27);
 			componenti[1] = mesePrecUsc;
 
-			JLabel label2 = new LabelTestoPiccolo("Mese in corso");
+			JLabel label2 = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("thismonth"));
 			label2.setBounds(16, 67, 136, 13);
 			labels[0] = label2;
 

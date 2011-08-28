@@ -16,11 +16,10 @@ import view.font.LabelTestoPiccolo;
 import view.font.TextFieldF;
 import business.Database;
 import business.cache.CacheCategorie;
+import business.internazionalizzazione.I18NManager;
 import domain.CatSpese;
 
 public class SottoPannelloCategorie {
-
-	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Auto-generated main method to display this JPanel inside a new JFrame.
@@ -59,32 +58,27 @@ public class SottoPannelloCategorie {
 		try {
 
 			jLabel5 = new LabelTestoPiccolo();
-			// this.add(jLabel5);
-			jLabel5.setText("Categorie");
+			jLabel5.setText(I18NManager.getSingleton().getMessaggio("categories"));
 			jLabel5.setBounds(177, 25, 90, 19);
 			labels[0] = jLabel5;
 
 			jLabel11 = new LabelTestoPiccolo();
-			// this.add(jLabel11);
-			jLabel11.setText("Totale Anno");
+			jLabel11.setText(I18NManager.getSingleton().getMessaggio("annualtotal"));
 			jLabel11.setBounds(135, 67, 78, 14);
 			labels[1] = jLabel11;
 
 			jLabel6 = new LabelTestoPiccolo();
-			// this.add(jLabel6);
-			jLabel6.setText("Totale Mese");
+			jLabel6.setText(I18NManager.getSingleton().getMessaggio("monthlytotal"));
 			jLabel6.setBounds(253, 67, 106, 14);
 			labels[2] = jLabel6;
 
 			totaleAnnualeCateg = new TextFieldF();
-			// this.add(totaleAnnualeCateg);
 			totaleAnnualeCateg.setColumns(10);
 			totaleAnnualeCateg.setText("0.0");
 			totaleAnnualeCateg.setBounds(135, 83, 106, 27);
 			componenti[1] = totaleAnnualeCateg;
 
 			totaleMeseCategoria = new TextFieldF();
-			// this.add(totaleMeseCategoria);
 			totaleMeseCategoria.setColumns(10);
 			totaleMeseCategoria.setText("0.0");
 			totaleMeseCategoria.setBounds(253, 83, 106, 27);
@@ -93,7 +87,6 @@ public class SottoPannelloCategorie {
 			// CategoriaSpese
 			categorieCombo = new JComboBox(CacheCategorie.getSingleton().getVettoreCategoriePerCombo());
 
-			// this.add(categorieCombo);
 			categorieCombo.setBounds(16, 85, 106, 27);
 
 			categorieCombo.setSelectedIndex(0);
