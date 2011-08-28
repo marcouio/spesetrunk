@@ -5,11 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
@@ -24,6 +22,7 @@ import business.aggiornatori.AggiornatoreManager;
 import business.cache.CacheUscite;
 import business.comandi.singlespese.CommandDeleteSpesa;
 import business.comandi.singlespese.CommandUpdateSpesa;
+import business.internazionalizzazione.I18NManager;
 import domain.CatSpese;
 import domain.ISingleSpesa;
 import domain.SingleSpesa;
@@ -33,13 +32,13 @@ import domain.wrapper.WrapSingleSpesa;
 public class DialogUsciteMov extends AbstractUsciteView {
 
 	private static final long serialVersionUID = 1L;
-	private JLabel labelEuro = new LabelListaGruppi("Euro");
-	private JLabel labelData = new LabelListaGruppi("Data");
-	private JLabel labelCategoria = new LabelListaGruppi("Categoria");
-	private JLabel labelDescrizione = new LabelListaGruppi("Descrizione");
-	private JLabel labelNome = new LabelListaGruppi("Nome");
-	private JLabel labelDataIns = new LabelListaGruppi("Data Inserimento");
-	private JLabel labelIdSpesa = new LabelListaGruppi("Chiave Uscita");
+	private JLabel labelEuro = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("eur"));
+	private JLabel labelData = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("date"));
+	private JLabel labelCategoria = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("category"));
+	private JLabel labelDescrizione = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("descr"));
+	private JLabel labelNome = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("name"));
+	private JLabel labelDataIns = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("insertdate"));
+	private JLabel labelIdSpesa = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("key"));
 
 	private JTextField tfEuro = new TextFieldF();
 	private JTextField tfData = new TextFieldF();
@@ -49,8 +48,8 @@ public class DialogUsciteMov extends AbstractUsciteView {
 	private JTextField tfNome = new TextFieldF();
 	private JTextField tfDataIns = new TextFieldF();
 	private JTextField idSpesa = new TextFieldF();
-	private final JButton update = new ButtonF("Aggiorna");
-	private final JButton delete = new ButtonF("Cancella");
+	private final JButton update = new ButtonF(I18NManager.getSingleton().getMessaggio("update"));
+	private final JButton delete = new ButtonF(I18NManager.getSingleton().getMessaggio("delete"));
 
 	/**
 	 * Auto-generated main method to display this JDialog
@@ -121,8 +120,8 @@ public class DialogUsciteMov extends AbstractUsciteView {
 		if (AltreUtil.checkInteger(idSpesa.getText())) {
 			getModelUscita().setidSpesa(idSpesa.getText() != "" ? Integer.parseInt(idSpesa.getText()) : 0);
 		} else {
-			final String messaggio = "l'id di una tabella deve essere un intero!";
-			JOptionPane.showMessageDialog(null, messaggio, "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("./imgUtil/index.jpeg"));
+			final String messaggio = I18NManager.getSingleton().getMessaggio("idintero");
+			Alert.operazioniSegnalazioneErroreGrave(messaggio);
 		}
 		setcNome(tfNome.getText());
 		setcDescrizione(taDescrizione.getText());
@@ -130,14 +129,14 @@ public class DialogUsciteMov extends AbstractUsciteView {
 		if (AltreUtil.checkData(tfData.getText())) {
 			setcData(tfData.getText());
 		} else {
-			final String messaggio = "La data va inserita con il seguente formato: aaaa/mm/gg";
+			final String messaggio = I18NManager.getSingleton().getMessaggio("datainformat");
 			Alert.errore(messaggio, Alert.TITLE_ERROR);
 		}
 		if (AltreUtil.checkDouble(tfEuro.getText())) {
 			final Double euro = Double.parseDouble(tfEuro.getText());
 			setdEuro(AltreUtil.arrotondaDecimaliDouble(euro));
 		} else {
-			final String messaggio = "Valore in Euro inserito non correttamente";
+			final String messaggio = I18NManager.getSingleton().getMessaggio("valorenotcorrect");
 			Alert.errore(messaggio, Alert.TITLE_ERROR);
 		}
 		setUtenti(Controllore.getSingleton().getUtenteLogin());
@@ -211,7 +210,7 @@ public class DialogUsciteMov extends AbstractUsciteView {
 
 		@Override
 		public void actionPerformed(final ActionEvent e) {
-			if (e.getActionCommand().equals("Aggiorna")) {
+			if (e.getActionCommand().equals(I18NManager.getSingleton().getMessaggio("update"))) {
 				setUscite();
 				final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(SingleSpesa.NOME_TABELLA);
 				final JTextField campo = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getCampo();
@@ -226,13 +225,15 @@ public class DialogUsciteMov extends AbstractUsciteView {
 					// chiude la dialog e rilascia le risorse
 					dispose();
 				} else {
-					Alert.operazioniSegnalazioneErroreGrave("Spesa " + oldSpesa.getnome() + " non aggiornata: tutti i dati devono essere valorizzati");
+					String msg = I18NManager.getSingleton().getMessaggio("charge")+ oldSpesa.getnome() + " non aggiornata: tutti i dati devono essere valorizzati";
+					Alert.operazioniSegnalazioneErroreGrave(msg);
 				}
 
 			} else if (e.getActionCommand().equals("Cancella")) {
 				setUscite();
 				if (!Controllore.invocaComando(new CommandDeleteSpesa(modelUscita))) {
-					Alert.operazioniSegnalazioneErroreGrave("Spesa " + modelUscita.getnome() + " non aggiornata: tutti i dati devono essere valorizzati correttamente");
+					String msg = I18NManager.getSingleton().getMessaggio("charge")+ modelUscita.getnome() + " non aggiornata: tutti i dati devono essere valorizzati";
+					Alert.operazioniSegnalazioneErroreGrave(msg);
 				}
 				// chiude la dialog e rilascia le risorse
 				dispose();
