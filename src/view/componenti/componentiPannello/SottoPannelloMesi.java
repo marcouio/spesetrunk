@@ -100,8 +100,6 @@ public class SottoPannelloMesi {
 				}
 			});
 
-			// this.setPreferredSize(new Dimension(440, 150));
-			// this.setLayout(null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
