@@ -10,13 +10,12 @@ import view.font.LabelTestoPiccolo;
 import view.font.TextFieldF;
 import business.AltreUtil;
 import business.Database;
+import business.internazionalizzazione.I18NManager;
 import domain.CatSpese;
 
 public class SottoPannelloTotali {
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -52,18 +51,18 @@ public class SottoPannelloTotali {
 
 			jLabel2 = new LabelTestoPiccolo();
 			labels[0] = jLabel2;
-			jLabel2.setText("% Spese Futili");
+			jLabel2.setText("% " + I18NManager.getSingleton().getMessaggio("spesefut"));
 			jLabel2.setBounds(317, 67, 106, 14);
 			jLabel2.setOpaque(true);
 
 			jLabel3 = new LabelTestoPiccolo();
 			labels[1] = jLabel3;
-			jLabel3.setText("% Spese Variabili");
+			jLabel3.setText("% " + I18NManager.getSingleton().getMessaggio("spesevar"));
 			jLabel3.setBounds(164, 66, 141, 15);
 
 			jLabel4 = new LabelTestoPiccolo();
 			labels[2] = jLabel4;
-			jLabel4.setText("Avanzo/disavanzo");
+			jLabel4.setText(I18NManager.getSingleton().getMessaggio("avanzo")+"/"+I18NManager.getSingleton().getMessaggio("disavanzo"));
 			jLabel4.setBounds(16, 67, 128, 14);
 
 			avanzo = new TextFieldF();
