@@ -6,10 +6,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Observable;
 
-import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import view.Alert;
@@ -24,6 +22,7 @@ import business.DBUtil;
 import business.ascoltatori.AscoltatoreAggiornatoreEntrate;
 import business.cache.CacheEntrate;
 import business.comandi.entrate.CommandDeleteEntrata;
+import business.internazionalizzazione.I18NManager;
 import domain.wrapper.WrapEntrate;
 
 public class EntrateView extends AbstractEntrateView {
@@ -57,13 +56,13 @@ public class EntrateView extends AbstractEntrateView {
 		super(entrate);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setModalityType(ModalityType.APPLICATION_MODAL);
-		setTitle("Inserimento Entrate");
+		setTitle(I18NManager.getSingleton().getMessaggio("insertentry"));
 		modelEntrate.addObserver(this);
 		getContentPane().setLayout(null);
 
 		initLabel();
 
-		taDescrizione = new TextAreaF("Inserisci qui la descrizione dell'entrata");
+		taDescrizione = new TextAreaF(I18NManager.getSingleton().getMessaggio("insertheredescrentry"));
 		taDescrizione.setBounds(13, 89, 318, 75);
 		getContentPane().add(taDescrizione);
 
@@ -81,8 +80,8 @@ public class EntrateView extends AbstractEntrateView {
 		// array per Categoria
 		lista = new ArrayList<String>();
 		lista.add("");
-		lista.add("Variabili");
-		lista.add("Fisse");
+		lista.add(I18NManager.getSingleton().getMessaggio("variables"));
+		lista.add(I18NManager.getSingleton().getMessaggio("fixity"));
 
 		cbTipo = new JComboBox(lista.toArray());
 		cbTipo.setBounds(181, 38, 150, 27);
@@ -100,12 +99,12 @@ public class EntrateView extends AbstractEntrateView {
 		getContentPane().add(tfEuro);
 
 		final ButtonF inserisci = new ButtonF();
-		inserisci.setText("Inserisci");
+		inserisci.setText(I18NManager.getSingleton().getMessaggio("insert"));
 		inserisci.setBounds(13, 238, 149, 27);
 		getContentPane().add(inserisci);
 
 		final ButtonF eliminaUltima = new ButtonF();
-		eliminaUltima.setText("Elimina Ultima");
+		eliminaUltima.setText(I18NManager.getSingleton().getMessaggio("deletelast"));
 		eliminaUltima.setBounds(184, 238, 144, 27);
 		getContentPane().add(eliminaUltima);
 
@@ -118,7 +117,8 @@ public class EntrateView extends AbstractEntrateView {
 				try {
 					setEntrate();
 					if (Controllore.invocaComando(new CommandDeleteEntrata(modelEntrate))) {
-						Alert.operazioniSegnalazioneInfo("Ok, entrata" + modelEntrate.getnome() + "eliminata correttamente!");
+						String msg = I18NManager.getSingleton().getMessaggio("okentrata")+" " + modelEntrate.getnome() + " "+ I18NManager.getSingleton().getMessaggio("correctlydeleted");
+						Alert.operazioniSegnalazioneInfo(msg);
 					}
 				} catch (final Exception e2) {
 					e2.printStackTrace();
@@ -139,17 +139,17 @@ public class EntrateView extends AbstractEntrateView {
 	}
 
 	private void initLabel() {
-		final LabelListaGruppi lblNomeSpesa = new LabelListaGruppi("Nome Spesa");
-		lblNomeSpesa.setText("Nome Entrata");
-		lblNomeSpesa.setBounds(13, 12, 97, 27);
-		getContentPane().add(lblNomeSpesa);
+		final LabelListaGruppi lblNomeEntrata = new LabelListaGruppi("Nome Entrata");
+		lblNomeEntrata.setText(I18NManager.getSingleton().getMessaggio("name"));
+		lblNomeEntrata.setBounds(13, 12, 97, 27);
+		getContentPane().add(lblNomeEntrata);
 
-		final LabelListaGruppi lblEuro = new LabelListaGruppi("Euro");
+		final LabelListaGruppi lblEuro = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("eur"));
 		lblEuro.setBounds(184, 165, 77, 27);
 		getContentPane().add(lblEuro);
 
 		final LabelListaGruppi lblCategorie = new LabelListaGruppi("Categorie");
-		lblCategorie.setText("Tipo");
+		lblCategorie.setText(I18NManager.getSingleton().getMessaggio("type"));
 		lblCategorie.setBounds(181, 12, 77, 27);
 		getContentPane().add(lblCategorie);
 
@@ -158,7 +158,7 @@ public class EntrateView extends AbstractEntrateView {
 		getContentPane().add(lblData);
 
 		final LabelListaGruppi lblDescrizione = new LabelListaGruppi("Descrizione Spesa");
-		lblDescrizione.setText("Descrizione Entrata");
+		lblDescrizione.setText(I18NManager.getSingleton().getMessaggio("descr"));
 		lblDescrizione.setBounds(14, 64, 123, 25);
 		getContentPane().add(lblDescrizione);
 	}
@@ -187,15 +187,15 @@ public class EntrateView extends AbstractEntrateView {
 		if (AltreUtil.checkData(tfData.getText())) {
 			setcData(tfData.getText());
 		} else {
-			final String messaggio = "La data va inserita con il seguente formato: aaaa/mm/gg";
-			JOptionPane.showMessageDialog(null, messaggio, "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("./imgUtil/index.jpeg"));
+			final String messaggio = I18NManager.getSingleton().getMessaggio("datainformat");
+			Alert.operazioniSegnalazioneErroreGrave(messaggio);
 		}
 		if (AltreUtil.checkDouble(tfEuro.getText())) {
 			final Double euro = Double.parseDouble(tfEuro.getText());
 			setdEuro(AltreUtil.arrotondaDecimaliDouble(euro));
 		} else {
-			final String messaggio = "Valore in Euro inserito non correttamente";
-			JOptionPane.showMessageDialog(null, messaggio, "Non ci siamo!", JOptionPane.ERROR_MESSAGE, new ImageIcon("./imgUtil/index.jpeg"));
+			final String messaggio = I18NManager.getSingleton().getMessaggio("valorenotcorrect");
+			Alert.operazioniSegnalazioneErroreGrave(messaggio);
 		}
 		setUtenti(Controllore.getSingleton().getUtenteLogin());
 		setDataIns(DBUtil.dataToString(new Date(), "yyyy/MM/dd"));

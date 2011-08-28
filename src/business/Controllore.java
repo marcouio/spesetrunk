@@ -40,19 +40,29 @@ public class Controllore {
 	 * Launch the application.
 	 */
 	public static void main(final String[] args) {
-		try {
-			Connection cn = DBUtil.getConnection();
-			String sql = "SELECT * FROM " + Lookandfeel.NOME_TABELLA;
-			Statement st = cn.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-		} catch (SQLException e) {
-			try {
-				Database.getSingleton().generaDB();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
+		verificaPresenzaDb();
+		
+		settaLookFeel();
+		
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				I18NManager.getSingleton().caricaMessaggi(ConfiguratoreXml.getSingleton().getLanguage(), null);
+				DBUtil.closeConnection();
+				Controllore.getSingleton();
+				view = GeneralFrame.getSingleton();
+				view.setResizable(false);
+				setStartUtenteLogin();
+				view.setTitle(I18NManager.getSingleton().getMessaggio("title"));
+				view.setLocationByPlatform(true);
+				view.setVisible(true);
+
 			}
-			Alert.info("Database non presente e non è stato rigenerato", "");
-		}
+		});
+	}
+
+	private static void settaLookFeel() {
 		try {
 			final CacheLookAndFeel cacheLook = CacheLookAndFeel.getSingleton();
 			final java.util.Vector<Lookandfeel> vettore = cacheLook.getVettoreLooksPerCombo();
@@ -71,22 +81,22 @@ public class Controllore {
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}
-		SwingUtilities.invokeLater(new Runnable() {
+	}
 
-			@Override
-			public void run() {
-				I18NManager.getSingleton().caricaMessaggi(ConfiguratoreXml.getSingleton().getLanguage(), null);
-				DBUtil.closeConnection();
-				Controllore.getSingleton();
-				view = GeneralFrame.getSingleton();
-				view.setResizable(false);
-				setStartUtenteLogin();
-				view.setTitle(I18NManager.getSingleton().getMessaggio("title"));
-				view.setLocationByPlatform(true);
-				view.setVisible(true);
-
+	private static void verificaPresenzaDb() {
+		try {
+			Connection cn = DBUtil.getConnection();
+			String sql = "SELECT * FROM " + Lookandfeel.NOME_TABELLA;
+			Statement st = cn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+		} catch (SQLException e) {
+			try {
+				Database.getSingleton().generaDB();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
 			}
-		});
+			Alert.info("Database non presente: è stato rigenerato", "");
+		}
 	}
 
 	private Controllore() {

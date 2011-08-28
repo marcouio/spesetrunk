@@ -6,6 +6,7 @@ import view.Alert;
 import business.Controllore;
 import business.ascoltatori.AscoltatoreAggiornatoreEntrate;
 import business.comandi.entrate.CommandInserisciEntrata;
+import business.internazionalizzazione.I18NManager;
 
 public class AscoltaInserisciEntrate extends AscoltatoreAggiornatoreEntrate {
 
@@ -24,7 +25,7 @@ public class AscoltaInserisciEntrate extends AscoltatoreAggiornatoreEntrate {
 				view.dispose();
 			}
 		} else {
-			Alert.operazioniSegnalazioneErroreWarning("E' necessario riempire tutti i campi");
+			Alert.operazioniSegnalazioneErroreWarning(I18NManager.getSingleton().getMessaggio("fillinall"));
 		}
 
 	}
