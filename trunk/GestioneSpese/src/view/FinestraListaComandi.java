@@ -7,6 +7,7 @@ import javax.swing.table.DefaultTableModel;
 
 import view.font.TableF;
 import business.Controllore;
+import business.internazionalizzazione.I18NManager;
 
 public class FinestraListaComandi extends JFrame {
 
@@ -17,10 +18,11 @@ public class FinestraListaComandi extends JFrame {
 	public FinestraListaComandi() {
 		setResizable(false);
 		getContentPane().setLayout(null);
-		this.setTitle("Lista comandi");
+		String lista = I18NManager.getSingleton().getMessaggio("lista");
+		this.setTitle(lista);
 		table = new TableF();
 		Object[][] dati = generaDati();
-		table.setModel(new DefaultTableModel(dati, new String[] { "Lista Comandi" }));
+		table.setModel(new DefaultTableModel(dati, new String[] { lista }));
 
 		table.setBounds(12, 12, 254, 61);
 

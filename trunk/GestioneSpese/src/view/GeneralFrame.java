@@ -96,8 +96,6 @@ public class GeneralFrame extends JFrame {
 		tabPermesi = new PerMesiF();
 		tabPermesi.setBounds(20, 58, 1000, 750);
 
-		// this.getContentPane().add(tabGenerale);
-
 		contentPane.add(tabMovimenti.getTabMovEntrate());
 		contentPane.add(tabMovimenti.getTabMovUscite());
 		listaPannelli.add(tabMovimenti.getTabMovEntrate());

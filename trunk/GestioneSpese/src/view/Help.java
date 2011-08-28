@@ -44,7 +44,7 @@ public class Help extends JDialog {
 		add(lblMarcoMolinari);
 
 		JLabel help = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("clickherehelp"));
-		help.setText("Clicca sul bottone per l'Help");
+		help.setText(I18NManager.getSingleton().getMessaggio("cliccahelp"));
 		help.setBounds(184, 163, 215, 28);
 
 		add(help);
