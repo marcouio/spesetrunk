@@ -64,12 +64,6 @@ public class Database {
 		plastic3d.setusato(0);
 		wrap.insert(plastic3d);
 
-		Lookandfeel lipstick = new Lookandfeel();
-		lipstick.setnome("Lipstick");
-		lipstick.setvalore("com.lipstikLF.LipstikLookAndFeel");
-		lipstick.setusato(0);
-		wrap.insert(lipstick);
-
 		Lookandfeel nimbus = new Lookandfeel();
 		nimbus.setnome("Nimbus");
 		nimbus.setvalore("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
