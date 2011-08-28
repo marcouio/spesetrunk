@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import business.internazionalizzazione.I18NManager;
+
 public class PannelloAScomparsa2 extends JFrame implements ItemListener {
 
 	private static final long serialVersionUID = 1L;
@@ -41,6 +43,7 @@ public class PannelloAScomparsa2 extends JFrame implements ItemListener {
 	private SottoPannelloMesi        pannelloMesi;
 	private SottoPannelloCategorie   pannelloCategorie;
 	private SottoPannelloTotali      pannelloTotali;
+	CostruttoreSottoPannello[] arrayPannelli;
 
 	public PannelloAScomparsa2() {
 		initGui();
@@ -49,22 +52,24 @@ public class PannelloAScomparsa2 extends JFrame implements ItemListener {
 	private void initGui() {
 
 		this.setLayout(null);
-		this.setTitle("Pannello Dati");
+		this.setTitle(I18NManager.getSingleton().getMessaggio("datapanel"));
 		pannelloSpese = new SottoPannelloDatiSpese();
 		pannelloEntrate = new SottoPannelloDatiEntrate();
 		pannelloMesi = new SottoPannelloMesi();
 		pannelloCategorie = new SottoPannelloCategorie();
 		pannelloTotali = new SottoPannelloTotali();
 
+		initArrayPannello();
+		
 		combo = new JComboBox();
 		this.add(combo);
 		combo.setBounds(65, 50, 120, 40);
 		combo.addItem("");
-		combo.addItem("1 - Spese");
-		combo.addItem("2 - Categorie");
-		combo.addItem("3 - Entrate");
-		combo.addItem("4 - Mesi");
-		combo.addItem("5 - Totali");
+		combo.addItem("1 - " + I18NManager.getSingleton().getMessaggio("withdrawal"));
+		combo.addItem("2 - " + I18NManager.getSingleton().getMessaggio("categories"));
+		combo.addItem("3 - " + I18NManager.getSingleton().getMessaggio("entries"));
+		combo.addItem("4 - " + I18NManager.getSingleton().getMessaggio("months"));
+		combo.addItem("5 - " + I18NManager.getSingleton().getMessaggio("totals"));
 		combo.setSelectedIndex(0);
 		combo.addItemListener(this);
 	}
@@ -79,39 +84,34 @@ public class PannelloAScomparsa2 extends JFrame implements ItemListener {
 			this.remove(pannello);
 		}
 		pannelli.clear();
-		if (combo.getSelectedItem().equals("1 - Spese") && e.getStateChange() == ItemEvent.SELECTED) {
-			JPanel sottoPannello = pannelloSpese.getPannello();
+		CostruttoreSottoPannello sottoPannello = null;
+		if(combo.getSelectedIndex() != 0 && e.getStateChange() == ItemEvent.SELECTED){
+			sottoPannello = arrayPannelli[combo.getSelectedIndex()];
 			mostra(p, sottoPannello);
-			p.setBounds(50, 90, sottoPannello.getPreferredSize().width, sottoPannello.getPreferredSize().height);
-
-		} else if (combo.getSelectedItem().equals("2 - Categorie") && e.getStateChange() == ItemEvent.SELECTED) {
-			JPanel sottoPannello = pannelloCategorie.getPannello();
-			mostra(p, sottoPannello);
-			p.setBounds(50, 90, sottoPannello.getPreferredSize().width, sottoPannello.getPreferredSize().height);
-
-		} else if (combo.getSelectedItem().equals("3 - Entrate") && e.getStateChange() == ItemEvent.SELECTED) {
-			JPanel sottoPannello = pannelloEntrate.getPannello();
-			mostra(p, sottoPannello);
-			p.setBounds(50, 90, sottoPannello.getPreferredSize().width, sottoPannello.getPreferredSize().height);
-		} else if (combo.getSelectedItem().equals("4 - Mesi") && e.getStateChange() == ItemEvent.SELECTED) {
-			JPanel sottoPannello = pannelloMesi.getPannello();
-			mostra(p, sottoPannello);
-			p.setBounds(50, 90, sottoPannello.getPreferredSize().width, sottoPannello.getPreferredSize().height);
-		} else if (combo.getSelectedItem().equals("5 - Totali") && e.getStateChange() == ItemEvent.SELECTED) {
-			JPanel sottoPannello = pannelloTotali.getPannello();
-			mostra(p, sottoPannello);
-			p.setBounds(50, 90, sottoPannello.getPreferredSize().width, sottoPannello.getPreferredSize().height);
 		}
 		this.validate();
 		repaint();
 
 	}
 
-	private void mostra(JPanel p, JPanel sottoPannello) {
+	private void mostra(JPanel p, CostruttoreSottoPannello sottoPannello) {
 		this.add(p);
 		pannelli.add(p);
 		p.add(sottoPannello);
 		p.setVisible(true);
+		p.setBounds(50, 90, sottoPannello.getPreferredSize().width, sottoPannello.getPreferredSize().height);
 	}
+	
+	private void initArrayPannello() {
+		arrayPannelli = new CostruttoreSottoPannello[]{
+				new CostruttoreSottoPannello(), 
+				pannelloSpese.getPannello(),
+				pannelloCategorie.getPannello(),
+				pannelloEntrate.getPannello(),
+				pannelloMesi.getPannello(),
+				pannelloTotali.getPannello()
+		};
+	}
+
 
 }
