@@ -286,7 +286,6 @@ public class GeneralFrame extends JFrame {
 			p.setLocation(p.x + d.width + 5, p.y);
 			try {
 				final JFrame finestraVisibile = Controllore.getSingleton().getInitFinestre().getFinestraVisibile();
-				System.out.println(finestraVisibile.getName());
 				finestraVisibile.setLocation(p);
 			} catch (final Exception e) {
 				e.printStackTrace();
