@@ -11,6 +11,7 @@ import java.awt.event.WindowFocusListener;
 import javax.swing.JFrame;
 
 import business.Controllore;
+import business.InizializzatoreFinestre;
 
 public class MyWindowListener extends WindowAdapter implements WindowFocusListener, ComponentListener, MouseListener {
 
@@ -21,7 +22,7 @@ public class MyWindowListener extends WindowAdapter implements WindowFocusListen
 		this.view = view;
 	}
 
-	//
+
 	@Override
 	public void windowDeiconified(final WindowEvent e) {
 		if (Controllore.getSingleton().getInitFinestre().getFinestraVisibile() != null) {
@@ -55,9 +56,10 @@ public class MyWindowListener extends WindowAdapter implements WindowFocusListen
 
 	@Override
 	public void componentMoved(final ComponentEvent e) {
-		if (Controllore.getSingleton().getInitFinestre().getFinestraVisibile() != null) {
-			Controllore.getSingleton().getInitFinestre().getFinestraVisibile().setVisible(true);
-			Controllore.getSingleton().getInitFinestre().getFinestraVisibile().setState(WindowEvent.WINDOW_DEICONIFIED);
+		InizializzatoreFinestre initFinestre = Controllore.getSingleton().getInitFinestre(); 
+		if (initFinestre.getFinestraVisibile() != null) {
+			initFinestre.getFinestraVisibile().setVisible(true);
+			initFinestre.getFinestraVisibile().setState(WindowEvent.WINDOW_DEICONIFIED);
 		}
 		view.relocateFinestreLaterali();
 	}

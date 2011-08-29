@@ -26,6 +26,8 @@ import view.grafici.dialogGraph.GrUscite2;
 import view.impostazioni.CategorieView;
 import view.impostazioni.GruppiView;
 import view.impostazioni.Impostazioni;
+import view.login.Login;
+import view.login.Registrazione;
 import view.note.MostraNoteView;
 import business.AltreUtil;
 import business.Controllore;
@@ -33,10 +35,9 @@ import business.InizializzatoreFinestre;
 import business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import business.ascoltatoriMenu.AscoltatoreAvanti;
 import business.ascoltatoriMenu.AscoltatoreCaricaDatabase;
+import business.ascoltatoriMenu.AscoltatoreCreaDialog;
 import business.ascoltatoriMenu.AscoltatoreIndietro;
 import business.ascoltatoriMenu.AscoltatoreInfo;
-import business.ascoltatoriMenu.AscoltatoreLogin;
-import business.ascoltatoriMenu.AscoltatoreRegistrazione;
 import business.internazionalizzazione.I18NManager;
 import domain.wrapper.WrapCatSpese;
 import domain.wrapper.WrapEntrate;
@@ -66,13 +67,13 @@ public class MyMenu extends JMenuBar {
 
 		// item Login
 		final JMenuItem menuItem2 = new JMenuItem("Login");
-		final ActionListener login = new AscoltatoreLogin();
+		final ActionListener login = new AscoltatoreCreaDialog(new Login(), 380, 260);
 		menuItem2.addActionListener(login);
 		file.add(menuItem2);
 
 		// item Login
 		final JMenuItem registra = new JMenuItem(I18NManager.getSingleton().getMessaggio("register"));
-		final ActionListener registrazione = new AscoltatoreRegistrazione();
+		final ActionListener registrazione = new AscoltatoreCreaDialog(new Registrazione());
 		registra.addActionListener(registrazione);
 		file.add(registra);
 
