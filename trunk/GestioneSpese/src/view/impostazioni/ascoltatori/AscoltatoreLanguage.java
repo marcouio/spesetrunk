@@ -1,4 +1,4 @@
-package view.impostazioni;
+package view.impostazioni.ascoltatori;
 
 import java.awt.event.ActionEvent;
 

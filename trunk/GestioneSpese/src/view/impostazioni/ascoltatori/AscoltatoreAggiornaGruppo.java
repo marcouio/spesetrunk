@@ -1,4 +1,4 @@
-package view.impostazioni;
+package view.impostazioni.ascoltatori;
 
 import java.awt.event.ActionEvent;
 import java.util.Vector;
@@ -6,6 +6,7 @@ import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 
 import view.Alert;
+import view.impostazioni.GruppiView;
 import business.Controllore;
 import business.aggiornatori.AggiornatoreManager;
 import business.ascoltatori.AscoltatoreAggiornatoreTutto;

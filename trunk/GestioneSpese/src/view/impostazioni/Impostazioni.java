@@ -22,6 +22,8 @@ import view.Alert;
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
 import view.font.TextFieldF;
+import view.impostazioni.ascoltatori.AscoltatoreLanguage;
+import view.impostazioni.ascoltatori.AscoltatoreLook;
 import business.Controllore;
 import business.DBUtil;
 import business.aggiornatori.AggiornatoreManager;
