@@ -14,6 +14,7 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -35,9 +36,9 @@ import domain.wrapper.Model;
 
 public class Impostazioni extends JDialog {
 
-	private static final long   serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 	private static Impostazioni singleton;
-	private static String       posDatabase      = "";
+	private static String posDatabase = "";
 
 	public static void main(final String[] args) {
 		final Impostazioni dialog = new Impostazioni();
@@ -56,12 +57,12 @@ public class Impostazioni extends JDialog {
 		return singleton;
 	} // getSingleton()
 
-	private JTextField        dataOdierna;
-	private JTextField        utente;
+	private JTextField dataOdierna;
+	private JTextField utente;
 	private ArrayList<String> listaLook;
-	private JComboBox         comboLook;
-	private TextFieldF        annotextField;
-	private static int        anno = new GregorianCalendar().get(Calendar.YEAR);
+	private JComboBox comboLook;
+	private TextFieldF annotextField;
+	private static int anno = new GregorianCalendar().get(Calendar.YEAR);
 	private static JTextField caricaDatabase;
 
 	public Impostazioni() {
@@ -74,20 +75,21 @@ public class Impostazioni extends JDialog {
 			this.setModalityType(ModalityType.APPLICATION_MODAL);
 			this.setTitle("Setting");
 			this.setPreferredSize(new Dimension(626, 250));
+			getContentPane().setLayout(null);
+
 			final JLabel calendario = new LabelListaGruppi("Data Odierna");
 			calendario.setBounds(22, 86, 87, 14);
 			dataOdierna = new TextFieldF();
 			dataOdierna.setBounds(140, 82, 113, 27);
 			dataOdierna.setEditable(false);
-
 			final GregorianCalendar gc = new GregorianCalendar();
 			dataOdierna.setText(DBUtil.dataToString(gc.getTime(), "dd-MM-yyyy"));
-			getContentPane().setLayout(null);
+			getContentPane().add(dataOdierna);
+			getContentPane().add(calendario);
+
 			utente = new TextFieldF();
 			utente.setText(Controllore.getSingleton().getUtenteLogin().getusername());
 			utente.setBounds(140, 126, 113, 27);
-			getContentPane().add(calendario);
-			getContentPane().add(dataOdierna);
 			getContentPane().add(utente);
 
 			final JLabel lblImpostaAnno = new LabelListaGruppi("Imposta anno");
@@ -141,7 +143,8 @@ public class Impostazioni extends JDialog {
 			elimina.addActionListener(new AscoltatoreAggiornatoreTutto() {
 				@Override
 				public void actionPerformedOverride(final ActionEvent arg0) {
-					if (Model.getSingleton().getModelEntrate().deleteAll() && Model.getSingleton().getModelUscita().deleteAll()) {
+					if (Model.getSingleton().getModelEntrate().deleteAll()
+							&& Model.getSingleton().getModelUscita().deleteAll()) {
 						// TODO creare comando per eliminare tutto
 						Alert.operazioniSegnalazioneInfo("Ok, tutti i dati sono stati cancellati: puoi ripartire!");
 						try {
@@ -181,6 +184,13 @@ public class Impostazioni extends JDialog {
 
 			Lookandfeel look = null;
 			comboLook = new JComboBox(vettore);
+			Lookandfeel system = new Lookandfeel();
+			system.setnome("System");
+			system.setvalore(UIManager.getSystemLookAndFeelClassName());
+			system.setusato(0);
+			comboLook.addItem(system);
+
+			comboLook.setSelectedItem("System");
 			for (int i = 0; i < vettore.size(); i++) {
 				look = vettore.get(i);
 				if (look.getusato() == 1) {
@@ -199,8 +209,8 @@ public class Impostazioni extends JDialog {
 			JLabel lblLang = new JLabel("Language");
 			lblLang.setBounds(278, 29, 113, 15);
 			getContentPane().add(lblLang);
-			
-			Object[] languages = new Object[]{"it","en"};
+
+			Object[] languages = new Object[] { "it", "en" };
 			JComboBox comboLanguage = new JComboBox(languages);
 
 			comboLanguage.addActionListener(new AscoltatoreLanguage(comboLanguage));
@@ -208,7 +218,7 @@ public class Impostazioni extends JDialog {
 
 			for (int i = 0; i < languages.length; i++) {
 				String lingua = ConfiguratoreXml.getSingleton().getLanguage();
-				if(languages[i].equals(lingua)){
+				if (languages[i].equals(lingua)) {
 					comboLanguage.setSelectedIndex(i);
 				}
 			}

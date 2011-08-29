@@ -7,8 +7,7 @@ public class I18NManager {
 
 	public static void main(String[] args) {
 		I18NManager i18n = new I18NManager();
-		String prova = i18n.messages.getString("marco");
-		System.out.println(prova);
+		System.out.println(i18n.getMessaggio("io"));
 	}
 
 	private static I18NManager singleton;
@@ -28,12 +27,15 @@ public class I18NManager {
 	private I18NManager() {
 
 	}
+
 	public String getMessaggio(String key) {
-		if (this.getMessages() != null && this.getMessages().getString(key)!=null) {
+		try {
 			return this.getMessages().getString(key);
+		} catch (NullPointerException e) {
+			return key;
 		}
-		return key;
 	}
+
 	private void creaLocale(final String language, final String country) {
 		if (language != null && country != null) {
 			setLocale(language, country);

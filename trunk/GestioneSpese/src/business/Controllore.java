@@ -27,28 +27,28 @@ import domain.wrapper.WrapUtenti;
 
 public class Controllore {
 
-	private static GeneralFrame        view;
+	private static GeneralFrame view;
 
-	private static Utenti              utenteLogin;
-	private static CommandManager      commandManager;
+	private static Utenti utenteLogin;
+	private static CommandManager commandManager;
 	private static AggiornatoreManager aggiornatoreManager;
-	private InizializzatoreFinestre    initFinestre;
-	private static Controllore         singleton;
-	private static Logger              log;
+	private InizializzatoreFinestre initFinestre;
+	private static Controllore singleton;
+	private static Logger log;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(final String[] args) {
+		I18NManager.getSingleton().caricaMessaggi(ConfiguratoreXml.getSingleton().getLanguage(), null);
 		verificaPresenzaDb();
-		
+
 		settaLookFeel();
-		
+
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
 			public void run() {
-				I18NManager.getSingleton().caricaMessaggi(ConfiguratoreXml.getSingleton().getLanguage(), null);
 				DBUtil.closeConnection();
 				Controllore.getSingleton();
 				view = GeneralFrame.getSingleton();
@@ -67,17 +67,20 @@ public class Controllore {
 			final CacheLookAndFeel cacheLook = CacheLookAndFeel.getSingleton();
 			final java.util.Vector<Lookandfeel> vettore = cacheLook.getVettoreLooksPerCombo();
 			Lookandfeel look = null;
+			Lookandfeel lookDaUsare = null;
 			for (int i = 0; i < vettore.size(); i++) {
 				look = vettore.get(i);
 				if (look.getusato() == 1) {
+					lookDaUsare = look;
 					break;
 				}
 			}
-			if (look.getvalore() != null) {
-				UIManager.setLookAndFeel(look.getvalore());
+			if (lookDaUsare != null && lookDaUsare.getvalore() != null) {
+				UIManager.setLookAndFeel(lookDaUsare.getvalore());
 			} else {
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			}
+			SwingUtilities.updateComponentTreeUI(GeneralFrame.getSingleton());
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}
