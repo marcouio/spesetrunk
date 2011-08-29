@@ -1,6 +1,5 @@
 package view.impostazioni;
 
-import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JDialog;
@@ -8,7 +7,7 @@ import javax.swing.JDialog;
 import domain.Gruppi;
 import domain.wrapper.WrapCatSpese;
 
-public class AbstractCategorieView extends JDialog implements Observer {
+public abstract class AbstractCategorieView extends JDialog implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	public WrapCatSpese modelCatSpese = null;
@@ -47,11 +46,6 @@ public class AbstractCategorieView extends JDialog implements Observer {
 
 	public void setGruppo(final Gruppi gruppo) {
 		modelCatSpese.setGruppi(gruppo);
-	}
-
-	@Override
-	public void update(final Observable o, final Object arg) {
-
 	}
 
 	public WrapCatSpese getModelCatSpese() {

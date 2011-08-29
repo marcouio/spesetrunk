@@ -76,12 +76,6 @@ public class Database {
 		tiny.setusato(0);
 		wrap.insert(tiny);
 
-		Lookandfeel gtk = new Lookandfeel();
-		gtk.setnome("GTK+");
-		gtk.setvalore("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-		gtk.setusato(0);
-		wrap.insert(gtk);
-
 		Lookandfeel motif = new Lookandfeel();
 		motif.setnome("Motif");
 		motif.setvalore("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
@@ -221,6 +215,7 @@ public class Database {
 							}
 						}
 					}
+					DBUtil.closeConnection();
 					final Connection cn = DBUtil.getConnection();
 					final Statement st = cn.createStatement();
 					if (st.executeUpdate(sql.toString()) != 0) {

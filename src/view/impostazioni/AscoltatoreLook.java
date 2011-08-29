@@ -33,7 +33,6 @@ public class AscoltatoreLook implements ActionListener {
 		final Lookandfeel valoreLook = (Lookandfeel) comboLook.getSelectedItem();
 		if (valoreLook != null && !valoreLook.getnome().equals("")) {
 			look = valoreLook.getvalore();
-
 			for (int i = 0; i < vettore.size(); i++) {
 				final Lookandfeel lookAnd = vettore.get(i);
 				lookAnd.setusato(0);
@@ -43,18 +42,21 @@ public class AscoltatoreLook implements ActionListener {
 				clausole.put(Lookandfeel.ID, Integer.toString(lookAnd.getidLook()));
 				Database.getSingleton().eseguiIstruzioneSql("update", Lookandfeel.NOME_TABELLA, campi, clausole);
 			}
-
-			valoreLook.setusato(1);
-			final HashMap<String, String> campi = new HashMap<String, String>();
-			final HashMap<String, String> clausole = new HashMap<String, String>();
-			campi.put(Lookandfeel.USATO, "1");
-			clausole.put(Lookandfeel.ID, Integer.toString(valoreLook.getidLook()));
-			Database.getSingleton().eseguiIstruzioneSql("update", Lookandfeel.NOME_TABELLA, campi, clausole);
+			//se si è scelto il look di sistema non aggiorna il db segnandolo come usato
+			if (!valoreLook.getvalore().equals(UIManager.getSystemLookAndFeelClassName())) {
+				valoreLook.setusato(1);
+				final HashMap<String, String> campi = new HashMap<String, String>();
+				final HashMap<String, String> clausole = new HashMap<String, String>();
+				campi.put(Lookandfeel.USATO, "1");
+				clausole.put(Lookandfeel.ID, Integer.toString(valoreLook.getidLook()));
+				Database.getSingleton().eseguiIstruzioneSql("update", Lookandfeel.NOME_TABELLA, campi, clausole);
+			}
 		} else {
 			look = "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel";
 		}
 		try {
 			UIManager.setLookAndFeel(look);
+			SwingUtilities.updateComponentTreeUI(GeneralFrame.getSingleton());
 		} catch (final ClassNotFoundException e1) {
 			comboLook.setSelectedIndex(0);
 			e1.printStackTrace();
@@ -74,7 +76,8 @@ public class AscoltatoreLook implements ActionListener {
 
 		FinestraListaComandi lista = null;
 		try {
-			lista = ((FinestraListaComandi) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, null));
+			lista = ((FinestraListaComandi) Controllore.getSingleton().getInitFinestre()
+					.getFinestra(InizializzatoreFinestre.INDEX_HISTORY, null));
 		} catch (final Exception e1) {
 			e1.printStackTrace();
 		}
