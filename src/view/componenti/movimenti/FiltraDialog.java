@@ -78,8 +78,8 @@ public abstract class FiltraDialog extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				ButtonF cancelButton = new ButtonF(I18NManager.getSingleton().getMessaggio("delete"));
-				cancelButton.setActionCommand(I18NManager.getSingleton().getMessaggio("delete"));
+				ButtonF cancelButton = new ButtonF(I18NManager.getSingleton().getMessaggio("cancel"));
+				cancelButton.setActionCommand(I18NManager.getSingleton().getMessaggio("cancel"));
 				buttonPane.add(cancelButton);
 				cancelButton.addActionListener(new ActionListener() {
 
@@ -98,12 +98,12 @@ public abstract class FiltraDialog extends JDialog {
 		}
 		{
 			LabelListaGruppi label = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("from")+":");
-			label.setBounds(36, 37, 43, 15);
+			label.setBounds(17, 28, 43, 15);
 			getContentPane().add(label);
 		}
 		{
 			LabelListaGruppi label = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("to")+":");
-			label.setBounds(46, 65, 43, 15);
+			label.setBounds(18, 59, 43, 15);
 			getContentPane().add(label);
 		}
 		{
@@ -125,7 +125,7 @@ public abstract class FiltraDialog extends JDialog {
 		}
 		{
 			LabelListaGruppi label = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("eur")+":");
-			label.setBounds(303, 26, 55, 15);
+			label.setBounds(307, 27, 55, 15);
 			getContentPane().add(label);
 		}
 		{
@@ -136,7 +136,7 @@ public abstract class FiltraDialog extends JDialog {
 		}
 		{
 			LabelListaGruppi label = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("category")+":");
-			label.setBounds(436, 26, 82, 15);
+			label.setBounds(443, 27, 82, 15);
 			getContentPane().add(label);
 		}
 	}
