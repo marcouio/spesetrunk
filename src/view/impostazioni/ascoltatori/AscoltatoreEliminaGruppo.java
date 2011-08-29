@@ -1,10 +1,11 @@
-package view.impostazioni;
+package view.impostazioni.ascoltatori;
 
 import java.awt.event.ActionEvent;
 
 import javax.swing.JComboBox;
 
 import view.Alert;
+import view.impostazioni.GruppiView;
 import business.Controllore;
 import business.aggiornatori.AggiornatoreManager;
 import business.ascoltatori.AscoltatoreAggiornatoreTutto;

@@ -1,8 +1,9 @@
-package view.impostazioni;
+package view.impostazioni.ascoltatori;
 
 import java.awt.event.ActionEvent;
 
 import view.Alert;
+import view.impostazioni.CategorieView;
 import business.Controllore;
 import business.ascoltatori.AscoltatoreAggiornatoreTutto;
 import business.cache.CacheCategorie;

@@ -17,6 +17,9 @@ import view.font.ButtonF;
 import view.font.LabelListaGruppi;
 import view.font.TextAreaF;
 import view.font.TextFieldF;
+import view.impostazioni.ascoltatori.AscoltatoreAggiornaCategoria;
+import view.impostazioni.ascoltatori.AscoltatoreCancellaCategoria;
+import view.impostazioni.ascoltatori.AscoltatoreInserisciCategoria;
 import business.CorreggiTesto;
 import business.cache.CacheCategorie;
 import business.cache.CacheGruppi;
@@ -148,7 +151,7 @@ public class CategorieView extends AbstractCategorieView {
 		return getcDescrizione() != null && getcImportanza() != null && getcNome() != null && getcImportanza() != null;
 	}
 
-	void setCategoria(final String actionCommand) {
+	public void setCategoria(final String actionCommand) {
 
 		if (actionCommand.equals("Inserisci")) {
 			final int idCategoria = (CacheCategorie.getSingleton().getMaxId()) + 1;

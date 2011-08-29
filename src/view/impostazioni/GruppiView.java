@@ -13,6 +13,9 @@ import view.font.ButtonF;
 import view.font.LabelListaGruppi;
 import view.font.TextAreaF;
 import view.font.TextFieldF;
+import view.impostazioni.ascoltatori.AscoltatoreAggiornaGruppo;
+import view.impostazioni.ascoltatori.AscoltatoreEliminaGruppo;
+import view.impostazioni.ascoltatori.AscoltatoreInserisciGruppo;
 import business.cache.CacheGruppi;
 import domain.Gruppi;
 import domain.wrapper.WrapGruppi;
@@ -103,7 +106,7 @@ public class GruppiView extends AbstractGruppiView {
 
 	}
 
-	boolean nonEsistonoCampiNonValorizzati() {
+	public boolean nonEsistonoCampiNonValorizzati() {
 		return getDescrizione() != null && getNome() != null;
 	}
 
@@ -125,7 +128,7 @@ public class GruppiView extends AbstractGruppiView {
 
 	}
 
-	void setGruppo(final String actionCommand) {
+	public void setGruppo(final String actionCommand) {
 		if (actionCommand.equals("Inserisci")) {
 			final int idGruppo = (CacheGruppi.getSingleton().getMaxId()) + 1;
 			getModelGruppi().setidGruppo(idGruppo);
