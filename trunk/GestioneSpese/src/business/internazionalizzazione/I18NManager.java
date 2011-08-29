@@ -3,6 +3,8 @@ package business.internazionalizzazione;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import business.config.ConfiguratoreXml;
+
 public class I18NManager {
 
 	public static void main(String[] args) {
@@ -30,8 +32,11 @@ public class I18NManager {
 
 	public String getMessaggio(String key) {
 		try {
+			if(this.getMessages() == null){
+				this.caricaMessaggi(ConfiguratoreXml.getSingleton().getLanguage(), null);
+			}
 			return this.getMessages().getString(key);
-		} catch (NullPointerException e) {
+		} catch (Exception e) {
 			return key;
 		}
 	}

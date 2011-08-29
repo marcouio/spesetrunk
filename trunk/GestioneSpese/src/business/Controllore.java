@@ -17,7 +17,6 @@ import business.cache.CacheLookAndFeel;
 import business.cache.CacheUtenti;
 import business.comandi.AbstractCommand;
 import business.comandi.CommandManager;
-import business.config.ConfiguratoreXml;
 import business.internazionalizzazione.I18NManager;
 import domain.Gruppi;
 import domain.Lookandfeel;
@@ -40,7 +39,6 @@ public class Controllore {
 	 * Launch the application.
 	 */
 	public static void main(final String[] args) {
-		I18NManager.getSingleton().caricaMessaggi(ConfiguratoreXml.getSingleton().getLanguage(), null);
 		verificaPresenzaDb();
 
 		settaLookFeel();
@@ -95,10 +93,10 @@ public class Controllore {
 		} catch (SQLException e) {
 			try {
 				Database.getSingleton().generaDB();
+				Alert.info("Database non presente: è stato rigenerato", "");
 			} catch (SQLException e1) {
-				e1.printStackTrace();
+				Controllore.getLog().severe("Database non creato: " + e.getMessage());
 			}
-			Alert.info("Database non presente: è stato rigenerato", "");
 		}
 	}
 
