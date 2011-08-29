@@ -17,6 +17,7 @@ public class FinestraListaComandi extends JFrame {
 
 	public FinestraListaComandi() {
 		setResizable(false);
+		this.setSize(250, 425);
 		getContentPane().setLayout(null);
 		String lista = I18NManager.getSingleton().getMessaggio("lista");
 		this.setTitle(lista);

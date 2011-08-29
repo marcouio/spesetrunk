@@ -53,6 +53,7 @@ public class PannelloAScomparsa2 extends JFrame implements ItemListener {
 
 		this.setLayout(null);
 		this.setTitle(I18NManager.getSingleton().getMessaggio("datapanel"));
+		this.setSize(250, 425);
 		pannelloSpese = new SottoPannelloDatiSpese();
 		pannelloEntrate = new SottoPannelloDatiEntrate();
 		pannelloMesi = new SottoPannelloMesi();

@@ -41,6 +41,7 @@ public class Report extends JFrame {
 	public Report() throws FileNotFoundException {
 		getContentPane().setLayout(null);
 		this.setTitle("Report");
+		this.setSize(250, 425);
 		final JLabel Istruzioni = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("selectreport"));
 		Istruzioni.setText(I18NManager.getSingleton().getMessaggio("select")+":");
 		Istruzioni.setBounds(12, 12, 207, 20);
