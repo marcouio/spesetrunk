@@ -12,6 +12,10 @@ import view.font.TextAreaF;
 import domain.Note;
 import domain.wrapper.WrapNote;
 
+/**
+ * Questa classe è il pannello per rappresentare una singola nota
+ *
+ */
 public class PannelloNota extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -22,7 +26,6 @@ public class PannelloNota extends JPanel {
 	public PannelloNota(final Note note2, JFrame padre) {
 		this.nota = note2;
 		this.padre = padre;
-		// this.setSize(width, height)
 		setLayout(null);
 
 		JLabel lNome = new JLabel();

@@ -279,7 +279,6 @@ public class GeneralFrame extends JFrame {
 		pannelloBottoni.setBounds(0, 20, this.getWidth(), 94);
 	}
 
-	// TODO eliminare if else e rendere generale
 	public void relocateFinestreLaterali() {
 		if (Controllore.getSingleton().getInitFinestre().getFinestraVisibile() != null) {
 			final Point p = GeneralFrame.getSingleton().getLocation();
@@ -287,25 +286,8 @@ public class GeneralFrame extends JFrame {
 			p.setLocation(p.x + d.width + 5, p.y);
 			try {
 				final JFrame finestraVisibile = Controllore.getSingleton().getInitFinestre().getFinestraVisibile();
-//				finestraVisibile.setLocation(p);
-				 if (finestraVisibile instanceof PannelloAScomparsa2) {
-				 ((PannelloAScomparsa2)
-				 Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI,
-				 this)).setLocation(p);
-				 } else if (finestraVisibile instanceof FinestraListaComandi)
-				 {
-				 ((FinestraListaComandi)
-				 Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY,
-				 this)).setLocation(p);
-				 } else if (finestraVisibile instanceof MostraNoteView) {
-				 ((MostraNoteView)
-				 Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_NOTE,
-				 this)).setLocation(p);
-				 } else if (finestraVisibile instanceof Report) {
-				 ((Report)
-				 Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_REPORT,
-				 this)).setLocation(p);
-				 }
+				System.out.println(finestraVisibile.getName());
+				finestraVisibile.setLocation(p);
 			} catch (final Exception e) {
 				e.printStackTrace();
 			}
