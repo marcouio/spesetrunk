@@ -1,6 +1,4 @@
-29-ago-2011 21.33.22 business.LoggerOggetto creaLog
+29-ago-2011 22.12.54 business.LoggerOggetto creaLog
 INFO: Start programma!
-29-ago-2011 21.33.22 view.Alert operazioniSegnalazioneErroreGrave
-GRAVE: The file: help.pdf doesn't exist.
-29-ago-2011 21.33.30 view.Alert operazioniSegnalazioneErroreGrave
-GRAVE: The file: help.pdf doesn't exist.
+29-ago-2011 22.12.54 view.Report <init>
+INFO: Registrato Report: 29/08/2011 22:12

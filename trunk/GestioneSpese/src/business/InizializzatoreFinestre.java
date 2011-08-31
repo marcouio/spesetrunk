@@ -7,9 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 
 import view.FinestraListaComandi;
-import view.Report;
 import view.componenti.componentiPannello.PannelloAScomparsa2;
 import view.note.MostraNoteView;
+import view.report.ReportView;
 
 public class InizializzatoreFinestre {
 
@@ -21,7 +21,7 @@ public class InizializzatoreFinestre {
 	protected static PannelloAScomparsa2 pannelloDati;
 	protected static FinestraListaComandi historyCommands;
 	protected static MostraNoteView pannelloNote;
-	protected static Report report;
+	protected static ReportView report;
 
 	JFrame[] finestre;
 	@SuppressWarnings("rawtypes")
@@ -37,7 +37,7 @@ public class InizializzatoreFinestre {
 		finestreClass.add(PannelloAScomparsa2.class);
 		finestreClass.add(FinestraListaComandi.class);
 		finestreClass.add(MostraNoteView.class);
-		finestreClass.add(Report.class);
+		finestreClass.add(ReportView.class);
 		this.finestre = new JFrame[finestreClass.size()];
 
 	}

@@ -13,7 +13,6 @@ import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
 import view.FinestraListaComandi;
-import view.Report;
 import view.componenti.componentiPannello.PannelloAScomparsa2;
 import view.entrateuscite.EntrateView;
 import view.entrateuscite.UsciteView;
@@ -29,6 +28,7 @@ import view.impostazioni.Impostazioni;
 import view.login.Login;
 import view.login.Registrazione;
 import view.note.MostraNoteView;
+import view.report.ReportView;
 import business.AltreUtil;
 import business.Controllore;
 import business.InizializzatoreFinestre;
@@ -144,9 +144,9 @@ public class MyMenu extends JMenuBar {
 
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				Report report;
+				ReportView report;
 				try {
-					report = ((Report) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_REPORT, null));
+					report = ((ReportView) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_REPORT, null));
 					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(report, finestre, mntmReport);
 					Controllore.getSingleton().getView().relocateFinestreLaterali();
 				} catch (final Exception e1) {
