@@ -29,7 +29,11 @@ public class EntrateView extends AbstractEntrateView {
 
 	private static final long        serialVersionUID = 1L;
 
-	static private ArrayList<String> lista;
+	static private ArrayList<String> lista = new ArrayList<String>();
+	static{
+		lista.add(I18NManager.getSingleton().getMessaggio("variables"));
+		lista.add(I18NManager.getSingleton().getMessaggio("fixity"));
+	}
 
 	private final TextFieldF         tfNome;
 	private final TextAreaF          taDescrizione;
@@ -78,10 +82,11 @@ public class EntrateView extends AbstractEntrateView {
 		tfNome.setColumns(10);
 
 		// array per Categoria
-		lista = new ArrayList<String>();
-		lista.add("");
-		lista.add(I18NManager.getSingleton().getMessaggio("variables"));
-		lista.add(I18NManager.getSingleton().getMessaggio("fixity"));
+		ArrayList<String> listaCombo = new ArrayList<String>();
+		listaCombo.add("");
+		for(int i = 0; i<lista.size(); i++){
+			listaCombo.add(lista.get(i));
+		}
 
 		cbTipo = new JComboBox(lista.toArray());
 		cbTipo.setBounds(181, 38, 150, 27);
