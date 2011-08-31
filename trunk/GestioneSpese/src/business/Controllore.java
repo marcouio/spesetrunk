@@ -27,7 +27,6 @@ import domain.wrapper.WrapUtenti;
 public class Controllore {
 
 	private static GeneralFrame view;
-
 	private static Utenti utenteLogin;
 	private static CommandManager commandManager;
 	private static AggiornatoreManager aggiornatoreManager;
@@ -39,6 +38,7 @@ public class Controllore {
 	 * Launch the application.
 	 */
 	public static void main(final String[] args) {
+		Database.DB_URL = Database.DB_URL_WORKSPACE;
 		verificaPresenzaDb();
 
 		settaLookFeel();
@@ -68,6 +68,7 @@ public class Controllore {
 			Lookandfeel lookDaUsare = null;
 			for (int i = 0; i < vettore.size(); i++) {
 				look = vettore.get(i);
+				//verifico se sul database quale look era scelto
 				if (look.getusato() == 1) {
 					lookDaUsare = look;
 					break;
@@ -76,6 +77,7 @@ public class Controllore {
 			if (lookDaUsare != null && lookDaUsare.getvalore() != null) {
 				UIManager.setLookAndFeel(lookDaUsare.getvalore());
 			} else {
+				//se non c'era un look selezionato setto quello di sistema
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			}
 			SwingUtilities.updateComponentTreeUI(GeneralFrame.getSingleton());
@@ -89,6 +91,7 @@ public class Controllore {
 			Connection cn = DBUtil.getConnection();
 			String sql = "SELECT * FROM " + Lookandfeel.NOME_TABELLA;
 			Statement st = cn.createStatement();
+			@SuppressWarnings("unused")
 			ResultSet rs = st.executeQuery(sql);
 		} catch (SQLException e) {
 			try {

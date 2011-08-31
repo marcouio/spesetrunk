@@ -19,7 +19,7 @@ import domain.IGruppi;
 public class WrapGruppi extends Observable implements IWrapperEntity, IGruppi {
 
 	private static final long serialVersionUID = 1L;
-	private Gruppi gruppo;
+	private final Gruppi gruppo;
 
 	public WrapGruppi() {
 		gruppo = new Gruppi();
@@ -27,7 +27,7 @@ public class WrapGruppi extends Observable implements IWrapperEntity, IGruppi {
 
 	@Override
 	public Object selectById(final int id) {
-		final Connection cn = DBUtil.getConnection2();
+		final Connection cn = DBUtil.getConnection();
 		final String sql = "SELECT * FROM " + Gruppi.NOME_TABELLA + " WHERE " + Gruppi.ID + " = " + id;
 
 		Gruppi gruppo = null;
@@ -101,7 +101,8 @@ public class WrapGruppi extends Observable implements IWrapperEntity, IGruppi {
 		try {
 			final Gruppi gruppo = (Gruppi) oggettoEntita;
 
-			sql = "INSERT INTO " + Gruppi.NOME_TABELLA + " (" + Gruppi.NOME + ", " + Gruppi.DESCRIZIONE + ") VALUES(?,?)";
+			sql = "INSERT INTO " + Gruppi.NOME_TABELLA + " (" + Gruppi.NOME + ", " + Gruppi.DESCRIZIONE
+					+ ") VALUES(?,?)";
 			final PreparedStatement ps = cn.prepareStatement(sql);
 			ps.setString(1, gruppo.getnome());
 			ps.setString(2, gruppo.getdescrizione());
@@ -152,8 +153,9 @@ public class WrapGruppi extends Observable implements IWrapperEntity, IGruppi {
 		final Connection cn = DBUtil.getConnection();
 
 		final Gruppi gruppo = (Gruppi) oggettoEntita;
-		final String sql = "UPDATE " + Gruppi.NOME_TABELLA + " SET " + Gruppi.NOME + " = '" + gruppo.getnome() + "', " + Gruppi.DESCRIZIONE + " = '" + gruppo.getdescrizione()
-				+ "' WHERE " + Gruppi.ID + " = " + gruppo.getidGruppo();
+		final String sql = "UPDATE " + Gruppi.NOME_TABELLA + " SET " + Gruppi.NOME + " = '" + gruppo.getnome() + "', "
+				+ Gruppi.DESCRIZIONE + " = '" + gruppo.getdescrizione() + "' WHERE " + Gruppi.ID + " = "
+				+ gruppo.getidGruppo();
 		try {
 			final Statement st = cn.createStatement();
 			st.executeUpdate(sql);
@@ -198,7 +200,7 @@ public class WrapGruppi extends Observable implements IWrapperEntity, IGruppi {
 
 	public Gruppi selectByNome(final String nome) {
 
-		final Connection cn = DBUtil.getConnection2();
+		final Connection cn = DBUtil.getConnection();
 		final String sql = "SELECT * FROM " + Gruppi.NOME_TABELLA + " WHERE " + Gruppi.NOME + " = \"" + nome + "\"";
 
 		Gruppi gruppo = null;

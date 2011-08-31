@@ -13,10 +13,11 @@ import java.util.GregorianCalendar;
 import view.impostazioni.Impostazioni;
 
 public class DBUtil {
+
 	// per connessione da jar
 	// public static String URL = "jdbc:sqlite:./GestioneSpese.sqlite";
 	// per connessione per workspace
-	public static String URL = "jdbc:sqlite:../GestioneSpese.sqlite";
+	public static String URL = "jdbc:sqlite:" + Database.DB_URL;
 	public static final String USR = "root";
 	public static final String PWD = "marco";
 	public static final String DRIVERCLASSNAME = "org.sqlite.JDBC";
@@ -208,16 +209,6 @@ public class DBUtil {
 		final Date dataNuova = format.parse(data);
 
 		return dataNuova;
-	}
-
-	public static Connection getConnection2() {
-		Connection connection2 = null;
-		try {
-			connection2 = DriverManager.getConnection(DBUtil.URL);
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		}
-		return connection2;
 	}
 
 	public static Connection getConnection() {

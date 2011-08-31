@@ -29,6 +29,9 @@ import domain.wrapper.WrapLookAndFeel;
 public class Database {
 
 	private static Database singleton;
+	public static final String DB_URL_WORKSPACE = "../GestioneSpese.sqlite";
+	public static final String DB_URL_JAR = "./GestioneSpese.sqlite";
+	public static String DB_URL = DB_URL_WORKSPACE;
 
 	private Database() {
 
@@ -91,9 +94,8 @@ public class Database {
 	}
 
 	public void generaDB() throws SQLException {
-		//per jar
-		//File db = new File("./GestioneSpese.sqlite");
-		File db = new File("../GestioneSpese.sqlite");
+		@SuppressWarnings("unused")
+		File db = new File(Database.DB_URL);
 		String sql = new String();
 		Connection cn = DBUtil.getConnection();
 		sql = "CREATE TABLE \"Utenti\" (\"idUtente\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , \"nome\" TEXT NOT NULL , \"cognome\" TEXT NOT NULL , \"username\" TEXT NOT NULL  UNIQUE , \"password\" TEXT NOT NULL );";
