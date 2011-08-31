@@ -1,4 +1,4 @@
-package view;
+package view.report;
 
 import java.awt.event.ActionEvent;
 import java.io.FileNotFoundException;
@@ -11,12 +11,8 @@ import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import view.componenti.componentiPannello.SottoPannelloDatiEntrate;
-import view.componenti.componentiPannello.SottoPannelloDatiSpese;
-import view.componenti.componentiPannello.SottoPannelloTotali;
 import view.font.ButtonF;
 import view.font.CheckBoxF;
 import view.font.LabelListaGruppi;
@@ -29,21 +25,21 @@ import business.cache.CacheCategorie;
 import business.internazionalizzazione.I18NManager;
 import domain.CatSpese;
 
-public class Report extends JFrame {
+public class ReportView extends AbstractReportView {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Create the panel.
+	 * Create the panel
 	 * 
 	 * @throws FileNotFoundException
 	 */
-	public Report() throws FileNotFoundException {
+	public ReportView() throws FileNotFoundException {
 		getContentPane().setLayout(null);
 		this.setTitle("Report");
 		this.setSize(250, 425);
 		final JLabel Istruzioni = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("selectreport"));
-		Istruzioni.setText(I18NManager.getSingleton().getMessaggio("select")+":");
+		Istruzioni.setText(I18NManager.getSingleton().getMessaggio("select") + ":");
 		Istruzioni.setBounds(12, 12, 207, 20);
 		getContentPane().add(Istruzioni);
 
@@ -67,7 +63,8 @@ public class Report extends JFrame {
 		chckbxSpesePerCategorie.setBounds(22, 148, 197, 23);
 		getContentPane().add(chckbxSpesePerCategorie);
 
-		final JCheckBox chckbxEntratePerCategorie = new CheckBoxF(I18NManager.getSingleton().getMessaggio("catentrateyear"));
+		final JCheckBox chckbxEntratePerCategorie = new CheckBoxF(I18NManager.getSingleton().getMessaggio(
+				"catentrateyear"));
 		chckbxEntratePerCategorie.setBounds(22, 175, 197, 23);
 		getContentPane().add(chckbxEntratePerCategorie);
 
@@ -75,15 +72,17 @@ public class Report extends JFrame {
 		chckbxSpeseMensCat.setBounds(22, 229, 197, 23);
 		getContentPane().add(chckbxSpeseMensCat);
 
-		final JCheckBox chckbxEntrateMensCategorie = new CheckBoxF(I18NManager.getSingleton().getMessaggio("catentratemonth"));
+		final JCheckBox chckbxEntrateMensCategorie = new CheckBoxF(I18NManager.getSingleton().getMessaggio(
+				"catentratemonth"));
 		chckbxEntrateMensCategorie.setBounds(22, 202, 197, 23);
 		getContentPane().add(chckbxEntrateMensCategorie);
 
-		final JCheckBox chckbxSpeseVariabili_1 = new CheckBoxF("% " + I18NManager.getSingleton().getMessaggio("spesevar"));
+		final JCheckBox chckbxSpeseVariabili_1 = new CheckBoxF("% "
+				+ I18NManager.getSingleton().getMessaggio("spesevar"));
 		chckbxSpeseVariabili_1.setBounds(22, 255, 197, 23);
 		getContentPane().add(chckbxSpeseVariabili_1);
 
-		final JCheckBox chckbxSpeseFutili_1 = new CheckBoxF("% "+ I18NManager.getSingleton().getMessaggio("spesefut"));
+		final JCheckBox chckbxSpeseFutili_1 = new CheckBoxF("% " + I18NManager.getSingleton().getMessaggio("spesefut"));
 		chckbxSpeseFutili_1.setBounds(22, 282, 197, 23);
 		getContentPane().add(chckbxSpeseFutili_1);
 
@@ -101,13 +100,13 @@ public class Report extends JFrame {
 
 		btnGeneraReport.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
-			String                         trattini  = "--------------------------------------------------------------------------";
-			private double                 usciteCategorieAnnuali;
-			private double                 totaleUsciteMese;
-			private double                 totaleEntrateMese;
+			String trattini = "--------------------------------------------------------------------------";
+			private double usciteCategorieAnnuali;
+			private double totaleUsciteMese;
+			private double totaleEntrateMese;
 			private final Vector<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
-			private String[]               nomiColonne;
-			private double                 entrateCategorieAnnuali;
+			private String[] nomiColonne;
+			private double entrateCategorieAnnuali;
 
 			@Override
 			protected void actionPerformedOverride(ActionEvent e) {
@@ -120,57 +119,63 @@ public class Report extends JFrame {
 				} catch (final FileNotFoundException e1) {
 					e1.printStackTrace();
 				}
-				final PrintStream Output = new PrintStream(file);
+				final PrintStream output = new PrintStream(file);
 
-				Output.println("Report Entrate/Uscite realizzato il : " + data);
-				Output.println(" ");
+				output.println("Report Entrate/Uscite realizzato il : "
+						+ DBUtil.dataToString(new Date(), "dd/MM/yyyy HH:mm"));
+				output.println(" ");
 				if (chckbxUsciteAnnuali.isSelected()) {
-					final String forFile = "Le spese annuali sono: " + SottoPannelloDatiSpese.getAnnuale() + "";
-					Output.print(forFile);
-					Output.println(" ");
-					Output.print(trattini);
-					Output.println(" ");
+					double UAnnuale = Database.Annuale();
+					final String forFile = "Le spese annuali sono: "
+							+ Double.toString(AltreUtil.arrotondaDecimaliDouble(UAnnuale)) + "";
+					output.print(forFile);
+					output.println(" ");
+					output.print(trattini);
+					output.println(" ");
 				}
 				if (chckbxEntrateAnnuali.isSelected()) {
-					final String forFile = "Le entrate annuali sono: " + SottoPannelloDatiEntrate.getEnAnCorso().getText() + "";
-					Output.print(forFile);
-					Output.println(" ");
-					Output.print(trattini);
-					Output.println(" ");
+					double EAnnuale = Database.EAnnuale();
+					final String forFile = "Le entrate annuali sono: "
+							+ Double.toString(AltreUtil.arrotondaDecimaliDouble(EAnnuale)) + "";
+					output.print(forFile);
+					output.println(" ");
+					output.print(trattini);
+					output.println(" ");
 				}
 				if (chckbxEntrateMensili.isSelected()) {
 					String entrateMese = "";
 					for (int i = 0; i < 12; i++) {
 						totaleEntrateMese = Database.getSingleton().totaleEntrateMese(i + 1);
 						entrateMese = "Le entrate per il mese " + (i + 1) + " sono: " + totaleEntrateMese + ". \n";
-						Output.print(entrateMese);
-						Output.println(" ");
+						output.print(entrateMese);
+						output.println(" ");
 					}
-					Output.print(trattini);
-					Output.println(" ");
+					output.print(trattini);
+					output.println(" ");
 				}
 				if (chckbxUsciteMensili.isSelected()) {
 					String usciteMese = "";
 					for (int i = 0; i < 12; i++) {
 						totaleUsciteMese = Database.getSingleton().totaleUsciteMese(i + 1);
 						usciteMese = "Le uscite per il mese " + (i + 1) + " sono: " + totaleUsciteMese + ". \n";
-						Output.print(usciteMese);
-						Output.println(" ");
+						output.print(usciteMese);
+						output.println(" ");
 					}
-					Output.print(trattini);
-					Output.println(" ");
+					output.print(trattini);
+					output.println(" ");
 				}
 				if (chckbxSpesePerCategorie.isSelected()) {
 					String uscitaAnnoCat = "";
 					for (int i = 0; i < categorie.size(); i++) {
 						final CatSpese categoria = categorie.get(i);
 						usciteCategorieAnnuali = Database.totaleUscitaAnnoCategoria(categoria.getidCategoria());
-						uscitaAnnoCat = "Le uscite annuali delle categoria '" + categoria.getnome() + "' sono: " + usciteCategorieAnnuali + ". \n";
-						Output.print(uscitaAnnoCat);
-						Output.println(" ");
+						uscitaAnnoCat = "Le uscite annuali delle categoria '" + categoria.getnome() + "' sono: "
+								+ usciteCategorieAnnuali + ". \n";
+						output.print(uscitaAnnoCat);
+						output.println(" ");
 					}
-					Output.print(trattini);
-					Output.println(" ");
+					output.print(trattini);
+					output.println(" ");
 
 				}
 				if (chckbxEntratePerCategorie.isSelected()) {
@@ -180,12 +185,13 @@ public class Report extends JFrame {
 					nomiColonne[1] = "Variabili";
 					for (int i = 0; i < nomiColonne.length; i++) {
 						entrateCategorieAnnuali = Database.totaleEntrateAnnoCategoria(nomiColonne[i]);
-						entrateAnnoCat = "Le entrate annuali delle categoria '" + nomiColonne[i] + "' sono: " + entrateCategorieAnnuali + ". \n";
-						Output.print(entrateAnnoCat);
-						Output.println(" ");
+						entrateAnnoCat = "Le entrate annuali delle categoria '" + nomiColonne[i] + "' sono: "
+								+ entrateCategorieAnnuali + ". \n";
+						output.print(entrateAnnoCat);
+						output.println(" ");
 					}
-					Output.print(trattini);
-					Output.println(" ");
+					output.print(trattini);
+					output.println(" ");
 				}
 				if (chckbxSpeseMensCat.isSelected()) {
 					final int numColonne = categorie.size();
@@ -203,16 +209,17 @@ public class Report extends JFrame {
 								final int idCat = categorie.get(x).getidCategoria();
 								final Double spesaMeseCategoria = Database.speseMeseCategoria(i + 1, idCat);
 								primo[i][x] = spesaMeseCategoria.toString();
-								final String stampa = "Le uscite per la categoria '" + nomiColonne[x] + "' ed il mese " + (i + 1) + " sono: " + primo[i][x] + ".";
-								Output.print(stampa);
-								Output.println(" ");
+								final String stampa = "Le uscite per la categoria '" + nomiColonne[x] + "' ed il mese "
+										+ (i + 1) + " sono: " + primo[i][x] + ".";
+								output.print(stampa);
+								output.println(" ");
 							} catch (final Exception e1) {
 								e1.printStackTrace();
 							}
 						}
 					}
-					Output.print(trattini);
-					Output.println(" ");
+					output.print(trattini);
+					output.println(" ");
 				}
 				if (chckbxEntrateMensCategorie.isSelected()) {
 					nomiColonne = new String[2];
@@ -220,60 +227,68 @@ public class Report extends JFrame {
 					nomiColonne[1] = "Variabili";
 					final String[][] primo = new String[12][2];
 					for (int i = 0; i < 12; i++) {
-						for (int x = 1; x <= 2; x++) {
+						for (int x = 0; x < 2; x++) {
 							try {
-								final Double entrataMeseTipo = Database.getSingleton().entrateMeseTipo((i + 1), nomiColonne[x]);
+								final Double entrataMeseTipo = Database.getSingleton().entrateMeseTipo((i + 1),
+										nomiColonne[x]);
 								primo[i][x] = entrataMeseTipo.toString();
-								final String stampa = "Le entrate per la categoria '" + nomiColonne[x] + "' ed il mese " + (i + 1) + " sono: " + primo[i][x] + ".";
-								Output.print(stampa);
-								Output.print("\n");
+								final String stampa = "Le entrate per la categoria '" + nomiColonne[x]
+										+ "' ed il mese " + (i + 1) + " sono: " + primo[i][x] + ".";
+								output.print(stampa);
+								output.print("\n");
+								output.println("\n");
 							} catch (final Exception e2) {
 								e2.printStackTrace();
 							}
 						}
 					}
-					Output.print(trattini);
-					Output.println(" ");
+					output.print(trattini);
+					output.println(" ");
 				}
 				if (chckbxSpeseVariabili_1.isSelected()) {
-					final double speseVariabili = Double.parseDouble(SottoPannelloTotali.getPercentoVariabili().getText());
-					final String forFile = "La percentuale di spese variabili sul totale annuale e': " + speseVariabili + " %";
-					Output.print(forFile);
-					Output.println(" ");
-					Output.print(trattini);
-					Output.println(" ");
+					final double speseVariabili = Database.percentoUscite(CatSpese.IMPORTANZA_VARIABILE);
+					final String forFile = "La percentuale di spese variabili sul totale annuale e': "
+							+ AltreUtil.arrotondaDecimaliDouble(speseVariabili) + " %";
+					output.print(forFile);
+					output.println(" ");
+					output.print(trattini);
+					output.println(" ");
 				}
 				if (chckbxSpeseFutili_1.isSelected()) {
-					final double speseFutili = Double.parseDouble(SottoPannelloTotali.getPercentoFutili().getText());
+					final double speseFutili = Database.percentoUscite(CatSpese.IMPORTANZA_FUTILE);
 					final String forFile = "La percentuale di spese futile sul totale annuale e': " + speseFutili + "%";
-					Output.print(forFile);
-					Output.println(" ");
-					Output.print(trattini);
-					Output.println(" ");
+					output.print(forFile);
+					output.println(" ");
+					output.print(trattini);
+					output.println(" ");
 				}
 				if (chckbxAvanzo.isSelected()) {
-					final double avanzo = Double.parseDouble(SottoPannelloTotali.getAvanzo().getText());
-					final String forFile = "La differenza fra Entrate e Uscite totali sono: " + avanzo + " ";
-					Output.print(forFile);
-					Output.println(" ");
-					Output.print(trattini);
-					Output.println(" ");
+					double differenza = AltreUtil.arrotondaDecimaliDouble((Database.EAnnuale()) - (Database.Annuale()));
+					final String forFile = "La differenza fra Entrate e Uscite totali sono: "
+							+ Double.toString(AltreUtil.arrotondaDecimaliDouble(differenza)) + " ";
+					output.print(forFile);
+					output.println(" ");
+					output.print(trattini);
+					output.println(" ");
 				}
 				if (chckbxMedie.isSelected()) {
-					final double mediaEntrate = Double.parseDouble(SottoPannelloDatiEntrate.getEnAnCorso().getText()) / new GregorianCalendar().get(Calendar.MONTH + 1);
-					final double mediaUscite = SottoPannelloDatiSpese.getAnnuale() / new GregorianCalendar().get(Calendar.MONTH + 1);
-					final String forFileE = "La media mensile delle entrate e': " + mediaEntrate + "";
-					final String forfile = "La media mensile delle uscite e': " + mediaUscite + "";
-					Output.print(forFileE);
-					Output.println(" ");
-					Output.print(forfile);
-					Output.println(" ");
-					Output.print(trattini);
-					Output.println(" ");
+					final double mediaEntrate = Database.EAnnuale() / new GregorianCalendar().get(Calendar.MONTH + 1);
+					final double mediaUscite = Database.Annuale() / new GregorianCalendar().get(Calendar.MONTH + 1);
+					final String forFileE = "La media mensile delle entrate e': "
+							+ AltreUtil.arrotondaDecimaliDouble(mediaEntrate) + "";
+					final String forfile = "La media mensile delle uscite e': "
+							+ AltreUtil.arrotondaDecimaliDouble(mediaUscite) + "";
+					output.print(forFileE);
+					output.println(" ");
+					output.print(forfile);
+					output.println(" ");
+					output.print(trattini);
+					output.println(" ");
 				}
-				Output.println();
-
+				output.println();
+				Controllore.getLog().info("Aggiorntato Report: " + DBUtil.dataToString(new Date(), "dd/MM/yyyy HH:mm"));
 			}
+
 		});
 		Controllore.getLog().info("Registrato Report: " + DBUtil.dataToString(new Date(), "dd/MM/yyyy HH:mm"));
 
