@@ -35,6 +35,7 @@ public class ReportView extends AbstractReportView {
 	 * @throws FileNotFoundException
 	 */
 	public ReportView() throws FileNotFoundException {
+		setReportData(new ReportData());
 		getContentPane().setLayout(null);
 		this.setTitle("Report");
 		this.setSize(250, 425);

@@ -16,9 +16,7 @@ import business.Database;
 import business.cache.CacheCategorie;
 
 public class ReportData {
-
-	private Date dataRegistrazione;
-	private Date dataAggiornamento;
+	
 	private Double usciteAnnuali;
 	private Double entrateAnnuali;
 	private HashMap<String, Double> entrateMese = new HashMap<String, Double>();
@@ -35,20 +33,6 @@ public class ReportData {
 	Vector<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
 	
 	
-	public Date getDataRegistrazione() {
-		dataRegistrazione = new Date();
-		return dataRegistrazione;
-	}
-	public void setDataRegistrazione(Date dataRegistrazione) {
-		this.dataRegistrazione = dataRegistrazione;
-	}
-	public Date getDataAggiornamento() {
-		dataAggiornamento = new Date();
-		return dataAggiornamento;
-	}
-	public void setDataAggiornamento(Date dataAggiornamento) {
-		this.dataAggiornamento = dataAggiornamento;
-	}
 	public Double getUsciteAnnuali() {
 		usciteAnnuali = Database.Annuale();
 		return usciteAnnuali;

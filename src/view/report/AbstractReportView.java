@@ -4,12 +4,11 @@ import javax.swing.JFrame;
 
 public abstract class AbstractReportView extends JFrame {
 
-	private ReportData reportData;
+	protected ReportData reportData;
 	private static final long serialVersionUID = 1L;
 
 	public AbstractReportView() {
 	}
-	
 	public AbstractReportView(ReportData reportData) {
 		this.setReportData(reportData);
 	}
