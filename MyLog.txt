@@ -1,4 +1,10 @@
-29-ago-2011 22.12.54 business.LoggerOggetto creaLog
+1-set-2011 21.29.56 business.LoggerOggetto creaLog
 INFO: Start programma!
-29-ago-2011 22.12.54 view.Report <init>
-INFO: Registrato Report: 29/08/2011 22:12
+1-set-2011 21.29.56 view.report.ReportView <init>
+INFO: Registrato Report: 01/09/2011 21:29
+1-set-2011 21.30.11 view.Alert operazioniSegnalazioneInfo
+INFO: Aggiorntato Report: 01/09/2011 21:30
+1-set-2011 21.31.53 view.Alert operazioniSegnalazioneInfo
+INFO: Aggiorntato Report: 01/09/2011 21:31
+1-set-2011 21.32.40 view.Alert operazioniSegnalazioneInfo
+INFO: Aggiorntato Report: 01/09/2011 21:32

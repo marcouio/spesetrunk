@@ -38,25 +38,40 @@ public class ScrittoreReportTxt implements IScrittoreReport {
 				+ DBUtil.dataToString(dataRegistrazione, "dd/MM/yyyy HH:mm"));
 		
 		if(reportData.getAvanzo()!=null){
-			
+			double differenza = reportData.getAvanzo();
+			final String diffForAvanzo = "La differenza fra Entrate e Uscite totali sono: " + AltreUtil.arrotondaDecimaliDouble(differenza) + ". ";
+			chiudiSezione(stream, diffForAvanzo);
 		}
 		if(reportData.getUsciteAnnuali()!=null){
-			
+			Double UAnnuale = reportData.getUsciteAnnuali();
+			final String speseAnnuali = "Le spese annuali sono: " + AltreUtil.arrotondaDecimaliDouble(UAnnuale) + ".";
+			chiudiSezione(stream, speseAnnuali);
 		}
 		if(reportData.getEntrateAnnuali()!=null){
-			
+			Double EAnnuali = reportData.getEntrateAnnuali();
+			final String entrateAnnuali = "Le entrate annuali sono: " + AltreUtil.arrotondaDecimaliDouble(EAnnuali);
+			chiudiSezione(stream, entrateAnnuali);
 		}
 		if(reportData.getMediaEntrate()!=null){
-			
+			Double mediaEntrate = reportData.getMediaEntrate();
+			final String mediaE = "La media mensile delle entrate e': "+ AltreUtil.arrotondaDecimaliDouble(mediaEntrate) + ". ";
+			chiudiSezione(stream, mediaE);
 		}
 		if(reportData.getMediaUscite()!=null){
-			
+			Double mediaUscite = reportData.getMediaUscite();
+			final String mediaU = "La media mensile delle uscite e': "+ AltreUtil.arrotondaDecimaliDouble(mediaUscite) + ". ";
+			chiudiSezione(stream, mediaU);
 		}
 		if(reportData.getUsciteVariabili()!=null){
-			
+			final double speseVariabili = reportData.getUsciteVariabili();
+			final String uVariabili = "La percentuale di spese variabili sul totale annuale e': "
+					+ AltreUtil.arrotondaDecimaliDouble(speseVariabili) + " %";
+			chiudiSezione(stream, uVariabili);
 		}
 		if(reportData.getUsciteFutili()!=null){
-			
+			final double speseFutili = reportData.getUsciteFutili();
+			final String uFutili = "La percentuale di spese futile sul totale annuale e': " + speseFutili + "%";
+			chiudiSezione(stream, uFutili);
 		}
 		if(reportData.getUsciteMese()!=null){
 			HashMap<String, Double> usciteMese = reportData.getUsciteMese();
@@ -167,6 +182,13 @@ public class ScrittoreReportTxt implements IScrittoreReport {
 		}
 		
 		return false;
+	}
+
+	private void chiudiSezione(PrintStream stream, final String forFile) {
+		stream.print(forFile);
+		stream.println(" ");
+		stream.print(trattini);
+		stream.println(" ");
 	}
 
 	public Date getDataRegistrazione() {
