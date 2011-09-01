@@ -29,6 +29,29 @@ public class ReportView extends AbstractReportView {
 
 	private static final long serialVersionUID = 1L;
 
+	@SuppressWarnings("unused")
+	private void settaValoriReportDati(final JCheckBox chckbxSpeseVariabili_1,
+			final JCheckBox chckbxEntrateMensCategorie, final JCheckBox chckbxSpeseMensCat,
+			final JCheckBox chckbxEntratePerCategorie, final JCheckBox chckbxSpesePerCategorie,
+			final JCheckBox chckbxUsciteMensili, final JCheckBox chckbxEntrateMensili,
+			final JCheckBox chckbxUsciteAnnuali, final JCheckBox chckbxEntrateAnnuali,
+			final JCheckBox chckbxSpeseFutili_1, final JCheckBox chckbxAvanzo, final JCheckBox chckbxMedie) {
+
+		setUsciteVariabili(chckbxSpeseVariabili_1.isSelected());
+		setEntrateCatMensili(chckbxEntrateMensCategorie.isSelected());
+		setUsciteCatMensili(chckbxSpeseMensCat.isSelected());
+		setEntrateCatAnnuali(chckbxEntratePerCategorie.isSelected());
+		setUsciteCatAnnuali(chckbxSpesePerCategorie.isSelected());
+		setUsciteMensili(chckbxUsciteMensili.isSelected());
+		setEntrateMensili(chckbxEntrateMensili.isSelected());
+		setUsciteAnnuali(chckbxUsciteAnnuali.isSelected());
+		setEntrateAnnuali(chckbxEntrateAnnuali.isSelected());
+		setUsciteFutili(chckbxSpeseFutili_1.isSelected());
+		setAvanzo(chckbxAvanzo.isSelected());
+		setMediaEntrate(chckbxMedie.isSelected());
+		setMediaUscite(chckbxMedie.isSelected());
+	}
+
 	/**
 	 * Create the panel
 	 * 
@@ -112,6 +135,18 @@ public class ReportView extends AbstractReportView {
 			@Override
 			protected void actionPerformedOverride(ActionEvent e) {
 				super.actionPerformedOverride(e);
+
+				settaValoriReportDati(chckbxSpeseVariabili_1, chckbxEntrateMensCategorie, chckbxSpeseMensCat,
+						chckbxEntratePerCategorie, chckbxSpesePerCategorie, chckbxUsciteMensili, chckbxEntrateMensili,
+						chckbxUsciteAnnuali, chckbxEntrateAnnuali, chckbxSpeseFutili_1, chckbxAvanzo, chckbxMedie);
+
+				try {
+					IScrittoreReport scrittoreReport = new ScrittoreReportTxt();
+					scrittoreReport.generaReport(reportData);
+				} catch (Exception e11) {
+					e11.printStackTrace();
+				}
+
 				AltreUtil.deleteFileDaDirectory("./", "Rep");
 				final String data = DBUtil.dataToString(new Date(), "dd_MM_yyyy_HH_mm_ss");
 				FileOutputStream file = null;
