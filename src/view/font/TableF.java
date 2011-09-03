@@ -38,7 +38,7 @@ public class TableF extends JTable {
 		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
 	}
 
-	public TableF(final Vector rowData, final Vector columnNames) {
+	public TableF(@SuppressWarnings("rawtypes") final Vector rowData, @SuppressWarnings("rawtypes") final Vector columnNames) {
 		super(rowData, columnNames);
 		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
 	}

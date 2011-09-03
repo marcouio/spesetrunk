@@ -34,15 +34,9 @@ public class SingleSpesa extends AbstractOggettoEntita implements Serializable, 
 	@Column(name = "\"descrizione\"", nullable = false, length = 2000000000)
 	private String descrizione;
 
-	@Column(name = "\"idCategorie\"", nullable = false)
-	private int idCategorie;
-
 	@Id
 	@Column(name = "\"idSpesa\"", nullable = false)
 	private int idSpesa;
-
-	@Column(name = "\"idUtente\"", nullable = false)
-	private int idUtente;
 
 	@Column(name = "\"inEuro\"", nullable = false)
 	private double inEuro;
