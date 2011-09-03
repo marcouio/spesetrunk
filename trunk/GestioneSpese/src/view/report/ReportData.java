@@ -14,43 +14,26 @@ import domain.CatSpese;
 
 public class ReportData {
 	
-	private Double usciteAnnuali;
-	private Double entrateAnnuali;
-	private HashMap<String, Double> entrateMese = new HashMap<String, Double>();
-	private HashMap<String, Double> usciteMese = new HashMap<String, Double>();
-	private HashMap<String, Double> usciteCatAnnuali = new HashMap<String, Double>();
-	private HashMap<String, Double> entrateCatAnnuali = new HashMap<String, Double>();
-	private String[][] usciteCatMensili;
-	private String[][] entrateCatMensili;
-	private Double usciteVariabili;
-	private Double usciteFutili;
-	private Double avanzo;
-	private Double mediaUscite;
-	private Double mediaEntrate;
 	Vector<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
 	
+	ArrayList<OggettoReport> datiReport = new ArrayList<OggettoReport>();
 	
-	public Double getUsciteAnnuali() {
-		return usciteAnnuali;
+	public void inserisci(final OggettoReport  oggettoReport){
+		datiReport.add(oggettoReport);
 	}
+	
+	public ArrayList<OggettoReport> getListaOggetti(){
+		return datiReport;
+	}
+
 	
 	public Double generaUsciteAnnuali(){
 		return Database.Annuale();
 	}
 	
-	public void setUsciteAnnuali(Double usciteAnnuali) {
-		this.usciteAnnuali = usciteAnnuali;
-	}
-	public Double getEntrateAnnuali() {
-		return entrateAnnuali;
-	}
 	
 	public Double generaEntrateAnnuali(){
 		return Database.EAnnuale();
-	}
-	
-	public void setEntrateAnnuali(Double entrateAnnuali) {
-		this.entrateAnnuali = entrateAnnuali;
 	}
 	
 	public HashMap<String, Double> generaEntrateMese(){
@@ -58,52 +41,30 @@ public class ReportData {
 		HashMap<String, Double> entrateMese = new HashMap<String, Double>();
 		
 		for (int i = 1; i <= 12; i++) {
-			String mese = Integer.toString(i);
+			String mese = Mesi.getMeseStringa(i);
 			entrateMese.put(mese, Database.getSingleton().totaleEntrateMese(i));
 		}
 		return entrateMese;
 	}
 	
-	public HashMap<String, Double> getEntrateMese() {
-		return entrateMese;
-	}
-	public void setEntrateMese(HashMap<String, Double> entrateMese) {
-		this.entrateMese = entrateMese;
-	}
-	
 	public HashMap<String, Double> generaUsciteMese() {
 		HashMap<String, Double> usciteMese = new HashMap<String, Double>();
 		for (int i = 1; i <= 12; i++) {
-			String mese = Integer.toString(i);
+			String mese = Mesi.getMeseStringa(i);
 			usciteMese.put(mese, Database.getSingleton().totaleUsciteMese(i));
 		}
 		return usciteMese;
 	}
-	
-	public HashMap<String, Double> getUsciteMese() {
-		return usciteMese;
-	}
-	
-	public void setUsciteMese(HashMap<String, Double> usciteMese) {
-		this.usciteMese = usciteMese;
-	}
+		
 	
 	public HashMap<String, Double> generaUsciteCatAnnuali() {
 		HashMap<String, Double> usciteCatAnnuali = new HashMap<String, Double>();
 		for (int i = 0; i < categorie.size(); i++) {
 			final CatSpese categoria = categorie.get(i);
-			String id = Integer.toString(categoria.getidCategoria());
-			usciteCatAnnuali.put(id, Database.totaleUscitaAnnoCategoria(categoria.getidCategoria()));
+			String nome = categoria.getnome();
+			usciteCatAnnuali.put(nome, Database.totaleUscitaAnnoCategoria(categoria.getidCategoria()));
 		}
 		return usciteCatAnnuali;
-	}
-	
-	public HashMap<String, Double> getUsciteCatAnnuali() {
-		return usciteCatAnnuali;
-	}
-	
-	public void setUsciteCatAnnuali(HashMap<String, Double> usciteCatAnnuali) {
-		this.usciteCatAnnuali = usciteCatAnnuali;
 	}
 	
 	public HashMap<String, Double> generaEntrateCatAnnuali() {
@@ -113,14 +74,6 @@ public class ReportData {
 			entrateCatAnnuali.put(nomiColonne.get(i), Database.totaleEntrateAnnoCategoria(nomiColonne.get(i))); 
 		}
 		return entrateCatAnnuali;
-	}
-	
-	public HashMap<String, Double> getEntrateCatAnnuali() {
-		return entrateCatAnnuali;
-	}
-	
-	public void setEntrateCatAnnuali(HashMap<String, Double> entrateCatAnnuali) {
-		this.entrateCatAnnuali = entrateCatAnnuali;
 	}
 	
 	public String[][] generaUsciteCatMensili() {
@@ -148,13 +101,6 @@ public class ReportData {
 		return usciteCatMensili;
 	}
 	
-	public String[][] getUsciteCatMensili() {
-		return usciteCatMensili;
-	}
-	
-	public void setUsciteCatMensili(String[][] usciteCatMensili) {
-		this.usciteCatMensili = usciteCatMensili;
-	}
 	public String[][] generaEntrateCatMensili() {
 		ArrayList<String> nomiColonne = EntrateView.getLista();
 		String [][] entrateCatMensili = new String[12][2];
@@ -172,67 +118,24 @@ public class ReportData {
 		return entrateCatMensili;
 	}
 	
-	public String[][] getEntrateCatMensili() {
-		return entrateCatMensili;
-	}
-	
-	public void setEntrateCatMensili(String[][] entrateCatMensili) {
-		this.entrateCatMensili = entrateCatMensili;
-	}
-	
 	public Double generaUsciteVariabili() {
 		return Database.percentoUscite(CatSpese.IMPORTANZA_VARIABILE);
-	}
-	
-	public Double getUsciteVariabili() {
-		return usciteVariabili;
-	}
-	
-	public void setUsciteVariabili(Double usciteVariabili) {
-		this.usciteVariabili = usciteVariabili;
 	}
 	
 	public Double generaUsciteFutili() {
 		return Database.percentoUscite(CatSpese.IMPORTANZA_FUTILE);
 	}
 	
-	public Double getUsciteFutili() {
-		return usciteFutili;
-	}
-	public void setUsciteFutili(Double usciteFutili) {
-		this.usciteFutili = usciteFutili;
-	}
-	
 	public Double generaAvanzo() {
 		return AltreUtil.arrotondaDecimaliDouble((Database.EAnnuale()) - (Database.Annuale()));
-	}
-	
-	public Double getAvanzo() {
-		return avanzo;
-	}
-	public void setAvanzo(Double avanzo) {
-		this.avanzo = avanzo;
 	}
 	
 	public Double generaMediaUscite() {
 		return Database.Annuale() / new GregorianCalendar().get(Calendar.MONTH + 1);
 	}
 	
-	public Double getMediaUscite() {
-		return mediaUscite;
-	}
-	public void setMediaUscite(Double mediaUscite) {
-		this.mediaUscite = mediaUscite;
-	}
-	
 	public Double generaMediaEntrate() {
 		return Database.EAnnuale() / new GregorianCalendar().get(Calendar.MONTH + 1);
 	}
 	
-	public Double getMediaEntrate() {
-		return mediaEntrate;
-	}
-	public void setMediaEntrate(Double mediaEntrate) {
-		this.mediaEntrate = mediaEntrate;
-	}
 }

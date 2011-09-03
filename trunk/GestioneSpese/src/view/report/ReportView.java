@@ -28,18 +28,18 @@ public class ReportView extends AbstractReportView {
 			final JCheckBox chckbxUsciteAnnuali, final JCheckBox chckbxEntrateAnnuali,
 			final JCheckBox chckbxSpeseFutili_1, final JCheckBox chckbxAvanzo, final JCheckBox chckbxMedie) {
 
-		setUsciteVariabili(chckbxSpeseVariabili_1.isSelected());
-		setEntrateCatMensili(chckbxEntrateMensCategorie.isSelected());
-		setUsciteCatMensili(chckbxSpeseMensCat.isSelected());
-		setEntrateCatAnnuali(chckbxEntratePerCategorie.isSelected());
-		setUsciteCatAnnuali(chckbxSpesePerCategorie.isSelected());
-		setUsciteMensili(chckbxUsciteMensili.isSelected());
-		setEntrateMensili(chckbxEntrateMensili.isSelected());
-		setUsciteAnnuali(chckbxUsciteAnnuali.isSelected());
-		setEntrateAnnuali(chckbxEntrateAnnuali.isSelected());
-		setUsciteFutili(chckbxSpeseFutili_1.isSelected());
-		setAvanzo(chckbxAvanzo.isSelected());
-		setMediaEntrate(chckbxMedie.isSelected());
+		inserisciUsciteVariabili(chckbxSpeseVariabili_1.isSelected());
+		inserisciEntrateCatMensili(chckbxEntrateMensCategorie.isSelected());
+		inserisciUsciteCatMensili(chckbxSpeseMensCat.isSelected());
+		inserisciEntrateCatAnnuali(chckbxEntratePerCategorie.isSelected());
+		inserisciUsciteCatAnnuali(chckbxSpesePerCategorie.isSelected());
+		inserisciUsciteMensili(chckbxUsciteMensili.isSelected());
+		inserisciEntrateMensili(chckbxEntrateMensili.isSelected());
+		inserisciUsciteAnnuali(chckbxUsciteAnnuali.isSelected());
+		inserisciEntrateAnnuali(chckbxEntrateAnnuali.isSelected());
+		inserisciUsciteFutili(chckbxSpeseFutili_1.isSelected());
+		inserisciAvanzo(chckbxAvanzo.isSelected());
+		inserisciMediaEntrate(chckbxMedie.isSelected());
 		setMediaUscite(chckbxMedie.isSelected());
 	}
 
@@ -124,12 +124,12 @@ public class ReportView extends AbstractReportView {
 						chckbxUsciteAnnuali, chckbxEntrateAnnuali, chckbxSpeseFutili_1, chckbxAvanzo, chckbxMedie);
 
 				try {
-					IScrittoreReport scrittoreReport = new ScrittoreReportTxt();
-					scrittoreReport.generaReport(reportData);
+					IScrittoreReport scrittoreReport = new ScrittoreReportTxt(reportData);
+					scrittoreReport.generaReport();
 				} catch (Exception e11) {
 					e11.printStackTrace();
 				}
-				Alert.operazioniSegnalazioneInfo("Aggiorntato Report: " + DBUtil.dataToString(new Date(), "dd/MM/yyyy HH:mm"));
+				Alert.operazioniSegnalazioneInfo("Aggiornato Report: " + DBUtil.dataToString(new Date(), "dd/MM/yyyy HH:mm"));
 			}
 
 		});

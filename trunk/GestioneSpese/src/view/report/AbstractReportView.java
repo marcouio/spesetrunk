@@ -1,8 +1,11 @@
 package view.report;
 
 import java.util.HashMap;
+import java.util.Vector;
 
 import javax.swing.JFrame;
+
+import business.cache.CacheCategorie;
 
 public abstract class AbstractReportView extends JFrame {
 
@@ -16,160 +19,116 @@ public abstract class AbstractReportView extends JFrame {
 		this.setReportData(reportData);
 	}
 
-	public void setUsciteAnnuali(final boolean hasUsciteAnnuali) {
-		if (!hasUsciteAnnuali) {
-			reportData.setUsciteAnnuali(null);
-		} else {
-			reportData.setUsciteAnnuali(reportData.generaUsciteAnnuali());
+	public void inserisciUsciteAnnuali(final boolean hasUsciteAnnuali) {
+		if (hasUsciteAnnuali) {
+			Double usciteAnnuali = reportData.generaUsciteAnnuali();
+			OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_DOUBLE, usciteAnnuali, "Uscite Annuali");
+			reportData.inserisci(oggettoReport);
 		}
 	}
 
-	public Double getUsciteAnnuali() {
-		return reportData.getUsciteAnnuali();
-	}
-
-	public void setEntrateAnnuali(final boolean hasEntrateAnnuali) {
-		if (!hasEntrateAnnuali) {
-			reportData.setEntrateAnnuali(null);
-		} else {
-			reportData.setEntrateAnnuali(reportData.generaEntrateAnnuali());
+	public void inserisciEntrateAnnuali(final boolean hasEntrateAnnuali) {
+		if (hasEntrateAnnuali) {
+			Double entrateAnnuali = reportData.generaEntrateAnnuali();
+			OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_DOUBLE, entrateAnnuali, "Entrate Annuali");
+			reportData.inserisci(oggettoReport);
 		}
 	}
 
-	public Double getEntrateAnnuali() {
-		return reportData.getEntrateAnnuali();
-	}
-
-	public void setEntrateMensili(final boolean hasEntrateMensili) {
-		if (!hasEntrateMensili) {
-			reportData.setEntrateMese(null);
-		} else {
-			reportData.setEntrateMese(reportData.generaEntrateMese());
+	public void inserisciEntrateMensili(final boolean hasEntrateMensili) {
+		if (hasEntrateMensili) {
+			HashMap<String, Double> entrateMese = reportData.generaEntrateMese();
+			String[]mesi = (String[]) Mesi.getListaMesi().toArray(new String[Mesi.getListaMesi().size()]);
+			OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_MAPPA, entrateMese, "Entrate", "Mese", mesi);
+			reportData.inserisci(oggettoReport);
 		}
 	}
 
-	public HashMap<String, Double> getEntrateMensili() {
-		return reportData.getEntrateMese();
-	}
-
-	public void setUsciteMensili(final boolean hasUsciteMensili) {
-		if (!hasUsciteMensili) {
-			reportData.setUsciteMese(null);
-		} else {
-			reportData.setUsciteMese(reportData.generaUsciteMese());
+	public void inserisciUsciteMensili(final boolean hasUsciteMensili) {
+		if (hasUsciteMensili) {
+			HashMap<String, Double> usciteMese = reportData.generaUsciteMese();
+			String[]mesi = (String[]) Mesi.getListaMesi().toArray(new String[Mesi.getListaMesi().size()]);
+			OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_MAPPA, usciteMese, "Uscite", "Mese",mesi);
+			reportData.inserisci(oggettoReport);
 		}
 	}
 
-	public HashMap<String, Double> getUsciteMensili() {
-		return reportData.getUsciteMese();
-	}
-
-	public void setEntrateCatMensili(final boolean hasEntrateCatMensili) {
-		if (!hasEntrateCatMensili) {
-			reportData.setEntrateCatMensili(null);
-		} else {
-			reportData.setEntrateCatMensili(reportData.generaEntrateCatMensili());
+	public void inserisciEntrateCatMensili(final boolean hasEntrateCatMensili) {
+		if (hasEntrateCatMensili) {
+			String[][] entrateCatMensili = reportData.generaEntrateCatMensili();
+			String[] categorie = new String[]{"Fisse","Variabili"};
+			String[]mesi = (String[]) Mesi.getListaMesi().toArray(new String[Mesi.getListaMesi().size()]);
+			OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_MATRICE, entrateCatMensili, "Entrate", "Mese", "Categoria", mesi, categorie);
+			reportData.inserisci(oggettoReport);
 		}
 	}
 
-	public String[][] getEntrateCatMensili() {
-		return reportData.getEntrateCatMensili();
-	}
-
-	public void setUsciteCatMensili(final boolean hasUsciteCatMensili) {
-		if (!hasUsciteCatMensili) {
-			reportData.setUsciteCatMensili(null);
-		} else {
-			reportData.setUsciteCatMensili(reportData.generaUsciteCatMensili());
+	public void inserisciUsciteCatMensili(final boolean hasUsciteCatMensili) {
+		if (hasUsciteCatMensili) {
+			String[][] usciteCatMensili = reportData.generaUsciteCatMensili();
+			String[]categorie = CacheCategorie.getSingleton().getArrayCategorie();
+			String[]mesi = (String[]) Mesi.getListaMesi().toArray(new String[Mesi.getListaMesi().size()]);
+			OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_MATRICE, usciteCatMensili, "Uscite", "Mese", "Categoria", mesi, categorie);
+			reportData.inserisci(oggettoReport);
 		}
 	}
 
-	public String[][] getUsciteCatMensili() {
-		return reportData.getUsciteCatMensili();
-	}
-
-	public void setEntrateCatAnnuali(final boolean hasEntrateCatAnnuali) {
-		if (!hasEntrateCatAnnuali) {
-			reportData.setEntrateCatAnnuali(null);
-		} else {
-			reportData.setEntrateCatAnnuali(reportData.generaEntrateCatAnnuali());
+	public void inserisciEntrateCatAnnuali(final boolean hasEntrateCatAnnuali) {
+		if (hasEntrateCatAnnuali) {
+			HashMap<String, Double> entrateCatAnnuali = reportData.generaEntrateCatAnnuali();
+			String[] categorie = new String[]{"Fisse","Variabili"};
+			OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_MAPPA, entrateCatAnnuali, "Entrate Annuali", "Categoria", categorie);
+			reportData.inserisci(oggettoReport);
 		}
 	}
 
-	public HashMap<String, Double> getEntrateCatAnnuali() {
-		return reportData.getEntrateCatAnnuali();
-	}
-
-	public void setUsciteCatAnnuali(final boolean hasUsciteCatAnnuali) {
-		if (!hasUsciteCatAnnuali) {
-			reportData.setUsciteCatAnnuali(null);
-		} else {
-			reportData.setUsciteCatAnnuali(reportData.generaUsciteCatAnnuali());
+	public void inserisciUsciteCatAnnuali(final boolean hasUsciteCatAnnuali) {
+		if (hasUsciteCatAnnuali) {
+			HashMap<String, Double> usciteCatAnnuali = reportData.generaUsciteCatAnnuali();
+			String[]categorie = CacheCategorie.getSingleton().getArrayCategorie();
+			OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_MAPPA, usciteCatAnnuali, "Uscite Annuali", "Categoria",categorie);
+			reportData.inserisci(oggettoReport);
 		}
 	}
 
-	public HashMap<String, Double> getUsciteCatAnnuali() {
-		return reportData.getUsciteCatAnnuali();
-	}
-
-	public void setUsciteVariabili(final boolean hasUsciteVariabili) {
-		if (!hasUsciteVariabili) {
-			reportData.setUsciteVariabili(null);
-		} else {
-			reportData.setUsciteVariabili(reportData.generaUsciteVariabili());
+	public void inserisciUsciteVariabili(final boolean hasUsciteVariabili) {
+		if (hasUsciteVariabili) {
+			Double usciteVariabili = reportData.generaUsciteVariabili();
+			OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_DOUBLE, usciteVariabili, "Uscite Variabili");
+			reportData.inserisci(oggettoReport);
 		}
 	}
 
-	public Double getUsciteVariabili() {
-		return reportData.getUsciteVariabili();
-	}
-
-	public void setUsciteFutili(final boolean hasUsciteFutili) {
-		if (!hasUsciteFutili) {
-			reportData.setUsciteFutili(null);
-		} else {
-			reportData.setUsciteFutili(reportData.generaUsciteFutili());
+	public void inserisciUsciteFutili(final boolean hasUsciteFutili) {
+		if (hasUsciteFutili) {
+			Double usciteFutili = reportData.generaUsciteFutili();
+			OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_DOUBLE, usciteFutili, "Uscite Futili");
+			reportData.inserisci(oggettoReport);
 		}
 	}
 
-	public Double getUsciteFutili() {
-		return reportData.getUsciteFutili();
-	}
-
-	public void setAvanzo(final boolean hasAvanzo) {
-		if (!hasAvanzo) {
-			reportData.setAvanzo(null);
-		} else {
-			reportData.generaAvanzo();
+	public void inserisciAvanzo(final boolean hasAvanzo) {
+		if (hasAvanzo) {
+			Double avanzo = reportData.generaAvanzo();
+			OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_DOUBLE, avanzo, "Saldo");
+			reportData.inserisci(oggettoReport);
 		}
 	}
 
-	public Double getAvanzo() {
-		return reportData.getAvanzo();
-	}
-
-	public void setMediaEntrate(final boolean hasMediaEntrate) {
-		if (!hasMediaEntrate) {
-			reportData.setMediaEntrate(null);
-		} else {
-			reportData.setMediaEntrate(reportData.generaMediaEntrate());
+	public void inserisciMediaEntrate(final boolean hasMediaEntrate) {
+		if (hasMediaEntrate) {
+			Double mediaEntrate = reportData.generaMediaEntrate();
+			OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_DOUBLE, mediaEntrate, "Media Mensile Entrate");
+			reportData.inserisci(oggettoReport);
 		}
-	}
-
-	public Double getMediaEntrate() {
-		return reportData.getMediaEntrate();
 	}
 
 	public void setMediaUscite(final boolean hasMediaUscite) {
-		if (!hasMediaUscite) {
-			reportData.setMediaUscite(null);
-		} else {
-			reportData.setMediaUscite(reportData.generaMediaUscite());
+		if (hasMediaUscite) {
+			Double mediaUscite = reportData.generaMediaUscite();
+			OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_DOUBLE, mediaUscite, "Media Mensile Uscite");
+			reportData.inserisci(oggettoReport);
 		}
-	}
-
-	public Double getMediaUscite() {
-		return reportData.getMediaUscite();
 	}
 
 	public void setReportData(ReportData reportData) {
