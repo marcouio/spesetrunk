@@ -82,7 +82,7 @@ public class ConfiguratoreXml {
 			StreamResult result = new StreamResult(new StringWriter());
 			DOMSource source = new DOMSource(doc);
 			transformer.transform(source, result);
-			String xmlString = result.getWriter().toString();
+//			String xmlString = result.getWriter().toString();
 
 		} catch (Exception e) {}
 
