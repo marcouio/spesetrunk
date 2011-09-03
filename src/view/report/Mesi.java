@@ -1,8 +1,10 @@
 package view.report;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
-public class Mesi {
+public final class Mesi {
 
 	public static final String GENNAIO = "1";
 	public static final String FEBBRAIO = "2";
@@ -19,6 +21,7 @@ public class Mesi {
 	
 	private static HashMap<String, String> mesiStringa = new HashMap<String, String>();
 	
+
 	static{
 		mesiStringa.put(GENNAIO, "Gennaio");
 		mesiStringa.put(FEBBRAIO, "Febbraio");
@@ -41,6 +44,20 @@ public class Mesi {
 	public static String getMeseStringa(int numMese){
 		String mese = Integer.toString(numMese);
 		return mesiStringa.get(mese);
+	}
+	
+	public static HashMap<String, String> getMesiStringa() {
+		return mesiStringa;
+	}
+	
+	public static ArrayList<String> getListaMesi(){
+		String[] listaValori = (String[]) mesiStringa.values().toArray(new String[mesiStringa.values().size()]);
+		ArrayList<String> listaMesi = new ArrayList<String>();
+		for (int i = 0; i<listaValori.length; i++) {
+			String mese = (String) listaValori[i];
+			listaMesi.add(mese);
+		}
+		return listaMesi;
 	}
 	
 }
