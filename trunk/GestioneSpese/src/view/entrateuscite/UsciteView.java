@@ -121,12 +121,9 @@ public class UsciteView extends AbstractUsciteView {
 		eliminaUltima.addActionListener(new AscoltatoreAggiornatoreUscite() {
 
 			@Override
-			protected void actionPerformedOverride(ActionEvent e) {
+			protected void actionPerformedOverride(final ActionEvent e) {
 				super.actionPerformedOverride(e);
 				try {
-					// TODO metodo che restituisce ultima spesa oppure usare
-					// getLast() del CommandManager
-					// if(modelUscita.deleteLastSpesa()){
 					Controllore.invocaComando(new CommandDeleteSpesa(modelUscita));
 					// TODO verificare se necessario ripristinare l'update
 					// update(modelUscita, null);

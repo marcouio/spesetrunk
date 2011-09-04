@@ -8,10 +8,8 @@ import business.Controllore;
 import business.aggiornatori.AggiornatoreManager;
 import business.ascoltatori.AscoltatoreAggiornatoreTutto;
 import business.cache.CacheCategorie;
-import business.cache.CacheGruppi;
 import business.comandi.categorie.CommandUpdateCategoria;
 import domain.CatSpese;
-import domain.Gruppi;
 import domain.ICatSpese;
 
 public class AscoltatoreAggiornaCategoria extends AscoltatoreAggiornatoreTutto {
@@ -28,14 +26,9 @@ public class AscoltatoreAggiornaCategoria extends AscoltatoreAggiornatoreTutto {
 		final CatSpese oldCategoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(categorieView.getCategoria().getidCategoria()));
 
 		if (categorieView.getComboCategorie().getSelectedItem() != null) {
-			categorieView.setCategoria("Aggiorna");
+			categorieView.aggiornaModelDaVista("Aggiorna");
 			if (categorieView.getCategoria() != null) {
 				categorieView.getModelCatSpese().setidCategoria(categorieView.getCategoria().getidCategoria());
-			}
-
-			if (categorieView.getGruppo() == null) {
-				final Gruppi gruppo = CacheGruppi.getSingleton().getGruppoPerNome("No Gruppo");
-				categorieView.getModelCatSpese().setGruppi(gruppo);
 			}
 			try {
 				if (Controllore.invocaComando(new CommandUpdateCategoria(oldCategoria, (ICatSpese) categorieView.getModelCatSpese().getentitaPadre()))) {

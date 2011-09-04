@@ -12,16 +12,13 @@ import javax.swing.UIManager;
 import view.Alert;
 import view.GeneralFrame;
 import business.aggiornatori.AggiornatoreManager;
-import business.cache.CacheGruppi;
 import business.cache.CacheLookAndFeel;
 import business.cache.CacheUtenti;
 import business.comandi.AbstractCommand;
 import business.comandi.CommandManager;
 import business.internazionalizzazione.I18NManager;
-import domain.Gruppi;
 import domain.Lookandfeel;
 import domain.Utenti;
-import domain.wrapper.WrapGruppi;
 import domain.wrapper.WrapUtenti;
 
 public class Controllore {
@@ -88,16 +85,17 @@ public class Controllore {
 
 	private static void verificaPresenzaDb() {
 		try {
-			Connection cn = DBUtil.getConnection();
-			String sql = "SELECT * FROM " + Lookandfeel.NOME_TABELLA;
-			Statement st = cn.createStatement();
+			final Connection cn = DBUtil.getConnection();
+			final String sql = "SELECT * FROM " + Lookandfeel.NOME_TABELLA;
+			final Statement st = cn.createStatement();
 			@SuppressWarnings("unused")
+			final
 			ResultSet rs = st.executeQuery(sql);
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			try {
 				Database.getSingleton().generaDB();
 				Alert.info("Database non presente: è stato rigenerato", "");
-			} catch (SQLException e1) {
+			} catch (final SQLException e1) {
 				Controllore.getLog().severe("Database non creato: " + e.getMessage());
 			}
 		}
@@ -105,7 +103,6 @@ public class Controllore {
 
 	private Controllore() {
 		setStartUtenteLogin();
-		setStartGruppoZero();
 	}
 
 	public static boolean invocaComando(final AbstractCommand comando) {
@@ -129,24 +126,6 @@ public class Controllore {
 		}
 
 		utenteLogin = CacheUtenti.getSingleton().getUtente("1");
-	}
-
-	/**
-	 * Controlla sul db se esiste il gruppo "No Gruppo", altrimenti lo crea
-	 */
-	private static void setStartGruppoZero() {
-		Gruppi gruppoZero = CacheGruppi.getSingleton().getGruppoPerNome("No Gruppo");
-		if (gruppoZero == null) {
-			gruppoZero = CacheGruppi.getSingleton().getGruppo("0");
-		}
-		if (gruppoZero == null || gruppoZero.getnome() == null) {
-			final Gruppi gruppo = new Gruppi();
-			gruppo.setidGruppo(0);
-			gruppo.setnome("No Gruppo");
-			gruppo.setdescrizione("Impostare per le spese senza gruppo");
-			final WrapGruppi wrapG = new WrapGruppi();
-			wrapG.insert(gruppo);
-		}
 	}
 
 	public static Controllore getSingleton() {

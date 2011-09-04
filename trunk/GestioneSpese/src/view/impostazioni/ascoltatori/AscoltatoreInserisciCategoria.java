@@ -12,7 +12,7 @@ import domain.CatSpese;
 
 public class AscoltatoreInserisciCategoria extends AscoltatoreAggiornatoreTutto {
 
-	private CategorieView categorieView;
+	private final CategorieView categorieView;
 	private CatSpese      categoria1;
 
 	public AscoltatoreInserisciCategoria(final CategorieView categorieView) {
@@ -20,9 +20,9 @@ public class AscoltatoreInserisciCategoria extends AscoltatoreAggiornatoreTutto 
 	}
 
 	@Override
-	protected void actionPerformedOverride(ActionEvent e) {
+	protected void actionPerformedOverride(final ActionEvent e) {
 		super.actionPerformedOverride(e);
-		categorieView.setCategoria("Inserisci");
+		categorieView.aggiornaModelDaVista("Inserisci");
 		if (categorieView.nonEsistonoCampiNonValorizzati()) {
 
 			if (Controllore.invocaComando(new CommandInserisciCategoria(categorieView.getModelCatSpese()))) {
@@ -30,7 +30,7 @@ public class AscoltatoreInserisciCategoria extends AscoltatoreAggiornatoreTutto 
 				if (categoria1 != null) {
 					categorieView.getComboCategorie().addItem(categoria1);
 				}
-				Alert.operazioniSegnalazioneInfo("Inserita correttamente categoria: " + categorieView.getModelCatSpese().getnome());
+				//				Alert.operazioniSegnalazioneInfo("Inserita correttamente categoria: " + categorieView.getModelCatSpese().getnome());
 				categorieView.getModelCatSpese().setChanged();
 				categorieView.getModelCatSpese().notifyObservers();
 				categorieView.dispose();

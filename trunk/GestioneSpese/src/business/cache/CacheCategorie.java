@@ -99,7 +99,7 @@ public class CacheCategorie extends AbstractCacheBase {
 		final Vector<CatSpese> catSenzaGruppo = new Vector<CatSpese>();
 		for (int i = 0; i < allCategorie.size(); i++) {
 			final CatSpese categoria = allCategorie.get(i);
-			if (categoria.getGruppi() == null || categoria.getGruppi().getnome().equals("No Gruppo")) {
+			if (categoria.getGruppi() == null ) {
 				catSenzaGruppo.add(categoria);
 			}
 		}
@@ -114,9 +114,9 @@ public class CacheCategorie extends AbstractCacheBase {
 		}
 		return categorie;
 	}
-	
+
 	public String[] getArrayCategorie(){
-		ArrayList<String> nomiCategorie = new ArrayList<String>();
+		final ArrayList<String> nomiCategorie = new ArrayList<String>();
 		final Map<String, AbstractOggettoEntita> mappa = this.getAllCategorie();
 		final Object[] lista = mappa.values().toArray();
 		for (int i = 0; i < lista.length; i++) {
