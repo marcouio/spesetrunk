@@ -21,7 +21,7 @@ import view.entrateuscite.EntrateView;
 import view.entrateuscite.UsciteView;
 import view.impostazioni.Impostazioni;
 import view.mymenu.MyMenu;
-import view.tabelle.PerMesiF;
+import view.tabelleMesi.PerMesiF;
 import business.AltreUtil;
 import business.Controllore;
 import business.DBUtil;

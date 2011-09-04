@@ -1,7 +1,6 @@
 
 
-package view.tabelle;
-
+package view.tabelleMesi;
 
 import java.awt.GridLayout;
 
@@ -10,48 +9,34 @@ import javax.swing.JScrollPane;
 
 import view.OggettoVistaBase;
 import view.font.TableF;
-import business.generatori.GeneratoreDatiTabellaEntrate;
+import business.generatori.GeneratoreDatiTabellaUscite;
 
-public class TabellaEntrata extends OggettoVistaBase {
-	/**
-	 * 
-	 */
+public class TabellaUscita extends OggettoVistaBase {
+
 	private static final long serialVersionUID = 1L;
 
 	private static String[][] primo;
-	private static String[] nomiColonne = {"Fisse","Variabili"};
-
-
-	public static String[] getNomiColonne() {
-		return nomiColonne;
-	}
-
-	public static void setNomiColonne(final String[] nomiColonne) {
-		TabellaEntrata.nomiColonne = nomiColonne;
-	}
-
 	private static JScrollPane scrollPane;
 
-	public TabellaEntrata() {
+
+
+	public TabellaUscita() {
 		super(new GridLayout(1,0));
-		TableF table = null;
-		try{
-			final GeneratoreDatiTabellaEntrate dati = new GeneratoreDatiTabellaEntrate();
-			table = GeneratoreDatiTabellaEntrate.createTable(dati.getMatrice(), dati.getNomiColonna());
-		}catch (final Exception e) {
-			e.printStackTrace();
-		}
+
+		final GeneratoreDatiTabellaUscite dati = new GeneratoreDatiTabellaUscite();
+		final TableF table = GeneratoreDatiTabellaUscite.createTable(dati.getMatrice(), dati.getNomiColonna());
 
 		//Create the scroll pane and add the table to it.
 		scrollPane = new JScrollPane(table);
 
 		//Add the scroll pane to this panel.
 		add(scrollPane);
+
 	}
 
 	private static void createAndShowGUI() throws Exception {
 		//Create and set up the window.
-		final JFrame frame = new JFrame("Tabella Entrata");
+		final JFrame frame = new JFrame("TabellaUscita");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		//Create and set up the content pane.
@@ -68,8 +53,9 @@ public class TabellaEntrata extends OggettoVistaBase {
 	}
 
 	public static void setPrimo(final String[][] primo) {
-		TabellaEntrata.primo = primo;
+		TabellaUscita.primo = primo;
 	}
+
 
 	public static void main(final String[] args) {
 		//Schedule a job for the event-dispatching thread:
@@ -86,11 +72,13 @@ public class TabellaEntrata extends OggettoVistaBase {
 		});
 	}
 
+
 	public static JScrollPane getScrollPane() {
 		return scrollPane;
 	}
 
-	protected void setScrollPane(final JScrollPane scrollPane) {
-		TabellaEntrata.scrollPane = scrollPane;
+
+	public void setScrollPane(final JScrollPane scrollPane) {
+		TabellaUscita.scrollPane = scrollPane;
 	}
 }
