@@ -134,7 +134,7 @@ public class GeneralFrame extends JFrame {
 			}
 		});
 
-		String uscite = I18NManager.getSingleton().getMessaggio("withdrawal");
+		final String uscite = I18NManager.getSingleton().getMessaggio("withdrawal");
 		final ToggleBtn toggleMovimentiUscite = new ToggleBtn(uscite, iconaMovimentiPic, -1, 20);
 		toggleMovimentiUscite.settaggioBottoneStandard();
 		final Bottone bottoneMovimentiUscite = new Bottone(toggleMovimentiUscite);
@@ -149,7 +149,7 @@ public class GeneralFrame extends JFrame {
 				toggleMovimentiUscite.setSelected(false);
 			}
 		});
-		String entrate = I18NManager.getSingleton().getMessaggio("income");
+		final String entrate = I18NManager.getSingleton().getMessaggio("income");
 		final ToggleBtn toggleMovimentiEntrate = new ToggleBtn(entrate, iconaMovimentiPic, -1, 20);
 		toggleMovimentiEntrate.settaggioBottoneStandard();
 		final Bottone bottoneMovimentiEntrate = new Bottone(toggleMovimentiEntrate);
@@ -177,8 +177,8 @@ public class GeneralFrame extends JFrame {
 		toggleMovimenti.setPadre(bottoneMovimenti);
 
 		final ImageIcon iconaUscite = new ImageIcon(AltreUtil.IMGUTILPATH+"blocktable_32.png");
-		String mesi = I18NManager.getSingleton().getMessaggio("months");
-		
+		final String mesi = I18NManager.getSingleton().getMessaggio("months");
+
 		final ToggleBtn toggleMesi = new ToggleBtn(mesi, iconaUscite);
 		toggleMesi.settaggioBottoneStandard();
 		final Bottone bottoneMesi = new Bottone(toggleMesi);
@@ -213,16 +213,16 @@ public class GeneralFrame extends JFrame {
 		final ImageIcon iconaSoldi = new ImageIcon(AltreUtil.IMGUTILPATH+"soldi.gif");
 		final ImageIcon iconaSoldiPic = new ImageIcon(AltreUtil.IMGUTILPATH+"soldi_pic.gif");
 
-		String addtransaction = I18NManager.getSingleton().getMessaggio("addtransaction");
+		final String addtransaction = I18NManager.getSingleton().getMessaggio("addtransaction");
 		final ToggleBtn toggleEntrateUscite = new ToggleBtn(addtransaction, iconaSoldi);
-		
+
 		toggleEntrateUscite.settaggioBottoneStandard();
 		final Bottone bottoneEntrateUscite = new Bottone(toggleEntrateUscite);
 		toggleEntrateUscite.setPadre(bottoneEntrateUscite);
 
-		String charge = I18NManager.getSingleton().getMessaggio("charge");
+		final String charge = I18NManager.getSingleton().getMessaggio("charge");
 		final ToggleBtn toggleInsUscite = new ToggleBtn(charge, iconaSoldiPic, -1, 20);
-		
+
 		toggleInsUscite.settaggioBottoneStandard();
 		final Bottone bottoneInsUscite = new Bottone(toggleInsUscite);
 		toggleInsUscite.addActionListener(new AscoltatoreAggiornatoreNiente() {
@@ -242,9 +242,9 @@ public class GeneralFrame extends JFrame {
 			}
 		});
 
-		String income = I18NManager.getSingleton().getMessaggio("income");
+		final String income = I18NManager.getSingleton().getMessaggio("income");
 		final ToggleBtn toggleInsEntrate = new ToggleBtn(income, iconaSoldiPic, -1, 20);
-		
+
 		toggleInsEntrate.settaggioBottoneStandard();
 		final Bottone bottoneInsEntrate = new Bottone(toggleInsEntrate);
 		toggleInsEntrate.addActionListener(new AscoltatoreAggiornatoreNiente() {
