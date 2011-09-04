@@ -20,7 +20,7 @@ public class AscoltatoreCancellaCategoria extends AscoltatoreAggiornatoreTutto {
 	protected void actionPerformedOverride(ActionEvent e) {
 		super.actionPerformedOverride(e);
 		if (categorieView.getComboCategorie().getSelectedItem() != null && categorieView.getCategoria() != null) {
-			categorieView.setCategoria("Cancella");
+			categorieView.aggiornaModelDaVista("Cancella");
 			if (Controllore.invocaComando(new CommandDeleteCategoria(categorieView.getModelCatSpese()))) {
 				categorieView.getComboCategorie().removeItem(categorieView.getCategoria());
 				categorieView.dispose();

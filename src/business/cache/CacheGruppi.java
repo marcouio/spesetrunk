@@ -90,9 +90,7 @@ public class CacheGruppi extends AbstractCacheBase {
 		for (int i = 0; i < lista.length; i++) {
 			final Gruppi gruppo = (Gruppi) lista[i];
 			if (gruppo != null && gruppo.getnome() != null) {
-				if (!gruppo.getnome().equals("No Gruppo")) {
-					gruppi.add((Gruppi) lista[i]);
-				}
+				gruppi.add((Gruppi) lista[i]);
 			}
 		}
 		return gruppi;

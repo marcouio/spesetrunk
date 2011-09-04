@@ -115,6 +115,11 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity, ISing
 
 	}
 
+	public static void main(final String[] args) {
+		final WrapSingleSpesa wrap = new WrapSingleSpesa();
+		wrap.selectAll();
+	}
+
 	@Override
 	public Vector<Object> selectAll() {
 		final Vector<Object> uscite = new Vector<Object>();
@@ -163,7 +168,7 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity, ISing
 			final SingleSpesa uscita = (SingleSpesa) oggettoEntita;
 
 			sql = "INSERT INTO " + SingleSpesa.NOME_TABELLA + " (" + SingleSpesa.DATA + ", " + SingleSpesa.INEURO + ", " + SingleSpesa.DESCRIZIONE + ", " + SingleSpesa.IDCATEGORIE
-					+ ", " + SingleSpesa.NOME + ", " + SingleSpesa.IDUTENTE + ", " + SingleSpesa.DATAINS + ") VALUES (?,?,?,?,?,?,?)";
+			+ ", " + SingleSpesa.NOME + ", " + SingleSpesa.IDUTENTE + ", " + SingleSpesa.DATAINS + ") VALUES (?,?,?,?,?,?,?)";
 			final PreparedStatement ps = cn.prepareStatement(sql);
 			final String data = uscita.getData();
 			ps.setString(1, data);
@@ -227,9 +232,9 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity, ISing
 
 		final SingleSpesa uscita = (SingleSpesa) oggettoEntita;
 		final String sql = "UPDATE " + SingleSpesa.NOME_TABELLA + " SET " + SingleSpesa.DATA + " = '" + uscita.getData() + "', " + SingleSpesa.INEURO + " = " + uscita.getinEuro()
-				+ ", " + SingleSpesa.DESCRIZIONE + " = '" + uscita.getdescrizione() + "', " + SingleSpesa.IDCATEGORIE + " = " + uscita.getCatSpese().getidCategoria() + ", "
-				+ SingleSpesa.NOME + " = '" + uscita.getnome() + "', " + SingleSpesa.IDUTENTE + " = " + uscita.getUtenti().getidUtente() + ", " + SingleSpesa.DATAINS + " = '"
-				+ uscita.getDataIns() + "' WHERE " + SingleSpesa.ID + " = " + uscita.getidSpesa();
+		+ ", " + SingleSpesa.DESCRIZIONE + " = '" + uscita.getdescrizione() + "', " + SingleSpesa.IDCATEGORIE + " = " + uscita.getCatSpese().getidCategoria() + ", "
+		+ SingleSpesa.NOME + " = '" + uscita.getnome() + "', " + SingleSpesa.IDUTENTE + " = " + uscita.getUtenti().getidUtente() + ", " + SingleSpesa.DATAINS + " = '"
+		+ uscita.getDataIns() + "' WHERE " + SingleSpesa.ID + " = " + uscita.getidSpesa();
 		try {
 			final Statement st = cn.createStatement();
 			st.executeUpdate(sql);
@@ -354,7 +359,7 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity, ISing
 		}
 
 		final String sql = "select * from " + SingleSpesa.NOME_TABELLA + " where " + SingleSpesa.DATA + " BETWEEN '" + Impostazioni.getAnno() + "/01/01'" + " AND '"
-				+ Impostazioni.getAnno() + "/12/31'" + " AND " + SingleSpesa.IDUTENTE + " = " + idUtente + " ORDER BY " + SingleSpesa.ID + " desc limit 0," + dieci;
+		+ Impostazioni.getAnno() + "/12/31'" + " AND " + SingleSpesa.IDUTENTE + " = " + idUtente + " ORDER BY " + SingleSpesa.ID + " desc limit 0," + dieci;
 		final Connection cn = DBUtil.getConnection();
 
 		try {
@@ -396,7 +401,7 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity, ISing
 		boolean ok = false;
 		final Connection cn = DBUtil.getConnection();
 		final String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA + " WHERE " + Entrate.IDUTENTE + " = " + Controllore.getSingleton().getUtenteLogin().getidUtente()
-				+ " ORDER BY " + SingleSpesa.DATAINS + " DESC";
+		+ " ORDER BY " + SingleSpesa.DATAINS + " DESC";
 
 		try {
 			final Statement st = cn.createStatement();

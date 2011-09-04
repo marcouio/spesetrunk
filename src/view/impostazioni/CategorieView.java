@@ -151,7 +151,7 @@ public class CategorieView extends AbstractCategorieView {
 		return getcDescrizione() != null && getcImportanza() != null && getcNome() != null && getcImportanza() != null;
 	}
 
-	public void setCategoria(final String actionCommand) {
+	public void aggiornaModelDaVista(final String actionCommand) {
 
 		if (actionCommand.equals("Inserisci")) {
 			final int idCategoria = (CacheCategorie.getSingleton().getMaxId()) + 1;
