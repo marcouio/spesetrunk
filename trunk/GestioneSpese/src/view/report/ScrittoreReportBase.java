@@ -3,73 +3,111 @@ package view.report;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Set;
 
 public abstract class ScrittoreReportBase implements IScrittoreReport{
 
-	private ReportData reportData;
-	
+	private final ReportData reportData;
+
 	public ScrittoreReportBase(final ReportData reportData) {
 		this.reportData = reportData;
 	}
-	
+
+	/**
+	 * In base al tipo di oggettoReport passato decide quale strada prendere per registrare l'oggetto sul report.
+	 * 
+	 * @param oggettoReport
+	 * @return
+	 */
 	public boolean smista(final OggettoReport oggettoReport){
 		if(oggettoReport.getTipo().equals(OggettoReport.TIPO_DOUBLE)){
 			return scriviCampoDaDouble(oggettoReport);
 		}else if(oggettoReport.getTipo().equals(OggettoReport.TIPO_MAPPA)){
-			return scriviCampiDaMappa(oggettoReport);
+			return scorriMappa(oggettoReport);
 		}else if(oggettoReport.getTipo().equals(OggettoReport.TIPO_MATRICE)){
-			return scriviCampoDaMatrice(oggettoReport);
+			return scorriMatrice(oggettoReport);
 		}
 		return false;
 	}
-	
+
+	@Override
 	public boolean generaReport() throws Exception{
 		boolean ok = operazioniPreliminari();
-		ArrayList<OggettoReport> listaOggetti = reportData.getListaOggetti();
-		for (Iterator<OggettoReport> iterator = listaOggetti.iterator(); iterator.hasNext();) {
-			OggettoReport oggettoReport = (OggettoReport) iterator.next();
+		final ArrayList<OggettoReport> listaOggetti = reportData.getListaOggetti();
+		for (final Iterator<OggettoReport> iterator = listaOggetti.iterator(); iterator.hasNext();) {
+			final OggettoReport oggettoReport = iterator.next();
 			if(!smista(oggettoReport)){
 				ok = false;
 			}
 		}
 		return ok;
 	}
-	
+
 	protected abstract boolean operazioniPreliminari() throws Exception;
 
-	public static void main(String[] args) {
-		String[][] matrice = new String[12][2];
+	public static void main(final String[] args) {
+		final String[][] matrice = new String[12][2];
 		System.out.println(matrice.length);
 		System.out.println(matrice[0].length);
 	}
-	
 
-	protected boolean scriviCampoDaMatrice(final OggettoReport oggettoReport){
-		String[][] matrice = (String[][]) oggettoReport.getOggettoReport();
+
+	/**
+	 * Scorro gli elementi della matrice e li passa al metodo specifico di scrittura per registrarli sul report
+	 * 
+	 * @param oggettoReport
+	 * @return
+	 */
+	protected boolean scorriMatrice(final OggettoReport oggettoReport){
+		final String[][] matrice = (String[][]) oggettoReport.getOggettoReport();
 		for (int i = 0; i < matrice.length; i++) {
 			for (int x = 0; x < matrice[0].length; x++) {
-				String dipendenza1 = oggettoReport.getListaDipendenza1()[i];
-				String dipendenza2 = oggettoReport.getListaDipendenza2()[x];
-				String valore = ((String[][])oggettoReport.getOggettoReport())[i][x];
-				operazioneInternaMatrice(oggettoReport,dipendenza1,dipendenza2, valore);
+				final String dipendenza1 = oggettoReport.getListaDipendenza1()[i];
+				final String dipendenza2 = oggettoReport.getListaDipendenza2()[x];
+				final String valore = ((String[][])oggettoReport.getOggettoReport())[i][x];
+				scriviCampoMatrice(oggettoReport,dipendenza1,dipendenza2, valore);
 			}
 		}
 		return false;
 	}
 
-	protected abstract boolean operazioneInternaMatrice(final OggettoReport oggettoReport, final String dipendenza, final String dipendenza2,final String valore);
+	/**
+	 * Operazione che viene eseguita su un singolo campo della matrice per generare un campo sul report. 
+	 * Da implementare sullo specifico scrittore di report.
+	 *  
+	 * @param oggettoReport
+	 * @param dipendenza
+	 * @param dipendenza2
+	 * @param valore
+	 * @return
+	 */
+	protected abstract boolean scriviCampoMatrice(final OggettoReport oggettoReport, final String dipendenza, final String dipendenza2,final String valore);
 
-	public abstract boolean operazioneInternaMappa(String chiave, Double valoreDouble, OggettoReport oggettoReport);
+	/**
+	 * Operazione che viene eseguita su un singolo campo della mappa per generare un campo sul report. 
+	 * Da implementare sullo specifico scrittore di report.
+	 * 
+	 * @param chiave
+	 * @param valoreDouble
+	 * @param oggettoReport
+	 * @return
+	 */
+	public abstract boolean scriviCampoMappa(String chiave, Double valoreDouble, OggettoReport oggettoReport);
 
-	protected boolean scriviCampiDaMappa(final OggettoReport oggettoReport){
+	/**
+	 * Scorre gli elementi di una mappa e li passa al metodo specifico di scrittura per registrarli sul report.
+	 * 
+	 * @param oggettoReport
+	 * @return
+	 */
+	protected boolean scorriMappa(final OggettoReport oggettoReport){
 		@SuppressWarnings("unchecked")
+		final
 		HashMap<String, Double> mappa = (HashMap<String, Double>) oggettoReport.getOggettoReport();
-		String[] keys = (String[]) mappa.keySet().toArray(new String[mappa.keySet().size()]);
+		final String[] keys = mappa.keySet().toArray(new String[mappa.keySet().size()]);
 		for (int i = 0; i < keys.length; i++) {
-			String chiave = (String) keys[i];
-			Double valoreDouble = mappa.get(chiave);
-			operazioneInternaMappa(chiave, valoreDouble, oggettoReport);
+			final String chiave = keys[i];
+			final Double valoreDouble = mappa.get(chiave);
+			scriviCampoMappa(chiave, valoreDouble, oggettoReport);
 		}
 		return true;
 	}

@@ -40,7 +40,7 @@ public class ReportView extends AbstractReportView {
 		inserisciUsciteFutili(chckbxSpeseFutili_1.isSelected());
 		inserisciAvanzo(chckbxAvanzo.isSelected());
 		inserisciMediaEntrate(chckbxMedie.isSelected());
-		setMediaUscite(chckbxMedie.isSelected());
+		inserisciMediaUscite(chckbxMedie.isSelected());
 	}
 
 	/**

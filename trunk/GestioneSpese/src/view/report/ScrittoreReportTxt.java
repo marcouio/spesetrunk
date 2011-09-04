@@ -35,7 +35,7 @@ public class ScrittoreReportTxt extends ScrittoreReportBase implements IScrittor
 	}
 
 	@Override
-	protected boolean operazioneInternaMatrice(final OggettoReport oggettoReport,final String dipendenza, final String dipendenza2,final String valore) {
+	protected boolean scriviCampoMatrice(final OggettoReport oggettoReport,final String dipendenza, final String dipendenza2,final String valore) {
 		final StringBuffer sb = new StringBuffer();
 		sb.append(oggettoReport.getNomeOggetto() + " per ");
 		sb.append(oggettoReport.getNomeDipendenza2() + " '" + dipendenza2+"' e ");
@@ -48,7 +48,7 @@ public class ScrittoreReportTxt extends ScrittoreReportBase implements IScrittor
 	}
 
 	@Override
-	public boolean operazioneInternaMappa(final String chiave, final Double valoreDouble,
+	public boolean scriviCampoMappa(final String chiave, final Double valoreDouble,
 			final OggettoReport oggettoReport) {
 		
 		StringBuffer sb = new StringBuffer();
