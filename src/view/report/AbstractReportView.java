@@ -1,7 +1,6 @@
 package view.report;
 
 import java.util.HashMap;
-import java.util.Vector;
 
 import javax.swing.JFrame;
 
@@ -123,7 +122,7 @@ public abstract class AbstractReportView extends JFrame {
 		}
 	}
 
-	public void setMediaUscite(final boolean hasMediaUscite) {
+	public void inserisciMediaUscite(final boolean hasMediaUscite) {
 		if (hasMediaUscite) {
 			Double mediaUscite = reportData.generaMediaUscite();
 			OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_DOUBLE, mediaUscite, "Media Mensile Uscite");

@@ -1,5 +1,6 @@
 package business.cache;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -112,6 +113,16 @@ public class CacheCategorie extends AbstractCacheBase {
 			categorie.add((CatSpese) lista[i]);
 		}
 		return categorie;
+	}
+	
+	public String[] getArrayCategorie(){
+		ArrayList<String> nomiCategorie = new ArrayList<String>();
+		final Map<String, AbstractOggettoEntita> mappa = this.getAllCategorie();
+		final Object[] lista = mappa.values().toArray();
+		for (int i = 0; i < lista.length; i++) {
+			nomiCategorie.add(((CatSpese) lista[i]).getnome());
+		}
+		return nomiCategorie.toArray(new String[nomiCategorie.size()]);
 	}
 
 	public Vector<CatSpese> getVettoreCategorie() {
