@@ -87,7 +87,7 @@ public class AscoltatoreBottoniEntrata extends MouseAdapter {
 			dialogNew.setSize(400, 220);
 			dialogNew.setModalityType(ModalityType.APPLICATION_MODAL);
 			dialogNew.setVisible(true);
-			dialogNew.setEntrate();
+			dialogNew.aggiornaModelDaVista();
 		}
 		try {
 			AggiornatoreManager.aggiornamentoGenerale(Entrate.NOME_TABELLA);

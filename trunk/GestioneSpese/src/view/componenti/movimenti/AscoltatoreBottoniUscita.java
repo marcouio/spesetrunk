@@ -78,7 +78,7 @@ public class AscoltatoreBottoniUscita extends MouseAdapter {
 		if (arrayUtil[INDEX_IDSPESA] != "0") {
 			dialogNew.setSize(400, 220);
 			dialogNew.setModalityType(ModalityType.APPLICATION_MODAL);
-			dialogNew.setUscite();
+			dialogNew.aggiornaModelDaVista();
 			dialogNew.setVisible(true);
 		}
 		try {

@@ -120,7 +120,7 @@ public class EntrateView extends AbstractEntrateView {
 				super.actionPerformedOverride(e);
 
 				try {
-					setEntrate();
+					aggiornaModelDaVista();
 					if (Controllore.invocaComando(new CommandDeleteEntrata(modelEntrate))) {
 						String msg = I18NManager.getSingleton().getMessaggio("okentrata")+" " + modelEntrate.getnome() + " "+ I18NManager.getSingleton().getMessaggio("correctlydeleted");
 						Alert.operazioniSegnalazioneInfo(msg);
@@ -175,7 +175,7 @@ public class EntrateView extends AbstractEntrateView {
 		return EntrateView.lista;
 	}
 
-	public void setEntrate() {
+	public void aggiornaModelDaVista() {
 		final int idEntrate = (CacheEntrate.getSingleton().getMaxId()) + 1;
 		getModelEntrate().setidEntrate(idEntrate);
 

@@ -93,7 +93,7 @@ public class NoteView extends AbstractNoteView {
 			public void actionPerformedOverride(ActionEvent e) {
 				int id = CacheNote.getSingleton().getAllNoteForUtenteEAnno().size();
 				if (e.getActionCommand().equals("Aggiorna")) {
-					setNote(null);
+					aggiornaModelDaVista(null);
 					if (nonEsistonoCampiNonValorizzati()) {
 						Controllore.invocaComando(new CommandUpdateNota((Note) note.getentitaPadre(), (INote) wrapNote.getentitaPadre()));
 						((MostraNoteView) padre).aggiornaVista();
@@ -103,7 +103,7 @@ public class NoteView extends AbstractNoteView {
 					}
 				} else {
 					WrapNote wNote = new WrapNote();
-					setNote(wNote);
+					aggiornaModelDaVista(wNote);
 					if (nonEsistonoCampiNonValorizzati()) {
 						wNote.setIdNote(id);
 						wNote.getentitaPadre().setIdEntita(Integer.toString(id));
@@ -124,7 +124,7 @@ public class NoteView extends AbstractNoteView {
 		                && getUtenti() != null;
 	}
 
-	private void setNote(WrapNote wNote) {
+	private void aggiornaModelDaVista(WrapNote wNote) {
 		if (wNote != null) {
 			wrapNote = wNote;
 		}

@@ -81,7 +81,6 @@ public class GrEntrate2 extends JDialog implements ActionListener {
 	public void actionPerformed(final ActionEvent e) {
 		if (e.getActionCommand().equals("chiudi")) {
 			setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-			// AltreUtil.deleteFileDaDirectory2("./immagini/");
 			this.dispose();
 		}
 	}

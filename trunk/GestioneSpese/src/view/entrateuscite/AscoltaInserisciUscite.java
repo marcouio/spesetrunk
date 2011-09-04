@@ -19,7 +19,7 @@ public class AscoltaInserisciUscite extends AscoltatoreAggiornatoreUscite {
 	@Override
 	protected void actionPerformedOverride(ActionEvent e) {
 		super.actionPerformedOverride(e);
-		view.setUscite();
+		view.aggiornaModelDaVista();
 		if (view.nonEsistonoCampiNonValorizzati()) {
 			if (!Controllore.invocaComando(new CommandInserisciSpesa(view.getModelUscita()))) {
 				String msg = I18NManager.getSingleton().getMessaggio("insertcharges")+" "+ view.getModelUscita().getnome() + " "+I18NManager.getSingleton().getMessaggio("failed");

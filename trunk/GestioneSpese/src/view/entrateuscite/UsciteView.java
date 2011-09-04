@@ -177,7 +177,7 @@ public class UsciteView extends AbstractUsciteView {
 		getContentPane().add(lblDescrizione_1);
 	}
 
-	public void setUscite() {
+	public void aggiornaModelDaVista() {
 		final int idSpesa = (CacheUscite.getSingleton().getMaxId()) + 1;
 		getModelUscita().setidSpesa(idSpesa);
 
