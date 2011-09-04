@@ -109,12 +109,20 @@ public class CategorieView extends AbstractCategorieView {
 						taDescrizione.setText(categoria.getdescrizione());
 						cbImportanza.setSelectedItem(categoria.getimportanza());
 						final int numeroGruppi = cbGruppi.getModel().getSize();
+						boolean trovato = false;
 						for (int i = 0; i < numeroGruppi; i++) {
 							final Gruppi gruppo = (Gruppi) cbGruppi.getModel().getElementAt(i);
-							if (gruppo != null && gruppo.getnome().equals(categoria.getGruppi().getnome())) {
-								cbGruppi.setSelectedIndex(i);
+							if (gruppo != null && gruppo.getnome()!=null &&  categoria.getGruppi()!=null) {
+								if(gruppo.getnome().equals(categoria.getGruppi().getnome())){
+									cbGruppi.setSelectedIndex(i);
+									trovato = true;
+								}
 							}
 						}
+						if(!trovato){
+							cbGruppi.setSelectedIndex(0);
+						}
+
 					}
 				}
 			});
