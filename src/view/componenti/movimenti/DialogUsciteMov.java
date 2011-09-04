@@ -32,21 +32,20 @@ import domain.wrapper.WrapSingleSpesa;
 public class DialogUsciteMov extends AbstractUsciteView {
 
 	private static final long serialVersionUID = 1L;
-	private JLabel labelEuro = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("eur"));
-	private JLabel labelData = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("date"));
-	private JLabel labelCategoria = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("category"));
-	private JLabel labelDescrizione = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("descr"));
-	private JLabel labelNome = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("name"));
-	private JLabel labelDataIns = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("insertdate"));
-	private JLabel labelIdSpesa = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("key"));
+	private final JLabel labelEuro = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("eur"));
+	private final JLabel labelData = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("date"));
+	private final JLabel labelCategoria = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("category"));
+	private final JLabel labelDescrizione = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("descr"));
+	private final JLabel labelNome = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("name"));
+	private final JLabel labelDataIns = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("insertdate"));
+	private final JLabel labelIdSpesa = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("key"));
 
 	private JTextField tfEuro = new TextFieldF();
 	private JTextField tfData = new TextFieldF();
 	private JComboBox cbCategorie;
-	// private JTextField categoria = new TextFieldF();
 	private JTextField taDescrizione = new TextFieldF();
 	private JTextField tfNome = new TextFieldF();
-	private JTextField tfDataIns = new TextFieldF();
+	private final JTextField tfDataIns = new TextFieldF();
 	private JTextField idSpesa = new TextFieldF();
 	private final JButton update = new ButtonF(I18NManager.getSingleton().getMessaggio("update"));
 	private final JButton delete = new ButtonF(I18NManager.getSingleton().getMessaggio("delete"));
@@ -116,7 +115,7 @@ public class DialogUsciteMov extends AbstractUsciteView {
 		return getcNome() != null && getcDescrizione() != null && getcData() != null && getDataIns() != null && getCategoria() != null && getdEuro() != 0.0 && getUtenti() != null;
 	}
 
-	public void setUscite() {
+	public void aggiornaModelDaVista() {
 		if (AltreUtil.checkInteger(idSpesa.getText())) {
 			getModelUscita().setidSpesa(idSpesa.getText() != "" ? Integer.parseInt(idSpesa.getText()) : 0);
 		} else {
@@ -211,7 +210,7 @@ public class DialogUsciteMov extends AbstractUsciteView {
 		@Override
 		public void actionPerformed(final ActionEvent e) {
 			if (e.getActionCommand().equals(I18NManager.getSingleton().getMessaggio("update"))) {
-				setUscite();
+				aggiornaModelDaVista();
 				final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(SingleSpesa.NOME_TABELLA);
 				final JTextField campo = Controllore.getSingleton().getView().getTabMovimenti().getTabMovUscite().getCampo();
 				final SingleSpesa oldSpesa = CacheUscite.getSingleton().getSingleSpesa(idSpesa.getText());
@@ -225,14 +224,14 @@ public class DialogUsciteMov extends AbstractUsciteView {
 					// chiude la dialog e rilascia le risorse
 					dispose();
 				} else {
-					String msg = I18NManager.getSingleton().getMessaggio("charge")+ oldSpesa.getnome() + " non aggiornata: tutti i dati devono essere valorizzati";
+					final String msg = I18NManager.getSingleton().getMessaggio("charge")+ oldSpesa.getnome() + " non aggiornata: tutti i dati devono essere valorizzati";
 					Alert.operazioniSegnalazioneErroreGrave(msg);
 				}
 
 			} else if (e.getActionCommand().equals("Cancella")) {
-				setUscite();
+				aggiornaModelDaVista();
 				if (!Controllore.invocaComando(new CommandDeleteSpesa(modelUscita))) {
-					String msg = I18NManager.getSingleton().getMessaggio("charge")+ modelUscita.getnome() + " non aggiornata: tutti i dati devono essere valorizzati";
+					final String msg = I18NManager.getSingleton().getMessaggio("charge")+ modelUscita.getnome() + " non aggiornata: tutti i dati devono essere valorizzati";
 					Alert.operazioniSegnalazioneErroreGrave(msg);
 				}
 				// chiude la dialog e rilascia le risorse

@@ -35,8 +35,6 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 
 	@Override
 	public void impostaTableSpecifico() {
-		// this.getTable().setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		// this.getTable().addMouseListener(ascoltatore);
 	}
 
 	@Override
@@ -53,7 +51,7 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 						@Override
 						public String[][] getMovimenti() {
 							final Vector<Entrate> entrate = Model.getSingleton().getModelEntrate()
-									.movimentiEntrateFiltrati(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
+							.movimentiEntrateFiltrati(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
 							final String[][] mov = Model.getSingleton().movimentiFiltratiEntratePerNumero(Entrate.NOME_TABELLA, entrate);
 							AggiornatoreManager.aggiornaMovimentiEntrateDaFiltro(createNomiColonne(), mov);
 							return mov;

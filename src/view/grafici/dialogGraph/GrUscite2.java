@@ -30,12 +30,12 @@ public class GrUscite2 extends JDialog implements ActionListener {
 	/**
 	 * Suddivise per mesi. Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		try {
-			GrUscite2 dialog = new GrUscite2();
+			final GrUscite2 dialog = new GrUscite2();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -46,30 +46,30 @@ public class GrUscite2 extends JDialog implements ActionListener {
 	public GrUscite2() {
 		final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		final JFreeChart chart = ChartFactory.createLineChart("Uscite Mensili",
-		                "Mesi", "Euro", dataset, PlotOrientation.VERTICAL, true, true,
-		                true);
+				"Mesi", "Euro", dataset, PlotOrientation.VERTICAL, true, true,
+				true);
 		getContentPane().setLayout(null);
 		for (int i = 1; i <= 12; i++) {
 			dataset.setValue(Database.getSingleton().totaleUsciteMese(i), "Euro", Integer.toString(i));
 		}
 
-		GregorianCalendar data = new GregorianCalendar();
+		final GregorianCalendar data = new GregorianCalendar();
 
-		String dataMinuti = "" + data.get(Calendar.HOUR_OF_DAY)
-		                + data.get(Calendar.MINUTE);
+		final String dataMinuti = "" + data.get(Calendar.HOUR_OF_DAY)
+		+ data.get(Calendar.MINUTE);
 
 		try {
 			ChartUtilities.saveChartAsPNG(new java.io.File("./immagini/LineChartUscite2"
-			                + dataMinuti + ".png"), chart, 550, 600);
-		} catch (IOException e) {
+					+ dataMinuti + ".png"), chart, 550, 600);
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 
-		ImageIcon image = new ImageIcon("./immagini/LineChartUscite2"
-		                + dataMinuti + ".png");
-		JLabel label = new JLabel(image);
+		final ImageIcon image = new ImageIcon("./immagini/LineChartUscite2"
+				+ dataMinuti + ".png");
+		final JLabel label = new JLabel(image);
 
-		JButton chiudi = new ButtonF("Chiudi");
+		final JButton chiudi = new ButtonF("Chiudi");
 		chiudi.setActionCommand("chiudi");
 
 		label.setBounds(12, 22, 618, 546);
@@ -82,19 +82,18 @@ public class GrUscite2 extends JDialog implements ActionListener {
 		chiudi.addActionListener(this);
 	}
 
-	public GrUscite2(JPanel owner) {
+	public GrUscite2(final JPanel owner) {
 
 	}
 
-	public GrUscite2(JFrame frame) {
+	public GrUscite2(final JFrame frame) {
 		super(frame);
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		if (e.getActionCommand().equals("chiudi")) {
 			setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-			// AltreUtil.deleteFileDaDirectory2("./immagini/");
 			this.dispose();
 		}
 

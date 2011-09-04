@@ -15,8 +15,8 @@ public class PerMesiF extends OggettoVistaBase {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
+	public static void main(final String[] args) {
+		final JFrame frame = new JFrame();
 		frame.getContentPane().add(new PerMesiF());
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		frame.pack();
@@ -25,7 +25,6 @@ public class PerMesiF extends OggettoVistaBase {
 
 	private static TabellaEntrata      tabEntrate = new TabellaEntrata();
 	private static TabellaUscita       tabUscite  = new TabellaUscita();
-	// private static TabellaEntrataGruppi tabEG = new TabellaEntrataGruppi();
 	private static TabellaUscitaGruppi tabUG      = new TabellaUscitaGruppi();
 
 	private JTabbedPane                tabGenerale;
@@ -47,13 +46,10 @@ public class PerMesiF extends OggettoVistaBase {
 			tabGenerale.addTab("Gruppi di uscite", tabUG);
 
 			tabUscite.setBounds(26, 10, 400, 400);
-			// tabGenerale.addTab("Entrate Gruppi", tabEG);
-			// TabellaUscita.getTable().setRowHeight(27);
-			// TabellaEntrata.getTable().setRowHeight(27);
 			tabEntrate.setBounds(26, 10, 400, 400);
 			this.add(tabGenerale);
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -69,7 +65,7 @@ public class PerMesiF extends OggettoVistaBase {
 	 * @param tabEntrate
 	 *            the tabEntrate to set
 	 */
-	public static void setTabEntrate(TabellaEntrata tabEntrate) {
+	public static void setTabEntrate(final TabellaEntrata tabEntrate) {
 		PerMesiF.tabEntrate = tabEntrate;
 	}
 
@@ -84,7 +80,7 @@ public class PerMesiF extends OggettoVistaBase {
 	 * @param tabUscite
 	 *            the tabUscite to set
 	 */
-	public static void setTabUscite(TabellaUscita tabUscite) {
+	public static void setTabUscite(final TabellaUscita tabUscite) {
 		PerMesiF.tabUscite = tabUscite;
 	}
 

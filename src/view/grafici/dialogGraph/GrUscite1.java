@@ -34,12 +34,12 @@ public class GrUscite1 extends JDialog implements ActionListener {
 	/**
 	 * Uscite per categoria Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		try {
-			GrUscite1 dialog = new GrUscite1();
+			final GrUscite1 dialog = new GrUscite1();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -53,35 +53,35 @@ public class GrUscite1 extends JDialog implements ActionListener {
 	public GrUscite1() throws SQLException, IOException {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(null);
-		Vector<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
-		Connection cn = DBUtil.getConnection();
+		final Vector<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
+		final Connection cn = DBUtil.getConnection();
 		// Grafico a barre
-		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
 		for (int i = 0; i < categorie.size(); i++) {
-			CatSpese categoria = categorie.get(i);
-			double uscita = Database.totaleUscitaAnnoCategoria(categoria
-			                .getidCategoria());
+			final CatSpese categoria = categorie.get(i);
+			final double uscita = Database.totaleUscitaAnnoCategoria(categoria
+					.getidCategoria());
 			dataset.setValue(uscita, "Euro", categoria.getnome());
 		}
 
-		JFreeChart chart = ChartFactory.createBarChart("Uscite",
-		                "Categorie di spesa", "Euro", dataset,
-		                PlotOrientation.VERTICAL, true, true, true);
-		GregorianCalendar data = new GregorianCalendar();
+		final JFreeChart chart = ChartFactory.createBarChart("Uscite",
+				"Categorie di spesa", "Euro", dataset,
+				PlotOrientation.VERTICAL, true, true, true);
+		final GregorianCalendar data = new GregorianCalendar();
 
-		String dataMinuti = "" + data.get(Calendar.HOUR_OF_DAY)
-		                + data.get(Calendar.MINUTE);
+		final String dataMinuti = "" + data.get(Calendar.HOUR_OF_DAY)
+		+ data.get(Calendar.MINUTE);
 
 		ChartUtilities.saveChartAsPNG(new java.io.File("./immagini/barUscite"
-		                + dataMinuti + ".png"), chart, 550, 550);
+				+ dataMinuti + ".png"), chart, 550, 550);
 		getContentPane().setLayout(null);
 		cn.close();
-		ImageIcon image = new ImageIcon("./immagini/barUscite" + dataMinuti
-		                + ".png");
-		JLabel immagine = new JLabel(image);
+		final ImageIcon image = new ImageIcon("./immagini/barUscite" + dataMinuti
+				+ ".png");
+		final JLabel immagine = new JLabel(image);
 		dispose();
-		JButton chiudi = new ButtonF("Chiudi");
+		final JButton chiudi = new ButtonF("Chiudi");
 		chiudi.setActionCommand("chiudi");
 
 		immagine.setBounds(12, 22, 618, 546);
@@ -95,11 +95,10 @@ public class GrUscite1 extends JDialog implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		if (e.getActionCommand().equals("chiudi")) {
 			if (e.getActionCommand().equals("chiudi")) {
 				setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-				// AltreUtil.deleteFileDaDirectory("./immagini/");
 				this.dispose();
 			}
 		}

@@ -168,7 +168,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 
 	}
 
-	public void setEntrate() {
+	public void aggiornaModelDaVista() {
 		setDataIns(tfDataIns.getText());
 		setnEntrate(idEntrate.getText());
 		setcNome(tfNome.getText());
@@ -210,7 +210,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 		protected void actionPerformedOverride(final ActionEvent e) {
 			super.actionPerformedOverride(e);
 			if (e.getActionCommand().equals(I18NManager.getSingleton().getMessaggio("update"))) {
-				setEntrate();
+				aggiornaModelDaVista();
 				final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
 				final JTextField campo = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getCampo();
 
@@ -233,7 +233,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 			} else if (e.getActionCommand().equals(I18NManager.getSingleton().getMessaggio("delete"))) {
 				final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
 				final JTextField campo = Controllore.getSingleton().getView().getTabMovimenti().getTabMovEntrate().getCampo();
-				setEntrate();
+				aggiornaModelDaVista();
 				if (idEntrate.getText() != null) {
 					if (!Controllore.invocaComando(new CommandDeleteEntrata(modelEntrate))) {
 						Alert.operazioniSegnalazioneErroreGrave(Alert.getMessaggioErrore(I18NManager.getSingleton().getMessaggio("insertcorrect")));
