@@ -151,141 +151,14 @@ public class Database {
 			if (tabella != null && comando != null) {
 				// comando
 				if (command.equals("INSERT")) {
-					sql.append(command).append(" INTO ").append(tabella);
-					sql.append("(");
-					final Iterator<String> iterInsert = campi.keySet().iterator();
-
-					while (iterInsert.hasNext()) {
-						final String prossimo = iterInsert.next();
-						// aggiunge nome colonna
-						sql.append(prossimo);
-						if (iterInsert.hasNext()) {
-							sql.append(", ");
-						}
-					}
-					sql.append(") ").append(" VALUES (");
-					final Iterator<String> iterInsert2 = campi.keySet().iterator();
-					while (iterInsert2.hasNext()) {
-						final String prossimo = iterInsert2.next();
-						try {
-							sql.append(Integer.parseInt(campi.get(prossimo)));
-						} catch (final NumberFormatException e) {
-							sql.append("'" + campi.get(prossimo) + "'");
-						}
-						if (iterInsert2.hasNext()) {
-							sql.append(", ");
-						}
-					}
-
-					sql.append(")");
-					final Connection cn = DBUtil.getConnection();
-					final Statement st = cn.createStatement();
-					if (st.executeUpdate(sql.toString()) != 0) {
-						ok = true;
-					}
-					cn.close();
-					System.out.println("Record inserito correttamente");
+					ok = gestioneIstruzioneInsert(tabella, campi, ok, sql, command);
 				} else if (command.equals("UPDATE")) {
-					final Iterator<String> iterUpdate = campi.keySet().iterator();
-					sql.append(command).append(" " + tabella).append(" SET ");
-					while (iterUpdate.hasNext()) {
-						final String prossimo = iterUpdate.next();
-						sql.append(prossimo).append(" = ");
-						try {
-							if (campi.get(prossimo).contains(".")) {
-								sql.append(Double.parseDouble(campi.get(prossimo)));
-							} else {
-								sql.append(Integer.parseInt(campi.get(prossimo)));
-							}
-						} catch (final NumberFormatException e) {
-							sql.append("'" + campi.get(prossimo) + "'");
-						}
-						if (iterUpdate.hasNext()) {
-							sql.append(", ");
-						}
-					}
-					if (!clausole.isEmpty()) {
-						sql.append(" WHERE 1=1");
-						final Iterator<String> where = clausole.keySet().iterator();
-
-						while (where.hasNext()) {
-							sql.append(" AND ");
-							final String prossimo = where.next();
-							sql.append(prossimo).append(" = ");
-							try {
-								sql.append(Integer.parseInt(clausole.get(prossimo)));
-							} catch (final NumberFormatException e) {
-								sql.append("'" + clausole.get(prossimo) + "'");
-							}
-							if (where.hasNext()) {
-								sql.append(", ");
-							}
-						}
-					}
-					DBUtil.closeConnection();
-					final Connection cn = DBUtil.getConnection();
-					final Statement st = cn.createStatement();
-					if (st.executeUpdate(sql.toString()) != 0) {
-						ok = true;
-					}
-					cn.close();
+					ok = gestioneIstruzioneUpdate(tabella, campi, clausole, ok, sql,
+							command);
 				} else if (command.equals("DELETE")) {
-					sql.append(command).append(" FROM ").append(tabella);
-					if (!clausole.isEmpty()) {
-						sql.append(" WHERE 1=1");
-						final Iterator<String> where = clausole.keySet().iterator();
-						while (where.hasNext()) {
-							sql.append(" AND ");
-
-							final String prossimo = where.next();
-							sql.append(prossimo).append(" = ");
-
-							try {
-								sql.append(Integer.parseInt(clausole.get(prossimo)));
-							} catch (final NumberFormatException e) {
-								sql.append("'" + clausole.get(prossimo) + "'");
-							}
-						}
-						if (where.hasNext()) {
-							sql.append(", ");
-						}
-						final Connection cn = DBUtil.getConnection();
-						final Statement st = cn.createStatement();
-						if (st.executeUpdate(sql.toString()) != 0) {
-							ok = true;
-						}
-						cn.close();
-					}
-
+					ok = gestioneIstruzioneDelete(tabella, clausole, ok, sql, command);
 				} else if (command.equals("SELECT")) {
-					sql.append(command);
-					if (campi == null) {
-						sql.append(" * ");
-					} else {
-						final Iterator<String> iterSelect = clausole.keySet().iterator();
-						while (iterSelect.hasNext()) {
-							final String prossimo = iterSelect.next();
-							sql.append(" " + prossimo);
-						}
-						if (iterSelect.hasNext()) {
-							sql.append(", ");
-						}
-
-					}
-					if (!clausole.isEmpty()) {
-						sql.append("WHERE 1=1");
-						final Iterator<String> where = clausole.keySet().iterator();
-						while (where.hasNext()) {
-							sql.append(" AND ");
-							final String prossimo = where.next();
-							sql.append(prossimo).append(" = ");
-							try {
-								sql.append(Integer.parseInt(clausole.get(prossimo)));
-							} catch (final NumberFormatException e) {
-								sql.append("'" + clausole.get(prossimo) + "'");
-							}
-						}
-					}
+					gestioneIstruzioneSelect(campi, clausole, sql, command);
 				}
 			}
 
@@ -294,6 +167,161 @@ public class Database {
 		} finally {
 			DBUtil.closeConnection();
 		}
+		return ok;
+	}
+
+	private void gestioneIstruzioneSelect(final HashMap<String, String> campi,
+			final HashMap<String, String> clausole, final StringBuffer sql,
+			final String command) {
+		sql.append(command);
+		if (campi == null) {
+			sql.append(" * ");
+		} else {
+			final Iterator<String> iterSelect = clausole.keySet().iterator();
+			while (iterSelect.hasNext()) {
+				final String prossimo = iterSelect.next();
+				sql.append(" " + prossimo);
+			}
+			if (iterSelect.hasNext()) {
+				sql.append(", ");
+			}
+
+		}
+		if (!clausole.isEmpty()) {
+			sql.append("WHERE 1=1");
+			final Iterator<String> where = clausole.keySet().iterator();
+			while (where.hasNext()) {
+				sql.append(" AND ");
+				final String prossimo = where.next();
+				sql.append(prossimo).append(" = ");
+				try {
+					sql.append(Integer.parseInt(clausole.get(prossimo)));
+				} catch (final NumberFormatException e) {
+					sql.append("'" + clausole.get(prossimo) + "'");
+				}
+			}
+		}
+	}
+
+	private boolean gestioneIstruzioneDelete(final String tabella,
+			final HashMap<String, String> clausole, boolean ok,
+			final StringBuffer sql, final String command) throws SQLException {
+		sql.append(command).append(" FROM ").append(tabella);
+		if (!clausole.isEmpty()) {
+			sql.append(" WHERE 1=1");
+			final Iterator<String> where = clausole.keySet().iterator();
+			while (where.hasNext()) {
+				sql.append(" AND ");
+
+				final String prossimo = where.next();
+				sql.append(prossimo).append(" = ");
+
+				try {
+					sql.append(Integer.parseInt(clausole.get(prossimo)));
+				} catch (final NumberFormatException e) {
+					sql.append("'" + clausole.get(prossimo) + "'");
+				}
+			}
+			if (where.hasNext()) {
+				sql.append(", ");
+			}
+			final Connection cn = DBUtil.getConnection();
+			final Statement st = cn.createStatement();
+			if (st.executeUpdate(sql.toString()) != 0) {
+				ok = true;
+			}
+			cn.close();
+		}
+		return ok;
+	}
+
+	private boolean gestioneIstruzioneUpdate(final String tabella,
+			final HashMap<String, String> campi,
+			final HashMap<String, String> clausole, boolean ok,
+			final StringBuffer sql, final String command) throws SQLException {
+		final Iterator<String> iterUpdate = campi.keySet().iterator();
+		sql.append(command).append(" " + tabella).append(" SET ");
+		while (iterUpdate.hasNext()) {
+			final String prossimo = iterUpdate.next();
+			sql.append(prossimo).append(" = ");
+			try {
+				if (campi.get(prossimo).contains(".")) {
+					sql.append(Double.parseDouble(campi.get(prossimo)));
+				} else {
+					sql.append(Integer.parseInt(campi.get(prossimo)));
+				}
+			} catch (final NumberFormatException e) {
+				sql.append("'" + campi.get(prossimo) + "'");
+			}
+			if (iterUpdate.hasNext()) {
+				sql.append(", ");
+			}
+		}
+		if (!clausole.isEmpty()) {
+			sql.append(" WHERE 1=1");
+			final Iterator<String> where = clausole.keySet().iterator();
+
+			while (where.hasNext()) {
+				sql.append(" AND ");
+				final String prossimo = where.next();
+				sql.append(prossimo).append(" = ");
+				try {
+					sql.append(Integer.parseInt(clausole.get(prossimo)));
+				} catch (final NumberFormatException e) {
+					sql.append("'" + clausole.get(prossimo) + "'");
+				}
+				if (where.hasNext()) {
+					sql.append(", ");
+				}
+			}
+		}
+		DBUtil.closeConnection();
+		final Connection cn = DBUtil.getConnection();
+		final Statement st = cn.createStatement();
+		if (st.executeUpdate(sql.toString()) != 0) {
+			ok = true;
+		}
+		cn.close();
+		return ok;
+	}
+
+	private boolean gestioneIstruzioneInsert(final String tabella,
+			final HashMap<String, String> campi, boolean ok,
+			final StringBuffer sql, final String command) throws SQLException {
+		sql.append(command).append(" INTO ").append(tabella);
+		sql.append("(");
+		final Iterator<String> iterInsert = campi.keySet().iterator();
+
+		while (iterInsert.hasNext()) {
+			final String prossimo = iterInsert.next();
+			// aggiunge nome colonna
+			sql.append(prossimo);
+			if (iterInsert.hasNext()) {
+				sql.append(", ");
+			}
+		}
+		sql.append(") ").append(" VALUES (");
+		final Iterator<String> iterInsert2 = campi.keySet().iterator();
+		while (iterInsert2.hasNext()) {
+			final String prossimo = iterInsert2.next();
+			try {
+				sql.append(Integer.parseInt(campi.get(prossimo)));
+			} catch (final NumberFormatException e) {
+				sql.append("'" + campi.get(prossimo) + "'");
+			}
+			if (iterInsert2.hasNext()) {
+				sql.append(", ");
+			}
+		}
+
+		sql.append(")");
+		final Connection cn = DBUtil.getConnection();
+		final Statement st = cn.createStatement();
+		if (st.executeUpdate(sql.toString()) != 0) {
+			ok = true;
+		}
+		cn.close();
+		System.out.println("Record inserito correttamente");
 		return ok;
 	}
 
