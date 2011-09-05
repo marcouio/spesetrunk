@@ -91,6 +91,12 @@ public class Database {
 		metal.setusato(0);
 		wrap.insert(metal);
 
+		Lookandfeel pago = new Lookandfeel();
+		pago.setnome("Pago");
+		pago.setvalore("com.pagosoft.plaf.PgsLookAndFeel");
+		pago.setusato(0);
+		wrap.insert(pago);
+
 	}
 
 	public void generaDB() throws SQLException {
@@ -139,7 +145,6 @@ public class Database {
 		boolean ok = false;
 		try {
 			ok = false;
-			// connection = DBUtil.getConnection();
 			final StringBuffer sql = new StringBuffer();
 			final String command = comando.toUpperCase();
 
@@ -342,7 +347,6 @@ public class Database {
 				st.executeUpdate(sql);
 			} catch (final SQLException e) {
 				Alert.operazioniSegnalazioneErroreGrave("Operazione SQL non eseguita:" + e.getMessage());
-				e.printStackTrace();
 			}
 		}
 		try {
