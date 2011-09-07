@@ -37,11 +37,11 @@ public class Database {
 
 	}
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		try {
 			Database.getSingleton().generaDB();
 			System.out.println("Db generato");
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -59,39 +59,39 @@ public class Database {
 	}
 
 	public void generaDatiTabellaLook() {
-		WrapLookAndFeel wrap = new WrapLookAndFeel();
+		final WrapLookAndFeel wrap = new WrapLookAndFeel();
 
-		Lookandfeel plastic3d = new Lookandfeel();
+		final Lookandfeel plastic3d = new Lookandfeel();
 		plastic3d.setnome("Plastic3D");
 		plastic3d.setvalore("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
 		plastic3d.setusato(0);
 		wrap.insert(plastic3d);
 
-		Lookandfeel nimbus = new Lookandfeel();
+		final Lookandfeel nimbus = new Lookandfeel();
 		nimbus.setnome("Nimbus");
 		nimbus.setvalore("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 		nimbus.setusato(1);
 		wrap.insert(nimbus);
 
-		Lookandfeel tiny = new Lookandfeel();
+		final Lookandfeel tiny = new Lookandfeel();
 		tiny.setnome("Tiny");
 		tiny.setvalore("de.muntjak.tinylookandfeel.TinyLookAndFeel");
 		tiny.setusato(0);
 		wrap.insert(tiny);
 
-		Lookandfeel motif = new Lookandfeel();
+		final Lookandfeel motif = new Lookandfeel();
 		motif.setnome("Motif");
 		motif.setvalore("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
 		motif.setusato(0);
 		wrap.insert(motif);
 
-		Lookandfeel metal = new Lookandfeel();
+		final Lookandfeel metal = new Lookandfeel();
 		metal.setnome("Metal");
 		metal.setvalore("javax.swing.plaf.metal.MetalLookAndFeel");
 		metal.setusato(0);
 		wrap.insert(metal);
 
-		Lookandfeel pago = new Lookandfeel();
+		final Lookandfeel pago = new Lookandfeel();
 		pago.setnome("Pago");
 		pago.setvalore("com.pagosoft.plaf.PgsLookAndFeel");
 		pago.setusato(0);
@@ -101,11 +101,12 @@ public class Database {
 
 	public void generaDB() throws SQLException {
 		@SuppressWarnings("unused")
+		final
 		File db = new File(Database.DB_URL);
 		String sql = new String();
-		Connection cn = DBUtil.getConnection();
+		final Connection cn = DBUtil.getConnection();
 		sql = "CREATE TABLE \"Utenti\" (\"idUtente\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , \"nome\" TEXT NOT NULL , \"cognome\" TEXT NOT NULL , \"username\" TEXT NOT NULL  UNIQUE , \"password\" TEXT NOT NULL );";
-		Statement st = cn.createStatement();
+		final Statement st = cn.createStatement();
 		st.execute(sql.toString());
 		sql = "CREATE TABLE \"gruppi\" (\"idGruppo\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , \"nome\" TEXT NOT NULL , \"descrizione\" TEXT);";
 		st.execute(sql.toString());
@@ -153,8 +154,7 @@ public class Database {
 				if (command.equals("INSERT")) {
 					ok = gestioneIstruzioneInsert(tabella, campi, ok, sql, command);
 				} else if (command.equals("UPDATE")) {
-					ok = gestioneIstruzioneUpdate(tabella, campi, clausole, ok, sql,
-							command);
+					ok = gestioneIstruzioneUpdate(tabella, campi, clausole, ok, sql, command);
 				} else if (command.equals("DELETE")) {
 					ok = gestioneIstruzioneDelete(tabella, clausole, ok, sql, command);
 				} else if (command.equals("SELECT")) {
@@ -170,9 +170,8 @@ public class Database {
 		return ok;
 	}
 
-	private void gestioneIstruzioneSelect(final HashMap<String, String> campi,
-			final HashMap<String, String> clausole, final StringBuffer sql,
-			final String command) {
+	private void gestioneIstruzioneSelect(final HashMap<String, String> campi, final HashMap<String, String> clausole,
+			final StringBuffer sql, final String command) {
 		sql.append(command);
 		if (campi == null) {
 			sql.append(" * ");
@@ -203,8 +202,7 @@ public class Database {
 		}
 	}
 
-	private boolean gestioneIstruzioneDelete(final String tabella,
-			final HashMap<String, String> clausole, boolean ok,
+	private boolean gestioneIstruzioneDelete(final String tabella, final HashMap<String, String> clausole, boolean ok,
 			final StringBuffer sql, final String command) throws SQLException {
 		sql.append(command).append(" FROM ").append(tabella);
 		if (!clausole.isEmpty()) {
@@ -235,10 +233,9 @@ public class Database {
 		return ok;
 	}
 
-	private boolean gestioneIstruzioneUpdate(final String tabella,
-			final HashMap<String, String> campi,
-			final HashMap<String, String> clausole, boolean ok,
-			final StringBuffer sql, final String command) throws SQLException {
+	private boolean gestioneIstruzioneUpdate(final String tabella, final HashMap<String, String> campi,
+			final HashMap<String, String> clausole, boolean ok, final StringBuffer sql, final String command)
+	throws SQLException {
 		final Iterator<String> iterUpdate = campi.keySet().iterator();
 		sql.append(command).append(" " + tabella).append(" SET ");
 		while (iterUpdate.hasNext()) {
@@ -285,8 +282,7 @@ public class Database {
 		return ok;
 	}
 
-	private boolean gestioneIstruzioneInsert(final String tabella,
-			final HashMap<String, String> campi, boolean ok,
+	private boolean gestioneIstruzioneInsert(final String tabella, final HashMap<String, String> campi, boolean ok,
 			final StringBuffer sql, final String command) throws SQLException {
 		sql.append(command).append(" INTO ").append(tabella);
 		sql.append("(");
@@ -335,7 +331,7 @@ public class Database {
 	public HashMap<String, ArrayList> terminaleSql(final String sql) {
 		final HashMap<String, ArrayList> nomi = new HashMap<String, ArrayList>();
 		final Connection cn = DBUtil.getConnection();
-		if (sql.substring(0, 1).equals("s") || sql.substring(0, 1).equals("S")) {
+		if (sql.substring(0, 1).equalsIgnoreCase("S")) {
 			try {
 				final Statement st = cn.createStatement();
 				final ResultSet rs = st.executeQuery(sql);
@@ -365,7 +361,6 @@ public class Database {
 
 			} catch (final SQLException e) {
 				Alert.operazioniSegnalazioneErroreGrave("Operazione SQL non eseguita:" + e.getMessage());
-				e.printStackTrace();
 			}
 
 		} else {
@@ -569,22 +564,22 @@ public class Database {
 		String sql = "";
 		if (tabella.equals(Entrate.NOME_TABELLA)) {
 			sql = "SELECT " + Entrate.NOME_TABELLA + "." + Entrate.DATA + ", " + Entrate.NOME_TABELLA + "."
-					+ Entrate.NOME + ", " + Entrate.NOME_TABELLA + "." + Entrate.DESCRIZIONE + ", "
-					+ Entrate.NOME_TABELLA + "." + Entrate.INEURO + " as euro, " + Entrate.NOME_TABELLA + "."
-					+ Entrate.FISSEOVAR + " as categoria, " + Entrate.NOME_TABELLA + "." + Entrate.ID + ", "
-					+ Entrate.NOME_TABELLA + "." + Entrate.DATAINS + " as inserimento" + " FROM " + tabella
-					+ " order by " + Entrate.ID + " desc";
+			+ Entrate.NOME + ", " + Entrate.NOME_TABELLA + "." + Entrate.DESCRIZIONE + ", "
+			+ Entrate.NOME_TABELLA + "." + Entrate.INEURO + " as euro, " + Entrate.NOME_TABELLA + "."
+			+ Entrate.FISSEOVAR + " as categoria, " + Entrate.NOME_TABELLA + "." + Entrate.ID + ", "
+			+ Entrate.NOME_TABELLA + "." + Entrate.DATAINS + " as inserimento" + " FROM " + tabella
+			+ " order by " + Entrate.ID + " desc";
 		} else if (tabella.equals(SingleSpesa.NOME_TABELLA)) {
 			sql = "SELECT " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.DATA + " as data, "
-					+ SingleSpesa.NOME_TABELLA + "." + SingleSpesa.NOME + ", " + SingleSpesa.NOME_TABELLA + "."
-					+ SingleSpesa.DESCRIZIONE + ", " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.INEURO
-					+ " as euro, " + CatSpese.NOME_TABELLA + "." + CatSpese.NOME + " as categoria, "
-					+ SingleSpesa.NOME_TABELLA + "." + SingleSpesa.ID + ", " + SingleSpesa.NOME_TABELLA + "."
-					+ SingleSpesa.DATAINS + " as inserimento" + " FROM " + tabella + ", " + CatSpese.NOME_TABELLA
-					+ ", " + Utenti.NOME_TABELLA + " where " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.IDCATEGORIE
-					+ " = " + CatSpese.NOME_TABELLA + "." + CatSpese.ID + " and " + SingleSpesa.NOME_TABELLA + "."
-					+ SingleSpesa.IDUTENTE + " = " + Utenti.NOME_TABELLA + "." + Utenti.ID + " order by "
-					+ SingleSpesa.ID + " desc";
+			+ SingleSpesa.NOME_TABELLA + "." + SingleSpesa.NOME + ", " + SingleSpesa.NOME_TABELLA + "."
+			+ SingleSpesa.DESCRIZIONE + ", " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.INEURO
+			+ " as euro, " + CatSpese.NOME_TABELLA + "." + CatSpese.NOME + " as categoria, "
+			+ SingleSpesa.NOME_TABELLA + "." + SingleSpesa.ID + ", " + SingleSpesa.NOME_TABELLA + "."
+			+ SingleSpesa.DATAINS + " as inserimento" + " FROM " + tabella + ", " + CatSpese.NOME_TABELLA
+			+ ", " + Utenti.NOME_TABELLA + " where " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.IDCATEGORIE
+			+ " = " + CatSpese.NOME_TABELLA + "." + CatSpese.ID + " and " + SingleSpesa.NOME_TABELLA + "."
+			+ SingleSpesa.IDUTENTE + " = " + Utenti.NOME_TABELLA + "." + Utenti.ID + " order by "
+			+ SingleSpesa.ID + " desc";
 		}
 
 		final Connection cn = DBUtil.getConnection();
