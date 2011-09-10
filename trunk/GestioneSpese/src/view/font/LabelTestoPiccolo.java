@@ -7,9 +7,6 @@ import javax.swing.JLabel;
 
 public class LabelTestoPiccolo extends JLabel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public LabelTestoPiccolo() {
@@ -17,7 +14,7 @@ public class LabelTestoPiccolo extends JLabel {
 		setForeground(Color.darkGray);
 	}
 
-	public LabelTestoPiccolo(String string) {
+	public LabelTestoPiccolo(final String string) {
 		super(string);
 		setFont(new Font("Eras Light ITC", Font.PLAIN, 10));
 		setForeground(Color.darkGray);
