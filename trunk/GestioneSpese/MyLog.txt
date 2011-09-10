@@ -1,4 +1,4 @@
-4-set-2011 10.41.42 business.LoggerOggetto creaLog
+10-set-2011 19.34.22 business.LoggerOggetto creaLog
 INFO: Start programma!
-4-set-2011 10.41.42 view.Alert operazioniSegnalazioneInfo
-INFO: Categoria Personali inserita correttamente
+10-set-2011 19.34.22 view.report.ReportView <init>
+INFO: Registrato Report: 10/09/2011 19:34
