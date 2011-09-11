@@ -30,6 +30,7 @@ public class Controllore {
 	private InizializzatoreFinestre initFinestre;
 	private static Controllore singleton;
 	private static Logger log;
+	public static String lookUsato;
 
 	/**
 	 * Launch the application.
@@ -73,9 +74,11 @@ public class Controllore {
 			}
 			if (lookDaUsare != null && lookDaUsare.getvalore() != null) {
 				UIManager.setLookAndFeel(lookDaUsare.getvalore());
+				lookUsato = lookDaUsare.getvalore();
 			} else {
 				//se non c'era un look selezionato setto quello di sistema
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				lookUsato = UIManager.getSystemLookAndFeelClassName();
 			}
 			SwingUtilities.updateComponentTreeUI(GeneralFrame.getSingleton());
 		} catch (final Exception e) {
