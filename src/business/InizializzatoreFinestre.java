@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
+import javax.swing.UIManager;
 
+import view.Alert;
 import view.FinestraListaComandi;
 import view.componenti.componentiPannello.PannelloAScomparsa2;
 import view.note.MostraNoteView;
@@ -59,6 +61,11 @@ public class InizializzatoreFinestre {
 			final JFrame window = finestre[index];
 			if (view != null) {
 				window.setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
+			}
+			try {
+				UIManager.setLookAndFeel(Controllore.lookUsato);
+			} catch (Exception e) {
+				Alert.operazioniSegnalazioneErroreGrave(Alert.getMessaggioErrore(e.getMessage()));
 			}
 			return window;
 		}

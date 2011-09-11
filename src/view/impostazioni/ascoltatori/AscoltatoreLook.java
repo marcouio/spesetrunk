@@ -8,13 +8,10 @@ import java.util.Vector;
 import javax.swing.JComboBox;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
-import view.FinestraListaComandi;
 import view.GeneralFrame;
-import business.Controllore;
+import view.impostazioni.Impostazioni;
 import business.Database;
-import business.InizializzatoreFinestre;
 import domain.Lookandfeel;
 
 public class AscoltatoreLook implements ActionListener {
@@ -57,35 +54,10 @@ public class AscoltatoreLook implements ActionListener {
 		try {
 			UIManager.setLookAndFeel(look);
 			SwingUtilities.updateComponentTreeUI(GeneralFrame.getSingleton());
-		} catch (final ClassNotFoundException e1) {
-			comboLook.setSelectedIndex(0);
-			e1.printStackTrace();
-		} catch (final InstantiationException e1) {
-			comboLook.setSelectedIndex(0);
-			e1.printStackTrace();
-		} catch (final IllegalAccessException e1) {
-			comboLook.setSelectedIndex(0);
-			e1.printStackTrace();
-		} catch (final UnsupportedLookAndFeelException e1) {
-			comboLook.setSelectedIndex(0);
-			e1.printStackTrace();
-		} catch (final ClassCastException e1) {
-			comboLook.setSelectedIndex(0);
-			e1.printStackTrace();
-		}
-
-		FinestraListaComandi lista = null;
-		try {
-			lista = ((FinestraListaComandi) Controllore.getSingleton().getInitFinestre()
-					.getFinestra(InizializzatoreFinestre.INDEX_HISTORY, null));
+			SwingUtilities.updateComponentTreeUI(Impostazioni.getSingleton());
 		} catch (final Exception e1) {
+			comboLook.setSelectedIndex(0);
 			e1.printStackTrace();
-		}
-		final GeneralFrame frame = GeneralFrame.getSingleton();
-		SwingUtilities.updateComponentTreeUI(lista);
-		SwingUtilities.updateComponentTreeUI(frame);
-		frame.setBounds(0, 0, 1000, 650);
-
+		} 
 	}
-
 }
