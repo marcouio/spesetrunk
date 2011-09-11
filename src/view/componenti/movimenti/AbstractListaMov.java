@@ -58,13 +58,13 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 			movim.setBounds(24, 5, 89, 30);
 			this.add(movim);
 			campo = new TextFieldF();
-			campo.setBounds(105, 8, 43, 25);
+			campo.setBounds(116, 7, 43, 25);
 			campo.setText("20");
 			numMovimenti = Integer.parseInt(campo.getText());
 			this.add(campo);
 			pulsanteNMovimenti = new ButtonF();
 			pulsanteNMovimenti.setText(I18NManager.getSingleton().getMessaggio("change"));
-			pulsanteNMovimenti.setBounds(164, 9, 89, 25);
+			pulsanteNMovimenti.setBounds(178, 7, 89, 25);
 			this.add(pulsanteNMovimenti);
 
 			final String[] nomiColonne = createNomiColonne();
@@ -89,7 +89,7 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 
 			final ButtonF btnFiltraMovimenti = new ButtonF();
 			btnFiltraMovimenti.setText(I18NManager.getSingleton().getMessaggio("filtertrans"));
-			btnFiltraMovimenti.setBounds(277, 8, 179, 25);
+			btnFiltraMovimenti.setBounds(292, 6, 179, 25);
 			btnFiltraMovimenti.addActionListener(getListener());
 
 			add(btnFiltraMovimenti);
