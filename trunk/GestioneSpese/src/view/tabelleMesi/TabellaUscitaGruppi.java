@@ -14,6 +14,7 @@ import view.font.TableF;
 import business.Database;
 import business.cache.CacheCategorie;
 import business.cache.CacheGruppi;
+import business.internazionalizzazione.I18NManager;
 import domain.CatSpese;
 import domain.Gruppi;
 
@@ -52,7 +53,7 @@ public class TabellaUscitaGruppi extends OggettoVistaBase {
 
 		final ArrayList<String> nomiColonne = new ArrayList<String>();
 
-		nomiColonne.add("Mese");
+		nomiColonne.add(I18NManager.getSingleton().getMessaggio("months"));
 		for (int i = 0; i < catSpese.size(); i++) {
 			final CatSpese categoria = catSpese.get(i);
 			nomiColonne.add(categoria.getnome());
@@ -93,18 +94,18 @@ public class TabellaUscitaGruppi extends OggettoVistaBase {
 	}
 
 	private static void colonnaMesi() {
-		primo[0][0] = "Gennaio";
-		primo[1][0] = "Febbraio";
-		primo[2][0] = "Marzo";
-		primo[3][0] = "Aprile";
-		primo[4][0] = "Maggio";
-		primo[5][0] = "Giugno";
-		primo[6][0] = "Luglio";
-		primo[7][0] = "Agosto";
-		primo[8][0] = "Settembre";
-		primo[9][0] = "Ottobre";
-		primo[10][0] = "Novembre";
-		primo[11][0] = "Dicembre";
+		primo[0][0] = I18NManager.getSingleton().getMessaggio("january");
+		primo[1][0] = I18NManager.getSingleton().getMessaggio("february");
+		primo[2][0] = I18NManager.getSingleton().getMessaggio("march");
+		primo[3][0] = I18NManager.getSingleton().getMessaggio("april");
+		primo[4][0] = I18NManager.getSingleton().getMessaggio("may");
+		primo[5][0] = I18NManager.getSingleton().getMessaggio("june");
+		primo[6][0] = I18NManager.getSingleton().getMessaggio("july");
+		primo[7][0] = I18NManager.getSingleton().getMessaggio("august");
+		primo[8][0] = I18NManager.getSingleton().getMessaggio("september");
+		primo[9][0] = I18NManager.getSingleton().getMessaggio("october");
+		primo[10][0] = I18NManager.getSingleton().getMessaggio("november");
+		primo[11][0] = I18NManager.getSingleton().getMessaggio("december");
 	}
 
 	private static void createAndShowGUI() throws Exception {

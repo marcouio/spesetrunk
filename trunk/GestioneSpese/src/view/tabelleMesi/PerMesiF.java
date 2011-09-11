@@ -6,13 +6,12 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
+import business.internazionalizzazione.I18NManager;
+
 import view.OggettoVistaBase;
 
 public class PerMesiF extends OggettoVistaBase {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public static void main(final String[] args) {
@@ -41,9 +40,9 @@ public class PerMesiF extends OggettoVistaBase {
 
 			tabGenerale = new JTabbedPane();
 			tabGenerale.setBounds(12, 65, 930, 468);
-			tabGenerale.addTab("Entrate", tabEntrate);
-			tabGenerale.addTab("Uscite", tabUscite);
-			tabGenerale.addTab("Gruppi di uscite", tabUG);
+			tabGenerale.addTab(I18NManager.getSingleton().getMessaggio("income"), tabEntrate);
+			tabGenerale.addTab(I18NManager.getSingleton().getMessaggio("withdrawal"), tabUscite);
+			tabGenerale.addTab(I18NManager.getSingleton().getMessaggio("groupscharge"), tabUG);
 
 			tabUscite.setBounds(26, 10, 400, 400);
 			tabEntrate.setBounds(26, 10, 400, 400);
