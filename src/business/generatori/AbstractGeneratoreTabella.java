@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import javax.swing.table.DefaultTableModel;
 
 import view.font.TableF;
+import business.internazionalizzazione.I18NManager;
 
 /**
  * Fornisce il codice comune per le tabelle e stabilisce i i metodi da
@@ -15,7 +16,6 @@ import view.font.TableF;
  */
 public abstract class AbstractGeneratoreTabella {
 
-	// private TableF table;
 	private Object[][] matrice;
 
 	public AbstractGeneratoreTabella() {
@@ -45,18 +45,18 @@ public abstract class AbstractGeneratoreTabella {
 	 * Aggiunge alla matrice della tabella, alla prima colonna, i mesi
 	 */
 	private void colonnaMesi() {
-		matrice[0][0] = "Gennaio";
-		matrice[1][0] = "Febbraio";
-		matrice[2][0] = "Marzo";
-		matrice[3][0] = "Aprile";
-		matrice[4][0] = "Maggio";
-		matrice[5][0] = "Giugno";
-		matrice[6][0] = "Luglio";
-		matrice[7][0] = "Agosto";
-		matrice[8][0] = "Settembre";
-		matrice[9][0] = "Ottobre";
-		matrice[10][0] = "Novembre";
-		matrice[11][0] = "Dicembre";
+		matrice[0][0] = I18NManager.getSingleton().getMessaggio("january");
+		matrice[1][0] = I18NManager.getSingleton().getMessaggio("february");
+		matrice[2][0] = I18NManager.getSingleton().getMessaggio("march");
+		matrice[3][0] = I18NManager.getSingleton().getMessaggio("april");
+		matrice[4][0] = I18NManager.getSingleton().getMessaggio("may");
+		matrice[5][0] = I18NManager.getSingleton().getMessaggio("june");
+		matrice[6][0] = I18NManager.getSingleton().getMessaggio("july");
+		matrice[7][0] = I18NManager.getSingleton().getMessaggio("august");
+		matrice[8][0] = I18NManager.getSingleton().getMessaggio("september");
+		matrice[9][0] = I18NManager.getSingleton().getMessaggio("october");
+		matrice[10][0] = I18NManager.getSingleton().getMessaggio("november");
+		matrice[11][0] = I18NManager.getSingleton().getMessaggio("december");
 	}
 
 	/**

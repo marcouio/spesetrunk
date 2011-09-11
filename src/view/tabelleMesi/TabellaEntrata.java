@@ -11,15 +11,14 @@ import javax.swing.JScrollPane;
 import view.OggettoVistaBase;
 import view.font.TableF;
 import business.generatori.GeneratoreDatiTabellaEntrate;
+import business.internazionalizzazione.I18NManager;
 
 public class TabellaEntrata extends OggettoVistaBase {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
 	private static String[][] primo;
-	private static String[] nomiColonne = {"Fisse","Variabili"};
+	private static String[] nomiColonne = {I18NManager.getSingleton().getMessaggio("fixity"),I18NManager.getSingleton().getMessaggio("variables")};
 
 
 	public static String[] getNomiColonne() {

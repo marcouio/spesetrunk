@@ -1,6 +1,7 @@
 package business.generatori;
 
 import business.Database;
+import business.internazionalizzazione.I18NManager;
 
 /**
  * A differenza da quanto dice il nome, la classe da la possibilità di creare
@@ -28,7 +29,10 @@ public class GeneratoreDatiTabellaEntrate extends AbstractGeneratoreTabella {
 
 	@Override
 	public String[] getNomiColonna() {
-		final String[] nomiColonne = { "Mesi", "Fisse", "Variabili" };
+		String mesi = I18NManager.getSingleton().getMessaggio("months");
+		String fisse = I18NManager.getSingleton().getMessaggio("fixity");
+		String variabili = I18NManager.getSingleton().getMessaggio("variables");
+		final String[] nomiColonne = { mesi, fisse, variabili };
 		return nomiColonne;
 	}
 

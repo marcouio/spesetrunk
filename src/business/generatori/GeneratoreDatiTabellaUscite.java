@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import business.Database;
 import business.cache.CacheCategorie;
+import business.internazionalizzazione.I18NManager;
 import domain.CatSpese;
 
 /**
@@ -43,7 +44,7 @@ public class GeneratoreDatiTabellaUscite extends AbstractGeneratoreTabella {
 
 		final int numColonne = categorie.size() + 1;
 		final String[] nomiColonne = new String[numColonne];
-		nomiColonne[0] = "Mesi";
+		nomiColonne[0] = I18NManager.getSingleton().getMessaggio("months");
 		for (int i = 0; i < categorie.size(); i++) {
 			nomiColonne[i + 1] = categorie.get(i).getnome();
 		}
