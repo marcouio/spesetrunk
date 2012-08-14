@@ -3,14 +3,17 @@
 package view.tabelleMesi;
 
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableModel;
 
 import view.OggettoVistaBase;
 import view.font.TableF;
-import business.generatori.GeneratoreDatiTabellaEntrate;
+import business.generatori.TableModelEntrate;
 import business.internazionalizzazione.I18NManager;
 
 public class TabellaEntrata extends OggettoVistaBase {
@@ -35,8 +38,8 @@ public class TabellaEntrata extends OggettoVistaBase {
 		super(new GridLayout(1,0));
 		TableF table = null;
 		try{
-			final GeneratoreDatiTabellaEntrate dati = new GeneratoreDatiTabellaEntrate();
-			table = GeneratoreDatiTabellaEntrate.createTable(dati.getMatrice(), dati.getNomiColonna());
+			TableModelEntrate model = new TableModelEntrate(null);
+			table = createTable(model);
 		}catch (final Exception e) {
 			e.printStackTrace();
 		}
@@ -47,6 +50,24 @@ public class TabellaEntrata extends OggettoVistaBase {
 		//Add the scroll pane to this panel.
 		add(scrollPane);
 	}
+	
+	/**
+	 * 
+	 * Permette di generare una tabella
+	 * 
+	 * @param primo
+	 * @param nomiColonne
+	 * @return TableF
+	 */
+	public static TableF createTable(TableModelEntrate model) {
+		ArrayList<String> listaCelle = model.getNomiColonne().getListaCelle();
+		TableF table = new TableF(model.getMatrice(), listaCelle.toArray(new String[listaCelle.size()]));
+
+		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+		table.setFillsViewportHeight(true);
+		table.setRowHeight(27);
+		return table;
+	}
 
 	private static void createAndShowGUI() throws Exception {
 		//Create and set up the window.
@@ -54,7 +75,7 @@ public class TabellaEntrata extends OggettoVistaBase {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		//Create and set up the content pane.
-		final TabellaUscita newContentPane = new TabellaUscita();
+		final TabellaEntrata newContentPane = new TabellaEntrata();
 		newContentPane.setOpaque(true); //content panes must be opaque
 		frame.setContentPane(newContentPane);
 
