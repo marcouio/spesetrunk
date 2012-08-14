@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import javax.swing.table.DefaultTableModel;
 
 import view.OggettoVistaBase;
 import view.font.TableF;
