@@ -29,7 +29,7 @@ import business.DBUtil;
 import business.Database;
 import business.cache.CacheCategorie;
 import business.generatori.GeneratoreDatiTabellaEntrate;
-import business.generatori.GeneratoreDatiTabellaUscite;
+import business.generatori.TableModelUscite;
 import domain.CatSpese;
 import domain.Entrate;
 import domain.Gruppi;
@@ -392,8 +392,9 @@ public class AggiornatoreManager {
 	public static boolean aggiornaTabellaUscite() {
 
 		try {
-			final GeneratoreDatiTabellaUscite dati = new GeneratoreDatiTabellaUscite();
-			final TableF table = GeneratoreDatiTabellaUscite.createTable(dati.getMatrice(), dati.getNomiColonna());
+			TableModelUscite model = new TableModelUscite(null);
+			
+			final TableF table = TabellaUscita.createTable(model); 
 			final JScrollPane pane = TabellaUscita.getScrollPane();
 			pane.setViewportView(table);
 			return true;

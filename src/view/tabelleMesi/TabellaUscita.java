@@ -2,14 +2,18 @@
 
 package view.tabelleMesi;
 
+import grafica.componenti.table.TableModel;
+
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
 import view.OggettoVistaBase;
 import view.font.TableF;
-import business.generatori.GeneratoreDatiTabellaUscite;
+import business.generatori.TableModelUscite;
 
 public class TabellaUscita extends OggettoVistaBase {
 
@@ -23,9 +27,13 @@ public class TabellaUscita extends OggettoVistaBase {
 	public TabellaUscita() {
 		super(new GridLayout(1,0));
 
-		final GeneratoreDatiTabellaUscite dati = new GeneratoreDatiTabellaUscite();
-		final TableF table = GeneratoreDatiTabellaUscite.createTable(dati.getMatrice(), dati.getNomiColonna());
-
+		TableModelUscite model = null;
+		try {
+			model = new TableModelUscite(null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		final TableF table = createTable(model);
 		//Create the scroll pane and add the table to it.
 		scrollPane = new JScrollPane(table);
 
@@ -54,6 +62,24 @@ public class TabellaUscita extends OggettoVistaBase {
 
 	public static void setPrimo(final String[][] primo) {
 		TabellaUscita.primo = primo;
+	}
+	
+	/**
+	 * 
+	 * Permette di generare una tabella
+	 * 
+	 * @param primo
+	 * @param nomiColonne
+	 * @return TableF
+	 */
+	public static TableF createTable(TableModel model) {
+		ArrayList<String> nomiColonne = model.getNomiColonne().getListaCelle();
+		TableF table = new TableF(model.getMatrice(), nomiColonne.toArray(new String[nomiColonne.size()]));
+
+		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+		table.setFillsViewportHeight(true);
+		table.setRowHeight(27);
+		return table;
 	}
 
 

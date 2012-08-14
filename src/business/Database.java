@@ -383,7 +383,7 @@ public class Database {
 
 	// questo metodo riempie tabella uscite
 	/**
-	 * Restuisce un double che rappresenta la somma delle entrate per tipologia
+	 * Restuisce un double che rappresenta la somma delle uscite per tipologia
 	 * e mese di appartenenza
 	 * 
 	 * @param mese

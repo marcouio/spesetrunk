@@ -1,0 +1,48 @@
+Entrate per Categoria 'Fisse' e Mese 'Marzo' e': 0.0 
+-------------------------------------------------------------------------- 
+Entrate per Categoria 'Variabili' e Mese 'Marzo' e': 0.0 
+-------------------------------------------------------------------------- 
+Entrate per Categoria 'Fisse' e Mese 'Febbraio' e': 0.0 
+-------------------------------------------------------------------------- 
+Entrate per Categoria 'Variabili' e Mese 'Febbraio' e': 0.0 
+-------------------------------------------------------------------------- 
+Entrate per Categoria 'Fisse' e Mese 'Ottobre' e': 0.0 
+-------------------------------------------------------------------------- 
+Entrate per Categoria 'Variabili' e Mese 'Ottobre' e': 0.0 
+-------------------------------------------------------------------------- 
+Entrate per Categoria 'Fisse' e Mese 'Gennaio' e': 0.0 
+-------------------------------------------------------------------------- 
+Entrate per Categoria 'Variabili' e Mese 'Gennaio' e': 0.0 
+-------------------------------------------------------------------------- 
+Entrate per Categoria 'Fisse' e Mese 'Luglio' e': 0.0 
+-------------------------------------------------------------------------- 
+Entrate per Categoria 'Variabili' e Mese 'Luglio' e': 0.0 
+-------------------------------------------------------------------------- 
+Entrate per Categoria 'Fisse' e Mese 'Giugno' e': 0.0 
+-------------------------------------------------------------------------- 
+Entrate per Categoria 'Variabili' e Mese 'Giugno' e': 0.0 
+-------------------------------------------------------------------------- 
+Entrate per Categoria 'Fisse' e Mese 'Maggio' e': 0.0 
+-------------------------------------------------------------------------- 
+Entrate per Categoria 'Variabili' e Mese 'Maggio' e': 0.0 
+-------------------------------------------------------------------------- 
+Entrate per Categoria 'Fisse' e Mese 'Aprile' e': 0.0 
+-------------------------------------------------------------------------- 
+Entrate per Categoria 'Variabili' e Mese 'Aprile' e': 0.0 
+-------------------------------------------------------------------------- 
+Entrate per Categoria 'Fisse' e Mese 'Settembre' e': 0.0 
+-------------------------------------------------------------------------- 
+Entrate per Categoria 'Variabili' e Mese 'Settembre' e': 0.0 
+-------------------------------------------------------------------------- 
+Entrate per Categoria 'Fisse' e Mese 'Agosto' e': 0.0 
+-------------------------------------------------------------------------- 
+Entrate per Categoria 'Variabili' e Mese 'Agosto' e': 0.0 
+-------------------------------------------------------------------------- 
+Entrate per Categoria 'Fisse' e Mese 'Novembre' e': 0.0 
+-------------------------------------------------------------------------- 
+Entrate per Categoria 'Variabili' e Mese 'Novembre' e': 0.0 
+-------------------------------------------------------------------------- 
+Entrate per Categoria 'Fisse' e Mese 'Dicembre' e': 0.0 
+-------------------------------------------------------------------------- 
+Entrate per Categoria 'Variabili' e Mese 'Dicembre' e': 0.0 
+-------------------------------------------------------------------------- 
