@@ -28,7 +28,7 @@ import business.Controllore;
 import business.DBUtil;
 import business.Database;
 import business.cache.CacheCategorie;
-import business.generatori.GeneratoreDatiTabellaEntrate;
+import business.generatori.TableModelEntrate;
 import business.generatori.TableModelUscite;
 import domain.CatSpese;
 import domain.Entrate;
@@ -414,8 +414,8 @@ public class AggiornatoreManager {
 	 */
 	public static boolean aggiornaTabellaEntrate() {
 		try {
-			final GeneratoreDatiTabellaEntrate dati = new GeneratoreDatiTabellaEntrate();
-			final TableF table = GeneratoreDatiTabellaEntrate.createTable(dati.getMatrice(), dati.getNomiColonna());
+			TableModelEntrate model = new TableModelEntrate(null);
+			final TableF table = TabellaEntrata.createTable(model);
 			final JScrollPane pane = TabellaEntrata.getScrollPane();
 			pane.setViewportView(table);
 			return true;
