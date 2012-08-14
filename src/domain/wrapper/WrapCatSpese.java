@@ -6,16 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Observable;
 import java.util.Set;
 import java.util.Vector;
 
-import business.DBUtil;
-import business.cache.CacheGruppi;
-
 import command.javabeancommand.AbstractOggettoEntita;
 
+import business.DBUtil;
+import business.cache.CacheGruppi;
 import db.dao.IDAO;
 import domain.Budget;
 import domain.CatSpese;
@@ -289,10 +287,8 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 	}
 
 	@Override
-	public command.javabeancommand.AbstractOggettoEntita getEntitaPadre()
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public AbstractOggettoEntita getEntitaPadre() throws Exception {
+		return categoria;
 	}
 
 	@Override
