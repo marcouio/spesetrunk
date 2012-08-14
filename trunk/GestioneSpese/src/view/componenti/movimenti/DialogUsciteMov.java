@@ -217,8 +217,12 @@ public class DialogUsciteMov extends AbstractUsciteView {
 				final SingleSpesa oldSpesa = CacheUscite.getSingleton().getSingleSpesa(idSpesa.getText());
 
 				if (dialog.nonEsistonoCampiNonValorizzati()) {
-					if (!Controllore.invocaComando(new CommandUpdateSpesa(oldSpesa, (ISingleSpesa) modelUscita.getEntitaPadre()))) {
-						Alert.operazioniSegnalazioneErroreGrave("Spesa " + oldSpesa.getnome() + " non aggiornata");
+					try {
+						if (!Controllore.invocaComando(new CommandUpdateSpesa(oldSpesa, (ISingleSpesa) modelUscita.getEntitaPadre()))) {
+							Alert.operazioniSegnalazioneErroreGrave("Spesa " + oldSpesa.getnome() + " non aggiornata");
+						}
+					} catch (Exception e1) {
+						e1.printStackTrace();
 					}
 					AggiornatoreManager.aggiornaMovimentiUsciteDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
 

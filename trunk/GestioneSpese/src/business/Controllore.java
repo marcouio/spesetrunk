@@ -114,7 +114,7 @@ public class Controllore extends ControlloreBase{
 		setStartUtenteLogin();
 	}
 
-	public static boolean invocaComando(final AbstractCommand comando) {
+	public static boolean invocaComando(final AbstractCommand comando) throws Exception {
 		return Controllore.getSingleton().getCommandManager().invocaComando(comando);
 	}
 
