@@ -26,7 +26,7 @@ public class AscoltatoreAggiornaGruppo extends AscoltatoreAggiornatoreTutto {
 	}
 
 	@Override
-	protected void actionPerformedOverride(final ActionEvent e) {
+	protected void actionPerformedOverride(final ActionEvent e) throws Exception {
 		super.actionPerformedOverride(e);
 
 		final Gruppi gruppi = (Gruppi) gruppiView.getComboGruppi().getSelectedItem();
@@ -39,7 +39,7 @@ public class AscoltatoreAggiornaGruppo extends AscoltatoreAggiornatoreTutto {
 				modelGruppi.setidGruppo(gruppi.getidGruppo());
 			}
 			try {
-				if (Controllore.invocaComando(new CommandUpdateGruppo(oldGruppo, (IGruppi) modelGruppi.getentitaPadre()))) {
+				if (Controllore.invocaComando(new CommandUpdateGruppo(oldGruppo, (IGruppi) modelGruppi.getEntitaPadre()))) {
 
 					final Vector<Gruppi> vectorGruppi = CacheGruppi.getSingleton().getVettoreCategoriePerCombo(CacheGruppi.getSingleton().getAllGruppi());
 					final DefaultComboBoxModel model = new DefaultComboBoxModel(vectorGruppi);

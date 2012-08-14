@@ -34,6 +34,7 @@ import business.config.ConfiguratoreXml;
 import domain.Entrate;
 import domain.Lookandfeel;
 import domain.SingleSpesa;
+import domain.Utenti;
 import domain.wrapper.Model;
 
 public class Impostazioni extends JDialog {
@@ -90,7 +91,8 @@ public class Impostazioni extends JDialog {
 			getContentPane().add(calendario);
 
 			utente = new TextFieldF();
-			utente.setText(Controllore.getSingleton().getUtenteLogin().getusername());
+			Utenti utenteLogin = (Utenti) Controllore.getSingleton().getUtenteLogin();
+			utente.setText(utenteLogin.getusername());
 			utente.setBounds(140, 126, 113, 27);
 			getContentPane().add(utente);
 

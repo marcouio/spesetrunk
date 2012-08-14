@@ -2,20 +2,18 @@ package business.comandi.gruppi;
 
 import java.util.HashMap;
 
+import command.javabeancommand.AbstractCommandForJavaBean;
+import command.javabeancommand.AbstractOggettoEntita;
 import view.Alert;
 import business.cache.CacheGruppi;
-import business.comandi.AbstractCommand;
-import domain.AbstractOggettoEntita;
 import domain.Gruppi;
 import domain.IGruppi;
 import domain.wrapper.WrapGruppi;
 
-public class CommandUpdateGruppo extends AbstractCommand {
+public class CommandUpdateGruppo extends AbstractCommandForJavaBean {
 
 	final private Gruppi                                 newEntita;
 	final private Gruppi                                 oldEntita;
-	final private WrapGruppi                             wrap;
-	private final HashMap<String, AbstractOggettoEntita> mappaCache;
 
 	public CommandUpdateGruppo(final Gruppi oldEntita, final IGruppi newEntita) {
 		this.newEntita = (Gruppi) newEntita;
@@ -26,7 +24,7 @@ public class CommandUpdateGruppo extends AbstractCommand {
 	}
 
 	@Override
-	public boolean execute() {
+	public boolean execute() throws Exception {
 		if (newEntita instanceof Gruppi) {
 			if (wrap.update(newEntita)) {
 				mappaCache.put(Integer.toString(newEntita.getidGruppo()), newEntita);
@@ -37,7 +35,7 @@ public class CommandUpdateGruppo extends AbstractCommand {
 	}
 
 	@Override
-	public boolean unExecute() {
+	public boolean unExecute() throws Exception {
 		if (oldEntita instanceof Gruppi) {
 			if (wrap.update(oldEntita)) {
 				mappaCache.put(Integer.toString(oldEntita.getidGruppo()), oldEntita);

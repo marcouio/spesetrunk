@@ -26,6 +26,7 @@ import business.internazionalizzazione.I18NManager;
 import domain.CatSpese;
 import domain.ISingleSpesa;
 import domain.SingleSpesa;
+import domain.Utenti;
 import domain.wrapper.Model;
 import domain.wrapper.WrapSingleSpesa;
 
@@ -138,7 +139,7 @@ public class DialogUsciteMov extends AbstractUsciteView {
 			final String messaggio = I18NManager.getSingleton().getMessaggio("valorenotcorrect");
 			Alert.errore(messaggio, Alert.TITLE_ERROR);
 		}
-		setUtenti(Controllore.getSingleton().getUtenteLogin());
+		setUtenti((Utenti) Controllore.getSingleton().getUtenteLogin());
 		setDataIns(tfDataIns.getText());
 	}
 
@@ -216,7 +217,7 @@ public class DialogUsciteMov extends AbstractUsciteView {
 				final SingleSpesa oldSpesa = CacheUscite.getSingleton().getSingleSpesa(idSpesa.getText());
 
 				if (dialog.nonEsistonoCampiNonValorizzati()) {
-					if (!Controllore.invocaComando(new CommandUpdateSpesa(oldSpesa, (ISingleSpesa) modelUscita.getentitaPadre()))) {
+					if (!Controllore.invocaComando(new CommandUpdateSpesa(oldSpesa, (ISingleSpesa) modelUscita.getEntitaPadre()))) {
 						Alert.operazioniSegnalazioneErroreGrave("Spesa " + oldSpesa.getnome() + " non aggiornata");
 					}
 					AggiornatoreManager.aggiornaMovimentiUsciteDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
@@ -230,9 +231,13 @@ public class DialogUsciteMov extends AbstractUsciteView {
 
 			} else if (e.getActionCommand().equals("Cancella")) {
 				aggiornaModelDaVista();
-				if (!Controllore.invocaComando(new CommandDeleteSpesa(modelUscita))) {
-					final String msg = I18NManager.getSingleton().getMessaggio("charge")+ modelUscita.getnome() + " non aggiornata: tutti i dati devono essere valorizzati";
-					Alert.operazioniSegnalazioneErroreGrave(msg);
+				try {
+					if (!Controllore.invocaComando(new CommandDeleteSpesa(modelUscita))) {
+						final String msg = I18NManager.getSingleton().getMessaggio("charge")+ modelUscita.getnome() + " non aggiornata: tutti i dati devono essere valorizzati";
+						Alert.operazioniSegnalazioneErroreGrave(msg);
+					}
+				} catch (Exception e1) {
+					e1.printStackTrace();
 				}
 				// chiude la dialog e rilascia le risorse
 				dispose();

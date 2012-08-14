@@ -1,12 +1,12 @@
 package business.cache;
 
-import java.util.Map;
+import java.util.HashMap;
 
-import domain.AbstractOggettoEntita;
+import command.javabeancommand.AbstractOggettoEntita;
 
 public abstract class AbstractCacheBase {
 
-	protected Map<String, AbstractOggettoEntita> cache;
+	protected HashMap<String, AbstractOggettoEntita> cache;
 	protected boolean caricata = false;
 	
 	/**
@@ -23,11 +23,11 @@ public abstract class AbstractCacheBase {
 		this.caricata = caricata;
 	}
 	
-	public Map<String, AbstractOggettoEntita> getCache() {
+	public HashMap<String, AbstractOggettoEntita> getCache() {
 		return cache;
 	}
 
-	public void setCache(Map<String, AbstractOggettoEntita> cache) {
+	public void setCache(HashMap<String, AbstractOggettoEntita> cache) {
 		this.cache = cache;
 	}
 

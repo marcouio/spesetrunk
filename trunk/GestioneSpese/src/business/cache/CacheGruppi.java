@@ -5,7 +5,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
-import domain.AbstractOggettoEntita;
+import command.javabeancommand.AbstractOggettoEntita;
+
 import domain.Gruppi;
 import domain.wrapper.WrapGruppi;
 

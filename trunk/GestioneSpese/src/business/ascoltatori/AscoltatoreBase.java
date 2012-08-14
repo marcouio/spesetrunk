@@ -20,7 +20,11 @@ public abstract class AscoltatoreBase implements ActionListener {
 
 	@Override
 	public void actionPerformed(final ActionEvent e) {
-		actionPerformedOverride(e);
+		try {
+			actionPerformedOverride(e);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 		aggiornatore.aggiorna();
 	}
 
@@ -29,7 +33,8 @@ public abstract class AscoltatoreBase implements ActionListener {
 	 * Occhio ad utilizzare questo e non l'altro
 	 * 
 	 * @param e
+	 * @throws Exception 
 	 */
-	protected abstract void actionPerformedOverride(final ActionEvent e);
+	protected abstract void actionPerformedOverride(final ActionEvent e) throws Exception;
 
 }

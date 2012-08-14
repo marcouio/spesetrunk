@@ -1,5 +1,7 @@
 package business;
 
+import grafica.componenti.contenitori.FrameBase;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,22 +11,26 @@ import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import command.AbstractCommand;
+import command.CommandManager;
+
+import controller.ControlloreBase;
+
 import view.Alert;
 import view.GeneralFrame;
 import business.aggiornatori.AggiornatoreManager;
 import business.cache.CacheLookAndFeel;
 import business.cache.CacheUtenti;
-import business.comandi.AbstractCommand;
-import business.comandi.CommandManager;
 import business.internazionalizzazione.I18NManager;
+import domain.IUtenti;
 import domain.Lookandfeel;
 import domain.Utenti;
 import domain.wrapper.WrapUtenti;
 
-public class Controllore {
+public class Controllore extends ControlloreBase{
 
 	private static GeneralFrame view;
-	private static Utenti utenteLogin;
+	private static IUtenti utenteLogin;
 	private static CommandManager commandManager;
 	private static AggiornatoreManager aggiornatoreManager;
 	private InizializzatoreFinestre initFinestre;
@@ -142,7 +148,7 @@ public class Controllore {
 		return singleton;
 	}
 
-	public Utenti getUtenteLogin() {
+	public Object getUtenteLogin() {
 		return utenteLogin;
 	}
 
@@ -198,5 +204,23 @@ public class Controllore {
 			log = LoggerOggetto.getLog();
 		}
 		return log;
+	}
+
+	@Override
+	public void mainOverridato(FrameBase frame) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected String getUtilityDAOClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String getConnectionClassName() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

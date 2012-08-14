@@ -22,7 +22,7 @@ public class AscoltatoreEliminaGruppo extends AscoltatoreAggiornatoreTutto {
 	}
 
 	@Override
-	protected void actionPerformedOverride(final ActionEvent e) {
+	protected void actionPerformedOverride(final ActionEvent e) throws Exception {
 		super.actionPerformedOverride(e);
 		final JComboBox comboGruppi = gruppiView.getComboGruppi();
 		final Gruppi gruppi = (Gruppi) comboGruppi.getSelectedItem();

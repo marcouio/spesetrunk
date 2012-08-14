@@ -7,13 +7,15 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import command.javabeancommand.AbstractOggettoEntita;
+
 /**
  * The persistent class for the RISPARMIO database table.
  * 
  */
 @Entity
 @Table(name = "RISPARMIO")
-public class Risparmio extends AbstractOggettoEntita implements Serializable, IRisparmio {
+public class Risparmio implements AbstractOggettoEntita, Serializable, IRisparmio {
 	private static final long serialVersionUID = 1L;
 
 	public static final String NOME_TABELLA = "risparmio";
@@ -28,9 +30,6 @@ public class Risparmio extends AbstractOggettoEntita implements Serializable, IR
 	private double PerSulTotale;
 
 	public Risparmio() {
-		if (idRisparmio != 0) {
-			this.idEntita = Integer.toString(idRisparmio);
-		}
 	}
 
 	@Override
@@ -40,7 +39,6 @@ public class Risparmio extends AbstractOggettoEntita implements Serializable, IR
 
 	@Override
 	public void setidRisparmio(final int idRisparmio) {
-		this.idEntita = Integer.toString(idRisparmio);
 		this.idRisparmio = idRisparmio;
 	}
 
@@ -57,6 +55,16 @@ public class Risparmio extends AbstractOggettoEntita implements Serializable, IR
 	@Override
 	public String getnome() {
 		return null;
+	}
+
+	@Override
+	public String getIdEntita() {
+		return Integer.toString(getidRisparmio());
+	}
+
+	@Override
+	public void setIdEntita(String idEntita) {
+		setidRisparmio(Integer.parseInt(idEntita));
 	}
 
 }

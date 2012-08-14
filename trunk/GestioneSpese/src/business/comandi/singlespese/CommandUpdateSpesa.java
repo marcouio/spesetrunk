@@ -4,13 +4,13 @@ import java.util.HashMap;
 
 import view.Alert;
 import business.cache.CacheUscite;
-import business.comandi.AbstractCommand;
-import domain.AbstractOggettoEntita;
+import command.javabeancommand.AbstractCommandForJavaBean;
+import command.javabeancommand.AbstractOggettoEntita;
 import domain.ISingleSpesa;
 import domain.SingleSpesa;
 import domain.wrapper.WrapSingleSpesa;
 
-public class CommandUpdateSpesa extends AbstractCommand {
+public class CommandUpdateSpesa extends AbstractCommandForJavaBean {
 
 	final private SingleSpesa newEntita;
 	final private SingleSpesa oldEntita;

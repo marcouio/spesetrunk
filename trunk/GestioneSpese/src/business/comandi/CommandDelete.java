@@ -2,20 +2,22 @@ package business.comandi;
 
 import java.util.HashMap;
 
+import command.javabeancommand.AbstractCommandForJavaBean;
+
 import business.cache.AbstractCacheBase;
-import domain.AbstractOggettoEntita;
-import domain.wrapper.IWrapperEntity;
+import command.javabeancommand.AbstractOggettoEntita;
+import db.dao.IDAO;
 
-public class CommandDelete extends AbstractCommand {
+public class CommandDelete extends AbstractCommandForJavaBean {
 
-	public CommandDelete(final AbstractOggettoEntita entita, final IWrapperEntity wrap, final AbstractCacheBase cache) {
+	public CommandDelete(final AbstractOggettoEntita entita, final IDAO wrap, final AbstractCacheBase cache) {
 		this.entita = entita;
 		this.wrap = wrap;
 		this.mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
 	}
 
 	@Override
-	public boolean execute() {
+	public boolean execute() throws Exception {
 		if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
 			mappaCache.remove(entita.getIdEntita());
 			return true;
@@ -26,7 +28,7 @@ public class CommandDelete extends AbstractCommand {
 	}
 
 	@Override
-	public boolean unExecute() {
+	public boolean unExecute() throws Exception {
 		if (wrap.insert(entita)) {
 			mappaCache.put(entita.getIdEntita(), entita);
 			return true;

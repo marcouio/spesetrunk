@@ -116,7 +116,7 @@ public class ReportView extends AbstractReportView {
 		btnGeneraReport.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
-			protected void actionPerformedOverride(ActionEvent e) {
+			protected void actionPerformedOverride(ActionEvent e) throws Exception {
 				super.actionPerformedOverride(e);
 
 				settaValoriReportDati(chckbxSpeseVariabili_1, chckbxEntrateMensCategorie, chckbxSpeseMensCat,

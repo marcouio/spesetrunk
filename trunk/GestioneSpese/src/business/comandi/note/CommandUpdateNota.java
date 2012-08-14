@@ -4,28 +4,27 @@ import java.util.HashMap;
 
 import view.Alert;
 import business.cache.CacheNote;
-import business.comandi.AbstractCommand;
-import domain.AbstractOggettoEntita;
+
+import command.javabeancommand.AbstractCommandForJavaBean;
+import command.javabeancommand.AbstractOggettoEntita;
+
 import domain.INote;
 import domain.Note;
-import domain.wrapper.WrapNote;
 
-public class CommandUpdateNota extends AbstractCommand {
+public class CommandUpdateNota extends AbstractCommandForJavaBean {
 
 	final private Note newEntita;
 	final private Note oldEntita;
-	final private WrapNote wrap;
 
 	public CommandUpdateNota(final Note oldEntita, final INote newEntita) {
 		this.newEntita = (Note) newEntita;
 		this.oldEntita = oldEntita;
-		this.wrap = new WrapNote();
 		final CacheNote cache = CacheNote.getSingleton();
 		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
 	}
 
 	@Override
-	public boolean execute() {
+	public boolean execute() throws Exception {
 		if (newEntita instanceof Note) {
 			if (wrap.update(newEntita)) {
 				return true;
@@ -35,7 +34,7 @@ public class CommandUpdateNota extends AbstractCommand {
 	}
 
 	@Override
-	public boolean unExecute() {
+	public boolean unExecute() throws Exception {
 		if (oldEntita instanceof Note) {
 			if (wrap.update(oldEntita)) {
 				return true;

@@ -2,30 +2,27 @@ package business.comandi.gruppi;
 
 import java.util.HashMap;
 
+import command.javabeancommand.AbstractCommandForJavaBean;
+import command.javabeancommand.AbstractOggettoEntita;
+
 import view.Alert;
 import business.cache.CacheGruppi;
-import business.comandi.AbstractCommand;
-import domain.AbstractOggettoEntita;
+import db.dao.IDAO;
 import domain.Gruppi;
 import domain.IGruppi;
-import domain.wrapper.IWrapperEntity;
 import domain.wrapper.WrapGruppi;
 
-public class CommandInserisciGruppo extends AbstractCommand {
+public class CommandInserisciGruppo extends AbstractCommandForJavaBean {
 
-	final private AbstractOggettoEntita            entita;
-	final private IWrapperEntity                   wrap;
-	private HashMap<String, AbstractOggettoEntita> mappaCache;
-
-	public CommandInserisciGruppo(final IGruppi entita) {
+	public CommandInserisciGruppo(final IGruppi entita) throws Exception {
 		final CacheGruppi cache = CacheGruppi.getSingleton();
 		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
 		this.wrap = new WrapGruppi();
-		this.entita = ((IWrapperEntity) entita).getentitaPadre();
+		this.entita = ((IDAO) entita).getEntitaPadre();
 	}
 
 	@Override
-	public boolean execute() {
+	public boolean execute() throws Exception {
 		if (entita instanceof Gruppi) {
 			if (wrap.insert(entita)) {
 				mappaCache.put(entita.getIdEntita(), entita);
@@ -36,7 +33,7 @@ public class CommandInserisciGruppo extends AbstractCommand {
 	}
 
 	@Override
-	public boolean unExecute() {
+	public boolean unExecute() throws Exception {
 		if (entita instanceof Gruppi) {
 			if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
 				mappaCache.remove(entita.getIdEntita());

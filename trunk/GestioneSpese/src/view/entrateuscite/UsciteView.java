@@ -25,6 +25,7 @@ import business.cache.CacheUscite;
 import business.comandi.singlespese.CommandDeleteSpesa;
 import business.internazionalizzazione.I18NManager;
 import domain.CatSpese;
+import domain.Utenti;
 import domain.wrapper.WrapSingleSpesa;
 
 public class UsciteView extends AbstractUsciteView {
@@ -121,7 +122,7 @@ public class UsciteView extends AbstractUsciteView {
 		eliminaUltima.addActionListener(new AscoltatoreAggiornatoreUscite() {
 
 			@Override
-			protected void actionPerformedOverride(final ActionEvent e) {
+			protected void actionPerformedOverride(final ActionEvent e) throws Exception {
 				super.actionPerformedOverride(e);
 				try {
 					Controllore.invocaComando(new CommandDeleteSpesa(modelUscita));
@@ -203,7 +204,7 @@ public class UsciteView extends AbstractUsciteView {
 			final String messaggio = I18NManager.getSingleton().getMessaggio("valorenotcorrect");
 			Alert.operazioniSegnalazioneErroreGrave(messaggio);
 		}
-		setUtenti(Controllore.getSingleton().getUtenteLogin());
+		setUtenti((Utenti) Controllore.getSingleton().getUtenteLogin());
 		setDataIns(DBUtil.dataToString(new Date(), "yyyy/MM/dd"));
 	}
 

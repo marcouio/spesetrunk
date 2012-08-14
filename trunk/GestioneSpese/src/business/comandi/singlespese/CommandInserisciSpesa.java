@@ -2,30 +2,30 @@ package business.comandi.singlespese;
 
 import java.util.HashMap;
 
+import command.javabeancommand.AbstractCommandForJavaBean;
+
 import view.Alert;
 import business.cache.CacheUscite;
-import business.comandi.AbstractCommand;
-import domain.AbstractOggettoEntita;
+import command.javabeancommand.AbstractOggettoEntita;
+import db.dao.IDAO;
 import domain.ISingleSpesa;
 import domain.SingleSpesa;
-import domain.wrapper.IWrapperEntity;
 import domain.wrapper.WrapSingleSpesa;
 
-public class CommandInserisciSpesa extends AbstractCommand {
+public class CommandInserisciSpesa extends AbstractCommandForJavaBean {
 
 	final private AbstractOggettoEntita            entita;
-	final private IWrapperEntity                   wrap;
 	private HashMap<String, AbstractOggettoEntita> mappaCache;
 
-	public CommandInserisciSpesa(ISingleSpesa entita) {
+	public CommandInserisciSpesa(ISingleSpesa entita) throws Exception {
 		CacheUscite cache = CacheUscite.getSingleton();
 		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
 		this.wrap = new WrapSingleSpesa();
-		this.entita = ((IWrapperEntity) entita).getentitaPadre();
+		this.entita = ((IDAO) entita).getEntitaPadre();
 	}
 
 	@Override
-	public boolean execute() {
+	public boolean execute() throws Exception {
 		if (entita instanceof SingleSpesa) {
 			if (wrap.insert(entita)) {
 				mappaCache.put(entita.getIdEntita(), entita);
@@ -36,7 +36,7 @@ public class CommandInserisciSpesa extends AbstractCommand {
 	}
 
 	@Override
-	public boolean unExecute() {
+	public boolean unExecute() throws Exception {
 		if (entita instanceof SingleSpesa) {
 			if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
 				mappaCache.remove(entita.getIdEntita());

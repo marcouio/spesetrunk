@@ -1,22 +1,22 @@
 package business.comandi;
 
-import domain.AbstractOggettoEntita;
-import domain.wrapper.IWrapperEntity;
+import command.javabeancommand.AbstractCommandForJavaBean;
+import command.javabeancommand.AbstractOggettoEntita;
+import db.dao.IDAO;
 
-public class CommandUpdate extends AbstractCommand {
+public class CommandUpdate extends AbstractCommandForJavaBean {
 
 	final private AbstractOggettoEntita newEntita;
 	final private AbstractOggettoEntita oldEntita;
-	final private IWrapperEntity wrap;
 
-	public CommandUpdate(final AbstractOggettoEntita oldEntita, final AbstractOggettoEntita newEntita, final IWrapperEntity wrap) {
+	public CommandUpdate(final AbstractOggettoEntita oldEntita, final AbstractOggettoEntita newEntita, final IDAO wrap) {
 		this.newEntita = newEntita;
 		this.oldEntita = oldEntita;
 		this.wrap = wrap;
 	}
 
 	@Override
-	public boolean execute() {
+	public boolean execute() throws Exception {
 		if (wrap.update(newEntita)) {
 			return true;
 		} else {
@@ -25,7 +25,7 @@ public class CommandUpdate extends AbstractCommand {
 	}
 
 	@Override
-	public boolean unExecute() {
+	public boolean unExecute() throws Exception {
 		if (wrap.update(oldEntita)) {
 			return true;
 		} else {

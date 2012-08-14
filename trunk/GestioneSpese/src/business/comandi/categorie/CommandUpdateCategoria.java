@@ -2,16 +2,17 @@ package business.comandi.categorie;
 
 import java.util.HashMap;
 
+import command.ICommand;
+import command.javabeancommand.AbstractCommandForJavaBean;
+import command.javabeancommand.AbstractOggettoEntita;
+
 import view.Alert;
 import business.cache.CacheCategorie;
-import business.comandi.AbstractCommand;
-import business.comandi.ICommand;
-import domain.AbstractOggettoEntita;
 import domain.CatSpese;
 import domain.ICatSpese;
 import domain.wrapper.WrapCatSpese;
 
-public class CommandUpdateCategoria extends AbstractCommand implements ICommand {
+public class CommandUpdateCategoria extends AbstractCommandForJavaBean implements ICommand {
 
 	final private CatSpese newEntita;
 	final private CatSpese oldEntita;

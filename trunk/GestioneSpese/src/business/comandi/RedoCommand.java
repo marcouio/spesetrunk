@@ -1,5 +1,7 @@
 package business.comandi;
 
+import command.AbstractCommand;
+
 public class RedoCommand extends AbstractCommand {
 
 	@Override

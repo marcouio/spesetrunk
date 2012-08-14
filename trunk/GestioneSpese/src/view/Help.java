@@ -55,7 +55,7 @@ public class Help extends JDialog {
 		btnHelp.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
-			protected void actionPerformedOverride(ActionEvent e) {
+			protected void actionPerformedOverride(ActionEvent e) throws Exception {
 				super.actionPerformedOverride(e);
 				Desktop desktop = Desktop.getDesktop();
 				try {

@@ -14,7 +14,7 @@ public class DialogHandler extends AscoltatoreAggiornatoreNiente {
 	}
 
 	@Override
-	protected void actionPerformedOverride(final ActionEvent e) {
+	protected void actionPerformedOverride(final ActionEvent e) throws Exception {
 		super.actionPerformedOverride(e);
 		dia.dispose();
 	}

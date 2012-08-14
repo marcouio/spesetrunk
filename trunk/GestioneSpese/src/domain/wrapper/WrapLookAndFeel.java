@@ -5,19 +5,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Vector;
 
 import business.DBUtil;
-import domain.AbstractOggettoEntita;
+
+import command.javabeancommand.AbstractOggettoEntita;
+
+import db.dao.IDAO;
 import domain.ILookandfeel;
 import domain.Lookandfeel;
 
-public class WrapLookAndFeel extends Observable implements IWrapperEntity, ILookandfeel {
+public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 
 	private final Lookandfeel lookandfeel;
-	private static final long serialVersionUID = 1L;
 
 	public WrapLookAndFeel() {
 		lookandfeel = new Lookandfeel();
@@ -54,12 +56,6 @@ public class WrapLookAndFeel extends Observable implements IWrapperEntity, ILook
 		}
 		return look;
 
-	}
-
-	@Override
-	public Iterator<Object> selectWhere(String where) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -167,11 +163,6 @@ public class WrapLookAndFeel extends Observable implements IWrapperEntity, ILook
 	}
 
 	@Override
-	public AbstractOggettoEntita getentitaPadre() {
-		return lookandfeel;
-	}
-
-	@Override
 	public int getidLook() {
 		return lookandfeel.getidLook();
 	}
@@ -219,6 +210,18 @@ public class WrapLookAndFeel extends Observable implements IWrapperEntity, ILook
 	@Override
 	protected synchronized void setChanged() {
 		super.setChanged();
+	}
+
+	@Override
+	public AbstractOggettoEntita getEntitaPadre() throws Exception {
+		return lookandfeel;
+	}
+
+	@Override
+	public Object selectWhere(HashMap<String, String> clausole)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Vector;
 
@@ -13,13 +13,16 @@ import business.Controllore;
 import business.DBUtil;
 import business.LoggerOggetto;
 import business.cache.CacheUtenti;
-import domain.AbstractOggettoEntita;
+
+import command.javabeancommand.AbstractOggettoEntita;
+
+import db.dao.IDAO;
 import domain.Entrate;
 import domain.INote;
 import domain.Note;
 import domain.Utenti;
 
-public class WrapNote extends Observable implements IWrapperEntity, INote {
+public class WrapNote extends Observable implements IDAO, INote {
 
 	private final Note note;
 
@@ -102,11 +105,6 @@ public class WrapNote extends Observable implements IWrapperEntity, INote {
 	}
 
 	@Override
-	public AbstractOggettoEntita getentitaPadre() {
-		return note;
-	}
-
-	@Override
 	public Object selectById(final int id) {
 		final Connection cn = DBUtil.getConnection();
 		final String sql = "SELECT * FROM " + Note.NOME_TABELLA + " WHERE " + Note.ID + " = " + id;
@@ -122,7 +120,7 @@ public class WrapNote extends Observable implements IWrapperEntity, INote {
 				note.setIdNote(rs.getInt(1));
 				note.setNome(rs.getString(2));
 				note.setDescrizione(rs.getString(3));
-				note.setUtenti(Controllore.getSingleton().getUtenteLogin());
+				note.setUtenti((Utenti) Controllore.getSingleton().getUtenteLogin());
 				note.setData(rs.getString(5));
 				note.setDataIns(rs.getString(6));
 
@@ -139,12 +137,6 @@ public class WrapNote extends Observable implements IWrapperEntity, INote {
 			DBUtil.closeConnection();
 		}
 		return note;
-	}
-
-	@Override
-	public Iterator<Object> selectWhere(final String where) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -299,7 +291,7 @@ public class WrapNote extends Observable implements IWrapperEntity, INote {
 	public boolean DeleteLastNote() {
 		boolean ok = false;
 		final Connection cn = DBUtil.getConnection();
-		final String sql = "SELECT * FROM " + Note.NOME_TABELLA + " WHERE " + Note.IDUTENTE + " = " + Controllore.getSingleton().getUtenteLogin().getidUtente() + " ORDER BY "
+		final String sql = "SELECT * FROM " + Note.NOME_TABELLA + " WHERE " + Note.IDUTENTE + " = " + ((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente() + " ORDER BY "
 				+ Note.DATAINS + " DESC";
 
 		try {
@@ -335,5 +327,18 @@ public class WrapNote extends Observable implements IWrapperEntity, INote {
 	@Override
 	public synchronized void setChanged() {
 		super.setChanged();
+	}
+
+	@Override
+	public AbstractOggettoEntita getEntitaPadre()
+			throws Exception {
+		return note;
+	}
+
+	@Override
+	public Object selectWhere(HashMap<String, String> clausole)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

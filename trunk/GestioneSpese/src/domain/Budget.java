@@ -1,7 +1,7 @@
 package domain;
 
 import java.io.Serializable;
-
+import command.javabeancommand.AbstractOggettoEntita;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,7 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "budget")
-public class Budget extends AbstractOggettoEntita implements Serializable {
+public class Budget implements AbstractOggettoEntita, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -41,9 +41,6 @@ public class Budget extends AbstractOggettoEntita implements Serializable {
 	private CatSpese catSpese;
 
 	public Budget() {
-		if (idBudget != 0) {
-			this.idEntita = Integer.toString(idBudget);
-		}
 	}
 
 	public int getidBudget() {
@@ -52,7 +49,6 @@ public class Budget extends AbstractOggettoEntita implements Serializable {
 
 	public void setidBudget(final int idBudget) {
 		this.idBudget = idBudget;
-		this.idEntita = Integer.toString(idBudget);
 	}
 
 	public int getidCategorie() {
@@ -82,6 +78,16 @@ public class Budget extends AbstractOggettoEntita implements Serializable {
 	@Override
 	public String getnome() {
 		return null;
+	}
+
+	@Override
+	public String getIdEntita() {
+		return Integer.toString(getidBudget());
+	}
+
+	@Override
+	public void setIdEntita(String idEntita) {
+		setidBudget(Integer.parseInt(idEntita));
 	}
 
 }
