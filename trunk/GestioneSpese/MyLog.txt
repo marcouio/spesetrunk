@@ -1,4 +1,20 @@
-11-set-2011 12.05.18 business.LoggerOggetto creaLog
-INFO: Start programma!
-11-set-2011 12.05.18 view.report.ReportView <init>
-INFO: Registrato Report: 11/09/2011 12:05
+ago 14, 2012 10:18:34 AM business.LoggerOggetto creaLog
+Informazioni: Start programma!
+ago 14, 2012 10:18:34 AM view.Alert operazioniSegnalazioneErroreGrave
+Grave: Login non effettuato: username o password non corretti
+ago 14, 2012 10:19:52 AM view.Alert operazioniSegnalazioneInfo
+Informazioni: Inserito correttamente gruppo Bollette
+ago 14, 2012 10:20:56 AM view.Alert operazioniSegnalazioneInfo
+Informazioni: Categoria Gas inserita correttamente
+ago 14, 2012 10:21:34 AM view.Alert operazioniSegnalazioneInfo
+Informazioni: Categoria Enel inserita correttamente
+ago 14, 2012 10:22:28 AM view.Alert operazioniSegnalazioneInfo
+Informazioni: Categoria Personali inserita correttamente
+ago 14, 2012 10:23:34 AM view.Alert operazioniSegnalazioneInfo
+Informazioni: Inserita correttamente spesa Gas Agosto
+ago 14, 2012 10:24:10 AM view.Alert operazioniSegnalazioneInfo
+Informazioni: Inserita correttamente spesa Enel Luglio
+ago 14, 2012 10:26:05 AM view.Alert operazioniSegnalazioneInfo
+Informazioni: Inserita correttamente spesa Maglietta
+ago 14, 2012 10:26:41 AM view.Alert operazioniSegnalazioneInfo
+Informazioni: Aggiornata correttamente spesa Maglietta
