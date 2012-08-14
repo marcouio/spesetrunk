@@ -5,20 +5,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Set;
 import java.util.Vector;
 
 import business.DBUtil;
-import domain.AbstractOggettoEntita;
+
+import command.javabeancommand.AbstractOggettoEntita;
+
+import db.dao.IDAO;
 import domain.CatSpese;
 import domain.Gruppi;
 import domain.IGruppi;
 
-public class WrapGruppi extends Observable implements IWrapperEntity, IGruppi {
+public class WrapGruppi extends Observable implements IDAO, IGruppi {
 
-	private static final long serialVersionUID = 1L;
 	private final Gruppi gruppo;
 
 	public WrapGruppi() {
@@ -54,12 +56,6 @@ public class WrapGruppi extends Observable implements IWrapperEntity, IGruppi {
 		}
 		return gruppo;
 
-	}
-
-	@Override
-	public Iterator<Object> selectWhere(final String where) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -229,11 +225,6 @@ public class WrapGruppi extends Observable implements IWrapperEntity, IGruppi {
 	}
 
 	@Override
-	public AbstractOggettoEntita getentitaPadre() {
-		return gruppo;
-	}
-
-	@Override
 	public String getdescrizione() {
 		return gruppo.getdescrizione();
 	}
@@ -281,6 +272,18 @@ public class WrapGruppi extends Observable implements IWrapperEntity, IGruppi {
 	@Override
 	public synchronized void setChanged() {
 		super.setChanged();
+	}
+
+	@Override
+	public AbstractOggettoEntita getEntitaPadre() throws Exception {
+		return gruppo;
+	}
+
+	@Override
+	public Object selectWhere(HashMap<String, String> clausole)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

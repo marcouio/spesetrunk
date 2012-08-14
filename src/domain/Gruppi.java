@@ -9,13 +9,15 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import command.javabeancommand.AbstractOggettoEntita;
+
 /**
  * The persistent class for the GRUPPI database table.
  * 
  */
 @Entity
 @Table(name = "GRUPPI")
-public class Gruppi extends AbstractOggettoEntita implements Serializable, IGruppi {
+public class Gruppi implements AbstractOggettoEntita, Serializable, IGruppi {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "\"descrizione\"", nullable = false, length = 2000000000)
@@ -33,9 +35,6 @@ public class Gruppi extends AbstractOggettoEntita implements Serializable, IGrup
 	private Set<CatSpese> catSpeses;
 
 	public Gruppi() {
-		if (idGruppo != 0) {
-			this.idEntita = Integer.toString(idGruppo);
-		}
 	}
 
 	@Override
@@ -55,7 +54,6 @@ public class Gruppi extends AbstractOggettoEntita implements Serializable, IGrup
 
 	@Override
 	public void setidGruppo(final int idGruppo) {
-		this.idEntita = Integer.toString(idGruppo);
 		this.idGruppo = idGruppo;
 	}
 
@@ -88,4 +86,15 @@ public class Gruppi extends AbstractOggettoEntita implements Serializable, IGrup
 	public static final String ID = "idGruppo";
 	public static final String DESCRIZIONE = "descrizione";
 	public static final String NOME = "nome";
+
+	@Override
+	public String getIdEntita() {
+		return Integer.toString(getidGruppo());
+	}
+
+	@Override
+	public void setIdEntita(String idEntita) {
+		setidGruppo(Integer.parseInt(idEntita));
+		
+	}
 }

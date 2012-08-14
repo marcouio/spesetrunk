@@ -14,7 +14,7 @@ import business.ascoltatori.AscoltatoreAggiornatoreTutto;
 public class AscoltatoreCaricaDatabase extends AscoltatoreAggiornatoreTutto {
 
 	@Override
-	protected void actionPerformedOverride(final ActionEvent e) {
+	protected void actionPerformedOverride(final ActionEvent e) throws Exception {
 
 		super.actionPerformedOverride(e);
 

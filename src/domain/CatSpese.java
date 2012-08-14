@@ -2,7 +2,7 @@ package domain;
 
 import java.io.Serializable;
 import java.util.Set;
-
+import command.javabeancommand.AbstractOggettoEntita;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -18,7 +18,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "cat_spese", schema = "DEFAULT")
-public class CatSpese extends AbstractOggettoEntita implements Serializable, ICatSpese {
+public class CatSpese implements AbstractOggettoEntita,Serializable, ICatSpese {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "\"descrizione\"", nullable = false, length = 2000000000)
@@ -51,9 +51,7 @@ public class CatSpese extends AbstractOggettoEntita implements Serializable, ICa
 	private Set<SingleSpesa> singleSpesas;
 
 	public CatSpese() {
-		if (idCategoria != 0) {
-			this.idEntita = Integer.toString(idCategoria);
-		}
+		
 	}
 
 	@Override
@@ -74,7 +72,6 @@ public class CatSpese extends AbstractOggettoEntita implements Serializable, ICa
 	@Override
 	public void setidCategoria(final int idCategoria) {
 		this.idCategoria = idCategoria;
-		this.idEntita = Integer.toString(idCategoria);
 	}
 
 	@Override
@@ -142,4 +139,14 @@ public class CatSpese extends AbstractOggettoEntita implements Serializable, ICa
 	public static final String IMPORTANZA_FUTILE = "Futili";
 	public static final String IMPORTANZA_VARIABILE = "Variabili";
 	public static final String IMPORTANZA_FISSO = "Fisse";
+
+	@Override
+	public String getIdEntita() {
+		return Integer.toString(getidCategoria());
+	}
+
+	@Override
+	public void setIdEntita(String idEntita) {
+		setidCategoria(Integer.parseInt(idEntita));
+	}
 }

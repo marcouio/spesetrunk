@@ -6,7 +6,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
-import domain.AbstractOggettoEntita;
+import command.javabeancommand.AbstractOggettoEntita;
+
 import domain.CatSpese;
 import domain.wrapper.WrapCatSpese;
 
@@ -47,7 +48,7 @@ public class CacheCategorie extends AbstractCacheBase {
 		return categorie;
 	}
 
-	private Map<String, AbstractOggettoEntita> chargeAllCategorie() {
+	private HashMap<String, AbstractOggettoEntita> chargeAllCategorie() {
 		final Vector<Object> categorie = catSpeseDAO.selectAll();
 		if (categorie != null && categorie.size() > 0) {
 			for (int i = 0; i < categorie.size(); i++) {
@@ -62,7 +63,7 @@ public class CacheCategorie extends AbstractCacheBase {
 		return cache;
 	}
 
-	public Map<String, AbstractOggettoEntita> getAllCategorie() {
+	public HashMap<String, AbstractOggettoEntita> getAllCategorie() {
 		if (!caricata) {
 			cache = chargeAllCategorie();
 		}

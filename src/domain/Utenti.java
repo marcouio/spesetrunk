@@ -9,13 +9,15 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import command.javabeancommand.AbstractOggettoEntita;
+
 /**
  * The persistent class for the UTENTI database table.
  * 
  */
 @Entity
 @Table(name = "UTENTI")
-public class Utenti extends AbstractOggettoEntita implements Serializable {
+public class Utenti implements AbstractOggettoEntita, Serializable, IUtenti {
 	private static final long serialVersionUID = 1L;
 
 	public static final String NOME_TABELLA = "utenti";
@@ -50,9 +52,6 @@ public class Utenti extends AbstractOggettoEntita implements Serializable {
 	private Set<SingleSpesa> singleSpesas;
 
 	public Utenti() {
-		if (idUtente != 0) {
-			this.idEntita = Integer.toString(idUtente);
-		}
 	}
 
 	public int getidUtente() {
@@ -60,7 +59,6 @@ public class Utenti extends AbstractOggettoEntita implements Serializable {
 	}
 
 	public void setidUtente(final int idUtente) {
-		this.idEntita = Integer.toString(idUtente);
 		this.idUtente = idUtente;
 	}
 
@@ -111,6 +109,16 @@ public class Utenti extends AbstractOggettoEntita implements Serializable {
 
 	public String getCognome() {
 		return cognome;
+	}
+
+	@Override
+	public String getIdEntita() {
+		return Integer.toString(getidUtente());
+	}
+
+	@Override
+	public void setIdEntita(String idEntita) {
+		setidUtente(Integer.parseInt(idEntita));
 	}
 
 }

@@ -4,24 +4,24 @@ import java.util.HashMap;
 
 import view.Alert;
 import business.cache.CacheUscite;
-import business.comandi.AbstractCommand;
-import domain.AbstractOggettoEntita;
+import command.javabeancommand.AbstractCommandForJavaBean;
+import command.javabeancommand.AbstractOggettoEntita;
+import db.dao.IDAO;
 import domain.ISingleSpesa;
 import domain.SingleSpesa;
-import domain.wrapper.IWrapperEntity;
 import domain.wrapper.WrapSingleSpesa;
 
-public class CommandDeleteSpesa extends AbstractCommand {
+public class CommandDeleteSpesa extends AbstractCommandForJavaBean {
 
-	public CommandDeleteSpesa(ISingleSpesa entita) {
+	public CommandDeleteSpesa(ISingleSpesa entita) throws Exception {
 		CacheUscite cache = CacheUscite.getSingleton();
 		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
 		this.wrap = new WrapSingleSpesa();
-		this.entita = ((IWrapperEntity) entita).getentitaPadre();
+		this.entita = ((IDAO) entita).getEntitaPadre();
 	}
 
 	@Override
-	public boolean execute() {
+	public boolean execute() throws NumberFormatException, Exception {
 		if (entita instanceof SingleSpesa) {
 			if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
 				mappaCache.remove(entita.getIdEntita());
@@ -32,7 +32,7 @@ public class CommandDeleteSpesa extends AbstractCommand {
 	}
 
 	@Override
-	public boolean unExecute() {
+	public boolean unExecute() throws Exception {
 		if (entita instanceof SingleSpesa) {
 			if (wrap.insert(entita)) {
 				mappaCache.put(entita.getIdEntita(), entita);

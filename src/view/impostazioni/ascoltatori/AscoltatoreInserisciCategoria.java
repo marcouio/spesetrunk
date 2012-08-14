@@ -20,7 +20,7 @@ public class AscoltatoreInserisciCategoria extends AscoltatoreAggiornatoreTutto 
 	}
 
 	@Override
-	protected void actionPerformedOverride(final ActionEvent e) {
+	protected void actionPerformedOverride(final ActionEvent e) throws Exception {
 		super.actionPerformedOverride(e);
 		categorieView.aggiornaModelDaVista("Inserisci");
 		if (categorieView.nonEsistonoCampiNonValorizzati()) {

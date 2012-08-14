@@ -4,28 +4,27 @@ import java.util.HashMap;
 
 import view.Alert;
 import business.cache.CacheNote;
-import business.comandi.AbstractCommand;
-import domain.AbstractOggettoEntita;
+import command.javabeancommand.AbstractCommandForJavaBean;
+import command.javabeancommand.AbstractOggettoEntita;
+import db.dao.IDAO;
 import domain.INote;
 import domain.Note;
-import domain.wrapper.IWrapperEntity;
 import domain.wrapper.WrapNote;
 
-public class CommandInserisciNota extends AbstractCommand {
+public class CommandInserisciNota extends AbstractCommandForJavaBean {
 
-	final private IWrapperEntity wrap;
 	private final HashMap<String, AbstractOggettoEntita> mappaCache;
 
-	public CommandInserisciNota(final INote entita) {
+	public CommandInserisciNota(final INote entita) throws Exception {
 		final CacheNote cache = CacheNote.getSingleton();
 		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
 		this.wrap = new WrapNote();
-		this.entita = ((IWrapperEntity) entita).getentitaPadre();
+		this.entita = ((IDAO) entita).getEntitaPadre();
 
 	}
 
 	@Override
-	public boolean execute() {
+	public boolean execute() throws Exception {
 		if (entita instanceof Note) {
 			if (wrap.insert(entita)) {
 				mappaCache.put(entita.getIdEntita(), entita);
@@ -36,7 +35,7 @@ public class CommandInserisciNota extends AbstractCommand {
 	}
 
 	@Override
-	public boolean unExecute() {
+	public boolean unExecute() throws Exception {
 		if (entita instanceof Note) {
 			if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
 				mappaCache.remove(entita.getIdEntita());

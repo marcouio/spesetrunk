@@ -2,16 +2,17 @@ package business.comandi.entrate;
 
 import java.util.HashMap;
 
+import command.ICommand;
+import command.javabeancommand.AbstractOggettoEntita;
+import command.javabeancommand.AbstractCommandForJavaBean;
+
 import view.Alert;
 import business.cache.CacheEntrate;
-import business.comandi.AbstractCommand;
-import business.comandi.ICommand;
-import domain.AbstractOggettoEntita;
 import domain.Entrate;
 import domain.IEntrate;
 import domain.wrapper.WrapEntrate;
 
-public class CommandUpdateEntrata extends AbstractCommand implements ICommand {
+public class CommandUpdateEntrata extends AbstractCommandForJavaBean implements ICommand {
 
 	final private Entrate newEntita;
 	final private Entrate oldEntita;

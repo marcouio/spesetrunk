@@ -9,13 +9,15 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import command.javabeancommand.AbstractOggettoEntita;
+
 /**
  * The persistent class for the SINGLESPESA database table.
  * 
  */
 @Entity
 @Table(name = "SINGLE_SPESA")
-public class SingleSpesa extends AbstractOggettoEntita implements Serializable, ISingleSpesa {
+public class SingleSpesa implements AbstractOggettoEntita, Serializable, ISingleSpesa {
 	private static final long serialVersionUID = 1L;
 
 	public static final String NOME_TABELLA = "single_spesa";
@@ -58,9 +60,6 @@ public class SingleSpesa extends AbstractOggettoEntita implements Serializable, 
 	private Utenti utenti;
 
 	public SingleSpesa() {
-		if (idSpesa != 0) {
-			this.idEntita = Integer.toString(idSpesa);
-		}
 	}
 
 	@Override
@@ -90,7 +89,6 @@ public class SingleSpesa extends AbstractOggettoEntita implements Serializable, 
 
 	@Override
 	public void setidSpesa(final int idSpesa) {
-		this.idEntita = Integer.toString(idSpesa);
 		this.idSpesa = idSpesa;
 	}
 
@@ -147,6 +145,16 @@ public class SingleSpesa extends AbstractOggettoEntita implements Serializable, 
 	@Override
 	public String toString() {
 		return nome;
+	}
+
+	@Override
+	public String getIdEntita() {
+		return Integer.toString(getidSpesa());
+	}
+
+	@Override
+	public void setIdEntita(String idEntita) {
+		setidSpesa(Integer.parseInt(idEntita));
 	}
 
 }

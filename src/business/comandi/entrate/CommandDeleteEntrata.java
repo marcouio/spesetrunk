@@ -2,27 +2,28 @@ package business.comandi.entrate;
 
 import java.util.HashMap;
 
+import command.ICommand;
+import command.javabeancommand.AbstractCommandForJavaBean;
+import command.javabeancommand.AbstractOggettoEntita;
+
 import view.Alert;
 import business.cache.CacheEntrate;
-import business.comandi.AbstractCommand;
-import business.comandi.ICommand;
-import domain.AbstractOggettoEntita;
+import db.dao.IDAO;
 import domain.Entrate;
 import domain.IEntrate;
-import domain.wrapper.IWrapperEntity;
 import domain.wrapper.WrapEntrate;
 
-public class CommandDeleteEntrata extends AbstractCommand implements ICommand {
+public class CommandDeleteEntrata extends AbstractCommandForJavaBean implements ICommand {
 
-	public CommandDeleteEntrata(final IEntrate entita) {
+	public CommandDeleteEntrata(final IEntrate entita) throws Exception {
 		final CacheEntrate cache = CacheEntrate.getSingleton();
 		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
 		this.wrap = new WrapEntrate();
-		this.entita = ((IWrapperEntity) entita).getentitaPadre();
+		this.entita = ((IDAO) entita).getEntitaPadre();
 	}
 
 	@Override
-	public boolean execute() {
+	public boolean execute() throws Exception {
 		if (entita instanceof Entrate) {
 			if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
 				mappaCache.remove(entita.getIdEntita());
@@ -33,7 +34,7 @@ public class CommandDeleteEntrata extends AbstractCommand implements ICommand {
 	}
 
 	@Override
-	public boolean unExecute() {
+	public boolean unExecute() throws Exception {
 		if (entita instanceof Entrate) {
 			if (wrap.insert(entita)) {
 				mappaCache.put(entita.getIdEntita(), entita);

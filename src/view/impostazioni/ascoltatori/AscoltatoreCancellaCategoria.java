@@ -17,7 +17,7 @@ public class AscoltatoreCancellaCategoria extends AscoltatoreAggiornatoreTutto {
 	}
 
 	@Override
-	protected void actionPerformedOverride(ActionEvent e) {
+	protected void actionPerformedOverride(ActionEvent e) throws Exception {
 		super.actionPerformedOverride(e);
 		if (categorieView.getComboCategorie().getSelectedItem() != null && categorieView.getCategoria() != null) {
 			categorieView.aggiornaModelDaVista("Cancella");

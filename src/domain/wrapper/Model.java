@@ -7,7 +7,9 @@ import business.DBUtil;
 import business.Database;
 import business.cache.CacheCategorie;
 import business.cache.CacheGruppi;
-import domain.AbstractOggettoEntita;
+
+import command.javabeancommand.AbstractOggettoEntita;
+
 import domain.CatSpese;
 import domain.Entrate;
 import domain.SingleSpesa;

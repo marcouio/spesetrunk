@@ -21,7 +21,7 @@ public class AscoltatoreAggiornaCategoria extends AscoltatoreAggiornatoreTutto {
 	}
 
 	@Override
-	protected void actionPerformedOverride(final ActionEvent e) {
+	protected void actionPerformedOverride(final ActionEvent e) throws Exception {
 		super.actionPerformedOverride(e);
 		final CatSpese oldCategoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(categorieView.getCategoria().getidCategoria()));
 
@@ -31,8 +31,8 @@ public class AscoltatoreAggiornaCategoria extends AscoltatoreAggiornatoreTutto {
 				categorieView.getModelCatSpese().setidCategoria(categorieView.getCategoria().getidCategoria());
 			}
 			try {
-				if (Controllore.invocaComando(new CommandUpdateCategoria(oldCategoria, (ICatSpese) categorieView.getModelCatSpese().getentitaPadre()))) {
-					AggiornatoreManager.aggiornaCategorie((CatSpese) categorieView.getModelCatSpese().getentitaPadre(), categorieView.getComboCategorie());
+				if (Controllore.invocaComando(new CommandUpdateCategoria(oldCategoria, (ICatSpese) categorieView.getModelCatSpese().getEntitaPadre()))) {
+					AggiornatoreManager.aggiornaCategorie((CatSpese) categorieView.getModelCatSpese().getEntitaPadre(), categorieView.getComboCategorie());
 					categorieView.getModelCatSpese().setChanged();
 					categorieView.getModelCatSpese().notifyObservers();
 					categorieView.dispose();

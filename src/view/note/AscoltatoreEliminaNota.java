@@ -22,7 +22,7 @@ public class AscoltatoreEliminaNota extends AscoltatoreAggiornatoreNiente {
 	}
 
 	@Override
-	protected void actionPerformedOverride(final ActionEvent e) {
+	protected void actionPerformedOverride(final ActionEvent e) throws Exception {
 		super.actionPerformedOverride(e);
 		final WrapNote wn = new WrapNote(nota);
 		try {

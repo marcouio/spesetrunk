@@ -5,10 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Vector;
+
+import command.javabeancommand.AbstractOggettoEntita;
 
 import view.Alert;
 import view.impostazioni.Impostazioni;
@@ -19,17 +22,16 @@ import business.LoggerOggetto;
 import business.cache.CacheCategorie;
 import business.cache.CacheUscite;
 import business.cache.CacheUtenti;
-import domain.AbstractOggettoEntita;
+import db.dao.IDAO;
 import domain.CatSpese;
 import domain.Entrate;
 import domain.ISingleSpesa;
 import domain.SingleSpesa;
 import domain.Utenti;
 
-public class WrapSingleSpesa extends Observable implements IWrapperEntity, ISingleSpesa {
+public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 
 	private final SingleSpesa uscita;
-	private static final long serialVersionUID = 1L;
 
 	public WrapSingleSpesa() {
 		uscita = new SingleSpesa();
@@ -72,15 +74,9 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity, ISing
 		return uscita;
 	}
 
-	@Override
-	public Iterator<Object> selectWhere(final String where) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public Vector<Object> selectAllForUtente() {
 		final Vector<Object> uscite = new Vector<Object>();
-		final Utenti utente = Controllore.getSingleton().getUtenteLogin();
+		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		final Map<String, AbstractOggettoEntita> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
 		final Connection cn = DBUtil.getConnection();
 		final String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA + " WHERE " + SingleSpesa.IDUTENTE + " = " + utente.getidUtente();
@@ -287,7 +283,7 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity, ISing
 	public Vector<SingleSpesa> movimentiUsciteFiltrate(final String dataDa, final String dataA, final String nome, final Double euro, final String catSpese) {
 		Vector<SingleSpesa> sSpesa = null;
 
-		final Utenti utente = Controllore.getSingleton().getUtenteLogin();
+		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		int idUtente = 0;
 		if (utente != null) {
 			idUtente = utente.getidUtente();
@@ -352,7 +348,7 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity, ISing
 	public Vector<SingleSpesa> dieciUscite(final int dieci) {
 		Vector<SingleSpesa> sSpesa = null;
 
-		final Utenti utente = Controllore.getSingleton().getUtenteLogin();
+		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		int idUtente = 0;
 		if (utente != null) {
 			idUtente = utente.getidUtente();
@@ -400,7 +396,7 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity, ISing
 	public boolean deleteLastSpesa() {
 		boolean ok = false;
 		final Connection cn = DBUtil.getConnection();
-		final String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA + " WHERE " + Entrate.IDUTENTE + " = " + Controllore.getSingleton().getUtenteLogin().getidUtente()
+		final String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA + " WHERE " + Entrate.IDUTENTE + " = " + ((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente()
 		+ " ORDER BY " + SingleSpesa.DATAINS + " DESC";
 
 		try {
@@ -515,7 +511,7 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity, ISing
 	}
 
 	@Override
-	public AbstractOggettoEntita getentitaPadre() {
+	public AbstractOggettoEntita getEntitaPadre() {
 		return uscita;
 	}
 
@@ -527,6 +523,13 @@ public class WrapSingleSpesa extends Observable implements IWrapperEntity, ISing
 	@Override
 	protected synchronized void setChanged() {
 		super.setChanged();
+	}
+
+	@Override
+	public Object selectWhere(HashMap<String, String> clausole)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

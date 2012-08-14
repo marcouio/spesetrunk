@@ -104,7 +104,7 @@ public class NewSql extends OggettoVistaBase {
 			buttonF.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 				@Override
-				protected void actionPerformedOverride(ActionEvent e) {
+				protected void actionPerformedOverride(ActionEvent e) throws Exception {
 					super.actionPerformedOverride(e);
 					final StringBuffer sb = new StringBuffer();
 					sb.append(I18NManager.getSingleton().getMessaggio("tables")+": \n");

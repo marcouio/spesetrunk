@@ -23,6 +23,7 @@ import business.ascoltatori.AscoltatoreAggiornatoreEntrate;
 import business.cache.CacheEntrate;
 import business.comandi.entrate.CommandDeleteEntrata;
 import business.internazionalizzazione.I18NManager;
+import domain.Utenti;
 import domain.wrapper.WrapEntrate;
 
 public class EntrateView extends AbstractEntrateView {
@@ -116,7 +117,7 @@ public class EntrateView extends AbstractEntrateView {
 		eliminaUltima.addActionListener(new AscoltatoreAggiornatoreEntrate() {
 
 			@Override
-			protected void actionPerformedOverride(ActionEvent e) {
+			protected void actionPerformedOverride(ActionEvent e) throws Exception {
 				super.actionPerformedOverride(e);
 
 				try {
@@ -202,7 +203,7 @@ public class EntrateView extends AbstractEntrateView {
 			final String messaggio = I18NManager.getSingleton().getMessaggio("valorenotcorrect");
 			Alert.operazioniSegnalazioneErroreGrave(messaggio);
 		}
-		setUtenti(Controllore.getSingleton().getUtenteLogin());
+		setUtenti((Utenti) Controllore.getSingleton().getUtenteLogin());
 		setDataIns(DBUtil.dataToString(new Date(), "yyyy/MM/dd"));
 	}
 

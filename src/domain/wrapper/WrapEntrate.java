@@ -5,26 +5,25 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Vector;
+
+import command.javabeancommand.AbstractOggettoEntita;
 
 import view.impostazioni.Impostazioni;
 import business.AltreUtil;
 import business.Controllore;
 import business.DBUtil;
 import business.cache.CacheUtenti;
-import domain.AbstractOggettoEntita;
+import db.dao.IDAO;
 import domain.Entrate;
 import domain.IEntrate;
 import domain.Utenti;
 
-public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate {
+public class WrapEntrate extends Observable implements IEntrate, IDAO {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private final Entrate entrate;
 
 	public WrapEntrate() {
@@ -69,15 +68,9 @@ public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate 
 
 	}
 
-	@Override
-	public Iterator<Object> selectWhere(final String where) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public Vector<Object> selectAllForUtente() {
 		final Vector<Object> entrate = new Vector<Object>();
-		final Utenti utente = Controllore.getSingleton().getUtenteLogin();
+		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		final Connection cn = DBUtil.getConnection();
 		final String sql = "SELECT * FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.IDUTENTE + " = " + utente.getidUtente();
 		try {
@@ -272,7 +265,7 @@ public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate 
 	 */
 	public Vector<Entrate> movimentiEntrateFiltrati(final String dataDa, final String dataA, final String nome, final Double euro, final String categoria) {
 		Vector<Entrate> entrate = null;
-		final Utenti utente = Controllore.getSingleton().getUtenteLogin();
+		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		int idUtente = 0;
 		if (utente != null) {
 			idUtente = utente.getidUtente();
@@ -334,7 +327,7 @@ public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate 
 	 */
 	public Vector<Entrate> dieciEntrate(final int numEntry) {
 		Vector<Entrate> entrate = null;
-		final Utenti utente = Controllore.getSingleton().getUtenteLogin();
+		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		int idUtente = 0;
 		if (utente != null) {
 			idUtente = utente.getidUtente();
@@ -378,7 +371,7 @@ public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate 
 	public boolean DeleteLastEntrate() {
 		boolean ok = false;
 		final Connection cn = DBUtil.getConnection();
-		final String sql = "SELECT * FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.IDUTENTE + " = " + Controllore.getSingleton().getUtenteLogin().getidUtente()
+		final String sql = "SELECT * FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.IDUTENTE + " = " + ((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente()
 				+ " ORDER BY " + Entrate.DATAINS + " DESC";
 
 		try {
@@ -404,11 +397,6 @@ public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate 
 		}
 		DBUtil.closeConnection();
 		return ok;
-	}
-
-	@Override
-	public AbstractOggettoEntita getentitaPadre() {
-		return entrate;
 	}
 
 	@Override
@@ -499,6 +487,18 @@ public class WrapEntrate extends Observable implements IWrapperEntity, IEntrate 
 	@Override
 	public synchronized void setChanged() {
 		super.setChanged();
+	}
+
+	@Override
+	public AbstractOggettoEntita getEntitaPadre() throws Exception {
+		return entrate;
+	}
+
+	@Override
+	public Object selectWhere(HashMap<String, String> clausole)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

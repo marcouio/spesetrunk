@@ -5,22 +5,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Vector;
 
 import business.DBUtil;
 import business.cache.CacheCategorie;
-import domain.AbstractOggettoEntita;
+
+import command.javabeancommand.AbstractOggettoEntita;
+
+import db.dao.IDAO;
 import domain.Budget;
 import domain.CatSpese;
 import domain.IBudget;
 
-public class WrapBudget extends Observable implements IWrapperEntity, IBudget{
+public class WrapBudget extends Observable implements IDAO, IBudget{
 
 
 	Budget budget;
-	private static final long serialVersionUID = 1L;
 	
 	public WrapBudget() {
 		budget = new Budget();
@@ -57,12 +59,6 @@ public class WrapBudget extends Observable implements IWrapperEntity, IBudget{
 		}
 		return budget;
 
-	}
-
-	@Override
-	public Iterator<Object> selectWhere(String where) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -199,7 +195,7 @@ public class WrapBudget extends Observable implements IWrapperEntity, IBudget{
 	}
 
 	@Override
-	public AbstractOggettoEntita getentitaPadre() {
+	public AbstractOggettoEntita getEntitaPadre() {
 		return budget;
 	}
 
@@ -256,6 +252,13 @@ public class WrapBudget extends Observable implements IWrapperEntity, IBudget{
 	@Override
 	protected synchronized void setChanged() {
 		super.setChanged();
+	}
+
+	@Override
+	public Object selectWhere(HashMap<String, String> clausole)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

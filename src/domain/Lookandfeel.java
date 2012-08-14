@@ -7,13 +7,15 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import command.javabeancommand.AbstractOggettoEntita;
+
 /**
  * The persistent class for the LOOKANDFEEL database table.
  * 
  */
 @Entity
 @Table(name = "LOOKANDFEEL")
-public class Lookandfeel extends AbstractOggettoEntita implements Serializable, ILookandfeel {
+public class Lookandfeel implements AbstractOggettoEntita, Serializable, ILookandfeel {
 	private static final long serialVersionUID = 1L;
 
 	public static final String NOME_TABELLA = "lookAndFeel";
@@ -36,9 +38,6 @@ public class Lookandfeel extends AbstractOggettoEntita implements Serializable, 
 	private String valore;
 
 	public Lookandfeel() {
-		if (idLook != 0) {
-			this.idEntita = Integer.toString(idLook);
-		}
 	}
 
 	@Override
@@ -48,7 +47,6 @@ public class Lookandfeel extends AbstractOggettoEntita implements Serializable, 
 
 	@Override
 	public void setidLook(final int idLook) {
-		this.idEntita = Integer.toString(idLook);
 		this.idLook = idLook;
 	}
 
@@ -90,6 +88,16 @@ public class Lookandfeel extends AbstractOggettoEntita implements Serializable, 
 	@Override
 	public String toString() {
 		return nome;
+	}
+
+	@Override
+	public String getIdEntita() {
+		return Integer.toString(getidLook());
+	}
+
+	@Override
+	public void setIdEntita(String idEntita) {
+		setidLook(Integer.parseInt(idEntita));
 	}
 
 }

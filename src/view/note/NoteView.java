@@ -20,6 +20,7 @@ import business.comandi.note.CommandInserisciNota;
 import business.comandi.note.CommandUpdateNota;
 import domain.INote;
 import domain.Note;
+import domain.Utenti;
 import domain.wrapper.WrapNote;
 
 public class NoteView extends AbstractNoteView {
@@ -90,12 +91,12 @@ public class NoteView extends AbstractNoteView {
 		btnInserisci.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
-			public void actionPerformedOverride(ActionEvent e) {
+			public void actionPerformedOverride(ActionEvent e) throws Exception {
 				int id = CacheNote.getSingleton().getAllNoteForUtenteEAnno().size();
 				if (e.getActionCommand().equals("Aggiorna")) {
 					aggiornaModelDaVista(null);
 					if (nonEsistonoCampiNonValorizzati()) {
-						Controllore.invocaComando(new CommandUpdateNota((Note) note.getentitaPadre(), (INote) wrapNote.getentitaPadre()));
+						Controllore.invocaComando(new CommandUpdateNota((Note) note.getEntitaPadre(), (INote) wrapNote.getEntitaPadre()));
 						((MostraNoteView) padre).aggiornaVista();
 						dispose();
 					} else {
@@ -106,7 +107,7 @@ public class NoteView extends AbstractNoteView {
 					aggiornaModelDaVista(wNote);
 					if (nonEsistonoCampiNonValorizzati()) {
 						wNote.setIdNote(id);
-						wNote.getentitaPadre().setIdEntita(Integer.toString(id));
+						wNote.getEntitaPadre().setIdEntita(Integer.toString(id));
 						Controllore.invocaComando(new CommandInserisciNota(wNote));
 						((MostraNoteView) padre).aggiornaVista();
 						dispose();
@@ -138,7 +139,7 @@ public class NoteView extends AbstractNoteView {
 		}
 
 		setDescrizione(descrizione.getText());
-		setUtenti(Controllore.getSingleton().getUtenteLogin());
+		setUtenti((Utenti) Controllore.getSingleton().getUtenteLogin());
 		setDataIns(DBUtil.dataToString(new Date(), "yyyy/MM/dd"));
 	}
 

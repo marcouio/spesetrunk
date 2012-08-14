@@ -9,6 +9,8 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import command.javabeancommand.AbstractOggettoEntita;
+
 /**
  * The persistent class for the NOTE database table.
  * 
@@ -16,7 +18,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "NOTE")
-public class Note extends AbstractOggettoEntita implements Serializable, INote {
+public class Note implements AbstractOggettoEntita, Serializable, INote {
 	private static final long serialVersionUID = 1L;
 	public static final String NOME_TABELLA = "note";
 	public static final String NOME = "nome";
@@ -51,9 +53,6 @@ public class Note extends AbstractOggettoEntita implements Serializable, INote {
 	private Utenti utenti;
 
 	public Note() {
-		if (idNote != 0) {
-			this.idEntita = Integer.toString(idNote);
-		}
 	}
 
 	@Override
@@ -93,7 +92,6 @@ public class Note extends AbstractOggettoEntita implements Serializable, INote {
 
 	@Override
 	public void setIdNote(final int _idNote_) {
-		this.idEntita = Integer.toString(_idNote_);
 		this.idNote = _idNote_;
 	}
 
@@ -127,9 +125,19 @@ public class Note extends AbstractOggettoEntita implements Serializable, INote {
 		return utenti;
 	}
 
-	@Override
 	public String toString() {
 		return nome;
+	}
+
+	@Override
+	public String getIdEntita() {
+		return Integer.toString(getIdNote());
+	}
+
+	@Override
+	public void setIdEntita(String idEntita) {
+		setIdNote(Integer.parseInt(idEntita));
+		
 	}
 
 }

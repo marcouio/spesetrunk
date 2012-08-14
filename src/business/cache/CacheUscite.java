@@ -6,9 +6,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
+import command.javabeancommand.AbstractOggettoEntita;
+
 import view.impostazioni.Impostazioni;
 import business.Controllore;
-import domain.AbstractOggettoEntita;
 import domain.SingleSpesa;
 import domain.Utenti;
 import domain.wrapper.WrapSingleSpesa;
@@ -78,7 +79,7 @@ public class CacheUscite extends AbstractCacheBase {
 		final ArrayList<SingleSpesa> listaUscite = new ArrayList<SingleSpesa>();
 		final Map<String, AbstractOggettoEntita> mappa = getAllUscite();
 		final Iterator<String> chiavi = mappa.keySet().iterator();
-		final Utenti utente = Controllore.getSingleton().getUtenteLogin();
+		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		if (mappa != null && utente != null) {
 			while (chiavi.hasNext()) {
 				final SingleSpesa uscita = (SingleSpesa) mappa.get(chiavi.next());
@@ -96,7 +97,7 @@ public class CacheUscite extends AbstractCacheBase {
 		final ArrayList<SingleSpesa> listaUscite = new ArrayList<SingleSpesa>();
 		final Map<String, AbstractOggettoEntita> mappa = getAllUscite();
 		final Iterator<String> chiavi = mappa.keySet().iterator();
-		final Utenti utente = Controllore.getSingleton().getUtenteLogin();
+		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		final String annoDaText = Impostazioni.getSingleton().getAnnotextField().getText();
 
 		if (mappa != null && utente != null) {

@@ -2,27 +2,28 @@ package business.comandi.categorie;
 
 import java.util.HashMap;
 
+import command.ICommand;
+import command.javabeancommand.AbstractCommandForJavaBean;
+import command.javabeancommand.AbstractOggettoEntita;
+
 import view.Alert;
 import business.cache.CacheCategorie;
-import business.comandi.AbstractCommand;
-import business.comandi.ICommand;
-import domain.AbstractOggettoEntita;
+import db.dao.IDAO;
 import domain.CatSpese;
 import domain.ICatSpese;
-import domain.wrapper.IWrapperEntity;
 import domain.wrapper.WrapCatSpese;
 
-public class CommandDeleteCategoria extends AbstractCommand implements ICommand {
+public class CommandDeleteCategoria extends AbstractCommandForJavaBean implements ICommand {
 
-	public CommandDeleteCategoria(ICatSpese entita) {
+	public CommandDeleteCategoria(ICatSpese entita) throws Exception {
 		CacheCategorie cache = CacheCategorie.getSingleton();
 		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
 		this.wrap = new WrapCatSpese();
-		this.entita = ((IWrapperEntity) entita).getentitaPadre();
+		this.entita = ((IDAO) entita).getEntitaPadre();
 	}
 
 	@Override
-	public boolean execute() {
+	public boolean execute() throws Exception {
 		if (entita instanceof CatSpese) {
 			if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
 				mappaCache.remove(entita.getIdEntita());
@@ -33,7 +34,7 @@ public class CommandDeleteCategoria extends AbstractCommand implements ICommand 
 	}
 
 	@Override
-	public boolean unExecute() {
+	public boolean unExecute() throws Exception {
 		if (entita instanceof CatSpese) {
 			if (wrap.insert(entita)) {
 				mappaCache.put(entita.getIdEntita(), entita);

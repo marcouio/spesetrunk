@@ -17,7 +17,7 @@ public class AscoltaInserisciUscite extends AscoltatoreAggiornatoreUscite {
 	}
 
 	@Override
-	protected void actionPerformedOverride(ActionEvent e) {
+	protected void actionPerformedOverride(ActionEvent e) throws Exception {
 		super.actionPerformedOverride(e);
 		view.aggiornaModelDaVista();
 		if (view.nonEsistonoCampiNonValorizzati()) {

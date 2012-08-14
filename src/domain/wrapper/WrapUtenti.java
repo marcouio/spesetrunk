@@ -5,22 +5,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Set;
 import java.util.Vector;
 
 import business.DBUtil;
-import domain.AbstractOggettoEntita;
+
+import command.javabeancommand.AbstractOggettoEntita;
+
+import db.dao.IDAO;
 import domain.Entrate;
 import domain.IUtenti;
 import domain.SingleSpesa;
 import domain.Utenti;
 
-public class WrapUtenti extends Observable implements IWrapperEntity, IUtenti {
+public class WrapUtenti extends Observable implements IDAO, IUtenti {
 
 	private Utenti utente;
-	private static final long serialVersionUID = 1L;
 
 	public WrapUtenti() {
 		utente = new Utenti();
@@ -53,12 +55,6 @@ public class WrapUtenti extends Observable implements IWrapperEntity, IUtenti {
 			}
 		}
 		return utente;
-	}
-
-	@Override
-	public Iterator<Object> selectWhere(String where) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -329,7 +325,7 @@ public class WrapUtenti extends Observable implements IWrapperEntity, IUtenti {
 	}
 
 	@Override
-	public AbstractOggettoEntita getentitaPadre() {
+	public AbstractOggettoEntita getEntitaPadre() {
 		return utente;
 	}
 	@Override
@@ -340,6 +336,13 @@ public class WrapUtenti extends Observable implements IWrapperEntity, IUtenti {
 	@Override
 	protected synchronized void setChanged() {
 		super.setChanged();
+	}
+
+	@Override
+	public Object selectWhere(HashMap<String, String> clausole)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

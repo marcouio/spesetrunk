@@ -3,19 +3,20 @@ package business.comandi;
 import java.util.HashMap;
 
 import business.cache.AbstractCacheBase;
-import domain.AbstractOggettoEntita;
-import domain.wrapper.IWrapperEntity;
+import command.javabeancommand.AbstractCommandForJavaBean;
+import command.javabeancommand.AbstractOggettoEntita;
+import db.dao.IDAO;
 
-public class CommandInserisci extends AbstractCommand {
+public class CommandInserisci extends AbstractCommandForJavaBean {
 
-	public CommandInserisci(final AbstractOggettoEntita entita, final IWrapperEntity wrap, final AbstractCacheBase cache) {
+	public CommandInserisci(final AbstractOggettoEntita entita, final IDAO wrap, final AbstractCacheBase cache) {
 		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
 		this.wrap = wrap;
 		this.entita = entita;
 	}
 
 	@Override
-	public boolean execute() {
+	public boolean execute() throws Exception {
 		if (wrap.insert(entita)) {
 			mappaCache.put(entita.getIdEntita(), entita);
 			return true;
@@ -25,7 +26,7 @@ public class CommandInserisci extends AbstractCommand {
 	}
 
 	@Override
-	public boolean unExecute() {
+	public boolean unExecute() throws Exception {
 		if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
 			mappaCache.remove(entita.getIdEntita());
 			return true;

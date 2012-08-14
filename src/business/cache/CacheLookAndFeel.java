@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-import domain.AbstractOggettoEntita;
+import command.javabeancommand.AbstractOggettoEntita;
+
 import domain.Lookandfeel;
 import domain.wrapper.WrapLookAndFeel;
 

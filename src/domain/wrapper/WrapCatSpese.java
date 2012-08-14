@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Set;
@@ -12,17 +13,19 @@ import java.util.Vector;
 
 import business.DBUtil;
 import business.cache.CacheGruppi;
-import domain.AbstractOggettoEntita;
+
+import command.javabeancommand.AbstractOggettoEntita;
+
+import db.dao.IDAO;
 import domain.Budget;
 import domain.CatSpese;
 import domain.Gruppi;
 import domain.ICatSpese;
 import domain.SingleSpesa;
 
-public class WrapCatSpese extends Observable implements IWrapperEntity, ICatSpese {
+public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 
-	private static final long serialVersionUID = 1L;
-	private final CatSpese    categoria;
+	private final CatSpese categoria;
 
 	public WrapCatSpese() {
 		categoria = new CatSpese();
@@ -62,12 +65,6 @@ public class WrapCatSpese extends Observable implements IWrapperEntity, ICatSpes
 			DBUtil.closeConnection();
 		}
 		return categorie;
-	}
-
-	@Override
-	public Iterator<Object> selectWhere(String where) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -212,11 +209,6 @@ public class WrapCatSpese extends Observable implements IWrapperEntity, ICatSpes
 	}
 
 	@Override
-	public AbstractOggettoEntita getentitaPadre() {
-		return categoria;
-	}
-
-	@Override
 	public String getdescrizione() {
 		return categoria.getdescrizione();
 	}
@@ -294,6 +286,20 @@ public class WrapCatSpese extends Observable implements IWrapperEntity, ICatSpes
 	@Override
 	public synchronized void setChanged() {
 		super.setChanged();
+	}
+
+	@Override
+	public command.javabeancommand.AbstractOggettoEntita getEntitaPadre()
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object selectWhere(HashMap<String, String> clausole)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

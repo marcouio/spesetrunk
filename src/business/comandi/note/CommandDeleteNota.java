@@ -2,26 +2,25 @@ package business.comandi.note;
 
 import java.util.HashMap;
 
+import command.javabeancommand.AbstractCommandForJavaBean;
+import command.javabeancommand.AbstractOggettoEntita;
 import view.Alert;
 import business.cache.CacheNote;
-import business.comandi.AbstractCommand;
-import domain.AbstractOggettoEntita;
 import domain.INote;
 import domain.Note;
-import domain.wrapper.IWrapperEntity;
 import domain.wrapper.WrapNote;
 
-public class CommandDeleteNota extends AbstractCommand {
+public class CommandDeleteNota extends AbstractCommandForJavaBean {
 
-	public CommandDeleteNota(INote entita) {
+	public CommandDeleteNota(INote entita) throws Exception {
 		CacheNote cache = CacheNote.getSingleton();
 		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
 		this.wrap = new WrapNote();
-		this.entita = ((IWrapperEntity) entita).getentitaPadre();
+		this.entita = ((WrapNote) entita).getEntitaPadre();
 	}
 
 	@Override
-	public boolean execute() {
+	public boolean execute() throws NumberFormatException, Exception {
 		if (entita instanceof Note) {
 			if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
 				mappaCache.remove(entita.getIdEntita());
@@ -32,7 +31,7 @@ public class CommandDeleteNota extends AbstractCommand {
 	}
 
 	@Override
-	public boolean unExecute() {
+	public boolean unExecute() throws Exception {
 		if (entita instanceof Note) {
 			if (wrap.insert(entita)) {
 				mappaCache.put(entita.getIdEntita(), entita);

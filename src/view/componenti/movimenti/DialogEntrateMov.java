@@ -26,6 +26,7 @@ import business.comandi.entrate.CommandUpdateEntrata;
 import business.internazionalizzazione.I18NManager;
 import domain.Entrate;
 import domain.IEntrate;
+import domain.Utenti;
 import domain.wrapper.Model;
 import domain.wrapper.WrapEntrate;
 
@@ -187,7 +188,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 			final String messaggio = I18NManager.getSingleton().getMessaggio("valorenotcorrect");
 			Alert.operazioniSegnalazioneErroreGrave(Alert.getMessaggioErrore(messaggio));
 		}
-		setUtenti(Controllore.getSingleton().getUtenteLogin());
+		setUtenti((Utenti) Controllore.getSingleton().getUtenteLogin());
 	}
 
 	protected JTextField getTfDataIns() {
@@ -207,7 +208,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 		}
 
 		@Override
-		protected void actionPerformedOverride(final ActionEvent e) {
+		protected void actionPerformedOverride(final ActionEvent e) throws Exception {
 			super.actionPerformedOverride(e);
 			if (e.getActionCommand().equals(I18NManager.getSingleton().getMessaggio("update"))) {
 				aggiornaModelDaVista();
@@ -217,7 +218,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 				final Entrate oldEntrata = CacheEntrate.getSingleton().getEntrate(idEntrate.getText());
 
 				if (nonEsistonoCampiNonValorizzati()) {
-					if (Controllore.invocaComando(new CommandUpdateEntrata(oldEntrata, (IEntrate) modelEntrate.getentitaPadre()))) {
+					if (Controllore.invocaComando(new CommandUpdateEntrata(oldEntrata, (IEntrate) modelEntrate.getEntitaPadre()))) {
 						try {
 							AggiornatoreManager.aggiornaMovimentiEntrateDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
 						} catch (final Exception e22) {
