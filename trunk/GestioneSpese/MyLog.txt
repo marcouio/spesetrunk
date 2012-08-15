@@ -1,4 +1,6 @@
-ago 14, 2012 11:34:14 PM business.LoggerOggetto creaLog
-Informazioni: Start programma!
-ago 14, 2012 11:34:14 PM view.Alert operazioniSegnalazioneInfo
-Informazioni: Categoria Alimentari inserita correttamente
+ago 16, 2012 12:16:31 AM log.LoggerOggetto creaLog
+INFO: Start programma!
+ago 16, 2012 12:16:31 AM grafica.componenti.alert.Alert segnalazioneErroreGrave
+SEVERE: Login non effettuato: username o password non corretti
+ago 16, 2012 12:16:46 AM grafica.componenti.alert.Alert segnalazioneErroreGrave
+SEVERE: Login non effettuato: username o password non corretti

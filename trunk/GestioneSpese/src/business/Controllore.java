@@ -199,13 +199,6 @@ public class Controllore extends ControlloreBase{
 		Controllore.log = log;
 	}
 
-	public static Logger getLog() {
-		if (log == null) {
-			log = LoggerOggetto.getLog();
-		}
-		return log;
-	}
-
 	@Override
 	public void mainOverridato(FrameBase frame) throws Exception {
 		// TODO Auto-generated method stub

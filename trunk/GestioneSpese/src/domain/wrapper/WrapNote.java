@@ -11,7 +11,6 @@ import java.util.Vector;
 
 import business.Controllore;
 import business.DBUtil;
-import business.LoggerOggetto;
 import business.cache.CacheUtenti;
 
 import command.javabeancommand.AbstractOggettoEntita;
@@ -308,7 +307,7 @@ public class WrapNote extends Observable implements IDAO, INote {
 
 		} catch (final Exception e) {
 			e.printStackTrace();
-			Controllore.getLog().severe(LoggerOggetto.getMessaggioErroreOperazione(e));
+			Controllore.getLog().severe("Operazione non eseguita: " + e.getMessage());
 		}
 		try {
 			cn.close();
