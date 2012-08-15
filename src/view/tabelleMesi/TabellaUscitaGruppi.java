@@ -1,9 +1,9 @@
 package view.tabelleMesi;
 
+import grafica.componenti.table.TableModel.Riga;
+
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.util.ArrayList;
-import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -11,12 +11,7 @@ import javax.swing.JTable;
 
 import view.OggettoVistaBase;
 import view.font.TableF;
-import business.Database;
-import business.cache.CacheCategorie;
-import business.cache.CacheGruppi;
-import business.internazionalizzazione.I18NManager;
-import domain.CatSpese;
-import domain.Gruppi;
+import business.generatori.TableModelUsciteGruppi;
 
 public class TabellaUscitaGruppi extends OggettoVistaBase {
 
@@ -29,7 +24,11 @@ public class TabellaUscitaGruppi extends OggettoVistaBase {
 	public TabellaUscitaGruppi() {
 		super(new GridLayout(1, 0));
 
-		getDatiPerTabella();
+		try {
+			getDatiPerTabella();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		// Create the scroll pane and add the table to it.
 		scrollPane = new JScrollPane(table);
@@ -39,73 +38,16 @@ public class TabellaUscitaGruppi extends OggettoVistaBase {
 
 	}
 
-	public static JTable getDatiPerTabella() {
-		Vector<Gruppi> gruppi = null;
-		final CacheGruppi cacheGruppi = CacheGruppi.getSingleton();
-		if (cacheGruppi != null) {
-			gruppi = CacheGruppi.getSingleton().getVettoreGruppiSenzaZero();
-		}
-		final Vector<CatSpese> catSpese = CacheCategorie.getSingleton().getCategorieSenzaGruppo();
-
-		final int numColonne = catSpese.size() + gruppi.size() + 1; // +1 perché
-		// aggiungo il
-		// mese
-
-		final ArrayList<String> nomiColonne = new ArrayList<String>();
-
-		nomiColonne.add(I18NManager.getSingleton().getMessaggio("months"));
-		for (int i = 0; i < catSpese.size(); i++) {
-			final CatSpese categoria = catSpese.get(i);
-			nomiColonne.add(categoria.getnome());
-		}
-
-		for (int i = 0; i < gruppi.size(); i++) {
-			final Gruppi gruppo = gruppi.get(i);
-			if (gruppo.getidGruppo() != 0) {
-				nomiColonne.add(gruppo.getnome());
-			}
-		}
-
-		primo = new String[12][numColonne];
-
-		colonnaMesi();
-
-		for (int i = 0; i < 12; i++) {
-			for (int x = 0; x < catSpese.size(); x++) {
-				try {
-					primo[i][x + 1] = Double.toString(Database.speseMeseCategoria(i + 1, catSpese.get(x).getidCategoria()));
-				} catch (final Exception e) {
-					e.printStackTrace();
-				}
-			}
-
-		}
-		for (int i = 0; i < 12; i++) {
-			for (int x = catSpese.size(); x < numColonne - 1; x++) {
-				primo[i][x + 1] = Double.toString(Database.speseMeseGruppo(i + 1, gruppi.get(x - catSpese.size()).getidGruppo()));
-			}
-
-		}
-		table = new TableF(primo, nomiColonne.toArray());
+	public static JTable getDatiPerTabella() throws Exception {
+		
+		TableModelUsciteGruppi model = new TableModelUsciteGruppi(null);
+		
+		Riga nomiColonne = model.getNomiColonne();
+		table = new TableF(model.getMatrice(), nomiColonne.getListaCelle().toArray());
 		table.setRowHeight(27);
 		table.setPreferredScrollableViewportSize(new Dimension(700, 300));
 		table.setFillsViewportHeight(true);
 		return table;
-	}
-
-	private static void colonnaMesi() {
-		primo[0][0] = I18NManager.getSingleton().getMessaggio("january");
-		primo[1][0] = I18NManager.getSingleton().getMessaggio("february");
-		primo[2][0] = I18NManager.getSingleton().getMessaggio("march");
-		primo[3][0] = I18NManager.getSingleton().getMessaggio("april");
-		primo[4][0] = I18NManager.getSingleton().getMessaggio("may");
-		primo[5][0] = I18NManager.getSingleton().getMessaggio("june");
-		primo[6][0] = I18NManager.getSingleton().getMessaggio("july");
-		primo[7][0] = I18NManager.getSingleton().getMessaggio("august");
-		primo[8][0] = I18NManager.getSingleton().getMessaggio("september");
-		primo[9][0] = I18NManager.getSingleton().getMessaggio("october");
-		primo[10][0] = I18NManager.getSingleton().getMessaggio("november");
-		primo[11][0] = I18NManager.getSingleton().getMessaggio("december");
 	}
 
 	private static void createAndShowGUI() throws Exception {
