@@ -1,11 +1,14 @@
 package business.comandi.note;
 
+import grafica.componenti.alert.Alert;
+
 import java.util.HashMap;
 
-import view.Alert;
 import business.cache.CacheNote;
+
 import command.javabeancommand.AbstractCommandForJavaBean;
 import command.javabeancommand.AbstractOggettoEntita;
+
 import db.dao.IDAO;
 import domain.INote;
 import domain.Note;
@@ -53,7 +56,7 @@ public class CommandInserisciNota extends AbstractCommandForJavaBean {
 	@Override
 	public void scriviLogExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Inserita correttamente nota " + entita.getnome());
+			Alert.segnalazioneInfo("Inserita correttamente nota " + entita.getnome());
 		}
 
 	}
@@ -61,7 +64,7 @@ public class CommandInserisciNota extends AbstractCommandForJavaBean {
 	@Override
 	public void scriviLogUnExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Cancellata nota " + entita.getnome() + " precedentemente inserita");
+			Alert.segnalazioneInfo("Cancellata nota " + entita.getnome() + " precedentemente inserita");
 		}
 	}
 }

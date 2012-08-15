@@ -1,12 +1,14 @@
 package business.comandi.gruppi;
 
+import grafica.componenti.alert.Alert;
+
 import java.util.HashMap;
+
+import business.cache.CacheGruppi;
 
 import command.javabeancommand.AbstractCommandForJavaBean;
 import command.javabeancommand.AbstractOggettoEntita;
 
-import view.Alert;
-import business.cache.CacheGruppi;
 import db.dao.IDAO;
 import domain.Gruppi;
 import domain.IGruppi;
@@ -51,7 +53,7 @@ public class CommandInserisciGruppo extends AbstractCommandForJavaBean {
 	@Override
 	public void scriviLogExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Inserito correttamente gruppo " + entita.getnome());
+			Alert.segnalazioneInfo("Inserito correttamente gruppo " + entita.getnome());
 		}
 
 	}
@@ -59,7 +61,7 @@ public class CommandInserisciGruppo extends AbstractCommandForJavaBean {
 	@Override
 	public void scriviLogUnExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Ripristinato gruppo " + entita.getnome() + " precedentemente cancellato");
+			Alert.segnalazioneInfo("Ripristinato gruppo " + entita.getnome() + " precedentemente cancellato");
 		}
 	}
 

@@ -1,11 +1,14 @@
 package business.comandi.gruppi;
 
+import grafica.componenti.alert.Alert;
+
 import java.util.HashMap;
+
+import business.cache.CacheGruppi;
 
 import command.javabeancommand.AbstractCommandForJavaBean;
 import command.javabeancommand.AbstractOggettoEntita;
-import view.Alert;
-import business.cache.CacheGruppi;
+
 import domain.Gruppi;
 import domain.IGruppi;
 import domain.wrapper.WrapGruppi;
@@ -53,7 +56,7 @@ public class CommandUpdateGruppo extends AbstractCommandForJavaBean {
 	@Override
 	public void scriviLogExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Aggiornato correttamente gruppo " + newEntita.getnome());
+			Alert.segnalazioneInfo("Aggiornato correttamente gruppo " + newEntita.getnome());
 		}
 
 	}
@@ -61,7 +64,7 @@ public class CommandUpdateGruppo extends AbstractCommandForJavaBean {
 	@Override
 	public void scriviLogUnExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Ripristinato gruppo " + oldEntita.getnome() + " precedentemente aggiornato");
+			Alert.segnalazioneInfo("Ripristinato gruppo " + oldEntita.getnome() + " precedentemente aggiornato");
 		}
 	}
 }

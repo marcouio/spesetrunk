@@ -1,10 +1,11 @@
 package view.login;
 
+import grafica.componenti.alert.Alert;
+
 import java.awt.event.ActionEvent;
 
 import javax.swing.JDialog;
 
-import view.Alert;
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
 import view.font.LabelTitolo;
@@ -75,7 +76,7 @@ public class Login extends JDialog {
 					impostazioni.repaint();
 					dispose();
 				} else {
-					Alert.operazioniSegnalazioneErroreGrave("Login non effettuato: username o password non corretti");
+					Alert.segnalazioneErroreGrave("Login non effettuato: username o password non corretti");
 				}
 
 			}

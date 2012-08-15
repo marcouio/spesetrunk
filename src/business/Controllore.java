@@ -1,5 +1,6 @@
 package business;
 
+import grafica.componenti.alert.Alert;
 import grafica.componenti.contenitori.FrameBase;
 
 import java.sql.Connection;
@@ -11,17 +12,16 @@ import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import command.AbstractCommand;
-import command.CommandManager;
-
-import controller.ControlloreBase;
-
-import view.Alert;
 import view.GeneralFrame;
 import business.aggiornatori.AggiornatoreManager;
 import business.cache.CacheLookAndFeel;
 import business.cache.CacheUtenti;
 import business.internazionalizzazione.I18NManager;
+
+import command.AbstractCommand;
+import command.CommandManager;
+
+import controller.ControlloreBase;
 import domain.IUtenti;
 import domain.Lookandfeel;
 import domain.Utenti;

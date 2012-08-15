@@ -1,5 +1,7 @@
 package view.componenti.movimenti;
 
+import grafica.componenti.alert.Alert;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.util.Observable;
@@ -11,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-import view.Alert;
 import view.entrateuscite.AbstractEntrateView;
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
@@ -179,14 +180,14 @@ public class DialogEntrateMov extends AbstractEntrateView {
 			setcData(tfData.getText());
 		} else {
 			final String messaggio = I18NManager.getSingleton().getMessaggio("datainformat") ;
-			Alert.operazioniSegnalazioneErroreGrave(Alert.getMessaggioErrore(messaggio));
+			Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore(messaggio));
 		}
 		if (AltreUtil.checkDouble(tfEuro.getText())) {
 			final Double euro1 = Double.parseDouble(tfEuro.getText());
 			setdEuro(AltreUtil.arrotondaDecimaliDouble(euro1));
 		} else {
 			final String messaggio = I18NManager.getSingleton().getMessaggio("valorenotcorrect");
-			Alert.operazioniSegnalazioneErroreGrave(Alert.getMessaggioErrore(messaggio));
+			Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore(messaggio));
 		}
 		setUtenti((Utenti) Controllore.getSingleton().getUtenteLogin());
 	}
@@ -222,13 +223,13 @@ public class DialogEntrateMov extends AbstractEntrateView {
 						try {
 							AggiornatoreManager.aggiornaMovimentiEntrateDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
 						} catch (final Exception e22) {
-							Alert.operazioniSegnalazioneErroreGrave(Alert.getMessaggioErrore(e22.getMessage()));
+							Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore(e22.getMessage()));
 						}
 						// chiude la dialog e rilascia le risorse
 						dispose();
 					}
 				} else {
-					Alert.operazioniSegnalazioneErroreGrave(I18NManager.getSingleton().getMessaggio("fillinall"));
+					Alert.segnalazioneErroreGrave(I18NManager.getSingleton().getMessaggio("fillinall"));
 				}
 				dialog.dispose();
 			} else if (e.getActionCommand().equals(I18NManager.getSingleton().getMessaggio("delete"))) {
@@ -237,7 +238,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 				aggiornaModelDaVista();
 				if (idEntrate.getText() != null) {
 					if (!Controllore.invocaComando(new CommandDeleteEntrata(modelEntrate))) {
-						Alert.operazioniSegnalazioneErroreGrave(Alert.getMessaggioErrore(I18NManager.getSingleton().getMessaggio("insertcorrect")));
+						Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore(I18NManager.getSingleton().getMessaggio("insertcorrect")));
 					}
 				}
 

@@ -1,5 +1,7 @@
 package view.report;
 
+import grafica.componenti.alert.Alert;
+
 import java.awt.event.ActionEvent;
 import java.io.FileNotFoundException;
 import java.util.Date;
@@ -8,7 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 
-import view.Alert;
 import view.font.ButtonF;
 import view.font.CheckBoxF;
 import view.font.LabelListaGruppi;
@@ -129,7 +130,7 @@ public class ReportView extends AbstractReportView {
 				} catch (Exception e11) {
 					e11.printStackTrace();
 				}
-				Alert.operazioniSegnalazioneInfo("Aggiornato Report: " + DBUtil.dataToString(new Date(), "dd/MM/yyyy HH:mm"));
+				Alert.segnalazioneInfo("Aggiornato Report: " + DBUtil.dataToString(new Date(), "dd/MM/yyyy HH:mm"));
 			}
 
 		});

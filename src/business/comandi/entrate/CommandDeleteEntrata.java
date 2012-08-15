@@ -1,13 +1,15 @@
 package business.comandi.entrate;
 
+import grafica.componenti.alert.Alert;
+
 import java.util.HashMap;
+
+import business.cache.CacheEntrate;
 
 import command.ICommand;
 import command.javabeancommand.AbstractCommandForJavaBean;
 import command.javabeancommand.AbstractOggettoEntita;
 
-import view.Alert;
-import business.cache.CacheEntrate;
 import db.dao.IDAO;
 import domain.Entrate;
 import domain.IEntrate;
@@ -52,14 +54,14 @@ public class CommandDeleteEntrata extends AbstractCommandForJavaBean implements 
 	@Override
 	public void scriviLogExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Ok, entrata" + entita.getnome() + " eliminata correttamente!");
+			Alert.segnalazioneInfo("Ok, entrata" + entita.getnome() + " eliminata correttamente!");
 		}
 	}
 
 	@Override
 	public void scriviLogUnExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Ok, ripristinata entrata" + entita.getnome() + " precedentemente eliminata!");
+			Alert.segnalazioneInfo("Ok, ripristinata entrata" + entita.getnome() + " precedentemente eliminata!");
 		}
 	}
 

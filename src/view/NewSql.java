@@ -1,5 +1,7 @@
 package view;
 
+import grafica.componenti.alert.Alert;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -191,7 +193,7 @@ public class NewSql extends OggettoVistaBase {
 						result.setText(totale + "\n");
 
 					} catch (final Exception e1) {
-						Alert.operazioniSegnalazioneErroreGrave(e1.getMessage());
+						Alert.segnalazioneErroreGrave(e1.getMessage());
 					}
 				}
 			});

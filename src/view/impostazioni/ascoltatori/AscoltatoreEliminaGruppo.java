@@ -1,10 +1,11 @@
 package view.impostazioni.ascoltatori;
 
+import grafica.componenti.alert.Alert;
+
 import java.awt.event.ActionEvent;
 
 import javax.swing.JComboBox;
 
-import view.Alert;
 import view.impostazioni.GruppiView;
 import business.Controllore;
 import business.aggiornatori.AggiornatoreManager;
@@ -34,7 +35,7 @@ public class AscoltatoreEliminaGruppo extends AscoltatoreAggiornatoreTutto {
 				gruppiView.dispose();
 			}
 		} else {
-			Alert.operazioniSegnalazioneErroreGrave("Impossibile cancellare un gruppo inesistente!");
+			Alert.segnalazioneErroreGrave("Impossibile cancellare un gruppo inesistente!");
 		}
 		AggiornatoreManager.aggiornamentoComboBox(CacheCategorie.getSingleton().getVettoreCategorie());
 	}

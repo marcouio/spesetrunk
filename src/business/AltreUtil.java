@@ -1,10 +1,10 @@
 package business;
 
+import grafica.componenti.alert.Alert;
+
 import java.io.File;
 import java.util.GregorianCalendar;
 import java.util.Vector;
-
-import view.Alert;
 
 public class AltreUtil {
 	
@@ -54,13 +54,13 @@ public class AltreUtil {
 
 			} catch (final NumberFormatException e2) {
 				ok = false;
-				Alert.operazioniSegnalazioneErroreGrave("Inserire la data con valori numerici e con il formato suggerito: AAAA/MM/GG");
+				Alert.segnalazioneErroreGrave("Inserire la data con valori numerici e con il formato suggerito: AAAA/MM/GG");
 			} catch (final IllegalArgumentException e1) {
 				ok = false;
-				Alert.operazioniSegnalazioneErroreGrave(Alert.getMessaggioErrore("Non hai inserito una data, " + e1.getMessage()));
+				Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore("Non hai inserito una data, " + e1.getMessage()));
 			} catch (final StringIndexOutOfBoundsException e3) {
 				ok = false;
-				Alert.operazioniSegnalazioneErroreGrave(Alert.getMessaggioErrore("Numero di caratteri errato per una data, " + e3.getMessage()));
+				Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore("Numero di caratteri errato per una data, " + e3.getMessage()));
 			}
 		} else {
 			ok = false;

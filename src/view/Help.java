@@ -1,5 +1,7 @@
 package view;
 
+import grafica.componenti.alert.Alert;
+
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -61,7 +63,7 @@ public class Help extends JDialog {
 				try {
 					desktop.open(new File("help.pdf"));
 				} catch (Exception e1) {
-					Alert.operazioniSegnalazioneErroreGrave(e1.getMessage());
+					Alert.segnalazioneErroreWarning(e1.getMessage());
 				}
 
 			}

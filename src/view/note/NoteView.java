@@ -1,12 +1,13 @@
 package view.note;
 
+import grafica.componenti.alert.Alert;
+
 import java.awt.event.ActionEvent;
 import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import view.Alert;
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
 import view.font.TextAreaF;
@@ -100,7 +101,7 @@ public class NoteView extends AbstractNoteView {
 						((MostraNoteView) padre).aggiornaVista();
 						dispose();
 					} else {
-						Alert.operazioniSegnalazioneErroreGrave("Nota non aggiornata: tutti i campi devono essere valorizzati");
+						Alert.segnalazioneErroreGrave("Nota non aggiornata: tutti i campi devono essere valorizzati");
 					}
 				} else {
 					WrapNote wNote = new WrapNote();
@@ -112,7 +113,7 @@ public class NoteView extends AbstractNoteView {
 						((MostraNoteView) padre).aggiornaVista();
 						dispose();
 					} else {
-						Alert.operazioniSegnalazioneErroreGrave("Nota non inserita: tutti i campi devono essere valorizzati");
+						Alert.segnalazioneErroreGrave("Nota non inserita: tutti i campi devono essere valorizzati");
 					}
 				}
 			}

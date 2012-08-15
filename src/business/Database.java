@@ -1,5 +1,7 @@
 package business;
 
+import grafica.componenti.alert.Alert;
+
 import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -14,7 +16,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
-import view.Alert;
 import view.impostazioni.Impostazioni;
 import business.cache.CacheEntrate;
 import business.cache.CacheUscite;
@@ -360,7 +361,7 @@ public class Database {
 				}
 
 			} catch (final SQLException e) {
-				Alert.operazioniSegnalazioneErroreGrave("Operazione SQL non eseguita:" + e.getMessage());
+				Alert.segnalazioneErroreGrave("Operazione SQL non eseguita:" + e.getMessage());
 			}
 
 		} else {
@@ -369,7 +370,7 @@ public class Database {
 				st = cn.createStatement();
 				st.executeUpdate(sql);
 			} catch (final SQLException e) {
-				Alert.operazioniSegnalazioneErroreGrave("Operazione SQL non eseguita:" + e.getMessage());
+				Alert.segnalazioneErroreGrave("Operazione SQL non eseguita:" + e.getMessage());
 			}
 		}
 		try {

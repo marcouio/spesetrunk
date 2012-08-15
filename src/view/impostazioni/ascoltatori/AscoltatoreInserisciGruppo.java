@@ -1,8 +1,9 @@
 package view.impostazioni.ascoltatori;
 
+import grafica.componenti.alert.Alert;
+
 import java.awt.event.ActionEvent;
 
-import view.Alert;
 import view.impostazioni.GruppiView;
 import business.Controllore;
 import business.ascoltatori.AscoltatoreAggiornatoreTutto;
@@ -42,7 +43,7 @@ public class AscoltatoreInserisciGruppo extends AscoltatoreAggiornatoreTutto {
 			}
 		} else {
 			final String messaggio = "E' necessario riempire tutti i campi";
-			Alert.operazioniSegnalazioneErroreGrave(messaggio);
+			Alert.segnalazioneErroreGrave(messaggio);
 		}
 	}
 

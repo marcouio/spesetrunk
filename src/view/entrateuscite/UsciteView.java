@@ -1,5 +1,7 @@
 package view.entrateuscite;
 
+import grafica.componenti.alert.Alert;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -10,7 +12,6 @@ import java.util.Observable;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 
-import view.Alert;
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
 import view.font.TextAreaF;
@@ -129,7 +130,7 @@ public class UsciteView extends AbstractUsciteView {
 					// TODO verificare se necessario ripristinare l'update
 					// update(modelUscita, null);
 				} catch (final Exception e1) {
-					Alert.operazioniSegnalazioneErroreGrave("Cancellazione della spesa " + modelUscita.getnome() + " non riuscita: " + e1.getMessage());
+					Alert.segnalazioneErroreGrave("Cancellazione della spesa " + modelUscita.getnome() + " non riuscita: " + e1.getMessage());
 					e1.printStackTrace();
 				}
 			}
@@ -195,14 +196,14 @@ public class UsciteView extends AbstractUsciteView {
 			setcData(tfData.getText());
 		} else {
 			final String messaggio = I18NManager.getSingleton().getMessaggio("datainformat");
-			Alert.operazioniSegnalazioneErroreGrave(messaggio);
+			Alert.segnalazioneErroreGrave(messaggio);
 		}
 		if (AltreUtil.checkDouble(tfEuro.getText())) {
 			final Double euro = Double.parseDouble(tfEuro.getText());
 			setdEuro(AltreUtil.arrotondaDecimaliDouble(euro));
 		} else {
 			final String messaggio = I18NManager.getSingleton().getMessaggio("valorenotcorrect");
-			Alert.operazioniSegnalazioneErroreGrave(messaggio);
+			Alert.segnalazioneErroreGrave(messaggio);
 		}
 		setUtenti((Utenti) Controllore.getSingleton().getUtenteLogin());
 		setDataIns(DBUtil.dataToString(new Date(), "yyyy/MM/dd"));

@@ -1,12 +1,14 @@
 package business.comandi.singlespese;
 
+import grafica.componenti.alert.Alert;
+
 import java.util.HashMap;
 
-import command.javabeancommand.AbstractCommandForJavaBean;
-
-import view.Alert;
 import business.cache.CacheUscite;
+
+import command.javabeancommand.AbstractCommandForJavaBean;
 import command.javabeancommand.AbstractOggettoEntita;
+
 import db.dao.IDAO;
 import domain.ISingleSpesa;
 import domain.SingleSpesa;
@@ -54,7 +56,7 @@ public class CommandInserisciSpesa extends AbstractCommandForJavaBean {
 	@Override
 	public void scriviLogExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Inserita correttamente spesa " + entita.getnome());
+			Alert.segnalazioneInfo("Inserita correttamente spesa " + entita.getnome());
 		}
 
 	}
@@ -62,7 +64,7 @@ public class CommandInserisciSpesa extends AbstractCommandForJavaBean {
 	@Override
 	public void scriviLogUnExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Cancellata spesa " + entita.getnome() + " precedentemente inserita");
+			Alert.segnalazioneInfo("Cancellata spesa " + entita.getnome() + " precedentemente inserita");
 		}
 	}
 

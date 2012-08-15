@@ -1,11 +1,12 @@
 package view.impostazioni.ascoltatori;
 
+import grafica.componenti.alert.Alert;
+
 import java.awt.event.ActionEvent;
 import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
 
-import view.Alert;
 import view.impostazioni.GruppiView;
 import business.Controllore;
 import business.aggiornatori.AggiornatoreManager;
@@ -51,10 +52,10 @@ public class AscoltatoreAggiornaGruppo extends AscoltatoreAggiornatoreTutto {
 				}
 			} catch (final Exception e22) {
 				e22.printStackTrace();
-				Alert.operazioniSegnalazioneErroreGrave("Inserisci i dati correttamente: " + e22.getMessage());
+				Alert.segnalazioneErroreGrave("Inserisci i dati correttamente: " + e22.getMessage());
 			}
 		} else {
-			Alert.operazioniSegnalazioneErroreGrave("Impossibile aggiornare un gruppo inesistente!");
+			Alert.segnalazioneErroreGrave("Impossibile aggiornare un gruppo inesistente!");
 		}
 	}
 

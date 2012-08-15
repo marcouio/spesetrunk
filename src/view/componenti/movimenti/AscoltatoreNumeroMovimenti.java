@@ -1,11 +1,12 @@
 package view.componenti.movimenti;
 
+import grafica.componenti.alert.Alert;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JTextField;
 
-import view.Alert;
 import business.aggiornatori.AggiornatoreManager;
 import business.internazionalizzazione.I18NManager;
 import domain.Entrate;
@@ -29,13 +30,13 @@ public class AscoltatoreNumeroMovimenti implements ActionListener {
 			try {
 				AggiornatoreManager.aggiornaMovimentiEntrateDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
 			} catch (final Exception e1) {
-				Alert.operazioniSegnalazioneErroreGrave(I18NManager.getSingleton().getMessaggio("insertnumber")+": "+e1.getMessage());
+				Alert.segnalazioneErroreGrave(I18NManager.getSingleton().getMessaggio("insertnumber")+": "+e1.getMessage());
 			}
 		} else if (tipo.equals(SingleSpesa.NOME_TABELLA)) {
 			try {
 				AggiornatoreManager.aggiornaMovimentiUsciteDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
 			} catch (final Exception e1) {
-				Alert.operazioniSegnalazioneErroreGrave(I18NManager.getSingleton().getMessaggio("insertnumber")+": "+e1.getMessage());
+				Alert.segnalazioneErroreGrave(I18NManager.getSingleton().getMessaggio("insertnumber")+": "+e1.getMessage());
 			}
 		}
 	}

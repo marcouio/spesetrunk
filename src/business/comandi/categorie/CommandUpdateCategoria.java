@@ -1,13 +1,15 @@
 package business.comandi.categorie;
 
+import grafica.componenti.alert.Alert;
+
 import java.util.HashMap;
+
+import business.cache.CacheCategorie;
 
 import command.ICommand;
 import command.javabeancommand.AbstractCommandForJavaBean;
 import command.javabeancommand.AbstractOggettoEntita;
 
-import view.Alert;
-import business.cache.CacheCategorie;
 import domain.CatSpese;
 import domain.ICatSpese;
 import domain.wrapper.WrapCatSpese;
@@ -57,14 +59,14 @@ public class CommandUpdateCategoria extends AbstractCommandForJavaBean implement
 	@Override
 	public void scriviLogExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Aggiornata correttamente categoria " + newEntita.getnome());
+			Alert.segnalazioneInfo("Aggiornata correttamente categoria " + newEntita.getnome());
 		}
 	}
 
 	@Override
 	public void scriviLogUnExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Ripristinata categoria " + oldEntita.getnome() + " precedentemente aggiornata");
+			Alert.segnalazioneInfo("Ripristinata categoria " + oldEntita.getnome() + " precedentemente aggiornata");
 		}
 	}
 }

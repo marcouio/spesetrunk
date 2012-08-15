@@ -1,5 +1,7 @@
 package view.entrateuscite;
 
+import grafica.componenti.alert.Alert;
+
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,7 +12,6 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 
-import view.Alert;
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
 import view.font.TextAreaF;
@@ -124,11 +125,11 @@ public class EntrateView extends AbstractEntrateView {
 					aggiornaModelDaVista();
 					if (Controllore.invocaComando(new CommandDeleteEntrata(modelEntrate))) {
 						String msg = I18NManager.getSingleton().getMessaggio("okentrata")+" " + modelEntrate.getnome() + " "+ I18NManager.getSingleton().getMessaggio("correctlydeleted");
-						Alert.operazioniSegnalazioneInfo(msg);
+						Alert.segnalazioneInfo(msg);
 					}
 				} catch (final Exception e2) {
 					e2.printStackTrace();
-					Alert.operazioniSegnalazioneErroreGrave(e2.getMessage());
+					Alert.segnalazioneErroreGrave(e2.getMessage());
 					DBUtil.closeConnection();
 				}
 			}
@@ -194,14 +195,14 @@ public class EntrateView extends AbstractEntrateView {
 			setcData(tfData.getText());
 		} else {
 			final String messaggio = I18NManager.getSingleton().getMessaggio("datainformat");
-			Alert.operazioniSegnalazioneErroreGrave(messaggio);
+			Alert.segnalazioneErroreGrave(messaggio);
 		}
 		if (AltreUtil.checkDouble(tfEuro.getText())) {
 			final Double euro = Double.parseDouble(tfEuro.getText());
 			setdEuro(AltreUtil.arrotondaDecimaliDouble(euro));
 		} else {
 			final String messaggio = I18NManager.getSingleton().getMessaggio("valorenotcorrect");
-			Alert.operazioniSegnalazioneErroreGrave(messaggio);
+			Alert.segnalazioneErroreGrave(messaggio);
 		}
 		setUtenti((Utenti) Controllore.getSingleton().getUtenteLogin());
 		setDataIns(DBUtil.dataToString(new Date(), "yyyy/MM/dd"));

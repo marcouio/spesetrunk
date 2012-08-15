@@ -1,5 +1,7 @@
 package view.impostazioni;
 
+import grafica.componenti.alert.Alert;
+
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -18,7 +20,6 @@ import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import view.Alert;
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
 import view.font.TextFieldF;
@@ -150,7 +151,7 @@ public class Impostazioni extends JDialog {
 					if (Model.getSingleton().getModelEntrate().deleteAll()
 							&& Model.getSingleton().getModelUscita().deleteAll()) {
 						// TODO creare comando per eliminare tutto
-						Alert.operazioniSegnalazioneInfo("Ok, tutti i dati sono stati cancellati: puoi ripartire!");
+						Alert.segnalazioneInfo("Ok, tutti i dati sono stati cancellati: puoi ripartire!");
 						try {
 							AggiornatoreManager.aggiornamentoGenerale(Entrate.NOME_TABELLA);
 							AggiornatoreManager.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
