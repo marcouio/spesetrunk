@@ -1,11 +1,14 @@
 package business.comandi.singlespese;
 
+import grafica.componenti.alert.Alert;
+
 import java.util.HashMap;
 
-import view.Alert;
 import business.cache.CacheUscite;
+
 import command.javabeancommand.AbstractCommandForJavaBean;
 import command.javabeancommand.AbstractOggettoEntita;
+
 import domain.ISingleSpesa;
 import domain.SingleSpesa;
 import domain.wrapper.WrapSingleSpesa;
@@ -55,7 +58,7 @@ public class CommandUpdateSpesa extends AbstractCommandForJavaBean {
 	@Override
 	public void scriviLogExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Aggiornata correttamente spesa " + newEntita.getnome());
+			Alert.segnalazioneInfo("Aggiornata correttamente spesa " + newEntita.getnome());
 		}
 
 	}
@@ -63,7 +66,7 @@ public class CommandUpdateSpesa extends AbstractCommandForJavaBean {
 	@Override
 	public void scriviLogUnExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Ripristinata spesa " + oldEntita.getnome() + " precedentemente cancellata");
+			Alert.segnalazioneInfo("Ripristinata spesa " + oldEntita.getnome() + " precedentemente cancellata");
 		}
 	}
 

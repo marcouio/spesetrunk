@@ -1,13 +1,15 @@
 package business.comandi.entrate;
 
+import grafica.componenti.alert.Alert;
+
 import java.util.HashMap;
 
-import command.ICommand;
-import command.javabeancommand.AbstractOggettoEntita;
-import command.javabeancommand.AbstractCommandForJavaBean;
-
-import view.Alert;
 import business.cache.CacheEntrate;
+
+import command.ICommand;
+import command.javabeancommand.AbstractCommandForJavaBean;
+import command.javabeancommand.AbstractOggettoEntita;
+
 import domain.Entrate;
 import domain.IEntrate;
 import domain.wrapper.WrapEntrate;
@@ -54,14 +56,14 @@ public class CommandUpdateEntrata extends AbstractCommandForJavaBean implements 
 	@Override
 	public void scriviLogExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Aggiornata correttamente entrata " + newEntita.getnome());
+			Alert.segnalazioneInfo("Aggiornata correttamente entrata " + newEntita.getnome());
 		}
 	}
 
 	@Override
 	public void scriviLogUnExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Ripristinata categoria " + oldEntita.getnome() + " precedentemente aggiornata");
+			Alert.segnalazioneInfo("Ripristinata categoria " + oldEntita.getnome() + " precedentemente aggiornata");
 		}
 	}
 }

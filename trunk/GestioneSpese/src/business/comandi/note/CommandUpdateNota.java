@@ -1,8 +1,9 @@
 package business.comandi.note;
 
+import grafica.componenti.alert.Alert;
+
 import java.util.HashMap;
 
-import view.Alert;
 import business.cache.CacheNote;
 
 import command.javabeancommand.AbstractCommandForJavaBean;
@@ -51,7 +52,7 @@ public class CommandUpdateNota extends AbstractCommandForJavaBean {
 	@Override
 	public void scriviLogExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Aggiornata correttamente nota " + newEntita.getnome());
+			Alert.segnalazioneInfo("Aggiornata correttamente nota " + newEntita.getnome());
 		}
 
 	}
@@ -59,7 +60,7 @@ public class CommandUpdateNota extends AbstractCommandForJavaBean {
 	@Override
 	public void scriviLogUnExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Ripristinata nota " + oldEntita.getnome() + " precedentemente aggiornata");
+			Alert.segnalazioneInfo("Ripristinata nota " + oldEntita.getnome() + " precedentemente aggiornata");
 		}
 	}
 }

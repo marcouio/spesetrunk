@@ -1,8 +1,9 @@
 package view.impostazioni.ascoltatori;
 
+import grafica.componenti.alert.Alert;
+
 import java.awt.event.ActionEvent;
 
-import view.Alert;
 import view.impostazioni.CategorieView;
 import business.Controllore;
 import business.ascoltatori.AscoltatoreAggiornatoreTutto;
@@ -36,7 +37,7 @@ public class AscoltatoreInserisciCategoria extends AscoltatoreAggiornatoreTutto 
 				categorieView.dispose();
 			}
 		} else {
-			Alert.operazioniSegnalazioneErroreGrave("E' necessario riempire tutti i campi");
+			Alert.segnalazioneErroreGrave("E' necessario riempire tutti i campi");
 		}
 	}
 }

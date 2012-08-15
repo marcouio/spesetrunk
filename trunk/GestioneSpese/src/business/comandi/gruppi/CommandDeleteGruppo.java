@@ -1,12 +1,15 @@
 package business.comandi.gruppi;
 
+import grafica.componenti.alert.Alert;
+
 import java.util.HashMap;
+
+import business.cache.CacheGruppi;
 
 import command.ICommand;
 import command.javabeancommand.AbstractCommandForJavaBean;
 import command.javabeancommand.AbstractOggettoEntita;
-import view.Alert;
-import business.cache.CacheGruppi;
+
 import db.dao.IDAO;
 import domain.Gruppi;
 import domain.IGruppi;
@@ -51,7 +54,7 @@ public class CommandDeleteGruppo extends AbstractCommandForJavaBean implements I
 	@Override
 	public void scriviLogExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Cancellata correttamente entrata " + entita.getnome());
+			Alert.segnalazioneInfo("Cancellata correttamente entrata " + entita.getnome());
 		}
 
 	}
@@ -59,7 +62,7 @@ public class CommandDeleteGruppo extends AbstractCommandForJavaBean implements I
 	@Override
 	public void scriviLogUnExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Ripristinata categoria " + entita.getnome() + " precedentemente cancellata");
+			Alert.segnalazioneInfo("Ripristinata categoria " + entita.getnome() + " precedentemente cancellata");
 		}
 	}
 }

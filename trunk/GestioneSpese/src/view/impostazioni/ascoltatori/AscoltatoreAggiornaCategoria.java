@@ -1,8 +1,9 @@
 package view.impostazioni.ascoltatori;
 
+import grafica.componenti.alert.Alert;
+
 import java.awt.event.ActionEvent;
 
-import view.Alert;
 import view.impostazioni.CategorieView;
 import business.Controllore;
 import business.aggiornatori.AggiornatoreManager;
@@ -39,10 +40,10 @@ public class AscoltatoreAggiornaCategoria extends AscoltatoreAggiornatoreTutto {
 				}
 			} catch (final Exception e22) {
 				e22.printStackTrace();
-				Alert.operazioniSegnalazioneErroreGrave("Inserisci i dati correttamente: " + e22.getMessage());
+				Alert.segnalazioneErroreGrave("Inserisci i dati correttamente: " + e22.getMessage());
 			}
 		} else {
-			Alert.operazioniSegnalazioneErroreGrave("Impossibile aggiornare una categoria inesistente!");
+			Alert.segnalazioneErroreGrave("Impossibile aggiornare una categoria inesistente!");
 		}
 	}
 

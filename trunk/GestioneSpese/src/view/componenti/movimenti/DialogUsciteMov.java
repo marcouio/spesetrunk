@@ -1,5 +1,7 @@
 package view.componenti.movimenti;
 
+import grafica.componenti.alert.Alert;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-import view.Alert;
 import view.entrateuscite.AbstractUsciteView;
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
@@ -121,7 +122,7 @@ public class DialogUsciteMov extends AbstractUsciteView {
 			getModelUscita().setidSpesa(idSpesa.getText() != "" ? Integer.parseInt(idSpesa.getText()) : 0);
 		} else {
 			final String messaggio = I18NManager.getSingleton().getMessaggio("idintero");
-			Alert.operazioniSegnalazioneErroreGrave(messaggio);
+			Alert.segnalazioneErroreGrave(messaggio);
 		}
 		setcNome(tfNome.getText());
 		setcDescrizione(taDescrizione.getText());
@@ -219,7 +220,7 @@ public class DialogUsciteMov extends AbstractUsciteView {
 				if (dialog.nonEsistonoCampiNonValorizzati()) {
 					try {
 						if (!Controllore.invocaComando(new CommandUpdateSpesa(oldSpesa, (ISingleSpesa) modelUscita.getEntitaPadre()))) {
-							Alert.operazioniSegnalazioneErroreGrave("Spesa " + oldSpesa.getnome() + " non aggiornata");
+							Alert.segnalazioneErroreGrave("Spesa " + oldSpesa.getnome() + " non aggiornata");
 						}
 					} catch (Exception e1) {
 						e1.printStackTrace();
@@ -230,7 +231,7 @@ public class DialogUsciteMov extends AbstractUsciteView {
 					dispose();
 				} else {
 					final String msg = I18NManager.getSingleton().getMessaggio("charge")+ oldSpesa.getnome() + " non aggiornata: tutti i dati devono essere valorizzati";
-					Alert.operazioniSegnalazioneErroreGrave(msg);
+					Alert.segnalazioneErroreGrave(msg);
 				}
 
 			} else if (e.getActionCommand().equals("Cancella")) {
@@ -238,7 +239,7 @@ public class DialogUsciteMov extends AbstractUsciteView {
 				try {
 					if (!Controllore.invocaComando(new CommandDeleteSpesa(modelUscita))) {
 						final String msg = I18NManager.getSingleton().getMessaggio("charge")+ modelUscita.getnome() + " non aggiornata: tutti i dati devono essere valorizzati";
-						Alert.operazioniSegnalazioneErroreGrave(msg);
+						Alert.segnalazioneErroreGrave(msg);
 					}
 				} catch (Exception e1) {
 					e1.printStackTrace();

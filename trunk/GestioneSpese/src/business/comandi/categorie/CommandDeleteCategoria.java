@@ -1,13 +1,15 @@
 package business.comandi.categorie;
 
+import grafica.componenti.alert.Alert;
+
 import java.util.HashMap;
+
+import business.cache.CacheCategorie;
 
 import command.ICommand;
 import command.javabeancommand.AbstractCommandForJavaBean;
 import command.javabeancommand.AbstractOggettoEntita;
 
-import view.Alert;
-import business.cache.CacheCategorie;
 import db.dao.IDAO;
 import domain.CatSpese;
 import domain.ICatSpese;
@@ -52,14 +54,14 @@ public class CommandDeleteCategoria extends AbstractCommandForJavaBean implement
 	@Override
 	public void scriviLogExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Cancellata correttamente la categoria: " + entita.getnome());
+			Alert.segnalazioneInfo("Cancellata correttamente la categoria: " + entita.getnome());
 		}
 	}
 
 	@Override
 	public void scriviLogUnExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Ripristina la categoria: " + entita.getnome() + " precedentemente cancellata");
+			Alert.segnalazioneInfo("Ripristina la categoria: " + entita.getnome() + " precedentemente cancellata");
 		}
 	}
 }

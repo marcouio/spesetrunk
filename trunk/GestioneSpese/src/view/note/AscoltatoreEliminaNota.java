@@ -1,10 +1,11 @@
 package view.note;
 
+import grafica.componenti.alert.Alert;
+
 import java.awt.event.ActionEvent;
 
 import javax.swing.JFrame;
 
-import view.Alert;
 import business.Controllore;
 import business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import business.comandi.note.CommandDeleteNota;
@@ -28,7 +29,7 @@ public class AscoltatoreEliminaNota extends AscoltatoreAggiornatoreNiente {
 		try {
 			Controllore.invocaComando(new CommandDeleteNota(wn));
 		} catch (final Exception e1) {
-			Alert.operazioniSegnalazioneErroreGrave("Nota " + nota.getnome() + " non eliminata: " + e1.getMessage());
+			Alert.segnalazioneErroreGrave("Nota " + nota.getnome() + " non eliminata: " + e1.getMessage());
 		}
 		final JFrame f = pNota.getPadre();
 		pNota.setVisible(false);

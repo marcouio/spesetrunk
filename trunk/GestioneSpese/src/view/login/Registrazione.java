@@ -1,11 +1,12 @@
 package view.login;
 
+import grafica.componenti.alert.Alert;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JDialog;
 
-import view.Alert;
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
 import view.font.LabelTitolo;
@@ -99,10 +100,10 @@ public class Registrazione extends JDialog {
 						utentiwrap.insert(utente);
 						dispose();
 					} else {
-						Alert.operazioniSegnalazioneErroreGrave("final Username già presente, sceglierne un altro");
+						Alert.segnalazioneErroreGrave("final Username già presente, sceglierne un altro");
 					}
 				} else {
-					Alert.operazioniSegnalazioneErroreGrave("Utente non creato: Tutti i campi devono essere valorizzati");
+					Alert.segnalazioneErroreGrave("Utente non creato: Tutti i campi devono essere valorizzati");
 				}
 
 			}

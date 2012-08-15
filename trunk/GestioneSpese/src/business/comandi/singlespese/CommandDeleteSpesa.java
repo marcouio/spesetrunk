@@ -1,11 +1,14 @@
 package business.comandi.singlespese;
 
+import grafica.componenti.alert.Alert;
+
 import java.util.HashMap;
 
-import view.Alert;
 import business.cache.CacheUscite;
+
 import command.javabeancommand.AbstractCommandForJavaBean;
 import command.javabeancommand.AbstractOggettoEntita;
+
 import db.dao.IDAO;
 import domain.ISingleSpesa;
 import domain.SingleSpesa;
@@ -50,7 +53,7 @@ public class CommandDeleteSpesa extends AbstractCommandForJavaBean {
 	@Override
 	public void scriviLogExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Cancellata correttamente spesa " + entita.getnome());
+			Alert.segnalazioneInfo("Cancellata correttamente spesa " + entita.getnome());
 		}
 
 	}
@@ -58,7 +61,7 @@ public class CommandDeleteSpesa extends AbstractCommandForJavaBean {
 	@Override
 	public void scriviLogUnExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Ripristinata spesa " + entita.getnome() + " precedentemente cancellata");
+			Alert.segnalazioneInfo("Ripristinata spesa " + entita.getnome() + " precedentemente cancellata");
 		}
 	}
 

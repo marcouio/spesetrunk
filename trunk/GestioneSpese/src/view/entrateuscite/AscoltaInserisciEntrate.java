@@ -1,8 +1,9 @@
 package view.entrateuscite;
 
+import grafica.componenti.alert.Alert;
+
 import java.awt.event.ActionEvent;
 
-import view.Alert;
 import business.Controllore;
 import business.ascoltatori.AscoltatoreAggiornatoreEntrate;
 import business.comandi.entrate.CommandInserisciEntrata;
@@ -25,7 +26,7 @@ public class AscoltaInserisciEntrate extends AscoltatoreAggiornatoreEntrate {
 				view.dispose();
 			}
 		} else {
-			Alert.operazioniSegnalazioneErroreWarning(I18NManager.getSingleton().getMessaggio("fillinall"));
+			Alert.segnalazioneErroreWarning(I18NManager.getSingleton().getMessaggio("fillinall"));
 		}
 
 	}

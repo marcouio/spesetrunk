@@ -1,13 +1,15 @@
 package business.comandi.categorie;
 
+import grafica.componenti.alert.Alert;
+
 import java.util.HashMap;
+
+import business.cache.CacheCategorie;
 
 import command.ICommand;
 import command.javabeancommand.AbstractCommandForJavaBean;
 import command.javabeancommand.AbstractOggettoEntita;
 
-import view.Alert;
-import business.cache.CacheCategorie;
 import db.dao.IDAO;
 import domain.CatSpese;
 import domain.ICatSpese;
@@ -55,14 +57,14 @@ public class CommandInserisciCategoria extends AbstractCommandForJavaBean implem
 	@Override
 	public void scriviLogExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Categoria " + entita.getnome() + " inserita correttamente");
+			Alert.segnalazioneInfo("Categoria " + entita.getnome() + " inserita correttamente");
 		}
 	}
 
 	@Override
 	public void scriviLogUnExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Eliminata categoria " + entita.getnome() + " precedentemente inserita");
+			Alert.segnalazioneInfo("Eliminata categoria " + entita.getnome() + " precedentemente inserita");
 		}
 	}
 

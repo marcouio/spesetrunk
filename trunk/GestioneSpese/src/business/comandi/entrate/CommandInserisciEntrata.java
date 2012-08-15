@@ -1,8 +1,9 @@
 package business.comandi.entrate;
 
+import grafica.componenti.alert.Alert;
+
 import java.util.HashMap;
 
-import view.Alert;
 import business.cache.CacheEntrate;
 
 import command.ICommand;
@@ -56,7 +57,7 @@ public class CommandInserisciEntrata extends AbstractCommandForJavaBean implemen
 	@Override
 	public void scriviLogExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Entrata " + entita.getnome() + " inserita correttamente");
+			Alert.segnalazioneInfo("Entrata " + entita.getnome() + " inserita correttamente");
 		}
 
 	}
@@ -64,7 +65,7 @@ public class CommandInserisciEntrata extends AbstractCommandForJavaBean implemen
 	@Override
 	public void scriviLogUnExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Eliminata entrata " + entita.getnome() + " inserita precedentemente");
+			Alert.segnalazioneInfo("Eliminata entrata " + entita.getnome() + " inserita precedentemente");
 		}
 	}
 

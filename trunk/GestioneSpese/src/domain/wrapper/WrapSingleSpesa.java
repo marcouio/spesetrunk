@@ -1,19 +1,17 @@
 package domain.wrapper;
 
+import grafica.componenti.alert.Alert;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Vector;
 
-import command.javabeancommand.AbstractOggettoEntita;
-
-import view.Alert;
 import view.impostazioni.Impostazioni;
 import business.AltreUtil;
 import business.Controllore;
@@ -22,6 +20,9 @@ import business.LoggerOggetto;
 import business.cache.CacheCategorie;
 import business.cache.CacheUscite;
 import business.cache.CacheUtenti;
+
+import command.javabeancommand.AbstractOggettoEntita;
+
 import db.dao.IDAO;
 import domain.CatSpese;
 import domain.Entrate;
@@ -413,7 +414,7 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 				ps.executeUpdate();
 				ok = true;
 			} else {
-				Alert.operazioniSegnalazioneErroreWarning("Non ci sono uscite per l'utente loggato");
+				Alert.segnalazioneErroreWarning("Non ci sono uscite per l'utente loggato");
 			}
 
 		} catch (final Exception e) {

@@ -1,11 +1,14 @@
 package business.comandi.note;
 
+import grafica.componenti.alert.Alert;
+
 import java.util.HashMap;
+
+import business.cache.CacheNote;
 
 import command.javabeancommand.AbstractCommandForJavaBean;
 import command.javabeancommand.AbstractOggettoEntita;
-import view.Alert;
-import business.cache.CacheNote;
+
 import domain.INote;
 import domain.Note;
 import domain.wrapper.WrapNote;
@@ -49,7 +52,7 @@ public class CommandDeleteNota extends AbstractCommandForJavaBean {
 	@Override
 	public void scriviLogExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Cancellata correttamente nota " + entita.getnome());
+			Alert.segnalazioneInfo("Cancellata correttamente nota " + entita.getnome());
 		}
 
 	}
@@ -57,7 +60,7 @@ public class CommandDeleteNota extends AbstractCommandForJavaBean {
 	@Override
 	public void scriviLogUnExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.operazioniSegnalazioneInfo("Ripristinata nota " + entita.getnome() + " precedentemente cancellata");
+			Alert.segnalazioneInfo("Ripristinata nota " + entita.getnome() + " precedentemente cancellata");
 		}
 	}
 
