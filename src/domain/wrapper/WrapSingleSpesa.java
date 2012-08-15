@@ -16,7 +16,6 @@ import view.impostazioni.Impostazioni;
 import business.AltreUtil;
 import business.Controllore;
 import business.DBUtil;
-import business.LoggerOggetto;
 import business.cache.CacheCategorie;
 import business.cache.CacheUscite;
 import business.cache.CacheUtenti;
@@ -326,7 +325,7 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 				sSpesa.add(ss);
 			}
 		} catch (final SQLException e) {
-			Controllore.getLog().severe(LoggerOggetto.getMessaggioErroreOperazione(e));
+			Controllore.getLog().severe("Operazione non eseguita: " + e.getMessage());
 			e.printStackTrace();
 		}
 		try {
@@ -419,7 +418,7 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 
 		} catch (final Exception e) {
 			e.printStackTrace();
-			Controllore.getLog().severe(LoggerOggetto.getMessaggioErroreOperazione(e));
+			Controllore.getLog().severe("Operazione non eseguita: " + e.getMessage());
 		}
 		try {
 			cn.close();
