@@ -1,6 +1,8 @@
-ago 16, 2012 12:16:31 AM log.LoggerOggetto creaLog
-INFO: Start programma!
-ago 16, 2012 12:16:31 AM grafica.componenti.alert.Alert segnalazioneErroreGrave
-SEVERE: Login non effettuato: username o password non corretti
-ago 16, 2012 12:16:46 AM grafica.componenti.alert.Alert segnalazioneErroreGrave
-SEVERE: Login non effettuato: username o password non corretti
+mar 08, 2015 11:47:46 PM log.LoggerOggetto creaLog
+INFORMAZIONI: Start programma!
+mar 08, 2015 11:47:46 PM grafica.componenti.alert.Alert segnalazioneErroreGrave
+GRAVE: Operazione SQL non eseguita:near "here": syntax error
+mar 08, 2015 11:48:40 PM grafica.componenti.alert.Alert segnalazioneErroreGrave
+GRAVE: Login non effettuato: username o password non corretti
+mar 08, 2015 11:50:00 PM grafica.componenti.alert.Alert segnalazioneInfo
+INFORMAZIONI: Entrata Stipendio inserita correttamente

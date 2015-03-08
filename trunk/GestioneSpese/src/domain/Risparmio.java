@@ -67,4 +67,9 @@ public class Risparmio implements AbstractOggettoEntita, Serializable, IRisparmi
 		setidRisparmio(Integer.parseInt(idEntita));
 	}
 
+	@Override
+	public String getNome() {
+		return null;
+	}
+
 }

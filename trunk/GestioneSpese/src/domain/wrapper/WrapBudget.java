@@ -5,15 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Vector;
 
 import business.DBUtil;
 import business.cache.CacheCategorie;
-
 import command.javabeancommand.AbstractOggettoEntita;
-
+import db.Clausola;
 import db.dao.IDAO;
 import domain.Budget;
 import domain.CatSpese;
@@ -239,11 +239,6 @@ public class WrapBudget extends Observable implements IDAO, IBudget{
 	public void setCatSpese(CatSpese catSpese) {
 		budget.setCatSpese(catSpese);		
 	}
-
-	@Override
-	public String getnome() {
-		return budget.getnome();
-	}
 	@Override
 	public void notifyObservers() {
 		super.notifyObservers();
@@ -255,9 +250,14 @@ public class WrapBudget extends Observable implements IDAO, IBudget{
 	}
 
 	@Override
-	public Object selectWhere(HashMap<String, String> clausole)
-			throws Exception {
+	public Object selectWhere(ArrayList<Clausola> clausole,
+			String appentoToQuery) throws Exception {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getnome() {
 		return null;
 	}
 

@@ -157,4 +157,9 @@ public class SingleSpesa implements AbstractOggettoEntita, Serializable, ISingle
 		setidSpesa(Integer.parseInt(idEntita));
 	}
 
+	@Override
+	public String getNome() {
+		return nome;
+	}
+
 }

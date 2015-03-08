@@ -158,4 +158,9 @@ public class Entrate implements AbstractOggettoEntita, Serializable, IEntrate {
 		
 	}
 
+	@Override
+	public String getNome() {
+		return nome;
+	}
+
 }

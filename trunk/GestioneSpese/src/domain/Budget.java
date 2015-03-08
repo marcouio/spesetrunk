@@ -1,7 +1,9 @@
 package domain;
 
 import java.io.Serializable;
+
 import command.javabeancommand.AbstractOggettoEntita;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -76,11 +78,6 @@ public class Budget implements AbstractOggettoEntita, Serializable {
 	}
 
 	@Override
-	public String getnome() {
-		return null;
-	}
-
-	@Override
 	public String getIdEntita() {
 		return Integer.toString(getidBudget());
 	}
@@ -88,6 +85,12 @@ public class Budget implements AbstractOggettoEntita, Serializable {
 	@Override
 	public void setIdEntita(String idEntita) {
 		setidBudget(Integer.parseInt(idEntita));
+	}
+
+	@Override
+	public String getNome() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

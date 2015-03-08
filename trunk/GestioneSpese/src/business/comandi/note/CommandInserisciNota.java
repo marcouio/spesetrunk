@@ -50,13 +50,13 @@ public class CommandInserisciNota extends AbstractCommandForJavaBean {
 
 	@Override
 	public String toString() {
-		return "Inserita Nota " + ((Note) entita).getnome();
+		return "Inserita Nota " + ((Note) entita).getNome();
 	}
 
 	@Override
 	public void scriviLogExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Inserita correttamente nota " + entita.getnome());
+			Alert.segnalazioneInfo("Inserita correttamente nota " + entita.getNome());
 		}
 
 	}
@@ -64,7 +64,7 @@ public class CommandInserisciNota extends AbstractCommandForJavaBean {
 	@Override
 	public void scriviLogUnExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Cancellata nota " + entita.getnome() + " precedentemente inserita");
+			Alert.segnalazioneInfo("Cancellata nota " + entita.getNome() + " precedentemente inserita");
 		}
 	}
 }

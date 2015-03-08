@@ -2,7 +2,9 @@ package domain;
 
 import java.io.Serializable;
 import java.util.Set;
+
 import command.javabeancommand.AbstractOggettoEntita;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -148,5 +150,10 @@ public class CatSpese implements AbstractOggettoEntita,Serializable, ICatSpese {
 	@Override
 	public void setIdEntita(String idEntita) {
 		setidCategoria(Integer.parseInt(idEntita));
+	}
+
+	@Override
+	public String getNome() {
+		return nome;
 	}
 }

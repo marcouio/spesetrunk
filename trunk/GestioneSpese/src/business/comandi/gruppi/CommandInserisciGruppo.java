@@ -47,13 +47,13 @@ public class CommandInserisciGruppo extends AbstractCommandForJavaBean {
 
 	@Override
 	public String toString() {
-		return "Inserito Gruppo " + ((Gruppi) entita).getnome();
+		return "Inserito Gruppo " + ((Gruppi) entita).getNome();
 	}
 
 	@Override
 	public void scriviLogExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Inserito correttamente gruppo " + entita.getnome());
+			Alert.segnalazioneInfo("Inserito correttamente gruppo " + entita.getNome());
 		}
 
 	}
@@ -61,7 +61,7 @@ public class CommandInserisciGruppo extends AbstractCommandForJavaBean {
 	@Override
 	public void scriviLogUnExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Ripristinato gruppo " + entita.getnome() + " precedentemente cancellato");
+			Alert.segnalazioneInfo("Ripristinato gruppo " + entita.getNome() + " precedentemente cancellato");
 		}
 	}
 

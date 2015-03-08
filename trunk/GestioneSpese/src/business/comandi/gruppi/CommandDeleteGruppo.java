@@ -48,13 +48,13 @@ public class CommandDeleteGruppo extends AbstractCommandForJavaBean implements I
 
 	@Override
 	public String toString() {
-		return "Eliminato Gruppo " + ((Gruppi) entita).getnome();
+		return "Eliminato Gruppo " + ((Gruppi) entita).getNome();
 	}
 
 	@Override
 	public void scriviLogExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Cancellata correttamente entrata " + entita.getnome());
+			Alert.segnalazioneInfo("Cancellata correttamente entrata " + entita.getNome());
 		}
 
 	}
@@ -62,7 +62,7 @@ public class CommandDeleteGruppo extends AbstractCommandForJavaBean implements I
 	@Override
 	public void scriviLogUnExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Ripristinata categoria " + entita.getnome() + " precedentemente cancellata");
+			Alert.segnalazioneInfo("Ripristinata categoria " + entita.getNome() + " precedentemente cancellata");
 		}
 	}
 }

@@ -121,4 +121,9 @@ public class Utenti implements AbstractOggettoEntita, Serializable, IUtenti {
 		setidUtente(Integer.parseInt(idEntita));
 	}
 
+	@Override
+	public String getNome() {
+		return nome;
+	}
+
 }

@@ -48,20 +48,20 @@ public class CommandDeleteCategoria extends AbstractCommandForJavaBean implement
 
 	@Override
 	public String toString() {
-		return "Eliminata Categoria " + ((CatSpese) entita).getnome();
+		return "Eliminata Categoria " + ((CatSpese) entita).getNome();
 	}
 
 	@Override
 	public void scriviLogExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Cancellata correttamente la categoria: " + entita.getnome());
+			Alert.segnalazioneInfo("Cancellata correttamente la categoria: " + entita.getNome());
 		}
 	}
 
 	@Override
 	public void scriviLogUnExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Ripristina la categoria: " + entita.getnome() + " precedentemente cancellata");
+			Alert.segnalazioneInfo("Ripristina la categoria: " + entita.getNome() + " precedentemente cancellata");
 		}
 	}
 }

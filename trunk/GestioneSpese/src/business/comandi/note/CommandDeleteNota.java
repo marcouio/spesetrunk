@@ -46,13 +46,13 @@ public class CommandDeleteNota extends AbstractCommandForJavaBean {
 
 	@Override
 	public String toString() {
-		return "Eliminata Nota " + ((Note) entita).getnome();
+		return "Eliminata Nota " + ((Note) entita).getNome();
 	}
 
 	@Override
 	public void scriviLogExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Cancellata correttamente nota " + entita.getnome());
+			Alert.segnalazioneInfo("Cancellata correttamente nota " + entita.getNome());
 		}
 
 	}
@@ -60,7 +60,7 @@ public class CommandDeleteNota extends AbstractCommandForJavaBean {
 	@Override
 	public void scriviLogUnExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Ripristinata nota " + entita.getnome() + " precedentemente cancellata");
+			Alert.segnalazioneInfo("Ripristinata nota " + entita.getNome() + " precedentemente cancellata");
 		}
 	}
 

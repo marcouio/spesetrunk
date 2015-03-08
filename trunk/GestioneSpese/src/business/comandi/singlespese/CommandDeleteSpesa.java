@@ -53,7 +53,7 @@ public class CommandDeleteSpesa extends AbstractCommandForJavaBean {
 	@Override
 	public void scriviLogExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Cancellata correttamente spesa " + entita.getnome());
+			Alert.segnalazioneInfo("Cancellata correttamente spesa " + entita.getNome());
 		}
 
 	}
@@ -61,7 +61,7 @@ public class CommandDeleteSpesa extends AbstractCommandForJavaBean {
 	@Override
 	public void scriviLogUnExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Ripristinata spesa " + entita.getnome() + " precedentemente cancellata");
+			Alert.segnalazioneInfo("Ripristinata spesa " + entita.getNome() + " precedentemente cancellata");
 		}
 	}
 

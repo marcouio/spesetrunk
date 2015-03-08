@@ -140,4 +140,9 @@ public class Note implements AbstractOggettoEntita, Serializable, INote {
 		
 	}
 
+	@Override
+	public String getNome() {
+		return nome;
+	}
+
 }

@@ -100,4 +100,9 @@ public class Lookandfeel implements AbstractOggettoEntita, Serializable, ILookan
 		setidLook(Integer.parseInt(idEntita));
 	}
 
+	@Override
+	public String getNome() {
+		return nome;
+	}
+
 }

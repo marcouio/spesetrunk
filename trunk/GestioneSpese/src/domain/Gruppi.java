@@ -97,4 +97,9 @@ public class Gruppi implements AbstractOggettoEntita, Serializable, IGruppi {
 		setidGruppo(Integer.parseInt(idEntita));
 		
 	}
+
+	@Override
+	public String getNome() {
+		return nome;
+	}
 }
