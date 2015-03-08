@@ -56,7 +56,7 @@ public class CommandInserisciSpesa extends AbstractCommandForJavaBean {
 	@Override
 	public void scriviLogExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Inserita correttamente spesa " + entita.getnome());
+			Alert.segnalazioneInfo("Inserita correttamente spesa " + entita.getNome());
 		}
 
 	}
@@ -64,7 +64,7 @@ public class CommandInserisciSpesa extends AbstractCommandForJavaBean {
 	@Override
 	public void scriviLogUnExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Cancellata spesa " + entita.getnome() + " precedentemente inserita");
+			Alert.segnalazioneInfo("Cancellata spesa " + entita.getNome() + " precedentemente inserita");
 		}
 	}
 

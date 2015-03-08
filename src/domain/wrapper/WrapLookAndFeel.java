@@ -5,14 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Vector;
 
 import business.DBUtil;
-
 import command.javabeancommand.AbstractOggettoEntita;
-
+import db.Clausola;
 import db.dao.IDAO;
 import domain.ILookandfeel;
 import domain.Lookandfeel;
@@ -218,8 +218,8 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 	}
 
 	@Override
-	public Object selectWhere(HashMap<String, String> clausole)
-			throws Exception {
+	public Object selectWhere(ArrayList<Clausola> clausole,
+			String appentoToQuery) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

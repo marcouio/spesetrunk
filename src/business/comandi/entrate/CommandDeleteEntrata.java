@@ -48,20 +48,20 @@ public class CommandDeleteEntrata extends AbstractCommandForJavaBean implements 
 
 	@Override
 	public String toString() {
-		return "Eliminata Entrata " + ((Entrate) entita).getnome();
+		return "Eliminata Entrata " + ((Entrate) entita).getNome();
 	}
 
 	@Override
 	public void scriviLogExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Ok, entrata" + entita.getnome() + " eliminata correttamente!");
+			Alert.segnalazioneInfo("Ok, entrata" + entita.getNome() + " eliminata correttamente!");
 		}
 	}
 
 	@Override
 	public void scriviLogUnExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Ok, ripristinata entrata" + entita.getnome() + " precedentemente eliminata!");
+			Alert.segnalazioneInfo("Ok, ripristinata entrata" + entita.getNome() + " precedentemente eliminata!");
 		}
 	}
 

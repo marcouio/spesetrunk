@@ -51,20 +51,20 @@ public class CommandInserisciCategoria extends AbstractCommandForJavaBean implem
 
 	@Override
 	public String toString() {
-		return "Inserita Categoria " + ((CatSpese) entita).getnome();
+		return "Inserita Categoria " + ((CatSpese) entita).getNome();
 	}
 
 	@Override
 	public void scriviLogExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Categoria " + entita.getnome() + " inserita correttamente");
+			Alert.segnalazioneInfo("Categoria " + entita.getNome() + " inserita correttamente");
 		}
 	}
 
 	@Override
 	public void scriviLogUnExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Eliminata categoria " + entita.getnome() + " precedentemente inserita");
+			Alert.segnalazioneInfo("Eliminata categoria " + entita.getNome() + " precedentemente inserita");
 		}
 	}
 

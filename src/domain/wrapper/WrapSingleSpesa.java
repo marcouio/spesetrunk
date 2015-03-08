@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -19,9 +20,8 @@ import business.DBUtil;
 import business.cache.CacheCategorie;
 import business.cache.CacheUscite;
 import business.cache.CacheUtenti;
-
 import command.javabeancommand.AbstractOggettoEntita;
-
+import db.Clausola;
 import db.dao.IDAO;
 import domain.CatSpese;
 import domain.Entrate;
@@ -526,8 +526,8 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 	}
 
 	@Override
-	public Object selectWhere(HashMap<String, String> clausole)
-			throws Exception {
+	public Object selectWhere(ArrayList<Clausola> clausole,
+			String appentoToQuery) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

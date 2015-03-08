@@ -17,10 +17,8 @@ import business.aggiornatori.AggiornatoreManager;
 import business.cache.CacheLookAndFeel;
 import business.cache.CacheUtenti;
 import business.internazionalizzazione.I18NManager;
-
 import command.AbstractCommand;
 import command.CommandManager;
-
 import controller.ControlloreBase;
 import domain.IUtenti;
 import domain.Lookandfeel;
@@ -206,14 +204,9 @@ public class Controllore extends ControlloreBase{
 	}
 
 	@Override
-	protected String getUtilityDAOClassName() {
+	public String getConnectionClassName() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	protected String getConnectionClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

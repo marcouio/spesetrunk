@@ -51,13 +51,13 @@ public class CommandInserisciEntrata extends AbstractCommandForJavaBean implemen
 
 	@Override
 	public String toString() {
-		return "Inserita Entrata " + ((Entrate) entita).getnome();
+		return "Inserita Entrata " + ((Entrate) entita).getNome();
 	}
 
 	@Override
 	public void scriviLogExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Entrata " + entita.getnome() + " inserita correttamente");
+			Alert.segnalazioneInfo("Entrata " + entita.getNome() + " inserita correttamente");
 		}
 
 	}
@@ -65,7 +65,7 @@ public class CommandInserisciEntrata extends AbstractCommandForJavaBean implemen
 	@Override
 	public void scriviLogUnExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Eliminata entrata " + entita.getnome() + " inserita precedentemente");
+			Alert.segnalazioneInfo("Eliminata entrata " + entita.getNome() + " inserita precedentemente");
 		}
 	}
 
