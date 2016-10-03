@@ -2,13 +2,9 @@ package business.comandi.note;
 
 import grafica.componenti.alert.Alert;
 
-import java.util.HashMap;
-
 import business.cache.CacheNote;
 
 import command.javabeancommand.AbstractCommandForJavaBean;
-import command.javabeancommand.AbstractOggettoEntita;
-
 import domain.INote;
 import domain.Note;
 
@@ -21,7 +17,7 @@ public class CommandUpdateNota extends AbstractCommandForJavaBean {
 		this.newEntita = (Note) newEntita;
 		this.oldEntita = oldEntita;
 		final CacheNote cache = CacheNote.getSingleton();
-		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
+		mappaCache = cache.getCache();
 	}
 
 	@Override

@@ -4,18 +4,22 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Observable;
 import java.util.Vector;
 
+import business.ConnectionPoolGGS;
 import business.Controllore;
 import business.DBUtil;
+import business.cache.CacheCategorie;
 import business.cache.CacheUtenti;
 import command.javabeancommand.AbstractOggettoEntita;
+import controller.ControlloreBase;
 import db.Clausola;
+import db.ConnectionPool;
+import db.ConnectionPool.ExecuteResultSet;
 import db.dao.IDAO;
+import domain.CatSpese;
 import domain.Entrate;
 import domain.INote;
 import domain.Note;
@@ -105,76 +109,82 @@ public class WrapNote extends Observable implements IDAO, INote {
 
 	@Override
 	public Object selectById(final int id) {
-		final Connection cn = DBUtil.getConnection();
+		
 		final String sql = "SELECT * FROM " + Note.NOME_TABELLA + " WHERE " + Note.ID + " = " + id;
 
-		Note note = null;
+		final Note note = new Note();
 
 		try {
 
-			final Statement st = cn.createStatement();
-			final ResultSet rs = st.executeQuery(sql);
-			if (rs.next()) {
-				note = new Note();
-				note.setIdNote(rs.getInt(1));
-				note.setNome(rs.getString(2));
-				note.setDescrizione(rs.getString(3));
-				note.setUtenti((Utenti) Controllore.getSingleton().getUtenteLogin());
-				note.setData(rs.getString(5));
-				note.setDataIns(rs.getString(6));
+			new ConnectionPoolGGS().new ExecuteResultSet<Object>() {
 
-			}
+				@Override
+				protected Object doWithResultSet(ResultSet rs) throws SQLException {
+					
+					if (rs.next()) {
+						note.setIdNote(rs.getInt(1));
+						note.setNome(rs.getString(2));
+						note.setDescrizione(rs.getString(3));
+						note.setUtenti((Utenti) Controllore.getSingleton().getUtenteLogin());
+						note.setData(rs.getString(5));
+						note.setDataIns(rs.getString(6));
+						
+					}
+					
+					return note;
+				}
+				
+			}.execute(sql);
 
 		} catch (final SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				cn.close();
-			} catch (final SQLException e) {
-				e.printStackTrace();
-			}
-			DBUtil.closeConnection();
-		}
+		} 
 		return note;
 	}
 
 	@Override
 	public Vector<Object> selectAll() {
-		final Vector<Object> entrate = new Vector<Object>();
-		final Connection cn = DBUtil.getConnection();
+		final Vector<Object> note = new Vector<Object>();
+		
 
 		final String sql = "SELECT * FROM " + Note.NOME_TABELLA;
 		try {
-			final Statement st = cn.createStatement();
-			final ResultSet rs = st.executeQuery(sql);
-			while (rs.next()) {
-				final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(4)));
-				final Note nota = new Note();
-				nota.setIdNote(rs.getInt(1));
-				nota.setDescrizione(rs.getString(3));
-				nota.setData(rs.getString(6));
-				nota.setNome(rs.getString(2));
-				nota.setUtenti(utente);
-				nota.setDataIns(rs.getString(5));
-				entrate.add(nota);
-			}
+			
+			return new ConnectionPoolGGS().new ExecuteResultSet<Vector<Object>>() {
 
+				@Override
+				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
+					final Vector<Object> note = new Vector<Object>();
+					
+					while (rs.next()) {
+						final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(4)));
+						final Note nota = new Note();
+						nota.setIdNote(rs.getInt(1));
+						nota.setDescrizione(rs.getString(3));
+						nota.setData(rs.getString(6));
+						nota.setNome(rs.getString(2));
+						nota.setUtenti(utente);
+						nota.setDataIns(rs.getString(5));
+						note.add(nota);
+					}
+					
+					return note;
+				}
+				
+			}.execute(sql);
+			
 		} catch (final Exception e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				cn.close();
-			} catch (final SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return entrate;
+		} 
+			
+		
+		return note;
 	}
 
 	@Override
 	public boolean insert(final Object oggettoEntita) {
 		boolean ok = false;
-		final Connection cn = DBUtil.getConnection();
+		Connection cn = ConnectionPool.getSingleton().getConnection();
 		String sql = "";
 		try {
 			final Note nota = (Note) oggettoEntita;
@@ -213,50 +223,40 @@ public class WrapNote extends Observable implements IDAO, INote {
 	public boolean delete(final int id) {
 		boolean ok = false;
 		final String sql = "DELETE FROM " + Note.NOME_TABELLA + " WHERE " + Note.ID + " = " + id;
-		final Connection cn = DBUtil.getConnection();
+		
 
 		try {
-			final Statement st = cn.createStatement();
-			st.executeUpdate(sql);
+			
+			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
 		} catch (final SQLException e) {
 			e.printStackTrace();
 			ok = false;
 		}
-		try {
-			cn.close();
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
+		
 		return ok;
 	}
 
 	@Override
 	public boolean update(final Object oggettoEntita) {
 		boolean ok = false;
-		final Connection cn = DBUtil.getConnection();
+		
 
 		final Note nota = (Note) oggettoEntita;
 		final String sql = "UPDATE " + Note.NOME_TABELLA + " SET " + Note.DESCRIZIONE + " = '" + nota.getDescrizione() + "', " + Entrate.DATA + " = '" + nota.getData() + "', "
 				+ Entrate.NOME + " = '" + nota.getnome() + "', " + Entrate.IDUTENTE + " = " + nota.getUtenti().getidUtente() + ", " + Entrate.DATAINS + " = '" + nota.getDataIns()
 				+ "' WHERE " + Note.ID + " = " + nota.getIdNote();
 		try {
-			final Statement st = cn.createStatement();
-			st.executeUpdate(sql);
+			
+			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
 		} catch (final SQLException e) {
 			e.printStackTrace();
 			ok = false;
 		}
-		try {
-			cn.close();
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
+		
 		return ok;
 	}
 
@@ -264,23 +264,18 @@ public class WrapNote extends Observable implements IDAO, INote {
 	public boolean deleteAll() {
 		boolean ok = false;
 		final String sql = "DELETE FROM " + Note.NOME_TABELLA;
-		final Connection cn = DBUtil.getConnection();
+		
 
 		try {
-			final Statement st = cn.createStatement();
-			st.executeUpdate(sql);
+			
+			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
 		} catch (final SQLException e) {
 			e.printStackTrace();
 			ok = false;
 		}
-		try {
-			cn.close();
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
+		
 		return ok;
 	}
 
@@ -289,25 +284,34 @@ public class WrapNote extends Observable implements IDAO, INote {
 	 */
 	public boolean DeleteLastNote() {
 		boolean ok = false;
-		final Connection cn = DBUtil.getConnection();
+		
 		final String sql = "SELECT * FROM " + Note.NOME_TABELLA + " WHERE " + Note.IDUTENTE + " = " + ((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente() + " ORDER BY "
 				+ Note.DATAINS + " DESC";
+		Connection cn = ConnectionPool.getSingleton().getConnection();
 
 		try {
-			final Statement st = cn.createStatement();
-			final ResultSet rs = st.executeQuery(sql);
-			if (rs.next()) {
-				final String sql2 = "DELETE FROM " + Note.NOME_TABELLA + " WHERE " + Note.ID + "=?";
-				final PreparedStatement ps = cn.prepareStatement(sql2);
-				ps.setInt(1, rs.getInt(1));
-				ps.executeUpdate();
-				ok = true;
+			
+			ok = new ConnectionPoolGGS().new ExecuteResultSet<Boolean>() {
 
-			}
+				@Override
+				protected Boolean doWithResultSet(ResultSet rs) throws SQLException {
+					
+					if (rs.next()) {
+						final String sql2 = "DELETE FROM " + Note.NOME_TABELLA + " WHERE " + Note.ID + "=?";
+						final PreparedStatement ps = cn.prepareStatement(sql2);
+						ps.setInt(1, rs.getInt(1));
+						ps.executeUpdate();
+						return true;
 
+					}
+					return false;
+				}
+				
+			}.execute(sql);
+			
 		} catch (final Exception e) {
 			e.printStackTrace();
-			Controllore.getLog().severe("Operazione non eseguita: " + e.getMessage());
+			ControlloreBase.getLog().severe("Operazione non eseguita: " + e.getMessage());
 		}
 		try {
 			cn.close();

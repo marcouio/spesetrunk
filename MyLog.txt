@@ -1,8 +1,4 @@
-mar 08, 2015 11:47:46 PM log.LoggerOggetto creaLog
+ott 03, 2016 11:28:04 PM log.LoggerOggetto creaLog
 INFORMAZIONI: Start programma!
-mar 08, 2015 11:47:46 PM grafica.componenti.alert.Alert segnalazioneErroreGrave
-GRAVE: Operazione SQL non eseguita:near "here": syntax error
-mar 08, 2015 11:48:40 PM grafica.componenti.alert.Alert segnalazioneErroreGrave
-GRAVE: Login non effettuato: username o password non corretti
-mar 08, 2015 11:50:00 PM grafica.componenti.alert.Alert segnalazioneInfo
-INFORMAZIONI: Entrata Stipendio inserita correttamente
+ott 03, 2016 11:28:04 PM business.Controllore verificaPresenzaDb
+GRAVE: no such table: lookAndFeel

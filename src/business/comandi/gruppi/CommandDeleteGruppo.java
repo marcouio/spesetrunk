@@ -2,14 +2,10 @@ package business.comandi.gruppi;
 
 import grafica.componenti.alert.Alert;
 
-import java.util.HashMap;
-
 import business.cache.CacheGruppi;
 
 import command.ICommand;
 import command.javabeancommand.AbstractCommandForJavaBean;
-import command.javabeancommand.AbstractOggettoEntita;
-
 import db.dao.IDAO;
 import domain.Gruppi;
 import domain.IGruppi;
@@ -19,7 +15,7 @@ public class CommandDeleteGruppo extends AbstractCommandForJavaBean implements I
 
 	public CommandDeleteGruppo(final IGruppi entita) throws Exception {
 		final CacheGruppi cache = CacheGruppi.getSingleton();
-		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
+		mappaCache = cache.getCache();
 		this.wrap = new WrapGruppi();
 		this.entita = ((IDAO) entita).getEntitaPadre();
 	}

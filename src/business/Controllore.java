@@ -3,10 +3,8 @@ package business;
 import grafica.componenti.alert.Alert;
 import grafica.componenti.contenitori.FrameBase;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
@@ -20,6 +18,7 @@ import business.internazionalizzazione.I18NManager;
 import command.AbstractCommand;
 import command.CommandManager;
 import controller.ControlloreBase;
+import db.ConnectionPool;
 import domain.IUtenti;
 import domain.Lookandfeel;
 import domain.Utenti;
@@ -35,32 +34,6 @@ public class Controllore extends ControlloreBase{
 	private static Controllore singleton;
 	private static Logger log;
 	public static String lookUsato;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(final String[] args) {
-		Database.DB_URL = Database.DB_URL_WORKSPACE;
-		verificaPresenzaDb();
-
-		settaLookFeel();
-
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				DBUtil.closeConnection();
-				Controllore.getSingleton();
-				view = GeneralFrame.getSingleton();
-				view.setResizable(false);
-				setStartUtenteLogin();
-				view.setTitle(I18NManager.getSingleton().getMessaggio("title"));
-				view.setLocationByPlatform(true);
-				view.setVisible(true);
-
-			}
-		});
-	}
 
 	private static void settaLookFeel() {
 		try {
@@ -91,25 +64,30 @@ public class Controllore extends ControlloreBase{
 	}
 
 	private static void verificaPresenzaDb() {
+		final String sql = "SELECT * FROM " + Lookandfeel.NOME_TABELLA;
+		
 		try {
-			final Connection cn = DBUtil.getConnection();
-			final String sql = "SELECT * FROM " + Lookandfeel.NOME_TABELLA;
-			final Statement st = cn.createStatement();
-			@SuppressWarnings("unused")
-			final
-			ResultSet rs = st.executeQuery(sql);
-		} catch (final SQLException e) {
+			new ConnectionPoolGGS().new ExecuteResultSet<Boolean>() {
+
+				@Override
+				protected Boolean doWithResultSet(ResultSet resulSet) throws SQLException {
+					return resulSet.next();
+				}
+			}.execute(sql);
+		} catch (SQLException e) {
 			try {
 				Database.getSingleton().generaDB();
-				Alert.info("Database non presente: è stato rigenerato", "");
-			} catch (final SQLException e1) {
-				Controllore.getLog().severe("Database non creato: " + e.getMessage());
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
+			e.printStackTrace();
+			getLog().severe(e.getMessage());
 		}
 	}
 
 	private Controllore() {
-		setStartUtenteLogin();
+		
 	}
 
 	public static boolean invocaComando(final AbstractCommand comando) throws Exception {
@@ -136,16 +114,15 @@ public class Controllore extends ControlloreBase{
 	}
 
 	public static Controllore getSingleton() {
-		if (singleton == null) {
-			synchronized (Controllore.class) {
-				if (singleton == null) {
-					singleton = new Controllore();
-				}
-			} // if
+		synchronized (Controllore.class) {
+			if (singleton == null) {
+				singleton = new Controllore();
+			}
 		} // if
 		return singleton;
 	}
 
+	@Override
 	public Object getUtenteLogin() {
 		return utenteLogin;
 	}
@@ -161,6 +138,7 @@ public class Controllore extends ControlloreBase{
 		return aggiornatoreManager;
 	}
 
+	@Override
 	public CommandManager getCommandManager() {
 		if (commandManager == null) {
 			commandManager = CommandManager.getIstance();
@@ -176,6 +154,7 @@ public class Controllore extends ControlloreBase{
 		return view;
 	}
 
+	@Override
 	public void quit() {
 		view.setVisible(false);
 		view.dispose();
@@ -196,17 +175,38 @@ public class Controllore extends ControlloreBase{
 	public static void setLog(final Logger log) {
 		Controllore.log = log;
 	}
+	
+	public static void main(final String[] args) {
+		Controllore.getSingleton().myMain(Controllore.getSingleton(), true, "myApplication");
+	}
 
 	@Override
 	public void mainOverridato(FrameBase frame) throws Exception {
-		// TODO Auto-generated method stub
+		Database.DB_URL = Database.DB_URL_WORKSPACE;
+		verificaPresenzaDb();
+		
+		setStartUtenteLogin();
+
+		settaLookFeel();
+
+		
+				DBUtil.closeConnection();
+				Controllore.getSingleton();
+				view = GeneralFrame.getSingleton();
+				frame = view;
+				
+				view.setResizable(false);
+				setStartUtenteLogin();
+				view.setTitle(I18NManager.getSingleton().getMessaggio("title"));
+				view.setLocationByPlatform(true);
+				view.setVisible(true);
+
 		
 	}
 
 	@Override
 	public String getConnectionClassName() {
-		// TODO Auto-generated method stub
-		return null;
+		return ConnectionPoolGGS.class.getName();
 	}
 
 }

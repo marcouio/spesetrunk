@@ -10,7 +10,7 @@ import java.util.GregorianCalendar;
 import java.util.Observable;
 
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
+import javax.swing.WindowConstants;
 
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
@@ -41,7 +41,7 @@ public class UsciteView extends AbstractUsciteView {
 	public static void main(final String[] args) {
 		try {
 			final UsciteView dialog = new UsciteView(new WrapSingleSpesa());
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			dialog.setBounds(0, 0, 347, 407);
 			dialog.setVisible(true);
 		} catch (final Exception e1) {
@@ -56,7 +56,7 @@ public class UsciteView extends AbstractUsciteView {
 		super(spesa);
 		setTitle(I18NManager.getSingleton().getMessaggio("insertcharge"));
 		setModalityType(ModalityType.APPLICATION_MODAL);
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		modelUscita.addObserver(this);
 		getContentPane().setLayout(null);
 

@@ -54,46 +54,57 @@ public class Utenti implements AbstractOggettoEntita, Serializable, IUtenti {
 	public Utenti() {
 	}
 
+	@Override
 	public int getidUtente() {
 		return this.idUtente;
 	}
 
+	@Override
 	public void setidUtente(final int idUtente) {
 		this.idUtente = idUtente;
 	}
 
+	@Override
 	public String getpassword() {
 		return this.password;
 	}
 
+	@Override
 	public void setpassword(final String password) {
 		this.password = password;
 	}
 
+	@Override
 	public String getusername() {
 		return this.username;
 	}
 
+	@Override
 	public void setusername(final String username) {
 		this.username = username;
 	}
 
+	@Override
 	public Set<Entrate> getEntrates() {
 		return this.entrates;
 	}
 
+	@Override
 	public void setEntrates(final Set<Entrate> entrates) {
 		this.entrates = entrates;
 	}
 
+	@Override
 	public Set<SingleSpesa> getSingleSpesas() {
 		return this.singleSpesas;
 	}
 
+	@Override
 	public void setSingleSpesas(final Set<SingleSpesa> singleSpesas) {
 		this.singleSpesas = singleSpesas;
 	}
 
+	@Override
 	public void setNome(final String nome) {
 		this.nome = nome;
 	}
@@ -103,10 +114,12 @@ public class Utenti implements AbstractOggettoEntita, Serializable, IUtenti {
 		return nome;
 	}
 
+	@Override
 	public void setCognome(final String cognome) {
 		this.cognome = cognome;
 	}
 
+	@Override
 	public String getCognome() {
 		return cognome;
 	}

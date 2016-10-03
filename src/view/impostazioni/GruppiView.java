@@ -7,7 +7,7 @@ import java.util.Observable;
 import java.util.Vector;
 
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
+import javax.swing.WindowConstants;
 
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
@@ -35,7 +35,7 @@ public class GruppiView extends AbstractGruppiView {
 
 	private void initGUI() {
 
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle("Gruppi");
 		getContentPane().setLayout(null);
 

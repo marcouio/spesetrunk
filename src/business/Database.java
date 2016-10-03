@@ -3,11 +3,9 @@ package business;
 import grafica.componenti.alert.Alert;
 
 import java.io.File;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,6 +17,7 @@ import java.util.Vector;
 import view.impostazioni.Impostazioni;
 import business.cache.CacheEntrate;
 import business.cache.CacheUscite;
+import db.ConnectionPool;
 import domain.CatSpese;
 import domain.Entrate;
 import domain.Gruppi;
@@ -105,27 +104,26 @@ public class Database {
 		final
 		File db = new File(Database.DB_URL);
 		String sql = new String();
-		final Connection cn = DBUtil.getConnection();
+		
 		sql = "CREATE TABLE \"Utenti\" (\"idUtente\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , \"nome\" TEXT NOT NULL , \"cognome\" TEXT NOT NULL , \"username\" TEXT NOT NULL  UNIQUE , \"password\" TEXT NOT NULL );";
-		final Statement st = cn.createStatement();
-		st.execute(sql.toString());
+		ConnectionPool cp = ConnectionPool.getSingleton();
+		cp.executeUpdate(sql);
 		sql = "CREATE TABLE \"gruppi\" (\"idGruppo\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , \"nome\" TEXT NOT NULL , \"descrizione\" TEXT);";
-		st.execute(sql.toString());
+		cp.executeUpdate(sql);
 		sql = "CREATE TABLE \"lookAndFeel\" (\"idLook\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , \"nome\" TEXT NOT NULL , \"valore\" TEXT NOT NULL , \"usato\" INTEGER NOT NULL );";
-		st.execute(sql.toString());
+		cp.executeUpdate(sql);
 		sql = "CREATE TABLE \"risparmio\" (\"idRisparmio\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , \"PerSulTotale\" DOUBLE NOT NULL , \"nomeOggetto\" TEXT, \"costoOggetto\" DOUBLE);";
-		st.execute(sql.toString());
+		cp.executeUpdate(sql);
 		sql = "CREATE TABLE \"cat_spese\" (\"idCategoria\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\"descrizione\"  TEXT NOT NULL,\"importanza\"  TEXT NOT NULL,\"nome\"  TEXT NOT NULL,\"idGruppo\" INTEGER NOT NULL,CONSTRAINT \"keygruppo\" FOREIGN KEY (\"idGruppo\") REFERENCES \"gruppi\" (\"idGruppo\"));";
-		st.execute(sql.toString());
+		cp.executeUpdate(sql);
 		sql = "CREATE TABLE \"budget\" (\"idBudget\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\"idCategorie\"  INTEGER NOT NULL UNIQUE,\"percSulTot\"  DOUBLE NOT NULL,CONSTRAINT \"keyspesa\" FOREIGN KEY (\"idCategorie\") REFERENCES \"cat_spese\" (\"idCategoria\"));";
-		st.execute(sql.toString());
+		cp.executeUpdate(sql);
 		sql = "CREATE TABLE \"entrate\" (\"idEntrate\" INTEGER PRIMARY KEY  NOT NULL ,\"descrizione\" TEXT NOT NULL ,\"Fisse_o_Var\" TEXT NOT NULL ,\"inEuro\" INTEGER NOT NULL ,\"data\" TEXT NOT NULL ,\"nome\" TEXT NOT NULL ,\"idUtente\" INTEGER NOT NULL ,\"dataIns\" TEXT);";
-		st.execute(sql.toString());
+		cp.executeUpdate(sql);
 		sql = "CREATE TABLE \"single_spesa\" (\"idSpesa\" INTEGER PRIMARY KEY  NOT NULL ,\"Data\" TEXT NOT NULL ,\"inEuro\" INTEGER NOT NULL ,\"descrizione\" TEXT NOT NULL ,\"idCategorie\" INTEGER NOT NULL ,\"nome\" TEXT NOT NULL ,\"idUtente\" INTEGER NOT NULL ,\"dataIns\" TEXT);";
-		st.execute(sql.toString());
+		cp.executeUpdate(sql);
 		sql = "CREATE TABLE \"note\" (\"idNote\" INTEGER PRIMARY KEY  NOT NULL ,\"nome\" TEXT NOT NULL ,\"descrizione\" TEXT NOT NULL ,\"idUtente\" INTEGER NOT NULL ,\"data\" TEXT NOT NULL ,\"dataIns\" TEXT NOT NULL );";
-		st.execute(sql.toString());
-		cn.close();
+		cp.executeUpdate(sql);
 
 		generaDatiTabellaLook();
 	}
@@ -224,12 +222,11 @@ public class Database {
 			if (where.hasNext()) {
 				sql.append(", ");
 			}
-			final Connection cn = DBUtil.getConnection();
-			final Statement st = cn.createStatement();
-			if (st.executeUpdate(sql.toString()) != 0) {
+			
+			
+			if (ConnectionPool.getSingleton().executeUpdate(sql.toString()) != 0) {
 				ok = true;
 			}
-			cn.close();
 		}
 		return ok;
 	}
@@ -273,13 +270,11 @@ public class Database {
 				}
 			}
 		}
-		DBUtil.closeConnection();
-		final Connection cn = DBUtil.getConnection();
-		final Statement st = cn.createStatement();
-		if (st.executeUpdate(sql.toString()) != 0) {
+		
+		
+		if (ConnectionPool.getSingleton().executeUpdate(sql.toString()) != 0) {
 			ok = true;
 		}
-		cn.close();
 		return ok;
 	}
 
@@ -312,12 +307,11 @@ public class Database {
 		}
 
 		sql.append(")");
-		final Connection cn = DBUtil.getConnection();
-		final Statement st = cn.createStatement();
-		if (st.executeUpdate(sql.toString()) != 0) {
+		
+		
+		if (ConnectionPool.getSingleton().executeUpdate(sql.toString()) != 0) {
 			ok = true;
 		}
-		cn.close();
 		System.out.println("Record inserito correttamente");
 		return ok;
 	}
@@ -331,54 +325,54 @@ public class Database {
 	@SuppressWarnings("rawtypes")
 	public HashMap<String, ArrayList> terminaleSql(final String sql) {
 		final HashMap<String, ArrayList> nomi = new HashMap<String, ArrayList>();
-		final Connection cn = DBUtil.getConnection();
 		if (sql.substring(0, 1).equalsIgnoreCase("S")) {
 			try {
-				final Statement st = cn.createStatement();
-				final ResultSet rs = st.executeQuery(sql);
-				final ResultSetMetaData rsmd = rs.getMetaData();
-				final ArrayList<String> lista = new ArrayList<String>();
-				for (int i = 0; i < rsmd.getColumnCount(); i++) {
-					lista.add(rsmd.getColumnLabel(i + 1));
-				}
-				nomi.put("nomiColonne", lista);
-				int z = 0;
-				while (rs.next()) {
-					final ArrayList<String> lista2 = new ArrayList<String>();
-					z++;
-					for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-						if (rsmd.getColumnType(i) == java.sql.Types.INTEGER) {
-							lista2.add(Integer.toString(rs.getInt(i)));
-						} else if (rsmd.getColumnType(i) == java.sql.Types.DOUBLE) {
-							lista2.add(Double.toString(rs.getInt(i)));
-						} else if (rsmd.getColumnType(i) == java.sql.Types.DATE) {
-							lista2.add(rs.getDate(i).toString());
-						} else {
-							lista2.add(rs.getString(i));
-						}
-					}
-					nomi.put("row" + z, lista2);
-				}
+				
+				new ConnectionPoolGGS().new ExecuteResultSet<Object>() {
 
+					@Override
+					protected Object doWithResultSet(ResultSet rs) throws SQLException {
+						final ResultSetMetaData rsmd = rs.getMetaData();
+						final ArrayList<String> lista = new ArrayList<String>();
+						for (int i = 0; i < rsmd.getColumnCount(); i++) {
+							lista.add(rsmd.getColumnLabel(i + 1));
+						}
+						nomi.put("nomiColonne", lista);
+						int z = 0;
+						while (rs.next()) {
+							final ArrayList<String> lista2 = new ArrayList<String>();
+							z++;
+							for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+								if (rsmd.getColumnType(i) == java.sql.Types.INTEGER) {
+									lista2.add(Integer.toString(rs.getInt(i)));
+								} else if (rsmd.getColumnType(i) == java.sql.Types.DOUBLE) {
+									lista2.add(Double.toString(rs.getInt(i)));
+								} else if (rsmd.getColumnType(i) == java.sql.Types.DATE) {
+									lista2.add(rs.getDate(i).toString());
+								} else {
+									lista2.add(rs.getString(i));
+								}
+							}
+							nomi.put("row" + z, lista2);
+						}
+						return null;
+					}
+					
+				}.execute(sql);
+				
+				return null;
 			} catch (final SQLException e) {
 				Alert.segnalazioneErroreGrave("Operazione SQL non eseguita:" + e.getMessage());
 			}
 
 		} else {
-			Statement st;
+
 			try {
-				st = cn.createStatement();
-				st.executeUpdate(sql);
+				ConnectionPool.getSingleton().executeUpdate(sql);
 			} catch (final SQLException e) {
 				Alert.segnalazioneErroreGrave("Operazione SQL non eseguita:" + e.getMessage());
 			}
 		}
-		try {
-			cn.close();
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
 		return nomi;
 	}
 
@@ -583,26 +577,26 @@ public class Database {
 			+ SingleSpesa.ID + " desc";
 		}
 
-		final Connection cn = DBUtil.getConnection();
+		
 		try {
-			final Statement st = cn.createStatement();
-			final ResultSet rs = st.executeQuery(sql);
-			final ResultSetMetaData rsm = rs.getMetaData();
-			colonne = new Vector<String>();
-			for (int i = 1; i <= rsm.getColumnCount(); i++) {
-				colonne.add(rsm.getColumnName(i));
-			}
-		} catch (final SQLException e) {
+			new ConnectionPoolGGS().new ExecuteResultSet<Vector<String>>() {
+
+				@Override
+				protected Vector<String> doWithResultSet(ResultSet rs)
+						throws SQLException {
+					final ResultSetMetaData rsm = rs.getMetaData();
+					Vector<String> colonne = new Vector<String>();
+					for (int i = 1; i <= rsm.getColumnCount(); i++) {
+						colonne.add(rsm.getColumnName(i));
+					}
+					
+					return colonne;
+				}
+			}.execute(sql);
+		} catch (SQLException e) {
 			e.printStackTrace();
-			Controllore.getLog().severe(
-					"Errore nel caricamento dal database dei nomi delle colonne di " + tabella + ": " + e.getMessage());
 		}
-		DBUtil.closeConnection();
-		try {
-			cn.close();
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		}
+		
 		return colonne;
 	}
 

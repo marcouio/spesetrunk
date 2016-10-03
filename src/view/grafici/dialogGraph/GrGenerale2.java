@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.WindowConstants;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
@@ -33,7 +34,7 @@ public class GrGenerale2 extends JDialog implements ActionListener {
 	public static void main(final String[] args) {
 		try {
 			final GrGenerale2 dialog = new GrGenerale2();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			dialog.setSize(700, 700);
 			dialog.setVisible(true);
 		} catch (final Exception e) {

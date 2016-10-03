@@ -6,26 +6,28 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Vector;
 
 import view.impostazioni.Impostazioni;
 import business.AltreUtil;
+import business.ConnectionPoolGGS;
 import business.Controllore;
-import business.DBUtil;
 import business.cache.CacheCategorie;
 import business.cache.CacheUscite;
 import business.cache.CacheUtenti;
 import command.javabeancommand.AbstractOggettoEntita;
+import controller.ControlloreBase;
 import db.Clausola;
+import db.ConnectionPool;
+import db.ConnectionPool.ExecuteResultSet;
 import db.dao.IDAO;
 import domain.CatSpese;
 import domain.Entrate;
 import domain.ISingleSpesa;
+import domain.Risparmio;
 import domain.SingleSpesa;
 import domain.Utenti;
 
@@ -39,74 +41,79 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 
 	@Override
 	public Object selectById(final int id) {
-		final Connection cn = DBUtil.getConnection();
+		
 		final String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA + " WHERE " + SingleSpesa.ID + " = " + id;
 
-		SingleSpesa uscita = null;
 
 		try {
-			final Statement st = cn.createStatement();
-			final ResultSet rs = st.executeQuery(sql);
-			if (rs.next()) {
-				uscita = new SingleSpesa();
-				final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(5)));
-				final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
-				uscita.setidSpesa(rs.getInt(1));
-				uscita.setData(rs.getString(2));
-				uscita.setinEuro(rs.getDouble(3));
-				uscita.setdescrizione(rs.getString(4));
-				uscita.setCatSpese(categoria);
-				uscita.setnome(rs.getString(6));
-				uscita.setUtenti(utente);
-				uscita.setDataIns(rs.getString(8));
-			}
+			
+			return new ConnectionPoolGGS().new ExecuteResultSet<Object>() {
 
+				@Override
+				protected Object doWithResultSet(ResultSet rs) throws SQLException {
+					SingleSpesa uscita = new SingleSpesa();
+					
+					if (rs.next()) {
+						final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(5)));
+						final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
+						uscita.setidSpesa(rs.getInt(1));
+						uscita.setData(rs.getString(2));
+						uscita.setinEuro(rs.getDouble(3));
+						uscita.setdescrizione(rs.getString(4));
+						uscita.setCatSpese(categoria);
+						uscita.setnome(rs.getString(6));
+						uscita.setUtenti(utente);
+						uscita.setDataIns(rs.getString(8));
+					}
+					
+					return uscita;
+				}
+				
+			}.execute(sql);
+			
 		} catch (final SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				cn.close();
-			} catch (final SQLException e) {
-				e.printStackTrace();
-			}
-			DBUtil.closeConnection();
 		}
-		return uscita;
+		return null; 
 	}
 
 	public Vector<Object> selectAllForUtente() {
 		final Vector<Object> uscite = new Vector<Object>();
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		final Map<String, AbstractOggettoEntita> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
-		final Connection cn = DBUtil.getConnection();
+		
 		final String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA + " WHERE " + SingleSpesa.IDUTENTE + " = " + utente.getidUtente();
 		try {
-			final Statement st = cn.createStatement();
-			final ResultSet rs = st.executeQuery(sql);
-			while (rs.next()) {
-				final CatSpese categoria = (CatSpese) mappaCategorie.get(Integer.toString(rs.getInt(5)));
+			
+			return new ConnectionPoolGGS().new ExecuteResultSet<Vector<Object>>() {
 
-				final SingleSpesa uscita = new SingleSpesa();
-				uscita.setidSpesa(rs.getInt(1));
-				uscita.setData(rs.getString(2));
-				uscita.setinEuro(rs.getDouble(3));
-				uscita.setdescrizione(rs.getString(4));
-				uscita.setCatSpese(categoria);
-				uscita.setnome(rs.getString(6));
-				uscita.setUtenti(utente);
-				uscita.setDataIns(rs.getString(8));
-				uscite.add(uscita);
-			}
-
+				@Override
+				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
+					final Vector<Object> uscite = new Vector<Object>();
+					
+					while (rs.next()) {
+						final CatSpese categoria = (CatSpese) mappaCategorie.get(Integer.toString(rs.getInt(5)));
+						
+						final SingleSpesa uscita = new SingleSpesa();
+						uscita.setidSpesa(rs.getInt(1));
+						uscita.setData(rs.getString(2));
+						uscita.setinEuro(rs.getDouble(3));
+						uscita.setdescrizione(rs.getString(4));
+						uscita.setCatSpese(categoria);
+						uscita.setnome(rs.getString(6));
+						uscita.setUtenti(utente);
+						uscita.setDataIns(rs.getString(8));
+						uscite.add(uscita);
+					}
+					
+					return uscite;
+				}
+				
+			}.execute(sql);
+			
 		} catch (final Exception e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				cn.close();
-			} catch (final SQLException e) {
-				e.printStackTrace();
-			}
-		}
+		} 
 		return uscite;
 
 	}
@@ -121,36 +128,39 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 		final Vector<Object> uscite = new Vector<Object>();
 		final Map<String, AbstractOggettoEntita> mappaUtenti = CacheUtenti.getSingleton().getAllUtenti();
 		final Map<String, AbstractOggettoEntita> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
-		final Connection cn = DBUtil.getConnection();
+		
 		final String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA;
 		try {
-			final Statement st = cn.createStatement();
-			final ResultSet rs = st.executeQuery(sql);
-			while (rs.next()) {
-				final Utenti utente = (Utenti) mappaUtenti.get(Integer.toString(rs.getInt(7)));
-				final CatSpese categoria = (CatSpese) mappaCategorie.get(Integer.toString(rs.getInt(5)));
+			
+			return new ConnectionPoolGGS().new ExecuteResultSet<Vector<Object>>() {
 
-				final SingleSpesa uscita = new SingleSpesa();
-				uscita.setidSpesa(rs.getInt(1));
-				uscita.setData(rs.getString(2));
-				uscita.setinEuro(rs.getDouble(3));
-				uscita.setdescrizione(rs.getString(4));
-				uscita.setCatSpese(categoria);
-				uscita.setnome(rs.getString(6));
-				uscita.setUtenti(utente);
-				uscita.setDataIns(rs.getString(8));
-				uscite.add(uscita);
-			}
-
+				@Override
+				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
+					final Vector<Object> uscite = new Vector<Object>();
+					
+					while (rs.next()) {
+						final Utenti utente = (Utenti) mappaUtenti.get(Integer.toString(rs.getInt(7)));
+						final CatSpese categoria = (CatSpese) mappaCategorie.get(Integer.toString(rs.getInt(5)));
+						
+						final SingleSpesa uscita = new SingleSpesa();
+						uscita.setidSpesa(rs.getInt(1));
+						uscita.setData(rs.getString(2));
+						uscita.setinEuro(rs.getDouble(3));
+						uscita.setdescrizione(rs.getString(4));
+						uscita.setCatSpese(categoria);
+						uscita.setnome(rs.getString(6));
+						uscita.setUtenti(utente);
+						uscita.setDataIns(rs.getString(8));
+						uscite.add(uscita);
+					}
+					return uscite;
+				}
+				
+			}.execute(sql);
+			
 		} catch (final Exception e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				cn.close();
-			} catch (final SQLException e) {
-				e.printStackTrace();
-			}
-		}
+		} 
 		return uscite;
 
 	}
@@ -158,7 +168,7 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 	@Override
 	public boolean insert(final Object oggettoEntita) {
 		boolean ok = false;
-		final Connection cn = DBUtil.getConnection();
+		Connection cn = ConnectionPool.getSingleton().getConnection();
 		String sql = "";
 		try {
 			final SingleSpesa uscita = (SingleSpesa) oggettoEntita;
@@ -187,12 +197,7 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 			ok = false;
 			e.printStackTrace();
 		} finally {
-			try {
-				cn.close();
-			} catch (final SQLException e) {
-				e.printStackTrace();
-			}
-			DBUtil.closeConnection();
+			ConnectionPool.getSingleton().chiudiOggettiDb(cn);
 		}
 		return ok;
 	}
@@ -201,30 +206,23 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 	public boolean delete(final int id) {
 		boolean ok = false;
 		final String sql = "DELETE FROM " + SingleSpesa.NOME_TABELLA + " WHERE " + SingleSpesa.ID + " = " + id;
-		final Connection cn = DBUtil.getConnection();
+		
 
 		try {
-			final Statement st = cn.createStatement();
-			st.executeUpdate(sql);
+			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 			CacheUscite.getSingleton().getCache().remove(id);
 		} catch (final SQLException e) {
 			e.printStackTrace();
 			ok = false;
 		}
-		try {
-			cn.close();
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
 		return ok;
 	}
 
 	@Override
 	public boolean update(final Object oggettoEntita) {
 		boolean ok = false;
-		final Connection cn = DBUtil.getConnection();
+		
 
 		final SingleSpesa uscita = (SingleSpesa) oggettoEntita;
 		final String sql = "UPDATE " + SingleSpesa.NOME_TABELLA + " SET " + SingleSpesa.DATA + " = '" + uscita.getData() + "', " + SingleSpesa.INEURO + " = " + uscita.getinEuro()
@@ -232,20 +230,14 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 		+ SingleSpesa.NOME + " = '" + uscita.getnome() + "', " + SingleSpesa.IDUTENTE + " = " + uscita.getUtenti().getidUtente() + ", " + SingleSpesa.DATAINS + " = '"
 		+ uscita.getDataIns() + "' WHERE " + SingleSpesa.ID + " = " + uscita.getidSpesa();
 		try {
-			final Statement st = cn.createStatement();
-			st.executeUpdate(sql);
+			
+			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
 		} catch (final SQLException e) {
 			e.printStackTrace();
 			ok = false;
 		}
-		try {
-			cn.close();
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
 		return ok;
 	}
 
@@ -253,23 +245,17 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 	public boolean deleteAll() {
 		boolean ok = false;
 		final String sql = "DELETE FROM " + SingleSpesa.NOME_TABELLA;
-		final Connection cn = DBUtil.getConnection();
+		
 
 		try {
-			final Statement st = cn.createStatement();
-			st.executeUpdate(sql);
+			
+			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 			// CacheUscite.getSingleton().getCache().reset();
 		} catch (final SQLException e) {
 			e.printStackTrace();
 			ok = false;
 		}
-		try {
-			cn.close();
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
 		return ok;
 	}
 
@@ -281,7 +267,6 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 	 * @return Vector<SingleSpesa>
 	 */
 	public Vector<SingleSpesa> movimentiUsciteFiltrate(final String dataDa, final String dataA, final String nome, final Double euro, final String catSpese) {
-		Vector<SingleSpesa> sSpesa = null;
 
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		int idUtente = 0;
@@ -305,36 +290,42 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 		if (catSpese != null && Integer.parseInt(catSpese) != 0) {
 			sql.append(" AND " + SingleSpesa.IDCATEGORIE + " = " + Integer.parseInt(catSpese));
 		}
-		final Connection cn = DBUtil.getConnection();
+		
 
 		try {
-			final Statement st = cn.createStatement();
-			final ResultSet rs = st.executeQuery(sql.toString());
-			sSpesa = new Vector<SingleSpesa>();
-			while (rs.next()) {
-				final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(rs.getString(5));
-				final SingleSpesa ss = new SingleSpesa();
-				ss.setidSpesa(rs.getInt(1));
-				ss.setData(rs.getString(2));
-				ss.setinEuro(rs.getDouble(3));
-				ss.setdescrizione(rs.getString(4));
-				ss.setnome(rs.getString(6));
-				ss.setCatSpese(categoria);
-				ss.setDataIns(rs.getString(8));
-				ss.setUtenti(utente);
-				sSpesa.add(ss);
-			}
+			
+			return new ConnectionPoolGGS().new ExecuteResultSet<Vector<SingleSpesa>>() {
+
+				@Override
+				protected Vector<SingleSpesa> doWithResultSet(ResultSet rs) throws SQLException {
+					final Vector<SingleSpesa> uscite = new Vector<SingleSpesa>();
+					
+					Vector<SingleSpesa> sSpesa = new Vector<SingleSpesa>();
+					while (rs.next()) {
+						final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(rs.getString(5));
+						final SingleSpesa ss = new SingleSpesa();
+						ss.setidSpesa(rs.getInt(1));
+						ss.setData(rs.getString(2));
+						ss.setinEuro(rs.getDouble(3));
+						ss.setdescrizione(rs.getString(4));
+						ss.setnome(rs.getString(6));
+						ss.setCatSpese(categoria);
+						ss.setDataIns(rs.getString(8));
+						ss.setUtenti(utente);
+						sSpesa.add(ss);
+					}
+					
+					return uscite;
+				}
+				
+			}.execute(sql.toString());
+			
 		} catch (final SQLException e) {
-			Controllore.getLog().severe("Operazione non eseguita: " + e.getMessage());
+			ControlloreBase.getLog().severe("Operazione non eseguita: " + e.getMessage());
 			e.printStackTrace();
 		}
-		try {
-			cn.close();
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
-		return sSpesa;
+		
+		return null;
 
 	}
 
@@ -356,36 +347,40 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 
 		final String sql = "select * from " + SingleSpesa.NOME_TABELLA + " where " + SingleSpesa.DATA + " BETWEEN '" + Impostazioni.getAnno() + "/01/01'" + " AND '"
 		+ Impostazioni.getAnno() + "/12/31'" + " AND " + SingleSpesa.IDUTENTE + " = " + idUtente + " ORDER BY " + SingleSpesa.ID + " desc limit 0," + dieci;
-		final Connection cn = DBUtil.getConnection();
+		
 
 		try {
-			final Statement st = cn.createStatement();
-			final ResultSet rs = st.executeQuery(sql);
-			sSpesa = new Vector<SingleSpesa>();
-			while (rs.next()) {
-				final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(rs.getString(5));
-				final SingleSpesa ss = new SingleSpesa();
-				ss.setidSpesa(rs.getInt(1));
-				ss.setData(rs.getString(2));
-				ss.setinEuro(rs.getDouble(3));
-				ss.setdescrizione(rs.getString(4));
-				ss.setnome(rs.getString(6));
-				ss.setCatSpese(categoria);
-				ss.setDataIns(rs.getString(8));
-				ss.setUtenti(utente);
-				sSpesa.add(ss);
-			}
+			
+			return new ConnectionPoolGGS().new ExecuteResultSet<Vector<SingleSpesa>>() {
+
+				@Override
+				protected Vector<SingleSpesa> doWithResultSet(ResultSet rs) throws SQLException {
+					final Vector<SingleSpesa> uscite = new Vector<SingleSpesa>();
+					
+					Vector<SingleSpesa> sSpesa = new Vector<SingleSpesa>();
+					while (rs.next()) {
+						final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(rs.getString(5));
+						final SingleSpesa ss = new SingleSpesa();
+						ss.setidSpesa(rs.getInt(1));
+						ss.setData(rs.getString(2));
+						ss.setinEuro(rs.getDouble(3));
+						ss.setdescrizione(rs.getString(4));
+						ss.setnome(rs.getString(6));
+						ss.setCatSpese(categoria);
+						ss.setDataIns(rs.getString(8));
+						ss.setUtenti(utente);
+						sSpesa.add(ss);
+					}
+					return uscite;
+				}
+				
+			}.execute(sql.toString());
+			
 		} catch (final SQLException e) {
 			// TODO implementare log
 			// log.severe("Impossibile caricare il record da single_spesa: "+e.getMessage());
 			e.printStackTrace();
 		}
-		try {
-			cn.close();
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
 		return sSpesa;
 
 	}
@@ -395,37 +390,46 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 	 */
 	public boolean deleteLastSpesa() {
 		boolean ok = false;
-		final Connection cn = DBUtil.getConnection();
+		
 		final String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA + " WHERE " + Entrate.IDUTENTE + " = " + ((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente()
 		+ " ORDER BY " + SingleSpesa.DATAINS + " DESC";
 
 		try {
-			final Statement st = cn.createStatement();
-			final ResultSet rs = st.executeQuery(sql);
-			if (rs.next()) {
-				SingleSpesa ss = new SingleSpesa();
-				ss = new SingleSpesa();
-				ss.setidSpesa(rs.getInt(1));
 
-				final String sql2 = "DELETE FROM " + SingleSpesa.NOME_TABELLA + " WHERE " + SingleSpesa.ID + "=?";
-				final PreparedStatement ps = cn.prepareStatement(sql2);
-				ps.setInt(1, ss.getidSpesa());
-				ps.executeUpdate();
-				ok = true;
-			} else {
-				Alert.segnalazioneErroreWarning("Non ci sono uscite per l'utente loggato");
-			}
+			ok = new ConnectionPoolGGS().new ExecuteResultSet<Boolean>() {
+
+				@Override
+				protected Boolean doWithResultSet(ResultSet rs) throws SQLException {
+					
+					Vector<SingleSpesa> sSpesa = new Vector<SingleSpesa>();
+
+					if (rs.next()) {
+						SingleSpesa ss = new SingleSpesa();
+						ss = new SingleSpesa();
+						ss.setidSpesa(rs.getInt(1));
+						
+						final String sql2 = "DELETE FROM " + SingleSpesa.NOME_TABELLA + " WHERE " + SingleSpesa.ID + "=?";
+						
+						Connection cn = ConnectionPool.getSingleton().getConnection();
+						final PreparedStatement ps = cn.prepareStatement(sql2);
+						ps.setInt(1, ss.getidSpesa());
+						ps.executeUpdate();
+						
+						ConnectionPool.getSingleton().chiudiOggettiDb(cn);
+						return true;
+					} else {
+						Alert.segnalazioneErroreWarning("Non ci sono uscite per l'utente loggato");
+						return false;
+					}
+				}
+				
+			}.execute(sql.toString());
+			
 
 		} catch (final Exception e) {
 			e.printStackTrace();
-			Controllore.getLog().severe("Operazione non eseguita: " + e.getMessage());
+			ControlloreBase.getLog().severe("Operazione non eseguita: " + e.getMessage());
 		}
-		try {
-			cn.close();
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
 		return ok;
 	}
 

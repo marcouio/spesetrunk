@@ -3,7 +3,6 @@ package business.aggiornatori;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
@@ -30,6 +29,7 @@ import business.Database;
 import business.cache.CacheCategorie;
 import business.generatori.TableModelEntrate;
 import business.generatori.TableModelUscite;
+import db.ConnectionPool;
 import domain.CatSpese;
 import domain.Entrate;
 import domain.Gruppi;
@@ -265,13 +265,13 @@ public class AggiornatoreManager {
 	public static void aggiornaGruppi(final Gruppi gruppo, final CategorieView categoria) {
 		int max = 0;
 		final String sql = "SELECT MAX(" + Gruppi.ID + ") FROM " + Gruppi.NOME_TABELLA;
-		final Connection cn = DBUtil.getConnection();
+		
 
 		try {
-			final Statement st = cn.createStatement();
-			final ResultSet rs = st.executeQuery(sql);
+			Connection cn = ConnectionPool.getSingleton().getConnection();
+			final ResultSet rs = ConnectionPool.getSingleton().getResulSet(cn, sql);
 			max = rs.getInt(1);
-			DBUtil.closeConnection();
+			ConnectionPool.getSingleton().chiudiOggettiDb(cn);
 		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
@@ -294,15 +294,8 @@ public class AggiornatoreManager {
 				// perché il parametro mantiene i vecchi settaggi e non si
 				// aggiorna
 				gruppi.insertItemAt(categoriaPresa, i);
-				DBUtil.closeConnection();
 			}
 		}
-		try {
-			cn.close();
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
 
 	}
 
@@ -320,13 +313,14 @@ public class AggiornatoreManager {
 	public static void aggiornaCategorie(final CatSpese categoria, final JComboBox comboCategorie) {
 		int max = 0;
 		final String sql = "SELECT MAX(" + CatSpese.ID + ") FROM " + CatSpese.NOME_TABELLA;
-		final Connection cn = DBUtil.getConnection();
 
 		try {
-			final Statement st = cn.createStatement();
-			final ResultSet rs = st.executeQuery(sql);
+			
+			Connection cn = ConnectionPool.getSingleton().getConnection();
+			final ResultSet rs = ConnectionPool.getSingleton().getResulSet(cn, sql);
+			
 			max = rs.getInt(1);
-			DBUtil.closeConnection();
+			ConnectionPool.getSingleton().chiudiOggettiDb(cn);
 		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
@@ -349,15 +343,8 @@ public class AggiornatoreManager {
 				// perché il parametro mantiene i vecchi settaggi e non si
 				// aggiorna
 				categorie1.insertItemAt(categoriaPresa, i);
-				DBUtil.closeConnection();
 			}
 		}
-		try {
-			cn.close();
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
 	}
 
 	// aggiorno tabella uscite/mese in seguito a variazioni di altre tabelle

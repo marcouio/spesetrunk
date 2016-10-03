@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 public class PannelloBottoni extends JPanel implements ActionListener {
 
@@ -34,7 +35,7 @@ public class PannelloBottoni extends JPanel implements ActionListener {
 				inst.setTitle("PannelloBottoni");
 				inst.setLocationRelativeTo(null);
 				inst.setVisible(true);
-				inst.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				inst.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			}
 		});
 	}

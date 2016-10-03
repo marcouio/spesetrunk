@@ -2,14 +2,10 @@ package business.comandi.entrate;
 
 import grafica.componenti.alert.Alert;
 
-import java.util.HashMap;
-
 import business.cache.CacheEntrate;
 
 import command.ICommand;
 import command.javabeancommand.AbstractCommandForJavaBean;
-import command.javabeancommand.AbstractOggettoEntita;
-
 import domain.Entrate;
 import domain.IEntrate;
 import domain.wrapper.WrapEntrate;
@@ -25,7 +21,7 @@ public class CommandUpdateEntrata extends AbstractCommandForJavaBean implements 
 		this.oldEntita = oldEntita;
 		this.wrap = new WrapEntrate();
 		final CacheEntrate cache = CacheEntrate.getSingleton();
-		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
+		mappaCache = cache.getCache();
 	}
 
 	@Override

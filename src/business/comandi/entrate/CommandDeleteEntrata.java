@@ -2,14 +2,10 @@ package business.comandi.entrate;
 
 import grafica.componenti.alert.Alert;
 
-import java.util.HashMap;
-
 import business.cache.CacheEntrate;
 
 import command.ICommand;
 import command.javabeancommand.AbstractCommandForJavaBean;
-import command.javabeancommand.AbstractOggettoEntita;
-
 import db.dao.IDAO;
 import domain.Entrate;
 import domain.IEntrate;
@@ -19,7 +15,7 @@ public class CommandDeleteEntrata extends AbstractCommandForJavaBean implements 
 
 	public CommandDeleteEntrata(final IEntrate entita) throws Exception {
 		final CacheEntrate cache = CacheEntrate.getSingleton();
-		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
+		mappaCache = cache.getCache();
 		this.wrap = new WrapEntrate();
 		this.entita = ((IDAO) entita).getEntitaPadre();
 	}

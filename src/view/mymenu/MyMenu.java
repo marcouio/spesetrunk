@@ -5,12 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 import view.FinestraListaComandi;
 import view.componenti.componentiPannello.PannelloAScomparsa2;
@@ -235,7 +235,7 @@ public class MyMenu extends JMenuBar {
 			public void actionPerformedOverride(final ActionEvent e) {
 				try {	
 					final GrUscite1 dialog = new GrUscite1();
-					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (final Exception e1) {
 					e1.printStackTrace();
@@ -250,7 +250,7 @@ public class MyMenu extends JMenuBar {
 			public void actionPerformedOverride(final ActionEvent e) {
 				try {
 					final GrUscite2 dialog = new GrUscite2();
-					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (final Exception ex) {
 					ex.printStackTrace();
@@ -279,7 +279,7 @@ public class MyMenu extends JMenuBar {
 			public void actionPerformedOverride(final ActionEvent e) {
 				try {
 					final GrGenerale2 dialog = new GrGenerale2();
-					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 					dialog.setSize(700, 700);
 					dialog.setVisible(true);
 				} catch (final Exception e1) {
@@ -310,7 +310,7 @@ public class MyMenu extends JMenuBar {
 			public void actionPerformedOverride(final ActionEvent e) {
 				try {
 					final UsciteView dialog = new UsciteView(new WrapSingleSpesa());
-					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 					dialog.setBounds(0, 0, 347, 407);
 					dialog.setVisible(true);
 				} catch (final Exception e1) {
@@ -325,7 +325,7 @@ public class MyMenu extends JMenuBar {
 			public void actionPerformedOverride(final ActionEvent e) {
 				try {
 					final GrEntrate2 dialog = new GrEntrate2();
-					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (final Exception e1) {
 					e1.printStackTrace();
@@ -342,7 +342,7 @@ public class MyMenu extends JMenuBar {
 					final GrEntrate1 dialog = new GrEntrate1(f, null, true);
 					dialog.setSize(700, 700);
 					dialog.setVisible(true);
-					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 					dialog.setModalityType(ModalityType.APPLICATION_MODAL);
 				} catch (final Exception e1) {
 					e1.printStackTrace();

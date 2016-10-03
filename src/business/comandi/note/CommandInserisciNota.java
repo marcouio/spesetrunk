@@ -20,7 +20,7 @@ public class CommandInserisciNota extends AbstractCommandForJavaBean {
 
 	public CommandInserisciNota(final INote entita) throws Exception {
 		final CacheNote cache = CacheNote.getSingleton();
-		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
+		mappaCache = cache.getCache();
 		this.wrap = new WrapNote();
 		this.entita = ((IDAO) entita).getEntitaPadre();
 

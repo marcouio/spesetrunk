@@ -125,6 +125,7 @@ public class Note implements AbstractOggettoEntita, Serializable, INote {
 		return utenti;
 	}
 
+	@Override
 	public String toString() {
 		return nome;
 	}

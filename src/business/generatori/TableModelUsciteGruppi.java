@@ -10,7 +10,6 @@ import business.cache.CacheCategorie;
 import business.cache.CacheGruppi;
 import business.internazionalizzazione.I18NManager;
 import grafica.componenti.table.TableModel;
-import grafica.componenti.table.TableModel.Riga;
 
 public class TableModelUsciteGruppi extends TableModel{
 

@@ -1,7 +1,5 @@
 package business.comandi;
 
-import java.util.HashMap;
-
 import business.cache.AbstractCacheBase;
 import command.javabeancommand.AbstractCommandForJavaBean;
 import command.javabeancommand.AbstractOggettoEntita;
@@ -10,7 +8,7 @@ import db.dao.IDAO;
 public class CommandInserisci extends AbstractCommandForJavaBean {
 
 	public CommandInserisci(final AbstractOggettoEntita entita, final IDAO wrap, final AbstractCacheBase cache) {
-		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
+		mappaCache = cache.getCache();
 		this.wrap = wrap;
 		this.entita = entita;
 	}

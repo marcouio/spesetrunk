@@ -4,15 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Observable;
 import java.util.Vector;
 
-import business.DBUtil;
+import business.ConnectionPoolGGS;
+
 import command.javabeancommand.AbstractOggettoEntita;
+
 import db.Clausola;
+import db.ConnectionPool;
 import db.dao.IDAO;
 import domain.IRisparmio;
 import domain.Risparmio;
@@ -27,54 +28,63 @@ public class WrapRisparmio extends Observable implements IDAO,IRisparmio{
 	
 	@Override
 	public Object selectById(int id) {
-		Connection cn = DBUtil.getConnection();
+		
 		String sql = "SELECT * FROM " + Risparmio.NOME_TABELLA + " WHERE " + Risparmio.ID + "=" +id;
-		Risparmio risparmio = null;
+		Risparmio risparmio = new Risparmio();
 		try{
 			
-			Statement st = cn.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-			if(rs.next()){
-				risparmio = new Risparmio();
-				risparmio.setidRisparmio(rs.getInt(1));
-				risparmio.setPerSulTotale(rs.getDouble(2));
-			}
+			new ConnectionPoolGGS().new ExecuteResultSet<Object>() {
+
+				@Override
+				protected Object doWithResultSet(ResultSet rs) throws SQLException {
+					
+					if(rs.next()){
+						risparmio.setidRisparmio(rs.getInt(1));
+						risparmio.setPerSulTotale(rs.getDouble(2));
+					}
+					
+					return risparmio;
+				}
+				
+			}.execute(sql);
+			
 		
 		}catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			try {
-				cn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}
+		
+		ConnectionPool.getSingleton().chiudiOggettiDb(null);
+		
 		return risparmio;
 	}
 
 	@Override
 	public Vector<Object> selectAll() {
 		Vector<Object> risparmi = new Vector<Object>();
-		Connection cn = DBUtil.getConnection();
+		
 		String sql = "SELECT * FROM " + Risparmio.NOME_TABELLA ;
 		try{
-			Statement st = cn.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-			while(rs.next()){
-				Risparmio risparmio = new Risparmio();
-				risparmio.setidRisparmio(rs.getInt(1));
-				risparmio.setPerSulTotale(rs.getDouble(2));
-				risparmi.add(risparmio);
-			}
-		
+			
+			return new ConnectionPoolGGS().new ExecuteResultSet<Vector<Object>>() {
+
+				@Override
+				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
+					final Vector<Object> risparmi = new Vector<Object>();
+					
+					while(rs.next()){
+						Risparmio risparmio = new Risparmio();
+						risparmio.setidRisparmio(rs.getInt(1));
+						risparmio.setPerSulTotale(rs.getDouble(2));
+						risparmi.add(risparmio);
+					}
+					
+					return risparmi;
+				}
+				
+			}.execute(sql);
+			
 		}catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			try {
-				cn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		return risparmi;
 	
@@ -83,7 +93,7 @@ public class WrapRisparmio extends Observable implements IDAO,IRisparmio{
 	@Override
 	public boolean insert(Object oggettoEntita) {
 		boolean ok = false;
-		Connection cn = DBUtil.getConnection();
+		Connection cn = ConnectionPool.getSingleton().getConnection();
 		String sql = "";
 		try {
 			Risparmio risparmio = (Risparmio)oggettoEntita;
@@ -97,14 +107,10 @@ public class WrapRisparmio extends Observable implements IDAO,IRisparmio{
 		} catch (Exception e) {
 			ok = false;
 			e.printStackTrace();
-		} finally {
-			try {
-				cn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			DBUtil.closeConnection();
-		}
+		} 
+		
+		ConnectionPool.getSingleton().chiudiOggettiDb(cn);
+		
 		return ok;
 	}
 
@@ -112,49 +118,40 @@ public class WrapRisparmio extends Observable implements IDAO,IRisparmio{
 	public boolean delete(int id) {
 		boolean ok = false;
 		String sql = "DELETE FROM "+Risparmio.NOME_TABELLA+" WHERE "+Risparmio.ID+" = "+id;
-		Connection cn = DBUtil.getConnection();
+		
 		
 		try {
-			Statement st = cn.createStatement();
-			st.executeUpdate(sql);
+			
+			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok=true;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			ok=false;
 		}
-		try {
-			cn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();		
+
+		ConnectionPool.getSingleton().chiudiOggettiDb(null);
 		return ok;
 	}
 
 	@Override
 	public boolean update(Object oggettoEntita) {
 		boolean ok = false;
-		Connection cn = DBUtil.getConnection();
+		
 		
 		Risparmio risparmio = (Risparmio) oggettoEntita;
 		String sql = "UPDATE "+Risparmio.NOME_TABELLA+ " SET " +Risparmio.PERCSULTOT+ " = " +risparmio.getPerSulTotale()
 		+" WHERE "+ Risparmio.ID +" = "+risparmio.getidRisparmio();
 		try {
-			Statement st = cn.createStatement();
-			st.executeUpdate(sql);
+			
+			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok=true;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			ok=false;
 		}
-		try {
-			cn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
+		ConnectionPool.getSingleton().chiudiOggettiDb(null);
 		return ok;
 	}
 
@@ -162,23 +159,18 @@ public class WrapRisparmio extends Observable implements IDAO,IRisparmio{
 	public boolean deleteAll() {
 		boolean ok = false;
 		String sql = "DELETE FROM "+Risparmio.NOME_TABELLA;
-		Connection cn = DBUtil.getConnection();
+		
 		
 		try {
-			Statement st = cn.createStatement();
-			st.executeUpdate(sql);
+			
+			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok=true;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			ok=false;
 		}
-		try {
-			cn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();		
+		ConnectionPool.getSingleton().chiudiOggettiDb(null);	
 		return ok;
 	}
 

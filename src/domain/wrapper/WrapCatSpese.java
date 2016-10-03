@@ -6,20 +6,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Observable;
 import java.util.Set;
 import java.util.Vector;
 
-import command.javabeancommand.AbstractOggettoEntita;
+import business.ConnectionPoolGGS;
 import business.DBUtil;
 import business.cache.CacheGruppi;
+import command.javabeancommand.AbstractOggettoEntita;
 import db.Clausola;
+import db.ConnectionPool;
+import db.ConnectionPool.ExecuteResultSet;
 import db.dao.IDAO;
 import domain.Budget;
 import domain.CatSpese;
 import domain.Gruppi;
 import domain.ICatSpese;
+import domain.Lookandfeel;
 import domain.SingleSpesa;
 
 public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
@@ -32,77 +35,79 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 
 	@Override
 	public Object selectById(int id) {
-		Connection cn = DBUtil.getConnection();
+		
 		String sql = "SELECT * FROM " + CatSpese.NOME_TABELLA + " WHERE " + CatSpese.ID + " = " + id;
 
-		CatSpese categorie = null;
+		final CatSpese categorie = new CatSpese();
 
 		try {
+			
+			new ConnectionPoolGGS().new ExecuteResultSet<Object>() {
 
-			Statement st = cn.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-			if (rs.next()) {
-				categorie = new CatSpese();
-				Gruppi gruppo = CacheGruppi.getSingleton().getGruppo(Integer.toString(rs.getInt(5)));
-				// Gruppi gruppo =
-				// Controllore.getSingleton().getCacheGruppi().getGruppo(Integer.toString(rs.getInt(5)));
-				categorie.setidCategoria(rs.getInt(1));
-				categorie.setdescrizione(rs.getString(2));
-				categorie.setimportanza(rs.getString(3));
-				categorie.setnome(rs.getString(4));
-				categorie.setGruppi(gruppo);
-			}
+				@Override
+				protected Object doWithResultSet(ResultSet rs) throws SQLException {
+					
+					if (rs.next()) {
+						Gruppi gruppo = CacheGruppi.getSingleton().getGruppo(Integer.toString(rs.getInt(5)));
+						// Gruppi gruppo =
+						// Controllore.getSingleton().getCacheGruppi().getGruppo(Integer.toString(rs.getInt(5)));
+						categorie.setidCategoria(rs.getInt(1));
+						categorie.setdescrizione(rs.getString(2));
+						categorie.setimportanza(rs.getString(3));
+						categorie.setnome(rs.getString(4));
+						categorie.setGruppi(gruppo);
+					}
+					return categorie;
+				}
+				
+			}.execute(sql);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				cn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			DBUtil.closeConnection();
-		}
+		} 
 		return categorie;
 	}
 
 	@Override
 	public Vector<Object> selectAll() {
-		Vector<Object> categorie = new Vector<Object>();
-		Connection cn = DBUtil.getConnection();
+		
 		String sql = "SELECT * FROM " + CatSpese.NOME_TABELLA;
 		try {
-			Statement st = cn.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-			while (rs.next()) {
+			
+			return new ConnectionPoolGGS().new ExecuteResultSet<Vector<Object>>() {
 
-				Gruppi gruppo = CacheGruppi.getSingleton().getGruppo(Integer.toString(rs.getInt(5)));
-				CatSpese categoria = new CatSpese();
-				categoria.setidCategoria(rs.getInt(1));
-				categoria.setdescrizione(rs.getString(2));
-				categoria.setimportanza(rs.getString(3));
-				categoria.setnome(rs.getString(4));
-				categoria.setGruppi(gruppo);
-				categorie.add(categoria);
-			}
+				@Override
+				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
 
+					Vector<Object> categorie = new Vector<Object>();
+					
+					while (rs.next()) {
+						
+						Gruppi gruppo = CacheGruppi.getSingleton().getGruppo(Integer.toString(rs.getInt(5)));
+						CatSpese categoria = new CatSpese();
+						categoria.setidCategoria(rs.getInt(1));
+						categoria.setdescrizione(rs.getString(2));
+						categoria.setimportanza(rs.getString(3));
+						categoria.setnome(rs.getString(4));
+						categoria.setGruppi(gruppo);
+						categorie.add(categoria);
+					}
+					return categorie;
+				}
+				
+			}.execute(sql);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				cn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return categorie;
+		} 
+		return null;
 
 	}
 
 	@Override
 	public boolean insert(Object oggettoEntita) {
 		boolean ok = false;
-		Connection cn = DBUtil.getConnection();
+		Connection cn = ConnectionPool.getSingleton().getConnection();
 		String sql = "";
 		try {
 			CatSpese categoria = (CatSpese) oggettoEntita;
@@ -121,12 +126,7 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 			ok = false;
 			e.printStackTrace();
 		} finally {
-			try {
-				cn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			DBUtil.closeConnection();
+			ConnectionPool.getSingleton().chiudiOggettiDb(cn);
 		}
 		return ok;
 	}
@@ -135,50 +135,40 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 	public boolean delete(int id) {
 		boolean ok = false;
 		String sql = "DELETE FROM " + CatSpese.NOME_TABELLA + " WHERE " + CatSpese.ID + " = " + id;
-		Connection cn = DBUtil.getConnection();
+		
 
 		try {
-			Statement st = cn.createStatement();
-			st.executeUpdate(sql);
+			
+			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 			ok = false;
 		}
-		try {
-			cn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
+		ConnectionPool.getSingleton().chiudiOggettiDb(null);
 		return ok;
 	}
 
 	@Override
 	public boolean update(Object oggettoEntita) {
 		boolean ok = false;
-		Connection cn = DBUtil.getConnection();
+		
 
 		CatSpese categoria = (CatSpese) oggettoEntita;
 		String sql = "UPDATE " + CatSpese.NOME_TABELLA + " SET " + CatSpese.DESCRIZIONE + " = '" + categoria.getdescrizione() + "', " + CatSpese.IMPORTANZA + " = '"
 		                + categoria.getimportanza() + "', " + CatSpese.NOME + " = '" + categoria.getnome() + "', " + CatSpese.IDGRUPPO + " = " + categoria.getGruppi().getidGruppo()
 		                + " WHERE " + CatSpese.ID + " = " + categoria.getidCategoria();
 		try {
-			Statement st = cn.createStatement();
-			st.executeUpdate(sql);
+			
+			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 			ok = false;
 		}
-		try {
-			cn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
+		ConnectionPool.getSingleton().chiudiOggettiDb(null);
 		return ok;
 
 	}
@@ -187,23 +177,18 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 	public boolean deleteAll() {
 		boolean ok = false;
 		String sql = "DELETE FROM " + CatSpese.NOME_TABELLA;
-		Connection cn = DBUtil.getConnection();
+		
 
 		try {
-			Statement st = cn.createStatement();
-			st.executeUpdate(sql);
+			
+			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 			ok = false;
 		}
-		try {
-			cn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
+		ConnectionPool.getSingleton().chiudiOggettiDb(null);
 		return ok;
 	}
 

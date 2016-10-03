@@ -33,6 +33,10 @@ public class DBUtil {
 		}
 
 	}
+	
+	public static void main(String[] args) {
+		DBUtil.getConnection();
+	}
 
 	/**
 	 * Dato un campo, ne valuta la lunghezza. Se e' piu' corto della dimensione

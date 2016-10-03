@@ -50,10 +50,10 @@ public final class Mesi {
 	}
 	
 	public static ArrayList<String> getListaMesi(){
-		String[] listaValori = (String[]) mesiStringa.values().toArray(new String[mesiStringa.values().size()]);
+		String[] listaValori = mesiStringa.values().toArray(new String[mesiStringa.values().size()]);
 		ArrayList<String> listaMesi = new ArrayList<String>();
 		for (int i = 0; i<listaValori.length; i++) {
-			String mese = (String) listaValori[i];
+			String mese = listaValori[i];
 			listaMesi.add(mese);
 		}
 		return listaMesi;

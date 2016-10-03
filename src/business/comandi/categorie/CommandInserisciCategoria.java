@@ -22,7 +22,7 @@ public class CommandInserisciCategoria extends AbstractCommandForJavaBean implem
 
 	public CommandInserisciCategoria(final ICatSpese entita) throws Exception {
 		final CacheCategorie cache = CacheCategorie.getSingleton();
-		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
+		mappaCache = cache.getCache();
 		this.wrap = new WrapCatSpese();
 		this.entita = ((IDAO) entita).getEntitaPadre();
 	}

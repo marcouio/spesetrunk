@@ -3,8 +3,6 @@ package business.generatori;
 import grafica.componenti.table.TableModel;
 
 import java.util.HashMap;
-import java.util.Iterator;
-
 import business.Database;
 import business.internazionalizzazione.I18NManager;
 

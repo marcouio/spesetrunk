@@ -6,18 +6,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Observable;
 import java.util.Vector;
 
+import business.ConnectionPoolGGS;
 import business.DBUtil;
 import business.cache.CacheCategorie;
 import command.javabeancommand.AbstractOggettoEntita;
 import db.Clausola;
+import db.ConnectionPool;
+import db.ConnectionPool.ExecuteResultSet;
 import db.dao.IDAO;
 import domain.Budget;
 import domain.CatSpese;
 import domain.IBudget;
+import domain.Lookandfeel;
 
 public class WrapBudget extends Observable implements IDAO, IBudget{
 
@@ -30,70 +33,69 @@ public class WrapBudget extends Observable implements IDAO, IBudget{
 
 	@Override
 	public Object selectById(int id) {
-		Connection cn = DBUtil.getConnection();
 		String sql = "SELECT * FROM "+Budget.NOME_TABELLA+" WHERE "+Budget.ID+" = " +id;
 		
-		Budget budget = null;
+		final Budget budget = new Budget();
 		
 		try {
 			
-			Statement st = cn.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-			if(rs.next()){
-				budget = new Budget();
-				budget.setidBudget(rs.getInt(1));
-				CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(2)));
-				budget.setCatSpese(categoria);
-				budget.setpercSulTot(rs.getDouble(3));
-			}
+			return new ConnectionPoolGGS().new ExecuteResultSet<Object>() {
 
+				@Override
+				protected Object doWithResultSet(ResultSet rs) throws SQLException {
+					
+					if (rs.next()) {
+						budget.setidBudget(rs.getInt(1));
+						CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(2)));
+						budget.setCatSpese(categoria);
+						budget.setpercSulTot(rs.getDouble(3));
+					}
+					return budget;
+				}
+				
+			}.execute(sql);
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				cn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			DBUtil.closeConnection();
-		}
+		} 
 		return budget;
 
 	}
 
 	@Override
 	public Vector<Object> selectAll() {
-		Vector<Object> budgets = new Vector<Object>();
-		Connection cn = DBUtil.getConnection();
 		String sql = "SELECT * FROM " + Budget.NOME_TABELLA ;
 		try{
-			Statement st = cn.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-			while(rs.next()){
-				Budget budget = new Budget();
-				budget.setidBudget(rs.getInt(1));
-				CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(2)));
-				budget.setCatSpese(categoria);
-				budget.setpercSulTot(rs.getDouble(3));
-				budgets.add(budget);
-			}
-		
+			
+			return new ConnectionPoolGGS().new ExecuteResultSet<Vector<Object>>() {
+
+				@Override
+				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
+					Vector<Object> budgets = new Vector<Object>();
+					
+					while(rs.next()){
+						Budget budget = new Budget();
+						budget.setidBudget(rs.getInt(1));
+						CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(2)));
+						budget.setCatSpese(categoria);
+						budget.setpercSulTot(rs.getDouble(3));
+						budgets.add(budget);
+					}
+					return budgets;
+				}
+				
+			}.execute(sql);
+			
 		}catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			try {
-				cn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}
-		return budgets;
+		return null;
 	}
 
 	@Override
 	public boolean insert(Object oggettoEntita) {
 		boolean ok = false;
-		Connection cn = DBUtil.getConnection();
+		Connection cn = ConnectionPool.getSingleton().getConnection();
 		String sql = "";
 		try {
 			Budget budget = (Budget)oggettoEntita;
@@ -110,12 +112,7 @@ public class WrapBudget extends Observable implements IDAO, IBudget{
 			ok = false;
 			e.printStackTrace();
 		} finally {
-			try {
-				cn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			DBUtil.closeConnection();
+			ConnectionPool.getSingleton().chiudiOggettiDb(cn);
 		}
 		return ok;
 	}
@@ -124,49 +121,38 @@ public class WrapBudget extends Observable implements IDAO, IBudget{
 	public boolean delete(int id) {
 		boolean ok = false;
 		String sql = "DELETE FROM "+Budget.NOME_TABELLA+" WHERE "+Budget.ID+" = "+id;
-		Connection cn = DBUtil.getConnection();
 		
 		try {
-			Statement st = cn.createStatement();
-			st.executeUpdate(sql);
+			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok=true;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			ok=false;
 		}
-		try {
-			cn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
+		
+		ConnectionPool.getSingleton().chiudiOggettiDb(null);
+		
 		return ok;
 	}
 
 	@Override
 	public boolean update(Object oggettoEntita) {
 		boolean ok = false;
-		Connection cn = DBUtil.getConnection();
+		
 		
 		Budget budget = (Budget) oggettoEntita;
 		String sql = "UPDATE "+Budget.NOME_TABELLA+ " SET " +Budget.IDCATEGORIE+ " = " +budget.getidCategorie()+", "+Budget.PERCSULTOT+" = "+budget.getpercSulTot()+
 				" WHERE "+ Budget.ID +" = "+budget.getidBudget();
 		try {
-			Statement st = cn.createStatement();
-			st.executeUpdate(sql);
+			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok=true;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			ok=false;
 		}
-		try {
-			cn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
+		ConnectionPool.getSingleton().chiudiOggettiDb(null);
 		return ok;
 	}
 
@@ -174,23 +160,17 @@ public class WrapBudget extends Observable implements IDAO, IBudget{
 	public boolean deleteAll() {
 		boolean ok = false;
 		String sql = "DELETE FROM "+Budget.NOME_TABELLA;
-		Connection cn = DBUtil.getConnection();
+		
 		
 		try {
-			Statement st = cn.createStatement();
-			st.executeUpdate(sql);
+			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok=true;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			ok=false;
 		}
-		try {
-			cn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
+		ConnectionPool.getSingleton().chiudiOggettiDb(null);
 		return ok;
 	}
 

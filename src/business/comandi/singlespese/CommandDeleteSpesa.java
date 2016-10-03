@@ -2,13 +2,9 @@ package business.comandi.singlespese;
 
 import grafica.componenti.alert.Alert;
 
-import java.util.HashMap;
-
 import business.cache.CacheUscite;
 
 import command.javabeancommand.AbstractCommandForJavaBean;
-import command.javabeancommand.AbstractOggettoEntita;
-
 import db.dao.IDAO;
 import domain.ISingleSpesa;
 import domain.SingleSpesa;
@@ -18,7 +14,7 @@ public class CommandDeleteSpesa extends AbstractCommandForJavaBean {
 
 	public CommandDeleteSpesa(ISingleSpesa entita) throws Exception {
 		CacheUscite cache = CacheUscite.getSingleton();
-		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
+		mappaCache = cache.getCache();
 		this.wrap = new WrapSingleSpesa();
 		this.entita = ((IDAO) entita).getEntitaPadre();
 	}

@@ -1,15 +1,17 @@
 package view;
 
+import grafica.componenti.contenitori.FrameBase;
+
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
 import view.bottoni.Bottone;
@@ -30,7 +32,7 @@ import business.internazionalizzazione.I18NManager;
 import domain.wrapper.WrapEntrate;
 import domain.wrapper.WrapSingleSpesa;
 
-public class GeneralFrame extends JFrame {
+public class GeneralFrame extends FrameBase {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPane;
@@ -232,7 +234,7 @@ public class GeneralFrame extends JFrame {
 				try {
 					final PannelloBottoni pannelloEntrateUscite = bottoneEntrateUscite.getContenuto();
 					final UsciteView dialog = new UsciteView(new WrapSingleSpesa());
-					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 					dialog.setBounds(0, 0, 347, 407);
 					dialog.setVisible(true);
 					pannelloEntrateUscite.getGruppoBottoni().clearSelection();

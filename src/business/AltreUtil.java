@@ -107,10 +107,11 @@ public class AltreUtil {
 	public static String[] deleteFileDaDirectory2(final String Dir) {
 		final File dir = new File(Dir);
 		final String[] files = dir.list();
-
-		for (int i = 0; i < files.length; i++) {
-			final File f = new File(dir, files[i]);
-			f.delete();
+		if(files != null){
+			for (int i = 0; i < files.length; i++) {
+				final File f = new File(dir, files[i]);
+				f.delete();
+			}
 		}
 		return files;
 	}
@@ -118,13 +119,14 @@ public class AltreUtil {
 	public static String[] deleteFileDaDirectory(final String Dir, final String treCharIniziali) {
 		final File dir = new File(Dir);
 		final String[] files = dir.list();
-
-		for (int i = 0; i < files.length; i++) {
-			final File f = new File(dir, files[i]);
-			if (f.isDirectory() == false && f.getName().substring(0, 3).equals(treCharIniziali)) {
-				f.delete();
+		if(files != null){
+			for (int i = 0; i < files.length; i++) {
+				final File f = new File(dir, files[i]);
+				if (f.isDirectory() == false && f.getName().substring(0, 3).equals(treCharIniziali)) {
+					f.delete();
+				}
+	
 			}
-
 		}
 		return files;
 	}

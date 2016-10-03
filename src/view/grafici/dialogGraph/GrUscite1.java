@@ -3,7 +3,6 @@ package view.grafici.dialogGraph;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -13,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.WindowConstants;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
@@ -22,7 +22,6 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import view.componenti.movimenti.DialogHandler;
 import view.font.ButtonF;
-import business.DBUtil;
 import business.Database;
 import business.cache.CacheCategorie;
 import domain.CatSpese;
@@ -37,7 +36,7 @@ public class GrUscite1 extends JDialog implements ActionListener {
 	public static void main(final String[] args) {
 		try {
 			final GrUscite1 dialog = new GrUscite1();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -54,7 +53,7 @@ public class GrUscite1 extends JDialog implements ActionListener {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(null);
 		final Vector<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
-		final Connection cn = DBUtil.getConnection();
+		
 		// Grafico a barre
 		final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
@@ -76,7 +75,6 @@ public class GrUscite1 extends JDialog implements ActionListener {
 		ChartUtilities.saveChartAsPNG(new java.io.File("./immagini/barUscite"
 				+ dataMinuti + ".png"), chart, 550, 550);
 		getContentPane().setLayout(null);
-		cn.close();
 		final ImageIcon image = new ImageIcon("./immagini/barUscite" + dataMinuti
 				+ ".png");
 		final JLabel immagine = new JLabel(image);

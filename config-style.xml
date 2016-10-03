@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<styles>
+    <style name="stylebase">
+        <font font-family="Arial" size="15" type="0"/>
+        <foreground>
+            <color b="100" g="100" r="100"/>
+        </foreground>
+        <background>
+            <color b="255" g="255" r="255"/>
+        </background>
+        <dimensionarea columns="60" rows="60"/>
+        <dimension height="131" width="101"/>
+    </style>
+    <style name="stylebasetable">
+        <font font-family="Arial" size="15" type="0"/>
+        <foreground>
+            <color b="100" g="100" r="100"/>
+        </foreground>
+        <background>
+            <color b="255" g="255" r="255"/>
+        </background>
+        <dimensionarea columns="60" rows="60"/>
+        <dimension height="131" width="101"/>
+        <foregroundNotSel>
+            <color b="255" g="255" r="255"/>
+        </foregroundNotSel>
+        <foregroundSel>
+            <color b="0" g="0" r="255"/>
+        </foregroundSel>
+        <backgroundNotSel>
+            <color b="192" g="192" r="192"/>
+        </backgroundNotSel>
+        <backgroundSel>
+            <color b="100" g="100" r="100"/>
+        </backgroundSel>
+    </style>
+</styles>

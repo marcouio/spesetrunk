@@ -10,10 +10,10 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 
+import controller.ControlloreBase;
 import view.font.ButtonF;
 import view.font.CheckBoxF;
 import view.font.LabelListaGruppi;
-import business.Controllore;
 import business.DBUtil;
 import business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import business.internazionalizzazione.I18NManager;
@@ -134,7 +134,7 @@ public class ReportView extends AbstractReportView {
 			}
 
 		});
-		Controllore.getLog().info("Registrato Report: " + DBUtil.dataToString(new Date(), "dd/MM/yyyy HH:mm"));
+		ControlloreBase.getLog().info("Registrato Report: " + DBUtil.dataToString(new Date(), "dd/MM/yyyy HH:mm"));
 
 	}
 }

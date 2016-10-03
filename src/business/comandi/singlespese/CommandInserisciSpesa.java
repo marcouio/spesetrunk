@@ -21,7 +21,7 @@ public class CommandInserisciSpesa extends AbstractCommandForJavaBean {
 
 	public CommandInserisciSpesa(ISingleSpesa entita) throws Exception {
 		CacheUscite cache = CacheUscite.getSingleton();
-		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
+		mappaCache = cache.getCache();
 		this.wrap = new WrapSingleSpesa();
 		this.entita = ((IDAO) entita).getEntitaPadre();
 	}

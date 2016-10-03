@@ -25,7 +25,7 @@ public class CommandUpdateSpesa extends AbstractCommandForJavaBean {
 		this.oldEntita = oldEntita;
 		this.wrap = new WrapSingleSpesa();
 		final CacheUscite cache = CacheUscite.getSingleton();
-		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
+		mappaCache = cache.getCache();
 	}
 
 	@Override

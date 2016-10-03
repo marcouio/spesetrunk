@@ -2,14 +2,10 @@ package business.comandi.categorie;
 
 import grafica.componenti.alert.Alert;
 
-import java.util.HashMap;
-
 import business.cache.CacheCategorie;
 
 import command.ICommand;
 import command.javabeancommand.AbstractCommandForJavaBean;
-import command.javabeancommand.AbstractOggettoEntita;
-
 import db.dao.IDAO;
 import domain.CatSpese;
 import domain.ICatSpese;
@@ -19,7 +15,7 @@ public class CommandDeleteCategoria extends AbstractCommandForJavaBean implement
 
 	public CommandDeleteCategoria(ICatSpese entita) throws Exception {
 		CacheCategorie cache = CacheCategorie.getSingleton();
-		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
+		mappaCache = cache.getCache();
 		this.wrap = new WrapCatSpese();
 		this.entita = ((IDAO) entita).getEntitaPadre();
 	}

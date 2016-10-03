@@ -37,7 +37,7 @@ public abstract class AbstractReportView extends JFrame {
 	public void inserisciEntrateMensili(final boolean hasEntrateMensili) {
 		if (hasEntrateMensili) {
 			HashMap<String, Double> entrateMese = reportData.generaEntrateMese();
-			String[]mesi = (String[]) Mesi.getListaMesi().toArray(new String[Mesi.getListaMesi().size()]);
+			String[]mesi = Mesi.getListaMesi().toArray(new String[Mesi.getListaMesi().size()]);
 			OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_MAPPA, entrateMese, "Entrate", "Mese", mesi);
 			reportData.inserisci(oggettoReport);
 		}
@@ -46,7 +46,7 @@ public abstract class AbstractReportView extends JFrame {
 	public void inserisciUsciteMensili(final boolean hasUsciteMensili) {
 		if (hasUsciteMensili) {
 			HashMap<String, Double> usciteMese = reportData.generaUsciteMese();
-			String[]mesi = (String[]) Mesi.getListaMesi().toArray(new String[Mesi.getListaMesi().size()]);
+			String[]mesi = Mesi.getListaMesi().toArray(new String[Mesi.getListaMesi().size()]);
 			OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_MAPPA, usciteMese, "Uscite", "Mese",mesi);
 			reportData.inserisci(oggettoReport);
 		}
@@ -56,7 +56,7 @@ public abstract class AbstractReportView extends JFrame {
 		if (hasEntrateCatMensili) {
 			String[][] entrateCatMensili = reportData.generaEntrateCatMensili();
 			String[] categorie = new String[]{"Fisse","Variabili"};
-			String[]mesi = (String[]) Mesi.getListaMesi().toArray(new String[Mesi.getListaMesi().size()]);
+			String[]mesi = Mesi.getListaMesi().toArray(new String[Mesi.getListaMesi().size()]);
 			OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_MATRICE, entrateCatMensili, "Entrate", "Mese", "Categoria", mesi, categorie);
 			reportData.inserisci(oggettoReport);
 		}
@@ -66,7 +66,7 @@ public abstract class AbstractReportView extends JFrame {
 		if (hasUsciteCatMensili) {
 			String[][] usciteCatMensili = reportData.generaUsciteCatMensili();
 			String[]categorie = CacheCategorie.getSingleton().getArrayCategorie();
-			String[]mesi = (String[]) Mesi.getListaMesi().toArray(new String[Mesi.getListaMesi().size()]);
+			String[]mesi = Mesi.getListaMesi().toArray(new String[Mesi.getListaMesi().size()]);
 			OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_MATRICE, usciteCatMensili, "Uscite", "Mese", "Categoria", mesi, categorie);
 			reportData.inserisci(oggettoReport);
 		}

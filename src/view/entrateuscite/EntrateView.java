@@ -9,8 +9,8 @@ import java.util.GregorianCalendar;
 import java.util.Observable;
 
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
@@ -60,7 +60,7 @@ public class EntrateView extends AbstractEntrateView {
 	 */
 	public EntrateView(final WrapEntrate entrate) {
 		super(entrate);
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setTitle(I18NManager.getSingleton().getMessaggio("insertentry"));
 		modelEntrate.addObserver(this);

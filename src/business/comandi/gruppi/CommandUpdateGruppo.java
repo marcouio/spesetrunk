@@ -2,13 +2,9 @@ package business.comandi.gruppi;
 
 import grafica.componenti.alert.Alert;
 
-import java.util.HashMap;
-
 import business.cache.CacheGruppi;
 
 import command.javabeancommand.AbstractCommandForJavaBean;
-import command.javabeancommand.AbstractOggettoEntita;
-
 import domain.Gruppi;
 import domain.IGruppi;
 import domain.wrapper.WrapGruppi;
@@ -23,7 +19,7 @@ public class CommandUpdateGruppo extends AbstractCommandForJavaBean {
 		this.oldEntita = oldEntita;
 		this.wrap = new WrapGruppi();
 		final CacheGruppi cache = CacheGruppi.getSingleton();
-		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
+		mappaCache = cache.getCache();
 	}
 
 	@Override

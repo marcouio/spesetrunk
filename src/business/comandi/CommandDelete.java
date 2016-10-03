@@ -1,7 +1,5 @@
 package business.comandi;
 
-import java.util.HashMap;
-
 import command.javabeancommand.AbstractCommandForJavaBean;
 
 import business.cache.AbstractCacheBase;
@@ -13,7 +11,7 @@ public class CommandDelete extends AbstractCommandForJavaBean {
 	public CommandDelete(final AbstractOggettoEntita entita, final IDAO wrap, final AbstractCacheBase cache) {
 		this.entita = entita;
 		this.wrap = wrap;
-		this.mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
+		this.mappaCache = cache.getCache();
 	}
 
 	@Override

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<configs>
+    <style>
+        <file url="./config-style.xml"/>
+    </style>
+    <lang locale="it"/>
+    <messaggi>
+        <file nome="messaggi"/>
+    </messaggi>
+    <auto-config value="true"/>
+</configs>

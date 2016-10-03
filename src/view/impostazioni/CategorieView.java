@@ -7,7 +7,6 @@ import java.util.Observable;
 import java.util.Vector;
 
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -55,7 +54,7 @@ public class CategorieView extends AbstractCategorieView {
 	private void initGUI() {
 		try {
 
-			setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			setModalityType(ModalityType.APPLICATION_MODAL);
 			setTitle("Categorie");
 			this.setPreferredSize(new Dimension(260, 556));

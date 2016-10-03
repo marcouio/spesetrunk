@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
+import javax.swing.WindowConstants;
 
 import business.AltreUtil;
 import business.aggiornatori.AggiornatoreManager;
@@ -79,7 +79,7 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 						}
 
 					};
-					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (final Exception e1) {
 					e1.printStackTrace();

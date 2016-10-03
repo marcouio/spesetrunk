@@ -4,20 +4,22 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Observable;
 import java.util.Vector;
 
-import command.javabeancommand.AbstractOggettoEntita;
 import view.impostazioni.Impostazioni;
 import business.AltreUtil;
+import business.ConnectionPoolGGS;
 import business.Controllore;
 import business.DBUtil;
 import business.cache.CacheUtenti;
+
+import command.javabeancommand.AbstractOggettoEntita;
+
+import controller.ControlloreBase;
 import db.Clausola;
+import db.ConnectionPool;
 import db.dao.IDAO;
 import domain.Entrate;
 import domain.IEntrate;
@@ -33,115 +35,129 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 
 	@Override
 	public Object selectById(final int id) {
-		final Connection cn = DBUtil.getConnection();
+		
 		final String sql = "SELECT * FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.ID + " = " + id;
 
-		Entrate entrata = null;
+		final Entrate entrata = new Entrate();
 
 		try {
+			
+			new ConnectionPoolGGS().new ExecuteResultSet<Object>() {
 
-			final Statement st = cn.createStatement();
-			final ResultSet rs = st.executeQuery(sql);
-			if (rs.next()) {
-				entrata = new Entrate();
-				final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
-				entrata.setidEntrate(rs.getInt(1));
-				entrata.setdescrizione(rs.getString(2));
-				entrata.setFisseoVar(rs.getString(3));
-				entrata.setinEuro(rs.getDouble(4));
-				entrata.setdata(rs.getString(5));
-				entrata.setnome(rs.getString(6));
-				entrata.setUtenti(utente);
-				entrata.setDataIns(rs.getString(8));
-			}
+				@Override
+				protected Object doWithResultSet(ResultSet rs) throws SQLException {
+					
+					if (rs.next()) {
+
+						if (rs.next()) {
+							final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
+							entrata.setidEntrate(rs.getInt(1));
+							entrata.setdescrizione(rs.getString(2));
+							entrata.setFisseoVar(rs.getString(3));
+							entrata.setinEuro(rs.getDouble(4));
+							entrata.setdata(rs.getString(5));
+							entrata.setnome(rs.getString(6));
+							entrata.setUtenti(utente);
+							entrata.setDataIns(rs.getString(8));
+						}
+
+					}
+					return entrata;
+				}
+				
+			}.execute(sql);
+
 
 		} catch (final SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				cn.close();
-			} catch (final SQLException e) {
-				e.printStackTrace();
-			}
-			DBUtil.closeConnection();
+			
 		}
 		return entrata;
 
 	}
 
 	public Vector<Object> selectAllForUtente() {
-		final Vector<Object> entrate = new Vector<Object>();
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
-		final Connection cn = DBUtil.getConnection();
+		
 		final String sql = "SELECT * FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.IDUTENTE + " = " + utente.getidUtente();
 		try {
-			final Statement st = cn.createStatement();
-			final ResultSet rs = st.executeQuery(sql);
-			while (rs.next()) {
+			
+			return new ConnectionPoolGGS().new ExecuteResultSet<Vector<Object>>() {
 
-				final Entrate entrata = new Entrate();
-				entrata.setidEntrate(rs.getInt(1));
-				entrata.setdescrizione(rs.getString(2));
-				entrata.setFisseoVar(rs.getString(3));
-				entrata.setinEuro(rs.getDouble(4));
-				entrata.setdata(rs.getString(5));
-				entrata.setnome(rs.getString(6));
-				entrata.setUtenti(utente);
-				entrata.setDataIns(rs.getString(8));
-				entrate.add(entrata);
-			}
+				@Override
+				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
+					
+					final Vector<Object> entrate = new Vector<Object>();
+					while (rs.next()) {
+						
+						final Entrate entrata = new Entrate();
+						entrata.setidEntrate(rs.getInt(1));
+						entrata.setdescrizione(rs.getString(2));
+						entrata.setFisseoVar(rs.getString(3));
+						entrata.setinEuro(rs.getDouble(4));
+						entrata.setdata(rs.getString(5));
+						entrata.setnome(rs.getString(6));
+						entrata.setUtenti(utente);
+						entrata.setDataIns(rs.getString(8));
+						entrate.add(entrata);
+					}
+					return entrate;
+				}
+				
+			}.execute(sql);
 
 		} catch (final Exception e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				cn.close();
-			} catch (final SQLException e) {
-				e.printStackTrace();
-			}
 		}
-		return entrate;
+		
+		return null;
 	}
 
 	@Override
 	public Vector<Object> selectAll() {
-		final Vector<Object> entrate = new Vector<Object>();
-		final Connection cn = DBUtil.getConnection();
+		
 
 		final String sql = "SELECT * FROM " + Entrate.NOME_TABELLA;
 		try {
-			final Statement st = cn.createStatement();
-			final ResultSet rs = st.executeQuery(sql);
-			while (rs.next()) {
-				final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
-				final Entrate entrata = new Entrate();
-				entrata.setidEntrate(rs.getInt(1));
-				entrata.setdescrizione(rs.getString(2));
-				entrata.setFisseoVar(rs.getString(3));
-				entrata.setinEuro(rs.getDouble(4));
-				entrata.setdata(rs.getString(5));
-				entrata.setnome(rs.getString(6));
-				entrata.setUtenti(utente);
-				entrata.setDataIns(rs.getString(8));
-				entrate.add(entrata);
-			}
+			
+			return new ConnectionPoolGGS().new ExecuteResultSet<Vector<Object>>() {
+
+				@Override
+				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
+					final Vector<Object> entrate = new Vector<Object>();
+					
+					while (rs.next()) {
+						final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
+						final Entrate entrata = new Entrate();
+						entrata.setidEntrate(rs.getInt(1));
+						entrata.setdescrizione(rs.getString(2));
+						entrata.setFisseoVar(rs.getString(3));
+						entrata.setinEuro(rs.getDouble(4));
+						entrata.setdata(rs.getString(5));
+						entrata.setnome(rs.getString(6));
+						entrata.setUtenti(utente);
+						entrata.setDataIns(rs.getString(8));
+						entrate.add(entrata);
+					}
+					return entrate;
+				}
+				
+			}.execute(sql);
+			
 
 		} catch (final Exception e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				cn.close();
-			} catch (final SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return entrate;
+		} 
+		
+		ConnectionPool.getSingleton().chiudiOggettiDb(null);
+		return null;
 	}
 
 	@Override
 	public boolean insert(final Object oggettoEntita) {
 		boolean ok = false;
-		final Connection cn = DBUtil.getConnection();
+		Connection cn = ConnectionPool.getSingleton().getConnection();
 		String sql = "";
 		try {
 			final Entrate entrata = (Entrate) oggettoEntita;
@@ -184,30 +200,24 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	public boolean delete(final int id) {
 		boolean ok = false;
 		final String sql = "DELETE FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.ID + " = " + id;
-		final Connection cn = DBUtil.getConnection();
-
+		
 		try {
-			final Statement st = cn.createStatement();
-			st.executeUpdate(sql);
+			
+			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
 		} catch (final SQLException e) {
 			e.printStackTrace();
 			ok = false;
 		}
-		try {
-			cn.close();
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
+		
 		return ok;
 	}
 
 	@Override
 	public boolean update(final Object oggettoEntita) {
 		boolean ok = false;
-		final Connection cn = DBUtil.getConnection();
+		
 
 		final Entrate entrata = (Entrate) oggettoEntita;
 		final String sql = "UPDATE " + Entrate.NOME_TABELLA + " SET " + Entrate.DESCRIZIONE + " = '" + entrata.getdescrizione() + "', " + Entrate.FISSEOVAR + " = '"
@@ -215,20 +225,14 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 				+ entrata.getnome() + "', " + Entrate.IDUTENTE + " = " + entrata.getUtenti().getidUtente() + ", " + Entrate.DATAINS + " = '" + entrata.getDataIns() + "' WHERE "
 				+ Entrate.ID + " = " + entrata.getidEntrate();
 		try {
-			final Statement st = cn.createStatement();
-			st.executeUpdate(sql);
+			
+			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
 		} catch (final SQLException e) {
 			e.printStackTrace();
 			ok = false;
 		}
-		try {
-			cn.close();
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
 		return ok;
 	}
 
@@ -236,23 +240,17 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	public boolean deleteAll() {
 		boolean ok = false;
 		final String sql = "DELETE FROM " + Entrate.NOME_TABELLA;
-		final Connection cn = DBUtil.getConnection();
+		
 
 		try {
-			final Statement st = cn.createStatement();
-			st.executeUpdate(sql);
+			
+			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
 		} catch (final SQLException e) {
 			e.printStackTrace();
 			ok = false;
 		}
-		try {
-			cn.close();
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
 		return ok;
 	}
 
@@ -265,7 +263,6 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	 * @return Vector<Entrate>
 	 */
 	public Vector<Entrate> movimentiEntrateFiltrati(final String dataDa, final String dataA, final String nome, final Double euro, final String categoria) {
-		Vector<Entrate> entrate = null;
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		int idUtente = 0;
 		if (utente != null) {
@@ -288,33 +285,36 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 		if (categoria != null) {
 			sql.append(" AND " + Entrate.FISSEOVAR + " = '" + categoria + "'");
 		}
-		final Connection cn = DBUtil.getConnection();
+		
 		try {
-			final Statement st = cn.createStatement();
-			final ResultSet rs = st.executeQuery(sql.toString());
-			entrate = new Vector<Entrate>();
-			while (rs.next()) {
-				final Entrate e = new Entrate();
-				e.setdata(rs.getString(5));
-				e.setdescrizione(rs.getString(2));
-				e.setFisseoVar(rs.getString(3));
-				e.setidEntrate(rs.getInt(1));
-				e.setinEuro(rs.getDouble(4));
-				e.setnome(rs.getString(6));
-				e.setUtenti(utente);
-				e.setDataIns(rs.getString(8));
-				entrate.add(e);
-			}
+			
+			return new ConnectionPoolGGS().new ExecuteResultSet<Vector<Entrate>>() {
+
+				@Override
+				protected Vector<Entrate> doWithResultSet(ResultSet rs) throws SQLException {
+
+					Vector<Entrate> entrate = new Vector<Entrate>();
+					while (rs.next()) {
+						final Entrate e = new Entrate();
+						e.setdata(rs.getString(5));
+						e.setdescrizione(rs.getString(2));
+						e.setFisseoVar(rs.getString(3));
+						e.setidEntrate(rs.getInt(1));
+						e.setinEuro(rs.getDouble(4));
+						e.setnome(rs.getString(6));
+						e.setUtenti(utente);
+						e.setDataIns(rs.getString(8));
+						entrate.add(e);
+					}
+					return entrate;
+				}
+				
+			}.execute(sql.toString());
+			
 		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
-		try {
-			cn.close();
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
-		return entrate;
+		return null;
 
 	}
 
@@ -327,7 +327,6 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	 * @return Vector<Entrate>
 	 */
 	public Vector<Entrate> dieciEntrate(final int numEntry) {
-		Vector<Entrate> entrate = null;
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		int idUtente = 0;
 		if (utente != null) {
@@ -336,33 +335,39 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 
 		final String sql = "SELECT * FROM " + Entrate.NOME_TABELLA + " where " + Entrate.DATA + " BETWEEN '" + Impostazioni.getAnno() + "/01/01" + "'" + " AND '"
 				+ Impostazioni.getAnno() + "/12/31" + "'" + " AND " + Entrate.IDUTENTE + " = " + idUtente + " ORDER BY " + Entrate.ID + " desc limit 0," + numEntry;
-		final Connection cn = DBUtil.getConnection();
+		
 		try {
-			final Statement st = cn.createStatement();
-			final ResultSet rs = st.executeQuery(sql);
-			entrate = new Vector<Entrate>();
-			while (rs.next()) {
-				final Entrate e = new Entrate();
-				e.setdata(rs.getString(5));
-				e.setdescrizione(rs.getString(2));
-				e.setFisseoVar(rs.getString(3));
-				e.setidEntrate(rs.getInt(1));
-				e.setinEuro(rs.getDouble(4));
-				e.setnome(rs.getString(6));
-				e.setUtenti(utente);
-				e.setDataIns(rs.getString(8));
-				entrate.add(e);
-			}
+			
+			return new ConnectionPoolGGS().new ExecuteResultSet<Vector<Entrate>>() {
+
+				@Override
+				protected Vector<Entrate> doWithResultSet(ResultSet rs) throws SQLException {
+
+					Vector<Entrate> entrate = new Vector<Entrate>();
+					
+					while (rs.next()) {
+						final Entrate e = new Entrate();
+						e.setdata(rs.getString(5));
+						e.setdescrizione(rs.getString(2));
+						e.setFisseoVar(rs.getString(3));
+						e.setidEntrate(rs.getInt(1));
+						e.setinEuro(rs.getDouble(4));
+						e.setnome(rs.getString(6));
+						e.setUtenti(utente);
+						e.setDataIns(rs.getString(8));
+						entrate.add(e);
+					}
+					
+					return entrate;
+				}
+				
+			}.execute(sql);
+			
+			
 		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
-		try {
-			cn.close();
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
-		return entrate;
+		return null;
 
 	}
 
@@ -371,32 +376,35 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	 */
 	public boolean DeleteLastEntrate() {
 		boolean ok = false;
-		final Connection cn = DBUtil.getConnection();
+		
 		final String sql = "SELECT * FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.IDUTENTE + " = " + ((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente()
 				+ " ORDER BY " + Entrate.DATAINS + " DESC";
 
+		Connection cn = ConnectionPool.getSingleton().getConnection();
+		
 		try {
-			final Statement st = cn.createStatement();
-			final ResultSet rs = st.executeQuery(sql);
-			if (rs.next()) {
-				final String sql2 = "DELETE FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.ID + "=?";
-				final PreparedStatement ps = cn.prepareStatement(sql2);
-				ps.setInt(1, rs.getInt(1));
-				ps.executeUpdate();
-				ok = true;
+			
+			ok = new ConnectionPoolGGS().new ExecuteResultSet<Boolean>() {
 
-			}
+				@Override
+				protected Boolean doWithResultSet(ResultSet rs) throws SQLException {
 
+					if (rs.next()) {
+						final String sql2 = "DELETE FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.ID + "=?";
+						final PreparedStatement ps = cn.prepareStatement(sql2);
+						ps.setInt(1, rs.getInt(1));
+						ps.executeUpdate();
+						
+					}
+					return true;
+				}
+				
+			}.execute(sql);
+			
 		} catch (final Exception e) {
 			e.printStackTrace();
-			Controllore.getLog().severe("Operazione non riuscita: " + e.getMessage());
+			ControlloreBase.getLog().severe("Operazione non riuscita: " + e.getMessage());
 		}
-		try {
-			cn.close();
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		}
-		DBUtil.closeConnection();
 		return ok;
 	}
 

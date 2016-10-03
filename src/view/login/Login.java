@@ -5,6 +5,7 @@ import grafica.componenti.alert.Alert;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JDialog;
+import javax.swing.WindowConstants;
 
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
@@ -25,7 +26,7 @@ public class Login extends JDialog {
 
 	public Login() {
 		getContentPane().setLayout(null);
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		this.setBounds(400, 300, 400, 220);
 		this.setTitle("Login");

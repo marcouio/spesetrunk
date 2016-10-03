@@ -21,7 +21,7 @@ public class CommandInserisciEntrata extends AbstractCommandForJavaBean implemen
 
 	public CommandInserisciEntrata(final IEntrate entita) throws Exception {
 		final CacheEntrate cache = CacheEntrate.getSingleton();
-		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
+		mappaCache = cache.getCache();
 		this.wrap = new WrapEntrate();
 		this.entita = ((IDAO) entita).getEntitaPadre();
 

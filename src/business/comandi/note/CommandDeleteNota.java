@@ -2,13 +2,9 @@ package business.comandi.note;
 
 import grafica.componenti.alert.Alert;
 
-import java.util.HashMap;
-
 import business.cache.CacheNote;
 
 import command.javabeancommand.AbstractCommandForJavaBean;
-import command.javabeancommand.AbstractOggettoEntita;
-
 import domain.INote;
 import domain.Note;
 import domain.wrapper.WrapNote;
@@ -17,7 +13,7 @@ public class CommandDeleteNota extends AbstractCommandForJavaBean {
 
 	public CommandDeleteNota(INote entita) throws Exception {
 		CacheNote cache = CacheNote.getSingleton();
-		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
+		mappaCache = cache.getCache();
 		this.wrap = new WrapNote();
 		this.entita = ((WrapNote) entita).getEntitaPadre();
 	}

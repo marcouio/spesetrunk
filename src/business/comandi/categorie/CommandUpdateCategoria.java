@@ -26,7 +26,7 @@ public class CommandUpdateCategoria extends AbstractCommandForJavaBean implement
 		this.oldEntita = oldEntita;
 		this.wrap = new WrapCatSpese();
 		final CacheCategorie cache = CacheCategorie.getSingleton();
-		mappaCache = (HashMap<String, AbstractOggettoEntita>) cache.getCache();
+		mappaCache = cache.getCache();
 	}
 
 	@Override

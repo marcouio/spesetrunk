@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.Vector;
 
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
+import javax.swing.WindowConstants;
 
 import business.AltreUtil;
 import business.aggiornatori.AggiornatoreManager;
@@ -74,7 +74,7 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 							return categoria;
 						}
 					};
-					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (final Exception e1) {
 					e1.printStackTrace();

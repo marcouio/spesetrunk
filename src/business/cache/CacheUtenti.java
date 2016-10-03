@@ -91,6 +91,6 @@ public class CacheUtenti extends AbstractCacheBase{
 	
 	public Object[] getArrayUtenti(){
 		Map<String, AbstractOggettoEntita> mappa = this.getAllUtenti();
-		return(Object[]) mappa.values().toArray(); 
+		return mappa.values().toArray(); 
 	}
 }

@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.WindowConstants;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
@@ -42,7 +43,7 @@ public class GrEntrate1 extends JDialog implements ActionListener {
 	public static void main(final String[] args) {
 		try {
 			final GrEntrate1 dialog = new GrEntrate1(new JFrame(), "Entrate", true);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (final Exception e) {
 			e.printStackTrace();
