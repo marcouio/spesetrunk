@@ -114,7 +114,9 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 		} catch (final Exception e) {
 			ok = false;
 			e.printStackTrace();
-		} 
+		}finally{
+			ConnectionPool.getSingleton().chiudiOggettiDb(cn);
+		}
 		return ok;
 	}
 

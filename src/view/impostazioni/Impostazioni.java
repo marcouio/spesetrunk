@@ -93,7 +93,7 @@ public class Impostazioni extends JDialog {
 
 			utente = new TextFieldF();
 			Utenti utenteLogin = (Utenti) Controllore.getSingleton().getUtenteLogin();
-			utente.setText(utenteLogin.getusername());
+			utente.setText(utenteLogin != null ? utenteLogin.getusername() : null);
 			utente.setBounds(140, 126, 113, 27);
 			getContentPane().add(utente);
 

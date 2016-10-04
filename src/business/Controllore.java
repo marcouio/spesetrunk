@@ -26,11 +26,12 @@ import domain.wrapper.WrapUtenti;
 
 public class Controllore extends ControlloreBase{
 
-	private static GeneralFrame view;
+	private static FrameBase view;
 	private static IUtenti utenteLogin;
 	private static CommandManager commandManager;
 	private static AggiornatoreManager aggiornatoreManager;
 	private InizializzatoreFinestre initFinestre;
+	private GeneralFrame genPan;
 	private static Controllore singleton;
 	private static Logger log;
 	public static String lookUsato;
@@ -57,7 +58,7 @@ public class Controllore extends ControlloreBase{
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 				lookUsato = UIManager.getSystemLookAndFeelClassName();
 			}
-			SwingUtilities.updateComponentTreeUI(GeneralFrame.getSingleton());
+			SwingUtilities.updateComponentTreeUI(view);
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}
@@ -98,8 +99,8 @@ public class Controllore extends ControlloreBase{
 	 * Controlla se esiste sul db l'utente guest, altrimenti lo crea
 	 */
 	private static void setStartUtenteLogin() {
-		final Utenti utenteGuest = CacheUtenti.getSingleton().getUtente("1");
-		if (utenteGuest == null || utenteGuest.getnome() == null) {
+		final boolean utenteGuest = CacheUtenti.getSingleton().checkUtentePerUsername("guest");
+		if (!utenteGuest) {
 			final Utenti utente = new Utenti();
 			utente.setidUtente(1);
 			utente.setusername("guest");
@@ -146,11 +147,7 @@ public class Controllore extends ControlloreBase{
 		return commandManager;
 	}
 
-	public static void setView(final GeneralFrame view) {
-		Controllore.view = view;
-	}
-
-	public GeneralFrame getView() {
+	public FrameBase getView() {
 		return view;
 	}
 
@@ -182,26 +179,32 @@ public class Controllore extends ControlloreBase{
 
 	@Override
 	public void mainOverridato(FrameBase frame) throws Exception {
+		
+		view = GeneralFrame.getSingleton();
+		frame = view;
+		
 		Database.DB_URL = Database.DB_URL_WORKSPACE;
 		verificaPresenzaDb();
+		
 		
 		setStartUtenteLogin();
 
 		settaLookFeel();
 
 		
-				DBUtil.closeConnection();
-				Controllore.getSingleton();
-				view = GeneralFrame.getSingleton();
-				frame = view;
-				
-				view.setResizable(false);
-				setStartUtenteLogin();
-				view.setTitle(I18NManager.getSingleton().getMessaggio("title"));
-				view.setLocationByPlatform(true);
-				view.setVisible(true);
+		Controllore.getSingleton();
+		
+		
+		view.setResizable(false);
+		view.setTitle(I18NManager.getSingleton().getMessaggio("title"));
+		view.setLocationByPlatform(true);
+		view.setVisible(true);
 
 		
+	}
+	
+	public static GeneralFrame getGenView(){
+		return (GeneralFrame) view;
 	}
 
 	@Override

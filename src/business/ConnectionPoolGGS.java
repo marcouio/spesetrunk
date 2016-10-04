@@ -6,12 +6,12 @@ public class ConnectionPoolGGS extends ConnectionPool {
 
 	@Override
 	protected String getPassword() {
-		return DBUtil.PWD;
+		return null;
 	}
 
 	@Override
 	protected String getUser() {
-		return DBUtil.USR;
+		return null;
 	}
 
 	@Override

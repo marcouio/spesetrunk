@@ -11,6 +11,7 @@ import javax.swing.UIManager;
 
 import view.GeneralFrame;
 import view.impostazioni.Impostazioni;
+import business.Controllore;
 import business.Database;
 import domain.Lookandfeel;
 
@@ -53,7 +54,7 @@ public class AscoltatoreLook implements ActionListener {
 		}
 		try {
 			UIManager.setLookAndFeel(look);
-			SwingUtilities.updateComponentTreeUI(GeneralFrame.getSingleton());
+			SwingUtilities.updateComponentTreeUI(Controllore.getSingleton().getView());
 			SwingUtilities.updateComponentTreeUI(Impostazioni.getSingleton());
 		} catch (final Exception e1) {
 			comboLook.setSelectedIndex(0);

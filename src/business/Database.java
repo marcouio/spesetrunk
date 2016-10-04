@@ -105,7 +105,7 @@ public class Database {
 		File db = new File(Database.DB_URL);
 		String sql = new String();
 		
-		sql = "CREATE TABLE \"Utenti\" (\"idUtente\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , \"nome\" TEXT NOT NULL , \"cognome\" TEXT NOT NULL , \"username\" TEXT NOT NULL  UNIQUE , \"password\" TEXT NOT NULL );";
+		sql = "CREATE TABLE \"utenti\" (\"idUtente\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , \"nome\" TEXT NOT NULL , \"cognome\" TEXT NOT NULL , \"username\" TEXT NOT NULL  UNIQUE , \"password\" TEXT NOT NULL );";
 		ConnectionPool cp = ConnectionPool.getSingleton();
 		cp.executeUpdate(sql);
 		sql = "CREATE TABLE \"gruppi\" (\"idGruppo\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , \"nome\" TEXT NOT NULL , \"descrizione\" TEXT);";
@@ -328,10 +328,10 @@ public class Database {
 		if (sql.substring(0, 1).equalsIgnoreCase("S")) {
 			try {
 				
-				new ConnectionPoolGGS().new ExecuteResultSet<Object>() {
+				return new ConnectionPoolGGS().new ExecuteResultSet<HashMap<String, ArrayList>>() {
 
 					@Override
-					protected Object doWithResultSet(ResultSet rs) throws SQLException {
+					protected HashMap<String, ArrayList> doWithResultSet(ResultSet rs) throws SQLException {
 						final ResultSetMetaData rsmd = rs.getMetaData();
 						final ArrayList<String> lista = new ArrayList<String>();
 						for (int i = 0; i < rsmd.getColumnCount(); i++) {
@@ -355,12 +355,11 @@ public class Database {
 							}
 							nomi.put("row" + z, lista2);
 						}
-						return null;
+						return nomi;
 					}
 					
 				}.execute(sql);
 				
-				return null;
 			} catch (final SQLException e) {
 				Alert.segnalazioneErroreGrave("Operazione SQL non eseguita:" + e.getMessage());
 			}
@@ -579,17 +578,21 @@ public class Database {
 
 		
 		try {
-			new ConnectionPoolGGS().new ExecuteResultSet<Vector<String>>() {
+			return new ConnectionPoolGGS().new ExecuteResultSet<Vector<String>>() {
 
 				@Override
 				protected Vector<String> doWithResultSet(ResultSet rs)
 						throws SQLException {
-					final ResultSetMetaData rsm = rs.getMetaData();
 					Vector<String> colonne = new Vector<String>();
-					for (int i = 1; i <= rsm.getColumnCount(); i++) {
-						colonne.add(rsm.getColumnName(i));
-					}
 					
+					final ResultSetMetaData rsm = rs.getMetaData();
+					if(rs.next()){
+						int columnCount = rsm.getColumnCount();
+	
+						for (int i = 1; i <= columnCount; i++) {
+							colonne.add(rsm.getColumnName(i));
+						}
+					}
 					return colonne;
 				}
 			}.execute(sql);
