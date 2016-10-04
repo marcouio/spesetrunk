@@ -1,4 +1,6 @@
-ott 03, 2016 11:28:04 PM log.LoggerOggetto creaLog
+ott 04, 2016 11:52:00 PM log.LoggerOggetto creaLog
 INFORMAZIONI: Start programma!
-ott 03, 2016 11:28:04 PM business.Controllore verificaPresenzaDb
-GRAVE: no such table: lookAndFeel
+ott 04, 2016 11:52:00 PM controller.ControlloreBase$1 run
+INFORMAZIONI: Frame, larghezza: 136.0
+ott 04, 2016 11:52:00 PM controller.ControlloreBase$1 run
+INFORMAZIONI: Frame, altezza: 39.0
