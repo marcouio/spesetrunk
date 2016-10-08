@@ -36,7 +36,7 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 
 		try {
 
-			new ConnectionPoolGGS().new ExecuteResultSet<Object>() {
+			ConnectionPool.getSingleton().new ExecuteResultSet<Object>() {
 
 				@Override
 				protected Object doWithResultSet(ResultSet rs) throws SQLException {
@@ -68,11 +68,11 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 		String sql = "SELECT * FROM " + Lookandfeel.NOME_TABELLA;
 		try {
 			
-			new ConnectionPoolGGS().new ExecuteResultSet<Vector<Object>>() {
+			ConnectionPool.getSingleton().new ExecuteResultSet<Vector<Object>>() {
 
 				@Override
 				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
-					while (rs.next()) {
+					while (rs != null && rs.next()) {
 						Lookandfeel look = new Lookandfeel();
 						look.setidLook(rs.getInt(1));
 						look.setnome(rs.getString(2));

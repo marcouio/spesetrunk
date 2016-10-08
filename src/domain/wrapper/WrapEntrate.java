@@ -42,7 +42,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 
 		try {
 			
-			new ConnectionPoolGGS().new ExecuteResultSet<Object>() {
+			ConnectionPool.getSingleton().new ExecuteResultSet<Object>() {
 
 				@Override
 				protected Object doWithResultSet(ResultSet rs) throws SQLException {
@@ -83,13 +83,13 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 		final String sql = "SELECT * FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.IDUTENTE + " = " + utente.getidUtente();
 		try {
 			
-			return new ConnectionPoolGGS().new ExecuteResultSet<Vector<Object>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<Object>>() {
 
 				@Override
 				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
 					
 					final Vector<Object> entrate = new Vector<Object>();
-					while (rs.next()) {
+					while (rs != null && rs.next()) {
 						
 						final Entrate entrata = new Entrate();
 						entrata.setidEntrate(rs.getInt(1));
@@ -121,13 +121,13 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 		final String sql = "SELECT * FROM " + Entrate.NOME_TABELLA;
 		try {
 			
-			return new ConnectionPoolGGS().new ExecuteResultSet<Vector<Object>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<Object>>() {
 
 				@Override
 				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
 					final Vector<Object> entrate = new Vector<Object>();
 					
-					while (rs.next()) {
+					while (rs != null && rs.next()) {
 						final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
 						final Entrate entrata = new Entrate();
 						entrata.setidEntrate(rs.getInt(1));
@@ -288,13 +288,13 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 		
 		try {
 			
-			return new ConnectionPoolGGS().new ExecuteResultSet<Vector<Entrate>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<Entrate>>() {
 
 				@Override
 				protected Vector<Entrate> doWithResultSet(ResultSet rs) throws SQLException {
 
 					Vector<Entrate> entrate = new Vector<Entrate>();
-					while (rs.next()) {
+					while (rs != null && rs.next()) {
 						final Entrate e = new Entrate();
 						e.setdata(rs.getString(5));
 						e.setdescrizione(rs.getString(2));
@@ -338,14 +338,14 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 		
 		try {
 			
-			return new ConnectionPoolGGS().new ExecuteResultSet<Vector<Entrate>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<Entrate>>() {
 
 				@Override
 				protected Vector<Entrate> doWithResultSet(ResultSet rs) throws SQLException {
 
 					Vector<Entrate> entrate = new Vector<Entrate>();
 					
-					while (rs.next()) {
+					while (rs != null && rs.next()) {
 						final Entrate e = new Entrate();
 						e.setdata(rs.getString(5));
 						e.setdescrizione(rs.getString(2));
@@ -384,7 +384,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 		
 		try {
 			
-			ok = new ConnectionPoolGGS().new ExecuteResultSet<Boolean>() {
+			ok = ConnectionPool.getSingleton().new ExecuteResultSet<Boolean>() {
 
 				@Override
 				protected Boolean doWithResultSet(ResultSet rs) throws SQLException {

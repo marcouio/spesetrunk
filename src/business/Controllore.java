@@ -68,7 +68,7 @@ public class Controllore extends ControlloreBase{
 		final String sql = "SELECT * FROM " + Lookandfeel.NOME_TABELLA;
 		
 		try {
-			new ConnectionPoolGGS().new ExecuteResultSet<Boolean>() {
+			ConnectionPool.getSingleton().new ExecuteResultSet<Boolean>() {
 
 				@Override
 				protected Boolean doWithResultSet(ResultSet resulSet) throws SQLException {

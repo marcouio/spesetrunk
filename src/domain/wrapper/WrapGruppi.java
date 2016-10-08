@@ -41,7 +41,7 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 
 		try {
 
-			return new ConnectionPoolGGS().new ExecuteResultSet<Object>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<Object>() {
 
 				@Override
 				protected Object doWithResultSet(ResultSet rs) throws SQLException {
@@ -70,13 +70,13 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 		final String sql = "SELECT * FROM " + Gruppi.NOME_TABELLA + " ORDER BY " + Gruppi.ID + " asc";
 		try {
 			
-			return new ConnectionPoolGGS().new ExecuteResultSet<Vector<Object>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<Object>>() {
 
 				@Override
 				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
 					final Vector<Object> gruppi = new Vector<Object>();
 					
-					while (rs.next()) {
+					while (rs != null && rs.next()) {
 						
 						final Gruppi gruppo = new Gruppi();
 						gruppo.setidGruppo(rs.getInt(1));
@@ -188,7 +188,7 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 
 		try {
 
-			return new ConnectionPoolGGS().new ExecuteResultSet<Gruppi>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<Gruppi>() {
 
 				@Override
 				protected Gruppi doWithResultSet(ResultSet rs) throws SQLException {

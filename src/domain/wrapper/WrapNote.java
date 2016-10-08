@@ -116,7 +116,7 @@ public class WrapNote extends Observable implements IDAO, INote {
 
 		try {
 
-			new ConnectionPoolGGS().new ExecuteResultSet<Object>() {
+			ConnectionPool.getSingleton().new ExecuteResultSet<Object>() {
 
 				@Override
 				protected Object doWithResultSet(ResultSet rs) throws SQLException {
@@ -150,13 +150,13 @@ public class WrapNote extends Observable implements IDAO, INote {
 		final String sql = "SELECT * FROM " + Note.NOME_TABELLA;
 		try {
 			
-			return new ConnectionPoolGGS().new ExecuteResultSet<Vector<Object>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<Object>>() {
 
 				@Override
 				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
 					final Vector<Object> note = new Vector<Object>();
 					
-					while (rs.next()) {
+					while (rs != null && rs.next()) {
 						final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(4)));
 						final Note nota = new Note();
 						nota.setIdNote(rs.getInt(1));
@@ -291,7 +291,7 @@ public class WrapNote extends Observable implements IDAO, INote {
 
 		try {
 			
-			ok = new ConnectionPoolGGS().new ExecuteResultSet<Boolean>() {
+			ok = ConnectionPool.getSingleton().new ExecuteResultSet<Boolean>() {
 
 				@Override
 				protected Boolean doWithResultSet(ResultSet rs) throws SQLException {

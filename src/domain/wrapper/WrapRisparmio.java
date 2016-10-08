@@ -33,12 +33,12 @@ public class WrapRisparmio extends Observable implements IDAO,IRisparmio{
 		Risparmio risparmio = new Risparmio();
 		try{
 			
-			new ConnectionPoolGGS().new ExecuteResultSet<Object>() {
+			ConnectionPool.getSingleton().new ExecuteResultSet<Object>() {
 
 				@Override
 				protected Object doWithResultSet(ResultSet rs) throws SQLException {
 					
-					if(rs.next()){
+					if(rs != null && rs.next()){
 						risparmio.setidRisparmio(rs.getInt(1));
 						risparmio.setPerSulTotale(rs.getDouble(2));
 					}
@@ -65,7 +65,7 @@ public class WrapRisparmio extends Observable implements IDAO,IRisparmio{
 		String sql = "SELECT * FROM " + Risparmio.NOME_TABELLA ;
 		try{
 			
-			return new ConnectionPoolGGS().new ExecuteResultSet<Vector<Object>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<Object>>() {
 
 				@Override
 				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {

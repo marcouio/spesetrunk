@@ -42,7 +42,7 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 
 		try {
 			
-			new ConnectionPoolGGS().new ExecuteResultSet<Object>() {
+			ConnectionPool.getSingleton().new ExecuteResultSet<Object>() {
 
 				@Override
 				protected Object doWithResultSet(ResultSet rs) throws SQLException {
@@ -74,23 +74,26 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 		String sql = "SELECT * FROM " + CatSpese.NOME_TABELLA;
 		try {
 			
-			return new ConnectionPoolGGS().new ExecuteResultSet<Vector<Object>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<Object>>() {
 
 				@Override
 				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
 
 					Vector<Object> categorie = new Vector<Object>();
 					
-					while (rs.next()) {
+					while (rs != null && rs.next()) {
 						
-						Gruppi gruppo = CacheGruppi.getSingleton().getGruppo(Integer.toString(rs.getInt(5)));
+						String idGruppo = Integer.toString(rs.getInt(5));
 						CatSpese categoria = new CatSpese();
 						categoria.setidCategoria(rs.getInt(1));
 						categoria.setdescrizione(rs.getString(2));
 						categoria.setimportanza(rs.getString(3));
 						categoria.setnome(rs.getString(4));
-						categoria.setGruppi(gruppo);
 						categorie.add(categoria);
+						ConnectionPool.getSingleton().chiudiOggettiDb(null);
+						
+						Gruppi gruppo = CacheGruppi.getSingleton().getGruppo(idGruppo);
+						categoria.setGruppi(gruppo);
 					}
 					return categorie;
 				}

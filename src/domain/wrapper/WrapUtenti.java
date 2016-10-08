@@ -37,7 +37,7 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 		String sql = "SELECT * FROM " + Utenti.NOME_TABELLA + " WHERE " + Utenti.ID + "=" + id;
 		try {
 			
-			return new ConnectionPoolGGS().new ExecuteResultSet<Object>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<Object>() {
 
 				@Override
 				protected Object doWithResultSet(ResultSet rs) throws SQLException {
@@ -69,7 +69,7 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 
 		try {
 
-			return new ConnectionPoolGGS().new ExecuteResultSet<Vector<Object>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<Object>>() {
 
 				@Override
 				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
@@ -105,7 +105,7 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 
 		try {
 			
-			return new ConnectionPoolGGS().new ExecuteResultSet<Utenti>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<Utenti>() {
 
 				@Override
 				protected Utenti doWithResultSet(ResultSet rs) throws SQLException {
@@ -225,7 +225,7 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 
 		try {
 			
-			return new ConnectionPoolGGS().new ExecuteResultSet<Utenti>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<Utenti>() {
 
 				@Override
 				protected Utenti doWithResultSet(ResultSet rs) throws SQLException {

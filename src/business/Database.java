@@ -328,7 +328,7 @@ public class Database {
 		if (sql.substring(0, 1).equalsIgnoreCase("S")) {
 			try {
 				
-				return new ConnectionPoolGGS().new ExecuteResultSet<HashMap<String, ArrayList>>() {
+				return ConnectionPool.getSingleton().new ExecuteResultSet<HashMap<String, ArrayList>>() {
 
 					@Override
 					protected HashMap<String, ArrayList> doWithResultSet(ResultSet rs) throws SQLException {
@@ -339,7 +339,7 @@ public class Database {
 						}
 						nomi.put("nomiColonne", lista);
 						int z = 0;
-						while (rs.next()) {
+						while (rs != null && rs.next()) {
 							final ArrayList<String> lista2 = new ArrayList<String>();
 							z++;
 							for (int i = 1; i <= rsmd.getColumnCount(); i++) {
@@ -578,15 +578,15 @@ public class Database {
 
 		
 		try {
-			return new ConnectionPoolGGS().new ExecuteResultSet<Vector<String>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<String>>() {
 
 				@Override
 				protected Vector<String> doWithResultSet(ResultSet rs)
 						throws SQLException {
 					Vector<String> colonne = new Vector<String>();
 					
-					final ResultSetMetaData rsm = rs.getMetaData();
-					if(rs.next()){
+					if(rs != null && rs.next()){
+						final ResultSetMetaData rsm = rs.getMetaData();
 						int columnCount = rsm.getColumnCount();
 	
 						for (int i = 1; i <= columnCount; i++) {
