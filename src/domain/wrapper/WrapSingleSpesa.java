@@ -348,6 +348,7 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 		final String sql = "select * from " + SingleSpesa.NOME_TABELLA + " where " + SingleSpesa.DATA + " BETWEEN '" + Impostazioni.getAnno() + "/01/01'" + " AND '"
 		+ Impostazioni.getAnno() + "/12/31'" + " AND " + SingleSpesa.IDUTENTE + " = " + idUtente + " ORDER BY " + SingleSpesa.ID + " desc limit 0," + dieci;
 		
+		CacheCategorie.getSingleton().getAllCategorie();
 
 		try {
 			
@@ -359,8 +360,8 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 					
 					Vector<SingleSpesa> sSpesa = new Vector<SingleSpesa>();
 					while (rs != null && rs.next()) {
-						final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(rs.getString(5));
 						final SingleSpesa ss = new SingleSpesa();
+						final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(rs.getString(5));
 						ss.setidSpesa(rs.getInt(1));
 						ss.setData(rs.getString(2));
 						ss.setinEuro(rs.getDouble(3));

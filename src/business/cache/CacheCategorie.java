@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Vector;
 
 import command.javabeancommand.AbstractOggettoEntita;
-
 import domain.CatSpese;
 import domain.wrapper.WrapCatSpese;
 

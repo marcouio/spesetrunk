@@ -75,7 +75,7 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
 					final Vector<Object> utenti = new Vector<Object>();
 					
-					while(rs.next()) {
+					while(rs != null && rs.next()) {
 						Utenti utente = new Utenti();
 						utente.setidUtente(rs.getInt(1));
 						utente.setNome(rs.getString(2));

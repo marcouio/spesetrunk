@@ -1,6 +1,176 @@
-ott 04, 2016 11:52:00 PM log.LoggerOggetto creaLog
+ott 08, 2016 8:22:38 PM log.LoggerOggetto creaLog
 INFORMAZIONI: Start programma!
-ott 04, 2016 11:52:00 PM controller.ControlloreBase$1 run
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 1 connections
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 2 connections
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 3 connections
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 4 connections
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:22:38 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:22:38 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:22:38 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:22:38 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:22:38 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:22:38 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:22:38 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:22:38 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:22:38 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:22:38 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:22:48 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:22:48 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:22:48 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:22:48 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:22:48 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:22:48 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:22:48 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:22:48 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:22:48 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:22:48 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:22:48 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:22:48 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:22:48 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:22:48 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:22:48 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:22:48 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:22:48 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:22:48 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:22:48 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:22:48 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:22:48 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:22:48 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:22:48 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:22:48 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:22:48 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:22:48 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:22:48 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:22:48 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:22:48 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:22:49 PM controller.ControlloreBase$1 run
 INFORMAZIONI: Frame, larghezza: 136.0
-ott 04, 2016 11:52:00 PM controller.ControlloreBase$1 run
+ott 08, 2016 8:22:49 PM controller.ControlloreBase$1 run
 INFORMAZIONI: Frame, altezza: 39.0
+ott 08, 2016 8:23:11 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:23:11 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:23:11 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:23:11 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:23:11 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:23:11 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:23:11 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:23:11 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:23:11 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:23:11 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:23:11 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:23:11 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:23:11 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:23:11 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:23:11 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:23:11 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:23:11 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:23:11 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+ott 08, 2016 8:23:11 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+ott 08, 2016 8:23:26 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+ott 08, 2016 8:23:26 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections

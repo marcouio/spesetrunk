@@ -48,13 +48,14 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 				protected Object doWithResultSet(ResultSet rs) throws SQLException {
 					
 					if (rs.next()) {
-						Gruppi gruppo = CacheGruppi.getSingleton().getGruppo(Integer.toString(rs.getInt(5)));
-						// Gruppi gruppo =
-						// Controllore.getSingleton().getCacheGruppi().getGruppo(Integer.toString(rs.getInt(5)));
+						String idGruppo = Integer.toString(rs.getInt(5));
+						
 						categorie.setidCategoria(rs.getInt(1));
 						categorie.setdescrizione(rs.getString(2));
 						categorie.setimportanza(rs.getString(3));
 						categorie.setnome(rs.getString(4));
+						ConnectionPool.getSingleton().chiudiOggettiDb(null);
+						Gruppi gruppo = CacheGruppi.getSingleton().getGruppo(idGruppo);
 						categorie.setGruppi(gruppo);
 					}
 					return categorie;
@@ -73,13 +74,16 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 		
 		String sql = "SELECT * FROM " + CatSpese.NOME_TABELLA;
 		try {
+			CacheGruppi.getSingleton().chargeAllGruppi();
 			
 			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<Object>>() {
 
+				
 				@Override
 				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
 
 					Vector<Object> categorie = new Vector<Object>();
+					
 					
 					while (rs != null && rs.next()) {
 						
@@ -90,7 +94,6 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 						categoria.setimportanza(rs.getString(3));
 						categoria.setnome(rs.getString(4));
 						categorie.add(categoria);
-						ConnectionPool.getSingleton().chiudiOggettiDb(null);
 						
 						Gruppi gruppo = CacheGruppi.getSingleton().getGruppo(idGruppo);
 						categoria.setGruppi(gruppo);
