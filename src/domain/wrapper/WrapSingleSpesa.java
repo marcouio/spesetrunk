@@ -356,7 +356,6 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 
 				@Override
 				protected Vector<SingleSpesa> doWithResultSet(ResultSet rs) throws SQLException {
-					final Vector<SingleSpesa> uscite = new Vector<SingleSpesa>();
 					
 					Vector<SingleSpesa> sSpesa = new Vector<SingleSpesa>();
 					while (rs != null && rs.next()) {
@@ -372,7 +371,7 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 						ss.setUtenti(utente);
 						sSpesa.add(ss);
 					}
-					return uscite;
+					return sSpesa;
 				}
 				
 			}.execute(sql.toString());
