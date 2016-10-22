@@ -10,7 +10,10 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import log.LoggerOggetto;
 import view.impostazioni.Impostazioni;
 import business.AltreUtil;
 import business.ConnectionPoolGGS;
@@ -377,8 +380,7 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 			}.execute(sql.toString());
 			
 		} catch (final SQLException e) {
-			// TODO implementare log
-			// log.severe("Impossibile caricare il record da single_spesa: "+e.getMessage());
+			Controllore.getLog().log(Level.SEVERE, "Impossibile caricare il record da single_spesa: "+e.getMessage());
 			e.printStackTrace();
 		}
 		return sSpesa;
