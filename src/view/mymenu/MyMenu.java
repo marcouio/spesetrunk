@@ -116,7 +116,7 @@ public class MyMenu extends JMenuBar {
 				try {
 					pas = ((PannelloAScomparsa2) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, null));
 					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(pas, finestre, chckbxmntmDati);
-					Controllore.getSingleton().getGenView().relocateFinestreLaterali();
+					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
 				} catch (final Exception e1) {
 					e1.printStackTrace();
 				}
@@ -134,7 +134,7 @@ public class MyMenu extends JMenuBar {
 				try {
 					note = ((MostraNoteView) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_NOTE, null));
 					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(note, finestre, mntmNote);
-					Controllore.getSingleton().getGenView().relocateFinestreLaterali();
+					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
 				} catch (final Exception e1) {
 					e1.printStackTrace();
 				}
@@ -148,7 +148,7 @@ public class MyMenu extends JMenuBar {
 				try {
 					report = ((ReportView) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_REPORT, null));
 					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(report, finestre, mntmReport);
-					Controllore.getSingleton().getGenView().relocateFinestreLaterali();
+					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
 				} catch (final Exception e1) {
 					e1.printStackTrace();
 				}
@@ -162,7 +162,7 @@ public class MyMenu extends JMenuBar {
 				try {
 					history = ((FinestraListaComandi) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, null));
 					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(history, finestre, listaComandi);
-					Controllore.getGenView().relocateFinestreLaterali();
+					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
 				} catch (final Exception e1) {
 					e1.printStackTrace();
 				}

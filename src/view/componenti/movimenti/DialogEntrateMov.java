@@ -214,7 +214,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 			if (e.getActionCommand().equals(I18NManager.getSingleton().getMessaggio("update"))) {
 				aggiornaModelDaVista();
 				final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
-				final JTextField campo = Controllore.getSingleton().getGenView().getTabMovimenti().getTabMovEntrate().getCampo();
+				final JTextField campo = Controllore.getSingleton().getGeneralFrame().getTabMovimenti().getTabMovEntrate().getCampo();
 
 				final Entrate oldEntrata = CacheEntrate.getSingleton().getEntrate(idEntrate.getText());
 
@@ -234,7 +234,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 				dialog.dispose();
 			} else if (e.getActionCommand().equals(I18NManager.getSingleton().getMessaggio("delete"))) {
 				final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
-				final JTextField campo = Controllore.getSingleton().getGenView().getTabMovimenti().getTabMovEntrate().getCampo();
+				final JTextField campo = Controllore.getSingleton().getGeneralFrame().getTabMovimenti().getTabMovEntrate().getCampo();
 				aggiornaModelDaVista();
 				if (idEntrate.getText() != null) {
 					if (!Controllore.invocaComando(new CommandDeleteEntrata(modelEntrate))) {

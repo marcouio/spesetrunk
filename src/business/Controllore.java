@@ -11,6 +11,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import view.GeneralFrame;
+import view.MyWindowListener;
 import business.aggiornatori.AggiornatoreManager;
 import business.cache.CacheLookAndFeel;
 import business.cache.CacheUtenti;
@@ -180,31 +181,38 @@ public class Controllore extends ControlloreBase{
 	@Override
 	public void mainOverridato(FrameBase frame) throws Exception {
 		
-		view = GeneralFrame.getSingleton();
-		frame = view;
+		genPan = new GeneralFrame(frame);
+		view = frame;
 		
 		Database.DB_URL = Database.DB_URL_WORKSPACE;
 		verificaPresenzaDb();
-		
-		
+
 		setStartUtenteLogin();
 
 		settaLookFeel();
-
 		
 		Controllore.getSingleton();
 		
-		
 		view.setResizable(false);
 		view.setTitle(I18NManager.getSingleton().getMessaggio("title"));
-		view.setLocationByPlatform(true);
+//		view.setLocationByPlatform(true);
 		view.setVisible(true);
+		
+		final MyWindowListener windowListener = new MyWindowListener(genPan);
+		frame.addWindowListener(windowListener);
+		frame.addComponentListener(windowListener);
+		frame.addWindowFocusListener(windowListener);
+		frame.addMouseListener(windowListener);
 
 		
 	}
 	
-	public static GeneralFrame getGenView(){
-		return (GeneralFrame) view;
+	public static FrameBase getGenView(){
+		return (FrameBase) view;
+	}
+	
+	public GeneralFrame getGeneralFrame(){
+		return this.genPan;
 	}
 
 	@Override

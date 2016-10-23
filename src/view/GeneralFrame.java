@@ -1,7 +1,8 @@
 package view;
 
-import grafica.componenti.contenitori.FrameBase;
+import grafica.componenti.contenitori.PannelloBase;
 
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -10,7 +11,6 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
@@ -21,99 +21,58 @@ import view.bottoni.ToggleBtn;
 import view.componenti.movimenti.Movimenti;
 import view.entrateuscite.EntrateView;
 import view.entrateuscite.UsciteView;
-import view.impostazioni.Impostazioni;
 import view.mymenu.MyMenu;
 import view.tabelleMesi.PerMesiF;
 import business.AltreUtil;
 import business.Controllore;
-import business.DBUtil;
 import business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import business.internazionalizzazione.I18NManager;
 import domain.wrapper.WrapEntrate;
 import domain.wrapper.WrapSingleSpesa;
 
-public class GeneralFrame extends FrameBase {
+public class GeneralFrame extends PannelloBase {
 
 	private static final long serialVersionUID = 1L;
-	private final JPanel contentPane;
 	private static PerMesiF tabPermesi;
 	private static Movimenti tabMovimenti;
 	private static NewSql consolle;
-	private static GeneralFrame singleton;
 	private final ArrayList<JPanel> listaPannelli = new ArrayList<JPanel>();
 
-	public static void main(final String[] args) {
-
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				DBUtil.closeConnection();
-				final GeneralFrame inst = new GeneralFrame();
-				inst.setTitle(I18NManager.getSingleton().getMessaggio("title"));
-				inst.setLocationRelativeTo(null);
-				inst.setVisible(true);
-			}
-		});
-	}
-
-	public static final GeneralFrame getSingleton() {
-		if (singleton == null) {
-			synchronized (Impostazioni.class) {
-				if (singleton == null) {
-					singleton = new GeneralFrame();
-				}
-			} // if
-		} // if
-		return singleton;
-	} // getSingleton()
-
-	/**
-	 * Create the frame.
-	 */
-	private GeneralFrame() {
-		super();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(10, 10, 1000, 650);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(null);
-		setContentPane(contentPane);
+	
+	
+	public GeneralFrame(Container contenitore) {
+		super(contenitore);
+		setBounds(10, 10, 1000, 550);
 
 		final MyMenu menu = new MyMenu();
-		contentPane.add(menu);
+		add(menu);
 
 		createPannelloBottoni();
 		consolle = new NewSql();
-		consolle.setBounds(20, 58, 970, 650);
+		consolle.setBounds(20, 58, 1000, 550);
 
 		// movimenti
 		tabMovimenti = new Movimenti();
-		tabMovimenti.getTabMovUscite().setBounds(0, 110, 970, 650);
-		tabMovimenti.getTabMovEntrate().setBounds(0, 110, 970, 650);
+		tabMovimenti.getTabMovUscite().setBounds(0, 110, 1000, 550);
+		tabMovimenti.getTabMovEntrate().setBounds(0, 110, 1000, 550);
 
 		// Divisione di spese e entrate per5 mese
 		tabPermesi = new PerMesiF();
-		tabPermesi.setBounds(20, 58, 1000, 750);
+		tabPermesi.setBounds(20, 58, 1000, 550);
 
-		contentPane.add(tabMovimenti.getTabMovEntrate());
-		contentPane.add(tabMovimenti.getTabMovUscite());
+		add(tabMovimenti.getTabMovEntrate());
+		add(tabMovimenti.getTabMovUscite());
 		listaPannelli.add(tabMovimenti.getTabMovEntrate());
 		listaPannelli.add(tabMovimenti.getTabMovUscite());
-		contentPane.add(tabPermesi);
+		add(tabPermesi);
 		listaPannelli.add(tabPermesi);
-		contentPane.add(consolle);
+		add(consolle);
 		listaPannelli.add(consolle);
 
 		for (final JPanel pannello : listaPannelli) {
 			pannello.setVisible(false);
 		}
 		tabMovimenti.getTabMovUscite().setVisible(true);
-
-		final MyWindowListener windowListener = new MyWindowListener(this);
-		this.addWindowListener(windowListener);
-		this.addComponentListener(windowListener);
-		this.addWindowFocusListener(windowListener);
-		this.addMouseListener(windowListener);
 
 		repaint();
 	}
@@ -274,14 +233,14 @@ public class GeneralFrame extends FrameBase {
 		pannelloBottoni.addBottone(bottoneMovimenti);
 		pannelloBottoni.addBottone(bottoneEntrateUscite);
 
-		contentPane.add(pannelloBottoni);
+		add(pannelloBottoni);
 		pannelloBottoni.setBounds(0, 20, this.getWidth(), 94);
 	}
 
 	public void relocateFinestreLaterali() {
 		if (Controllore.getSingleton().getInitFinestre().getFinestraVisibile() != null) {
-			final Point p = GeneralFrame.getSingleton().getLocation();
-			final Dimension d = GeneralFrame.getSingleton().getSize();
+			final Point p = getLocation();
+			final Dimension d = getSize();
 			p.setLocation(p.x + d.width + 5, p.y);
 			try {
 				final JFrame finestraVisibile = Controllore.getSingleton().getInitFinestre().getFinestraVisibile();
