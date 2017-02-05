@@ -1,25 +1,13 @@
 package view.componenti.movimenti;
 
-import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
-import javax.swing.WindowConstants;
-
-import business.internazionalizzazione.I18NManager;
 
 import view.OggettoVistaBase;
+import business.internazionalizzazione.I18NManager;
 
 public class Movimenti extends OggettoVistaBase {
 
 	private static final long serialVersionUID = 1L;
-
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		frame.setBounds(0, 0, 900, 650);
-		frame.getContentPane().add(new Movimenti());
-		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		frame.pack();
-		frame.setVisible(true);
-	}
 
 	private JTabbedPane           tabGenerale;
 	private ListaMovimentiEntrate tabMovEntrate;

@@ -106,7 +106,7 @@ public class CacheEntrate extends AbstractCacheBase {
 
 			while (chiavi.hasNext()) {
 				final Entrate entrata = (Entrate) mappa.get(chiavi.next());
-				if (entrata != null && (entrata.getUtenti() != null || entrata.getUtenti().getidUtente() != 0)) {
+				if (entrata != null && (entrata.getUtenti() != null && entrata.getUtenti().getidUtente() != 0)) {
 					final String annoEntrata = entrata.getdata().substring(0, 4);
 					if (entrata.getUtenti().getidUtente() == utente.getidUtente() && annoEntrata.equals(annoDaText)) {
 						listaEntrate.add(entrata);
