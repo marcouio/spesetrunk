@@ -5,6 +5,7 @@ import grafica.componenti.contenitori.FrameBase;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
@@ -27,17 +28,16 @@ import domain.wrapper.WrapUtenti;
 
 public class Controllore extends ControlloreBase{
 
-	private static FrameBase view;
-	private static IUtenti utenteLogin;
-	private static CommandManager commandManager;
-	private static AggiornatoreManager aggiornatoreManager;
+	private static final String GUEST = "guest";
+	private FrameBase view;
+	private AggiornatoreManager aggiornatoreManager;
 	private InizializzatoreFinestre initFinestre;
 	private GeneralFrame genPan;
 	private static Controllore singleton;
 	private static Logger log;
 	public static String lookUsato;
 
-	private static void settaLookFeel() {
+	private void settaLookFeel() {
 		try {
 			final CacheLookAndFeel cacheLook = CacheLookAndFeel.getSingleton();
 			final java.util.Vector<Lookandfeel> vettore = cacheLook.getVettoreLooksPerCombo();
@@ -80,8 +80,8 @@ public class Controllore extends ControlloreBase{
 			try {
 				Database.getSingleton().generaDB();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				e.printStackTrace();
+				getLog().severe("Error on Db creation: " + e1.getMessage());
 			}
 			e.printStackTrace();
 			getLog().severe(e.getMessage());
@@ -99,15 +99,15 @@ public class Controllore extends ControlloreBase{
 	/**
 	 * Controlla se esiste sul db l'utente guest, altrimenti lo crea
 	 */
-	private static void setStartUtenteLogin() {
-		final boolean utenteGuest = CacheUtenti.getSingleton().checkUtentePerUsername("guest");
+	private void setStartUtenteLogin() {
+		final boolean utenteGuest = CacheUtenti.getSingleton().checkUtentePerUsername(GUEST);
 		if (!utenteGuest) {
 			final Utenti utente = new Utenti();
 			utente.setidUtente(1);
-			utente.setusername("guest");
-			utente.setpassword("guest");
-			utente.setNome("guest");
-			utente.setCognome("guest");
+			utente.setusername(GUEST);
+			utente.setpassword(GUEST);
+			utente.setNome(GUEST);
+			utente.setCognome(GUEST);
 			final WrapUtenti wrap = new WrapUtenti();
 			wrap.insert(utente);
 		}
@@ -127,10 +127,6 @@ public class Controllore extends ControlloreBase{
 	@Override
 	public Object getUtenteLogin() {
 		return utenteLogin;
-	}
-
-	public static void setUtenteLogin(final Utenti utenteLogin) {
-		Controllore.utenteLogin = utenteLogin;
 	}
 
 	public AggiornatoreManager getAggiornatoreManager() {
@@ -195,7 +191,6 @@ public class Controllore extends ControlloreBase{
 		
 		view.setResizable(false);
 		view.setTitle(I18NManager.getSingleton().getMessaggio("title"));
-//		view.setLocationByPlatform(true);
 		view.setVisible(true);
 		
 		final MyWindowListener windowListener = new MyWindowListener(genPan);
@@ -203,12 +198,11 @@ public class Controllore extends ControlloreBase{
 		frame.addComponentListener(windowListener);
 		frame.addWindowFocusListener(windowListener);
 		frame.addMouseListener(windowListener);
-
 		
 	}
 	
-	public static FrameBase getGenView(){
-		return (FrameBase) view;
+	public FrameBase getGenView(){
+		return view;
 	}
 	
 	public GeneralFrame getGeneralFrame(){

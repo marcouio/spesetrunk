@@ -125,7 +125,6 @@ public class AltreUtil {
 				if (f.isDirectory() == false && f.getName().substring(0, 3).equals(treCharIniziali)) {
 					f.delete();
 				}
-	
 			}
 		}
 		return files;

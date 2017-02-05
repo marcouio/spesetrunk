@@ -65,7 +65,7 @@ public class Login extends JDialog {
 				if (utente != null) {
 					final Impostazioni impostazioni = Impostazioni.getSingleton();
 					try {
-						Controllore.setUtenteLogin(utente);
+						Controllore.getSingleton().setUtenteLogin(utente);
 						impostazioni.getUtente().setText(utente.getusername());
 						// TODO creare comando per sostituire tutto con nuova
 						// gestione
