@@ -63,7 +63,7 @@ public class EntrateView extends AbstractEntrateView {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setTitle(I18NManager.getSingleton().getMessaggio("insertentry"));
-		modelEntrate.addObserver(this);
+		getModelEntrate().addObserver(this);
 		getContentPane().setLayout(null);
 
 		initLabel();
@@ -123,8 +123,8 @@ public class EntrateView extends AbstractEntrateView {
 
 				try {
 					aggiornaModelDaVista();
-					if (Controllore.invocaComando(new CommandDeleteEntrata(modelEntrate))) {
-						String msg = I18NManager.getSingleton().getMessaggio("okentrata")+" " + modelEntrate.getnome() + " "+ I18NManager.getSingleton().getMessaggio("correctlydeleted");
+					if (Controllore.invocaComando(new CommandDeleteEntrata(getModelEntrate()))) {
+						String msg = I18NManager.getSingleton().getMessaggio("okentrata")+" " + getModelEntrate().getnome() + " "+ I18NManager.getSingleton().getMessaggio("correctlydeleted");
 						Alert.segnalazioneInfo(msg);
 					}
 				} catch (final Exception e2) {

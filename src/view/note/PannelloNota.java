@@ -5,7 +5,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
 
 import view.font.ButtonF;
 import view.font.TextAreaF;
@@ -67,26 +66,10 @@ public class PannelloNota extends JPanel {
 		add(btnfAggiorna);
 	}
 
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				JFrame f = new JFrame();
-				Note nota = new Note();
-				nota.setNome("nome");
-				nota.setDescrizione("descrizione");
-				nota.setData("2011/11/11");
-				PannelloNota fe = new PannelloNota(nota, f);
-				f.getContentPane().add(fe);
-				f.setVisible(true);
-				f.setSize(280, 195);
-			}
-		});
-	}
-
 	public JFrame getPadre() {
 		return padre;
 
 	}
 }
+
+

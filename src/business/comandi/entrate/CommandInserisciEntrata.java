@@ -29,11 +29,9 @@ public class CommandInserisciEntrata extends AbstractCommandForJavaBean implemen
 
 	@Override
 	public boolean execute() throws Exception {
-		if (entita instanceof Entrate) {
-			if (wrap.insert(entita)) {
-				mappaCache.put(entita.getIdEntita(), entita);
-				return true;
-			}
+		if (entita instanceof Entrate && wrap.insert(entita)) {
+			mappaCache.put(entita.getIdEntita(), entita);
+			return true;
 		}
 		return false;
 	}

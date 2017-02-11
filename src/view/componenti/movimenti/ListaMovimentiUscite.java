@@ -1,6 +1,5 @@
 package view.componenti.movimenti;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 
@@ -41,46 +40,42 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 
 	@Override
 	public ActionListener getListener() {
-		return new ActionListener() {
+		return e -> {
+			try {
+				final FiltraDialog dialog = new FiltraDialog() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void actionPerformed(final ActionEvent e) {
-				try {
-					final FiltraDialog dialog = new FiltraDialog() {
-						private static final long serialVersionUID = 1L;
+					@Override
+					public String[][] getMovimenti() {
+						final Vector<SingleSpesa> uscite = Model.getSingleton().getModelUscita()
+								.movimentiUsciteFiltrate(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
+						final String[][] mov = Model.getSingleton().movimentiFiltratiUscitePerNumero(Entrate.NOME_TABELLA, uscite);
+						AggiornatoreManager.aggiornaMovimentiUsciteDaFiltro(createNomiColonne(), mov);
+						return mov;
+					}
 
-						@Override
-						public String[][] getMovimenti() {
-							final Vector<SingleSpesa> uscite = Model.getSingleton().getModelUscita()
-									.movimentiUsciteFiltrate(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
-							final String[][] mov = Model.getSingleton().movimentiFiltratiUscitePerNumero(Entrate.NOME_TABELLA, uscite);
-							AggiornatoreManager.aggiornaMovimentiUsciteDaFiltro(createNomiColonne(), mov);
-							return mov;
+					{
+						comboBoxCat = new JComboBox(CacheCategorie.getSingleton().getVettoreCategoriePerCombo());
+						comboBoxCat.setBounds(512, 26, 89, 25);
+						getContentPane().add(comboBoxCat);
+
+					}
+
+					@Override
+					protected String getCategoria() {
+						if (comboBoxCat.getSelectedItem() != null) {
+							final int idCat = ((CatSpese) comboBoxCat.getSelectedItem()).getidCategoria();
+							categoria = Integer.toString(idCat);
 						}
-
-						{
-							comboBoxCat = new JComboBox(CacheCategorie.getSingleton().getVettoreCategoriePerCombo());
-							comboBoxCat.setBounds(512, 26, 89, 25);
-							getContentPane().add(comboBoxCat);
-
-						}
-
-						@Override
-						protected String getCategoria() {
-							if (comboBoxCat.getSelectedItem() != null) {
-								final int idCat = ((CatSpese) comboBoxCat.getSelectedItem()).getidCategoria();
-								categoria = Integer.toString(idCat);
-							}
-							return categoria;
-						}
-					};
-					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-					dialog.setVisible(true);
-				} catch (final Exception e1) {
-					e1.printStackTrace();
-				}
-
+						return categoria;
+					}
+				};
+				dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+				dialog.setVisible(true);
+			} catch (final Exception e1) {
+				e1.printStackTrace();
 			}
+
 		};
 	}
 

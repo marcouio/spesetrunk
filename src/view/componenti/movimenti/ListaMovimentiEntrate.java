@@ -1,6 +1,5 @@
 package view.componenti.movimenti;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -13,6 +12,7 @@ import business.aggiornatori.AggiornatoreManager;
 import business.internazionalizzazione.I18NManager;
 import domain.Entrate;
 import domain.wrapper.Model;
+import domain.wrapper.WrapEntrate;
 
 public class ListaMovimentiEntrate extends AbstractListaMov {
 
@@ -39,53 +39,49 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 
 	@Override
 	public ActionListener getListener() {
-		return new ActionListener() {
+		return e -> {
+			try {
+				final FiltraDialog dialog = new FiltraDialog() {
 
-			@Override
-			public void actionPerformed(final ActionEvent e) {
-				try {
-					final FiltraDialog dialog = new FiltraDialog() {
+					private static final long serialVersionUID = 1L;
 
-						private static final long serialVersionUID = 1L;
+					@Override
+					public String[][] getMovimenti() {
+						WrapEntrate modelEntrate = Model.getSingleton().getModelEntrate();
+						final Vector<Entrate> entrate = modelEntrate.movimentiEntrateFiltrati(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
+						final String[][] mov = Model.getSingleton().movimentiFiltratiEntratePerNumero(Entrate.NOME_TABELLA, entrate);
+						AggiornatoreManager.aggiornaMovimentiEntrateDaFiltro(createNomiColonne(), mov);
+						return mov;
+					}
 
-						@Override
-						public String[][] getMovimenti() {
-							final Vector<Entrate> entrate = Model.getSingleton().getModelEntrate()
-							.movimentiEntrateFiltrati(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
-							final String[][] mov = Model.getSingleton().movimentiFiltratiEntratePerNumero(Entrate.NOME_TABELLA, entrate);
-							AggiornatoreManager.aggiornaMovimentiEntrateDaFiltro(createNomiColonne(), mov);
-							return mov;
+					{
+						// array per Categori
+
+						final ArrayList<String> lista = new ArrayList<String>();
+						lista.add("");
+						lista.add(I18NManager.getSingleton().getMessaggio("variables"));
+						lista.add(I18NManager.getSingleton().getMessaggio("fixity"));
+						comboBoxCat = new JComboBox(lista.toArray());
+
+						comboBoxCat.setBounds(512, 26, 89, 25);
+						getContentPane().add(comboBoxCat);
+					}
+
+					@Override
+					protected String getCategoria() {
+						if (comboBoxCat.getSelectedItem() != null && comboBoxCat.getSelectedIndex() != 0) {
+							categoria = (String) comboBoxCat.getSelectedItem();
 						}
+						return categoria;
+					}
 
-						{
-							// array per Categori
-
-							final ArrayList<String> lista = new ArrayList<String>();
-							lista.add("");
-							lista.add(I18NManager.getSingleton().getMessaggio("variables"));
-							lista.add(I18NManager.getSingleton().getMessaggio("fixity"));
-							comboBoxCat = new JComboBox(lista.toArray());
-
-							comboBoxCat.setBounds(512, 26, 89, 25);
-							getContentPane().add(comboBoxCat);
-						}
-
-						@Override
-						protected String getCategoria() {
-							if (comboBoxCat.getSelectedItem() != null && comboBoxCat.getSelectedIndex() != 0) {
-								categoria = (String) comboBoxCat.getSelectedItem();
-							}
-							return categoria;
-						}
-
-					};
-					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-					dialog.setVisible(true);
-				} catch (final Exception e1) {
-					e1.printStackTrace();
-				}
-
+				};
+				dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+				dialog.setVisible(true);
+			} catch (final Exception e1) {
+				e1.printStackTrace();
 			}
+
 		};
 	}
 

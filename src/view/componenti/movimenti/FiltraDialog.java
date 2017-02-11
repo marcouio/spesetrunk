@@ -1,8 +1,6 @@
 package view.componenti.movimenti;
 
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -46,13 +44,9 @@ public abstract class FiltraDialog extends JDialog {
 		ButtonF okButton = new ButtonF("OK");
 		okButton.setActionCommand("OK");
 		buttonPane.add(okButton);
-		okButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				getMovimenti();
-				dispose();
-			}
+		okButton.addActionListener(e -> {
+			getMovimenti();
+			dispose();
 		});
 
 		getRootPane().setDefaultButton(okButton);
@@ -60,13 +54,7 @@ public abstract class FiltraDialog extends JDialog {
 		ButtonF cancelButton = new ButtonF(I18NManager.getSingleton().getMessaggio("cancel"));
 		cancelButton.setActionCommand(I18NManager.getSingleton().getMessaggio("cancel"));
 		buttonPane.add(cancelButton);
-		cancelButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
+		cancelButton.addActionListener(e -> dispose());
 
 		tfDa = new TextFieldF();
 		tfDa.setColumns(10);
@@ -120,7 +108,7 @@ public abstract class FiltraDialog extends JDialog {
 	public abstract String[][] getMovimenti();
 
 	protected String getDataDa() {
-		if (!tfDa.getText().equals("")) {
+		if (!"".equals(tfDa.getText())) {
 			dataDa = tfDa.getText();
 		}
 		return dataDa;
@@ -131,7 +119,7 @@ public abstract class FiltraDialog extends JDialog {
 	}
 
 	protected String getDataA() {
-		if (!tfA.getText().equals("")) {
+		if (!"".equals(tfA.getText())) {
 			dataA = tfA.getText();
 		}
 		return dataA;
@@ -142,7 +130,7 @@ public abstract class FiltraDialog extends JDialog {
 	}
 
 	protected String getNome() {
-		if (!tfNome.getText().equals("")) {
+		if (!"".equals(tfNome.getText())) {
 			nome = tfNome.getText();
 		}
 		return nome;

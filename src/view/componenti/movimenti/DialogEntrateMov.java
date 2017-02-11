@@ -5,13 +5,13 @@ import grafica.componenti.alert.Alert;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.util.Observable;
+import java.util.logging.Level;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 import view.entrateuscite.AbstractEntrateView;
 import view.font.ButtonF;
@@ -51,20 +51,6 @@ public class DialogEntrateMov extends AbstractEntrateView {
 	private JTextField idEntrate = new TextFieldF();
 	private final JButton update = new ButtonF(I18NManager.getSingleton().getMessaggio("update"));
 	private final JButton delete = new ButtonF(I18NManager.getSingleton().getMessaggio("delete"));
-
-	/**
-	 * Auto-generated main method to display this JDialog
-	 */
-
-	public void main(final String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				final DialogEntrateMov inst = new DialogEntrateMov(new WrapEntrate());
-				inst.setVisible(true);
-			}
-		});
-	}
 
 	public DialogEntrateMov(final WrapEntrate entrate) {
 		super(entrate);
@@ -113,7 +99,8 @@ public class DialogEntrateMov extends AbstractEntrateView {
 	}
 
 	private boolean nonEsistonoCampiNonValorizzati() {
-		return getcNome() != null && getcDescrizione() != null && getcData() != null && getFisseOVar() != null && getdEuro() != 0.0 && getUtenti() != null;
+		boolean nomeDescrDataOk = getcNome() != null && getcDescrizione() != null && getcData() != null;
+		return nomeDescrDataOk && getFisseOVar() != null && getdEuro() != 0.0 && getUtenti() != null;
 	}
 
 	public void setEuro(final JTextField euro) {
@@ -166,7 +153,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 
 	@Override
 	public void update(final Observable o, final Object arg) {
-
+		//do nothing
 
 	}
 
@@ -212,44 +199,51 @@ public class DialogEntrateMov extends AbstractEntrateView {
 		protected void actionPerformedOverride(final ActionEvent e) throws Exception {
 			super.actionPerformedOverride(e);
 			if (e.getActionCommand().equals(I18NManager.getSingleton().getMessaggio("update"))) {
-				aggiornaModelDaVista();
-				final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
-				final JTextField campo = Controllore.getSingleton().getGeneralFrame().getTabMovimenti().getTabMovEntrate().getCampo();
-
-				final Entrate oldEntrata = CacheEntrate.getSingleton().getEntrate(idEntrate.getText());
-
-				if (nonEsistonoCampiNonValorizzati()) {
-					if (Controllore.invocaComando(new CommandUpdateEntrata(oldEntrata, (IEntrate) modelEntrate.getEntitaPadre()))) {
-						try {
-							AggiornatoreManager.aggiornaMovimentiEntrateDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
-						} catch (final Exception e22) {
-							Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore(e22.getMessage()));
-						}
-						// chiude la dialog e rilascia le risorse
-						dispose();
-					}
-				} else {
-					Alert.segnalazioneErroreGrave(I18NManager.getSingleton().getMessaggio("fillinall"));
-				}
-				dialog.dispose();
+				update();
 			} else if (e.getActionCommand().equals(I18NManager.getSingleton().getMessaggio("delete"))) {
-				final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
-				final JTextField campo = Controllore.getSingleton().getGeneralFrame().getTabMovimenti().getTabMovEntrate().getCampo();
-				aggiornaModelDaVista();
-				if (idEntrate.getText() != null) {
-					if (!Controllore.invocaComando(new CommandDeleteEntrata(modelEntrate))) {
-						Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore(I18NManager.getSingleton().getMessaggio("insertcorrect")));
-					}
-				}
-
-				if (campo != null) {
-					AggiornatoreManager.aggiornaMovimentiEntrateDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
-				} else {
-					AggiornatoreManager.aggiornaMovimentiEntrateDaEsterno(nomiColonne, 10);
-				}
-				// chiude la dialog e rilascia le risorse
-				dialog.dispose();
+				delete();
 			}
+		}
+
+		private void delete() throws Exception {
+			final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
+			final JTextField campo = Controllore.getSingleton().getGeneralFrame().getTabMovimenti().getTabMovEntrate().getCampo();
+			aggiornaModelDaVista();
+			if (idEntrate.getText() != null && !Controllore.invocaComando(new CommandDeleteEntrata(getModelEntrate()))) {
+				Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore(I18NManager.getSingleton().getMessaggio("insertcorrect")));
+			}
+
+			if (campo != null) {
+				AggiornatoreManager.aggiornaMovimentiEntrateDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
+			} else {
+				AggiornatoreManager.aggiornaMovimentiEntrateDaEsterno(nomiColonne, 10);
+			}
+			// chiude la dialog e rilascia le risorse
+			dialog.dispose();
+		}
+
+		private void update() throws Exception {
+			aggiornaModelDaVista();
+			final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
+			final JTextField campo = Controllore.getSingleton().getGeneralFrame().getTabMovimenti().getTabMovEntrate().getCampo();
+
+			final Entrate oldEntrata = CacheEntrate.getSingleton().getEntrate(idEntrate.getText());
+
+			if (nonEsistonoCampiNonValorizzati()) {
+				if (Controllore.invocaComando(new CommandUpdateEntrata(oldEntrata, (IEntrate) getModelEntrate().getEntitaPadre()))) {
+					try {
+						AggiornatoreManager.aggiornaMovimentiEntrateDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
+					} catch (final Exception e22) {
+						Controllore.getLog().log(Level.SEVERE, e22.getMessage(), e22);
+						Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore(e22.getMessage()));
+					}
+					// chiude la dialog e rilascia le risorse
+					dispose();
+				}
+			} else {
+				Alert.segnalazioneErroreGrave(I18NManager.getSingleton().getMessaggio("fillinall"));
+			}
+			dialog.dispose();
 		}
 	}
 

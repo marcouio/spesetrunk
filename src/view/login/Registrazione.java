@@ -2,9 +2,6 @@ package view.login;
 
 import grafica.componenti.alert.Alert;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JDialog;
 import javax.swing.WindowConstants;
 
@@ -78,36 +75,32 @@ public class Registrazione extends JDialog {
 		lbltstNome.setText("Nome");
 		getContentPane().add(lbltstNome);
 
-		btnEntra.addActionListener(new ActionListener() {
+		btnEntra.addActionListener(e -> {
 
-			@Override
-			public void actionPerformed(final ActionEvent e) {
-
-				final String sNome = nome.getText();
-				final String sCognome = cognome.getText();
-				final String sPass = password.getText();
-				final String sUser = username.getText();
-				final WrapUtenti utentiwrap = new WrapUtenti();
-				if (!sNome.equals("") && !sCognome.equals("") && !sPass.equals("") && !sUser.equals("")) {
-					final Utenti utente = new Utenti();
-					utente.setNome(sNome);
-					utente.setCognome(sCognome);
-					utente.setpassword(sPass);
-					utente.setusername(sUser);
-					final boolean ok = CacheUtenti.getSingleton().checkUtentePerUsername(sUser);
-					// TODO creare i comandi anche per gli utenti registrati:
-					// cancella, inserisci, aggiorna.
-					if (ok == false) {
-						utentiwrap.insert(utente);
-						dispose();
-					} else {
-						Alert.segnalazioneErroreGrave("final Username già presente, sceglierne un altro");
-					}
+			final String sNome = nome.getText();
+			final String sCognome = cognome.getText();
+			final String sPass = password.getText();
+			final String sUser = username.getText();
+			final WrapUtenti utentiwrap = new WrapUtenti();
+			if (!"".equals(sNome) && !"".equals(sCognome) && !"".equals(sPass) && !"".equals(sUser)) {
+				final Utenti utente = new Utenti();
+				utente.setNome(sNome);
+				utente.setCognome(sCognome);
+				utente.setpassword(sPass);
+				utente.setusername(sUser);
+				final boolean ok = CacheUtenti.getSingleton().checkUtentePerUsername(sUser);
+				// TODO creare i comandi anche per gli utenti registrati:
+				// cancella, inserisci, aggiorna.
+				if (!ok) {
+					utentiwrap.insert(utente);
+					dispose();
 				} else {
-					Alert.segnalazioneErroreGrave("Utente non creato: Tutti i campi devono essere valorizzati");
+					Alert.segnalazioneErroreGrave("Username già presente, sceglierne un altro");
 				}
-
+			} else {
+				Alert.segnalazioneErroreGrave("Utente non creato: Tutti i campi devono essere valorizzati");
 			}
+
 		});
 	}
 }

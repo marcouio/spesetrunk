@@ -11,7 +11,7 @@ import domain.wrapper.WrapEntrate;
 public abstract class AbstractEntrateView extends JDialog implements Observer {
 
 	private static final long serialVersionUID = 1703525939065075165L;
-	public WrapEntrate modelEntrate = null;
+	private WrapEntrate modelEntrate = null;
 
 	public AbstractEntrateView(final WrapEntrate modelEntrate) {
 		this.modelEntrate = modelEntrate;

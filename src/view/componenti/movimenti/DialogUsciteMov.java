@@ -212,40 +212,48 @@ public class DialogUsciteMov extends AbstractUsciteView {
 		@Override
 		public void actionPerformed(final ActionEvent e) {
 			if (e.getActionCommand().equals(I18NManager.getSingleton().getMessaggio("update"))) {
-				aggiornaModelDaVista();
-				final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(SingleSpesa.NOME_TABELLA);
-				final JTextField campo = Controllore.getSingleton().getGeneralFrame().getTabMovimenti().getTabMovUscite().getCampo();
-				final SingleSpesa oldSpesa = CacheUscite.getSingleton().getSingleSpesa(idSpesa.getText());
-
-				if (dialog.nonEsistonoCampiNonValorizzati()) {
-					try {
-						if (!Controllore.invocaComando(new CommandUpdateSpesa(oldSpesa, (ISingleSpesa) modelUscita.getEntitaPadre()))) {
-							Alert.segnalazioneErroreGrave("Spesa " + oldSpesa.getnome() + " non aggiornata");
-						}
-					} catch (Exception e1) {
-						e1.printStackTrace();
-					}
-					AggiornatoreManager.aggiornaMovimentiUsciteDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
-
-					// chiude la dialog e rilascia le risorse
-					dispose();
-				} else {
-					final String msg = I18NManager.getSingleton().getMessaggio("charge")+ oldSpesa.getnome() + " non aggiornata: tutti i dati devono essere valorizzati";
-					Alert.segnalazioneErroreGrave(msg);
-				}
+				update();
 
 			} else if (e.getActionCommand().equals("Cancella")) {
-				aggiornaModelDaVista();
+				cancella();
+			}
+		}
+
+		private void cancella() {
+			aggiornaModelDaVista();
+			try {
+				if (!Controllore.invocaComando(new CommandDeleteSpesa(modelUscita))) {
+					final String msg = I18NManager.getSingleton().getMessaggio("charge")+ modelUscita.getnome() + " non aggiornata: tutti i dati devono essere valorizzati";
+					Alert.segnalazioneErroreGrave(msg);
+				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			// chiude la dialog e rilascia le risorse
+			dispose();
+		}
+
+		private void update() {
+			aggiornaModelDaVista();
+			final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(SingleSpesa.NOME_TABELLA);
+			final JTextField campo = Controllore.getSingleton().getGeneralFrame().getTabMovimenti().getTabMovUscite().getCampo();
+			final SingleSpesa oldSpesa = CacheUscite.getSingleton().getSingleSpesa(idSpesa.getText());
+
+			if (dialog.nonEsistonoCampiNonValorizzati()) {
 				try {
-					if (!Controllore.invocaComando(new CommandDeleteSpesa(modelUscita))) {
-						final String msg = I18NManager.getSingleton().getMessaggio("charge")+ modelUscita.getnome() + " non aggiornata: tutti i dati devono essere valorizzati";
-						Alert.segnalazioneErroreGrave(msg);
+					if (!Controllore.invocaComando(new CommandUpdateSpesa(oldSpesa, (ISingleSpesa) modelUscita.getEntitaPadre()))) {
+						Alert.segnalazioneErroreGrave("Spesa " + oldSpesa.getnome() + " non aggiornata");
 					}
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
+				AggiornatoreManager.aggiornaMovimentiUsciteDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
+
 				// chiude la dialog e rilascia le risorse
 				dispose();
+			} else {
+				final String msg = I18NManager.getSingleton().getMessaggio("charge")+ oldSpesa.getnome() + " non aggiornata: tutti i dati devono essere valorizzati";
+				Alert.segnalazioneErroreGrave(msg);
 			}
 		}
 	}

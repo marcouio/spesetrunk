@@ -13,15 +13,6 @@ import view.OggettoVistaBase;
 public class PerMesiF extends OggettoVistaBase {
 
 	private static final long serialVersionUID = 1L;
-
-	public static void main(final String[] args) {
-		final JFrame frame = new JFrame();
-		frame.getContentPane().add(new PerMesiF());
-		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		frame.pack();
-		frame.setVisible(true);
-	}
-
 	private static TabellaEntrata      tabEntrate = new TabellaEntrata();
 	private static TabellaUscita       tabUscite  = new TabellaUscita();
 	private static TabellaUscitaGruppi tabUG      = new TabellaUscitaGruppi();

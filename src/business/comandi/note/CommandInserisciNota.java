@@ -1,13 +1,9 @@
 package business.comandi.note;
 
 import grafica.componenti.alert.Alert;
-
-import java.util.HashMap;
-
 import business.cache.CacheNote;
 
 import command.javabeancommand.AbstractCommandForJavaBean;
-import command.javabeancommand.AbstractOggettoEntita;
 
 import db.dao.IDAO;
 import domain.INote;
@@ -15,8 +11,6 @@ import domain.Note;
 import domain.wrapper.WrapNote;
 
 public class CommandInserisciNota extends AbstractCommandForJavaBean {
-
-	private final HashMap<String, AbstractOggettoEntita> mappaCache;
 
 	public CommandInserisciNota(final INote entita) throws Exception {
 		final CacheNote cache = CacheNote.getSingleton();
@@ -28,22 +22,18 @@ public class CommandInserisciNota extends AbstractCommandForJavaBean {
 
 	@Override
 	public boolean execute() throws Exception {
-		if (entita instanceof Note) {
-			if (wrap.insert(entita)) {
-				mappaCache.put(entita.getIdEntita(), entita);
-				return true;
-			}
+		if (entita instanceof Note && wrap.insert(entita)) {
+			mappaCache.put(entita.getIdEntita(), entita);
+			return true;
 		}
 		return false;
 	}
 
 	@Override
 	public boolean unExecute() throws Exception {
-		if (entita instanceof Note) {
-			if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
-				mappaCache.remove(entita.getIdEntita());
-				return true;
-			}
+		if (entita instanceof Note && wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
+			mappaCache.remove(entita.getIdEntita());
+			return true;
 		}
 		return false;
 	}

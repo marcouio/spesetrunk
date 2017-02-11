@@ -47,6 +47,11 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 				@Override
 				protected Object doWithResultSet(ResultSet rs) throws SQLException {
 					
+					return extracted(entrata, rs);
+				}
+
+				private Object extracted(final Entrate entrata, ResultSet rs)
+						throws SQLException {
 					if (rs.next()) {
 
 						if (rs.next()) {
@@ -125,6 +130,11 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 
 				@Override
 				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
+					return extracted(rs);
+				}
+
+				private Vector<Object> extracted(ResultSet rs)
+						throws SQLException {
 					final Vector<Object> entrate = new Vector<Object>();
 					
 					while (rs != null && rs.next()) {
