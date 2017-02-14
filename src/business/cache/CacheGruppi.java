@@ -3,10 +3,8 @@ package business.cache;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.List;
-
-import command.javabeancommand.AbstractOggettoEntita;
+import java.util.Map;
 
 import domain.Gruppi;
 import domain.wrapper.WrapGruppi;
@@ -73,7 +71,7 @@ public class CacheGruppi extends AbstractCacheBase<Gruppi> {
 		return gruppi;
 	}
 
-	public List<Gruppi> getListCategoriePerCombo(final Map<String, AbstractOggettoEntita> mappa) {
+	public List<Gruppi> getListCategoriePerCombo(final Map<String, Gruppi> mappa) {
 		final List<Gruppi> gruppi = new ArrayList<>();
 		final Object[] lista = mappa.values().toArray();
 		final Gruppi gruppo = new Gruppi();

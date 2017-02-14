@@ -4,25 +4,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Set;
-import java.util.List;
 
-import business.ConnectionPoolGGS;
-import business.DBUtil;
 import business.cache.CacheGruppi;
 import command.javabeancommand.AbstractOggettoEntita;
 import db.Clausola;
 import db.ConnectionPool;
-import db.ConnectionPool.ExecuteResultSet;
 import db.dao.IDAO;
 import domain.Budget;
 import domain.CatSpese;
 import domain.Gruppi;
 import domain.ICatSpese;
-import domain.Lookandfeel;
 import domain.SingleSpesa;
 
 public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
@@ -74,7 +69,7 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 		
 		String sql = "SELECT * FROM " + CatSpese.NOME_TABELLA;
 		try {
-			CacheGruppi.getSingleton().chargeAllGruppi();
+			CacheGruppi.getSingleton().getAllGruppi();
 			
 			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
 

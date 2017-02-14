@@ -1,17 +1,15 @@
 package domain.wrapper;
 
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 import business.DBUtil;
 import business.Database;
 import business.cache.CacheCategorie;
 import business.cache.CacheGruppi;
-
-import command.javabeancommand.AbstractOggettoEntita;
-
 import domain.CatSpese;
 import domain.Entrate;
+import domain.Gruppi;
 import domain.SingleSpesa;
 
 public class Model {
@@ -228,14 +226,14 @@ public class Model {
 
 	// *************************************GRUPPI-PERCOMBOBOX***********************************
 
-	private Map<String, AbstractOggettoEntita> getGruppiPerCombo(final boolean ricarica) {
+	private Map<String, Gruppi> getGruppiPerCombo(final boolean ricarica) {
 		final CacheGruppi cache = CacheGruppi.getSingleton();
 		cache.setCaricata(!ricarica);
 		return cache.getAllGruppi();
 	}
 
 	public Object[] getGruppiCombo(final boolean ricarica) {
-		final Map<String, AbstractOggettoEntita> gruppi = getGruppiPerCombo(ricarica);
+		final Map<String, Gruppi> gruppi = getGruppiPerCombo(ricarica);
 		return gruppi.values().toArray();
 	}
 

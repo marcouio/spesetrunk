@@ -524,7 +524,7 @@ public class Database {
 	public static double totaleEntrateAnnoCategoria(final String FissoOVar) {
 		double totale = 0;
 		final int anno = Impostazioni.getAnno();
-		final ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
+		final List<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
 		for (int i = 0; i < listaEntrate.size(); i++) {
 			final Entrate entrata = listaEntrate.get(i);
 			final String FxOVar = entrata.getFisseoVar();
@@ -601,7 +601,7 @@ public class Database {
 		double Eannuale = 0;
 
 		final int anno = Impostazioni.getAnno();
-		final ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
+		final List<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
 		for (int i = 0; i < listaEntrate.size(); i++) {
 			final Entrate entrata = listaEntrate.get(i);
 			final Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), YYYY_MM_DD);
@@ -641,7 +641,7 @@ public class Database {
 	public static double e0ensile() {
 		double emensile10 = 0;
 		final GregorianCalendar data = new GregorianCalendar();
-		final ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
+		final List<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
 		for (int i = 0; i < listaEntrate.size(); i++) {
 			final Entrate entrata = listaEntrate.get(i);
 			final Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), YYYY_MM_DD);
@@ -688,7 +688,7 @@ public class Database {
 	public static double eMensileInCorso() {
 		double emensile10 = 0;
 		final GregorianCalendar data = new GregorianCalendar();
-		final ArrayList<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
+		final List<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
 		for (int i = 0; i < listaEntrate.size(); i++) {
 			final Entrate entrata = listaEntrate.get(i);
 			final Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), YYYY_MM_DD);
