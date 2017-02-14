@@ -122,7 +122,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 
 		final String sql = "SELECT * FROM " + Entrate.NOME_TABELLA;
 		try {
-			
+			CacheUtenti.getSingleton().getAllUtenti();
 			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
 
 				@Override
