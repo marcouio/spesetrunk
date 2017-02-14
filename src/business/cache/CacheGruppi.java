@@ -11,44 +11,32 @@ import command.javabeancommand.AbstractOggettoEntita;
 import domain.Gruppi;
 import domain.wrapper.WrapGruppi;
 
-public class CacheGruppi extends AbstractCacheBase {
+public class CacheGruppi extends AbstractCacheBase<Gruppi> {
 
 	private static CacheGruppi singleton;
+	private WrapGruppi gruppiDAO = new WrapGruppi();
 
 	private CacheGruppi() {
-		cache = new HashMap<String, AbstractOggettoEntita>();
+		setCache(new HashMap<String, Gruppi>());
 	}
 
 	public static CacheGruppi getSingleton() {
 		if (singleton == null) {
-			synchronized (CacheGruppi.class) {
-				if (singleton == null) {
-					singleton = new CacheGruppi();
-				}
-			} // if
-		} // if
+			singleton = new CacheGruppi();
+		}
 		return singleton;
 	}
 
-	WrapGruppi gruppiDAO = new WrapGruppi();
-
 	public Gruppi getGruppo(final String id) {
-		Gruppi gruppo = (Gruppi) cache.get(id);
-		if (gruppo == null) {
-			gruppo = caricaGruppo(id);
-			if (gruppo != null) {
-				cache.put(id, gruppo);
-			}
-		}
-		return (Gruppi) cache.get(id);
+		return getObjectById(gruppiDAO, id);
 	}
 
 	public Gruppi getGruppoPerNome(final String nome) {
-		Gruppi gruppo = (Gruppi) cache.get(nome);
+		Gruppi gruppo = (Gruppi) getCache().get(nome);
 		if (gruppo == null) {
 			gruppo = caricaGruppoPerNome(nome);
 			if (gruppo != null) {
-				cache.put(Integer.toString(gruppo.getidGruppo()), gruppo);
+				getCache().put(Integer.toString(gruppo.getidGruppo()), gruppo);
 			}
 		}
 		return gruppo;
@@ -58,36 +46,13 @@ public class CacheGruppi extends AbstractCacheBase {
 		return new WrapGruppi().selectByNome(nome);
 	}
 
-	private Gruppi caricaGruppo(final String id) {
-		return (Gruppi) new WrapGruppi().selectById(Integer.parseInt(id));
-	}
-
-	public Map<String, AbstractOggettoEntita> chargeAllGruppi() {
-		final List<Object> gruppi = gruppiDAO.selectAll();
-		if (gruppi != null && gruppi.size() > 0) {
-			for (int i = 0; i < gruppi.size(); i++) {
-				final Gruppi gruppo = (Gruppi) gruppi.get(i);
-				final int id = gruppo.getidGruppo();
-				if (cache.get(id) == null) {
-					cache.put(Integer.toString(id), gruppo);
-				}
-			}
-			caricata = true;
-		}
-		return cache;
-	}
-
-	public Map<String, AbstractOggettoEntita> getAllGruppi() {
-		if (caricata) {
-			return cache;
-		} else {
-			return chargeAllGruppi();
-		}
+	public Map<String, Gruppi> getAllGruppi() {
+		return getAll(gruppiDAO);
 	}
 
 	public List<Gruppi> getVettoreGruppiSenzaZero() {
 		final List<Gruppi> gruppi = new ArrayList<>();
-		final Map<String, AbstractOggettoEntita> mappa = this.getAllGruppi();
+		final Map<String, Gruppi> mappa = this.getAllGruppi();
 		final Object[] lista = mappa.values().toArray();
 		for (int i = 0; i < lista.length; i++) {
 			final Gruppi gruppo = (Gruppi) lista[i];
@@ -99,8 +64,8 @@ public class CacheGruppi extends AbstractCacheBase {
 	}
 
 	public List<Gruppi> getVettoreGruppi() {
-		final List<Gruppi> gruppi = new ArrayList<Gruppi>();
-		final Map<String, AbstractOggettoEntita> mappa = this.getAllGruppi();
+		final List<Gruppi> gruppi = new ArrayList<>();
+		final Map<String, Gruppi> mappa = this.getAllGruppi();
 		final Object[] lista = mappa.values().toArray();
 		for (int i = lista.length - 1; i >= 0; i--) {
 			gruppi.add((Gruppi) lista[i]);
@@ -109,7 +74,7 @@ public class CacheGruppi extends AbstractCacheBase {
 	}
 
 	public List<Gruppi> getListCategoriePerCombo(final Map<String, AbstractOggettoEntita> mappa) {
-		final List<Gruppi> gruppi = new ArrayList<Gruppi>();
+		final List<Gruppi> gruppi = new ArrayList<>();
 		final Object[] lista = mappa.values().toArray();
 		final Gruppi gruppo = new Gruppi();
 		gruppo.setnome("");
@@ -122,16 +87,14 @@ public class CacheGruppi extends AbstractCacheBase {
 
 	public int getMaxId() {
 		int maxId = 0;
-		final Map<String, AbstractOggettoEntita> mappa = getAllGruppi();
+		final Map<String, Gruppi> mappa = getAllGruppi();
 		final Iterator<String> chiavi = mappa.keySet().iterator();
-		if (mappa != null) {
-			while (chiavi.hasNext()) {
-				final Gruppi gruppo = (Gruppi) mappa.get(chiavi.next());
-				if (gruppo != null) {
-					final int idGruppo = gruppo.getidGruppo();
-					if (idGruppo > maxId) {
-						maxId = idGruppo;
-					}
+		while (chiavi.hasNext()) {
+			final Gruppi gruppo = (Gruppi) mappa.get(chiavi.next());
+			if (gruppo != null) {
+				final int idGruppo = gruppo.getidGruppo();
+				if (idGruppo > maxId) {
+					maxId = idGruppo;
 				}
 			}
 		}

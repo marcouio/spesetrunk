@@ -20,7 +20,7 @@ public class CacheUscite extends AbstractCacheBase<SingleSpesa> {
 	private WrapSingleSpesa usciteDAO = new WrapSingleSpesa();
 	
 	private CacheUscite() {
-		cache = new HashMap<String, SingleSpesa>();
+		setCache(new HashMap<String, SingleSpesa>());
 	}
 
 	public static CacheUscite getSingleton() {
@@ -32,43 +32,11 @@ public class CacheUscite extends AbstractCacheBase<SingleSpesa> {
 	}
 
 	public SingleSpesa getSingleSpesa(final String id) {
-		SingleSpesa uscita = (SingleSpesa) cache.get(id);
-		if (uscita == null) {
-			uscita = caricaSingleSpesa(id);
-			if (uscita != null) {
-				cache.put(id, uscita);
-			}
-		}
-		return (SingleSpesa) cache.get(id);
-	}
-
-	private SingleSpesa caricaSingleSpesa(final String id) {
-		return (SingleSpesa) new WrapSingleSpesa().selectById(Integer.parseInt(id));
-	}
-
-	private Map<String, SingleSpesa> chargeAllUscite() {
-		final List<Object> uscite = usciteDAO.selectAll();
-		if (uscite != null) {
-			for (int i = 0; i < uscite.size(); i++) {
-				final SingleSpesa uscita = (SingleSpesa) uscite.get(i);
-				final int id = uscita.getidSpesa();
-				if (cache.get(id) == null) {
-					cache.put(Integer.toString(id), uscita);
-				}
-			}
-			caricata = true;
-		} else {
-			cache = new HashMap<String, SingleSpesa>();
-		}
-		return cache;
+		return getObjectById(usciteDAO, id);
 	}
 
 	public Map<String, SingleSpesa> getAllUscite() {
-		if (caricata) {
-			return cache;
-		} else {
-			return chargeAllUscite();
-		}
+		return getAll(usciteDAO);
 	}
 
 	public List<SingleSpesa> getAllUsciteForUtente() {

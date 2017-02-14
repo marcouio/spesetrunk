@@ -3,25 +3,24 @@ package business.cache;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
-import command.javabeancommand.AbstractOggettoEntita;
-
-import view.impostazioni.Impostazioni;
 import business.Controllore;
 import domain.Entrate;
 import domain.Utenti;
 import domain.wrapper.WrapEntrate;
+import view.impostazioni.Impostazioni;
 
-public class CacheEntrate extends AbstractCacheBase {
+public class CacheEntrate extends AbstractCacheBase<Entrate> {
 
 	private static CacheEntrate singleton;
 	private WrapEntrate entrateDAO = new WrapEntrate();
-	
+
 	private CacheEntrate() {
-		cache = new HashMap<String, AbstractOggettoEntita>();
-		caricata = false;
+		setCache(new HashMap<String, Entrate>());
+		setCaricata(false);
 	}
 
 	public static synchronized CacheEntrate getSingleton() {
@@ -33,48 +32,16 @@ public class CacheEntrate extends AbstractCacheBase {
 	}
 
 	public Entrate getEntrate(final String id) {
-		Entrate entrate = (Entrate) cache.get(id);
-		if (entrate == null) {
-			entrate = caricaEntrate(id);
-			if (entrate != null) {
-				cache.put(id, entrate);
-			}
-		}
-		return (Entrate) cache.get(id);
+		return getObjectById(entrateDAO, id);
 	}
 
-	private Entrate caricaEntrate(final String id) {
-		return (Entrate) new WrapEntrate().selectById(Integer.parseInt(id));
+	public Map<String, Entrate> getAllEntrate() {
+		return getAll(entrateDAO);
 	}
 
-	public Map<String, AbstractOggettoEntita> chargeAllEntrate() {
-		final List<Object> entrate = entrateDAO.selectAll();
-		if (entrate != null) {
-			for (int i = 0; i < entrate.size(); i++) {
-				final Entrate entrata = (Entrate) entrate.get(i);
-				final int id = entrata.getidEntrate();
-				if (cache.get(id) == null) {
-					cache.put(Integer.toString(id), entrata);
-				}
-			}
-		} else {
-			cache = new HashMap<String, AbstractOggettoEntita>();
-		}
-		caricata = true;
-		return cache;
-	}
-
-	public Map<String, AbstractOggettoEntita> getAllEntrate() {
-		if (caricata) {
-			return cache;
-		} else {
-			return chargeAllEntrate();
-		}
-	}
-
-	public ArrayList<Entrate> getAllEntrateForUtente() {
-		final ArrayList<Entrate> listaEntrate = new ArrayList<Entrate>();
-		final Map<String, AbstractOggettoEntita> mappa = getAllEntrate();
+	public List<Entrate> getAllEntrateForUtente() {
+		final ArrayList<Entrate> listaEntrate = new ArrayList<>();
+		final Map<String, Entrate> mappa = getAllEntrate();
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		if (mappa != null && utente != null) {
 			final Iterator<String> chiavi = mappa.keySet().iterator();
@@ -92,8 +59,8 @@ public class CacheEntrate extends AbstractCacheBase {
 	}
 
 	public List<Entrate> getAllEntrateForUtenteEAnno() {
-		final ArrayList<Entrate> listaEntrate = new ArrayList<Entrate>();
-		final Map<String, AbstractOggettoEntita> mappa = getAllEntrate();
+		final ArrayList<Entrate> listaEntrate = new ArrayList<>();
+		final Map<String, Entrate> mappa = getAllEntrate();
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		final String annoDaText = Impostazioni.getSingleton().getAnnotextField().getText();
 
@@ -114,21 +81,9 @@ public class CacheEntrate extends AbstractCacheBase {
 	}
 
 	public int getMaxId() {
-		int maxId = 0;
-		final Map<String, AbstractOggettoEntita> mappa = getAllEntrate();
-		final Iterator<String> chiavi = mappa.keySet().iterator();
-		if (mappa != null) {
-			while (chiavi.hasNext()) {
-				final Entrate entrata = (Entrate) mappa.get(chiavi.next());
-				if (entrata != null) {
-					final int idEntrate = entrata.getidEntrate();
-					if (idEntrate > maxId) {
-						maxId = idEntrate;
-					}
-				}
-			}
-		}
-		return maxId;
+		final Map<String, Entrate> mappa = getAllEntrate();
+		Optional<Entrate> max = mappa.values().stream().max((e1,e2) -> Integer.compare(e1.getidEntrate(), e2.getidEntrate()));
+		return max.isPresent() ? max.get().getidEntrate() : 0;
 	}
 
 }

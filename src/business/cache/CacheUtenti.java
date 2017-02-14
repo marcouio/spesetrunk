@@ -16,7 +16,7 @@ public class CacheUtenti extends AbstractCacheBase<Utenti> {
 	private WrapUtenti utentiDAO = new WrapUtenti();
 
 	private CacheUtenti() {
-		cache = new HashMap<String, Utenti>();
+		setCache(new HashMap<String, Utenti>());
 	}
 
 	public static CacheUtenti getSingleton() {
@@ -41,40 +41,11 @@ public class CacheUtenti extends AbstractCacheBase<Utenti> {
 	}
 
 	public Utenti getUtente(String id) {
-		Utenti utenti = (Utenti) cache.get(id);
-		if (utenti == null) {
-			utenti = caricaUtenti(id);
-			if (utenti != null) {
-				cache.put(id, utenti);
-			}
-		}
-		return (Utenti) cache.get(id);
-	}
-
-	private Utenti caricaUtenti(String id) {
-		return (Utenti) new WrapUtenti().selectById(Integer.parseInt(id));
-	}
-
-	public Map<String, Utenti> chargeAllUtenti() {
-		List<Object> utenti = utentiDAO.selectAll();
-		if (utenti != null) {
-			for (int i = 0; i < utenti.size(); i++) {
-				Utenti utente = (Utenti) utenti.get(i);
-				int id = utente.getidUtente();
-				if (cache.get(id) == null) {
-					cache.put(Integer.toString(id), utente);
-				}
-			}
-			caricata = true;
-		}
-		return cache;
+		return getObjectById(utentiDAO, id);
 	}
 
 	public Map<String, Utenti> getAllUtenti() {
-		if (caricata)
-			return cache;
-		else
-			return chargeAllUtenti();
+		return getAll(utentiDAO);
 	}
 
 	public List<Utenti> getVettoreUtenti() {
