@@ -18,40 +18,40 @@ import javax.swing.table.TableModel;
  */
 public class TableF extends JTable {
 
+	private static final Font ERAS_LIGHT_ITC_FONT = new Font("Eras Light ITC", Font.PLAIN, 12);
 	private static final long serialVersionUID = 1L;
 
 	public TableF() {
-		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
+		setFont(ERAS_LIGHT_ITC_FONT);
 	}
 
 	public TableF(final TableModel dm) {
 		super(dm);
-		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
+		setFont(ERAS_LIGHT_ITC_FONT);
 	}
 
 	public TableF(final TableModel dm, final TableColumnModel cm) {
 		super(dm, cm);
-		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
+		setFont(ERAS_LIGHT_ITC_FONT);
 	}
 
 	public TableF(final int numRows, final int numColumns) {
 		super(numRows, numColumns);
-		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
+		setFont(ERAS_LIGHT_ITC_FONT);
 	}
 
 	public TableF(@SuppressWarnings("rawtypes") final List rowData, @SuppressWarnings("rawtypes") final List columnNames) {
 		super(new Vector(rowData), new Vector(columnNames));
-		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
+		setFont(ERAS_LIGHT_ITC_FONT);
 	}
 
 	public TableF(final Object[][] rowData, final Object[] columnNames) {
 		super(rowData, columnNames);
-		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
+		setFont(ERAS_LIGHT_ITC_FONT);
 	}
 
 	public TableF(final TableModel dm, final TableColumnModel cm, final ListSelectionModel sm) {
 		super(dm, cm, sm);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
