@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import business.Controllore;
 import domain.Entrate;
@@ -40,22 +41,20 @@ public class CacheEntrate extends AbstractCacheBase<Entrate> {
 	}
 
 	public List<Entrate> getAllEntrateForUtente() {
-		final ArrayList<Entrate> listaEntrate = new ArrayList<>();
 		final Map<String, Entrate> mappa = getAllEntrate();
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		if (mappa != null && utente != null) {
-			final Iterator<String> chiavi = mappa.keySet().iterator();
-
-			while (chiavi.hasNext()) {
-				final Entrate entrata = (Entrate) mappa.get(chiavi.next());
-				if (entrata != null && (entrata.getUtenti() != null && entrata.getUtenti().getidUtente() != 0)) {
-					if (entrata.getUtenti().getidUtente() == utente.getidUtente()) {
-						listaEntrate.add(entrata);
-					}
+			
+			return mappa.values().stream().filter(entrata ->
+				{
+					Utenti utenti = entrata.getUtenti();
+					int idUtente = utenti.getidUtente();
+					return entrata != null && (utenti != null && idUtente != 0) && idUtente == utente.getidUtente();
 				}
-			}
+			).collect(Collectors.toList());
+			
 		}
-		return listaEntrate;
+		return new ArrayList<>();
 	}
 
 	public List<Entrate> getAllEntrateForUtenteEAnno() {
