@@ -1,24 +1,17 @@
 package business.comandi.singlespese;
 
-import grafica.componenti.alert.Alert;
-
-import java.util.HashMap;
-
 import business.cache.CacheUscite;
-
 import command.javabeancommand.AbstractCommandForJavaBean;
-import command.javabeancommand.AbstractOggettoEntita;
-
 import domain.ISingleSpesa;
 import domain.SingleSpesa;
 import domain.wrapper.WrapSingleSpesa;
+import grafica.componenti.alert.Alert;
 
-public class CommandUpdateSpesa extends AbstractCommandForJavaBean {
+public class CommandUpdateSpesa extends AbstractCommandForJavaBean<SingleSpesa> {
 
-	final private SingleSpesa newEntita;
-	final private SingleSpesa oldEntita;
-	final private WrapSingleSpesa wrap;
-	private final HashMap<String, AbstractOggettoEntita> mappaCache;
+	private SingleSpesa newEntita;
+	private SingleSpesa oldEntita;
+	private WrapSingleSpesa wrap;
 
 	public CommandUpdateSpesa(final SingleSpesa oldEntita, final ISingleSpesa newEntita) {
 		this.newEntita = (SingleSpesa) newEntita;
@@ -30,22 +23,18 @@ public class CommandUpdateSpesa extends AbstractCommandForJavaBean {
 
 	@Override
 	public boolean execute() {
-		if (newEntita instanceof SingleSpesa) {
-			if (wrap.update(newEntita)) {
-				mappaCache.put(Integer.toString(newEntita.getidSpesa()), newEntita);
-				return true;
-			}
+		if (newEntita instanceof SingleSpesa && wrap.update(newEntita)) {
+			mappaCache.put(Integer.toString(newEntita.getidSpesa()), newEntita);
+			return true;
 		}
 		return false;
 	}
 
 	@Override
 	public boolean unExecute() {
-		if (oldEntita instanceof SingleSpesa) {
-			if (wrap.update(oldEntita)) {
-				mappaCache.put(Integer.toString(oldEntita.getidSpesa()), oldEntita);
-				return true;
-			}
+		if (oldEntita instanceof SingleSpesa && wrap.update(oldEntita)) {
+			mappaCache.put(Integer.toString(oldEntita.getidSpesa()), oldEntita);
+			return true;
 		}
 		return false;
 	}

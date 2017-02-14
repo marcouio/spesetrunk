@@ -1,29 +1,21 @@
 package business.comandi.entrate;
 
-import grafica.componenti.alert.Alert;
-
-import java.util.HashMap;
-
 import business.cache.CacheEntrate;
-
 import command.ICommand;
 import command.javabeancommand.AbstractCommandForJavaBean;
-import command.javabeancommand.AbstractOggettoEntita;
-
 import db.dao.IDAO;
 import domain.Entrate;
 import domain.IEntrate;
 import domain.wrapper.WrapEntrate;
+import grafica.componenti.alert.Alert;
 
-public class CommandInserisciEntrata extends AbstractCommandForJavaBean implements ICommand {
-
-	private HashMap<String, AbstractOggettoEntita> mappaCache;
+public class CommandInserisciEntrata extends AbstractCommandForJavaBean<Entrate> implements ICommand {
 
 	public CommandInserisciEntrata(final IEntrate entita) throws Exception {
 		final CacheEntrate cache = CacheEntrate.getSingleton();
 		mappaCache = cache.getCache();
 		this.wrap = new WrapEntrate();
-		this.entita = ((IDAO) entita).getEntitaPadre();
+		this.entita = (Entrate) ((IDAO) entita).getEntitaPadre();
 
 	}
 
@@ -38,11 +30,9 @@ public class CommandInserisciEntrata extends AbstractCommandForJavaBean implemen
 
 	@Override
 	public boolean unExecute() throws Exception {
-		if (entita instanceof Entrate) {
-			if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
-				mappaCache.remove(entita.getIdEntita());
-				return true;
-			}
+		if (entita instanceof Entrate && wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
+			mappaCache.remove(entita.getIdEntita());
+			return true;
 		}
 		return false;
 	}

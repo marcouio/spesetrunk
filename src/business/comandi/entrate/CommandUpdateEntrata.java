@@ -10,11 +10,11 @@ import domain.Entrate;
 import domain.IEntrate;
 import domain.wrapper.WrapEntrate;
 
-public class CommandUpdateEntrata extends AbstractCommandForJavaBean implements ICommand {
+public class CommandUpdateEntrata extends AbstractCommandForJavaBean<Entrate> implements ICommand {
 
-	final private Entrate newEntita;
-	final private Entrate oldEntita;
-	final private WrapEntrate wrap;
+	private Entrate newEntita;
+	private Entrate oldEntita;
+	private WrapEntrate wrap;
 
 	public CommandUpdateEntrata(final Entrate oldEntita, final IEntrate newEntita) {
 		this.newEntita = (Entrate) newEntita;
@@ -26,20 +26,16 @@ public class CommandUpdateEntrata extends AbstractCommandForJavaBean implements 
 
 	@Override
 	public boolean execute() {
-		if (newEntita instanceof Entrate) {
-			if (wrap.update(newEntita)) {
-				return true;
-			}
+		if (newEntita instanceof Entrate && wrap.update(newEntita)) {
+			return true;
 		}
 		return false;
 	}
 
 	@Override
 	public boolean unExecute() {
-		if (oldEntita instanceof Entrate) {
-			if (wrap.update(oldEntita)) {
-				return true;
-			}
+		if (oldEntita instanceof Entrate && wrap.update(oldEntita)) {
+			return true;
 		}
 		return false;
 	}

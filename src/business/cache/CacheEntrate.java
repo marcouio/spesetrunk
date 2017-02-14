@@ -17,24 +17,20 @@ import domain.wrapper.WrapEntrate;
 public class CacheEntrate extends AbstractCacheBase {
 
 	private static CacheEntrate singleton;
-
+	private WrapEntrate entrateDAO = new WrapEntrate();
+	
 	private CacheEntrate() {
 		cache = new HashMap<String, AbstractOggettoEntita>();
 		caricata = false;
 	}
 
-	public static CacheEntrate getSingleton() {
+	public static synchronized CacheEntrate getSingleton() {
+
 		if (singleton == null) {
-			synchronized (CacheEntrate.class) {
-				if (singleton == null) {
-					singleton = new CacheEntrate();
-				}
-			} // if
-		} // if
+			singleton = new CacheEntrate();
+		}
 		return singleton;
 	}
-
-	WrapEntrate entrateDAO = new WrapEntrate();
 
 	public Entrate getEntrate(final String id) {
 		Entrate entrate = (Entrate) cache.get(id);
@@ -95,7 +91,7 @@ public class CacheEntrate extends AbstractCacheBase {
 		return listaEntrate;
 	}
 
-	public ArrayList<Entrate> getAllEntrateForUtenteEAnno() {
+	public List<Entrate> getAllEntrateForUtenteEAnno() {
 		final ArrayList<Entrate> listaEntrate = new ArrayList<Entrate>();
 		final Map<String, AbstractOggettoEntita> mappa = getAllEntrate();
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();

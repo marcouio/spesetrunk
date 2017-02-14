@@ -83,7 +83,7 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 	public List<Object> selectAllForUtente() {
 		final List<Object> uscite = new ArrayList<>();
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
-		final Map<String, AbstractOggettoEntita> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
+		final Map<String, CatSpese> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
 		
 		final String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA + " WHERE " + SingleSpesa.IDUTENTE + " = " + utente.getidUtente();
 		try {
@@ -129,8 +129,8 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 	@Override
 	public List<Object> selectAll() {
 		final List<Object> uscite = new ArrayList<>();
-		final Map<String, AbstractOggettoEntita> mappaUtenti = CacheUtenti.getSingleton().getAllUtenti();
-		final Map<String, AbstractOggettoEntita> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
+		final Map<String, Utenti> mappaUtenti = CacheUtenti.getSingleton().getAllUtenti();
+		final Map<String, CatSpese> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
 		
 		final String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA;
 		try {

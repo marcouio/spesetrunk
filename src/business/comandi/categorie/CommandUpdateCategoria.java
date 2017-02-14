@@ -1,25 +1,18 @@
 package business.comandi.categorie;
 
-import grafica.componenti.alert.Alert;
-
-import java.util.HashMap;
-
 import business.cache.CacheCategorie;
-
 import command.ICommand;
 import command.javabeancommand.AbstractCommandForJavaBean;
-import command.javabeancommand.AbstractOggettoEntita;
-
 import domain.CatSpese;
 import domain.ICatSpese;
 import domain.wrapper.WrapCatSpese;
+import grafica.componenti.alert.Alert;
 
-public class CommandUpdateCategoria extends AbstractCommandForJavaBean implements ICommand {
+public class CommandUpdateCategoria extends AbstractCommandForJavaBean<CatSpese> implements ICommand {
 
-	final private CatSpese newEntita;
-	final private CatSpese oldEntita;
-	final private WrapCatSpese wrap;
-	private final HashMap<String, AbstractOggettoEntita> mappaCache;
+	private final CatSpese newEntita;
+	private final CatSpese oldEntita;
+	private final WrapCatSpese wrap;
 
 	public CommandUpdateCategoria(final CatSpese oldEntita, final ICatSpese newEntita) {
 		this.newEntita = (CatSpese) newEntita;
@@ -31,22 +24,18 @@ public class CommandUpdateCategoria extends AbstractCommandForJavaBean implement
 
 	@Override
 	public boolean execute() {
-		if (newEntita instanceof CatSpese) {
-			if (wrap.update(newEntita)) {
-				mappaCache.put(Integer.toString(newEntita.getidCategoria()), newEntita);
-				return true;
-			}
+		if (newEntita instanceof CatSpese && wrap.update(newEntita)) {
+			mappaCache.put(Integer.toString(newEntita.getidCategoria()), newEntita);
+			return true;
 		}
 		return false;
 	}
 
 	@Override
 	public boolean unExecute() {
-		if (oldEntita instanceof CatSpese) {
-			if (wrap.update(oldEntita)) {
-				mappaCache.put(Integer.toString(oldEntita.getidCategoria()), oldEntita);
-				return true;
-			}
+		if (oldEntita instanceof CatSpese && wrap.update(oldEntita)) {
+			mappaCache.put(Integer.toString(oldEntita.getidCategoria()), oldEntita);
+			return true;
 		}
 		return false;
 	}

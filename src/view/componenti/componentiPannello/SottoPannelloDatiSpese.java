@@ -53,7 +53,7 @@ public class SottoPannelloDatiSpese {
 			label.setBounds(317, 67, 123, 14);
 			labels[1] = label;
 
-			mensile = Database.Mensile();
+			mensile = Database.eMensile();
 			mesePrecUsc = new TextFieldF();
 			mesePrecUsc.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(mensile)));
 			mesePrecUsc.setBounds(317, 85, 106, 27);

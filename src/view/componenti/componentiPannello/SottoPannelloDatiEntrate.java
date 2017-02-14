@@ -56,7 +56,7 @@ public class SottoPannelloDatiEntrate {
 			labels[0] = label_3;
 
 			EntrateMesePrec = new TextFieldF();
-			double Emensile = Database.Emensile();
+			double Emensile = Database.eMensile();
 			EntrateMesePrec.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(Emensile)));
 			EntrateMesePrec.setBounds(16, 85, 106, 27);
 			componenti[1] = EntrateMesePrec;
@@ -71,7 +71,7 @@ public class SottoPannelloDatiEntrate {
 			EnAnCorso.setColumns(10);
 
 			EnMeCorso = new TextFieldF();
-			double EMensile = Database.EMensileInCorso();
+			double EMensile = Database.eMensileInCorso();
 			EnMeCorso.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(EMensile)));
 			EnMeCorso.setBounds(317, 85, 106, 27);
 			componenti[0] = EnMeCorso;

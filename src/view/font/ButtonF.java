@@ -23,7 +23,6 @@ public class ButtonF extends JButton {
 
 	public ButtonF(Icon arg0) {
 		super(arg0);
-		// TODO Auto-generated constructor stub
 	}
 
 	public ButtonF(String arg0) {
@@ -33,12 +32,10 @@ public class ButtonF extends JButton {
 
 	public ButtonF(Action arg0) {
 		super(arg0);
-		// TODO Auto-generated constructor stub
 	}
 
 	public ButtonF(String arg0, Icon arg1) {
 		super(arg0, arg1);
-		// TODO Auto-generated constructor stub
 	}
 
 }

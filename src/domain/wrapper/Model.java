@@ -215,14 +215,14 @@ public class Model {
 
 	// *************************************CATEGORIE-PERCOMBOBOX***********************************
 
-	private Map<String, AbstractOggettoEntita> getCatPerCombo(final boolean ricarica) {
+	private Map<String, CatSpese> getCatPerCombo(final boolean ricarica) {
 		final CacheCategorie cache = CacheCategorie.getSingleton();
 		cache.setCaricata(!ricarica);
 		return cache.getAllCategorie();
 	}
 
 	public Object[] getCategorieCombo(final boolean ricarica) {
-		final Map<String, AbstractOggettoEntita> cat = getCatPerCombo(ricarica);
+		final Map<String, CatSpese> cat = getCatPerCombo(ricarica);
 		return cat.values().toArray();
 	}
 

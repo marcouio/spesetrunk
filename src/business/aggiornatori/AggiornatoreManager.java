@@ -229,8 +229,8 @@ public class AggiornatoreManager {
 		try {
 			if (SottoPannelloDatiEntrate.getEnAnCorso() != null) {
 				SottoPannelloDatiEntrate.getEnAnCorso().setText(Double.toString(Database.EAnnuale()));
-				SottoPannelloDatiEntrate.getEnMeCorso().setText(Double.toString(Database.EMensileInCorso()));
-				SottoPannelloDatiEntrate.getEntrateMesePrec().setText(Double.toString(Database.Emensile()));
+				SottoPannelloDatiEntrate.getEnMeCorso().setText(Double.toString(Database.eMensileInCorso()));
+				SottoPannelloDatiEntrate.getEntrateMesePrec().setText(Double.toString(Database.eMensile()));
 				DBUtil.closeConnection();
 			}
 			return true;
@@ -244,7 +244,7 @@ public class AggiornatoreManager {
 		try {
 			if (SottoPannelloDatiSpese.getMeseInCors() != null) {
 				SottoPannelloDatiSpese.getMeseInCors().setText(Double.toString(Database.MensileInCorso()));
-				SottoPannelloDatiSpese.getMesePrecUsc().setText(Double.toString(Database.Mensile()));
+				SottoPannelloDatiSpese.getMesePrecUsc().setText(Double.toString(Database.eMensile()));
 				SottoPannelloDatiSpese.getSpeseAnnuali().setText(Double.toString(Database.Annuale()));
 				DBUtil.closeConnection();
 			}

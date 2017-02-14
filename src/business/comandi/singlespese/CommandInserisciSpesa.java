@@ -1,29 +1,20 @@
 package business.comandi.singlespese;
 
-import grafica.componenti.alert.Alert;
-
-import java.util.HashMap;
-
 import business.cache.CacheUscite;
-
 import command.javabeancommand.AbstractCommandForJavaBean;
-import command.javabeancommand.AbstractOggettoEntita;
-
 import db.dao.IDAO;
 import domain.ISingleSpesa;
 import domain.SingleSpesa;
 import domain.wrapper.WrapSingleSpesa;
+import grafica.componenti.alert.Alert;
 
-public class CommandInserisciSpesa extends AbstractCommandForJavaBean {
-
-	final private AbstractOggettoEntita            entita;
-	private HashMap<String, AbstractOggettoEntita> mappaCache;
+public class CommandInserisciSpesa extends AbstractCommandForJavaBean<SingleSpesa> {
 
 	public CommandInserisciSpesa(ISingleSpesa entita) throws Exception {
 		CacheUscite cache = CacheUscite.getSingleton();
 		mappaCache = cache.getCache();
 		this.wrap = new WrapSingleSpesa();
-		this.entita = ((IDAO) entita).getEntitaPadre();
+		this.entita = (SingleSpesa) ((IDAO) entita).getEntitaPadre();
 	}
 
 	@Override

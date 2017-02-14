@@ -5,13 +5,12 @@ import java.awt.FlowLayout;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.WindowConstants;
 
+import business.AltreUtil;
+import business.internazionalizzazione.I18NManager;
 import view.font.ButtonF;
 import view.font.LabelListaGruppi;
 import view.font.TextFieldF;
-import business.AltreUtil;
-import business.internazionalizzazione.I18NManager;
 
 public abstract class FiltraDialog extends JDialog {
 
@@ -20,7 +19,7 @@ public abstract class FiltraDialog extends JDialog {
 	private TextFieldF tfA;
 	private TextFieldF tfNome;
 	private TextFieldF tfEuro;
-	protected JComboBox comboBoxCat;
+	protected JComboBox<?> comboBoxCat;
 
 	private String dataDa;
 	private String dataA;

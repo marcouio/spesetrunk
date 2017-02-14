@@ -10,61 +10,58 @@ import command.javabeancommand.AbstractOggettoEntita;
 import domain.Utenti;
 import domain.wrapper.WrapUtenti;
 
-public class CacheUtenti extends AbstractCacheBase{
-	
+public class CacheUtenti extends AbstractCacheBase<Utenti> {
+
 	private static CacheUtenti singleton;
-	
-	private CacheUtenti(){
-		cache = new HashMap<String, AbstractOggettoEntita>();
+	private WrapUtenti utentiDAO = new WrapUtenti();
+
+	private CacheUtenti() {
+		cache = new HashMap<String, Utenti>();
 	}
-	public static CacheUtenti getSingleton(){
+
+	public static CacheUtenti getSingleton() {
+
 		if (singleton == null) {
-			synchronized (CacheUtenti.class) {
-				if (singleton == null) {
-					singleton = new CacheUtenti();
-				}
-			} // if
-		} // if
+			singleton = new CacheUtenti();
+		}
 		return singleton;
 	}
 
-	WrapUtenti utentiDAO = new WrapUtenti();
-	
-	
-	public boolean checkUtentePerUsername(String username){
+
+	public boolean checkUtentePerUsername(String username) {
 		boolean ok = false;
 		Object[] utenti = getArrayUtenti();
-		for(int i=0; i<utenti.length;i++){
+		for (int i = 0; i < utenti.length; i++) {
 			Utenti utente = (Utenti) utenti[i];
-			if(utente.getusername().equals(username)){
+			if (utente.getusername().equals(username)) {
 				ok = true;
 			}
 		}
 		return ok;
 	}
-	
-	public Utenti getUtente(String id){
-		Utenti utenti = (Utenti) cache.get(id); 
-		if(utenti == null){
+
+	public Utenti getUtente(String id) {
+		Utenti utenti = (Utenti) cache.get(id);
+		if (utenti == null) {
 			utenti = caricaUtenti(id);
-			if(utenti!=null){
+			if (utenti != null) {
 				cache.put(id, utenti);
 			}
 		}
-	return (Utenti)cache.get(id);
+		return (Utenti) cache.get(id);
 	}
-	
-	private Utenti caricaUtenti(String id){
+
+	private Utenti caricaUtenti(String id) {
 		return (Utenti) new WrapUtenti().selectById(Integer.parseInt(id));
 	}
-	
-	public Map<String, AbstractOggettoEntita> chargeAllUtenti(){
-		List<Object>utenti = utentiDAO.selectAll();
-		if(utenti!=null && utenti.size()>0){
-			for(int i=0; i<utenti.size();i++){
+
+	public Map<String, Utenti> chargeAllUtenti() {
+		List<Object> utenti = utentiDAO.selectAll();
+		if (utenti != null) {
+			for (int i = 0; i < utenti.size(); i++) {
 				Utenti utente = (Utenti) utenti.get(i);
 				int id = utente.getidUtente();
-				if(cache.get(id) == null){
+				if (cache.get(id) == null) {
 					cache.put(Integer.toString(id), utente);
 				}
 			}
@@ -73,25 +70,25 @@ public class CacheUtenti extends AbstractCacheBase{
 		return cache;
 	}
 
-	public Map<String, AbstractOggettoEntita> getAllUtenti(){
-		if(caricata)
+	public Map<String, Utenti> getAllUtenti() {
+		if (caricata)
 			return cache;
 		else
 			return chargeAllUtenti();
 	}
-	
-	public List<Utenti> getVettoreUtenti(){
+
+	public List<Utenti> getVettoreUtenti() {
 		List<Utenti> utenti = new ArrayList<>();
-		Map<String, AbstractOggettoEntita> mappa = this.getAllUtenti();
+		Map<String, Utenti> mappa = this.getAllUtenti();
 		Utenti[] lista = (Utenti[]) mappa.values().toArray();
-		for(int i=0;i<lista.length;i++){
+		for (int i = 0; i < lista.length; i++) {
 			utenti.add(lista[i]);
 		}
 		return utenti;
 	}
-	
-	public Object[] getArrayUtenti(){
-		Map<String, AbstractOggettoEntita> mappa = this.getAllUtenti();
-		return mappa.values().toArray(); 
+
+	public Object[] getArrayUtenti() {
+		Map<String, Utenti> mappa = this.getAllUtenti();
+		return mappa.values().toArray();
 	}
 }

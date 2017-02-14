@@ -2,38 +2,34 @@ package business.cache;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import command.javabeancommand.AbstractOggettoEntita;
-
-import view.impostazioni.Impostazioni;
 import business.Controllore;
 import domain.SingleSpesa;
 import domain.Utenti;
 import domain.wrapper.WrapSingleSpesa;
+import view.impostazioni.Impostazioni;
 
-public class CacheUscite extends AbstractCacheBase {
+public class CacheUscite extends AbstractCacheBase<SingleSpesa> {
 
 	private static CacheUscite singleton;
-
+	private WrapSingleSpesa usciteDAO = new WrapSingleSpesa();
+	
 	private CacheUscite() {
-		cache = new HashMap<String, AbstractOggettoEntita>();
+		cache = new HashMap<String, SingleSpesa>();
 	}
 
 	public static CacheUscite getSingleton() {
+
 		if (singleton == null) {
-			synchronized (CacheUscite.class) {
-				if (singleton == null) {
-					singleton = new CacheUscite();
-				}
-			} // if
-		} // if
+			singleton = new CacheUscite();
+		}
 		return singleton;
 	}
-
-	WrapSingleSpesa usciteDAO = new WrapSingleSpesa();
 
 	public SingleSpesa getSingleSpesa(final String id) {
 		SingleSpesa uscita = (SingleSpesa) cache.get(id);
@@ -50,7 +46,7 @@ public class CacheUscite extends AbstractCacheBase {
 		return (SingleSpesa) new WrapSingleSpesa().selectById(Integer.parseInt(id));
 	}
 
-	private Map<String, AbstractOggettoEntita> chargeAllUscite() {
+	private Map<String, SingleSpesa> chargeAllUscite() {
 		final List<Object> uscite = usciteDAO.selectAll();
 		if (uscite != null) {
 			for (int i = 0; i < uscite.size(); i++) {
@@ -62,12 +58,12 @@ public class CacheUscite extends AbstractCacheBase {
 			}
 			caricata = true;
 		} else {
-			cache = new HashMap<String, AbstractOggettoEntita>();
+			cache = new HashMap<String, SingleSpesa>();
 		}
 		return cache;
 	}
 
-	public Map<String, AbstractOggettoEntita> getAllUscite() {
+	public Map<String, SingleSpesa> getAllUscite() {
 		if (caricata) {
 			return cache;
 		} else {
@@ -75,61 +71,39 @@ public class CacheUscite extends AbstractCacheBase {
 		}
 	}
 
-	public ArrayList<SingleSpesa> getAllUsciteForUtente() {
-		final ArrayList<SingleSpesa> listaUscite = new ArrayList<SingleSpesa>();
-		final Map<String, AbstractOggettoEntita> mappa = getAllUscite();
-		final Iterator<String> chiavi = mappa.keySet().iterator();
+	public List<SingleSpesa> getAllUsciteForUtente() {
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
-		if (mappa != null && utente != null) {
-			while (chiavi.hasNext()) {
-				final SingleSpesa uscita = (SingleSpesa) mappa.get(chiavi.next());
-				if (uscita != null && uscita.getUtenti() != null) {
-					if (uscita.getUtenti().getidUtente() == utente.getidUtente()) {
-						listaUscite.add(uscita);
-					}
-				}
-			}
-		}
-		return listaUscite;
+		
+		final Map<String, SingleSpesa> mappa = getAllUscite();
+		
+		Stream<SingleSpesa> filter = mappa.values().stream().filter(ss -> 
+		{
+			Utenti utenti = ss.getUtenti();
+			return ss != null && utenti != null && utenti.getidUtente() == utente.getidUtente();
+		});
+		
+		return filter.collect(Collectors.toList());
+		
 	}
 
-	public ArrayList<SingleSpesa> getAllUsciteForUtenteEAnno() {
-		final ArrayList<SingleSpesa> listaUscite = new ArrayList<SingleSpesa>();
-		final Map<String, AbstractOggettoEntita> mappa = getAllUscite();
-		final Iterator<String> chiavi = mappa.keySet().iterator();
+	public List<SingleSpesa> getAllUsciteForUtenteEAnno() {
+		final Map<String, SingleSpesa> mappa = getAllUscite();
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		final String annoDaText = Impostazioni.getSingleton().getAnnotextField().getText();
-
-		if (mappa != null && utente != null) {
-			while (chiavi.hasNext()) {
-				final SingleSpesa uscita = (SingleSpesa) mappa.get(chiavi.next());
-				if (uscita != null && uscita.getUtenti() != null) {
-					final String annoUscita = uscita.getData().substring(0, 4);
-					if (uscita.getUtenti().getidUtente() == utente.getidUtente() && annoUscita.equals(annoDaText)) {
-						listaUscite.add(uscita);
-					}
-				}
-			}
+		if (utente != null) {
+			return mappa.values().stream().filter(ss -> {
+				final String annoUscita = ss.getData().substring(0, 4);
+				return ss != null && ss.getUtenti() != null && annoUscita.equals(annoDaText);
+			}).collect(Collectors.toList());
 		}
-		return listaUscite;
+		
+		return new ArrayList<>();
 	}
 
 	public int getMaxId() {
-		int maxId = 0;
-		final Map<String, AbstractOggettoEntita> mappa = getAllUscite();
-		final Iterator<String> chiavi = mappa.keySet().iterator();
-		if (mappa != null) {
-			while (chiavi.hasNext()) {
-				final SingleSpesa uscita = (SingleSpesa) mappa.get(chiavi.next());
-				if (uscita != null) {
-					final int idSpesa = uscita.getidSpesa();
-					if (idSpesa > maxId) {
-						maxId = idSpesa;
-					}
-				}
-			}
-		}
-		return maxId;
+		final Map<String, SingleSpesa> mappa = getAllUscite();
+		Optional<SingleSpesa> max = mappa.values().stream().max((s1, s2) -> Integer.compare(s1.getidSpesa(), s2.getidSpesa()));
+		return max.isPresent() ? max.get().getidSpesa() : 0;
 	}
 
 }

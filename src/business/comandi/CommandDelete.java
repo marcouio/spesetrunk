@@ -6,9 +6,9 @@ import business.cache.AbstractCacheBase;
 import command.javabeancommand.AbstractOggettoEntita;
 import db.dao.IDAO;
 
-public class CommandDelete extends AbstractCommandForJavaBean {
+public class CommandDelete<T extends AbstractOggettoEntita> extends AbstractCommandForJavaBean {
 
-	public CommandDelete(final AbstractOggettoEntita entita, final IDAO wrap, final AbstractCacheBase cache) {
+	public CommandDelete(final T entita, final IDAO wrap, final AbstractCacheBase<T> cache) {
 		this.entita = entita;
 		this.wrap = wrap;
 		this.mappaCache = cache.getCache();
