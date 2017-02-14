@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Observable;
-import java.util.Vector;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -80,19 +80,19 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 		return null; 
 	}
 
-	public Vector<Object> selectAllForUtente() {
-		final Vector<Object> uscite = new Vector<Object>();
+	public List<Object> selectAllForUtente() {
+		final List<Object> uscite = new ArrayList<>();
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		final Map<String, AbstractOggettoEntita> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
 		
 		final String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA + " WHERE " + SingleSpesa.IDUTENTE + " = " + utente.getidUtente();
 		try {
 			
-			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<Object>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
 
 				@Override
-				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
-					final Vector<Object> uscite = new Vector<Object>();
+				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
+					final List<Object> uscite = new ArrayList<>();
 					
 					while (rs != null && rs.next()) {
 						final CatSpese categoria = (CatSpese) mappaCategorie.get(Integer.toString(rs.getInt(5)));
@@ -127,19 +127,19 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 	}
 
 	@Override
-	public Vector<Object> selectAll() {
-		final Vector<Object> uscite = new Vector<Object>();
+	public List<Object> selectAll() {
+		final List<Object> uscite = new ArrayList<>();
 		final Map<String, AbstractOggettoEntita> mappaUtenti = CacheUtenti.getSingleton().getAllUtenti();
 		final Map<String, AbstractOggettoEntita> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
 		
 		final String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA;
 		try {
 			
-			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<Object>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
 
 				@Override
-				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
-					final Vector<Object> uscite = new Vector<Object>();
+				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
+					final List<Object> uscite = new ArrayList<>();
 					
 					while (rs != null && rs.next()) {
 						final Utenti utente = (Utenti) mappaUtenti.get(Integer.toString(rs.getInt(7)));
@@ -267,9 +267,9 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 	 * inserito come parametro
 	 * 
 	 * @param dieci
-	 * @return Vector<SingleSpesa>
+	 * @return List<SingleSpesa>
 	 */
-	public Vector<SingleSpesa> movimentiUsciteFiltrate(final String dataDa, final String dataA, final String nome, final Double euro, final String catSpese) {
+	public List<SingleSpesa> movimentiUsciteFiltrate(final String dataDa, final String dataA, final String nome, final Double euro, final String catSpese) {
 
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		int idUtente = 0;
@@ -297,13 +297,13 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 
 		try {
 			
-			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<SingleSpesa>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<List<SingleSpesa>>() {
 
 				@Override
-				protected Vector<SingleSpesa> doWithResultSet(ResultSet rs) throws SQLException {
-					final Vector<SingleSpesa> uscite = new Vector<SingleSpesa>();
+				protected List<SingleSpesa> doWithResultSet(ResultSet rs) throws SQLException {
+					final List<SingleSpesa> uscite = new ArrayList<SingleSpesa>();
 					
-					Vector<SingleSpesa> sSpesa = new Vector<SingleSpesa>();
+					List<SingleSpesa> sSpesa = new ArrayList<SingleSpesa>();
 					while (rs != null && rs.next()) {
 						final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(rs.getString(5));
 						final SingleSpesa ss = new SingleSpesa();
@@ -337,10 +337,10 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 	 * inserito come parametro
 	 * 
 	 * @param dieci
-	 * @return Vector<SingleSpesa>
+	 * @return List<SingleSpesa>
 	 */
-	public Vector<SingleSpesa> dieciUscite(final int dieci) {
-		Vector<SingleSpesa> sSpesa = null;
+	public List<SingleSpesa> dieciUscite(final int dieci) {
+		List<SingleSpesa> sSpesa = null;
 
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		int idUtente = 0;
@@ -355,12 +355,12 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 
 		try {
 			
-			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<SingleSpesa>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<List<SingleSpesa>>() {
 
 				@Override
-				protected Vector<SingleSpesa> doWithResultSet(ResultSet rs) throws SQLException {
+				protected List<SingleSpesa> doWithResultSet(ResultSet rs) throws SQLException {
 					
-					Vector<SingleSpesa> sSpesa = new Vector<SingleSpesa>();
+					List<SingleSpesa> sSpesa = new ArrayList<SingleSpesa>();
 					while (rs != null && rs.next()) {
 						final SingleSpesa ss = new SingleSpesa();
 						final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(rs.getString(5));
@@ -403,7 +403,7 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 				@Override
 				protected Boolean doWithResultSet(ResultSet rs) throws SQLException {
 					
-					Vector<SingleSpesa> sSpesa = new Vector<SingleSpesa>();
+					List<SingleSpesa> sSpesa = new ArrayList<SingleSpesa>();
 
 					if (rs.next()) {
 						SingleSpesa ss = new SingleSpesa();

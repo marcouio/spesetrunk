@@ -2,7 +2,7 @@ package business.cache;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Vector;
+import java.util.List;
 
 import command.javabeancommand.AbstractOggettoEntita;
 import domain.Budget;
@@ -59,7 +59,7 @@ public class CacheBudget extends AbstractCacheBase{
 	 * @return
 	 */
 	public Map<String, AbstractOggettoEntita> chargeAllBudget(){
-		Vector<Object>budgets =budgetDAO.selectAll();
+		List<Object>budgets =budgetDAO.selectAll();
 		if(budgets!=null && budgets.size()>0){
 			for(int i=0; i<budgets.size();i++){
 				Budget budget = (Budget) budgets.get(i);

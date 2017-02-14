@@ -1,9 +1,10 @@
 package business.cache;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Vector;
+import java.util.List;
 
 import command.javabeancommand.AbstractOggettoEntita;
 
@@ -62,7 +63,7 @@ public class CacheGruppi extends AbstractCacheBase {
 	}
 
 	public Map<String, AbstractOggettoEntita> chargeAllGruppi() {
-		final Vector<Object> gruppi = gruppiDAO.selectAll();
+		final List<Object> gruppi = gruppiDAO.selectAll();
 		if (gruppi != null && gruppi.size() > 0) {
 			for (int i = 0; i < gruppi.size(); i++) {
 				final Gruppi gruppo = (Gruppi) gruppi.get(i);
@@ -84,8 +85,8 @@ public class CacheGruppi extends AbstractCacheBase {
 		}
 	}
 
-	public Vector<Gruppi> getVettoreGruppiSenzaZero() {
-		final Vector<Gruppi> gruppi = new Vector<Gruppi>();
+	public List<Gruppi> getVettoreGruppiSenzaZero() {
+		final List<Gruppi> gruppi = new ArrayList<>();
 		final Map<String, AbstractOggettoEntita> mappa = this.getAllGruppi();
 		final Object[] lista = mappa.values().toArray();
 		for (int i = 0; i < lista.length; i++) {
@@ -97,8 +98,8 @@ public class CacheGruppi extends AbstractCacheBase {
 		return gruppi;
 	}
 
-	public Vector<Gruppi> getVettoreGruppi() {
-		final Vector<Gruppi> gruppi = new Vector<Gruppi>();
+	public List<Gruppi> getVettoreGruppi() {
+		final List<Gruppi> gruppi = new ArrayList<Gruppi>();
 		final Map<String, AbstractOggettoEntita> mappa = this.getAllGruppi();
 		final Object[] lista = mappa.values().toArray();
 		for (int i = lista.length - 1; i >= 0; i--) {
@@ -107,8 +108,8 @@ public class CacheGruppi extends AbstractCacheBase {
 		return gruppi;
 	}
 
-	public Vector<Gruppi> getVettoreCategoriePerCombo(final Map<String, AbstractOggettoEntita> mappa) {
-		final Vector<Gruppi> gruppi = new Vector<Gruppi>();
+	public List<Gruppi> getListCategoriePerCombo(final Map<String, AbstractOggettoEntita> mappa) {
+		final List<Gruppi> gruppi = new ArrayList<Gruppi>();
 		final Object[] lista = mappa.values().toArray();
 		final Gruppi gruppo = new Gruppi();
 		gruppo.setnome("");

@@ -4,23 +4,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
-import java.util.Vector;
 
-import business.ConnectionPoolGGS;
-import business.DBUtil;
 import business.cache.CacheCategorie;
 import command.javabeancommand.AbstractOggettoEntita;
 import db.Clausola;
 import db.ConnectionPool;
-import db.ConnectionPool.ExecuteResultSet;
 import db.dao.IDAO;
 import domain.Budget;
 import domain.CatSpese;
 import domain.IBudget;
-import domain.Lookandfeel;
 
 public class WrapBudget extends Observable implements IDAO, IBudget{
 
@@ -63,15 +58,15 @@ public class WrapBudget extends Observable implements IDAO, IBudget{
 	}
 
 	@Override
-	public Vector<Object> selectAll() {
+	public List<Object> selectAll() {
 		String sql = "SELECT * FROM " + Budget.NOME_TABELLA ;
 		try{
 			
-			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<Object>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
 
 				@Override
-				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
-					Vector<Object> budgets = new Vector<Object>();
+				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
+					List<Object> budgets = new ArrayList<>();
 					
 					while(rs.next()){
 						Budget budget = new Budget();

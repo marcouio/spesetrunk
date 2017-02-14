@@ -1,10 +1,9 @@
 package view.impostazioni;
 
 import java.awt.Dimension;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.Observable;
 import java.util.Vector;
+import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -30,19 +29,13 @@ public class CategorieView extends AbstractCategorieView {
 
 	private CatSpese categoria = null;
 	private JTextArea taDescrizione;
-	private JComboBox cbImportanza;
+	private JComboBox<String> cbImportanza;
 	private JTextField tfNome;
-	private JComboBox cbCategorie;
-	private Vector<CatSpese> categorieSpesa;
-	private JComboBox cbGruppi;
+	private JComboBox<CatSpese> cbCategorie;
+	private List<CatSpese> categorieSpesa;
+	private JComboBox<Gruppi> cbGruppi;
 
 	private static final long serialVersionUID = 1L;
-
-	public static void main(final String[] args) {
-		final CategorieView dialog = new CategorieView(new WrapCatSpese());
-		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		dialog.setVisible(true);
-	}
 
 	public CategorieView(final WrapCatSpese cat) {
 		super(cat);
@@ -50,7 +43,7 @@ public class CategorieView extends AbstractCategorieView {
 		modelCatSpese.addObserver(this);
 		initGUI();
 	}
-
+	
 	private void initGUI() {
 		try {
 
@@ -85,44 +78,40 @@ public class CategorieView extends AbstractCategorieView {
 			inserisci.setBounds(26, 305, 206, 25);
 			inserisci.setText("Inserisci Categoria");
 
-			final Vector<Gruppi> vettoreGruppi = CacheGruppi.getSingleton().getVettoreCategoriePerCombo(CacheGruppi.getSingleton().getAllGruppi());
+			final List<Gruppi> vettoreGruppi = CacheGruppi.getSingleton().getListCategoriePerCombo(CacheGruppi.getSingleton().getAllGruppi());
 			// combo gruppi
-			cbGruppi = new JComboBox();
+			cbGruppi = new JComboBox<Gruppi>();
 			for (int i = 0; i < vettoreGruppi.size(); i++) {
 				cbGruppi.addItem(vettoreGruppi.get(i));
 			}
 			cbGruppi.setBounds(26, 265, 206, 25);
 			getContentPane().add(cbGruppi);
 
-			categorieSpesa = CacheCategorie.getSingleton().getVettoreCategoriePerCombo(CacheCategorie.getSingleton().getAllCategorie());
-			cbCategorie = new JComboBox(categorieSpesa);
+			categorieSpesa = CacheCategorie.getSingleton().getListCategoriePerCombo(CacheCategorie.getSingleton().getAllCategorie());
+			cbCategorie = new JComboBox<>(new Vector<>(categorieSpesa));
 			cbCategorie.setBounds(26, 380, 206, 25);
-			cbCategorie.addItemListener(new ItemListener() {
+			cbCategorie.addItemListener(e -> {
 
-				@Override
-				public void itemStateChanged(final ItemEvent e) {
-
-					if (cbCategorie.getSelectedIndex() != 0 && cbCategorie.getSelectedItem() != null) {
-						categoria = (CatSpese) cbCategorie.getSelectedItem();
-						tfNome.setText(categoria.getnome());
-						taDescrizione.setText(categoria.getdescrizione());
-						cbImportanza.setSelectedItem(categoria.getimportanza());
-						final int numeroGruppi = cbGruppi.getModel().getSize();
-						boolean trovato = false;
-						for (int i = 0; i < numeroGruppi; i++) {
-							final Gruppi gruppo = (Gruppi) cbGruppi.getModel().getElementAt(i);
-							if (gruppo != null && gruppo.getnome()!=null &&  categoria.getGruppi()!=null) {
-								if(gruppo.getnome().equals(categoria.getGruppi().getnome())){
-									cbGruppi.setSelectedIndex(i);
-									trovato = true;
-								}
+				if (cbCategorie.getSelectedIndex() != 0 && cbCategorie.getSelectedItem() != null) {
+					categoria = (CatSpese) cbCategorie.getSelectedItem();
+					tfNome.setText(categoria.getnome());
+					taDescrizione.setText(categoria.getdescrizione());
+					cbImportanza.setSelectedItem(categoria.getimportanza());
+					final int numeroGruppi = cbGruppi.getModel().getSize();
+					boolean trovato = false;
+					for (int i = 0; i < numeroGruppi; i++) {
+						final Gruppi gruppo = (Gruppi) cbGruppi.getModel().getElementAt(i);
+						if (gruppo != null && gruppo.getnome()!=null &&  categoria.getGruppi()!=null) {
+							if(gruppo.getnome().equals(categoria.getGruppi().getnome())){
+								cbGruppi.setSelectedIndex(i);
+								trovato = true;
 							}
 						}
-						if(!trovato){
-							cbGruppi.setSelectedIndex(0);
-						}
-
 					}
+					if(!trovato){
+						cbGruppi.setSelectedIndex(0);
+					}
+
 				}
 			});
 
@@ -182,11 +171,11 @@ public class CategorieView extends AbstractCategorieView {
 
 	}
 
-	public Vector<CatSpese> getCategorieSpesa() {
+	public List<CatSpese> getCategorieSpesa() {
 		return categorieSpesa;
 	}
 
-	public void setCategorieSpesa(final Vector<CatSpese> categorieSpesa) {
+	public void setCategorieSpesa(final List<CatSpese> categorieSpesa) {
 		this.categorieSpesa = categorieSpesa;
 	}
 

@@ -3,6 +3,7 @@ package view.impostazioni.ascoltatori;
 import grafica.componenti.alert.Alert;
 
 import java.awt.event.ActionEvent;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
@@ -42,8 +43,8 @@ public class AscoltatoreAggiornaGruppo extends AscoltatoreAggiornatoreTutto {
 			try {
 				if (Controllore.invocaComando(new CommandUpdateGruppo(oldGruppo, (IGruppi) modelGruppi.getEntitaPadre()))) {
 
-					final Vector<Gruppi> vectorGruppi = CacheGruppi.getSingleton().getVettoreCategoriePerCombo(CacheGruppi.getSingleton().getAllGruppi());
-					final DefaultComboBoxModel model = new DefaultComboBoxModel(vectorGruppi);
+					final List<Gruppi> vectorGruppi = CacheGruppi.getSingleton().getListCategoriePerCombo(CacheGruppi.getSingleton().getAllGruppi());
+					final DefaultComboBoxModel<Gruppi> model = new DefaultComboBoxModel<Gruppi>(new Vector<Gruppi>(vectorGruppi));
 					gruppiView.getComboGruppi().setModel(model);
 					AggiornatoreManager.aggiornamentoComboBox(CacheCategorie.getSingleton().getVettoreCategorie());
 					modelGruppi.setChanged();

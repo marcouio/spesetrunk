@@ -3,7 +3,7 @@ package view.componenti.movimenti;
 import java.awt.Dialog.ModalityType;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Vector;
+import java.util.List;
 
 import javax.swing.JTable;
 
@@ -68,7 +68,7 @@ public class AscoltatoreBottoniUscita extends MouseAdapter {
 		dialogNew.getTfDataIns().setText((String) arrayUtil[INDEX_DATAINS]);
 		dialogNew.getEuro().setText((String) arrayUtil[INDEX_EURO]);
 
-		final Vector<CatSpese> cate = CacheCategorie.getSingleton().getVettoreCategorie();
+		final List<CatSpese> cate = CacheCategorie.getSingleton().getVettoreCategorie();
 		for (int i = 0; i < cate.size(); i++) {
 			if (cate.get(i).getnome().equals(arrayUtil[INDEX_CATEGORIA])) {
 				dialogNew.getComboCategoria().setSelectedIndex(i);

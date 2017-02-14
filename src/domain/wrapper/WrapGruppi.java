@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Set;
-import java.util.Vector;
+import java.util.List;
 
 import business.ConnectionPoolGGS;
 import business.DBUtil;
@@ -65,16 +65,16 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 	}
 
 	@Override
-	public Vector<Object> selectAll() {
+	public List<Object> selectAll() {
 		
 		final String sql = "SELECT * FROM " + Gruppi.NOME_TABELLA + " ORDER BY " + Gruppi.ID + " asc";
 		try {
 			
-			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<Object>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
 
 				@Override
-				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
-					final Vector<Object> gruppi = new Vector<Object>();
+				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
+					final List<Object> gruppi = new ArrayList<>();
 					
 					while (rs != null && rs.next()) {
 						

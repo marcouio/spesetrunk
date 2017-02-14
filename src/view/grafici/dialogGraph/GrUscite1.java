@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Vector;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -52,7 +52,7 @@ public class GrUscite1 extends JDialog implements ActionListener {
 	public GrUscite1() throws SQLException, IOException {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(null);
-		final Vector<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
+		final List<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
 		
 		// Grafico a barre
 		final DefaultCategoryDataset dataset = new DefaultCategoryDataset();

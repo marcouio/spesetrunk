@@ -1,6 +1,7 @@
 package view.font;
 
 import java.awt.Font;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JTable;
@@ -38,8 +39,8 @@ public class TableF extends JTable {
 		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
 	}
 
-	public TableF(@SuppressWarnings("rawtypes") final Vector rowData, @SuppressWarnings("rawtypes") final Vector columnNames) {
-		super(rowData, columnNames);
+	public TableF(@SuppressWarnings("rawtypes") final List rowData, @SuppressWarnings("rawtypes") final List columnNames) {
+		super(new Vector(rowData), new Vector(columnNames));
 		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
 	}
 

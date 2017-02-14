@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Vector;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -46,7 +46,7 @@ public class GrGenerale extends JDialog implements ActionListener {
 	private static HashMap<Integer, ArrayList<Double>> mappaOttobre;
 	private static HashMap<Integer, ArrayList<Double>> mappaNovembre;
 	private static HashMap<Integer, ArrayList<Double>> mappaDicembre;
-	Vector<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
+	List<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
 
 	/**
 	 * Uscite mensili per categoria Launch the application.

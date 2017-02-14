@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Vector;
+import java.util.List;
 
 import command.javabeancommand.AbstractOggettoEntita;
 
@@ -52,7 +52,7 @@ public class CacheNote extends AbstractCacheBase {
 	}
 
 	public Map<String, AbstractOggettoEntita> chargeAllNote() {
-		final Vector<Object> note = noteDAO.selectAll();
+		final List<Object> note = noteDAO.selectAll();
 		if (note != null && note.size() > 0) {
 			for (int i = 0; i < note.size(); i++) {
 				final Note nota = (Note) note.get(i);

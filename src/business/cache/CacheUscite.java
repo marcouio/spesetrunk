@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Vector;
+import java.util.List;
 
 import command.javabeancommand.AbstractOggettoEntita;
 
@@ -51,7 +51,7 @@ public class CacheUscite extends AbstractCacheBase {
 	}
 
 	private Map<String, AbstractOggettoEntita> chargeAllUscite() {
-		final Vector<Object> uscite = usciteDAO.selectAll();
+		final List<Object> uscite = usciteDAO.selectAll();
 		if (uscite != null) {
 			for (int i = 0; i < uscite.size(); i++) {
 				final SingleSpesa uscita = (SingleSpesa) uscite.get(i);

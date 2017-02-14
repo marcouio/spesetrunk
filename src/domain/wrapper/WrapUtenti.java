@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Set;
-import java.util.Vector;
+import java.util.List;
 
 import business.ConnectionPoolGGS;
 import business.DBUtil;
@@ -63,17 +63,17 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 	}
 
 	@Override
-	public Vector<Object> selectAll() {
+	public List<Object> selectAll() {
 		
 		String sql = "SELECT * FROM " + Utenti.NOME_TABELLA;
 
 		try {
 
-			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<Object>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
 
 				@Override
-				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
-					final Vector<Object> utenti = new Vector<Object>();
+				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
+					final List<Object> utenti = new ArrayList<>();
 					
 					while(rs != null && rs.next()) {
 						Utenti utente = new Utenti();

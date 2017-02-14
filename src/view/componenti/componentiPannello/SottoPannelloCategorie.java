@@ -4,6 +4,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -85,7 +87,8 @@ public class SottoPannelloCategorie {
 			componenti[2] = totaleMeseCategoria;
 
 			// CategoriaSpese
-			categorieCombo = new JComboBox(CacheCategorie.getSingleton().getVettoreCategoriePerCombo());
+			List<CatSpese> listCategoriePerCombo = CacheCategorie.getSingleton().getListCategoriePerCombo();
+			categorieCombo = new JComboBox(new Vector<>(listCategoriePerCombo));
 
 			categorieCombo.setBounds(16, 85, 106, 27);
 

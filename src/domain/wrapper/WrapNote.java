@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Observable;
-import java.util.Vector;
+import java.util.List;
 
 import business.ConnectionPoolGGS;
 import business.Controllore;
@@ -143,18 +143,18 @@ public class WrapNote extends Observable implements IDAO, INote {
 	}
 
 	@Override
-	public Vector<Object> selectAll() {
-		final Vector<Object> note = new Vector<Object>();
+	public List<Object> selectAll() {
+		final List<Object> note = new ArrayList<>();
 		
 
 		final String sql = "SELECT * FROM " + Note.NOME_TABELLA;
 		try {
 			
-			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<Object>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
 
 				@Override
-				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
-					final Vector<Object> note = new Vector<Object>();
+				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
+					final List<Object> note = new ArrayList<>();
 					
 					while (rs != null && rs.next()) {
 						final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(4)));

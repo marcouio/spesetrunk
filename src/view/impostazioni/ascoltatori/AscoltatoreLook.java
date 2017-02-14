@@ -3,7 +3,7 @@ package view.impostazioni.ascoltatori;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.Vector;
+import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.SwingUtilities;
@@ -18,9 +18,9 @@ import domain.Lookandfeel;
 public class AscoltatoreLook implements ActionListener {
 
 	JComboBox comboLook;
-	Vector<Lookandfeel> vettore;
+	List<Lookandfeel> vettore;
 
-	public AscoltatoreLook(final JComboBox comboLook, final Vector<Lookandfeel> vettore) {
+	public AscoltatoreLook(final JComboBox comboLook, final List<Lookandfeel> vettore) {
 		this.comboLook = comboLook;
 		this.vettore = vettore;
 	}

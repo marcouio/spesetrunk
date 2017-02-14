@@ -2,7 +2,7 @@ package view.componenti.movimenti;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Vector;
+import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.WindowConstants;
@@ -48,7 +48,7 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 					@Override
 					public String[][] getMovimenti() {
 						WrapEntrate modelEntrate = Model.getSingleton().getModelEntrate();
-						final Vector<Entrate> entrate = modelEntrate.movimentiEntrateFiltrati(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
+						final List<Entrate> entrate = modelEntrate.movimentiEntrateFiltrati(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
 						final String[][] mov = Model.getSingleton().movimentiFiltratiEntratePerNumero(Entrate.NOME_TABELLA, entrate);
 						AggiornatoreManager.aggiornaMovimentiEntrateDaFiltro(createNomiColonne(), mov);
 						return mov;

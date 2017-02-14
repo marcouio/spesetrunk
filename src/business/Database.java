@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Vector;
+import java.util.List;
 
 import view.impostazioni.Impostazioni;
 import business.cache.CacheEntrate;
@@ -551,10 +551,10 @@ public class Database {
 	 * specificata nel parametro
 	 * 
 	 * @param tabella
-	 * @return Vector<String>
+	 * @return List<String>
 	 */
-	public Vector<String> nomiColonne(final String tabella) {
-		Vector<String> colonne = null;
+	public List<String> nomiColonne(final String tabella) {
+		List<String> colonne = null;
 		String sql = "";
 		if (tabella.equals(Entrate.NOME_TABELLA)) {
 			sql = "SELECT " + Entrate.NOME_TABELLA + "." + Entrate.DATA + ", " + Entrate.NOME_TABELLA + "."
@@ -578,12 +578,12 @@ public class Database {
 
 		
 		try {
-			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<String>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<List<String>>() {
 
 				@Override
-				protected Vector<String> doWithResultSet(ResultSet rs)
+				protected List<String> doWithResultSet(ResultSet rs)
 						throws SQLException {
-					Vector<String> colonne = new Vector<String>();
+					List<String> colonne = new ArrayList<>();
 					
 					if(rs != null && rs.next()){
 						final ResultSetMetaData rsm = rs.getMetaData();

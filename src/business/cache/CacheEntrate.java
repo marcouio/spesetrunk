@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Vector;
+import java.util.List;
 
 import command.javabeancommand.AbstractOggettoEntita;
 
@@ -52,7 +52,7 @@ public class CacheEntrate extends AbstractCacheBase {
 	}
 
 	public Map<String, AbstractOggettoEntita> chargeAllEntrate() {
-		final Vector<Object> entrate = entrateDAO.selectAll();
+		final List<Object> entrate = entrateDAO.selectAll();
 		if (entrate != null) {
 			for (int i = 0; i < entrate.size(); i++) {
 				final Entrate entrata = (Entrate) entrate.get(i);

@@ -5,18 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
-import java.util.Vector;
 
-import view.impostazioni.Impostazioni;
 import business.AltreUtil;
-import business.ConnectionPoolGGS;
 import business.Controllore;
 import business.DBUtil;
 import business.cache.CacheUtenti;
-
 import command.javabeancommand.AbstractOggettoEntita;
-
 import controller.ControlloreBase;
 import db.Clausola;
 import db.ConnectionPool;
@@ -24,6 +20,7 @@ import db.dao.IDAO;
 import domain.Entrate;
 import domain.IEntrate;
 import domain.Utenti;
+import view.impostazioni.Impostazioni;
 
 public class WrapEntrate extends Observable implements IEntrate, IDAO {
 
@@ -82,18 +79,18 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 
 	}
 
-	public Vector<Object> selectAllForUtente() {
+	public List<Object> selectAllForUtente() {
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		
 		final String sql = "SELECT * FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.IDUTENTE + " = " + utente.getidUtente();
 		try {
 			
-			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<Object>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
 
 				@Override
-				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
+				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
 					
-					final Vector<Object> entrate = new Vector<Object>();
+					final List<Object> entrate = new ArrayList<>();
 					while (rs != null && rs.next()) {
 						
 						final Entrate entrata = new Entrate();
@@ -120,22 +117,22 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	}
 
 	@Override
-	public Vector<Object> selectAll() {
+	public List<Object> selectAll() {
 		
 
 		final String sql = "SELECT * FROM " + Entrate.NOME_TABELLA;
 		try {
 			
-			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<Object>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
 
 				@Override
-				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
+				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
 					return extracted(rs);
 				}
 
-				private Vector<Object> extracted(ResultSet rs)
+				private List<Object> extracted(ResultSet rs)
 						throws SQLException {
-					final Vector<Object> entrate = new Vector<Object>();
+					final List<Object> entrate = new ArrayList<>();
 					
 					while (rs != null && rs.next()) {
 						final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
@@ -270,9 +267,9 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	 * come parametro
 	 * 
 	 * @param numEntry
-	 * @return Vector<Entrate>
+	 * @return List<Entrate>
 	 */
-	public Vector<Entrate> movimentiEntrateFiltrati(final String dataDa, final String dataA, final String nome, final Double euro, final String categoria) {
+	public List<Entrate> movimentiEntrateFiltrati(final String dataDa, final String dataA, final String nome, final Double euro, final String categoria) {
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		int idUtente = 0;
 		if (utente != null) {
@@ -298,12 +295,12 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 		
 		try {
 			
-			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<Entrate>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Entrate>>() {
 
 				@Override
-				protected Vector<Entrate> doWithResultSet(ResultSet rs) throws SQLException {
+				protected List<Entrate> doWithResultSet(ResultSet rs) throws SQLException {
 
-					Vector<Entrate> entrate = new Vector<Entrate>();
+					List<Entrate> entrate = new ArrayList<>();
 					while (rs != null && rs.next()) {
 						final Entrate e = new Entrate();
 						e.setdata(rs.getString(5));
@@ -334,9 +331,9 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	 * come parametro
 	 * 
 	 * @param numEntry
-	 * @return Vector<Entrate>
+	 * @return List<Entrate>
 	 */
-	public Vector<Entrate> dieciEntrate(final int numEntry) {
+	public List<Entrate> dieciEntrate(final int numEntry) {
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		int idUtente = 0;
 		if (utente != null) {
@@ -348,12 +345,12 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 		
 		try {
 			
-			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<Entrate>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Entrate>>() {
 
 				@Override
-				protected Vector<Entrate> doWithResultSet(ResultSet rs) throws SQLException {
+				protected List<Entrate> doWithResultSet(ResultSet rs) throws SQLException {
 
-					Vector<Entrate> entrate = new Vector<Entrate>();
+					List<Entrate> entrate = new ArrayList<Entrate>();
 					
 					while (rs != null && rs.next()) {
 						final Entrate e = new Entrate();

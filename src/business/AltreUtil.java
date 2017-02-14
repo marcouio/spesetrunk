@@ -4,7 +4,7 @@ import grafica.componenti.alert.Alert;
 
 import java.io.File;
 import java.util.GregorianCalendar;
-import java.util.Vector;
+import java.util.List;
 
 public class AltreUtil {
 	
@@ -140,7 +140,7 @@ public class AltreUtil {
 	 */
 	public static Object[] generaNomiColonne(final String tabella) {
 		// nomi delle colonne
-		final Vector<String> nomi = Database.getSingleton().nomiColonne(tabella);
+		final List<String> nomi = Database.getSingleton().nomiColonne(tabella);
 		final String[] nomiColonne = new String[nomi.size()];
 		for (int i = 0; i < nomi.size(); i++) {
 			nomiColonne[i] = nomi.get(i);

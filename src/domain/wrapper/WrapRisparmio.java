@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Observable;
-import java.util.Vector;
+import java.util.List;
 
 import business.ConnectionPoolGGS;
 
@@ -59,17 +59,17 @@ public class WrapRisparmio extends Observable implements IDAO,IRisparmio{
 	}
 
 	@Override
-	public Vector<Object> selectAll() {
-		Vector<Object> risparmi = new Vector<Object>();
+	public List<Object> selectAll() {
+		List<Object> risparmi = new ArrayList<>();
 		
 		String sql = "SELECT * FROM " + Risparmio.NOME_TABELLA ;
 		try{
 			
-			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<Object>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
 
 				@Override
-				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
-					final Vector<Object> risparmi = new Vector<Object>();
+				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
+					final List<Object> risparmi = new ArrayList<>();
 					
 					while(rs.next()){
 						Risparmio risparmio = new Risparmio();

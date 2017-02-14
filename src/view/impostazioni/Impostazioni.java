@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JComboBox;
@@ -64,7 +65,7 @@ public class Impostazioni extends JDialog {
 	private JTextField dataOdierna;
 	private JTextField utente;
 	private ArrayList<String> listaLook;
-	private JComboBox comboLook;
+	private JComboBox<Lookandfeel> comboLook;
 	private TextFieldF annotextField;
 	private static int anno = new GregorianCalendar().get(Calendar.YEAR);
 	private static JTextField caricaDatabase;
@@ -185,10 +186,10 @@ public class Impostazioni extends JDialog {
 			getContentPane().add(annotextField);
 
 			final CacheLookAndFeel cacheLook = CacheLookAndFeel.getSingleton();
-			final Vector<Lookandfeel> vettore = cacheLook.getVettoreLooksPerCombo();
+			final List<Lookandfeel> vettore = cacheLook.getVettoreLooksPerCombo();
 
 			Lookandfeel look = null;
-			comboLook = new JComboBox(vettore);
+			comboLook = new JComboBox<Lookandfeel>(new Vector<>(vettore));
 			Lookandfeel system = new Lookandfeel();
 			system.setnome("System");
 			system.setvalore(UIManager.getSystemLookAndFeelClassName());

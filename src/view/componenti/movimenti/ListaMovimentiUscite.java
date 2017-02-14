@@ -1,6 +1,7 @@
 package view.componenti.movimenti;
 
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JComboBox;
@@ -47,7 +48,7 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 
 					@Override
 					public String[][] getMovimenti() {
-						final Vector<SingleSpesa> uscite = Model.getSingleton().getModelUscita()
+						final List<SingleSpesa> uscite = Model.getSingleton().getModelUscita()
 								.movimentiUsciteFiltrate(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
 						final String[][] mov = Model.getSingleton().movimentiFiltratiUscitePerNumero(Entrate.NOME_TABELLA, uscite);
 						AggiornatoreManager.aggiornaMovimentiUsciteDaFiltro(createNomiColonne(), mov);
@@ -55,7 +56,8 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 					}
 
 					{
-						comboBoxCat = new JComboBox(CacheCategorie.getSingleton().getVettoreCategoriePerCombo());
+						List<CatSpese> listCategoriePerCombo = CacheCategorie.getSingleton().getListCategoriePerCombo();
+						comboBoxCat = new JComboBox(new Vector<CatSpese>(listCategoriePerCombo));
 						comboBoxCat.setBounds(512, 26, 89, 25);
 						getContentPane().add(comboBoxCat);
 

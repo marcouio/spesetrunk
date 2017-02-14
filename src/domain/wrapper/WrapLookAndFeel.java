@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Observable;
-import java.util.Vector;
+import java.util.List;
 
 import business.ConnectionPoolGGS;
 import business.DBUtil;
@@ -62,16 +62,16 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 	}
 
 	@Override
-	public Vector<Object> selectAll() {
-		final Vector<Object> looks = new Vector<Object>();
+	public List<Object> selectAll() {
+		final List<Object> looks = new ArrayList<>();
 		
 		String sql = "SELECT * FROM " + Lookandfeel.NOME_TABELLA;
 		try {
 			
-			ConnectionPool.getSingleton().new ExecuteResultSet<Vector<Object>>() {
+			ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
 
 				@Override
-				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
+				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
 					while (rs != null && rs.next()) {
 						Lookandfeel look = new Lookandfeel();
 						look.setidLook(rs.getInt(1));

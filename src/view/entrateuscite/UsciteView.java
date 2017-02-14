@@ -7,7 +7,9 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Observable;
+import java.util.Vector;
 
 import javax.swing.JComboBox;
 import javax.swing.WindowConstants;
@@ -83,7 +85,8 @@ public class UsciteView extends AbstractUsciteView {
 		getContentPane().add(tfNome);
 		tfNome.setColumns(10);
 
-		cCategorie = new JComboBox(CacheCategorie.getSingleton().getVettoreCategoriePerCombo());
+		List<CatSpese> listCategoriePerCombo = CacheCategorie.getSingleton().getListCategoriePerCombo();
+		cCategorie = new JComboBox(new Vector<>(listCategoriePerCombo));
 		cCategorie.setBounds(181, 38, 150, 27);
 		getContentPane().add(cCategorie);
 

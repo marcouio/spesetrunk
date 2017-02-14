@@ -1,8 +1,9 @@
 package business.cache;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Vector;
+import java.util.List;
 
 import command.javabeancommand.AbstractOggettoEntita;
 
@@ -30,7 +31,7 @@ public class CacheLookAndFeel extends AbstractCacheBase{
 	}
 	
 	public Map<String, AbstractOggettoEntita> chargeAllLook(){
-		Vector<Object>looks = lookDAO.selectAll();
+		List<Object>looks = lookDAO.selectAll();
 		if(looks!=null && looks.size()>0){
 			for(int i=0; i<looks.size();i++){
 				Lookandfeel lookFeel = (Lookandfeel) looks.get(i);
@@ -51,8 +52,8 @@ public class CacheLookAndFeel extends AbstractCacheBase{
 			return chargeAllLook();
 	}
 	
-	public Vector<Lookandfeel>getVettoreLooksPerCombo(){
-		Vector<Lookandfeel> looks = new Vector<Lookandfeel>();
+	public List<Lookandfeel>getVettoreLooksPerCombo(){
+		List<Lookandfeel> looks = new ArrayList<>();
 		Map<String, AbstractOggettoEntita> mappa = this.getAllLooks();
 		Object[] lista = mappa.values().toArray();
 		Lookandfeel look = new Lookandfeel();

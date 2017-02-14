@@ -40,7 +40,7 @@ public class Controllore extends ControlloreBase{
 	private void settaLookFeel() {
 		try {
 			final CacheLookAndFeel cacheLook = CacheLookAndFeel.getSingleton();
-			final java.util.Vector<Lookandfeel> vettore = cacheLook.getVettoreLooksPerCombo();
+			final java.util.List<Lookandfeel> vettore = cacheLook.getVettoreLooksPerCombo();
 			Lookandfeel look = null;
 			Lookandfeel lookDaUsare = null;
 			for (int i = 0; i < vettore.size(); i++) {

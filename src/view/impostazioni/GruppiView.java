@@ -4,7 +4,7 @@ import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Observable;
-import java.util.Vector;
+import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.WindowConstants;
@@ -61,7 +61,7 @@ public class GruppiView extends AbstractGruppiView {
 
 		inserisci.addActionListener(new AscoltatoreInserisciGruppo(this));
 
-		final Vector<Gruppi> vettoreGruppi = CacheGruppi.getSingleton().getVettoreGruppi();
+		final List<Gruppi> vettoreGruppi = CacheGruppi.getSingleton().getVettoreGruppi();
 		comboGruppi = new JComboBox();
 		comboGruppi.addItem("");
 

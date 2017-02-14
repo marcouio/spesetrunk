@@ -1,7 +1,7 @@
 package business.generatori;
 
 import java.util.HashMap;
-import java.util.Vector;
+import java.util.List;
 
 import domain.CatSpese;
 import domain.Gruppi;
@@ -14,8 +14,8 @@ import grafica.componenti.table.TableModel;
 public class TableModelUsciteGruppi extends TableModel{
 
 	private static final long serialVersionUID = 1L;
-	Vector<Gruppi> gruppi = null;
-	Vector<CatSpese> catSpese = null;
+	List<Gruppi> gruppi = null;
+	List<CatSpese> catSpese = null;
 
 	public TableModelUsciteGruppi(Object parametro) throws Exception {
 		super(parametro);
@@ -55,14 +55,14 @@ public class TableModelUsciteGruppi extends TableModel{
 		}
 	}
 
-public Vector<Gruppi> getGruppi() {
+public List<Gruppi> getGruppi() {
 	if(gruppi == null){
 		gruppi = CacheGruppi.getSingleton().getVettoreGruppiSenzaZero();
 	}
 	return gruppi;
 }
 
-public Vector<CatSpese> getCategorie() {
+public List<CatSpese> getCategorie() {
 	if(catSpese == null){
 		catSpese = CacheCategorie.getSingleton().getCategorieSenzaGruppo();
 	}

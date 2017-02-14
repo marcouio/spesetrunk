@@ -3,7 +3,7 @@ package business.generatori;
 import grafica.componenti.table.TableModel;
 
 import java.util.HashMap;
-import java.util.Vector;
+import java.util.List;
 
 import business.Database;
 import business.cache.CacheCategorie;
@@ -28,7 +28,7 @@ public class TableModelUscite extends TableModel{
 		mapMesi.put(12, I18NManager.getSingleton().getMessaggio("december"));
 	}
 
-	Vector<CatSpese> categorie;
+	List<CatSpese> categorie;
 	
 	public TableModelUscite(Object parametro) throws Exception {
 		super(parametro);
@@ -59,7 +59,7 @@ public class TableModelUscite extends TableModel{
 		}
 	}
 
-	public Vector<CatSpese> getCategorie() {
+	public List<CatSpese> getCategorie() {
 		if(categorie == null){
 			categorie = CacheCategorie.getSingleton().getVettoreCategorie();
 		}

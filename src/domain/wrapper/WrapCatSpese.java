@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Set;
-import java.util.Vector;
+import java.util.List;
 
 import business.ConnectionPoolGGS;
 import business.DBUtil;
@@ -70,19 +70,19 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 	}
 
 	@Override
-	public Vector<Object> selectAll() {
+	public List<Object> selectAll() {
 		
 		String sql = "SELECT * FROM " + CatSpese.NOME_TABELLA;
 		try {
 			CacheGruppi.getSingleton().chargeAllGruppi();
 			
-			return ConnectionPool.getSingleton().new ExecuteResultSet<Vector<Object>>() {
+			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
 
 				
 				@Override
-				protected Vector<Object> doWithResultSet(ResultSet rs) throws SQLException {
+				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
 
-					Vector<Object> categorie = new Vector<Object>();
+					List<Object> categorie = new ArrayList<>();
 					
 					
 					while (rs != null && rs.next()) {

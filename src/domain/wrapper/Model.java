@@ -1,7 +1,7 @@
 package domain.wrapper;
 
 import java.util.Map;
-import java.util.Vector;
+import java.util.List;
 
 import business.DBUtil;
 import business.Database;
@@ -32,7 +32,7 @@ public class Model {
 	private static String[][] movimentiEntrate;
 	private static String[][] movimentiUscite;
 
-	private static Vector<CatSpese> catSpese = CacheCategorie.getSingleton().getVettoreCategorie();
+	private static List<CatSpese> catSpese = CacheCategorie.getSingleton().getVettoreCategorie();
 
 	public static Model getSingleton() {
 		if (singleton == null) {
@@ -252,8 +252,8 @@ public class Model {
 	 * @param tabella
 	 * @return String[][]
 	 */
-	public String[][] movimentiFiltratiEntratePerNumero(final String tabella, final Vector<Entrate> entry1) {
-		final Vector<String> nomi = Database.getSingleton().nomiColonne(tabella);
+	public String[][] movimentiFiltratiEntratePerNumero(final String tabella, final List<Entrate> entry1) {
+		final List<String> nomi = Database.getSingleton().nomiColonne(tabella);
 
 		final int numEntry = entry1.size();
 
@@ -311,8 +311,8 @@ public class Model {
 	 * @return String[][]
 	 */
 	public String[][] movimentiEntrate(final int numEntry, final String tabella) {
-		final Vector<String> nomi = Database.getSingleton().nomiColonne(tabella);
-		final Vector<Entrate> entry1 = Model.getSingleton().modelEntrate.dieciEntrate(numEntry);
+		final List<String> nomi = Database.getSingleton().nomiColonne(tabella);
+		final List<Entrate> entry1 = Model.getSingleton().modelEntrate.dieciEntrate(numEntry);
 
 		if (entry1.size() > 0 && (entry1.size() == numEntry || entry1.size() >= numEntry)) {
 			movimentiEntrate = new String[numEntry][nomi.size()];
@@ -358,8 +358,8 @@ public class Model {
 
 	// *************************************MOVIMENTI-USCITE***********************************
 
-	public String[][] movimentiFiltratiUscitePerNumero(final String tabella, final Vector<SingleSpesa> uscite) {
-		final Vector<String> nomi = Database.getSingleton().nomiColonne(tabella);
+	public String[][] movimentiFiltratiUscitePerNumero(final String tabella, final List<SingleSpesa> uscite) {
+		final List<String> nomi = Database.getSingleton().nomiColonne(tabella);
 
 		final int numUscite = uscite.size();
 
@@ -420,8 +420,8 @@ public class Model {
 	 * @return String[][]
 	 */
 	public String[][] movimentiUscite(final int numUscite, final String tabella) {
-		final Vector<String> nomi = Database.getSingleton().nomiColonne(tabella);
-		final Vector<SingleSpesa> uscite = Model.getSingleton().modelUscita.dieciUscite(numUscite);
+		final List<String> nomi = Database.getSingleton().nomiColonne(tabella);
+		final List<SingleSpesa> uscite = Model.getSingleton().modelUscita.dieciUscite(numUscite);
 
 		if (uscite.size() > 0 && (uscite.size() == numUscite || uscite.size() >= numUscite)) {
 			movimentiUscite = new String[numUscite][nomi.size()];

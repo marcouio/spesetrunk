@@ -1,8 +1,9 @@
 package business.cache;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Vector;
+import java.util.List;
 
 import command.javabeancommand.AbstractOggettoEntita;
 
@@ -58,7 +59,7 @@ public class CacheUtenti extends AbstractCacheBase{
 	}
 	
 	public Map<String, AbstractOggettoEntita> chargeAllUtenti(){
-		Vector<Object>utenti = utentiDAO.selectAll();
+		List<Object>utenti = utentiDAO.selectAll();
 		if(utenti!=null && utenti.size()>0){
 			for(int i=0; i<utenti.size();i++){
 				Utenti utente = (Utenti) utenti.get(i);
@@ -79,8 +80,8 @@ public class CacheUtenti extends AbstractCacheBase{
 			return chargeAllUtenti();
 	}
 	
-	public Vector<Utenti> getVettoreUtenti(){
-		Vector<Utenti> utenti = new Vector<Utenti>();
+	public List<Utenti> getVettoreUtenti(){
+		List<Utenti> utenti = new ArrayList<>();
 		Map<String, AbstractOggettoEntita> mappa = this.getAllUtenti();
 		Utenti[] lista = (Utenti[]) mappa.values().toArray();
 		for(int i=0;i<lista.length;i++){

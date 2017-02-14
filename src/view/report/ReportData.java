@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Vector;
+import java.util.List;
 
 import view.entrateuscite.EntrateView;
 import business.AltreUtil;
@@ -14,7 +14,7 @@ import domain.CatSpese;
 
 public class ReportData {
 	
-	Vector<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
+	List<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
 	
 	ArrayList<OggettoReport> datiReport = new ArrayList<OggettoReport>();
 	

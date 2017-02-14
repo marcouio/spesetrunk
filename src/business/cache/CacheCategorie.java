@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Vector;
+import java.util.List;
 
 import command.javabeancommand.AbstractOggettoEntita;
 import domain.CatSpese;
@@ -48,7 +48,7 @@ public class CacheCategorie extends AbstractCacheBase {
 	}
 
 	private HashMap<String, AbstractOggettoEntita> chargeAllCategorie() {
-		final Vector<Object> categorie = catSpeseDAO.selectAll();
+		final List<Object> categorie = catSpeseDAO.selectAll();
 		if (categorie != null && categorie.size() > 0) {
 			for (int i = 0; i < categorie.size(); i++) {
 				final CatSpese categoria = (CatSpese) categorie.get(i);
@@ -69,8 +69,8 @@ public class CacheCategorie extends AbstractCacheBase {
 		return cache;
 	}
 
-	public Vector<CatSpese> getVettoreCategoriePerCombo(final Map<String, AbstractOggettoEntita> mappa) {
-		final Vector<CatSpese> categorie = new Vector<CatSpese>();
+	public List<CatSpese> getListCategoriePerCombo(final Map<String, AbstractOggettoEntita> mappa) {
+		final List<CatSpese> categorie = new ArrayList<CatSpese>();
 		final Object[] lista = mappa.values().toArray();
 		final CatSpese categoria = new CatSpese();
 		categoria.setnome("");
@@ -81,8 +81,8 @@ public class CacheCategorie extends AbstractCacheBase {
 		return categorie;
 	}
 
-	public Vector<CatSpese> getVettoreCategoriePerCombo() {
-		final Vector<CatSpese> categorie = new Vector<CatSpese>();
+	public List<CatSpese> getListCategoriePerCombo() {
+		final List<CatSpese> categorie = new ArrayList<CatSpese>();
 		final Map<String, AbstractOggettoEntita> mappa = this.getAllCategorie();
 		final Object[] lista = mappa.values().toArray();
 		final CatSpese categoria = new CatSpese();
@@ -94,9 +94,9 @@ public class CacheCategorie extends AbstractCacheBase {
 		return categorie;
 	}
 
-	public Vector<CatSpese> getCategorieSenzaGruppo() {
-		final Vector<CatSpese> allCategorie = getVettoreCategorie();
-		final Vector<CatSpese> catSenzaGruppo = new Vector<CatSpese>();
+	public List<CatSpese> getCategorieSenzaGruppo() {
+		final List<CatSpese> allCategorie = getVettoreCategorie();
+		final List<CatSpese> catSenzaGruppo = new ArrayList<CatSpese>();
 		for (int i = 0; i < allCategorie.size(); i++) {
 			final CatSpese categoria = allCategorie.get(i);
 			if (categoria.getGruppi() == null ) {
@@ -106,8 +106,8 @@ public class CacheCategorie extends AbstractCacheBase {
 		return catSenzaGruppo;
 	}
 
-	public Vector<CatSpese> getVettoreCategorie(final Map<String, CatSpese> mappa) {
-		final Vector<CatSpese> categorie = new Vector<CatSpese>();
+	public List<CatSpese> getVettoreCategorie(final Map<String, CatSpese> mappa) {
+		final List<CatSpese> categorie = new ArrayList<CatSpese>();
 		final Object[] lista = mappa.values().toArray();
 		for (int i = 0; i < lista.length; i++) {
 			categorie.add((CatSpese) lista[i]);
@@ -125,8 +125,8 @@ public class CacheCategorie extends AbstractCacheBase {
 		return nomiCategorie.toArray(new String[nomiCategorie.size()]);
 	}
 
-	public Vector<CatSpese> getVettoreCategorie() {
-		final Vector<CatSpese> categorie = new Vector<CatSpese>();
+	public List<CatSpese> getVettoreCategorie() {
+		final List<CatSpese> categorie = new ArrayList<CatSpese>();
 		final Map<String, AbstractOggettoEntita> mappa = this.getAllCategorie();
 		final Object[] lista = mappa.values().toArray();
 		for (int i = 0; i < lista.length; i++) {

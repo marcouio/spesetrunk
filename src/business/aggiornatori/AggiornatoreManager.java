@@ -3,6 +3,7 @@ package business.aggiornatori;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
@@ -44,6 +45,10 @@ public class AggiornatoreManager {
 	public static final String         AGGIORNA_NULLA   = "nulla";
 
 	private static AggiornatoreManager singleton;
+	
+	private AggiornatoreManager() {
+		//do nothing
+	}
 
 	public static AggiornatoreManager getSingleton() {
 		if (singleton == null) {
@@ -51,8 +56,6 @@ public class AggiornatoreManager {
 		}
 		return singleton;
 	}
-
-	private AggiornatoreManager() {}
 
 	public IAggiornatore creaAggiornatore(final String cosaAggiornare) {
 		IAggiornatore aggiornatore = null;
@@ -412,8 +415,9 @@ public class AggiornatoreManager {
 		}
 	}
 
-	public static void aggiornamentoComboBox(final Vector<CatSpese> categorie) {
-		final DefaultComboBoxModel model = new DefaultComboBoxModel(categorie);
+	public static void aggiornamentoComboBox(final List<CatSpese> categorie) {
+		Vector<CatSpese> v = new Vector<>(categorie); 
+		final DefaultComboBoxModel model = new DefaultComboBoxModel(v);
 		if (SottoPannelloCategorie.getCategorieCombo() != null) {
 			SottoPannelloCategorie.getCategorieCombo().setModel(model);
 			SottoPannelloCategorie.getCategorieCombo().validate();
