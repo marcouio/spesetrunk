@@ -6,12 +6,12 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
-import view.font.LabelTestoPiccolo;
-import view.font.TextFieldF;
 import business.AltreUtil;
 import business.Database;
 import business.internazionalizzazione.I18NManager;
 import domain.CatSpese;
+import view.font.LabelTestoPiccolo;
+import view.font.TextFieldF;
 
 public class SottoPannelloTotali {
 
@@ -69,7 +69,7 @@ public class SottoPannelloTotali {
 			componenti[2] = avanzo;
 			avanzo.setColumns(10);
 
-			double differenza = AltreUtil.arrotondaDecimaliDouble((Database.EAnnuale()) - (Database.Annuale()));
+			double differenza = AltreUtil.arrotondaDecimaliDouble((Database.EAnnuale()) - (Database.uAnnuale()));
 			avanzo.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(differenza)));
 			avanzo.setBounds(16, 85, 106, 27);
 			avanzo.setSize(92, 27);

@@ -616,7 +616,7 @@ public class Database {
 	/**
 	 * @return Metodo per calcolare il totale delle spese annuali
 	 */
-	public static double Annuale() {
+	public static double uAnnuale() {
 		final int anno = Impostazioni.getAnno();
 		double annuale = 0;
 		final List<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
@@ -638,7 +638,7 @@ public class Database {
 	 * @return Metodo per calcolare il totale delle entrate per il mese
 	 *         precedente
 	 */
-	public static double e0ensile() {
+	public static double eMensile() {
 		double emensile10 = 0;
 		final GregorianCalendar data = new GregorianCalendar();
 		final List<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
@@ -661,7 +661,7 @@ public class Database {
 	 * @return Metodo per calcolare il totale delle uscite per il mese
 	 *         precedente
 	 */
-	public static double eMensile() {
+	public static double uMensile() {
 		double mensile1 = 0;
 		final GregorianCalendar data = new GregorianCalendar();
 		final List<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
@@ -708,7 +708,7 @@ public class Database {
 	 * @return double
 	 * @throws SQLException
 	 */
-	public static double MensileInCorso() {
+	public static double uMensileInCorso() {
 		double mensile = 0;
 		final GregorianCalendar data = new GregorianCalendar();
 		final List<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
@@ -727,7 +727,7 @@ public class Database {
 
 	public static double percentoUscite(final String importanza) {
 		double percentualeTipo = 0;
-		final double totaleAnnuo = Annuale();
+		final double totaleAnnuo = uAnnuale();
 
 		final List<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
 		Stream<SingleSpesa> stream = listaUscite.stream();

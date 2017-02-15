@@ -6,11 +6,11 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
-import view.entrateuscite.EntrateView;
 import business.AltreUtil;
 import business.Database;
 import business.cache.CacheCategorie;
 import domain.CatSpese;
+import view.entrateuscite.EntrateView;
 
 public class ReportData {
 	
@@ -28,7 +28,7 @@ public class ReportData {
 
 	
 	public Double generaUsciteAnnuali(){
-		return Database.Annuale();
+		return Database.uAnnuale();
 	}
 	
 	
@@ -127,11 +127,11 @@ public class ReportData {
 	}
 	
 	public Double generaAvanzo() {
-		return AltreUtil.arrotondaDecimaliDouble((Database.EAnnuale()) - (Database.Annuale()));
+		return AltreUtil.arrotondaDecimaliDouble((Database.EAnnuale()) - (Database.uAnnuale()));
 	}
 	
 	public Double generaMediaUscite() {
-		return Database.Annuale() / new GregorianCalendar().get(Calendar.MONTH + 1);
+		return Database.uAnnuale() / new GregorianCalendar().get(Calendar.MONTH + 1);
 	}
 	
 	public Double generaMediaEntrate() {

@@ -1,7 +1,5 @@
 package business;
 
-import grafica.componenti.alert.Alert;
-
 import java.util.ArrayList;
 
 import javax.swing.JCheckBoxMenuItem;
@@ -9,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.UIManager;
 
+import grafica.componenti.alert.Alert;
 import view.FinestraListaComandi;
 import view.componenti.componentiPannello.PannelloAScomparsa2;
 import view.note.MostraNoteView;
@@ -64,7 +63,7 @@ public class InizializzatoreFinestre {
 				window.setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
 			}
 			try {
-				UIManager.setLookAndFeel(Controllore.lookUsato);
+				UIManager.setLookAndFeel(Controllore.getLookUsato());
 			} catch (Exception e) {
 				Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore(e.getMessage()));
 			}

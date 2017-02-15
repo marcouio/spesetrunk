@@ -1,18 +1,12 @@
 package business;
 
-import grafica.componenti.alert.Alert;
-import grafica.componenti.contenitori.FrameBase;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import view.GeneralFrame;
-import view.MyWindowListener;
 import business.aggiornatori.AggiornatoreManager;
 import business.cache.CacheLookAndFeel;
 import business.cache.CacheUtenti;
@@ -21,10 +15,12 @@ import command.AbstractCommand;
 import command.CommandManager;
 import controller.ControlloreBase;
 import db.ConnectionPool;
-import domain.IUtenti;
 import domain.Lookandfeel;
 import domain.Utenti;
 import domain.wrapper.WrapUtenti;
+import grafica.componenti.contenitori.FrameBase;
+import view.GeneralFrame;
+import view.MyWindowListener;
 
 public class Controllore extends ControlloreBase{
 
@@ -35,13 +31,13 @@ public class Controllore extends ControlloreBase{
 	private GeneralFrame genPan;
 	private static Controllore singleton;
 	private static Logger log;
-	public static String lookUsato;
+	private static String lookUsato;
 
 	private void settaLookFeel() {
 		try {
 			final CacheLookAndFeel cacheLook = CacheLookAndFeel.getSingleton();
 			final java.util.List<Lookandfeel> vettore = cacheLook.getVettoreLooksPerCombo();
-			Lookandfeel look = null;
+			Lookandfeel look;
 			Lookandfeel lookDaUsare = null;
 			for (int i = 0; i < vettore.size(); i++) {
 				look = vettore.get(i);
@@ -176,12 +172,12 @@ public class Controllore extends ControlloreBase{
 
 	@Override
 	public void mainOverridato(FrameBase frame) throws Exception {
+
+		Database.DB_URL = Database.DB_URL_WORKSPACE;
+		verificaPresenzaDb();
 		
 		genPan = new GeneralFrame(frame);
 		view = frame;
-		
-		Database.DB_URL = Database.DB_URL_WORKSPACE;
-		verificaPresenzaDb();
 
 		setStartUtenteLogin();
 
@@ -189,7 +185,7 @@ public class Controllore extends ControlloreBase{
 		
 		Controllore.getSingleton();
 		
-		view.setResizable(false);
+//		view.setResizable(false);
 		view.setTitle(I18NManager.getSingleton().getMessaggio("title"));
 		view.setVisible(true);
 		
@@ -212,6 +208,20 @@ public class Controllore extends ControlloreBase{
 	@Override
 	public String getConnectionClassName() {
 		return ConnectionPoolGGS.class.getName();
+	}
+
+	/**
+	 * @return the lookUsato
+	 */
+	public static String getLookUsato() {
+		return lookUsato;
+	}
+
+	/**
+	 * @param lookUsato the lookUsato to set
+	 */
+	public static void setLookUsato(String lookUsato) {
+		Controllore.lookUsato = lookUsato;
 	}
 
 }

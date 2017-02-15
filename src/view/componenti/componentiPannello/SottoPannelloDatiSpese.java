@@ -6,11 +6,11 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
-import view.font.LabelTestoPiccolo;
-import view.font.TextFieldF;
 import business.AltreUtil;
 import business.Database;
 import business.internazionalizzazione.I18NManager;
+import view.font.LabelTestoPiccolo;
+import view.font.TextFieldF;
 
 public class SottoPannelloDatiSpese {
 
@@ -53,7 +53,7 @@ public class SottoPannelloDatiSpese {
 			label.setBounds(317, 67, 123, 14);
 			labels[1] = label;
 
-			mensile = Database.eMensile();
+			mensile = Database.uMensile();
 			mesePrecUsc = new TextFieldF();
 			mesePrecUsc.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(mensile)));
 			mesePrecUsc.setBounds(317, 85, 106, 27);
@@ -63,11 +63,11 @@ public class SottoPannelloDatiSpese {
 			label2.setBounds(16, 67, 136, 13);
 			labels[0] = label2;
 
-			annuale = Database.Annuale();
+			annuale = Database.uAnnuale();
 			speseAnnuali.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(annuale)));
 
 			meseInCors = new TextFieldF();
-			mensile2 = Database.MensileInCorso();
+			mensile2 = Database.uMensileInCorso();
 			meseInCors.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(mensile2)));
 			componenti[0] = meseInCors;
 			meseInCors.setBounds(16, 85, 106, 27);

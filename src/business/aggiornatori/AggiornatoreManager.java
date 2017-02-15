@@ -11,18 +11,6 @@ import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import view.componenti.componentiPannello.SottoPannelloCategorie;
-import view.componenti.componentiPannello.SottoPannelloDatiEntrate;
-import view.componenti.componentiPannello.SottoPannelloDatiSpese;
-import view.componenti.componentiPannello.SottoPannelloMesi;
-import view.componenti.componentiPannello.SottoPannelloTotali;
-import view.componenti.movimenti.AscoltatoreBottoniEntrata;
-import view.componenti.movimenti.AscoltatoreBottoniUscita;
-import view.font.TableF;
-import view.impostazioni.CategorieView;
-import view.tabelleMesi.TabellaEntrata;
-import view.tabelleMesi.TabellaUscita;
-import view.tabelleMesi.TabellaUscitaGruppi;
 import business.AltreUtil;
 import business.Controllore;
 import business.DBUtil;
@@ -36,6 +24,18 @@ import domain.Entrate;
 import domain.Gruppi;
 import domain.SingleSpesa;
 import domain.wrapper.Model;
+import view.componenti.componentiPannello.SottoPannelloCategorie;
+import view.componenti.componentiPannello.SottoPannelloDatiEntrate;
+import view.componenti.componentiPannello.SottoPannelloDatiSpese;
+import view.componenti.componentiPannello.SottoPannelloMesi;
+import view.componenti.componentiPannello.SottoPannelloTotali;
+import view.componenti.movimenti.AscoltatoreBottoniEntrata;
+import view.componenti.movimenti.AscoltatoreBottoniUscita;
+import view.font.TableF;
+import view.impostazioni.CategorieView;
+import view.tabelleMesi.TabellaEntrata;
+import view.tabelleMesi.TabellaUscita;
+import view.tabelleMesi.TabellaUscitaGruppi;
 
 public class AggiornatoreManager {
 
@@ -94,7 +94,7 @@ public class AggiornatoreManager {
 			if (SottoPannelloTotali.getPercentoFutili() != null) {
 				SottoPannelloTotali.getPercentoFutili().setText(Double.toString(Database.percentoUscite(CatSpese.IMPORTANZA_FUTILE)));
 				SottoPannelloTotali.getPercentoVariabili().setText(Double.toString(Database.percentoUscite(CatSpese.IMPORTANZA_VARIABILE)));
-				SottoPannelloTotali.getAvanzo().setText(Double.toString(AltreUtil.arrotondaDecimaliDouble((Database.EAnnuale()) - (Database.Annuale()))));
+				SottoPannelloTotali.getAvanzo().setText(Double.toString(AltreUtil.arrotondaDecimaliDouble((Database.EAnnuale()) - (Database.uAnnuale()))));
 			}
 			DBUtil.closeConnection();
 			return true;
@@ -243,9 +243,9 @@ public class AggiornatoreManager {
 	public static boolean aggiornaPannelloDatiSpese() {
 		try {
 			if (SottoPannelloDatiSpese.getMeseInCors() != null) {
-				SottoPannelloDatiSpese.getMeseInCors().setText(Double.toString(Database.MensileInCorso()));
-				SottoPannelloDatiSpese.getMesePrecUsc().setText(Double.toString(Database.eMensile()));
-				SottoPannelloDatiSpese.getSpeseAnnuali().setText(Double.toString(Database.Annuale()));
+				SottoPannelloDatiSpese.getMeseInCors().setText(Double.toString(Database.uMensileInCorso()));
+				SottoPannelloDatiSpese.getMesePrecUsc().setText(Double.toString(Database.uMensile()));
+				SottoPannelloDatiSpese.getSpeseAnnuali().setText(Double.toString(Database.uAnnuale()));
 				DBUtil.closeConnection();
 			}
 			return true;
