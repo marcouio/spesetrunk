@@ -12,7 +12,7 @@ import domain.wrapper.WrapSingleSpesa;
 
 public class CommandDeleteSpesa extends AbstractCommandForJavaBean<SingleSpesa> {
 
-	public CommandDeleteSpesa(ISingleSpesa entita) throws Exception {
+	public CommandDeleteSpesa(ISingleSpesa entita) {
 		CacheUscite cache = CacheUscite.getSingleton();
 		mappaCache = cache.getCache();
 		this.wrap = new WrapSingleSpesa();

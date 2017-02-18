@@ -10,7 +10,7 @@ import grafica.componenti.alert.Alert;
 
 public class CommandInserisciSpesa extends AbstractCommandForJavaBean<SingleSpesa> {
 
-	public CommandInserisciSpesa(ISingleSpesa entita) throws Exception {
+	public CommandInserisciSpesa(ISingleSpesa entita) {
 		CacheUscite cache = CacheUscite.getSingleton();
 		mappaCache = cache.getCache();
 		this.wrap = new WrapSingleSpesa();
@@ -19,22 +19,18 @@ public class CommandInserisciSpesa extends AbstractCommandForJavaBean<SingleSpes
 
 	@Override
 	public boolean execute() throws Exception {
-		if (entita instanceof SingleSpesa) {
-			if (wrap.insert(entita)) {
-				mappaCache.put(entita.getIdEntita(), entita);
-				return true;
-			}
+		if (entita instanceof SingleSpesa && wrap.insert(entita)) {
+			mappaCache.put(entita.getIdEntita(), entita);
+			return true;
 		}
 		return false;
 	}
 
 	@Override
 	public boolean unExecute() throws Exception {
-		if (entita instanceof SingleSpesa) {
-			if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
-				mappaCache.remove(entita.getIdEntita());
-				return true;
-			}
+		if (entita instanceof SingleSpesa && wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
+			mappaCache.remove(entita.getIdEntita());
+			return true;
 		}
 		return false;
 	}
