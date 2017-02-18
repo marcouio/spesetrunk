@@ -5,19 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Set;
-import java.util.List;
 
-import business.ConnectionPoolGGS;
-import business.DBUtil;
-import business.cache.CacheCategorie;
 import command.javabeancommand.AbstractOggettoEntita;
 import db.Clausola;
 import db.ConnectionPool;
-import db.ConnectionPool.ExecuteResultSet;
 import db.dao.IDAO;
-import domain.CatSpese;
 import domain.Entrate;
 import domain.IUtenti;
 import domain.SingleSpesa;
@@ -336,8 +331,8 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 	}
 
 	@Override
-	public Object selectWhere(ArrayList<Clausola> clausole,
-			String appentoToQuery) throws Exception {
+	public Object selectWhere(List<Clausola> clausole,
+			String appentoToQuery){
 		// TODO Auto-generated method stub
 		return null;
 	}

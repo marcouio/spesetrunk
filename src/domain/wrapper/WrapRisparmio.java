@@ -214,8 +214,8 @@ public class WrapRisparmio extends Observable implements IDAO,IRisparmio{
 	}
 
 	@Override
-	public Object selectWhere(ArrayList<Clausola> clausole,
-			String appentoToQuery) throws Exception {
+	public Object selectWhere(List<Clausola> clausole,
+			String appentoToQuery) {
 		// TODO Auto-generated method stub
 		return null;
 	}

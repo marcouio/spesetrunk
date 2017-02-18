@@ -4,17 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Observable;
 import java.util.List;
+import java.util.Observable;
 
-import business.ConnectionPoolGGS;
-import business.DBUtil;
 import command.javabeancommand.AbstractOggettoEntita;
 import db.Clausola;
 import db.ConnectionPool;
-import db.ConnectionPool.ExecuteResultSet;
 import db.dao.IDAO;
 import domain.ILookandfeel;
 import domain.Lookandfeel;
@@ -207,13 +203,12 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 	}
 
 	@Override
-	public AbstractOggettoEntita getEntitaPadre() throws Exception {
+	public AbstractOggettoEntita getEntitaPadre()  {
 		return lookandfeel;
 	}
 
 	@Override
-	public Object selectWhere(ArrayList<Clausola> clausole,
-			String appentoToQuery) throws Exception {
+	public Object selectWhere(List<Clausola> clausole, String appentoToQuery)  {
 		// TODO Auto-generated method stub
 		return null;
 	}

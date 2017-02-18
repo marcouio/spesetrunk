@@ -261,13 +261,13 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 	}
 
 	@Override
-	public AbstractOggettoEntita getEntitaPadre() throws Exception {
+	public AbstractOggettoEntita getEntitaPadre()  {
 		return gruppo;
 	}
 
 	@Override
-	public Object selectWhere(ArrayList<Clausola> clausole,
-			String appentoToQuery) throws Exception {
+	public Object selectWhere(List<Clausola> clausole,
+			String appentoToQuery)  {
 		// TODO Auto-generated method stub
 		return null;
 	}

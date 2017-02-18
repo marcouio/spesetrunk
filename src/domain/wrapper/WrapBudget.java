@@ -225,8 +225,8 @@ public class WrapBudget extends Observable implements IDAO, IBudget{
 	}
 
 	@Override
-	public Object selectWhere(ArrayList<Clausola> clausole,
-			String appentoToQuery) throws Exception {
+	public Object selectWhere(List<Clausola> clausole,
+			String appentoToQuery) {
 		// TODO Auto-generated method stub
 		return null;
 	}

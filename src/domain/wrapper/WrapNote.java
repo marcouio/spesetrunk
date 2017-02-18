@@ -5,21 +5,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Observable;
 import java.util.List;
+import java.util.Observable;
 
-import business.ConnectionPoolGGS;
 import business.Controllore;
 import business.DBUtil;
-import business.cache.CacheCategorie;
 import business.cache.CacheUtenti;
 import command.javabeancommand.AbstractOggettoEntita;
 import controller.ControlloreBase;
 import db.Clausola;
 import db.ConnectionPool;
-import db.ConnectionPool.ExecuteResultSet;
 import db.dao.IDAO;
-import domain.CatSpese;
 import domain.Entrate;
 import domain.INote;
 import domain.Note;
@@ -333,14 +329,13 @@ public class WrapNote extends Observable implements IDAO, INote {
 	}
 
 	@Override
-	public AbstractOggettoEntita getEntitaPadre()
-			throws Exception {
+	public AbstractOggettoEntita getEntitaPadre() {
 		return note;
 	}
 
 	@Override
-	public Object selectWhere(ArrayList<Clausola> clausole,
-			String appentoToQuery) throws Exception {
+	public Object selectWhere(List<Clausola> clausole,
+			String appentoToQuery) {
 		// TODO Auto-generated method stub
 		return null;
 	}
