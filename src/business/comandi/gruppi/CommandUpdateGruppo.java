@@ -9,10 +9,10 @@ import domain.Gruppi;
 import domain.IGruppi;
 import domain.wrapper.WrapGruppi;
 
-public class CommandUpdateGruppo extends AbstractCommandForJavaBean {
+public class CommandUpdateGruppo extends AbstractCommandForJavaBean<Gruppi> {
 
-	final private Gruppi                                 newEntita;
-	final private Gruppi                                 oldEntita;
+	private final Gruppi                                 newEntita;
+	private final Gruppi                                 oldEntita;
 
 	public CommandUpdateGruppo(final Gruppi oldEntita, final IGruppi newEntita) {
 		this.newEntita = (Gruppi) newEntita;
@@ -24,22 +24,18 @@ public class CommandUpdateGruppo extends AbstractCommandForJavaBean {
 
 	@Override
 	public boolean execute() throws Exception {
-		if (newEntita instanceof Gruppi) {
-			if (wrap.update(newEntita)) {
-				mappaCache.put(Integer.toString(newEntita.getidGruppo()), newEntita);
-				return true;
-			}
+		if (newEntita instanceof Gruppi && wrap.update(newEntita)) {
+			mappaCache.put(Integer.toString(newEntita.getidGruppo()), newEntita);
+			return true;
 		}
 		return false;
 	}
 
 	@Override
 	public boolean unExecute() throws Exception {
-		if (oldEntita instanceof Gruppi) {
-			if (wrap.update(oldEntita)) {
-				mappaCache.put(Integer.toString(oldEntita.getidGruppo()), oldEntita);
-				return true;
-			}
+		if (oldEntita instanceof Gruppi && wrap.update(oldEntita)) {
+			mappaCache.put(Integer.toString(oldEntita.getidGruppo()), oldEntita);
+			return true;
 		}
 		return false;
 	}

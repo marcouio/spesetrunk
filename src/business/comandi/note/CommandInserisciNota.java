@@ -10,13 +10,13 @@ import domain.INote;
 import domain.Note;
 import domain.wrapper.WrapNote;
 
-public class CommandInserisciNota extends AbstractCommandForJavaBean {
+public class CommandInserisciNota extends AbstractCommandForJavaBean<Note> {
 
-	public CommandInserisciNota(final INote entita) throws Exception {
+	public CommandInserisciNota(final INote entita){
 		final CacheNote cache = CacheNote.getSingleton();
 		mappaCache = cache.getCache();
 		this.wrap = new WrapNote();
-		this.entita = ((IDAO) entita).getEntitaPadre();
+		this.entita = (Note) ((IDAO) entita).getEntitaPadre();
 
 	}
 

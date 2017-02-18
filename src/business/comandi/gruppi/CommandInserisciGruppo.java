@@ -10,33 +10,29 @@ import domain.Gruppi;
 import domain.IGruppi;
 import domain.wrapper.WrapGruppi;
 
-public class CommandInserisciGruppo extends AbstractCommandForJavaBean {
+public class CommandInserisciGruppo extends AbstractCommandForJavaBean<Gruppi> {
 
-	public CommandInserisciGruppo(final IGruppi entita) throws Exception {
+	public CommandInserisciGruppo(final IGruppi entita) {
 		final CacheGruppi cache = CacheGruppi.getSingleton();
 		mappaCache = cache.getCache();
 		this.wrap = new WrapGruppi();
-		this.entita = ((IDAO) entita).getEntitaPadre();
+		this.entita = (Gruppi) ((IDAO) entita).getEntitaPadre();
 	}
 
 	@Override
 	public boolean execute() throws Exception {
-		if (entita instanceof Gruppi) {
-			if (wrap.insert(entita)) {
-				mappaCache.put(entita.getIdEntita(), entita);
-				return true;
-			}
+		if (entita instanceof Gruppi && wrap.insert(entita)) {
+			mappaCache.put(entita.getIdEntita(), entita);
+			return true;
 		}
 		return false;
 	}
 
 	@Override
 	public boolean unExecute() throws Exception {
-		if (entita instanceof Gruppi) {
-			if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
-				mappaCache.remove(entita.getIdEntita());
-				return true;
-			}
+		if (entita instanceof Gruppi && wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
+			mappaCache.remove(entita.getIdEntita());
+			return true;
 		}
 		return false;
 	}

@@ -8,10 +8,10 @@ import command.javabeancommand.AbstractCommandForJavaBean;
 import domain.INote;
 import domain.Note;
 
-public class CommandUpdateNota extends AbstractCommandForJavaBean {
+public class CommandUpdateNota extends AbstractCommandForJavaBean<Note> {
 
-	final private Note newEntita;
-	final private Note oldEntita;
+	private final Note newEntita;
+	private final Note oldEntita;
 
 	public CommandUpdateNota(final Note oldEntita, final INote newEntita) {
 		this.newEntita = (Note) newEntita;
@@ -22,20 +22,16 @@ public class CommandUpdateNota extends AbstractCommandForJavaBean {
 
 	@Override
 	public boolean execute() throws Exception {
-		if (newEntita instanceof Note) {
-			if (wrap.update(newEntita)) {
-				return true;
-			}
+		if (newEntita instanceof Note && wrap.update(newEntita)) {
+			return true;
 		}
 		return false;
 	}
 
 	@Override
 	public boolean unExecute() throws Exception {
-		if (oldEntita instanceof Note) {
-			if (wrap.update(oldEntita)) {
-				return true;
-			}
+		if (oldEntita instanceof Note && wrap.update(oldEntita)) {
+			return true;
 		}
 		return false;
 	}

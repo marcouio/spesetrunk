@@ -9,22 +9,20 @@ import domain.INote;
 import domain.Note;
 import domain.wrapper.WrapNote;
 
-public class CommandDeleteNota extends AbstractCommandForJavaBean {
+public class CommandDeleteNota extends AbstractCommandForJavaBean<Note> {
 
-	public CommandDeleteNota(INote entita) throws Exception {
+	public CommandDeleteNota(INote entita) {
 		CacheNote cache = CacheNote.getSingleton();
 		mappaCache = cache.getCache();
 		this.wrap = new WrapNote();
-		this.entita = ((WrapNote) entita).getEntitaPadre();
+		this.entita = (Note) ((WrapNote) entita).getEntitaPadre();
 	}
 
 	@Override
 	public boolean execute() throws Exception {
-		if (entita instanceof Note) {
-			if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
-				mappaCache.remove(entita.getIdEntita());
-				return true;
-			}
+		if (entita instanceof Note && wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
+			mappaCache.remove(entita.getIdEntita());
+			return true;
 		}
 		return false;
 	}
