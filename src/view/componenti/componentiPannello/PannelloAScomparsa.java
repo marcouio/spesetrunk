@@ -12,29 +12,9 @@ import javax.swing.SwingUtilities;
 
 import business.internazionalizzazione.I18NManager;
 
-public class PannelloAScomparsa2 extends JFrame implements ItemListener {
+public class PannelloAScomparsa extends JFrame implements ItemListener {
 
 	private static final long serialVersionUID = 1L;
-
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				JFrame inst = null;
-				try {
-					inst = new PannelloAScomparsa2();
-
-				} catch (Throwable e) {
-					e.printStackTrace();
-				}
-				inst.setBounds(0, 0, 250, 425);
-				inst.setPreferredSize(new Dimension(250, 425));
-				inst.setLocationRelativeTo(null);
-				inst.setVisible(true);
-				inst.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			}
-		});
-	}
 
 	private final ArrayList<JPanel>  pannelli = new ArrayList<JPanel>();
 	private JComboBox                combo;
@@ -45,7 +25,7 @@ public class PannelloAScomparsa2 extends JFrame implements ItemListener {
 	private SottoPannelloTotali      pannelloTotali;
 	CostruttoreSottoPannello[] arrayPannelli;
 
-	public PannelloAScomparsa2() {
+	public PannelloAScomparsa() {
 		initGui();
 	}
 

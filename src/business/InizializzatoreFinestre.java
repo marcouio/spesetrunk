@@ -9,7 +9,7 @@ import javax.swing.UIManager;
 
 import grafica.componenti.alert.Alert;
 import view.FinestraListaComandi;
-import view.componenti.componentiPannello.PannelloAScomparsa2;
+import view.componenti.componentiPannello.PannelloAScomparsa;
 import view.note.MostraNoteView;
 import view.report.ReportView;
 
@@ -20,7 +20,7 @@ public class InizializzatoreFinestre {
 	public static final int INDEX_NOTE = 2;
 	public static final int INDEX_REPORT = 3;
 
-	protected static PannelloAScomparsa2 pannelloDati;
+	protected static PannelloAScomparsa pannelloDati;
 	protected static FinestraListaComandi historyCommands;
 	protected static MostraNoteView pannelloNote;
 	protected static ReportView report;
@@ -36,7 +36,7 @@ public class InizializzatoreFinestre {
 		// inizializzo l'array list con le class per evitare di caricare tutto
 		// all'avvio del programma
 		this.finestreClass = new ArrayList<Class>();
-		finestreClass.add(PannelloAScomparsa2.class);
+		finestreClass.add(PannelloAScomparsa.class);
 		finestreClass.add(FinestraListaComandi.class);
 		finestreClass.add(MostraNoteView.class);
 		finestreClass.add(ReportView.class);

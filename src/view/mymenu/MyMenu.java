@@ -13,7 +13,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import view.FinestraListaComandi;
-import view.componenti.componentiPannello.PannelloAScomparsa2;
+import view.componenti.componentiPannello.PannelloAScomparsa;
 import view.entrateuscite.EntrateView;
 import view.entrateuscite.UsciteView;
 import view.grafici.dialogGraph.GrEntrate1;
@@ -112,9 +112,9 @@ public class MyMenu extends JMenuBar {
 		chckbxmntmDati.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				PannelloAScomparsa2 pas;
+				PannelloAScomparsa pas;
 				try {
-					pas = ((PannelloAScomparsa2) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, null));
+					pas = ((PannelloAScomparsa) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, null));
 					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(pas, finestre, chckbxmntmDati);
 					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
 				} catch (final Exception e1) {
