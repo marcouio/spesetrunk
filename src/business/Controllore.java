@@ -87,7 +87,7 @@ public class Controllore extends ControlloreBase{
 	}
 
 
-	public static boolean invocaComando(final AbstractCommand comando) throws Exception {
+	public static boolean invocaComando(final AbstractCommand comando) {
 		return Controllore.getSingleton().getCommandManager().invocaComando(comando);
 	}
 
@@ -180,7 +180,6 @@ public class Controllore extends ControlloreBase{
 		
 		Controllore.getSingleton();
 		
-//		view.setResizable(false);
 		view.setTitle(I18NManager.getSingleton().getMessaggio("title"));
 		view.setVisible(true);
 		
