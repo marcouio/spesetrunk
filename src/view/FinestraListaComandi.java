@@ -21,19 +21,25 @@ public class FinestraListaComandi extends JFrame {
 		getContentPane().setLayout(null);
 		String lista = I18NManager.getSingleton().getMessaggio("lista");
 		this.setTitle(lista);
+		scrollPane = new JScrollPane();
+		insertDati();
+
+		
+
+	}
+
+	public void insertDati() {
+		String lista = I18NManager.getSingleton().getMessaggio("lista");
 		table = new TableF();
 		Object[][] dati = generaDati();
 		table.setModel(new DefaultTableModel(dati, new String[] { lista }));
 
 		table.setBounds(12, 12, 254, 61);
 
-		scrollPane = new JScrollPane();
 		scrollPane.setViewportView(table);
-
 		// Add the scroll pane to this panel.
 		getContentPane().add(scrollPane);
 		scrollPane.setBounds(21, 23, 214, 337);
-
 	}
 
 	public Object[][] generaDati() {

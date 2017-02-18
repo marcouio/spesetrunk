@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
 
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
@@ -45,23 +46,6 @@ public class Impostazioni extends JDialog {
 	private static Impostazioni singleton;
 	private static String posDatabase = "";
 
-	public static void main(final String[] args) {
-		final Impostazioni dialog = new Impostazioni();
-		dialog.pack();
-		dialog.setVisible(true);
-	}
-
-	public static final Impostazioni getSingleton() {
-		if (singleton == null) {
-			synchronized (Impostazioni.class) {
-				if (singleton == null) {
-					singleton = new Impostazioni();
-				}
-			} // if
-		} // if
-		return singleton;
-	} // getSingleton()
-
 	private JTextField dataOdierna;
 	private JTextField utente;
 	private ArrayList<String> listaLook;
@@ -74,6 +58,14 @@ public class Impostazioni extends JDialog {
 		super();
 		initGUI();
 	}
+	
+	public static synchronized final Impostazioni getSingleton() {
+		if (singleton == null) {
+			singleton = new Impostazioni();
+		}
+		return singleton;
+	} // getSingleton()
+	
 
 	private void initGUI() {
 		try {
@@ -112,7 +104,7 @@ public class Impostazioni extends JDialog {
 					try {
 						anno = Integer.parseInt(annotextField.getText());
 					} catch (final Exception e1) {
-						e1.printStackTrace();
+						Controllore.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 					}
 				}
 			});

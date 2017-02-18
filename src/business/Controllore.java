@@ -2,7 +2,7 @@ package business;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Logger;
+import java.util.logging.Level;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -30,9 +30,12 @@ public class Controllore extends ControlloreBase{
 	private InizializzatoreFinestre initFinestre;
 	private GeneralFrame genPan;
 	private static Controllore singleton;
-	private static Logger log;
-	private static String lookUsato;
+	private String lookUsato;
 
+	private Controllore() {
+		//do nothing
+	}
+	
 	private void settaLookFeel() {
 		try {
 			final CacheLookAndFeel cacheLook = CacheLookAndFeel.getSingleton();
@@ -57,7 +60,7 @@ public class Controllore extends ControlloreBase{
 			}
 			SwingUtilities.updateComponentTreeUI(view);
 		} catch (final Exception e) {
-			e.printStackTrace();
+			getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
@@ -73,20 +76,16 @@ public class Controllore extends ControlloreBase{
 				}
 			}.execute(sql);
 		} catch (SQLException e) {
+			getLog().log(Level.SEVERE, "Il database non c'è ancora, è da creare!", e);
 			try {
 				Database.getSingleton().generaDB();
 			} catch (SQLException e1) {
-				e.printStackTrace();
-				getLog().severe("Error on Db creation: " + e1.getMessage());
+				getLog().log(Level.SEVERE, "Error on Db creation: " + e1.getMessage(), e1);
 			}
-			e.printStackTrace();
 			getLog().severe(e.getMessage());
 		}
 	}
 
-	private Controllore() {
-		
-	}
 
 	public static boolean invocaComando(final AbstractCommand comando) throws Exception {
 		return Controllore.getSingleton().getCommandManager().invocaComando(comando);
@@ -162,10 +161,6 @@ public class Controllore extends ControlloreBase{
 		this.initFinestre = initFinestre;
 	}
 
-	public static void setLog(final Logger log) {
-		Controllore.log = log;
-	}
-	
 	public static void main(final String[] args) {
 		Controllore.getSingleton().myMain(Controllore.getSingleton(), true, "myApplication");
 	}
@@ -210,18 +205,12 @@ public class Controllore extends ControlloreBase{
 		return ConnectionPoolGGS.class.getName();
 	}
 
-	/**
-	 * @return the lookUsato
-	 */
-	public static String getLookUsato() {
+	public String getLookUsato() {
 		return lookUsato;
 	}
 
-	/**
-	 * @param lookUsato the lookUsato to set
-	 */
-	public static void setLookUsato(String lookUsato) {
-		Controllore.lookUsato = lookUsato;
+	public void setLookUsato(String lookUsato) {
+		this.lookUsato = lookUsato;
 	}
 
 }

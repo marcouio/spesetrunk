@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -15,6 +16,7 @@ import business.AltreUtil;
 import business.Controllore;
 import business.DBUtil;
 import business.Database;
+import business.InizializzatoreFinestre;
 import business.cache.CacheCategorie;
 import business.generatori.TableModelEntrate;
 import business.generatori.TableModelUscite;
@@ -24,6 +26,7 @@ import domain.Entrate;
 import domain.Gruppi;
 import domain.SingleSpesa;
 import domain.wrapper.Model;
+import view.FinestraListaComandi;
 import view.componenti.componentiPannello.SottoPannelloCategorie;
 import view.componenti.componentiPannello.SottoPannelloDatiEntrate;
 import view.componenti.componentiPannello.SottoPannelloDatiSpese;
@@ -184,18 +187,28 @@ public class AggiornatoreManager {
 		try {
 			final String[][] movimenti = Model.getSingleton().movimentiEntrate(numEntry, Entrate.NOME_TABELLA);
 			if(Controllore.getSingleton().getGeneralFrame()!=null){
-				TableF table1 = Controllore.getSingleton().getGeneralFrame().getTabMovimenti().getTabMovEntrate().getTable();
-				table1 = new TableF(movimenti, nomiColonne);
+				TableF table1 = new TableF(movimenti, nomiColonne);
 				final JScrollPane scrollPane = Controllore.getSingleton().getGeneralFrame().getTabMovimenti().getTabMovEntrate().getScrollPane();
 				scrollPane.setViewportView(table1);
 				table1.addMouseListener(new AscoltatoreBottoniEntrata(table1));
 				return true;
 			}
-			return false;
 		} catch (final Exception e) {
-			e.printStackTrace();
-			return false;
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
+		return false;
+	}
+	
+	public static boolean aggiornaListaComandi(){
+		InizializzatoreFinestre initFinestre = Controllore.getSingleton().getInitFinestre();
+		try {
+			FinestraListaComandi finestra = (FinestraListaComandi) initFinestre.getFinestra(InizializzatoreFinestre.INDEX_HISTORY, Controllore.getApplicationframe());
+			finestra.insertDati();
+			return true;
+		} catch (InstantiationException | IllegalAccessException e) {
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+		}
+		return false;
 	}
 
 	/**
@@ -208,7 +221,9 @@ public class AggiornatoreManager {
 	 */
 	public static boolean aggiornamentoGenerale(final String tipo)
 	    throws Exception {
-
+		
+		aggiornaListaComandi();
+		
 		if (tipo.equals(SingleSpesa.NOME_TABELLA)) {
 			final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(SingleSpesa.NOME_TABELLA);
 			if (aggiornaTabellaUscite() && aggiornaTabellaGruppi() && aggiornaMovimentiUsciteDaEsterno(nomiColonne, 25) && aggiornaPannelloDatiSpese()) {
@@ -235,7 +250,7 @@ public class AggiornatoreManager {
 			}
 			return true;
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			return false;
 		}
 	}

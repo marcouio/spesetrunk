@@ -63,7 +63,8 @@ public class InizializzatoreFinestre {
 				window.setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
 			}
 			try {
-				UIManager.setLookAndFeel(Controllore.getLookUsato());
+				UIManager.setLookAndFeel(Controllore.getSingleton().getLookUsato());
+
 			} catch (Exception e) {
 				Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore(e.getMessage()));
 			}
