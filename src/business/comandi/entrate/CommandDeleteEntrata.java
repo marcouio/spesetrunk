@@ -11,33 +11,29 @@ import domain.Entrate;
 import domain.IEntrate;
 import domain.wrapper.WrapEntrate;
 
-public class CommandDeleteEntrata extends AbstractCommandForJavaBean implements ICommand {
+public class CommandDeleteEntrata extends AbstractCommandForJavaBean<Entrate> implements ICommand {
 
-	public CommandDeleteEntrata(final IEntrate entita) throws Exception {
+	public CommandDeleteEntrata(final IEntrate entita) {
 		final CacheEntrate cache = CacheEntrate.getSingleton();
 		mappaCache = cache.getCache();
 		this.wrap = new WrapEntrate();
-		this.entita = ((IDAO) entita).getEntitaPadre();
+		this.entita = (Entrate) ((IDAO) entita).getEntitaPadre();
 	}
 
 	@Override
 	public boolean execute() throws Exception {
-		if (entita instanceof Entrate) {
-			if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
-				mappaCache.remove(entita.getIdEntita());
-				return true;
-			}
+		if (entita instanceof Entrate && wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
+			mappaCache.remove(entita.getIdEntita());
+			return true;
 		}
 		return false;
 	}
 
 	@Override
 	public boolean unExecute() throws Exception {
-		if (entita instanceof Entrate) {
-			if (wrap.insert(entita)) {
-				mappaCache.put(entita.getIdEntita(), entita);
-				return true;
-			}
+		if (entita instanceof Entrate && wrap.insert(entita)) {
+			mappaCache.put(entita.getIdEntita(), entita);
+			return true;
 		}
 		return false;
 	}
