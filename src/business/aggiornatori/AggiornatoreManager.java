@@ -34,6 +34,7 @@ import view.componenti.componentiPannello.SottoPannelloMesi;
 import view.componenti.componentiPannello.SottoPannelloTotali;
 import view.componenti.movimenti.AscoltatoreBottoniEntrata;
 import view.componenti.movimenti.AscoltatoreBottoniUscita;
+import view.componenti.movimenti.Movimenti;
 import view.font.TableF;
 import view.impostazioni.CategorieView;
 import view.tabelleMesi.TabellaEntrata;
@@ -117,11 +118,13 @@ public class AggiornatoreManager {
 	 */
 	public static boolean aggiornaMovimentiUsciteDaFiltro(final Object[] nomiColonne, final String[][] movimenti) {
 		try {
-			TableF table1 = Controllore.getSingleton().getGeneralFrame().getTabMovimenti().getTabMovUscite().getTable();
-			table1 = new TableF(movimenti, nomiColonne);
-			final JScrollPane scrollPane = Controllore.getSingleton().getGeneralFrame().getTabMovimenti().getTabMovUscite().getScrollPane();
-			scrollPane.setViewportView(table1);
-			table1.addMouseListener(new AscoltatoreBottoniUscita(table1));
+			Movimenti tabMovimenti = Controllore.getSingleton().getGeneralFrame().getTabMovimenti();
+			if(tabMovimenti != null){ 
+				TableF table1 = new TableF(movimenti, nomiColonne);
+				final JScrollPane scrollPane = tabMovimenti.getTabMovUscite().getScrollPane();
+				scrollPane.setViewportView(table1);
+				table1.addMouseListener(new AscoltatoreBottoniUscita(table1));
+			}
 			return true;
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -141,11 +144,13 @@ public class AggiornatoreManager {
 	public static boolean aggiornaMovimentiUsciteDaEsterno(final Object[] nomiColonne, final int numUscite) {
 		try {
 			final String[][] movimenti = Model.getSingleton().movimentiUscite(numUscite, SingleSpesa.NOME_TABELLA);
-			TableF table1 = Controllore.getSingleton().getGeneralFrame().getTabMovimenti().getTabMovUscite().getTable();
-			table1 = new TableF(movimenti, nomiColonne);
-			final JScrollPane scrollPane = Controllore.getSingleton().getGeneralFrame().getTabMovimenti().getTabMovUscite().getScrollPane();
-			scrollPane.setViewportView(table1);
-			table1.addMouseListener(new AscoltatoreBottoniUscita(table1));
+			Movimenti tabMovimenti = Controllore.getSingleton().getGeneralFrame().getTabMovimenti();
+			if(tabMovimenti != null){
+				TableF table1 = new TableF(movimenti, nomiColonne);
+				final JScrollPane scrollPane = tabMovimenti.getTabMovUscite().getScrollPane();
+				scrollPane.setViewportView(table1);
+				table1.addMouseListener(new AscoltatoreBottoniUscita(table1));
+			}
 			return true;
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -163,11 +168,13 @@ public class AggiornatoreManager {
 	 */
 	public static boolean aggiornaMovimentiEntrateDaFiltro(final Object[] nomiColonne, final String[][] movimenti) {
 		try {
-			TableF table1 = Controllore.getSingleton().getGeneralFrame().getTabMovimenti().getTabMovEntrate().getTable();
-			table1 = new TableF(movimenti, nomiColonne);
-			final JScrollPane scrollPane = Controllore.getSingleton().getGeneralFrame().getTabMovimenti().getTabMovEntrate().getScrollPane();
-			scrollPane.setViewportView(table1);
-			table1.addMouseListener(new AscoltatoreBottoniEntrata(table1));
+			Movimenti tabMovimenti = Controllore.getSingleton().getGeneralFrame().getTabMovimenti();
+			if(tabMovimenti != null){
+				TableF table1 = new TableF(movimenti, nomiColonne);
+				final JScrollPane scrollPane = tabMovimenti.getTabMovEntrate().getScrollPane();
+				scrollPane.setViewportView(table1);
+				table1.addMouseListener(new AscoltatoreBottoniEntrata(table1));
+			}
 			return true;
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -188,9 +195,12 @@ public class AggiornatoreManager {
 			final String[][] movimenti = Model.getSingleton().movimentiEntrate(numEntry, Entrate.NOME_TABELLA);
 			if(Controllore.getSingleton().getGeneralFrame()!=null){
 				TableF table1 = new TableF(movimenti, nomiColonne);
-				final JScrollPane scrollPane = Controllore.getSingleton().getGeneralFrame().getTabMovimenti().getTabMovEntrate().getScrollPane();
-				scrollPane.setViewportView(table1);
-				table1.addMouseListener(new AscoltatoreBottoniEntrata(table1));
+				Movimenti tabMovimenti = Controllore.getSingleton().getGeneralFrame().getTabMovimenti();
+				if(tabMovimenti != null){
+					final JScrollPane scrollPane = tabMovimenti.getTabMovEntrate().getScrollPane();
+					scrollPane.setViewportView(table1);
+					table1.addMouseListener(new AscoltatoreBottoniEntrata(table1));
+				}
 				return true;
 			}
 		} catch (final Exception e) {

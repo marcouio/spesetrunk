@@ -1,5 +1,7 @@
 package business;
 
+import java.awt.Dimension;
+import java.awt.Frame;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -162,7 +164,7 @@ public class Controllore extends ControlloreBase{
 	}
 
 	public static void main(final String[] args) {
-		Controllore.getSingleton().myMain(Controllore.getSingleton(), true, "myApplication");
+		Controllore.getSingleton().myMain(Controllore.getSingleton(), false, "myApplication");
 	}
 
 	@Override
@@ -173,7 +175,7 @@ public class Controllore extends ControlloreBase{
 		
 		genPan = new GeneralFrame(frame);
 		view = frame;
-
+		view.setVisible(true);
 		setStartUtenteLogin();
 
 		settaLookFeel();
@@ -181,7 +183,6 @@ public class Controllore extends ControlloreBase{
 		Controllore.getSingleton();
 		
 		view.setTitle(I18NManager.getSingleton().getMessaggio("title"));
-		view.setVisible(true);
 		
 		final MyWindowListener windowListener = new MyWindowListener(genPan);
 		frame.addWindowListener(windowListener);

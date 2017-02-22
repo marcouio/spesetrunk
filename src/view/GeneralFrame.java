@@ -1,7 +1,5 @@
 package view;
 
-import grafica.componenti.contenitori.PannelloBase;
-
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -12,8 +10,15 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
-import javax.swing.border.EmptyBorder;
 
+import business.AltreUtil;
+import business.Controllore;
+import business.GestioneSpeseException;
+import business.ascoltatori.AscoltatoreAggiornatoreNiente;
+import business.internazionalizzazione.I18NManager;
+import domain.wrapper.WrapEntrate;
+import domain.wrapper.WrapSingleSpesa;
+import grafica.componenti.contenitori.PannelloBase;
 import view.bottoni.Bottone;
 import view.bottoni.PannelloBottoni;
 import view.bottoni.PannelloBottoniInterno;
@@ -23,20 +28,14 @@ import view.entrateuscite.EntrateView;
 import view.entrateuscite.UsciteView;
 import view.mymenu.MyMenu;
 import view.tabelleMesi.PerMesiF;
-import business.AltreUtil;
-import business.Controllore;
-import business.ascoltatori.AscoltatoreAggiornatoreNiente;
-import business.internazionalizzazione.I18NManager;
-import domain.wrapper.WrapEntrate;
-import domain.wrapper.WrapSingleSpesa;
 
 public class GeneralFrame extends PannelloBase {
 
 	private static final long serialVersionUID = 1L;
-	private static PerMesiF tabPermesi;
-	private static Movimenti tabMovimenti;
-	private static NewSql consolle;
-	private final ArrayList<JPanel> listaPannelli = new ArrayList<JPanel>();
+	private PerMesiF tabPermesi;
+	private Movimenti tabMovimenti;
+	private NewSql consolle;
+	private final ArrayList<JPanel> listaPannelli = new ArrayList<>();
 
 	
 	
@@ -48,33 +47,38 @@ public class GeneralFrame extends PannelloBase {
 		add(menu);
 
 		createPannelloBottoni();
-		consolle = new NewSql();
-		consolle.setBounds(20, 58, 1000, 550);
-
-		// movimenti
-		tabMovimenti = new Movimenti();
-		tabMovimenti.getTabMovUscite().setBounds(0, 110, 1000, 550);
-		tabMovimenti.getTabMovEntrate().setBounds(0, 110, 1000, 550);
-
-		// Divisione di spese e entrate per5 mese
-		tabPermesi = new PerMesiF();
-		tabPermesi.setBounds(20, 58, 1000, 550);
-
-		add(tabMovimenti.getTabMovEntrate());
-		add(tabMovimenti.getTabMovUscite());
-		listaPannelli.add(tabMovimenti.getTabMovEntrate());
-		listaPannelli.add(tabMovimenti.getTabMovUscite());
-		add(tabPermesi);
-		listaPannelli.add(tabPermesi);
-		add(consolle);
-		listaPannelli.add(consolle);
-
-		for (final JPanel pannello : listaPannelli) {
-			pannello.setVisible(false);
-		}
-		tabMovimenti.getTabMovUscite().setVisible(true);
+		initConsollle();
+		setVisibleTrue(consolle);
 
 		repaint();
+	}
+
+	private void setVisibleTrue(OggettoVistaBase oggettoView) {
+		oggettoView.setVisible(true);
+	}
+
+	private void initPerMesi() {
+		// Divisione di spese e entrate per5 mese
+		if(tabPermesi == null){
+			tabPermesi = new PerMesiF();
+			tabPermesi.setBounds(20, 58, 1000, 550);
+	
+			add(tabPermesi);
+			listaPannelli.add(tabPermesi);
+		
+		}
+	}
+	
+	private void initTabMovimenti() {
+		if(tabMovimenti == null){
+			tabMovimenti = new Movimenti();
+			tabMovimenti.getTabMovUscite().setBounds(0, 110, 1000, 550);
+			tabMovimenti.getTabMovEntrate().setBounds(0, 110, 1000, 550);
+			add(tabMovimenti.getTabMovEntrate());
+			add(tabMovimenti.getTabMovUscite());
+			listaPannelli.add(tabMovimenti.getTabMovEntrate());
+			listaPannelli.add(tabMovimenti.getTabMovUscite());
+		}
 	}
 
 	private void createPannelloBottoni() {
@@ -88,9 +92,8 @@ public class GeneralFrame extends PannelloBase {
 
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				for (final JPanel pannello : listaPannelli) {
-					pannello.setVisible(false);
-				}
+				hidePanels();
+				initTabMovimenti();
 				tabMovimenti.getTabMovUscite().setVisible(true);
 			}
 		});
@@ -103,11 +106,13 @@ public class GeneralFrame extends PannelloBase {
 
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				for (final JPanel pannello : listaPannelli) {
-					pannello.setVisible(false);
-				}
+				hidePanels();
+				
+				initTabMovimenti();
+				
 				tabMovimenti.getTabMovUscite().setVisible(true);
 				toggleMovimentiUscite.setSelected(false);
+				repaint();
 			}
 		});
 		final String entrate = I18NManager.getSingleton().getMessaggio("income");
@@ -118,18 +123,21 @@ public class GeneralFrame extends PannelloBase {
 
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				for (final JPanel pannello : listaPannelli) {
-					pannello.setVisible(false);
-				}
+				hidePanels();
+				
+				initTabMovimenti();
+				
 				tabMovimenti.getTabMovEntrate().setVisible(true);
 				toggleMovimentiEntrate.setSelected(false);
 				bottoneMovimentiEntrate.getContenuto().getGruppoBottoni().clearSelection();
 				bottoneMovimentiEntrate.getBottone().setSelected(false);
+				repaint();
 			}
+
 		});
 
 		final PannelloBottoniInterno pp = new PannelloBottoniInterno();
-		final ArrayList<Bottone> dueButton = new ArrayList<Bottone>();
+		final ArrayList<Bottone> dueButton = new ArrayList<>();
 		dueButton.add(bottoneMovimentiUscite);
 		dueButton.add(bottoneMovimentiEntrate);
 		pp.addDueBottoni(dueButton);
@@ -148,9 +156,9 @@ public class GeneralFrame extends PannelloBase {
 
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				for (final JPanel pannello : listaPannelli) {
-					pannello.setVisible(false);
-				}
+				initPerMesi();
+				hidePanels();
+				
 				tabPermesi.setVisible(true);
 			}
 		});
@@ -164,10 +172,10 @@ public class GeneralFrame extends PannelloBase {
 
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				for (final JPanel pannello : listaPannelli) {
-					pannello.setVisible(false);
-				}
+				initConsollle();
+				hidePanels();
 				consolle.setVisible(true);
+				repaint();
 			}
 		});
 
@@ -221,12 +229,12 @@ public class GeneralFrame extends PannelloBase {
 			}
 		});
 
-		final PannelloBottoniInterno EntrateUsciteContenuto = new PannelloBottoniInterno();
+		final PannelloBottoniInterno entrateUsciteContenuto = new PannelloBottoniInterno();
 		final ArrayList<Bottone> dueBottoni = new ArrayList<Bottone>();
 		dueBottoni.add(bottoneInsUscite);
 		dueBottoni.add(bottoneInsEntrate);
-		EntrateUsciteContenuto.addDueBottoni(dueBottoni);
-		bottoneEntrateUscite.setContenuto(EntrateUsciteContenuto);
+		entrateUsciteContenuto.addDueBottoni(dueBottoni);
+		bottoneEntrateUscite.setContenuto(entrateUsciteContenuto);
 
 		pannelloBottoni.addBottone(bottoneSql);
 		pannelloBottoni.addBottone(bottoneMesi);
@@ -246,7 +254,7 @@ public class GeneralFrame extends PannelloBase {
 				final JFrame finestraVisibile = Controllore.getSingleton().getInitFinestre().getFinestraVisibile();
 				finestraVisibile.setLocation(p);
 			} catch (final Exception e) {
-				e.printStackTrace();
+				throw new GestioneSpeseException(e);
 			}
 		}
 	}
@@ -256,7 +264,7 @@ public class GeneralFrame extends PannelloBase {
 	}
 
 	public void setTabPermesi(final PerMesiF tabPermesi) {
-		GeneralFrame.tabPermesi = tabPermesi;
+		this.tabPermesi = tabPermesi;
 	}
 
 	public Movimenti getTabMovimenti() {
@@ -264,7 +272,7 @@ public class GeneralFrame extends PannelloBase {
 	}
 
 	public void setTabMovimenti(final Movimenti tabMovimenti) {
-		GeneralFrame.tabMovimenti = tabMovimenti;
+		this.tabMovimenti = tabMovimenti;
 	}
 
 	public NewSql getConsolle() {
@@ -272,7 +280,22 @@ public class GeneralFrame extends PannelloBase {
 	}
 
 	public void setConsolle(final NewSql consolle) {
-		GeneralFrame.consolle = consolle;
+		this.consolle = consolle;
+	}
+
+	private void initConsollle() {
+		if(consolle == null){
+			consolle = new NewSql();
+			consolle.setBounds(20, 58, 1000, 550);
+			add(consolle);
+			listaPannelli.add(consolle);
+		}
+	}
+
+	private void hidePanels() {
+		for (final JPanel pannello : listaPannelli) {
+			pannello.setVisible(false);
+		}
 	}
 
 }

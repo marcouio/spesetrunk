@@ -2,11 +2,12 @@ package business.cache;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import business.Controllore;
 import domain.Entrate;
@@ -45,38 +46,46 @@ public class CacheEntrate extends AbstractCacheBase<Entrate> {
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		if (mappa != null && utente != null) {
 			
-			return mappa.values().stream().filter(entrata ->
-				{
-					Utenti utenti = entrata.getUtenti();
-					int idUtente = utenti.getidUtente();
-					return entrata != null && (utenti != null && idUtente != 0) && idUtente == utente.getidUtente();
-				}
-			).collect(Collectors.toList());
+			return mappa.values().stream().filter(getFilterForUser(utente)).collect(Collectors.toList());
 			
 		}
 		return new ArrayList<>();
 	}
 
+	private Predicate<? super Entrate> getFilterForUser(final Utenti utente) {
+		return entrata ->
+			{
+				Utenti utenti = entrata.getUtenti();
+				int idUtente = utenti.getidUtente();
+				return entrata != null && (utenti != null && idUtente != 0) && idUtente == utente.getidUtente();
+			};
+	}
+
 	public List<Entrate> getAllEntrateForUtenteEAnno() {
+		
 		final ArrayList<Entrate> listaEntrate = new ArrayList<>();
 		final Map<String, Entrate> mappa = getAllEntrate();
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
-		final String annoDaText = Impostazioni.getSingleton().getAnnotextField().getText();
+		final String annoDaText = Integer.toString(Impostazioni.getAnno());
 
 		if (mappa != null && utente != null) {
-			final Iterator<String> chiavi = mappa.keySet().iterator();
 
-			while (chiavi.hasNext()) {
-				final Entrate entrata = (Entrate) mappa.get(chiavi.next());
-				if (entrata != null && (entrata.getUtenti() != null && entrata.getUtenti().getidUtente() != 0)) {
-					final String annoEntrata = entrata.getdata().substring(0, 4);
-					if (entrata.getUtenti().getidUtente() == utente.getidUtente() && annoEntrata.equals(annoDaText)) {
-						listaEntrate.add(entrata);
-					}
-				}
-			}
+			Stream<Entrate> streamEntrate = mappa.values().stream().filter(getFilterUserAndYear(utente, annoDaText));
+			return streamEntrate.collect(Collectors.toList());
 		}
+		
 		return listaEntrate;
+				
+	}
+
+	private Predicate<? super Entrate> getFilterUserAndYear(final Utenti utente, final String annoDaText) {
+		return e -> {
+			if(e != null && (e.getUtenti() != null && e.getUtenti().getidUtente() != 0)){
+				final String annoEntrata = e.getdata().substring(0, 4);
+				return e.getUtenti().getidUtente() == utente.getidUtente() && annoEntrata.equals(annoDaText);
+			}
+			return false;
+		};
 	}
 
 	public int getMaxId() {

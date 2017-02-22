@@ -3,11 +3,13 @@ package business.generatori;
 import grafica.componenti.table.TableModel;
 
 import java.util.HashMap;
+import java.util.Map;
+
 import business.Database;
 import business.internazionalizzazione.I18NManager;
 
 public class TableModelEntrate extends TableModel{
-	public static HashMap<Integer, String> mapMesi = new HashMap<Integer, String>();
+	public static Map<Integer, String> mapMesi = new HashMap<>();
 	 
 	static{
 		mapMesi.put(1, I18NManager.getSingleton().getMessaggio("january"));
@@ -24,22 +26,23 @@ public class TableModelEntrate extends TableModel{
 		mapMesi.put(12, I18NManager.getSingleton().getMessaggio("december"));
 	}
 
-	String[] listaColonne;
+	private String[] listaColonne;
+	private static final long serialVersionUID = 1L;
 	
 	public TableModelEntrate(Object parametro) throws Exception {
 		super(parametro);
 	}
 
-	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void preBuild(Object parametro) throws Exception {
+		String[] listaColonneloc = getListaColonne();
 		aggiungiNomiColonne();
 		for (int i = 1; i <= 12; i++) {
 			Riga riga = new Riga();
 			riga.add(mapMesi.get(i));
-			for (int x = 0; x < getListaColonne().length; x++) {
-				String entrataMeseTipo = Double.toString(Database.getSingleton().entrateMeseTipo((i), listaColonne[x]));
+			for (int x = 0; x < listaColonneloc.length; x++) {
+				String entrataMeseTipo = Double.toString(Database.getSingleton().entrateMeseTipo(i, listaColonneloc[x]));
 				riga.add(entrataMeseTipo);
 			}
 			addRiga(riga);

@@ -2,22 +2,17 @@ package view.tabelleMesi;
 
 import java.awt.Dimension;
 
-import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
-import javax.swing.WindowConstants;
 
 import business.internazionalizzazione.I18NManager;
-
 import view.OggettoVistaBase;
 
 public class PerMesiF extends OggettoVistaBase {
 
 	private static final long serialVersionUID = 1L;
-	private static TabellaEntrata      tabEntrate = new TabellaEntrata();
-	private static TabellaUscita       tabUscite  = new TabellaUscita();
-	private static TabellaUscitaGruppi tabUG      = new TabellaUscitaGruppi();
-
-	private JTabbedPane                tabGenerale;
+	private TabellaEntrata      tabEntrate = new TabellaEntrata();
+	private TabellaUscita       tabUscite  = new TabellaUscita();
+	private TabellaUscitaGruppi tabUG      = new TabellaUscitaGruppi();
 
 	public PerMesiF() {
 		super();
@@ -29,7 +24,7 @@ public class PerMesiF extends OggettoVistaBase {
 			this.setPreferredSize(new Dimension(983, 545));
 			this.setLayout(null);
 
-			tabGenerale = new JTabbedPane();
+			JTabbedPane tabGenerale = new JTabbedPane();
 			tabGenerale.setBounds(12, 65, 930, 468);
 			tabGenerale.addTab(I18NManager.getSingleton().getMessaggio("income"), tabEntrate);
 			tabGenerale.addTab(I18NManager.getSingleton().getMessaggio("withdrawal"), tabUscite);
@@ -47,7 +42,7 @@ public class PerMesiF extends OggettoVistaBase {
 	/**
 	 * @return the tabEntrate
 	 */
-	public static TabellaEntrata getTabEntrate() {
+	public TabellaEntrata getTabEntrate() {
 		return tabEntrate;
 	}
 
@@ -55,14 +50,14 @@ public class PerMesiF extends OggettoVistaBase {
 	 * @param tabEntrate
 	 *            the tabEntrate to set
 	 */
-	public static void setTabEntrate(final TabellaEntrata tabEntrate) {
-		PerMesiF.tabEntrate = tabEntrate;
+	public void setTabEntrate(final TabellaEntrata tabEntrate) {
+		this.tabEntrate = tabEntrate;
 	}
 
 	/**
 	 * @return the tabUscite
 	 */
-	public static TabellaUscita getTabUscite() {
+	public TabellaUscita getTabUscite() {
 		return tabUscite;
 	}
 
@@ -70,8 +65,8 @@ public class PerMesiF extends OggettoVistaBase {
 	 * @param tabUscite
 	 *            the tabUscite to set
 	 */
-	public static void setTabUscite(final TabellaUscita tabUscite) {
-		PerMesiF.tabUscite = tabUscite;
+	public void setTabUscite(final TabellaUscita tabUscite) {
+		this.tabUscite = tabUscite;
 	}
 
 }
