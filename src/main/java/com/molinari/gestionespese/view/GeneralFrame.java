@@ -34,7 +34,7 @@ import grafica.componenti.contenitori.PannelloBase;
 
 public class GeneralFrame extends PannelloBase {
 
-	private static final int MENU_HEIGHT = 15;
+	private static final int MENU_HEIGHT = 18;
 	private static final long serialVersionUID = 1L;
 	private PannelTabs pannelTabs;
 	

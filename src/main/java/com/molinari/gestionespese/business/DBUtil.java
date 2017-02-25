@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import org.sqlite.JDBC;
 import java.util.GregorianCalendar;
 
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
@@ -20,20 +21,20 @@ public class DBUtil {
 	public static String URL = "jdbc:sqlite:" + Database.DB_URL;
 	public static final String USR = "root";
 	public static final String PWD = "marco";
-	public static final String DRIVERCLASSNAME = "org.sqlite.JDBC";
+	public static final String DRIVERCLASSNAME = JDBC.class.getName();
 	private static Connection connection = null;
 	private static String mese;
 	private static String mesi;
 
-	static {
-		try {
-			Class.forName(DBUtil.DRIVERCLASSNAME);
-		} catch (final ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-	}
-	
+//	static {
+//		try {
+//			Class.forName(DBUtil.DRIVERCLASSNAME);
+//		} catch (final ClassNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
+//	
 	public static void main(String[] args) {
 		DBUtil.getConnection();
 	}

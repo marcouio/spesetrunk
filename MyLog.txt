@@ -1,142 +1,134 @@
-feb 25, 2017 4:48:31 PM log.LoggerOggetto creaLog
+feb 25, 2017 10:32:46 PM log.LoggerOggetto creaLog
 INFORMAZIONI: Start programma!
-feb 25, 2017 4:48:31 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:32:46 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-feb 25, 2017 4:48:31 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:32:46 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 1 connections
-feb 25, 2017 4:48:31 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:32:46 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-feb 25, 2017 4:48:31 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:32:46 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 2 connections
-feb 25, 2017 4:48:31 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:32:46 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-feb 25, 2017 4:48:31 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:32:46 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 3 connections
-feb 25, 2017 4:48:31 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:32:46 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-feb 25, 2017 4:48:31 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:32:46 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 4 connections
-feb 25, 2017 4:48:31 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:32:46 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-feb 25, 2017 4:48:31 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:32:46 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-feb 25, 2017 4:48:31 PM db.ConnectionPool getConnection
+feb 25, 2017 10:32:46 PM db.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-feb 25, 2017 4:48:31 PM db.ConnectionPool$ExecuteResultSet execute
+feb 25, 2017 10:32:46 PM db.ConnectionPool$ExecuteResultSet execute
 INFORMAZIONI: Query in esecuzione: SELECT * FROM lookAndFeel
-feb 25, 2017 4:48:31 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:32:46 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-feb 25, 2017 4:48:31 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:32:46 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-feb 25, 2017 4:48:31 PM db.ConnectionPool getConnection
+feb 25, 2017 10:32:46 PM db.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-feb 25, 2017 4:48:31 PM db.ConnectionPool$ExecuteResultSet execute
+feb 25, 2017 10:32:46 PM db.ConnectionPool$ExecuteResultSet execute
 INFORMAZIONI: Query in esecuzione: SELECT * FROM utenti
-feb 25, 2017 4:48:31 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:32:46 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-feb 25, 2017 4:48:31 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:32:46 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-feb 25, 2017 4:48:31 PM db.ConnectionPool getConnection
+feb 25, 2017 10:32:46 PM db.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-feb 25, 2017 4:48:31 PM db.ConnectionPool$ExecuteResultSet execute
+feb 25, 2017 10:32:46 PM db.ConnectionPool$ExecuteResultSet execute
 INFORMAZIONI: Query in esecuzione: SELECT * FROM lookAndFeel
-feb 25, 2017 4:48:32 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:32:46 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-feb 25, 2017 4:48:32 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:32:46 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-feb 25, 2017 4:48:37 PM db.ConnectionPool getConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-feb 25, 2017 4:48:37 PM db.ConnectionPool$ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM entrate
-feb 25, 2017 4:48:37 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool$ExecuteResultSet execute
+INFORMAZIONI: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
+feb 25, 2017 10:33:04 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-feb 25, 2017 4:48:37 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-feb 25, 2017 4:48:37 PM db.ConnectionPool getConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-feb 25, 2017 4:48:37 PM db.ConnectionPool$ExecuteResultSet execute
+feb 25, 2017 10:33:04 PM db.ConnectionPool$ExecuteResultSet execute
 INFORMAZIONI: Query in esecuzione: SELECT * FROM gruppi ORDER BY idGruppo asc
-feb 25, 2017 4:48:37 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-feb 25, 2017 4:48:37 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-feb 25, 2017 4:48:37 PM db.ConnectionPool getConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-feb 25, 2017 4:48:37 PM db.ConnectionPool$ExecuteResultSet execute
+feb 25, 2017 10:33:04 PM db.ConnectionPool$ExecuteResultSet execute
 INFORMAZIONI: Query in esecuzione: SELECT * FROM cat_spese
-feb 25, 2017 4:48:37 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-feb 25, 2017 4:48:38 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-feb 25, 2017 4:48:38 PM db.ConnectionPool getConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-feb 25, 2017 4:48:38 PM db.ConnectionPool$ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM single_spesa
-feb 25, 2017 4:48:38 PM db.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-feb 25, 2017 4:48:38 PM db.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-feb 25, 2017 4:48:39 PM db.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-feb 25, 2017 4:48:39 PM db.ConnectionPool$ExecuteResultSet execute
+feb 25, 2017 10:33:04 PM db.ConnectionPool$ExecuteResultSet execute
 INFORMAZIONI: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
-feb 25, 2017 4:48:39 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-feb 25, 2017 4:48:39 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-feb 25, 2017 4:48:39 PM db.ConnectionPool getConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-feb 25, 2017 4:48:39 PM db.ConnectionPool$ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
-feb 25, 2017 4:48:39 PM db.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-feb 25, 2017 4:48:39 PM db.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-feb 25, 2017 4:48:39 PM db.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-feb 25, 2017 4:48:39 PM db.ConnectionPool$ExecuteResultSet execute
+feb 25, 2017 10:33:04 PM db.ConnectionPool$ExecuteResultSet execute
 INFORMAZIONI: Query in esecuzione: SELECT * FROM entrate where data BETWEEN '2017/01/01' AND '2017/12/31' AND idUtente = 1 ORDER BY idEntrate desc limit 0,20
-feb 25, 2017 4:48:39 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-feb 25, 2017 4:48:39 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-feb 25, 2017 4:48:39 PM db.ConnectionPool getConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-feb 25, 2017 4:48:39 PM db.ConnectionPool$ExecuteResultSet execute
+feb 25, 2017 10:33:04 PM db.ConnectionPool$ExecuteResultSet execute
 INFORMAZIONI: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
-feb 25, 2017 4:48:39 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-feb 25, 2017 4:48:39 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-feb 25, 2017 4:48:39 PM db.ConnectionPool getConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-feb 25, 2017 4:48:39 PM db.ConnectionPool$ExecuteResultSet execute
+feb 25, 2017 10:33:04 PM db.ConnectionPool$ExecuteResultSet execute
 INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria and single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-feb 25, 2017 4:48:39 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-feb 25, 2017 4:48:39 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-feb 25, 2017 4:48:39 PM db.ConnectionPool getConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-feb 25, 2017 4:48:39 PM db.ConnectionPool$ExecuteResultSet execute
+feb 25, 2017 10:33:04 PM db.ConnectionPool$ExecuteResultSet execute
 INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria and single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-feb 25, 2017 4:48:39 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-feb 25, 2017 4:48:39 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-feb 25, 2017 4:48:39 PM db.ConnectionPool getConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-feb 25, 2017 4:48:39 PM db.ConnectionPool$ExecuteResultSet execute
+feb 25, 2017 10:33:04 PM db.ConnectionPool$ExecuteResultSet execute
 INFORMAZIONI: Query in esecuzione: select * from single_spesa where Data BETWEEN '2017/01/01' AND '2017/12/31' AND idUtente = 1 ORDER BY idSpesa desc limit 0,20
-feb 25, 2017 4:48:39 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-feb 25, 2017 4:48:39 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-feb 25, 2017 4:48:39 PM db.ConnectionPool getConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-feb 25, 2017 4:48:39 PM db.ConnectionPool$ExecuteResultSet execute
+feb 25, 2017 10:33:04 PM db.ConnectionPool$ExecuteResultSet execute
 INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria and single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-feb 25, 2017 4:48:39 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-feb 25, 2017 4:48:39 PM db.ConnectionPool releaseNewConnection
+feb 25, 2017 10:33:04 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+feb 25, 2017 10:33:12 PM db.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+feb 25, 2017 10:33:12 PM db.ConnectionPool$ExecuteResultSet execute
+INFORMAZIONI: Query in esecuzione: SELECT * FROM entrate
+feb 25, 2017 10:33:12 PM db.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+feb 25, 2017 10:33:12 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
