@@ -1,15 +1,10 @@
 package com.molinari.gestionespese.view.componenti.movimenti;
 
-import javax.swing.JTabbedPane;
-
-import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.view.OggettoVistaBase;
 
 public class Movimenti extends OggettoVistaBase {
 
 	private static final long serialVersionUID = 1L;
-
-	private JTabbedPane           tabGenerale;
 	private ListaMovimentiEntrate tabMovEntrate;
 	private ListaMovimentiUscite  tabMovUscite;
 	private AbstractListaMov lastView;
@@ -24,18 +19,12 @@ public class Movimenti extends OggettoVistaBase {
 			this.setPreferredSize(new java.awt.Dimension(900, 650));
 			this.setLayout(null);
 
-			tabMovEntrate = new ListaMovimentiEntrate();
+//			tabMovEntrate = new ListaMovimentiEntrate();
+//			tabMovEntrate.setBounds(20, 10, 700, 500);
+//
+//			tabMovUscite = new ListaMovimentiUscite();
+//			tabMovUscite.setBounds(20, 10, 700, 500);
 
-			tabGenerale = new JTabbedPane();
-			tabGenerale.setBounds(65, 65, 800, 600);
-			tabGenerale.addTab(I18NManager.getSingleton().getMessaggio("income")+" "+I18NManager.getSingleton().getMessaggio("transactions"), tabMovEntrate);
-
-			tabMovEntrate.setBounds(20, 10, 700, 500);
-			tabMovUscite = new ListaMovimentiUscite();
-			tabGenerale.addTab(I18NManager.getSingleton().getMessaggio("withdrawal")+" "+I18NManager.getSingleton().getMessaggio("transactions"), tabMovUscite);
-			tabMovUscite.setBounds(20, 10, 700, 500);
-
-			this.add(tabGenerale);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -45,7 +34,7 @@ public class Movimenti extends OggettoVistaBase {
 		return tabMovEntrate;
 	}
 
-	protected void setTabMovEntrate(ListaMovimentiEntrate tabMovEntrate) {
+	public void setTabMovEntrate(ListaMovimentiEntrate tabMovEntrate) {
 		this.tabMovEntrate = tabMovEntrate;
 	}
 
@@ -53,7 +42,7 @@ public class Movimenti extends OggettoVistaBase {
 		return tabMovUscite;
 	}
 
-	protected void setTabMovUscite(ListaMovimentiUscite tabMovUscite) {
+	public void setTabMovUscite(ListaMovimentiUscite tabMovUscite) {
 		this.tabMovUscite = tabMovUscite;
 	}
 

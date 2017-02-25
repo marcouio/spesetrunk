@@ -37,6 +37,7 @@ import com.molinari.gestionespese.view.componenti.movimenti.AscoltatoreBottoniUs
 import com.molinari.gestionespese.view.componenti.movimenti.Movimenti;
 import com.molinari.gestionespese.view.font.TableF;
 import com.molinari.gestionespese.view.impostazioni.CategorieView;
+import com.molinari.gestionespese.view.tabelleMesi.PerMesiF;
 import com.molinari.gestionespese.view.tabelleMesi.TabellaEntrata;
 import com.molinari.gestionespese.view.tabelleMesi.TabellaUscita;
 import com.molinari.gestionespese.view.tabelleMesi.TabellaUscitaGruppi;
@@ -389,7 +390,9 @@ public class AggiornatoreManager {
 		try {
 			final JTable table = TabellaUscitaGruppi.getDatiPerTabella();
 			final JScrollPane pane = TabellaUscitaGruppi.getScrollPane();
-			pane.setViewportView(table);
+			if(pane != null){
+				pane.setViewportView(table);
+			}
 			return true;
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -413,7 +416,9 @@ public class AggiornatoreManager {
 			
 			final TableF table = TabellaUscita.createTable(model); 
 			final JScrollPane pane = TabellaUscita.getScrollPane();
-			pane.setViewportView(table);
+			if(pane != null){
+				pane.setViewportView(table);
+			}
 			return true;
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -434,9 +439,12 @@ public class AggiornatoreManager {
 			
 			TableModelEntrate model = new TableModelEntrate(null);
 			GeneralFrame generalFrame = Controllore.getSingleton().getGeneralFrame();
-			final TableF table = generalFrame.getPannelTabs().getTabPermesi().getTabEntrate().createTable(model);
-			final JScrollPane pane = TabellaEntrata.getScrollPane();
-			pane.setViewportView(table);
+			PerMesiF tabPermesi = generalFrame.getPannelTabs().getTabPermesi();
+			if(tabPermesi != null){
+				final TableF table = tabPermesi.getTabEntrate().createTable(model);
+				final JScrollPane pane = TabellaEntrata.getScrollPane();
+				pane.setViewportView(table);
+			}
 			return true;
 		} catch (final Exception e) {
 			e.printStackTrace();

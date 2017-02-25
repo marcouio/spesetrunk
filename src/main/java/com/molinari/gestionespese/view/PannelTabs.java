@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import com.molinari.gestionespese.view.componenti.movimenti.ListaMovimentiEntrate;
+import com.molinari.gestionespese.view.componenti.movimenti.ListaMovimentiUscite;
 import com.molinari.gestionespese.view.componenti.movimenti.Movimenti;
 import com.molinari.gestionespese.view.tabelleMesi.PerMesiF;
 
@@ -39,11 +41,22 @@ public class PannelTabs {
 	public void initTabMovimenti() {
 		if(tabMovimenti == null){
 			tabMovimenti = new Movimenti();
-			setBoundsTab(tabMovimenti.getTabMovUscite());
+		}
+	}
+	public void initTabMovimentiEntrate() {
+		if(tabMovimenti.getTabMovEntrate() == null){
+			tabMovimenti.setTabMovEntrate(new ListaMovimentiEntrate());
 			setBoundsTab(tabMovimenti.getTabMovEntrate());
 			panel.add(tabMovimenti.getTabMovEntrate());
-			panel.add(tabMovimenti.getTabMovUscite());
 			listaPannelli.add(tabMovimenti.getTabMovEntrate());
+		}
+	}
+
+	public void initTabMovimentiUscite() {
+		if(tabMovimenti.getTabMovUscite() == null){
+			tabMovimenti.setTabMovUscite(new ListaMovimentiUscite());
+			setBoundsTab(tabMovimenti.getTabMovUscite());
+			panel.add(tabMovimenti.getTabMovUscite());
 			listaPannelli.add(tabMovimenti.getTabMovUscite());
 		}
 	}

@@ -1,3 +1,4 @@
+
 package com.molinari.gestionespese.view;
 
 import java.awt.Color;
@@ -48,6 +49,7 @@ public class GeneralFrame extends PannelloBase {
 		PannelloBottoni pannelloBottoni = createPannelloBottoni(menu);
 		
 		createTabsPanel(this, pannelloBottoni);
+		
 //		getPannelTabs().initConsollle();
 //		setVisibleTrue(getPannelTabs().getConsolle());
 		repaint();
@@ -220,7 +222,7 @@ public class GeneralFrame extends PannelloBase {
 				getPannelTabs().hidePanels();
 				
 				getPannelTabs().initTabMovimenti();
-				
+				getPannelTabs().initTabMovimentiEntrate();
 				Movimenti tabMovimenti = getPannelTabs().getTabMovimenti();
 				ListaMovimentiEntrate tabMovEntrate = tabMovimenti.getTabMovEntrate();
 				tabMovimenti.setLastView(tabMovEntrate);
@@ -240,7 +242,7 @@ public class GeneralFrame extends PannelloBase {
 				getPannelTabs().hidePanels();
 				
 				getPannelTabs().initTabMovimenti();
-				
+				getPannelTabs().initTabMovimentiUscite();
 				Movimenti tabMovimenti = getPannelTabs().getTabMovimenti();
 				ListaMovimentiUscite tabMovUscite = tabMovimenti.getTabMovUscite();
 				tabMovimenti.setLastView(tabMovUscite);
@@ -258,6 +260,7 @@ public class GeneralFrame extends PannelloBase {
 			public void actionPerformedOverride(final ActionEvent e) {
 				getPannelTabs().hidePanels();
 				getPannelTabs().initTabMovimenti();
+				
 				AbstractListaMov lastView = getPannelTabs().getTabMovimenti().getLastView();
 				if(lastView != null){
 					lastView.setVisible(true);
