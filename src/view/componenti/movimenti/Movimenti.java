@@ -12,6 +12,7 @@ public class Movimenti extends OggettoVistaBase {
 	private JTabbedPane           tabGenerale;
 	private ListaMovimentiEntrate tabMovEntrate;
 	private ListaMovimentiUscite  tabMovUscite;
+	private AbstractListaMov lastView;
 
 	public Movimenti() {
 		super();
@@ -54,6 +55,14 @@ public class Movimenti extends OggettoVistaBase {
 
 	protected void setTabMovUscite(ListaMovimentiUscite tabMovUscite) {
 		this.tabMovUscite = tabMovUscite;
+	}
+
+	public AbstractListaMov getLastView() {
+		return lastView;
+	}
+
+	public void setLastView(AbstractListaMov lastView) {
+		this.lastView = lastView;
 	}
 
 }

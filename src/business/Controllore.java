@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -172,7 +173,8 @@ public class Controllore extends ControlloreBase{
 
 		Database.DB_URL = Database.DB_URL_WORKSPACE;
 		verificaPresenzaDb();
-		
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setBounds(10, 20, 1024, 648);
 		genPan = new GeneralFrame(frame);
 		view = frame;
 		view.setVisible(true);

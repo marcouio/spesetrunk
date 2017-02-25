@@ -1,54 +1,38 @@
 package view.bottoni;
 
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.WindowConstants;
 
-public class PannelloBottoni extends JPanel implements ActionListener {
+import grafica.componenti.contenitori.PannelloBase;
+
+public class PannelloBottoni extends PannelloBase implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	public static final int MODE_PIENO = 0;
 
 	private static final int ALTEZZA_BOTTONE = 50;
 
-	protected final ArrayList<Bottone> listaBottoni = new ArrayList<Bottone>();
+	protected final ArrayList<Bottone> listaBottoni = new ArrayList<>();
 	protected final ButtonGroup gruppoBottoni = new ButtonGroup();
 
-	public static void main(final String[] args) {
-
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				final JFrame inst = new JFrame();
-				inst.setBounds(0, 0, 1000, 750);
-				inst.add(new PannelloBottoni(MODE_PIENO));
-				inst.setTitle("PannelloBottoni");
-				inst.setLocationRelativeTo(null);
-				inst.setVisible(true);
-				inst.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-			}
-		});
-	}
 
 	/**
 	 * Create the panel.
 	 */
-	public PannelloBottoni() {
+	public PannelloBottoni(Container contenitore) {
+		super(contenitore);
 		init();
 	}
 
-	public PannelloBottoni(final ArrayList<Bottone> bottoni) {
-
+	public PannelloBottoni(Container contenitore, final List<Bottone> bottoni) {
+		super(contenitore);
 		init();
 
 		for (final Bottone toggleBtn : bottoni) {
@@ -56,31 +40,6 @@ public class PannelloBottoni extends JPanel implements ActionListener {
 			gruppoBottoni.add(toggleBtn.getBottone());
 			this.addBottone(toggleBtn);
 		}
-
-	}
-
-	public PannelloBottoni(final int mode) {
-		init();
-
-		final ToggleBtn bottoni1 = new ToggleBtn("Primo", new ImageIcon("/home/kiwi/Immagini/prova.png"));
-		final ToggleBtn bottoni2 = new ToggleBtn("Secondo", new ImageIcon("/home/kiwi/Immagini/prova.png"));
-		final ToggleBtn bottoni3 = new ToggleBtn("Terzo", new ImageIcon("/home/kiwi/Immagini/prova.png"));
-
-		bottoni1.settaggioBottoneStandard();
-		bottoni2.settaggioBottoneStandard();
-		bottoni3.settaggioBottoneStandard();
-
-		final Bottone b1 = new Bottone(bottoni1);
-		final Bottone b2 = new Bottone(bottoni2);
-		final Bottone b3 = new Bottone(bottoni3);
-
-		this.addBottone(b3);
-		this.addBottone(b2);
-		this.addBottone(b1);
-
-		final PannelloBottoni pp = new PannelloBottoni();
-		pp.add(new JButton("ciaociao"));
-		b3.setContenuto(pp);
 
 	}
 
@@ -93,7 +52,7 @@ public class PannelloBottoni extends JPanel implements ActionListener {
 		this.gruppoBottoni.add(bottone.getBottone());
 		this.listaBottoni.add(bottone);
 		if (bottone.getBottone() != null) {
-			bottone.getBottone().setPreferredSize(new Dimension(getWidth(), ALTEZZA_BOTTONE));
+			bottone.getBottone().setPreferredSize(new Dimension(getContenitorePadre().getWidth(), ALTEZZA_BOTTONE));
 			bottone.getBottone().addActionListener(this);
 		}
 	}

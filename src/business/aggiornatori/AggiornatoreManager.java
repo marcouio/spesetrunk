@@ -27,6 +27,7 @@ import domain.Gruppi;
 import domain.SingleSpesa;
 import domain.wrapper.Model;
 import view.FinestraListaComandi;
+import view.GeneralFrame;
 import view.componenti.componentiPannello.SottoPannelloCategorie;
 import view.componenti.componentiPannello.SottoPannelloDatiEntrate;
 import view.componenti.componentiPannello.SottoPannelloDatiSpese;
@@ -429,8 +430,10 @@ public class AggiornatoreManager {
 	 */
 	public static boolean aggiornaTabellaEntrate() {
 		try {
+			
 			TableModelEntrate model = new TableModelEntrate(null);
-			final TableF table = TabellaEntrata.createTable(model);
+			GeneralFrame generalFrame = Controllore.getSingleton().getGeneralFrame();
+			final TableF table = generalFrame.getPannelTabs().getTabPermesi().getTabEntrate().createTable(model);
 			final JScrollPane pane = TabellaEntrata.getScrollPane();
 			pane.setViewportView(table);
 			return true;

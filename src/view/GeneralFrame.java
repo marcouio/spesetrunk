@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -8,7 +9,6 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import business.AltreUtil;
@@ -23,125 +23,82 @@ import view.bottoni.Bottone;
 import view.bottoni.PannelloBottoni;
 import view.bottoni.PannelloBottoniInterno;
 import view.bottoni.ToggleBtn;
+import view.componenti.movimenti.AbstractListaMov;
+import view.componenti.movimenti.ListaMovimentiEntrate;
+import view.componenti.movimenti.ListaMovimentiUscite;
 import view.componenti.movimenti.Movimenti;
 import view.entrateuscite.EntrateView;
 import view.entrateuscite.UsciteView;
 import view.mymenu.MyMenu;
-import view.tabelleMesi.PerMesiF;
 
 public class GeneralFrame extends PannelloBase {
 
+	private static final int MENU_HEIGHT = 15;
 	private static final long serialVersionUID = 1L;
-	private PerMesiF tabPermesi;
-	private Movimenti tabMovimenti;
-	private NewSql consolle;
-	private final ArrayList<JPanel> listaPannelli = new ArrayList<>();
-
+	private PannelTabs pannelTabs;
 	
 	
 	public GeneralFrame(Container contenitore) {
 		super(contenitore);
-		setBounds(10, 10, 1000, 550);
+		setBounds(10, 10, contenitore.getWidth(), contenitore.getHeight());
 
-		final MyMenu menu = new MyMenu();
-		add(menu);
+		final MyMenu menu = createMenu(this);
 
-		createPannelloBottoni();
-		initConsollle();
-		setVisibleTrue(consolle);
-
+		PannelloBottoni pannelloBottoni = createPannelloBottoni(menu);
+		
+		createTabsPanel(this, pannelloBottoni);
+//		getPannelTabs().initConsollle();
+//		setVisibleTrue(getPannelTabs().getConsolle());
 		repaint();
 	}
 
-	private void setVisibleTrue(OggettoVistaBase oggettoView) {
-		oggettoView.setVisible(true);
+	private void createTabsPanel(Container contenitore, PannelloBottoni pannelloBottoni) {
+		pannelTabs = new PannelTabs(contenitore);
+		PannelloBase tabPanel = pannelTabs.getPanel();
+		tabPanel.posizionaSottoA(pannelloBottoni, 0, 0);
+		tabPanel.setSize(getContenitorePadre().getWidth(), getHeightSottoPannelli());
+	}
+	
+	private int getHeightSottoPannelli() {
+		return getContenitorePadre().getHeight() - getHeightBtnPanel() - MENU_HEIGHT;
 	}
 
-	private void initPerMesi() {
-		// Divisione di spese e entrate per5 mese
-		if(tabPermesi == null){
-			tabPermesi = new PerMesiF();
-			tabPermesi.setBounds(20, 58, 1000, 550);
-	
-			add(tabPermesi);
-			listaPannelli.add(tabPermesi);
+	private MyMenu createMenu(Container contenitore) {
+		final MyMenu menu = new MyMenu();
+		menu.setBounds(0, 0, this.getWidth(), MENU_HEIGHT);
+		add(menu);
+		menu.setVisible(true);
+		return menu;
+	}
+
+	private PannelloBottoni createPannelloBottoni(MyMenu menu) {
+		final PannelloBottoni pannelloBottoni = initPannelloBottoni(menu);
 		
-		}
-	}
-	
-	private void initTabMovimenti() {
-		if(tabMovimenti == null){
-			tabMovimenti = new Movimenti();
-			tabMovimenti.getTabMovUscite().setBounds(0, 110, 1000, 550);
-			tabMovimenti.getTabMovEntrate().setBounds(0, 110, 1000, 550);
-			add(tabMovimenti.getTabMovEntrate());
-			add(tabMovimenti.getTabMovUscite());
-			listaPannelli.add(tabMovimenti.getTabMovEntrate());
-			listaPannelli.add(tabMovimenti.getTabMovUscite());
-		}
-	}
-
-	private void createPannelloBottoni() {
-		final PannelloBottoni pannelloBottoni = new PannelloBottoni();
 		final ImageIcon iconaMovimenti = new ImageIcon(AltreUtil.IMGUTILPATH+"controlli.gif");
 		final ImageIcon iconaMovimentiPic = new ImageIcon(AltreUtil.IMGUTILPATH+"controlli_pic.gif");
 		final ToggleBtn toggleMovimenti = new ToggleBtn(I18NManager.getSingleton().getMessaggio("transactions"), iconaMovimenti);
 		toggleMovimenti.settaggioBottoneStandard();
 		final Bottone bottoneMovimenti = new Bottone(toggleMovimenti);
-		toggleMovimenti.addActionListener(new AscoltatoreAggiornatoreNiente() {
-
-			@Override
-			public void actionPerformedOverride(final ActionEvent e) {
-				hidePanels();
-				initTabMovimenti();
-				tabMovimenti.getTabMovUscite().setVisible(true);
-			}
-		});
+		addListenerMovimenti(toggleMovimenti);
 
 		final String uscite = I18NManager.getSingleton().getMessaggio("withdrawal");
 		final ToggleBtn toggleMovimentiUscite = new ToggleBtn(uscite, iconaMovimentiPic, -1, 20);
 		toggleMovimentiUscite.settaggioBottoneStandard();
 		final Bottone bottoneMovimentiUscite = new Bottone(toggleMovimentiUscite);
-		toggleMovimentiUscite.addActionListener(new AscoltatoreAggiornatoreNiente() {
-
-			@Override
-			public void actionPerformedOverride(final ActionEvent e) {
-				hidePanels();
-				
-				initTabMovimenti();
-				
-				tabMovimenti.getTabMovUscite().setVisible(true);
-				toggleMovimentiUscite.setSelected(false);
-				repaint();
-			}
-		});
+		addListenerMovimentiUscite(toggleMovimentiUscite);
+		
 		final String entrate = I18NManager.getSingleton().getMessaggio("income");
 		final ToggleBtn toggleMovimentiEntrate = new ToggleBtn(entrate, iconaMovimentiPic, -1, 20);
 		toggleMovimentiEntrate.settaggioBottoneStandard();
 		final Bottone bottoneMovimentiEntrate = new Bottone(toggleMovimentiEntrate);
-		toggleMovimentiEntrate.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
-			@Override
-			public void actionPerformedOverride(final ActionEvent e) {
-				hidePanels();
-				
-				initTabMovimenti();
-				
-				tabMovimenti.getTabMovEntrate().setVisible(true);
-				toggleMovimentiEntrate.setSelected(false);
-				bottoneMovimentiEntrate.getContenuto().getGruppoBottoni().clearSelection();
-				bottoneMovimentiEntrate.getBottone().setSelected(false);
-				repaint();
-			}
-
-		});
-
-		final PannelloBottoniInterno pp = new PannelloBottoniInterno();
+		final PannelloBottoniInterno pp = new PannelloBottoniInterno(bottoneMovimenti);
 		final ArrayList<Bottone> dueButton = new ArrayList<>();
 		dueButton.add(bottoneMovimentiUscite);
 		dueButton.add(bottoneMovimentiEntrate);
-		pp.addDueBottoni(dueButton);
 		bottoneMovimenti.setContenuto(pp);
+		addListenerMovimentiEntrate(toggleMovimentiEntrate);
+		pp.addDueBottoni(dueButton);
 
 		toggleMovimenti.setPadre(bottoneMovimenti);
 
@@ -152,32 +109,14 @@ public class GeneralFrame extends PannelloBase {
 		toggleMesi.settaggioBottoneStandard();
 		final Bottone bottoneMesi = new Bottone(toggleMesi);
 		toggleMesi.setPadre(bottoneMesi);
-		toggleMesi.addActionListener(new AscoltatoreAggiornatoreNiente() {
-
-			@Override
-			public void actionPerformedOverride(final ActionEvent e) {
-				initPerMesi();
-				hidePanels();
-				
-				tabPermesi.setVisible(true);
-			}
-		});
+		addListenerMesi(toggleMesi);
 
 		final ImageIcon iconaSQL = new ImageIcon(AltreUtil.IMGUTILPATH+"sql.gif");
 		final ToggleBtn toggleSql = new ToggleBtn("ConsolleSQL", iconaSQL);
 		toggleSql.settaggioBottoneStandard();
 		final Bottone bottoneSql = new Bottone(toggleSql);
 		toggleSql.setPadre(bottoneSql);
-		toggleSql.addActionListener(new AscoltatoreAggiornatoreNiente() {
-
-			@Override
-			public void actionPerformedOverride(final ActionEvent e) {
-				initConsollle();
-				hidePanels();
-				consolle.setVisible(true);
-				repaint();
-			}
-		});
+		addListenerConsolle(toggleSql);
 
 		final ImageIcon iconaSoldi = new ImageIcon(AltreUtil.IMGUTILPATH+"soldi.gif");
 		final ImageIcon iconaSoldiPic = new ImageIcon(AltreUtil.IMGUTILPATH+"soldi_pic.gif");
@@ -229,8 +168,8 @@ public class GeneralFrame extends PannelloBase {
 			}
 		});
 
-		final PannelloBottoniInterno entrateUsciteContenuto = new PannelloBottoniInterno();
-		final ArrayList<Bottone> dueBottoni = new ArrayList<Bottone>();
+		final PannelloBottoniInterno entrateUsciteContenuto = new PannelloBottoniInterno(bottoneEntrateUscite);
+		final ArrayList<Bottone> dueBottoni = new ArrayList<>();
 		dueBottoni.add(bottoneInsUscite);
 		dueBottoni.add(bottoneInsEntrate);
 		entrateUsciteContenuto.addDueBottoni(dueBottoni);
@@ -242,7 +181,108 @@ public class GeneralFrame extends PannelloBase {
 		pannelloBottoni.addBottone(bottoneEntrateUscite);
 
 		add(pannelloBottoni);
-		pannelloBottoni.setBounds(0, 20, this.getWidth(), 94);
+		
+		return pannelloBottoni;
+	}
+
+	private void addListenerConsolle(final ToggleBtn toggleSql) {
+		toggleSql.addActionListener(new AscoltatoreAggiornatoreNiente() {
+
+			@Override
+			public void actionPerformedOverride(final ActionEvent e) {
+				getPannelTabs().initConsollle();
+				getPannelTabs().hidePanels();
+				getPannelTabs().getConsolle().setVisible(true);
+				repaint();
+			}
+		});
+	}
+
+	private void addListenerMesi(final ToggleBtn toggleMesi) {
+		toggleMesi.addActionListener(new AscoltatoreAggiornatoreNiente() {
+
+			@Override
+			public void actionPerformedOverride(final ActionEvent e) {
+				getPannelTabs().initPerMesi();
+				getPannelTabs().hidePanels();
+				
+				getPannelTabs().getTabPermesi().setVisible(true);
+			}
+		});
+	}
+
+	private void addListenerMovimentiEntrate(final ToggleBtn toggleMovimentiEntrate) {
+		toggleMovimentiEntrate.addActionListener(new AscoltatoreAggiornatoreNiente() {
+
+			@Override
+			public void actionPerformedOverride(final ActionEvent e) {
+				getPannelTabs().hidePanels();
+				
+				getPannelTabs().initTabMovimenti();
+				
+				Movimenti tabMovimenti = getPannelTabs().getTabMovimenti();
+				ListaMovimentiEntrate tabMovEntrate = tabMovimenti.getTabMovEntrate();
+				tabMovimenti.setLastView(tabMovEntrate);
+				tabMovEntrate.setVisible(true);
+				toggleMovimentiEntrate.setSelected(false);
+				repaint();
+			}
+
+		});
+	}
+
+	private void addListenerMovimentiUscite(final ToggleBtn toggleMovimentiUscite) {
+		toggleMovimentiUscite.addActionListener(new AscoltatoreAggiornatoreNiente() {
+
+			@Override
+			public void actionPerformedOverride(final ActionEvent e) {
+				getPannelTabs().hidePanels();
+				
+				getPannelTabs().initTabMovimenti();
+				
+				Movimenti tabMovimenti = getPannelTabs().getTabMovimenti();
+				ListaMovimentiUscite tabMovUscite = tabMovimenti.getTabMovUscite();
+				tabMovimenti.setLastView(tabMovUscite);
+				tabMovUscite.setVisible(true);
+				toggleMovimentiUscite.setSelected(false);
+				repaint();
+			}
+		});
+	}
+
+	private void addListenerMovimenti(final ToggleBtn toggleMovimenti) {
+		toggleMovimenti.addActionListener(new AscoltatoreAggiornatoreNiente() {
+
+			@Override
+			public void actionPerformedOverride(final ActionEvent e) {
+				getPannelTabs().hidePanels();
+				getPannelTabs().initTabMovimenti();
+				AbstractListaMov lastView = getPannelTabs().getTabMovimenti().getLastView();
+				if(lastView != null){
+					lastView.setVisible(true);
+				}
+			}
+		});
+	}
+
+	private PannelloBottoni initPannelloBottoni(MyMenu menu) {
+		final PannelloBottoni pannelloBottoni = new PannelloBottoni(this);
+		int heightBtnPanel = getHeightBtnPanel();
+		pannelloBottoni.posizionaSottoA(menu, 0, 3);
+		pannelloBottoni.setSize(getContenitorePadre().getWidth(), heightBtnPanel);
+		pannelloBottoni.setBackground(Color.RED);
+		pannelloBottoni.setVisible(true);
+		add(pannelloBottoni);
+		return pannelloBottoni;
+	}
+
+	private
+	int getHeightBtnPanel() {
+		return getContenitorePadre().getHeight() / 100 * 20;
+	}
+	
+	public Movimenti getTabMovimenti(){
+		return getPannelTabs().getTabMovimenti();
 	}
 
 	public void relocateFinestreLaterali() {
@@ -259,43 +299,11 @@ public class GeneralFrame extends PannelloBase {
 		}
 	}
 
-	public PerMesiF getTabPermesi() {
-		return tabPermesi;
+	public PannelTabs getPannelTabs() {
+		return pannelTabs;
 	}
 
-	public void setTabPermesi(final PerMesiF tabPermesi) {
-		this.tabPermesi = tabPermesi;
+	public void setPannelTabs(PannelTabs pannelTabs) {
+		this.pannelTabs = pannelTabs;
 	}
-
-	public Movimenti getTabMovimenti() {
-		return tabMovimenti;
-	}
-
-	public void setTabMovimenti(final Movimenti tabMovimenti) {
-		this.tabMovimenti = tabMovimenti;
-	}
-
-	public NewSql getConsolle() {
-		return consolle;
-	}
-
-	public void setConsolle(final NewSql consolle) {
-		this.consolle = consolle;
-	}
-
-	private void initConsollle() {
-		if(consolle == null){
-			consolle = new NewSql();
-			consolle.setBounds(20, 58, 1000, 550);
-			add(consolle);
-			listaPannelli.add(consolle);
-		}
-	}
-
-	private void hidePanels() {
-		for (final JPanel pannello : listaPannelli) {
-			pannello.setVisible(false);
-		}
-	}
-
 }

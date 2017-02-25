@@ -108,7 +108,7 @@ public abstract class AbstractListaMov extends view.OggettoVistaBase {
 		table2.setPreferredScrollableViewportSize(new Dimension(900, 550));
 		table2.setFillsViewportHeight(true);
 		table2.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		table2.setRowHeight(26);
+		table2.setRowHeight(56);
 		table2.setBounds(0, 100, 900, 300);
 		table2.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		table2.addMouseListener(ascoltatore);

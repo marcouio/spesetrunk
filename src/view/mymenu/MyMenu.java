@@ -53,8 +53,6 @@ public class MyMenu extends JMenuBar {
 	}
 
 	private void init() {
-		this.setBounds(0, 0, 1000, 20);
-
 		// crea un menu
 		final JMenu file = new JMenu("File");
 		this.add(file);

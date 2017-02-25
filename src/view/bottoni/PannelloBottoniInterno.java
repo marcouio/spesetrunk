@@ -1,10 +1,15 @@
 package view.bottoni;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
 public class PannelloBottoniInterno extends PannelloBottoni {
+
+	public PannelloBottoniInterno(Container contenitore) {
+		super(contenitore);
+	}
 
 	private static final long serialVersionUID = 1L;
 
