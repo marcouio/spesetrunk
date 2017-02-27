@@ -236,7 +236,7 @@ public class DialogUsciteMov extends AbstractUsciteView {
 		private void update() {
 			aggiornaModelDaVista();
 			final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(SingleSpesa.NOME_TABELLA);
-			final JTextField campo = Controllore.getSingleton().getGeneralFrame().getTabMovimenti().getTabMovUscite().getCampo();
+			final JTextField campo = Controllore.getSingleton().getGeneralFrame().getPannelTabs().getTabMovUscite().getCampo();
 			final SingleSpesa oldSpesa = CacheUscite.getSingleton().getSingleSpesa(idSpesa.getText());
 
 			if (dialog.nonEsistonoCampiNonValorizzati()) {

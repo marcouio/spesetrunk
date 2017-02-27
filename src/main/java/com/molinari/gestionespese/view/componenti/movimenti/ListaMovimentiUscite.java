@@ -1,5 +1,6 @@
 package com.molinari.gestionespese.view.componenti.movimenti;
 
+import java.awt.Container;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Vector;
@@ -19,8 +20,8 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 
 	private static final long serialVersionUID = 1L;
 
-	public ListaMovimentiUscite() {
-		super();
+	public ListaMovimentiUscite(Container contenitore) {
+		super(contenitore);
 		pulsanteNMovimenti.addActionListener(new AscoltatoreNumeroMovimenti(SingleSpesa.NOME_TABELLA, createNomiColonne(), campo));
 	}
 

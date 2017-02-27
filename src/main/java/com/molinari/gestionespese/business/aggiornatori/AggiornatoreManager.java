@@ -34,6 +34,8 @@ import com.molinari.gestionespese.view.componenti.componentiPannello.SottoPannel
 import com.molinari.gestionespese.view.componenti.componentiPannello.SottoPannelloTotali;
 import com.molinari.gestionespese.view.componenti.movimenti.AscoltatoreBottoniEntrata;
 import com.molinari.gestionespese.view.componenti.movimenti.AscoltatoreBottoniUscita;
+import com.molinari.gestionespese.view.componenti.movimenti.ListaMovimentiEntrate;
+import com.molinari.gestionespese.view.componenti.movimenti.ListaMovimentiUscite;
 import com.molinari.gestionespese.view.componenti.movimenti.Movimenti;
 import com.molinari.gestionespese.view.font.TableF;
 import com.molinari.gestionespese.view.impostazioni.CategorieView;
@@ -121,10 +123,10 @@ public class AggiornatoreManager {
 	 */
 	public static boolean aggiornaMovimentiUsciteDaFiltro(final Object[] nomiColonne, final String[][] movimenti) {
 		try {
-			Movimenti tabMovimenti = Controllore.getSingleton().getGeneralFrame().getTabMovimenti();
+			ListaMovimentiUscite tabMovimenti = Controllore.getSingleton().getGeneralFrame().getPannelTabs().getTabMovUscite();
 			if(tabMovimenti != null){ 
 				TableF table1 = new TableF(movimenti, nomiColonne);
-				final JScrollPane scrollPane = tabMovimenti.getTabMovUscite().getScrollPane();
+				final JScrollPane scrollPane = tabMovimenti.getScrollPane();
 				scrollPane.setViewportView(table1);
 				table1.addMouseListener(new AscoltatoreBottoniUscita(table1));
 			}
@@ -147,10 +149,10 @@ public class AggiornatoreManager {
 	public static boolean aggiornaMovimentiUsciteDaEsterno(final Object[] nomiColonne, final int numUscite) {
 		try {
 			final String[][] movimenti = Model.getSingleton().movimentiUscite(numUscite, SingleSpesa.NOME_TABELLA);
-			Movimenti tabMovimenti = Controllore.getSingleton().getGeneralFrame().getTabMovimenti();
+			ListaMovimentiUscite tabMovimenti = Controllore.getSingleton().getGeneralFrame().getPannelTabs().getTabMovUscite();
 			if(tabMovimenti != null){
 				TableF table1 = new TableF(movimenti, nomiColonne);
-				final JScrollPane scrollPane = tabMovimenti.getTabMovUscite().getScrollPane();
+				final JScrollPane scrollPane = tabMovimenti.getScrollPane();
 				scrollPane.setViewportView(table1);
 				table1.addMouseListener(new AscoltatoreBottoniUscita(table1));
 			}
@@ -171,10 +173,10 @@ public class AggiornatoreManager {
 	 */
 	public static boolean aggiornaMovimentiEntrateDaFiltro(final Object[] nomiColonne, final String[][] movimenti) {
 		try {
-			Movimenti tabMovimenti = Controllore.getSingleton().getGeneralFrame().getTabMovimenti();
+			ListaMovimentiEntrate tabMovimenti = Controllore.getSingleton().getGeneralFrame().getPannelTabs().getTabMovEntrate();
 			if(tabMovimenti != null){
 				TableF table1 = new TableF(movimenti, nomiColonne);
-				final JScrollPane scrollPane = tabMovimenti.getTabMovEntrate().getScrollPane();
+				final JScrollPane scrollPane = tabMovimenti.getScrollPane();
 				scrollPane.setViewportView(table1);
 				table1.addMouseListener(new AscoltatoreBottoniEntrata(table1));
 			}
@@ -198,9 +200,9 @@ public class AggiornatoreManager {
 			final String[][] movimenti = Model.getSingleton().movimentiEntrate(numEntry, Entrate.NOME_TABELLA);
 			if(Controllore.getSingleton().getGeneralFrame()!=null){
 				TableF table1 = new TableF(movimenti, nomiColonne);
-				Movimenti tabMovimenti = Controllore.getSingleton().getGeneralFrame().getTabMovimenti();
+				ListaMovimentiEntrate tabMovimenti = Controllore.getSingleton().getGeneralFrame().getPannelTabs().getTabMovEntrate();
 				if(tabMovimenti != null){
-					final JScrollPane scrollPane = tabMovimenti.getTabMovEntrate().getScrollPane();
+					final JScrollPane scrollPane = tabMovimenti.getScrollPane();
 					scrollPane.setViewportView(table1);
 					table1.addMouseListener(new AscoltatoreBottoniEntrata(table1));
 				}

@@ -1,15 +1,14 @@
 package com.molinari.gestionespese.view.componenti.movimenti;
 
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.WindowConstants;
 
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.view.font.ButtonF;
@@ -17,7 +16,10 @@ import com.molinari.gestionespese.view.font.LabelListaGruppi;
 import com.molinari.gestionespese.view.font.TableF;
 import com.molinari.gestionespese.view.font.TextFieldF;
 
-public abstract class AbstractListaMov extends com.molinari.gestionespese.view.OggettoVistaBase {
+import grafica.componenti.contenitori.PannelloBase;
+import math.UtilMath;
+
+public abstract class AbstractListaMov extends PannelloBase {
 	private static final long serialVersionUID = 1L;
 	int numMovimenti = 10;
 	TableF table;
@@ -31,41 +33,22 @@ public abstract class AbstractListaMov extends com.molinari.gestionespese.view.O
 
 	private AscoltatoreBottoniEntrata ascoltatore;
 
+	public AbstractListaMov(Container contenitore) {
+		super(contenitore);
+		initGUI();
+	}
+	
 	protected void setMovimenti(final String[][] movimenti) {
 		this.movimenti = movimenti;
 	}
 
-	public static void main(final String[] args) {
-
-		final JFrame frame = new JFrame();
-
-		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		frame.pack();
-		frame.setVisible(true);
-	}
-
-	public AbstractListaMov() {
-		super();
-		initGUI();
-	}
 
 	private void initGUI() {
 		try {
 			this.setLayout(null);
-			this.setPreferredSize(new Dimension(1000, 605));
-			final JLabel movim = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("transactions")+":");
-			movim.setBounds(24, 5, 89, 30);
-			this.add(movim);
-			campo = new TextFieldF();
-			campo.setBounds(116, 7, 43, 25);
-			campo.setText("20");
-			numMovimenti = Integer.parseInt(campo.getText());
-			this.add(campo);
-			pulsanteNMovimenti = new ButtonF();
-			pulsanteNMovimenti.setText(I18NManager.getSingleton().getMessaggio("change"));
-			pulsanteNMovimenti.setBounds(178, 7, 89, 25);
-			this.add(pulsanteNMovimenti);
 
+			PannelloBase filterPanel = createFilterPanel();
+			
 			final String[] nomiColonne = createNomiColonne();
 
 			movimenti = createMovimenti();
@@ -82,16 +65,12 @@ public abstract class AbstractListaMov extends com.molinari.gestionespese.view.O
 			scrollPane = new JScrollPane();
 			scrollPane.setViewportView(table);
 
-			// Add the scroll pane to this panel.
-			this.add(scrollPane);
-			scrollPane.setBounds(21, 38, 948, 386);
+			PannelloBase contentPanel = new PannelloBase(this);
+			contentPanel.setSize(getContenitorePadre().getWidth(), getContenitorePadre().getHeight()- filterPanel.getHeight());
+			contentPanel.posizionaSottoA(filterPanel, 0, 0);
+			contentPanel.add(scrollPane);
+			scrollPane.setBounds(0, 0, getContenitorePadre().getWidth(), getContenitorePadre().getHeight()- filterPanel.getHeight());
 
-			final ButtonF btnFiltraMovimenti = new ButtonF();
-			btnFiltraMovimenti.setText(I18NManager.getSingleton().getMessaggio("filtertrans"));
-			btnFiltraMovimenti.setBounds(292, 6, 179, 25);
-			btnFiltraMovimenti.addActionListener(getListener());
-
-			add(btnFiltraMovimenti);
 
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -99,16 +78,43 @@ public abstract class AbstractListaMov extends com.molinari.gestionespese.view.O
 
 	}
 
+	private PannelloBase createFilterPanel() {
+		PannelloBase filterPan = new PannelloBase(this);
+		double height = UtilMath.getPercentage(getContenitorePadre().getHeight(), 10);
+		filterPan.setSize(getContenitorePadre().getWidth(), (int) height);
+		final JLabel movim = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("transactions")+":");
+		movim.setBounds(24, 5, 89, 30);
+		filterPan.add(movim);
+		campo = new TextFieldF();
+		campo.setBounds(116, 7, 43, 25);
+		campo.setText("20");
+		numMovimenti = Integer.parseInt(campo.getText());
+		filterPan.add(campo);
+		pulsanteNMovimenti = new ButtonF();
+		pulsanteNMovimenti.setText(I18NManager.getSingleton().getMessaggio("change"));
+		pulsanteNMovimenti.setBounds(178, 7, 89, 25);
+		filterPan.add(pulsanteNMovimenti);
+
+		final ButtonF btnFiltraMovimenti = new ButtonF();
+		btnFiltraMovimenti.setText(I18NManager.getSingleton().getMessaggio("filtertrans"));
+		btnFiltraMovimenti.setBounds(292, 6, 179, 25);
+		btnFiltraMovimenti.addActionListener(getListener());
+		filterPan.add(btnFiltraMovimenti);
+		return filterPan;
+	}
+
 	protected abstract String getTipo();
 
 	public abstract ActionListener getListener();
 
 	private void impostaTable(final JTable table2) {
-		table2.setPreferredScrollableViewportSize(new Dimension(900, 550));
+		int heightTable = getContenitorePadre().getHeight();
+		int widthTable = getContenitorePadre().getWidth();
+		table2.setPreferredScrollableViewportSize(new Dimension(widthTable, heightTable));
 		table2.setFillsViewportHeight(true);
 		table2.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table2.setRowHeight(56);
-		table2.setBounds(0, 100, 900, 300);
+		table2.setBounds(0, 0, widthTable, heightTable);
 		table2.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		table2.addMouseListener(ascoltatore);
 		impostaTableSpecifico();

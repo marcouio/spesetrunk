@@ -2,6 +2,7 @@ package com.molinari.gestionespese.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -13,10 +14,8 @@ import java.util.logging.Level;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.WindowConstants;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Controllore;
@@ -35,80 +34,96 @@ import com.molinari.gestionespese.view.font.LabelTitolo;
 import com.molinari.gestionespese.view.font.TextAreaF;
 
 import grafica.componenti.alert.Alert;
+import grafica.componenti.button.ButtonBase;
+import grafica.componenti.contenitori.PannelloBase;
+import grafica.componenti.textarea.TextAreaBase;
+import math.UtilMath;
 
-public class NewSql extends OggettoVistaBase {
+public class NewSql extends PannelloBase {
 
 	
 
 	private static final long serialVersionUID = 1L;
-	private JTextArea         areaSql;
-	private JTextArea         result;
+	private TextAreaBase         areaSql;
+	private TextAreaBase         result;
 	private String            totale           = "";
 
 	private String            riga;
 
-	public static void main(final String[] args) {
-		final JFrame frame = new JFrame();
-		frame.getContentPane().add(new NewSql());
-		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		frame.pack();
-		frame.setVisible(true);
-	}
-
-	public NewSql() {
-		super();
+	public NewSql(Container contenitore) {
+		super(contenitore);
 		initGUI();
 	}
 
 	private void initGUI() {
 		try {
-			setPreferredSize(new Dimension(950, 750));
+			
+			setPreferredSize(new Dimension(getContenitorePadre().getWidth(), getContenitorePadre().getHeight()));
 			setLayout(null);
-			areaSql = new TextAreaF();
-			areaSql.setBounds(134, 54, 715, 74);
-			this.add(areaSql);
-			areaSql.setText(I18NManager.getSingleton().getMessaggio("inssql"));
-			areaSql.setWrapStyleWord(true);
 
-			final JScrollPane jsp = new JScrollPane(areaSql);
-			jsp.setBounds(134, 54, 715, 74);
-			this.add(jsp);
-
-			final ButtonF bottoneSvuota = new ButtonF();
-			bottoneSvuota.setBounds(37, 94, 75, 34);
-			this.add(bottoneSvuota);
-			bottoneSvuota.setText(I18NManager.getSingleton().getMessaggio("svuota"));
-
-			final ButtonF bottone = new ButtonF();
-			bottone.setBounds(37, 54, 75, 34);
-			this.add(bottone);
-			bottone.setText(I18NManager.getSingleton().getMessaggio("esegui"));
-
-			result = new TextAreaF();
-			result.setBounds(1, 245, 847, 103);
-			this.add(result);
-			final JScrollPane scroll = new JScrollPane(result);
-			scroll.setBounds(37, 161, 889, 350);
-			this.add(scroll);
-			LabelTitolo labelResult = new LabelTitolo();
-			labelResult.setBounds(420, 135, 70, 21);
-			labelResult.setFont(new Font("Eras Light ITC", Font.PLAIN, 14));
-			this.add(labelResult);
-			labelResult.setText(I18NManager.getSingleton().getMessaggio("result"));
-
-			final ButtonF buttonF = new ButtonF();
-			buttonF.setBackground(Color.WHITE);
-			final ImageIcon image = new ImageIcon(AltreUtil.IMGUTILPATH+"info.gif");
-			buttonF.setIcon(image);
-			buttonF.setBounds(870, 80, 56, 48);
-			add(buttonF);
-			buttonF.addActionListener(new InfoListener());
-			bottoneSvuota.addActionListener(getCleanListener());
-
-			bottone.addActionListener(getRunListener());
+			PannelloBase headerPane = createHeaderPanel();
+			
+			createContentPane(headerPane);
+			
 		} catch (final Exception e) {
 			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
+	}
+
+	private void createContentPane(PannelloBase headerPane) {
+		PannelloBase contentPane = new PannelloBase(this);
+		contentPane.posizionaSottoA(headerPane, 0, 0);
+		contentPane.setSize(getContenitorePadre().getWidth(), getContenitorePadre().getHeight() - headerPane.getHeight());
+		
+		result = new TextAreaBase(contentPane);
+		result.setSize(contentPane.getWidth(), contentPane.getHeight());
+		contentPane.add(result);
+		final JScrollPane scroll = new JScrollPane(result);
+		scroll.setBounds(result.getBounds());
+		contentPane.add(scroll);
+	}
+
+	private PannelloBase createHeaderPanel() {
+		int widthButton = (int) UtilMath.getPercentage(getContenitorePadre().getWidth(), 10);
+		int widthInfoButton = (int) UtilMath.getPercentage(getContenitorePadre().getWidth(), 5);
+		PannelloBase headerPane = new PannelloBase(this);
+		headerPane.setSize(getContenitorePadre().getWidth(), (int) UtilMath.getPercentage(getContenitorePadre().getHeight(), 20));
+		
+		ButtonBase bottone = new ButtonBase(headerPane);
+		bottone.addActionListener(getRunListener());
+		int heightButton = headerPane.getHeight() / 2;
+		bottone.setSize(widthButton, heightButton);
+		headerPane.add(bottone);
+		bottone.setText(I18NManager.getSingleton().getMessaggio("esegui"));
+		
+		final ButtonBase bottoneSvuota = new ButtonBase(this);
+		bottoneSvuota.posizionaSottoA(bottone, 0, 0);
+		bottoneSvuota.setSize(widthButton, heightButton);
+		headerPane.add(bottoneSvuota);
+		bottoneSvuota.setText(I18NManager.getSingleton().getMessaggio("svuota"));
+		
+		areaSql = new TextAreaBase(this);
+		areaSql.posizionaADestraDi(bottone, 0, 0);
+		areaSql.setSize(getContenitorePadre().getWidth()-widthButton-widthInfoButton, headerPane.getHeight());
+		headerPane.add(areaSql);
+		areaSql.setText(I18NManager.getSingleton().getMessaggio("inssql"));
+		areaSql.setWrapStyleWord(true);
+
+		final JScrollPane jsp = new JScrollPane(areaSql);
+		jsp.setBounds(areaSql.getBounds());
+		headerPane.add(jsp);
+
+
+		final ButtonBase buttonF = new ButtonBase(this);
+		buttonF.posizionaADestraDi(areaSql, 0, 0);
+		buttonF.setBackground(Color.WHITE);
+		final ImageIcon image = new ImageIcon(AltreUtil.IMGUTILPATH+"info.gif");
+		buttonF.setIcon(image);
+		buttonF.setSize(widthInfoButton, headerPane.getHeight());
+		headerPane.add(buttonF);
+		buttonF.addActionListener(new InfoListener());
+		bottoneSvuota.addActionListener(getCleanListener());
+		return headerPane;
 	}
 
 	private ActionListener getCleanListener() {

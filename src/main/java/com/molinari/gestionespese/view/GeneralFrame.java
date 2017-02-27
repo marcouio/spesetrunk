@@ -26,7 +26,6 @@ import com.molinari.gestionespese.view.bottoni.ToggleBtn;
 import com.molinari.gestionespese.view.componenti.movimenti.AbstractListaMov;
 import com.molinari.gestionespese.view.componenti.movimenti.ListaMovimentiEntrate;
 import com.molinari.gestionespese.view.componenti.movimenti.ListaMovimentiUscite;
-import com.molinari.gestionespese.view.componenti.movimenti.Movimenti;
 import com.molinari.gestionespese.view.entrateuscite.EntrateView;
 import com.molinari.gestionespese.view.entrateuscite.UsciteView;
 import com.molinari.gestionespese.view.mymenu.MyMenu;
@@ -50,8 +49,8 @@ public class GeneralFrame extends PannelloBase {
 		
 		createTabsPanel(this, pannelloBottoni);
 		
-//		getPannelTabs().initConsollle();
-//		setVisibleTrue(getPannelTabs().getConsolle());
+		getPannelTabs().initConsollle();
+		getPannelTabs().getConsolle().setVisible(true);
 		repaint();
 	}
 
@@ -219,13 +218,12 @@ public class GeneralFrame extends PannelloBase {
 
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				getPannelTabs().hidePanels();
+				PannelTabs pannelTabsLoc = getPannelTabs();
+				pannelTabsLoc.hidePanels();
 				
-				getPannelTabs().initTabMovimenti();
-				getPannelTabs().initTabMovimentiEntrate();
-				Movimenti tabMovimenti = getPannelTabs().getTabMovimenti();
-				ListaMovimentiEntrate tabMovEntrate = tabMovimenti.getTabMovEntrate();
-				tabMovimenti.setLastView(tabMovEntrate);
+				pannelTabsLoc.initTabMovimentiEntrate();
+				ListaMovimentiEntrate tabMovEntrate = pannelTabsLoc.getTabMovEntrate();
+				pannelTabsLoc.setLastView(tabMovEntrate);
 				tabMovEntrate.setVisible(true);
 				toggleMovimentiEntrate.setSelected(false);
 				repaint();
@@ -239,13 +237,12 @@ public class GeneralFrame extends PannelloBase {
 
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				getPannelTabs().hidePanels();
+				PannelTabs pannelTabsLoc = getPannelTabs();
+				pannelTabsLoc.hidePanels();
 				
-				getPannelTabs().initTabMovimenti();
-				getPannelTabs().initTabMovimentiUscite();
-				Movimenti tabMovimenti = getPannelTabs().getTabMovimenti();
-				ListaMovimentiUscite tabMovUscite = tabMovimenti.getTabMovUscite();
-				tabMovimenti.setLastView(tabMovUscite);
+				pannelTabsLoc.initTabMovimentiUscite();
+				ListaMovimentiUscite tabMovUscite = pannelTabsLoc.getTabMovUscite();
+				pannelTabsLoc.setLastView(tabMovUscite);
 				tabMovUscite.setVisible(true);
 				toggleMovimentiUscite.setSelected(false);
 				repaint();
@@ -258,11 +255,10 @@ public class GeneralFrame extends PannelloBase {
 
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				getPannelTabs().hidePanels();
-				getPannelTabs().initTabMovimenti();
 				
-				AbstractListaMov lastView = getPannelTabs().getTabMovimenti().getLastView();
+				AbstractListaMov lastView = getPannelTabs().getLastView();
 				if(lastView != null){
+					getPannelTabs().hidePanels();
 					lastView.setVisible(true);
 				}
 			}
@@ -281,11 +277,7 @@ public class GeneralFrame extends PannelloBase {
 	}
 
 	private int getHeightBtnPanel() {
-		return getContenitorePadre().getHeight() / 100 * 20;
-	}
-	
-	public Movimenti getTabMovimenti(){
-		return getPannelTabs().getTabMovimenti();
+		return getContenitorePadre().getHeight() / 100 * 16;
 	}
 
 	public void relocateFinestreLaterali() {

@@ -2,12 +2,13 @@ package com.molinari.gestionespese.view;
 
 import java.awt.Container;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 
+import com.molinari.gestionespese.view.componenti.movimenti.AbstractListaMov;
 import com.molinari.gestionespese.view.componenti.movimenti.ListaMovimentiEntrate;
 import com.molinari.gestionespese.view.componenti.movimenti.ListaMovimentiUscite;
-import com.molinari.gestionespese.view.componenti.movimenti.Movimenti;
 import com.molinari.gestionespese.view.tabelleMesi.PerMesiF;
 
 import grafica.componenti.contenitori.PannelloBase;
@@ -17,7 +18,9 @@ public class PannelTabs {
 	private Container contenitore;
 	private PannelloBase panel;
 	private PerMesiF tabPermesi;
-	private Movimenti tabMovimenti;
+	private ListaMovimentiEntrate tabMovEntrate;
+	private ListaMovimentiUscite  tabMovUscite;
+	private AbstractListaMov lastView;
 	private NewSql consolle;
 	
 	private final ArrayList<JPanel> listaPannelli = new ArrayList<>();
@@ -38,32 +41,31 @@ public class PannelTabs {
 		return panel;
 	}
 	
-	public void initTabMovimenti() {
-		if(tabMovimenti == null){
-			tabMovimenti = new Movimenti();
-		}
-	}
 	public void initTabMovimentiEntrate() {
-		if(tabMovimenti.getTabMovEntrate() == null){
-			tabMovimenti.setTabMovEntrate(new ListaMovimentiEntrate());
-			setBoundsTab(tabMovimenti.getTabMovEntrate());
-			panel.add(tabMovimenti.getTabMovEntrate());
-			listaPannelli.add(tabMovimenti.getTabMovEntrate());
+		ListaMovimentiEntrate tabMovEntrateLoc = getTabMovEntrate();
+		if(tabMovEntrateLoc == null){
+			tabMovEntrateLoc = new ListaMovimentiEntrate(this.getPanel()); 
+			setTabMovEntrate(tabMovEntrateLoc);
+			setBoundsTab(tabMovEntrateLoc);
+			panel.add(tabMovEntrateLoc);
+			listaPannelli.add(tabMovEntrateLoc);
 		}
 	}
 
 	public void initTabMovimentiUscite() {
-		if(tabMovimenti.getTabMovUscite() == null){
-			tabMovimenti.setTabMovUscite(new ListaMovimentiUscite());
-			setBoundsTab(tabMovimenti.getTabMovUscite());
-			panel.add(tabMovimenti.getTabMovUscite());
-			listaPannelli.add(tabMovimenti.getTabMovUscite());
+		ListaMovimentiUscite tabMovUsciteLoc = getTabMovUscite();
+		if(tabMovUsciteLoc == null){
+			tabMovUsciteLoc = new ListaMovimentiUscite(this.getPanel());
+			setTabMovUscite(tabMovUsciteLoc);
+			setBoundsTab(tabMovUsciteLoc);
+			panel.add(tabMovUsciteLoc);
+			listaPannelli.add(tabMovUsciteLoc);
 		}
 	}
 	
 	public void initConsollle() {
 		if(consolle == null){
-			consolle = new NewSql();
+			consolle = new NewSql(this.getPanel());
 			setBoundsTab(consolle);
 			panel.add(consolle);
 			listaPannelli.add(consolle);
@@ -96,14 +98,6 @@ public class PannelTabs {
 		this.tabPermesi = tabPermesi;
 	}
 
-	public Movimenti getTabMovimenti() {
-		return tabMovimenti;
-	}
-
-	public void setTabMovimenti(Movimenti tabMovimenti) {
-		this.tabMovimenti = tabMovimenti;
-	}
-
 	public NewSql getConsolle() {
 		return consolle;
 	}
@@ -112,7 +106,7 @@ public class PannelTabs {
 		this.consolle = consolle;
 	}
 
-	public ArrayList<JPanel> getListaPannelli() {
+	public List<JPanel> getListaPannelli() {
 		return listaPannelli;
 	}
 
@@ -137,5 +131,29 @@ public class PannelTabs {
 
 	public void setContenitore(Container contenitore) {
 		this.contenitore = contenitore;
+	}
+
+	public ListaMovimentiEntrate getTabMovEntrate() {
+		return tabMovEntrate;
+	}
+
+	public void setTabMovEntrate(ListaMovimentiEntrate tabMovEntrate) {
+		this.tabMovEntrate = tabMovEntrate;
+	}
+
+	public ListaMovimentiUscite getTabMovUscite() {
+		return tabMovUscite;
+	}
+
+	public void setTabMovUscite(ListaMovimentiUscite tabMovUscite) {
+		this.tabMovUscite = tabMovUscite;
+	}
+
+	public AbstractListaMov getLastView() {
+		return lastView;
+	}
+
+	public void setLastView(AbstractListaMov lastView) {
+		this.lastView = lastView;
 	}
 }

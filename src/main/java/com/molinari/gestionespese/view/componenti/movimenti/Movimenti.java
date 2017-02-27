@@ -16,14 +16,7 @@ public class Movimenti extends OggettoVistaBase {
 
 	private void initGUI() {
 		try {
-			this.setPreferredSize(new java.awt.Dimension(900, 650));
 			this.setLayout(null);
-
-//			tabMovEntrate = new ListaMovimentiEntrate();
-//			tabMovEntrate.setBounds(20, 10, 700, 500);
-//
-//			tabMovUscite = new ListaMovimentiUscite();
-//			tabMovUscite.setBounds(20, 10, 700, 500);
 
 		} catch (Exception e) {
 			e.printStackTrace();

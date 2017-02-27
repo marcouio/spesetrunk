@@ -26,6 +26,7 @@ import com.molinari.gestionespese.domain.IEntrate;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.Model;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
+import com.molinari.gestionespese.view.PannelTabs;
 import com.molinari.gestionespese.view.entrateuscite.AbstractEntrateView;
 import com.molinari.gestionespese.view.font.ButtonF;
 import com.molinari.gestionespese.view.font.LabelListaGruppi;
@@ -207,7 +208,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 
 		private void delete() throws Exception {
 			final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
-			final JTextField campo = Controllore.getSingleton().getGeneralFrame().getTabMovimenti().getTabMovEntrate().getCampo();
+			final JTextField campo = Controllore.getSingleton().getGeneralFrame().getPannelTabs().getTabMovEntrate().getCampo();
 			aggiornaModelDaVista();
 			if (idEntrate.getText() != null && !Controllore.invocaComando(new CommandDeleteEntrata(getModelEntrate()))) {
 				Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore(I18NManager.getSingleton().getMessaggio("insertcorrect")));
@@ -225,7 +226,8 @@ public class DialogEntrateMov extends AbstractEntrateView {
 		private void update() throws Exception {
 			aggiornaModelDaVista();
 			final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
-			final JTextField campo = Controllore.getSingleton().getGeneralFrame().getTabMovimenti().getTabMovEntrate().getCampo();
+			PannelTabs pannelTabs = Controllore.getSingleton().getGeneralFrame().getPannelTabs();
+			final JTextField campo = pannelTabs.getTabMovEntrate().getCampo();
 
 			final Entrate oldEntrata = CacheEntrate.getSingleton().getEntrate(idEntrate.getText());
 
