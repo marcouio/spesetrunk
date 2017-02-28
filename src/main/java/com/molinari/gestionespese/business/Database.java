@@ -11,6 +11,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.stream.Stream;
@@ -131,15 +132,15 @@ public class Database {
 	 * @param clausole
 	 * @return boolean
 	 */
-	public boolean eseguiIstruzioneSql(final String comando, final String tabella, final HashMap<String, String> campi,
-			final HashMap<String, String> clausole) {
+	public boolean eseguiIstruzioneSql(final String comando, final String tabella, final Map<String, String> campi,
+			final Map<String, String> clausole) {
 		boolean ok = false;
 		try {
 			ok = false;
 			final StringBuilder sql = new StringBuilder();
 			final String command = comando.toUpperCase();
 
-			if (tabella != null && comando != null) {
+			if (tabella != null) {
 				// comando
 				if ("INSERT".equals(command)) {
 					ok = gestioneIstruzioneInsert(tabella, campi, ok, sql, command);
@@ -160,7 +161,7 @@ public class Database {
 		return ok;
 	}
 
-	private void gestioneIstruzioneSelect(final HashMap<String, String> campi, final HashMap<String, String> clausole,
+	private void gestioneIstruzioneSelect(final Map<String, String> campi, final Map<String, String> clausole,
 			final StringBuilder sql, final String command) {
 		sql.append(command);
 		if (campi == null) {
@@ -192,8 +193,11 @@ public class Database {
 		}
 	}
 
-	private boolean gestioneIstruzioneDelete(final String tabella, final HashMap<String, String> clausole, boolean ok,
+	private boolean gestioneIstruzioneDelete(final String tabella, final Map<String, String> clausole, boolean ok,
 			final StringBuilder sql, final String command) throws SQLException {
+		
+		boolean ret = ok;
+		
 		sql.append(command).append(FROM).append(tabella);
 		if (!clausole.isEmpty()) {
 			sql.append(" WHERE 1=1");
@@ -216,14 +220,14 @@ public class Database {
 
 
 			if (ConnectionPool.getSingleton().executeUpdate(sql.toString()) != 0) {
-				ok = true;
+				ret = true;
 			}
 		}
-		return ok;
+		return ret;
 	}
 
-	private boolean gestioneIstruzioneUpdate(final String tabella, final HashMap<String, String> campi,
-			final HashMap<String, String> clausole, boolean ok, final StringBuilder sql, final String command)
+	private boolean gestioneIstruzioneUpdate(final String tabella, final Map<String, String> campi,
+			final Map<String, String> clausole, boolean ok, final StringBuilder sql, final String command)
 					throws SQLException {
 		final Iterator<String> iterUpdate = campi.keySet().iterator();
 		sql.append(command).append(" " + tabella).append(" SET ");
@@ -269,7 +273,7 @@ public class Database {
 		return ok;
 	}
 
-	private boolean gestioneIstruzioneInsert(final String tabella, final HashMap<String, String> campi, boolean ok,
+	private boolean gestioneIstruzioneInsert(final String tabella, final Map<String, String> campi, boolean ok,
 			final StringBuilder sql, final String command) throws SQLException {
 		sql.append(command).append(" INTO ").append(tabella);
 		sql.append("(");
@@ -522,16 +526,16 @@ public class Database {
 		return AltreUtil.arrotondaDecimaliDouble(totale);
 	}
 
-	public static double totaleEntrateAnnoCategoria(final String FissoOVar) {
+	public static double totaleEntrateAnnoCategoria(final String fissoOVar) {
 		double totale = 0;
 		final int anno = Impostazioni.getAnno();
 		final List<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
 		for (int i = 0; i < listaEntrate.size(); i++) {
 			final Entrate entrata = listaEntrate.get(i);
-			final String FxOVar = entrata.getFisseoVar();
+			final String fxOVar = entrata.getFisseoVar();
 			final Date dataEntrate = DBUtil.stringToDate(entrata.getdata(), YYYY_MM_DD);
 			final int annoo = Integer.parseInt(DBUtil.dataToString(dataEntrate, "yyyy"));
-			if (annoo == anno && FxOVar.equals(FissoOVar)) {
+			if (annoo == anno && fxOVar.equals(fissoOVar)) {
 				totale += entrata.getinEuro();
 			}
 		}
@@ -546,7 +550,7 @@ public class Database {
 	 * @return List<String>
 	 */
 	public List<String> nomiColonne(final String tabella) {
-		final List<String> colonne = null;
+		final List<String> colonne;
 		String sql = "";
 		if (tabella.equals(Entrate.NOME_TABELLA)) {
 			sql = "SELECT " + Entrate.NOME_TABELLA + "." + Entrate.DATA + ", " + Entrate.NOME_TABELLA + "."
@@ -592,14 +596,14 @@ public class Database {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 
-		return colonne;
+		return new ArrayList<>();
 	}
 
 	/**
 	 * @return Metodo per calcolare il totale delle entrate annuali
 	 */
-	public static double EAnnuale() {
-		double Eannuale = 0;
+	public static double eAnnuale() {
+		double eannuale = 0;
 
 		final int anno = Impostazioni.getAnno();
 		final List<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
@@ -608,10 +612,10 @@ public class Database {
 			final Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), YYYY_MM_DD);
 			final String annoDaData = DBUtil.dataToString(dataEntrata, "yyyy");
 			if (Integer.parseInt(annoDaData) == anno) {
-				Eannuale += entrata.getinEuro();
+				eannuale += entrata.getinEuro();
 			}
 		}
-		return AltreUtil.arrotondaDecimaliDouble(Eannuale);
+		return AltreUtil.arrotondaDecimaliDouble(eannuale);
 	}
 
 	/**
