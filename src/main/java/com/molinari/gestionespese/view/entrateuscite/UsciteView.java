@@ -1,10 +1,6 @@
 package com.molinari.gestionespese.view.entrateuscite;
 
-import grafica.componenti.alert.Alert;
-
 import java.awt.event.ActionEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -30,6 +26,8 @@ import com.molinari.gestionespese.view.font.ButtonF;
 import com.molinari.gestionespese.view.font.LabelListaGruppi;
 import com.molinari.gestionespese.view.font.TextAreaF;
 import com.molinari.gestionespese.view.font.TextFieldF;
+
+import grafica.componenti.alert.Alert;
 
 public class UsciteView extends AbstractUsciteView {
 
@@ -85,28 +83,24 @@ public class UsciteView extends AbstractUsciteView {
 		getContentPane().add(tfNome);
 		tfNome.setColumns(10);
 
-		List<CatSpese> listCategoriePerCombo = CacheCategorie.getSingleton().getListCategoriePerCombo();
+		final List<CatSpese> listCategoriePerCombo = CacheCategorie.getSingleton().getListCategoriePerCombo();
 		cCategorie = new JComboBox(new Vector<>(listCategoriePerCombo));
 		cCategorie.setBounds(181, 38, 150, 27);
 		getContentPane().add(cCategorie);
 
-		cCategorie.addItemListener(new ItemListener() {
+		cCategorie.addItemListener(e -> {
+			CatSpese spese = null;
+			if (cCategorie.getSelectedIndex() != 0) {
+				spese = (CatSpese) cCategorie.getSelectedItem();
+				// int indice = categorie.getSelectedIndex();
+				// il campo sotto serve per inserire la descrizione nel
+				// caso
+				// si selezioni
+				// una categoria e si vogliono maggiori info
 
-			@Override
-			public void itemStateChanged(final ItemEvent e) {
-				CatSpese spese = null;
-				if (cCategorie.getSelectedIndex() != 0) {
-					spese = (CatSpese) cCategorie.getSelectedItem();
-					// int indice = categorie.getSelectedIndex();
-					// il campo sotto serve per inserire la descrizione nel
-					// caso
-					// si selezioni
-					// una categoria e si vogliono maggiori info
-
-					descCateg.setText(spese != null ? spese.getdescrizione() : "");
-				}
-
+				descCateg.setText(spese != null ? spese.getdescrizione() : "");
 			}
+
 		});
 
 		tfData = new TextFieldF("0.0");
@@ -183,7 +177,7 @@ public class UsciteView extends AbstractUsciteView {
 	}
 
 	public void aggiornaModelDaVista() {
-		final int idSpesa = (CacheUscite.getSingleton().getMaxId()) + 1;
+		final int idSpesa = CacheUscite.getSingleton().getMaxId() + 1;
 		getModelUscita().setidSpesa(idSpesa);
 
 		final CorreggiTesto checkTesto = new CorreggiTesto(tfNome.getText());

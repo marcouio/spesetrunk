@@ -20,9 +20,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class ConfiguratoreXml {
-	
+
 	private static ConfiguratoreXml singleton;
-	
+
 	public static final String      XMLPOSITION = "./config.xml";
 	private Document                document;
 	private NodeList                listaNodi;
@@ -40,7 +40,7 @@ public class ConfiguratoreXml {
 	private ConfiguratoreXml() {
 		try {
 			listaNodi = getNodeList(XMLPOSITION);
-		} catch (Exception e1) {
+		} catch (final Exception e1) {
 			e1.printStackTrace();
 		}
 
@@ -48,7 +48,7 @@ public class ConfiguratoreXml {
 
 	public Node getNodo(String nodo) {
 		for (int i = 0; i < listaNodi.getLength(); i++) {
-			Node nodoDaLista = listaNodi.item(i);
+			final Node nodoDaLista = listaNodi.item(i);
 			if (nodoDaLista.getNodeName().equals(nodo)) {
 				return nodoDaLista;
 			}
@@ -58,7 +58,7 @@ public class ConfiguratoreXml {
 
 	/**
 	 * Carica tutte le informazioni del parametro xml in un document
-	 * 
+	 *
 	 * @param xml
 	 * @return
 	 * @throws ParserConfigurationException
@@ -75,16 +75,16 @@ public class ConfiguratoreXml {
 	// This method writes a DOM document to a file
 	public static void writeXmlFile(Document doc, String filename) {
 		try {
-			Transformer transformer = TransformerFactory.newInstance().newTransformer();
+			final Transformer transformer = TransformerFactory.newInstance().newTransformer();
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 
 			// initialize StreamResult with File object to save to file
-			StreamResult result = new StreamResult(new StringWriter());
-			DOMSource source = new DOMSource(doc);
+			final StreamResult result = new StreamResult(new StringWriter());
+			final DOMSource source = new DOMSource(doc);
 			transformer.transform(source, result);
-//			String xmlString = result.getWriter().toString();
+			//			String xmlString = result.getWriter().toString();
 
-		} catch (Exception e) {}
+		} catch (final Exception e) {}
 
 	}
 
@@ -92,24 +92,24 @@ public class ConfiguratoreXml {
 	public static void writeXmlFile2(Document doc, String filename) {
 		try {
 			// save the result
-			Transformer xformer = TransformerFactory.newInstance().newTransformer();
+			final Transformer xformer = TransformerFactory.newInstance().newTransformer();
 			xformer.transform(new DOMSource(doc), new StreamResult(new File(filename)));
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			// TODO: handle exception
 		}
 	}
 
 	public String getLanguage(){
-		Node nodo = ConfiguratoreXml.getSingleton().getNodo("lang");
-		Element elemento = ConfiguratoreXml.getElement(nodo);
+		final Node nodo = ConfiguratoreXml.getSingleton().getNodo("lang");
+		final Element elemento = ConfiguratoreXml.getElement(nodo);
 		return elemento.getAttribute("locale");
 	}
-	
+
 	/**
 	 * Restituisce la lista di nodi interni ad un document creato dall'xml
 	 * passato come parametro
-	 * 
+	 *
 	 * @param path
 	 * @return
 	 * @throws ParserConfigurationException
@@ -117,16 +117,16 @@ public class ConfiguratoreXml {
 	 * @throws IOException
 	 */
 	private NodeList getNodeList(final String path)
-	    throws ParserConfigurationException, SAXException, IOException {
+			throws ParserConfigurationException, SAXException, IOException {
 		document = createDocument(new File(path));
 		final Element root = document.getDocumentElement();
-		final NodeList listaNodi = (root.hasChildNodes()) ? root.getChildNodes() : null;
+		final NodeList listaNodi = root.hasChildNodes() ? root.getChildNodes() : null;
 		return listaNodi;
 	}
 
 	/**
 	 * Trasforma il "Node" in "Element" se è di tipo "Element"
-	 * 
+	 *
 	 * @param nodoComponente
 	 * @return Element
 	 */
@@ -145,7 +145,7 @@ public class ConfiguratoreXml {
 	public Document getDocument() {
 		return document;
 	}
-	
+
 	/**
 	 * @return the listaNodi
 	 */

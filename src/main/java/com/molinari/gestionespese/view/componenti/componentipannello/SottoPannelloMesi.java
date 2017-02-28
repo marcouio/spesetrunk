@@ -1,7 +1,5 @@
 package com.molinari.gestionespese.view.componenti.componentipannello;
 
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.logging.Level;
 
 import javax.swing.JComboBox;
@@ -12,20 +10,19 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import com.molinari.gestionespese.business.AltreUtil;
-import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.view.font.LabelTestoPiccolo;
 import com.molinari.gestionespese.view.font.TextFieldF;
 
-public class SottoPannelloMesi {
+import controller.ControlloreBase;
 
-	private static final long serialVersionUID = 1L;
+public class SottoPannelloMesi {
 
 	/**
 	 * Auto-generated main method to display this JPanel inside a new JFrame.
 	 */
 	public static void main(String[] args) {
-		JFrame frame = new JFrame();
+		final JFrame frame = new JFrame();
 		// frame.getContentPane().add(new SottoPannelloMesi());
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		frame.pack();
@@ -83,27 +80,24 @@ public class SottoPannelloMesi {
 			componenti[0] = ComboMese;
 			ComboMese.setBounds(16, 85, 106, 27);
 			ComboMese.addItem("");
-			for (int i = 0; i < 12; i++)
+			for (int i = 0; i < 12; i++) {
 				ComboMese.addItem(i + 1);
+			}
 			ComboMese.setSelectedIndex(0);
-			ComboMese.addItemListener(new ItemListener() {
+			ComboMese.addItemListener(e -> {
+				final Object mounth = ComboMese.getSelectedItem();
 
-				@Override
-				public void itemStateChanged(ItemEvent e) {
-					Object mounth = ComboMese.getSelectedItem();
-
-					if (!mounth.equals("")) {
-						int mese = Integer.parseInt(mounth.toString());
-						double totaleMese = AltreUtil.arrotondaDecimaliDouble(Database.getSingleton().totaleUsciteMese(mese));
-						double totaleMeseE = AltreUtil.arrotondaDecimaliDouble(Database.getSingleton().totaleEntrateMese(mese));
-						totaleMeseUscite.setText(Double.toString(totaleMese));
-						totaleMeseEntrate.setText(Double.toString(totaleMeseE));
-					}
+				if (!mounth.equals("")) {
+					final int mese = Integer.parseInt(mounth.toString());
+					final double totaleMese = AltreUtil.arrotondaDecimaliDouble(Database.getSingleton().totaleUsciteMese(mese));
+					final double totaleMeseE = AltreUtil.arrotondaDecimaliDouble(Database.getSingleton().totaleEntrateMese(mese));
+					totaleMeseUscite.setText(Double.toString(totaleMese));
+					totaleMeseEntrate.setText(Double.toString(totaleMeseE));
 				}
 			});
 
-		} catch (Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+		} catch (final Exception e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 

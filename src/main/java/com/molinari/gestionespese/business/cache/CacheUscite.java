@@ -17,8 +17,8 @@ import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 public class CacheUscite extends AbstractCacheBase<SingleSpesa> {
 
 	private static CacheUscite singleton;
-	private WrapSingleSpesa usciteDAO = new WrapSingleSpesa();
-	
+	private final WrapSingleSpesa usciteDAO = new WrapSingleSpesa();
+
 	private CacheUscite() {
 		setCache(new HashMap<String, SingleSpesa>());
 	}
@@ -41,17 +41,17 @@ public class CacheUscite extends AbstractCacheBase<SingleSpesa> {
 
 	public List<SingleSpesa> getAllUsciteForUtente() {
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
-		
+
 		final Map<String, SingleSpesa> mappa = getAllUscite();
-		
-		Stream<SingleSpesa> filter = mappa.values().stream().filter(ss -> 
+
+		final Stream<SingleSpesa> filter = mappa.values().stream().filter(ss ->
 		{
-			Utenti utenti = ss.getUtenti();
+			final Utenti utenti = ss.getUtenti();
 			return ss != null && utenti != null && utenti.getidUtente() == utente.getidUtente();
 		});
-		
+
 		return filter.collect(Collectors.toList());
-		
+
 	}
 
 	public List<SingleSpesa> getAllUsciteForUtenteEAnno() {
@@ -64,13 +64,13 @@ public class CacheUscite extends AbstractCacheBase<SingleSpesa> {
 				return ss != null && ss.getUtenti() != null && annoUscita.equals(annoDaText);
 			}).collect(Collectors.toList());
 		}
-		
+
 		return new ArrayList<>();
 	}
 
 	public int getMaxId() {
 		final Map<String, SingleSpesa> mappa = getAllUscite();
-		Optional<SingleSpesa> max = mappa.values().stream().max((s1, s2) -> Integer.compare(s1.getidSpesa(), s2.getidSpesa()));
+		final Optional<SingleSpesa> max = mappa.values().stream().max((s1, s2) -> Integer.compare(s1.getidSpesa(), s2.getidSpesa()));
 		return max.isPresent() ? max.get().getidSpesa() : 0;
 	}
 

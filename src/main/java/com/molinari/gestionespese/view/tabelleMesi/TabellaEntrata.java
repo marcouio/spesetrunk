@@ -15,11 +15,11 @@ import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.view.OggettoVistaBase;
 import com.molinari.gestionespese.view.font.TableF;
 
-import grafica.componenti.ExceptionGraphics;
+import controller.ControlloreBase;
 import grafica.componenti.contenitori.PannelloBase;
 
 public class TabellaEntrata extends OggettoVistaBase {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	private static String[][] primo;
@@ -31,10 +31,10 @@ public class TabellaEntrata extends OggettoVistaBase {
 		super(new GridLayout(1,0));
 		TableF table = null;
 		try{
-			TableModelEntrate model = new TableModelEntrate(null);
+			final TableModelEntrate model = new TableModelEntrate(null);
 			table = createTable(model);
 		}catch (final Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 
 		//Create the scroll pane and add the table to it.
@@ -43,27 +43,27 @@ public class TabellaEntrata extends OggettoVistaBase {
 		//Add the scroll pane to this panel.
 		add(scrollPane);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * Permette di generare una tabella
-	 * 
+	 *
 	 * @param primo
 	 * @param nomiColonne
 	 * @return TableF
 	 */
 	public TableF createTable(TableModelEntrate model) {
-		ArrayList<String> listaCelle = model.getNomiColonne().getListaCelle();
-		TableF table = new TableF(model.getMatrice(), listaCelle.toArray(new String[listaCelle.size()]));
+		final ArrayList<String> listaCelle = model.getNomiColonne().getListaCelle();
+		final TableF table = new TableF(model.getMatrice(), listaCelle.toArray(new String[listaCelle.size()]));
 
-//		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+		//		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
 		table.setFillsViewportHeight(true);
-		PannelloBase panel = Controllore.getSingleton().getGeneralFrame().getPannelTabs().getPanel();
+		final PannelloBase panel = Controllore.getSingleton().getGeneralFrame().getPannelTabs().getPanel();
 		table.setRowHeight(panel.getHeight()/12);
-//		table.setRowHeight(27);
+		//		table.setRowHeight(27);
 		return table;
 	}
-	
+
 	public static String[][] getPrimo() {
 		return primo;
 	}
@@ -79,7 +79,7 @@ public class TabellaEntrata extends OggettoVistaBase {
 	protected void setScrollPane(final JScrollPane scrollPane) {
 		TabellaEntrata.scrollPane = scrollPane;
 	}
-	
+
 	public static String[] getNomiColonne() {
 		return nomiColonne;
 	}

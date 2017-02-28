@@ -12,7 +12,7 @@ import grafica.componenti.alert.Alert;
 public class CommandInserisciSpesa extends AbstractCommandForJavaBean<SingleSpesa> {
 
 	public CommandInserisciSpesa(ISingleSpesa entita) {
-		CacheUscite cache = CacheUscite.getSingleton();
+		final CacheUscite cache = CacheUscite.getSingleton();
 		mappaCache = cache.getCache();
 		this.wrap = new WrapSingleSpesa();
 		this.entita = (SingleSpesa) ((IDAO) entita).getEntitaPadre();
@@ -38,7 +38,7 @@ public class CommandInserisciSpesa extends AbstractCommandForJavaBean<SingleSpes
 
 	@Override
 	public String toString() {
-		return "Inserita Spesa " + ((SingleSpesa) entita).getnome();
+		return "Inserita Spesa " + entita.getnome();
 	}
 
 	@Override

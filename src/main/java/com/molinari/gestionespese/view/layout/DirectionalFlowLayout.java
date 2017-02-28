@@ -47,16 +47,16 @@ public class DirectionalFlowLayout extends FlowLayout {
 	@Override
 	public void layoutContainer(Container target) {
 		synchronized (target.getTreeLock()) {
-			Insets insets = target.getInsets();
-			int maxwidth = target.getWidth()
-			                - (insets.left + insets.right + getHgap() * 2);
-			int nmembers = target.getComponentCount();
+			final Insets insets = target.getInsets();
+			final int maxwidth = target.getWidth()
+					- (insets.left + insets.right + getHgap() * 2);
+			final int nmembers = target.getComponentCount();
 			int x = 0, y = insets.top + getVgap();
 			int rowh = 0, start = 0;
 
-			boolean ltr = target.getComponentOrientation().isLeftToRight();
+			final boolean ltr = target.getComponentOrientation().isLeftToRight();
 
-			boolean useBaseline = getAlignOnBaseline();
+			final boolean useBaseline = getAlignOnBaseline();
 			int[] ascent = null;
 			int[] descent = null;
 
@@ -67,13 +67,13 @@ public class DirectionalFlowLayout extends FlowLayout {
 
 			if (direction == 0) {
 				for (int i = 0; i < nmembers; i++) {
-					Component m = target.getComponent(i);
+					final Component m = target.getComponent(i);
 					if (m.isVisible()) {
-						Dimension d = m.getPreferredSize();
+						final Dimension d = m.getPreferredSize();
 						m.setSize(d.width, d.height);
 
 						if (useBaseline) {
-							int baseline = m.getBaseline(d.width, d.height);
+							final int baseline = m.getBaseline(d.width, d.height);
 							if (baseline >= 0) {
 								ascent[i] = baseline;
 								descent[i] = d.height - baseline;
@@ -81,7 +81,7 @@ public class DirectionalFlowLayout extends FlowLayout {
 								ascent[i] = -1;
 							}
 						}
-						if ((x == 0) || ((x + d.width) <= maxwidth)) {
+						if (x == 0 || x + d.width <= maxwidth) {
 							if (x > 0) {
 								x += getHgap();
 							}
@@ -89,9 +89,9 @@ public class DirectionalFlowLayout extends FlowLayout {
 							rowh = Math.max(rowh, d.height);
 						} else {
 							rowh = moveComponents(target, insets.left
-							                + getHgap(), y, maxwidth - x, rowh,
-							                start, i, ltr, useBaseline, ascent,
-							                descent);
+									+ getHgap(), y, maxwidth - x, rowh,
+									start, i, ltr, useBaseline, ascent,
+									descent);
 							x = d.width;
 							y += getVgap() + rowh;
 							rowh = d.height;
@@ -101,17 +101,17 @@ public class DirectionalFlowLayout extends FlowLayout {
 				}
 
 				moveComponents(target, insets.left + getHgap(), y, maxwidth - x,
-				                rowh, start, nmembers, ltr, useBaseline, ascent,
-				                descent);
+						rowh, start, nmembers, ltr, useBaseline, ascent,
+						descent);
 			} else {
 				for (int i = 0; i < nmembers; i++) {
-					Component m = target.getComponent(i);
+					final Component m = target.getComponent(i);
 					if (m.isVisible()) {
-						Dimension d = m.getPreferredSize();
+						final Dimension d = m.getPreferredSize();
 						m.setSize(d.width, d.height);
 
 						if (useBaseline) {
-							int baseline = m.getBaseline(d.width, d.height);
+							final int baseline = m.getBaseline(d.width, d.height);
 							if (baseline >= 0) {
 								ascent[i] = baseline;
 								descent[i] = d.height - baseline;
@@ -120,8 +120,8 @@ public class DirectionalFlowLayout extends FlowLayout {
 							}
 						}
 						rowh = moveComponents(target, insets.left + getHgap(), y,
-						                    maxwidth - x, rowh, start, i, ltr,
-						                    useBaseline, ascent, descent);
+								maxwidth - x, rowh, start, i, ltr,
+								useBaseline, ascent, descent);
 						x = d.width;
 						y += getVgap() + rowh;
 						rowh = d.height;
@@ -129,15 +129,15 @@ public class DirectionalFlowLayout extends FlowLayout {
 					}
 				}
 				moveComponents(target, insets.left + getHgap(), y,
-				                maxwidth - x, rowh, start, nmembers, ltr,
-				                useBaseline, ascent, descent);
+						maxwidth - x, rowh, start, nmembers, ltr,
+						useBaseline, ascent, descent);
 			}
 		}
 	}
 
 	/**
 	 * Centers the elements in the specified row, if there is any slack.
-	 * 
+	 *
 	 * @param target
 	 *            the component which needs to be moved
 	 * @param x
@@ -163,23 +163,23 @@ public class DirectionalFlowLayout extends FlowLayout {
 	 * @return actual row height
 	 */
 	private int moveComponents(Container target, int x, int y, int width,
-	                int height, int rowStart, int rowEnd, boolean ltr,
-	                boolean useBaseline, int[] ascent, int[] descent) {
+			int height, int rowStart, int rowEnd, boolean ltr,
+			boolean useBaseline, int[] ascent, int[] descent) {
 		switch (getAlignment()) {
-			case LEFT:
-				x += ltr ? 0 : width;
-				break;
-			case CENTER:
-				x += width / 2;
-				break;
-			case RIGHT:
-				x += ltr ? width : 0;
-				break;
-			case LEADING:
-				break;
-			case TRAILING:
-				x += width;
-				break;
+		case LEFT:
+			x += ltr ? 0 : width;
+			break;
+		case CENTER:
+			x += width / 2;
+			break;
+		case RIGHT:
+			x += ltr ? width : 0;
+			break;
+		case LEADING:
+			break;
+		case TRAILING:
+			x += width;
+			break;
 		}
 		int maxAscent = 0;
 		int nonbaselineHeight = 0;
@@ -187,14 +187,14 @@ public class DirectionalFlowLayout extends FlowLayout {
 		if (useBaseline) {
 			int maxDescent = 0;
 			for (int i = rowStart; i < rowEnd; i++) {
-				Component m = target.getComponent(i);
+				final Component m = target.getComponent(i);
 				if (m.isVisible()) {
 					if (ascent[i] >= 0) {
 						maxAscent = Math.max(maxAscent, ascent[i]);
 						maxDescent = Math.max(maxDescent, descent[i]);
 					} else {
 						nonbaselineHeight = Math.max(m.getHeight(),
-						                nonbaselineHeight);
+								nonbaselineHeight);
 					}
 				}
 			}
@@ -202,7 +202,7 @@ public class DirectionalFlowLayout extends FlowLayout {
 			baselineOffset = (height - maxAscent - maxDescent) / 2;
 		}
 		for (int i = rowStart; i < rowEnd; i++) {
-			Component m = target.getComponent(i);
+			final Component m = target.getComponent(i);
 			if (m.isVisible()) {
 				int cy;
 				if (useBaseline && ascent[i] >= 0) {

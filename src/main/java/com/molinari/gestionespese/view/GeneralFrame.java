@@ -37,18 +37,18 @@ public class GeneralFrame extends PannelloBase {
 	private static final int MENU_HEIGHT = 18;
 	private static final long serialVersionUID = 1L;
 	private PannelTabs pannelTabs;
-	
-	
+
+
 	public GeneralFrame(Container contenitore) {
 		super(contenitore);
 		setBounds(10, 10, contenitore.getWidth(), contenitore.getHeight());
 
 		final MyMenu menu = createMenu(this);
 
-		PannelloBottoni pannelloBottoni = createPannelloBottoni(menu);
-		
+		final PannelloBottoni pannelloBottoni = createPannelloBottoni(menu);
+
 		createTabsPanel(this, pannelloBottoni);
-		
+
 		getPannelTabs().initConsollle();
 		getPannelTabs().getConsolle().setVisible(true);
 		repaint();
@@ -56,11 +56,11 @@ public class GeneralFrame extends PannelloBase {
 
 	private void createTabsPanel(Container contenitore, PannelloBottoni pannelloBottoni) {
 		pannelTabs = new PannelTabs(contenitore);
-		PannelloBase tabPanel = pannelTabs.getPanel();
+		final PannelloBase tabPanel = pannelTabs.getPanel();
 		tabPanel.posizionaSottoA(pannelloBottoni, 0, 0);
 		tabPanel.setSize(getContenitorePadre().getWidth(), getHeightSottoPannelli());
 	}
-	
+
 	private int getHeightSottoPannelli() {
 		return getContenitorePadre().getHeight() - getHeightBtnPanel() - MENU_HEIGHT;
 	}
@@ -75,7 +75,7 @@ public class GeneralFrame extends PannelloBase {
 
 	private PannelloBottoni createPannelloBottoni(MyMenu menu) {
 		final PannelloBottoni pannelloBottoni = initPannelloBottoni(menu);
-		
+
 		final ImageIcon iconaMovimenti = new ImageIcon(AltreUtil.IMGUTILPATH+"controlli.gif");
 		final ImageIcon iconaMovimentiPic = new ImageIcon(AltreUtil.IMGUTILPATH+"controlli_pic.gif");
 		final ToggleBtn toggleMovimenti = new ToggleBtn(I18NManager.getSingleton().getMessaggio("transactions"), iconaMovimenti);
@@ -88,7 +88,7 @@ public class GeneralFrame extends PannelloBase {
 		toggleMovimentiUscite.settaggioBottoneStandard();
 		final Bottone bottoneMovimentiUscite = new Bottone(toggleMovimentiUscite);
 		addListenerMovimentiUscite(toggleMovimentiUscite);
-		
+
 		final String entrate = I18NManager.getSingleton().getMessaggio("income");
 		final ToggleBtn toggleMovimentiEntrate = new ToggleBtn(entrate, iconaMovimentiPic, -1, 20);
 		toggleMovimentiEntrate.settaggioBottoneStandard();
@@ -183,7 +183,7 @@ public class GeneralFrame extends PannelloBase {
 		pannelloBottoni.addBottone(bottoneEntrateUscite);
 
 		add(pannelloBottoni);
-		
+
 		return pannelloBottoni;
 	}
 
@@ -207,7 +207,7 @@ public class GeneralFrame extends PannelloBase {
 			public void actionPerformedOverride(final ActionEvent e) {
 				getPannelTabs().initPerMesi();
 				getPannelTabs().hidePanels();
-				
+
 				getPannelTabs().getTabPermesi().setVisible(true);
 			}
 		});
@@ -218,11 +218,11 @@ public class GeneralFrame extends PannelloBase {
 
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				PannelTabs pannelTabsLoc = getPannelTabs();
+				final PannelTabs pannelTabsLoc = getPannelTabs();
 				pannelTabsLoc.hidePanels();
-				
+
 				pannelTabsLoc.initTabMovimentiEntrate();
-				ListaMovimentiEntrate tabMovEntrate = pannelTabsLoc.getTabMovEntrate();
+				final ListaMovimentiEntrate tabMovEntrate = pannelTabsLoc.getTabMovEntrate();
 				pannelTabsLoc.setLastView(tabMovEntrate);
 				tabMovEntrate.setVisible(true);
 				toggleMovimentiEntrate.setSelected(false);
@@ -237,11 +237,11 @@ public class GeneralFrame extends PannelloBase {
 
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				PannelTabs pannelTabsLoc = getPannelTabs();
+				final PannelTabs pannelTabsLoc = getPannelTabs();
 				pannelTabsLoc.hidePanels();
-				
+
 				pannelTabsLoc.initTabMovimentiUscite();
-				ListaMovimentiUscite tabMovUscite = pannelTabsLoc.getTabMovUscite();
+				final ListaMovimentiUscite tabMovUscite = pannelTabsLoc.getTabMovUscite();
 				pannelTabsLoc.setLastView(tabMovUscite);
 				tabMovUscite.setVisible(true);
 				toggleMovimentiUscite.setSelected(false);
@@ -255,8 +255,8 @@ public class GeneralFrame extends PannelloBase {
 
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				
-				AbstractListaMov lastView = getPannelTabs().getLastView();
+
+				final AbstractListaMov lastView = getPannelTabs().getLastView();
 				if(lastView != null){
 					getPannelTabs().hidePanels();
 					lastView.setVisible(true);
@@ -267,7 +267,7 @@ public class GeneralFrame extends PannelloBase {
 
 	private PannelloBottoni initPannelloBottoni(MyMenu menu) {
 		final PannelloBottoni pannelloBottoni = new PannelloBottoni(this);
-		int heightBtnPanel = getHeightBtnPanel();
+		final int heightBtnPanel = getHeightBtnPanel();
 		pannelloBottoni.posizionaSottoA(menu, 0, 3);
 		pannelloBottoni.setSize(getContenitorePadre().getWidth(), heightBtnPanel);
 		pannelloBottoni.setBackground(Color.RED);

@@ -1,7 +1,5 @@
 package com.molinari.gestionespese.view.impostazioni.ascoltatori;
 
-import grafica.componenti.alert.Alert;
-
 import java.awt.event.ActionEvent;
 
 import javax.swing.JComboBox;
@@ -14,9 +12,11 @@ import com.molinari.gestionespese.business.comandi.gruppi.CommandDeleteGruppo;
 import com.molinari.gestionespese.domain.Gruppi;
 import com.molinari.gestionespese.view.impostazioni.GruppiView;
 
+import grafica.componenti.alert.Alert;
+
 public class AscoltatoreEliminaGruppo extends AscoltatoreAggiornatoreTutto {
 
-	private GruppiView gruppiView;
+	private final GruppiView gruppiView;
 
 	public AscoltatoreEliminaGruppo(final GruppiView gruppiView) {
 		this.gruppiView = gruppiView;

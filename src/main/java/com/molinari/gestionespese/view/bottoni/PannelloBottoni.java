@@ -74,7 +74,7 @@ public class PannelloBottoni extends PannelloBase implements ActionListener {
 
 	@Override
 	public void actionPerformed(final ActionEvent e) {
-		final Bottone b = ((Bottone) ((ToggleBtn) e.getSource()).getPadre());
+		final Bottone b = (Bottone) ((ToggleBtn) e.getSource()).getPadre();
 		if (b != null) {
 			if (b.isEspanso()) {
 				deselezionaBottoni();

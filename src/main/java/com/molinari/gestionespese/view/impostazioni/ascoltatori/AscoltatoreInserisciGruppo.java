@@ -1,7 +1,5 @@
 package com.molinari.gestionespese.view.impostazioni.ascoltatori;
 
-import grafica.componenti.alert.Alert;
-
 import java.awt.event.ActionEvent;
 
 import com.molinari.gestionespese.business.Controllore;
@@ -12,9 +10,11 @@ import com.molinari.gestionespese.domain.Gruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapGruppi;
 import com.molinari.gestionespese.view.impostazioni.GruppiView;
 
+import grafica.componenti.alert.Alert;
+
 public class AscoltatoreInserisciGruppo extends AscoltatoreAggiornatoreTutto {
 
-	private GruppiView gruppiView;
+	private final GruppiView gruppiView;
 
 	public AscoltatoreInserisciGruppo(final GruppiView gruppiView) {
 		this.gruppiView = gruppiView;

@@ -44,6 +44,8 @@ import com.molinari.gestionespese.view.login.Registrazione;
 import com.molinari.gestionespese.view.note.MostraNoteView;
 import com.molinari.gestionespese.view.report.ReportView;
 
+import controller.ControlloreBase;
+
 public class MyMenu extends JMenuBar {
 
 	private static final long serialVersionUID = 1L;
@@ -116,7 +118,7 @@ public class MyMenu extends JMenuBar {
 					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(pas, finestre, chckbxmntmDati);
 					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
 				} catch (final Exception e1) {
-					Controllore.getLog().log(Level.SEVERE, e1.getMessage(), e1);
+					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}
 			}
 		});
@@ -134,7 +136,7 @@ public class MyMenu extends JMenuBar {
 					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(note, finestre, mntmNote);
 					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
 				} catch (final Exception e1) {
-					Controllore.getLog().log(Level.SEVERE, e1.getMessage(), e1);
+					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}
 			}
 		});
@@ -148,7 +150,7 @@ public class MyMenu extends JMenuBar {
 					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(report, finestre, mntmReport);
 					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
 				} catch (final Exception e1) {
-					Controllore.getLog().log(Level.SEVERE, e1.getMessage(), e1);
+					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}
 			}
 		});
@@ -162,7 +164,7 @@ public class MyMenu extends JMenuBar {
 					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(history, finestre, listaComandi);
 					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
 				} catch (final Exception e1) {
-					Controllore.getLog().log(Level.SEVERE, e1.getMessage(), e1);
+					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}
 			}
 		});
@@ -231,12 +233,12 @@ public class MyMenu extends JMenuBar {
 		mntmPerCategorie.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				try {	
+				try {
 					final GrUscite1 dialog = new GrUscite1();
 					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (final Exception e1) {
-					Controllore.getLog().log(Level.SEVERE, e1.getMessage(), e1);
+					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}
 			}
 		});
@@ -251,7 +253,7 @@ public class MyMenu extends JMenuBar {
 					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (final Exception ex) {
-					Controllore.getLog().log(Level.SEVERE, ex.getMessage(), ex);
+					ControlloreBase.getLog().log(Level.SEVERE, ex.getMessage(), ex);
 				}
 			}
 		});
@@ -281,7 +283,7 @@ public class MyMenu extends JMenuBar {
 					dialog.setSize(700, 700);
 					dialog.setVisible(true);
 				} catch (final Exception e1) {
-					Controllore.getLog().log(Level.SEVERE, e1.getMessage(), e1);
+					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}
 			}
 		});
@@ -312,7 +314,7 @@ public class MyMenu extends JMenuBar {
 					dialog.setBounds(0, 0, 347, 407);
 					dialog.setVisible(true);
 				} catch (final Exception e1) {
-					Controllore.getLog().log(Level.SEVERE, e1.getMessage(), e1);
+					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}
 			}
 		});
@@ -326,7 +328,7 @@ public class MyMenu extends JMenuBar {
 					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (final Exception e1) {
-					Controllore.getLog().log(Level.SEVERE, e1.getMessage(), e1);
+					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}
 
 			}
@@ -343,7 +345,7 @@ public class MyMenu extends JMenuBar {
 					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 					dialog.setModalityType(ModalityType.APPLICATION_MODAL);
 				} catch (final Exception e1) {
-					Controllore.getLog().log(Level.SEVERE, e1.getMessage(), e1);
+					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				} finally {
 					f.dispose();
 				}

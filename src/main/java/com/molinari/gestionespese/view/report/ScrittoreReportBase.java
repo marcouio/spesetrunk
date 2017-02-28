@@ -2,7 +2,6 @@ package com.molinari.gestionespese.view.report;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public abstract class ScrittoreReportBase implements IScrittoreReport{
 
@@ -14,7 +13,7 @@ public abstract class ScrittoreReportBase implements IScrittoreReport{
 
 	/**
 	 * In base al tipo di oggettoReport passato decide quale strada prendere per registrare l'oggetto sul report.
-	 * 
+	 *
 	 * @param oggettoReport
 	 * @return
 	 */
@@ -33,8 +32,7 @@ public abstract class ScrittoreReportBase implements IScrittoreReport{
 	public boolean generaReport() throws Exception{
 		boolean ok = operazioniPreliminari();
 		final ArrayList<OggettoReport> listaOggetti = reportData.getListaOggetti();
-		for (final Iterator<OggettoReport> iterator = listaOggetti.iterator(); iterator.hasNext();) {
-			final OggettoReport oggettoReport = iterator.next();
+		for (OggettoReport oggettoReport : listaOggetti) {
 			if(!smista(oggettoReport)){
 				ok = false;
 			}
@@ -53,7 +51,7 @@ public abstract class ScrittoreReportBase implements IScrittoreReport{
 
 	/**
 	 * Scorro gli elementi della matrice e li passa al metodo specifico di scrittura per registrarli sul report
-	 * 
+	 *
 	 * @param oggettoReport
 	 * @return
 	 */
@@ -71,9 +69,9 @@ public abstract class ScrittoreReportBase implements IScrittoreReport{
 	}
 
 	/**
-	 * Operazione che viene eseguita su un singolo campo della matrice per generare un campo sul report. 
+	 * Operazione che viene eseguita su un singolo campo della matrice per generare un campo sul report.
 	 * Da implementare sullo specifico scrittore di report.
-	 *  
+	 *
 	 * @param oggettoReport
 	 * @param dipendenza
 	 * @param dipendenza2
@@ -83,9 +81,9 @@ public abstract class ScrittoreReportBase implements IScrittoreReport{
 	protected abstract boolean scriviCampoMatrice(final OggettoReport oggettoReport, final String dipendenza, final String dipendenza2,final String valore);
 
 	/**
-	 * Operazione che viene eseguita su un singolo campo della mappa per generare un campo sul report. 
+	 * Operazione che viene eseguita su un singolo campo della mappa per generare un campo sul report.
 	 * Da implementare sullo specifico scrittore di report.
-	 * 
+	 *
 	 * @param chiave
 	 * @param valoreDouble
 	 * @param oggettoReport
@@ -95,7 +93,7 @@ public abstract class ScrittoreReportBase implements IScrittoreReport{
 
 	/**
 	 * Scorre gli elementi di una mappa e li passa al metodo specifico di scrittura per registrarli sul report.
-	 * 
+	 *
 	 * @param oggettoReport
 	 * @return
 	 */
@@ -104,8 +102,7 @@ public abstract class ScrittoreReportBase implements IScrittoreReport{
 		final
 		HashMap<String, Double> mappa = (HashMap<String, Double>) oggettoReport.getOggettoReport();
 		final String[] keys = mappa.keySet().toArray(new String[mappa.keySet().size()]);
-		for (int i = 0; i < keys.length; i++) {
-			final String chiave = keys[i];
+		for (final String chiave : keys) {
 			final Double valoreDouble = mappa.get(chiave);
 			scriviCampoMappa(chiave, valoreDouble, oggettoReport);
 		}

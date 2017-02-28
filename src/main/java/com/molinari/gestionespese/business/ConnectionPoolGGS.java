@@ -21,7 +21,7 @@ public class ConnectionPoolGGS extends ConnectionPool {
 
 	@Override
 	protected String getDbUrl() {
-		return DBUtil.URL;
+		return DBUtil.getUrl();
 	}
 
 	@Override

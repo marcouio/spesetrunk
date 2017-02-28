@@ -20,10 +20,11 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.view.componenti.movimenti.DialogHandler;
 import com.molinari.gestionespese.view.font.ButtonF;
+
+import controller.ControlloreBase;
 
 public class GrEntrate2 extends JDialog implements ActionListener {
 
@@ -31,7 +32,7 @@ public class GrEntrate2 extends JDialog implements ActionListener {
 
 	/**
 	 * Entrate Mensili
-	 * 
+	 *
 	 * Launch the application.
 	 */
 	public static void main(final String[] args) {
@@ -40,13 +41,13 @@ public class GrEntrate2 extends JDialog implements ActionListener {
 			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (final Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
 	/**
 	 * Create the dialog.
-	 * 
+	 *
 	 * @throws SQLException
 	 * @throws IOException
 	 */
@@ -64,7 +65,7 @@ public class GrEntrate2 extends JDialog implements ActionListener {
 		try {
 			ChartUtilities.saveChartAsPNG(new java.io.File("./immagini/Entrate2" + dataMinuti + ".png"), chart, 550, 550);
 		} catch (final IOException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 
 		final ImageIcon image = new ImageIcon("./immagini/Entrate2" + dataMinuti + ".png");

@@ -21,10 +21,11 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.view.componenti.movimenti.DialogHandler;
 import com.molinari.gestionespese.view.font.ButtonF;
+
+import controller.ControlloreBase;
 
 public class GrUscite2 extends JDialog implements ActionListener {
 
@@ -39,7 +40,7 @@ public class GrUscite2 extends JDialog implements ActionListener {
 			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (final Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
@@ -65,7 +66,7 @@ public class GrUscite2 extends JDialog implements ActionListener {
 			ChartUtilities.saveChartAsPNG(new java.io.File("./immagini/LineChartUscite2"
 					+ dataMinuti + ".png"), chart, 550, 600);
 		} catch (final IOException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 
 		final ImageIcon image = new ImageIcon("./immagini/LineChartUscite2"

@@ -1,7 +1,5 @@
 package com.molinari.gestionespese.view.login;
 
-import grafica.componenti.alert.Alert;
-
 import java.awt.event.ActionEvent;
 
 import javax.swing.JDialog;
@@ -17,6 +15,8 @@ import com.molinari.gestionespese.view.font.LabelListaGruppi;
 import com.molinari.gestionespese.view.font.LabelTitolo;
 import com.molinari.gestionespese.view.font.TextFieldF;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
+
+import grafica.componenti.alert.Alert;
 
 public class Login extends JDialog {
 

@@ -20,7 +20,7 @@ public interface IUtenti {
 	public Set<Entrate> getEntrates();
 
 	public void setEntrates(Set<Entrate> entrates);
-	
+
 	public Set<SingleSpesa> getSingleSpesas();
 
 	public void setSingleSpesas(Set<SingleSpesa> singleSpesas);

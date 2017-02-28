@@ -12,7 +12,6 @@ import javax.swing.UIManager;
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.domain.Lookandfeel;
-import com.molinari.gestionespese.view.GeneralFrame;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 
 public class AscoltatoreLook implements ActionListener {
@@ -34,8 +33,8 @@ public class AscoltatoreLook implements ActionListener {
 			for (int i = 0; i < vettore.size(); i++) {
 				final Lookandfeel lookAnd = vettore.get(i);
 				lookAnd.setusato(0);
-				final HashMap<String, String> campi = new HashMap<String, String>();
-				final HashMap<String, String> clausole = new HashMap<String, String>();
+				final HashMap<String, String> campi = new HashMap<>();
+				final HashMap<String, String> clausole = new HashMap<>();
 				campi.put(Lookandfeel.USATO, "0");
 				clausole.put(Lookandfeel.ID, Integer.toString(lookAnd.getidLook()));
 				Database.getSingleton().eseguiIstruzioneSql("update", Lookandfeel.NOME_TABELLA, campi, clausole);
@@ -43,8 +42,8 @@ public class AscoltatoreLook implements ActionListener {
 			//se si è scelto il look di sistema non aggiorna il db segnandolo come usato
 			if (!valoreLook.getvalore().equals(UIManager.getSystemLookAndFeelClassName())) {
 				valoreLook.setusato(1);
-				final HashMap<String, String> campi = new HashMap<String, String>();
-				final HashMap<String, String> clausole = new HashMap<String, String>();
+				final HashMap<String, String> campi = new HashMap<>();
+				final HashMap<String, String> clausole = new HashMap<>();
 				campi.put(Lookandfeel.USATO, "1");
 				clausole.put(Lookandfeel.ID, Integer.toString(valoreLook.getidLook()));
 				Database.getSingleton().eseguiIstruzioneSql("update", Lookandfeel.NOME_TABELLA, campi, clausole);
@@ -59,6 +58,6 @@ public class AscoltatoreLook implements ActionListener {
 		} catch (final Exception e1) {
 			comboLook.setSelectedIndex(0);
 			e1.printStackTrace();
-		} 
+		}
 	}
 }

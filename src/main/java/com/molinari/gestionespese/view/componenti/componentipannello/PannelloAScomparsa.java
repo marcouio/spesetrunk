@@ -39,7 +39,7 @@ public class PannelloAScomparsa extends JFrame implements ItemListener {
 		pannelloTotali = new SottoPannelloTotali();
 
 		initArrayPannello();
-		
+
 		combo = new JComboBox<>();
 		this.add(combo);
 		combo.setBounds(65, 50, 120, 40);
@@ -56,9 +56,9 @@ public class PannelloAScomparsa extends JFrame implements ItemListener {
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 
-		JPanel p = new JPanel();
+		final JPanel p = new JPanel();
 
-		for (JPanel pannello : pannelli) {
+		for (final JPanel pannello : pannelli) {
 			pannello.setVisible(false);
 			this.remove(pannello);
 		}
@@ -80,10 +80,10 @@ public class PannelloAScomparsa extends JFrame implements ItemListener {
 		p.setVisible(true);
 		p.setBounds(50, 90, sottoPannello.getPreferredSize().width, sottoPannello.getPreferredSize().height);
 	}
-	
+
 	private void initArrayPannello() {
 		arrayPannelli = new CostruttoreSottoPannello[]{
-				new CostruttoreSottoPannello(), 
+				new CostruttoreSottoPannello(),
 				pannelloSpese.getPannello(),
 				pannelloCategorie.getPannello(),
 				pannelloEntrate.getPannello(),

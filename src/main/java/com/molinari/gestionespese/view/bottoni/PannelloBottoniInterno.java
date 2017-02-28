@@ -15,7 +15,7 @@ public class PannelloBottoniInterno extends PannelloBottoni {
 
 	@Override
 	protected void init() {
-		BorderLayout lay = new BorderLayout(0, 0);
+		final BorderLayout lay = new BorderLayout(0, 0);
 		this.setLayout(lay);
 	}
 
@@ -34,7 +34,7 @@ public class PannelloBottoniInterno extends PannelloBottoni {
 	}
 
 	public void addDueBottoni(ArrayList<Bottone> dueBottoni) {
-		Bottone bottone = dueBottoni.get(0);
+		final Bottone bottone = dueBottoni.get(0);
 		this.add(bottone, BorderLayout.NORTH);
 		this.gruppoBottoni.add(bottone.getBottone());
 		this.listaBottoni.add(bottone);
@@ -43,7 +43,7 @@ public class PannelloBottoniInterno extends PannelloBottoni {
 		}
 		bottone.getBottone().setPreferredSize(new Dimension(getWidth(), 22));
 
-		Bottone bottone2 = dueBottoni.get(1);
+		final Bottone bottone2 = dueBottoni.get(1);
 		this.add(bottone2, BorderLayout.CENTER);
 		this.gruppoBottoni.add(bottone2.getBottone());
 		this.listaBottoni.add(bottone2);

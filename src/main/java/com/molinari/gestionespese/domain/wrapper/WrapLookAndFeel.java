@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Observable;
 import java.util.logging.Level;
 
-import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.domain.ILookandfeel;
 import com.molinari.gestionespese.domain.Lookandfeel;
 
 import command.javabeancommand.AbstractOggettoEntita;
+import controller.ControlloreBase;
 import db.Clausola;
 import db.ConnectionPool;
 import db.dao.IDAO;
@@ -28,8 +28,8 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 
 	@Override
 	public Object selectById(int id) {
-		
-		String sql = "SELECT * FROM " + Lookandfeel.NOME_TABELLA + " WHERE " + Lookandfeel.ID + " = " + id;
+
+		final String sql = "SELECT * FROM " + Lookandfeel.NOME_TABELLA + " WHERE " + Lookandfeel.ID + " = " + id;
 
 		final Lookandfeel look = new Lookandfeel();;
 
@@ -39,7 +39,7 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 
 				@Override
 				protected Object doWithResultSet(ResultSet rs) throws SQLException {
-					
+
 					if (rs.next()) {
 						look.setidLook(rs.getInt(1));
 						look.setnome(rs.getString(2));
@@ -48,14 +48,14 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 					}
 					return look;
 				}
-				
-			}.execute(sql);
-			
-			
 
-		} catch (SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
-		} 
+			}.execute(sql);
+
+
+
+		} catch (final SQLException e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+		}
 		return look;
 
 	}
@@ -63,16 +63,16 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 	@Override
 	public List<Object> selectAll() {
 		final List<Object> looks = new ArrayList<>();
-		
-		String sql = "SELECT * FROM " + Lookandfeel.NOME_TABELLA;
+
+		final String sql = "SELECT * FROM " + Lookandfeel.NOME_TABELLA;
 		try {
-			
+
 			ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
 
 				@Override
 				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
 					while (rs != null && rs.next()) {
-						Lookandfeel look = new Lookandfeel();
+						final Lookandfeel look = new Lookandfeel();
 						look.setidLook(rs.getInt(1));
 						look.setnome(rs.getString(2));
 						look.setvalore(rs.getString(3));
@@ -81,19 +81,19 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 					}
 					return looks;
 				}
-				
+
 			}.execute(sql);
 
-		} catch (Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
-		} 
+		} catch (final Exception e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+		}
 		return looks;
 	}
 
 	@Override
 	public boolean insert(Object oggettoEntita) {
 		boolean ok = false;
-		Connection cn = ConnectionPool.getSingleton().getConnection();
+		final Connection cn = ConnectionPool.getSingleton().getConnection();
 		String sql = "";
 		try {
 			final Lookandfeel look = (Lookandfeel) oggettoEntita;
@@ -112,7 +112,7 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 			ok = true;
 		} catch (final Exception e) {
 			ok = false;
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}finally{
 			ConnectionPool.getSingleton().chiudiOggettiDb(cn);
 		}
@@ -128,23 +128,23 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 	@Override
 	public boolean update(Object oggettoEntita) {
 		boolean ok = false;
-		
 
-		Lookandfeel look = (Lookandfeel) oggettoEntita;
-		String sql = "UPDATE " + Lookandfeel.NOME_TABELLA + " SET " + Lookandfeel.ID + " = " + look.getidLook() + ", "
+
+		final Lookandfeel look = (Lookandfeel) oggettoEntita;
+		final String sql = "UPDATE " + Lookandfeel.NOME_TABELLA + " SET " + Lookandfeel.ID + " = " + look.getidLook() + ", "
 				+ Lookandfeel.NOME + " = " + look.getnome() + ", " + Lookandfeel.VALORE + " = " + look.getvalore()
 				+ ", " + Lookandfeel.USATO + " = " + look.getusato() + " WHERE " + Lookandfeel.ID + " = "
 				+ look.getidLook();
 		try {
-			
+
 			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
-		} catch (SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+		} catch (final SQLException e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
-		
+
 		return ok;
 
 	}

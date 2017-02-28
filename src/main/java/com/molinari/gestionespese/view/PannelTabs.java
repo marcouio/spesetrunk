@@ -22,29 +22,29 @@ public class PannelTabs {
 	private ListaMovimentiUscite  tabMovUscite;
 	private AbstractListaMov lastView;
 	private NewSql consolle;
-	
+
 	private final ArrayList<JPanel> listaPannelli = new ArrayList<>();
 
 	public PannelTabs(Container contenitore) {
 		this.contenitore = contenitore;
 	}
-	
+
 	protected PannelloBase createPanelTabs() {
 		panel = new PannelloBase(contenitore);
 		return panel;
 	}
-	
+
 	public PannelloBase getPanel(){
 		if(panel == null){
 			panel = createPanelTabs();
 		}
 		return panel;
 	}
-	
+
 	public void initTabMovimentiEntrate() {
 		ListaMovimentiEntrate tabMovEntrateLoc = getTabMovEntrate();
 		if(tabMovEntrateLoc == null){
-			tabMovEntrateLoc = new ListaMovimentiEntrate(this.getPanel()); 
+			tabMovEntrateLoc = new ListaMovimentiEntrate(this.getPanel());
 			setTabMovEntrate(tabMovEntrateLoc);
 			setBoundsTab(tabMovEntrateLoc);
 			panel.add(tabMovEntrateLoc);
@@ -62,7 +62,7 @@ public class PannelTabs {
 			listaPannelli.add(tabMovUsciteLoc);
 		}
 	}
-	
+
 	public void initConsollle() {
 		if(consolle == null){
 			consolle = new NewSql(this.getPanel());
@@ -77,19 +77,19 @@ public class PannelTabs {
 			pannello.setVisible(false);
 		}
 	}
-	
+
 	public void initPerMesi() {
 		// Divisione di spese e entrate per5 mese
 		if(tabPermesi == null){
 			tabPermesi = new PerMesiF(this.getPanel());
 			setBoundsTab(tabPermesi);
-	
+
 			panel.add(tabPermesi);
 			listaPannelli.add(tabPermesi);
-		
+
 		}
 	}
-	
+
 	public PerMesiF getTabPermesi() {
 		return tabPermesi;
 	}
@@ -114,13 +114,13 @@ public class PannelTabs {
 		this.panel = panel;
 	}
 
-//	public void setBoundsTab(OggettoVistaBase ovb){
-//		ovb.setBounds(0, getHeightBtnPanel() + MENU_HEIGHT, getContenitorePadre().getWidth(), getHeightSottoPannelli());
-//	}
+	//	public void setBoundsTab(OggettoVistaBase ovb){
+	//		ovb.setBounds(0, getHeightBtnPanel() + MENU_HEIGHT, getContenitorePadre().getWidth(), getHeightSottoPannelli());
+	//	}
 	public void setBoundsTab(JPanel ovb){
 		ovb.setBounds(0, 0, getContenitore().getWidth(), getHeightSottoPannelli());
 	}
-	
+
 	private int getHeightSottoPannelli() {
 		return getContenitore().getHeight();
 	}

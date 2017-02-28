@@ -13,7 +13,7 @@ import command.javabeancommand.AbstractOggettoEntita;
 
 /**
  * The persistent class for the SINGLESPESA database table.
- * 
+ *
  */
 @Entity
 @Table(name = "SINGLE_SPESA")

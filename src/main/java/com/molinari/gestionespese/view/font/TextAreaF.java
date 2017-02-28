@@ -9,12 +9,12 @@ import javax.swing.text.Document;
 public class TextAreaF extends JTextArea {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
 	public TextAreaF() {
-		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));	
+		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
 		setBackground(Color.GRAY);
 		setForeground(Color.WHITE);
 	}

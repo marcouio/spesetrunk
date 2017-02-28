@@ -40,7 +40,7 @@ public class CommandInserisciEntrata extends AbstractCommandForJavaBean<Entrate>
 
 	@Override
 	public String toString() {
-		return "Inserita Entrata " + ((Entrate) entita).getNome();
+		return "Inserita Entrata " + entita.getNome();
 	}
 
 	@Override

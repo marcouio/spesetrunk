@@ -5,7 +5,7 @@ public class OggettoReport {
 	public static final String TIPO_MATRICE = "matrice";
 	public static final String TIPO_DOUBLE = "double";
 	public static final String TIPO_MAPPA = "mappa";
-	
+
 	private String tipo;
 	private Object oggettoReport;
 	private String nomeOggetto;
@@ -13,17 +13,17 @@ public class OggettoReport {
 	private String nomeDipendenza2;
 	private String[] listaDipendenza1;
 	private String[] listaDipendenza2;
-	
+
 	public OggettoReport(final String tipo,final Object oggettoReport, final String nomeOggetto) {
 		this(tipo, oggettoReport,nomeOggetto,null,null,null,null);
 	}
-	
+
 	public OggettoReport(final String tipo,final Object oggettoReport, final String nomeOggetto, final String nomeDipendenza, final String[] listaDipendenza1) {
 		this(tipo, oggettoReport,nomeOggetto,nomeDipendenza,null,listaDipendenza1,null);
 	}
-	
-	public OggettoReport(final String tipo,final Object oggettoReport, final String nomeOggetto, 
-			final String nomeDipendenza, final String nomeDipendenza2, final String[] listaDipendenza1, 
+
+	public OggettoReport(final String tipo,final Object oggettoReport, final String nomeOggetto,
+			final String nomeDipendenza, final String nomeDipendenza2, final String[] listaDipendenza1,
 			final String[] listaDipendenza2) {
 		this.tipo = tipo;
 		this.oggettoReport = oggettoReport;

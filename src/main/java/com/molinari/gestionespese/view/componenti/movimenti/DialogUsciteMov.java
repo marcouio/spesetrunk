@@ -1,7 +1,5 @@
 package com.molinari.gestionespese.view.componenti.movimenti;
 
-import grafica.componenti.alert.Alert;
-
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,6 +30,9 @@ import com.molinari.gestionespese.view.font.ButtonF;
 import com.molinari.gestionespese.view.font.LabelListaGruppi;
 import com.molinari.gestionespese.view.font.TextFieldF;
 
+import controller.ControlloreBase;
+import grafica.componenti.alert.Alert;
+
 public class DialogUsciteMov extends AbstractUsciteView {
 
 	private static final long serialVersionUID = 1L;
@@ -58,12 +59,9 @@ public class DialogUsciteMov extends AbstractUsciteView {
 	 */
 
 	public void main(final String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				final DialogUsciteMov inst = new DialogUsciteMov(new WrapSingleSpesa());
-				inst.setVisible(true);
-			}
+		SwingUtilities.invokeLater(() -> {
+			final DialogUsciteMov inst = new DialogUsciteMov(new WrapSingleSpesa());
+			inst.setVisible(true);
 		});
 	}
 
@@ -110,7 +108,7 @@ public class DialogUsciteMov extends AbstractUsciteView {
 			this.add(delete);
 			setSize(300, 500);
 		} catch (final Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
@@ -227,7 +225,7 @@ public class DialogUsciteMov extends AbstractUsciteView {
 					final String msg = I18NManager.getSingleton().getMessaggio("charge")+ modelUscita.getnome() + " non aggiornata: tutti i dati devono essere valorizzati";
 					Alert.segnalazioneErroreGrave(msg);
 				}
-			} catch (Exception e1) {
+			} catch (final Exception e1) {
 				e1.printStackTrace();
 			}
 			// chiude la dialog e rilascia le risorse
@@ -245,7 +243,7 @@ public class DialogUsciteMov extends AbstractUsciteView {
 					if (!Controllore.invocaComando(new CommandUpdateSpesa(oldSpesa, (ISingleSpesa) modelUscita.getEntitaPadre()))) {
 						Alert.segnalazioneErroreGrave("Spesa " + oldSpesa.getnome() + " non aggiornata");
 					}
-				} catch (Exception e1) {
+				} catch (final Exception e1) {
 					e1.printStackTrace();
 				}
 				AggiornatoreManager.aggiornaMovimentiUsciteDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));

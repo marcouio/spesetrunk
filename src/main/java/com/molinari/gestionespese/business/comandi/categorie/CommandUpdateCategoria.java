@@ -43,7 +43,7 @@ public class CommandUpdateCategoria extends AbstractCommandForJavaBean<CatSpese>
 
 	@Override
 	public String toString() {
-		return "Modificata Categoria " + (newEntita).getnome();
+		return "Modificata Categoria " + newEntita.getnome();
 	}
 
 	@Override

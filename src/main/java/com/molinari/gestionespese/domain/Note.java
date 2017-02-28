@@ -13,7 +13,7 @@ import command.javabeancommand.AbstractOggettoEntita;
 
 /**
  * The persistent class for the NOTE database table.
- * 
+ *
  */
 
 @Entity
@@ -138,7 +138,7 @@ public class Note implements AbstractOggettoEntita, Serializable, INote {
 	@Override
 	public void setIdEntita(String idEntita) {
 		setIdNote(Integer.parseInt(idEntita));
-		
+
 	}
 
 	@Override

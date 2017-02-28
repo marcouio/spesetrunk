@@ -4,16 +4,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-import com.molinari.gestionespese.business.Controllore;
-
 import command.javabeancommand.AbstractOggettoEntita;
+import controller.ControlloreBase;
 import db.dao.IDAO;
 
 public abstract class AbstractCacheBase<T extends AbstractOggettoEntita> {
 
 	private Map<String, T> cache;
 	private boolean caricata = false;
-	
+
 	/**
 	 * @return the caricata
 	 */
@@ -27,7 +26,7 @@ public abstract class AbstractCacheBase<T extends AbstractOggettoEntita> {
 	public void setCaricata(boolean caricata) {
 		this.caricata = caricata;
 	}
-	
+
 	public Map<String, T> getCache() {
 		return cache;
 	}
@@ -35,7 +34,7 @@ public abstract class AbstractCacheBase<T extends AbstractOggettoEntita> {
 	public void setCache(Map<String, T> cache) {
 		this.cache = cache;
 	}
-	
+
 	public T getObjectById(IDAO dao, String id){
 		T obj = cache.get(id);
 		if (obj == null) {
@@ -46,7 +45,7 @@ public abstract class AbstractCacheBase<T extends AbstractOggettoEntita> {
 		}
 		return cache.get(id);
 	}
-	
+
 	public Map<String, T> chargeAllObject(IDAO dao) {
 		try {
 			final List<T> objs = (List<T>) dao.selectAll();
@@ -60,24 +59,25 @@ public abstract class AbstractCacheBase<T extends AbstractOggettoEntita> {
 				}
 			}
 			caricata = true;
-		} catch (Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+		} catch (final Exception e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		return cache;
 	}
-	
+
 	public Map<String, T> getAll(IDAO dao) {
-		if (caricata)
+		if (caricata) {
 			return cache;
-		else
+		} else {
 			return chargeAllObject(dao);
+		}
 	}
 
 	private T caricaObj(IDAO dao, String id) {
 		try {
 			return (T) dao.selectById(Integer.parseInt(id));
-		} catch (Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+		} catch (final Exception e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		return null;
 	}

@@ -9,11 +9,12 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import com.molinari.gestionespese.business.AltreUtil;
-import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.view.font.LabelTestoPiccolo;
 import com.molinari.gestionespese.view.font.TextFieldF;
+
+import controller.ControlloreBase;
 
 public class SottoPannelloDatiSpese {
 
@@ -22,7 +23,7 @@ public class SottoPannelloDatiSpese {
 	 * Auto-generated main method to display this JPanel inside a new JFrame.
 	 */
 	public static void main(String[] args) {
-		JFrame frame = new JFrame();
+		final JFrame frame = new JFrame();
 		frame.getContentPane().add(new SottoPannelloDatiSpese().getPannello());
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		frame.pack();
@@ -43,7 +44,7 @@ public class SottoPannelloDatiSpese {
 	private void initGUI() {
 		try {
 
-			JLabel meseincorso = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("thisyear"));
+			final JLabel meseincorso = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("thisyear"));
 			labels[2] = meseincorso;
 			meseincorso.setBounds(164, 66, 141, 14);
 
@@ -52,7 +53,7 @@ public class SottoPannelloDatiSpese {
 			speseAnnuali.setBounds(164, 84, 106, 27);
 			speseAnnuali.setColumns(8);
 
-			JLabel label = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("lastmonth"));
+			final JLabel label = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("lastmonth"));
 			label.setBounds(317, 67, 123, 14);
 			labels[1] = label;
 
@@ -62,7 +63,7 @@ public class SottoPannelloDatiSpese {
 			mesePrecUsc.setBounds(317, 85, 106, 27);
 			componenti[1] = mesePrecUsc;
 
-			JLabel label2 = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("thismonth"));
+			final JLabel label2 = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("thismonth"));
 			label2.setBounds(16, 67, 136, 13);
 			labels[0] = label2;
 
@@ -74,8 +75,8 @@ public class SottoPannelloDatiSpese {
 			meseInCors.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(mensile2)));
 			componenti[0] = meseInCors;
 			meseInCors.setBounds(16, 85, 106, 27);
-		} catch (Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+		} catch (final Exception e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 

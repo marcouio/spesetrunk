@@ -18,7 +18,7 @@ import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 public class CacheEntrate extends AbstractCacheBase<Entrate> {
 
 	private static CacheEntrate singleton;
-	private WrapEntrate entrateDAO = new WrapEntrate();
+	private final WrapEntrate entrateDAO = new WrapEntrate();
 
 	private CacheEntrate() {
 		setCache(new HashMap<String, Entrate>());
@@ -45,24 +45,24 @@ public class CacheEntrate extends AbstractCacheBase<Entrate> {
 		final Map<String, Entrate> mappa = getAllEntrate();
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		if (mappa != null && utente != null) {
-			
+
 			return mappa.values().stream().filter(getFilterForUser(utente)).collect(Collectors.toList());
-			
+
 		}
 		return new ArrayList<>();
 	}
 
 	private Predicate<? super Entrate> getFilterForUser(final Utenti utente) {
 		return entrata ->
-			{
-				Utenti utenti = entrata.getUtenti();
-				int idUtente = utenti.getidUtente();
-				return entrata != null && (utenti != null && idUtente != 0) && idUtente == utente.getidUtente();
-			};
+		{
+			final Utenti utenti = entrata.getUtenti();
+			final int idUtente = utenti.getidUtente();
+			return entrata != null && utenti != null && idUtente != 0 && idUtente == utente.getidUtente();
+		};
 	}
 
 	public List<Entrate> getAllEntrateForUtenteEAnno() {
-		
+
 		final ArrayList<Entrate> listaEntrate = new ArrayList<>();
 		final Map<String, Entrate> mappa = getAllEntrate();
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
@@ -70,17 +70,17 @@ public class CacheEntrate extends AbstractCacheBase<Entrate> {
 
 		if (mappa != null && utente != null) {
 
-			Stream<Entrate> streamEntrate = mappa.values().stream().filter(getFilterUserAndYear(utente, annoDaText));
+			final Stream<Entrate> streamEntrate = mappa.values().stream().filter(getFilterUserAndYear(utente, annoDaText));
 			return streamEntrate.collect(Collectors.toList());
 		}
-		
+
 		return listaEntrate;
-				
+
 	}
 
 	private Predicate<? super Entrate> getFilterUserAndYear(final Utenti utente, final String annoDaText) {
 		return e -> {
-			if(e != null && (e.getUtenti() != null && e.getUtenti().getidUtente() != 0)){
+			if(e != null && e.getUtenti() != null && e.getUtenti().getidUtente() != 0){
 				final String annoEntrata = e.getdata().substring(0, 4);
 				return e.getUtenti().getidUtente() == utente.getidUtente() && annoEntrata.equals(annoDaText);
 			}
@@ -90,7 +90,7 @@ public class CacheEntrate extends AbstractCacheBase<Entrate> {
 
 	public int getMaxId() {
 		final Map<String, Entrate> mappa = getAllEntrate();
-		Optional<Entrate> max = mappa.values().stream().max((e1,e2) -> Integer.compare(e1.getidEntrate(), e2.getidEntrate()));
+		final Optional<Entrate> max = mappa.values().stream().max((e1,e2) -> Integer.compare(e1.getidEntrate(), e2.getidEntrate()));
 		return max.isPresent() ? max.get().getidEntrate() : 0;
 	}
 

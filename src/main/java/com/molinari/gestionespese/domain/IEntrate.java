@@ -2,7 +2,7 @@ package com.molinari.gestionespese.domain;
 
 
 public interface IEntrate {
-	
+
 	public String getdata();
 
 	public void setdata(String data);

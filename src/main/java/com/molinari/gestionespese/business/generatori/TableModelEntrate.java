@@ -1,16 +1,16 @@
 package com.molinari.gestionespese.business.generatori;
 
-import grafica.componenti.table.TableModel;
-
 import java.util.HashMap;
 import java.util.Map;
 
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 
+import grafica.componenti.table.TableModel;
+
 public class TableModelEntrate extends TableModel{
 	public static Map<Integer, String> mapMesi = new HashMap<>();
-	 
+
 	static{
 		mapMesi.put(1, I18NManager.getSingleton().getMessaggio("january"));
 		mapMesi.put(2, I18NManager.getSingleton().getMessaggio("february"));
@@ -28,7 +28,7 @@ public class TableModelEntrate extends TableModel{
 
 	private String[] listaColonne;
 	private static final long serialVersionUID = 1L;
-	
+
 	public TableModelEntrate(Object parametro) throws Exception {
 		super(parametro);
 	}
@@ -36,31 +36,31 @@ public class TableModelEntrate extends TableModel{
 
 	@Override
 	protected void preBuild(Object parametro) throws Exception {
-		String[] listaColonneloc = getListaColonne();
+		final String[] listaColonneloc = getListaColonne();
 		aggiungiNomiColonne();
 		for (int i = 1; i <= 12; i++) {
-			Riga riga = new Riga();
+			final Riga riga = new Riga();
 			riga.add(mapMesi.get(i));
-			for (int x = 0; x < listaColonneloc.length; x++) {
-				String entrataMeseTipo = Double.toString(Database.getSingleton().entrateMeseTipo(i, listaColonneloc[x]));
+			for (final String element : listaColonneloc) {
+				final String entrataMeseTipo = Double.toString(Database.getSingleton().entrateMeseTipo(i, element));
 				riga.add(entrataMeseTipo);
 			}
 			addRiga(riga);
 		}
 	}
-	
+
 	private void aggiungiNomiColonne(){
-		String mesi = I18NManager.getSingleton().getMessaggio("months");
+		final String mesi = I18NManager.getSingleton().getMessaggio("months");
 		addColumn(mesi);
 		for (int i = 0; i < getListaColonne().length; i++) {
 			addColumn(getListaColonne()[i]);
 		}
 	}
-	
+
 	public String[] getListaColonne() {
 		if(listaColonne == null){
-			String fisse = I18NManager.getSingleton().getMessaggio("fixity");
-			String variabili = I18NManager.getSingleton().getMessaggio("variables");
+			final String fisse = I18NManager.getSingleton().getMessaggio("fixity");
+			final String variabili = I18NManager.getSingleton().getMessaggio("variables");
 			listaColonne = new String[]{fisse, variabili};
 		}
 		return listaColonne;

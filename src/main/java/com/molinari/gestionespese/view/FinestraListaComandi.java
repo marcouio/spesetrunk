@@ -19,19 +19,19 @@ public class FinestraListaComandi extends JFrame {
 		setResizable(false);
 		this.setSize(250, 425);
 		getContentPane().setLayout(null);
-		String lista = I18NManager.getSingleton().getMessaggio("lista");
+		final String lista = I18NManager.getSingleton().getMessaggio("lista");
 		this.setTitle(lista);
 		scrollPane = new JScrollPane();
 		insertDati();
 
-		
+
 
 	}
 
 	public void insertDati() {
-		String lista = I18NManager.getSingleton().getMessaggio("lista");
+		final String lista = I18NManager.getSingleton().getMessaggio("lista");
 		table = new TableF();
-		Object[][] dati = generaDati();
+		final Object[][] dati = generaDati();
 		table.setModel(new DefaultTableModel(dati, new String[] { lista }));
 
 		table.setBounds(12, 12, 254, 61);
@@ -55,16 +55,12 @@ public class FinestraListaComandi extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				JFrame f = new JFrame();
-				FinestraListaComandi fe = new FinestraListaComandi();
-				f.getContentPane().add(fe);
-				f.setVisible(true);
-				f.setSize(280, 500);
-			}
+		SwingUtilities.invokeLater(() -> {
+			final JFrame f = new JFrame();
+			final FinestraListaComandi fe = new FinestraListaComandi();
+			f.getContentPane().add(fe);
+			f.setVisible(true);
+			f.setSize(280, 500);
 		});
 	}
 

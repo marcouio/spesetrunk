@@ -3,8 +3,6 @@ package com.molinari.gestionespese.domain;
 import java.io.Serializable;
 import java.util.Set;
 
-import command.javabeancommand.AbstractOggettoEntita;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,9 +12,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import command.javabeancommand.AbstractOggettoEntita;
+
 /**
  * The persistent class for the CATSPESE database table.
- * 
+ *
  */
 @Entity
 @Table(name = "cat_spese", schema = "DEFAULT")
@@ -53,7 +53,7 @@ public class CatSpese implements AbstractOggettoEntita,Serializable, ICatSpese {
 	private Set<SingleSpesa> singleSpesas;
 
 	public CatSpese() {
-		
+
 	}
 
 	@Override

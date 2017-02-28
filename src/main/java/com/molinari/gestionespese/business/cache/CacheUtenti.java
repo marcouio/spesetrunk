@@ -2,19 +2,16 @@ package com.molinari.gestionespese.business.cache;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapUtenti;
 
-import java.util.List;
-
-import command.javabeancommand.AbstractOggettoEntita;
-
 public class CacheUtenti extends AbstractCacheBase<Utenti> {
 
 	private static CacheUtenti singleton;
-	private WrapUtenti utentiDAO = new WrapUtenti();
+	private final WrapUtenti utentiDAO = new WrapUtenti();
 
 	private CacheUtenti() {
 		setCache(new HashMap<String, Utenti>());
@@ -31,9 +28,9 @@ public class CacheUtenti extends AbstractCacheBase<Utenti> {
 
 	public boolean checkUtentePerUsername(String username) {
 		boolean ok = false;
-		Object[] utenti = getArrayUtenti();
-		for (int i = 0; i < utenti.length; i++) {
-			Utenti utente = (Utenti) utenti[i];
+		final Object[] utenti = getArrayUtenti();
+		for (final Object element : utenti) {
+			final Utenti utente = (Utenti) element;
 			if (utente.getusername().equals(username)) {
 				ok = true;
 			}
@@ -50,17 +47,17 @@ public class CacheUtenti extends AbstractCacheBase<Utenti> {
 	}
 
 	public List<Utenti> getVettoreUtenti() {
-		List<Utenti> utenti = new ArrayList<>();
-		Map<String, Utenti> mappa = this.getAllUtenti();
-		Utenti[] lista = (Utenti[]) mappa.values().toArray();
-		for (int i = 0; i < lista.length; i++) {
-			utenti.add(lista[i]);
+		final List<Utenti> utenti = new ArrayList<>();
+		final Map<String, Utenti> mappa = this.getAllUtenti();
+		final Utenti[] lista = (Utenti[]) mappa.values().toArray();
+		for (final Utenti element : lista) {
+			utenti.add(element);
 		}
 		return utenti;
 	}
 
 	public Object[] getArrayUtenti() {
-		Map<String, Utenti> mappa = this.getAllUtenti();
+		final Map<String, Utenti> mappa = this.getAllUtenti();
 		return mappa.values().toArray();
 	}
 }

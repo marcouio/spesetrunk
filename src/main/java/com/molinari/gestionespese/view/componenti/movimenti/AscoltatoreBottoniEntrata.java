@@ -33,7 +33,7 @@ public class AscoltatoreBottoniEntrata extends MouseAdapter {
 	public void mouseClicked(final MouseEvent e) {
 
 		final JTable table = this.table;
-		if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 1 && (e.getSource() == table)) {
+		if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 1 && e.getSource() == table) {
 			final JTable tabella = (JTable) e.getSource();
 			final int row = tabella.getSelectedRow();
 			arrayUtil[INDEX_DATA] = tabella.getValueAt(row, 0);
@@ -62,7 +62,7 @@ public class AscoltatoreBottoniEntrata extends MouseAdapter {
 	/**
 	 * Valorizza la dialog con i valori catturati dalla riga selezionata dalla
 	 * tabella
-	 * 
+	 *
 	 * @param row
 	 * @param dialogNew
 	 */

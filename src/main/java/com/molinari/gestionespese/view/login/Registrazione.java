@@ -1,7 +1,5 @@
 package com.molinari.gestionespese.view.login;
 
-import grafica.componenti.alert.Alert;
-
 import javax.swing.JDialog;
 import javax.swing.WindowConstants;
 
@@ -13,14 +11,16 @@ import com.molinari.gestionespese.view.font.LabelListaGruppi;
 import com.molinari.gestionespese.view.font.LabelTitolo;
 import com.molinari.gestionespese.view.font.TextFieldF;
 
+import grafica.componenti.alert.Alert;
+
 public class Registrazione extends JDialog {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private TextFieldF username;
-	private TextFieldF password;
+	private final TextFieldF username;
+	private final TextFieldF password;
 
 	public Registrazione() {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);

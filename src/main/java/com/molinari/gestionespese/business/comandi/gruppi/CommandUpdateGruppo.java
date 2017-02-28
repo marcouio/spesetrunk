@@ -1,13 +1,12 @@
 package com.molinari.gestionespese.business.comandi.gruppi;
 
-import grafica.componenti.alert.Alert;
-
 import com.molinari.gestionespese.business.cache.CacheGruppi;
 import com.molinari.gestionespese.domain.Gruppi;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapGruppi;
 
 import command.javabeancommand.AbstractCommandForJavaBean;
+import grafica.componenti.alert.Alert;
 
 public class CommandUpdateGruppo extends AbstractCommandForJavaBean<Gruppi> {
 
@@ -42,7 +41,7 @@ public class CommandUpdateGruppo extends AbstractCommandForJavaBean<Gruppi> {
 
 	@Override
 	public String toString() {
-		return "Modificata Gruppo " + (newEntita).getnome();
+		return "Modificata Gruppo " + newEntita.getnome();
 	}
 
 	@Override

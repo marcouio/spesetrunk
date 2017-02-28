@@ -1,7 +1,5 @@
 package com.molinari.gestionespese.business.generatori;
 
-import grafica.componenti.table.TableModel;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,9 +8,11 @@ import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.domain.CatSpese;
 
+import grafica.componenti.table.TableModel;
+
 public class TableModelUscite extends TableModel{
-	public static HashMap<Integer, String> mapMesi = new HashMap<Integer, String>();
-	 
+	public static HashMap<Integer, String> mapMesi = new HashMap<>();
+
 	static{
 		mapMesi.put(1, I18NManager.getSingleton().getMessaggio("january"));
 		mapMesi.put(2, I18NManager.getSingleton().getMessaggio("february"));
@@ -29,7 +29,7 @@ public class TableModelUscite extends TableModel{
 	}
 
 	List<CatSpese> categorie;
-	
+
 	public TableModelUscite(Object parametro) throws Exception {
 		super(parametro);
 	}
@@ -40,19 +40,19 @@ public class TableModelUscite extends TableModel{
 	protected void preBuild(Object parametro) throws Exception {
 		aggiungiNomiColonne();
 		for (int i = 1; i <= 12; i++) {
-			Riga riga = new Riga();
+			final Riga riga = new Riga();
 			riga.add(mapMesi.get(i));
 			for (int x = 0; x < getCategorie().size(); x++) {
-				int idCategoria = Integer.parseInt(categorie.get(x).getIdEntita());
-				String spesaMeseCat = Double.toString(Database.speseMeseCategoria(i, idCategoria));
+				final int idCategoria = Integer.parseInt(categorie.get(x).getIdEntita());
+				final String spesaMeseCat = Double.toString(Database.speseMeseCategoria(i, idCategoria));
 				riga.add(spesaMeseCat);
 			}
 			addRiga(riga);
 		}
 	}
-	
+
 	private void aggiungiNomiColonne(){
-		
+
 		addColumn(I18NManager.getSingleton().getMessaggio("months"));
 		for (int i = 0; i < getCategorie().size(); i++) {
 			addColumn(getCategorie().get(i).getnome());

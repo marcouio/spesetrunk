@@ -10,9 +10,9 @@ import grafica.componenti.alert.Alert;
 
 public class CommandUpdateSpesa extends AbstractCommandForJavaBean<SingleSpesa> {
 
-	private SingleSpesa newEntita;
-	private SingleSpesa oldEntita;
-	private WrapSingleSpesa wrap;
+	private final SingleSpesa newEntita;
+	private final SingleSpesa oldEntita;
+	private final WrapSingleSpesa wrap;
 
 	public CommandUpdateSpesa(final SingleSpesa oldEntita, final ISingleSpesa newEntita) {
 		this.newEntita = (SingleSpesa) newEntita;
@@ -42,7 +42,7 @@ public class CommandUpdateSpesa extends AbstractCommandForJavaBean<SingleSpesa> 
 
 	@Override
 	public String toString() {
-		return "Modificata Spesa " + (newEntita).getnome();
+		return "Modificata Spesa " + newEntita.getnome();
 	}
 
 	@Override

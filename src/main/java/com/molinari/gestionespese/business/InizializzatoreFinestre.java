@@ -36,7 +36,7 @@ public class InizializzatoreFinestre {
 	public InizializzatoreFinestre() {
 		// inizializzo l'array list con le class per evitare di caricare tutto
 		// all'avvio del programma
-		this.finestreClass = new ArrayList<Class>();
+		this.finestreClass = new ArrayList<>();
 		finestreClass.add(PannelloAScomparsa.class);
 		finestreClass.add(FinestraListaComandi.class);
 		finestreClass.add(MostraNoteView.class);
@@ -48,7 +48,7 @@ public class InizializzatoreFinestre {
 	/**
 	 * Restituisce la finestra chiamata all'indice specifico. Se la finestra è
 	 * stata già creata la prende altrimenti crea l'istanza
-	 * 
+	 *
 	 * @param index
 	 * @param view
 	 * @return
@@ -66,7 +66,7 @@ public class InizializzatoreFinestre {
 			try {
 				UIManager.setLookAndFeel(Controllore.getSingleton().getLookUsato());
 
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore(e.getMessage()));
 			}
 			return window;
@@ -76,7 +76,7 @@ public class InizializzatoreFinestre {
 	/**
 	 * crea una nuova istanza della finestra chiamata all'indice dell'arraylist
 	 * finestreClass
-	 * 
+	 *
 	 * @param index
 	 * @param view
 	 * @return
@@ -99,7 +99,7 @@ public class InizializzatoreFinestre {
 	/**
 	 * Gestisce la visibilita: è visibile mai più di una finestra. Se la
 	 * finestra scelta è già visibile viene tolta la visibilità anche a quella
-	 * 
+	 *
 	 * @param finestraVisibile
 	 * @param menu
 	 * @param menuItem
@@ -130,8 +130,7 @@ public class InizializzatoreFinestre {
 	}
 
 	public void quitFinestre() {
-		for (int i = 0; i < finestre.length; i++) {
-			final JFrame finestra = finestre[i];
+		for (final JFrame finestra : finestre) {
 			finestra.setVisible(false);
 			finestra.dispose();
 		}

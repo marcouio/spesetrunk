@@ -1,15 +1,13 @@
 package com.molinari.gestionespese.business.comandi.note;
 
-import grafica.componenti.alert.Alert;
-
 import com.molinari.gestionespese.business.cache.CacheNote;
 import com.molinari.gestionespese.domain.INote;
 import com.molinari.gestionespese.domain.Note;
 import com.molinari.gestionespese.domain.wrapper.WrapNote;
 
 import command.javabeancommand.AbstractCommandForJavaBean;
-
 import db.dao.IDAO;
+import grafica.componenti.alert.Alert;
 
 public class CommandInserisciNota extends AbstractCommandForJavaBean<Note> {
 
@@ -41,7 +39,7 @@ public class CommandInserisciNota extends AbstractCommandForJavaBean<Note> {
 
 	@Override
 	public String toString() {
-		return "Inserita Nota " + ((Note) entita).getNome();
+		return "Inserita Nota " + entita.getNome();
 	}
 
 	@Override

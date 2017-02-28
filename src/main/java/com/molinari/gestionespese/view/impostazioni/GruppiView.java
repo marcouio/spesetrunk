@@ -1,10 +1,8 @@
 package com.molinari.gestionespese.view.impostazioni;
 
 import java.awt.Dimension;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.Observable;
 import java.util.List;
+import java.util.Observable;
 
 import javax.swing.JComboBox;
 import javax.swing.WindowConstants;
@@ -71,15 +69,11 @@ public class GruppiView extends AbstractGruppiView {
 
 		comboGruppi.setBounds(25, 279, 206, 25);
 		getContentPane().add(comboGruppi);
-		comboGruppi.addItemListener(new ItemListener() {
-
-			@Override
-			public void itemStateChanged(final ItemEvent e) {
-				if (comboGruppi.getSelectedIndex() != 0 && comboGruppi.getSelectedItem() != null) {
-					gruppi = (Gruppi) comboGruppi.getSelectedItem();
-					nome.setText(gruppi.getnome());
-					descrizione.setText(gruppi.getdescrizione());
-				}
+		comboGruppi.addItemListener(e -> {
+			if (comboGruppi.getSelectedIndex() != 0 && comboGruppi.getSelectedItem() != null) {
+				gruppi = (Gruppi) comboGruppi.getSelectedItem();
+				nome.setText(gruppi.getnome());
+				descrizione.setText(gruppi.getdescrizione());
 			}
 		});
 
@@ -130,7 +124,7 @@ public class GruppiView extends AbstractGruppiView {
 
 	public void setGruppo(final String actionCommand) {
 		if (actionCommand.equals("Inserisci")) {
-			final int idGruppo = (CacheGruppi.getSingleton().getMaxId()) + 1;
+			final int idGruppo = CacheGruppi.getSingleton().getMaxId() + 1;
 			getModelGruppi().setidGruppo(idGruppo);
 		} else {
 			int idGruppoDaCombo = 0;
@@ -141,7 +135,7 @@ public class GruppiView extends AbstractGruppiView {
 			// se non ha un id gli assegno prendendo il massimo degli id
 			// presenti
 			if (idGruppoDaCombo == 0) {
-				final int idGruppo = (CacheGruppi.getSingleton().getMaxId()) + 1;
+				final int idGruppo = CacheGruppi.getSingleton().getMaxId() + 1;
 				getModelGruppi().setidGruppo(idGruppo);
 
 				// altrimenti gli setto il suo

@@ -11,13 +11,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.view.font.ButtonF;
 import com.molinari.gestionespese.view.font.LabelListaGruppi;
 import com.molinari.gestionespese.view.font.TableF;
 import com.molinari.gestionespese.view.font.TextFieldF;
 
+import controller.ControlloreBase;
 import grafica.componenti.contenitori.PannelloBase;
 import math.UtilMath;
 
@@ -39,7 +39,7 @@ public abstract class AbstractListaMov extends PannelloBase {
 		super(contenitore);
 		initGUI();
 	}
-	
+
 	protected void setMovimenti(final String[][] movimenti) {
 		this.movimenti = movimenti;
 	}
@@ -49,8 +49,8 @@ public abstract class AbstractListaMov extends PannelloBase {
 		try {
 			this.setLayout(null);
 
-			PannelloBase filterPanel = createFilterPanel();
-			
+			final PannelloBase filterPanel = createFilterPanel();
+
 			final String[] nomiColonne = createNomiColonne();
 
 			movimenti = createMovimenti();
@@ -67,7 +67,7 @@ public abstract class AbstractListaMov extends PannelloBase {
 			scrollPane = new JScrollPane();
 			scrollPane.setViewportView(table);
 
-			PannelloBase contentPanel = new PannelloBase(this);
+			final PannelloBase contentPanel = new PannelloBase(this);
 			contentPanel.setSize(getContenitorePadre().getWidth(), getContenitorePadre().getHeight()- filterPanel.getHeight());
 			contentPanel.posizionaSottoA(filterPanel, 0, 0);
 			contentPanel.add(scrollPane);
@@ -75,14 +75,14 @@ public abstract class AbstractListaMov extends PannelloBase {
 
 
 		} catch (final Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 
 	}
 
 	private PannelloBase createFilterPanel() {
-		PannelloBase filterPan = new PannelloBase(this);
-		double height = UtilMath.getPercentage(getContenitorePadre().getHeight(), 10);
+		final PannelloBase filterPan = new PannelloBase(this);
+		final double height = UtilMath.getPercentage(getContenitorePadre().getHeight(), 10);
 		filterPan.setSize(getContenitorePadre().getWidth(), (int) height);
 		final JLabel movim = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("transactions")+":");
 		movim.setBounds(24, 5, 89, 30);
@@ -110,8 +110,8 @@ public abstract class AbstractListaMov extends PannelloBase {
 	public abstract ActionListener getListener();
 
 	private void impostaTable(final JTable table2) {
-		int heightTable = getContenitorePadre().getHeight();
-		int widthTable = getContenitorePadre().getWidth();
+		final int heightTable = getContenitorePadre().getHeight();
+		final int widthTable = getContenitorePadre().getWidth();
 		table2.setPreferredScrollableViewportSize(new Dimension(widthTable, heightTable));
 		table2.setFillsViewportHeight(true);
 		table2.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);

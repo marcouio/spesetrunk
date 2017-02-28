@@ -3,7 +3,7 @@ package com.molinari.gestionespese.domain;
 import java.util.Set;
 
 public interface IGruppi {
-	
+
 	public String getdescrizione();
 
 	public void setdescrizione(String descrizione);
@@ -19,7 +19,7 @@ public interface IGruppi {
 	public Set<CatSpese> getCatSpeses();
 
 	public void setCatSpeses(Set<CatSpese> catSpeses);
-	
+
 	@Override
 	public String toString();
 

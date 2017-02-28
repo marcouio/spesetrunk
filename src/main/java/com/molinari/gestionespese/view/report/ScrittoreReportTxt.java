@@ -27,10 +27,12 @@ public class ScrittoreReportTxt extends ScrittoreReportBase implements IScrittor
 		stream = new PrintStream(file);
 		return stream;
 	}
-	
+
 	@Override
 	protected boolean operazioniPreliminari() throws Exception {
-		if(creaStream()!=null)return true;
+		if(creaStream()!=null) {
+			return true;
+		}
 		return false;
 	}
 
@@ -41,32 +43,32 @@ public class ScrittoreReportTxt extends ScrittoreReportBase implements IScrittor
 		sb.append(oggettoReport.getNomeDipendenza2() + " '" + dipendenza2+"' e ");
 		sb.append(oggettoReport.getNomeDipendenza() + " '" + dipendenza+"' ");
 		sb.append("e': "+valore);
-		
+
 		chiudiSezione(stream, sb.toString());
-		
+
 		return true;
 	}
 
 	@Override
 	public boolean scriviCampoMappa(final String chiave, final Double valoreDouble,
 			final OggettoReport oggettoReport) {
-		
-		StringBuffer sb = new StringBuffer();
+
+		final StringBuffer sb = new StringBuffer();
 		sb.append(oggettoReport.getNomeOggetto());
 		sb.append(" per "+ oggettoReport.getNomeDipendenza()+ " '" + chiave);
 		sb.append("' vale: " + valoreDouble);
-		
+
 		chiudiSezione(stream, sb.toString());
-		
+
 		return true;
 	}
 
 	@Override
 	protected boolean scriviCampoDaDouble(OggettoReport oggettoReport) {
-		Double valore = (Double) oggettoReport.getOggettoReport();
+		final Double valore = (Double) oggettoReport.getOggettoReport();
 		final StringBuffer sb = new StringBuffer();
 		sb.append(oggettoReport.getNomeOggetto() + " vale: " + AltreUtil.arrotondaDecimaliDouble(valore));
-		
+
 		chiudiSezione(stream, sb.toString());
 		return true;
 	}

@@ -10,7 +10,6 @@ import java.util.Observable;
 import java.util.Set;
 import java.util.logging.Level;
 
-import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.cache.CacheGruppi;
 import com.molinari.gestionespese.domain.Budget;
 import com.molinari.gestionespese.domain.CatSpese;
@@ -19,6 +18,7 @@ import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.SingleSpesa;
 
 import command.javabeancommand.AbstractOggettoEntita;
+import controller.ControlloreBase;
 import db.Clausola;
 import db.ConnectionPool;
 import db.dao.IDAO;
@@ -33,77 +33,77 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 
 	@Override
 	public Object selectById(int id) {
-		
-		String sql = "SELECT * FROM " + CatSpese.NOME_TABELLA + " WHERE " + CatSpese.ID + " = " + id;
+
+		final String sql = "SELECT * FROM " + CatSpese.NOME_TABELLA + " WHERE " + CatSpese.ID + " = " + id;
 
 		final CatSpese categorie = new CatSpese();
 
 		try {
-			
+
 			ConnectionPool.getSingleton().new ExecuteResultSet<Object>() {
 
 				@Override
 				protected Object doWithResultSet(ResultSet rs) throws SQLException {
-					
+
 					if (rs.next()) {
-						String idGruppo = Integer.toString(rs.getInt(5));
-						
+						final String idGruppo = Integer.toString(rs.getInt(5));
+
 						categorie.setidCategoria(rs.getInt(1));
 						categorie.setdescrizione(rs.getString(2));
 						categorie.setimportanza(rs.getString(3));
 						categorie.setnome(rs.getString(4));
 						ConnectionPool.getSingleton().chiudiOggettiDb(null);
-						Gruppi gruppo = CacheGruppi.getSingleton().getGruppo(idGruppo);
+						final Gruppi gruppo = CacheGruppi.getSingleton().getGruppo(idGruppo);
 						categorie.setGruppi(gruppo);
 					}
 					return categorie;
 				}
-				
+
 			}.execute(sql);
 
-		} catch (SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
-		} 
+		} catch (final SQLException e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+		}
 		return categorie;
 	}
 
 	@Override
 	public List<Object> selectAll() {
-		
-		String sql = "SELECT * FROM " + CatSpese.NOME_TABELLA;
+
+		final String sql = "SELECT * FROM " + CatSpese.NOME_TABELLA;
 		try {
 			CacheGruppi.getSingleton().getAllGruppi();
-			
+
 			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
 
-				
+
 				@Override
 				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
 
-					List<Object> categorie = new ArrayList<>();
-					
-					
+					final List<Object> categorie = new ArrayList<>();
+
+
 					while (rs != null && rs.next()) {
-						
-						String idGruppo = Integer.toString(rs.getInt(5));
-						CatSpese categoria = new CatSpese();
+
+						final String idGruppo = Integer.toString(rs.getInt(5));
+						final CatSpese categoria = new CatSpese();
 						categoria.setidCategoria(rs.getInt(1));
 						categoria.setdescrizione(rs.getString(2));
 						categoria.setimportanza(rs.getString(3));
 						categoria.setnome(rs.getString(4));
 						categorie.add(categoria);
-						
-						Gruppi gruppo = CacheGruppi.getSingleton().getGruppo(idGruppo);
+
+						final Gruppi gruppo = CacheGruppi.getSingleton().getGruppo(idGruppo);
 						categoria.setGruppi(gruppo);
 					}
 					return categorie;
 				}
-				
+
 			}.execute(sql);
-			
-		} catch (Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
-		} 
+
+		} catch (final Exception e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+		}
 		return null;
 
 	}
@@ -111,24 +111,25 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 	@Override
 	public boolean insert(Object oggettoEntita) {
 		boolean ok = false;
-		Connection cn = ConnectionPool.getSingleton().getConnection();
+		final Connection cn = ConnectionPool.getSingleton().getConnection();
 		String sql = "";
 		try {
-			CatSpese categoria = (CatSpese) oggettoEntita;
+			final CatSpese categoria = (CatSpese) oggettoEntita;
 
 			sql = "INSERT INTO " + CatSpese.NOME_TABELLA + " (" + CatSpese.DESCRIZIONE + ", " + CatSpese.IMPORTANZA + ", " + CatSpese.NOME + ", " + CatSpese.IDGRUPPO + ") VALUES(?,?,?,?)";
-			PreparedStatement ps = cn.prepareStatement(sql);
+			final PreparedStatement ps = cn.prepareStatement(sql);
 			ps.setString(1, categoria.getdescrizione());
 			ps.setString(2, categoria.getimportanza());
 			ps.setString(3, categoria.getnome());
-			if (categoria.getGruppi() != null)
+			if (categoria.getGruppi() != null) {
 				ps.setInt(4, categoria.getGruppi().getidGruppo());
+			}
 
 			ps.executeUpdate();
 			ok = true;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			ok = false;
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} finally {
 			ConnectionPool.getSingleton().chiudiOggettiDb(cn);
 		}
@@ -138,16 +139,16 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 	@Override
 	public boolean delete(int id) {
 		boolean ok = false;
-		String sql = "DELETE FROM " + CatSpese.NOME_TABELLA + " WHERE " + CatSpese.ID + " = " + id;
-		
+		final String sql = "DELETE FROM " + CatSpese.NOME_TABELLA + " WHERE " + CatSpese.ID + " = " + id;
+
 
 		try {
-			
+
 			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
-		} catch (SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+		} catch (final SQLException e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		ConnectionPool.getSingleton().chiudiOggettiDb(null);
@@ -157,19 +158,19 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 	@Override
 	public boolean update(Object oggettoEntita) {
 		boolean ok = false;
-		
 
-		CatSpese categoria = (CatSpese) oggettoEntita;
-		String sql = "UPDATE " + CatSpese.NOME_TABELLA + " SET " + CatSpese.DESCRIZIONE + " = '" + categoria.getdescrizione() + "', " + CatSpese.IMPORTANZA + " = '"
-		                + categoria.getimportanza() + "', " + CatSpese.NOME + " = '" + categoria.getnome() + "', " + CatSpese.IDGRUPPO + " = " + categoria.getGruppi().getidGruppo()
-		                + " WHERE " + CatSpese.ID + " = " + categoria.getidCategoria();
+
+		final CatSpese categoria = (CatSpese) oggettoEntita;
+		final String sql = "UPDATE " + CatSpese.NOME_TABELLA + " SET " + CatSpese.DESCRIZIONE + " = '" + categoria.getdescrizione() + "', " + CatSpese.IMPORTANZA + " = '"
+				+ categoria.getimportanza() + "', " + CatSpese.NOME + " = '" + categoria.getnome() + "', " + CatSpese.IDGRUPPO + " = " + categoria.getGruppi().getidGruppo()
+				+ " WHERE " + CatSpese.ID + " = " + categoria.getidCategoria();
 		try {
-			
+
 			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
-		} catch (SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+		} catch (final SQLException e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		ConnectionPool.getSingleton().chiudiOggettiDb(null);
@@ -180,16 +181,16 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 	@Override
 	public boolean deleteAll() {
 		boolean ok = false;
-		String sql = "DELETE FROM " + CatSpese.NOME_TABELLA;
-		
+		final String sql = "DELETE FROM " + CatSpese.NOME_TABELLA;
+
 
 		try {
-			
+
 			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
-		} catch (SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+		} catch (final SQLException e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		ConnectionPool.getSingleton().chiudiOggettiDb(null);

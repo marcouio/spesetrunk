@@ -1,7 +1,5 @@
 package com.molinari.gestionespese.view.report;
 
-import grafica.componenti.alert.Alert;
-
 import java.awt.event.ActionEvent;
 import java.io.FileNotFoundException;
 import java.util.Date;
@@ -18,6 +16,7 @@ import com.molinari.gestionespese.view.font.CheckBoxF;
 import com.molinari.gestionespese.view.font.LabelListaGruppi;
 
 import controller.ControlloreBase;
+import grafica.componenti.alert.Alert;
 
 public class ReportView extends AbstractReportView {
 
@@ -47,7 +46,7 @@ public class ReportView extends AbstractReportView {
 
 	/**
 	 * Create the panel
-	 * 
+	 *
 	 * @throws FileNotFoundException
 	 */
 	public ReportView() throws FileNotFoundException {
@@ -126,9 +125,9 @@ public class ReportView extends AbstractReportView {
 						chckbxUsciteAnnuali, chckbxEntrateAnnuali, chckbxSpeseFutili_1, chckbxAvanzo, chckbxMedie);
 
 				try {
-					IScrittoreReport scrittoreReport = new ScrittoreReportTxt(reportData);
+					final IScrittoreReport scrittoreReport = new ScrittoreReportTxt(reportData);
 					scrittoreReport.generaReport();
-				} catch (Exception e11) {
+				} catch (final Exception e11) {
 					e11.printStackTrace();
 				}
 				Alert.segnalazioneInfo("Aggiornato Report: " + DBUtil.dataToString(new Date(), "dd/MM/yyyy HH:mm"));

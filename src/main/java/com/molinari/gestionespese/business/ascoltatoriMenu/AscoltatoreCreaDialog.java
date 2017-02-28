@@ -8,14 +8,14 @@ import javax.swing.JDialog;
 
 public class AscoltatoreCreaDialog implements ActionListener{
 
-	private JDialog dialog;
+	private final JDialog dialog;
 	private int larghezza = 385;
 	private int altezza = 300;
-	
+
 	public AscoltatoreCreaDialog(JDialog dialog) {
 		this.dialog = dialog;
 	}
-	
+
 	public AscoltatoreCreaDialog(JDialog dialog, int width, int height) {
 		this.dialog = dialog;
 		this.larghezza = width;
@@ -25,10 +25,10 @@ public class AscoltatoreCreaDialog implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		dialog.setSize(larghezza, altezza);
-        dialog.setVisible(true);
-        dialog.setModalityType(ModalityType.APPLICATION_MODAL);
-		
+		dialog.setVisible(true);
+		dialog.setModalityType(ModalityType.APPLICATION_MODAL);
+
 	}
-	
-	
+
+
 }

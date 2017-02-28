@@ -11,7 +11,7 @@ import com.molinari.gestionespese.domain.wrapper.WrapLookAndFeel;
 public class CacheLookAndFeel extends AbstractCacheBase<Lookandfeel> {
 
 	private static CacheLookAndFeel singleton;
-	private WrapLookAndFeel lookDAO = new WrapLookAndFeel();
+	private final WrapLookAndFeel lookDAO = new WrapLookAndFeel();
 
 	private CacheLookAndFeel() {
 		setCache(new HashMap<String, Lookandfeel>());
@@ -30,14 +30,14 @@ public class CacheLookAndFeel extends AbstractCacheBase<Lookandfeel> {
 	}
 
 	public List<Lookandfeel> getVettoreLooksPerCombo() {
-		List<Lookandfeel> looks = new ArrayList<>();
-		Map<String, Lookandfeel> mappa = this.getAllLooks();
-		Object[] lista = mappa.values().toArray();
-		Lookandfeel look = new Lookandfeel();
+		final List<Lookandfeel> looks = new ArrayList<>();
+		final Map<String, Lookandfeel> mappa = this.getAllLooks();
+		final Object[] lista = mappa.values().toArray();
+		final Lookandfeel look = new Lookandfeel();
 		look.setnome("");
 		looks.add(look);
-		for (int i = 0; i < lista.length; i++) {
-			looks.add((Lookandfeel) lista[i]);
+		for (final Object element : lista) {
+			looks.add((Lookandfeel) element);
 		}
 		return looks;
 	}

@@ -13,7 +13,7 @@ import command.javabeancommand.AbstractOggettoEntita;
 
 /**
  * The persistent class for the ENTRATE database table.
- * 
+ *
  */
 @Entity
 @Table(name = "ENTRATE")
@@ -155,7 +155,7 @@ public class Entrate implements AbstractOggettoEntita, Serializable, IEntrate {
 	@Override
 	public void setIdEntita(String idEntita) {
 		setidEntrate(Integer.parseInt(idEntita));
-		
+
 	}
 
 	@Override

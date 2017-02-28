@@ -1,18 +1,17 @@
 package com.molinari.gestionespese.business.comandi.note;
 
-import grafica.componenti.alert.Alert;
-
 import com.molinari.gestionespese.business.cache.CacheNote;
 import com.molinari.gestionespese.domain.INote;
 import com.molinari.gestionespese.domain.Note;
 import com.molinari.gestionespese.domain.wrapper.WrapNote;
 
 import command.javabeancommand.AbstractCommandForJavaBean;
+import grafica.componenti.alert.Alert;
 
 public class CommandDeleteNota extends AbstractCommandForJavaBean<Note> {
 
 	public CommandDeleteNota(INote entita) {
-		CacheNote cache = CacheNote.getSingleton();
+		final CacheNote cache = CacheNote.getSingleton();
 		mappaCache = cache.getCache();
 		this.wrap = new WrapNote();
 		this.entita = (Note) ((WrapNote) entita).getEntitaPadre();
@@ -38,7 +37,7 @@ public class CommandDeleteNota extends AbstractCommandForJavaBean<Note> {
 
 	@Override
 	public String toString() {
-		return "Eliminata Nota " + ((Note) entita).getNome();
+		return "Eliminata Nota " + entita.getNome();
 	}
 
 	@Override

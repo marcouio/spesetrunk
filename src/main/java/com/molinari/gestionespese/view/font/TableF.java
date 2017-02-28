@@ -12,9 +12,9 @@ import javax.swing.table.TableModel;
 /**
  * TableF non è altro che una JTable con la modifica dei font e dell'altezza
  * delle righe, celle non editabili
- * 
+ *
  * @author marco.molinari
- * 
+ *
  */
 public class TableF extends JTable {
 

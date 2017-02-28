@@ -14,7 +14,7 @@ import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 
 public class AscoltatoreLanguage extends AscoltatoreAggiornatoreTutto {
 
-	private JComboBox comboLanguage;
+	private final JComboBox comboLanguage;
 
 	public AscoltatoreLanguage(final JComboBox comboLanguage) {
 		this.comboLanguage = comboLanguage;
@@ -22,11 +22,11 @@ public class AscoltatoreLanguage extends AscoltatoreAggiornatoreTutto {
 
 	@Override
 	public void actionPerformedOverride(ActionEvent e) {
-		Node nodoLang = ConfiguratoreXml.getSingleton().getNodo("lang");
-		Element elementoLang = ConfiguratoreXml.getElement(nodoLang);
+		final Node nodoLang = ConfiguratoreXml.getSingleton().getNodo("lang");
+		final Element elementoLang = ConfiguratoreXml.getElement(nodoLang);
 		if (elementoLang != null) {
 			elementoLang.setAttribute("locale", (String) comboLanguage.getSelectedItem());
-			Document doc = ConfiguratoreXml.getSingleton().getDocument();
+			final Document doc = ConfiguratoreXml.getSingleton().getDocument();
 			ConfiguratoreXml.writeXmlFile2(doc, ConfiguratoreXml.XMLPOSITION);
 			I18NManager.getSingleton().caricaMessaggi((String) comboLanguage.getSelectedItem(), null);
 		}

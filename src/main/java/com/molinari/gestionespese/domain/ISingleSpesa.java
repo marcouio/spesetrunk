@@ -25,7 +25,7 @@ public interface ISingleSpesa {
 	public CatSpese getCatSpese();
 
 	public void setCatSpese(CatSpese catSpese);
-	
+
 	public Utenti getUtenti();
 
 	public void setUtenti(Utenti utenti);
@@ -33,7 +33,7 @@ public interface ISingleSpesa {
 	public void setDataIns(String dataIns);
 
 	public String getDataIns();
-	
+
 	@Override
 	public String toString();
 

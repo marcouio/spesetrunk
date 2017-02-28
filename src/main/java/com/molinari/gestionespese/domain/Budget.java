@@ -2,8 +2,6 @@ package com.molinari.gestionespese.domain;
 
 import java.io.Serializable;
 
-import command.javabeancommand.AbstractOggettoEntita;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,9 +9,11 @@ import javax.persistence.JoinColumns;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import command.javabeancommand.AbstractOggettoEntita;
+
 /**
  * The persistent class for the BUDGET database table.
- * 
+ *
  */
 
 @Entity

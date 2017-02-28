@@ -1,7 +1,5 @@
 package com.molinari.gestionespese.business.comandi.entrate;
 
-import grafica.componenti.alert.Alert;
-
 import com.molinari.gestionespese.business.cache.CacheEntrate;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.IEntrate;
@@ -10,6 +8,7 @@ import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
 import command.ICommand;
 import command.javabeancommand.AbstractCommandForJavaBean;
 import db.dao.IDAO;
+import grafica.componenti.alert.Alert;
 
 public class CommandDeleteEntrata extends AbstractCommandForJavaBean<Entrate> implements ICommand {
 
@@ -40,7 +39,7 @@ public class CommandDeleteEntrata extends AbstractCommandForJavaBean<Entrate> im
 
 	@Override
 	public String toString() {
-		return "Eliminata Entrata " + ((Entrate) entita).getNome();
+		return "Eliminata Entrata " + entita.getNome();
 	}
 
 	@Override

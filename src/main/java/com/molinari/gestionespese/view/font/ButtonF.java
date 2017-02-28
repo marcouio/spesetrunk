@@ -1,16 +1,16 @@
 package com.molinari.gestionespese.view.font;
 
+import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JButton;
-import java.awt.Color;
 
 public class ButtonF extends JButton {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 

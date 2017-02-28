@@ -48,7 +48,7 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 
 					@Override
 					public String[][] getMovimenti() {
-						WrapEntrate modelEntrate = Model.getSingleton().getModelEntrate();
+						final WrapEntrate modelEntrate = Model.getSingleton().getModelEntrate();
 						final List<Entrate> entrate = modelEntrate.movimentiEntrateFiltrati(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
 						final String[][] mov = Model.getSingleton().movimentiFiltratiEntratePerNumero(Entrate.NOME_TABELLA, entrate);
 						AggiornatoreManager.aggiornaMovimentiEntrateDaFiltro(createNomiColonne(), mov);
@@ -58,7 +58,7 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 					{
 						// array per Categori
 
-						final ArrayList<String> lista = new ArrayList<String>();
+						final ArrayList<String> lista = new ArrayList<>();
 						lista.add("");
 						lista.add(I18NManager.getSingleton().getMessaggio("variables"));
 						lista.add(I18NManager.getSingleton().getMessaggio("fixity"));

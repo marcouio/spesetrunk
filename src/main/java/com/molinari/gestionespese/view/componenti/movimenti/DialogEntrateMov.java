@@ -1,7 +1,5 @@
 package com.molinari.gestionespese.view.componenti.movimenti;
 
-import grafica.componenti.alert.Alert;
-
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.util.Observable;
@@ -32,16 +30,19 @@ import com.molinari.gestionespese.view.font.ButtonF;
 import com.molinari.gestionespese.view.font.LabelListaGruppi;
 import com.molinari.gestionespese.view.font.TextFieldF;
 
+import controller.ControlloreBase;
+import grafica.componenti.alert.Alert;
+
 public class DialogEntrateMov extends AbstractEntrateView {
 
 	private static final long serialVersionUID = 1L;
-	private JLabel labelEuro = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("eur"));
-	private JLabel labelData = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("date"));
-	private JLabel labelTipoEntrate = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("incometype"));
-	private JLabel labelDescrizione = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("descr"));
-	private JLabel labelNome = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("name"));
-	private JLabel labelDataIns = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("insertdate"));
-	private JLabel labelIdEntrate = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("key"));
+	private final JLabel labelEuro = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("eur"));
+	private final JLabel labelData = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("date"));
+	private final JLabel labelTipoEntrate = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("incometype"));
+	private final JLabel labelDescrizione = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("descr"));
+	private final JLabel labelNome = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("name"));
+	private final JLabel labelDataIns = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("insertdate"));
+	private final JLabel labelIdEntrate = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("key"));
 
 	private JTextField tfEuro = new TextFieldF();
 	private JTextField tfDataIns = new TextFieldF();
@@ -95,12 +96,12 @@ public class DialogEntrateMov extends AbstractEntrateView {
 			this.add(delete);
 			setSize(300, 500);
 		} catch (final Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
 	private boolean nonEsistonoCampiNonValorizzati() {
-		boolean nomeDescrDataOk = getcNome() != null && getcDescrizione() != null && getcData() != null;
+		final boolean nomeDescrDataOk = getcNome() != null && getcDescrizione() != null && getcData() != null;
 		return nomeDescrDataOk && getFisseOVar() != null && getdEuro() != 0.0 && getUtenti() != null;
 	}
 
@@ -226,7 +227,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 		private void update() throws Exception {
 			aggiornaModelDaVista();
 			final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
-			PannelTabs pannelTabs = Controllore.getSingleton().getGeneralFrame().getPannelTabs();
+			final PannelTabs pannelTabs = Controllore.getSingleton().getGeneralFrame().getPannelTabs();
 			final JTextField campo = pannelTabs.getTabMovEntrate().getCampo();
 
 			final Entrate oldEntrata = CacheEntrate.getSingleton().getEntrate(idEntrate.getText());
@@ -236,7 +237,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 					try {
 						AggiornatoreManager.aggiornaMovimentiEntrateDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
 					} catch (final Exception e22) {
-						Controllore.getLog().log(Level.SEVERE, e22.getMessage(), e22);
+						ControlloreBase.getLog().log(Level.SEVERE, e22.getMessage(), e22);
 						Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore(e22.getMessage()));
 					}
 					// chiude la dialog e rilascia le risorse

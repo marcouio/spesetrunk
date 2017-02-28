@@ -13,7 +13,7 @@ import command.javabeancommand.AbstractOggettoEntita;
 
 /**
  * The persistent class for the GRUPPI database table.
- * 
+ *
  */
 @Entity
 @Table(name = "GRUPPI")
@@ -95,7 +95,7 @@ public class Gruppi implements AbstractOggettoEntita, Serializable, IGruppi {
 	@Override
 	public void setIdEntita(String idEntita) {
 		setidGruppo(Integer.parseInt(idEntita));
-		
+
 	}
 
 	@Override

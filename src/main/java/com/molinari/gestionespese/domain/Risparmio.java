@@ -11,7 +11,7 @@ import command.javabeancommand.AbstractOggettoEntita;
 
 /**
  * The persistent class for the RISPARMIO database table.
- * 
+ *
  */
 @Entity
 @Table(name = "RISPARMIO")

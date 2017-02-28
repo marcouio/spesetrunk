@@ -9,23 +9,22 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import com.molinari.gestionespese.business.AltreUtil;
-import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.view.font.LabelTestoPiccolo;
 import com.molinari.gestionespese.view.font.TextFieldF;
 
+import controller.ControlloreBase;
+
 public class SottoPannelloTotali {
 
-	
-	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Auto-generated main method to display this JPanel inside a new JFrame.
 	 */
 	public static void main(String[] args) {
-		JFrame frame = new JFrame();
+		final JFrame frame = new JFrame();
 		frame.getContentPane().add(new SottoPannelloTotali().getPannello());
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		frame.pack();
@@ -72,14 +71,14 @@ public class SottoPannelloTotali {
 			componenti[2] = avanzo;
 			avanzo.setColumns(10);
 
-			double differenza = AltreUtil.arrotondaDecimaliDouble((Database.EAnnuale()) - (Database.uAnnuale()));
+			final double differenza = AltreUtil.arrotondaDecimaliDouble(Database.EAnnuale() - Database.uAnnuale());
 			avanzo.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(differenza)));
 			avanzo.setBounds(16, 85, 106, 27);
 			avanzo.setSize(92, 27);
 
-			double percVariabili = Database.percentoUscite(CatSpese.IMPORTANZA_VARIABILE);
+			final double percVariabili = Database.percentoUscite(CatSpese.IMPORTANZA_VARIABILE);
 
-			double percFutili = Database.percentoUscite(CatSpese.IMPORTANZA_FUTILE);
+			final double percFutili = Database.percentoUscite(CatSpese.IMPORTANZA_FUTILE);
 
 			percentoVariabili = new TextFieldF();
 			componenti[1] = percentoVariabili;
@@ -93,8 +92,8 @@ public class SottoPannelloTotali {
 			percentoFutili.setColumns(10);
 			percentoFutili.setText(Double.toString(percFutili));
 			percentoFutili.setBounds(317, 85, 106, 27);
-		} catch (Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+		} catch (final Exception e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 

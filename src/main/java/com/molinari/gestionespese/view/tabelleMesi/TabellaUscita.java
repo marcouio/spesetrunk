@@ -2,8 +2,6 @@
 
 package com.molinari.gestionespese.view.tabelleMesi;
 
-import grafica.componenti.table.TableModel;
-
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -12,10 +10,12 @@ import java.util.logging.Level;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
-import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.generatori.TableModelUscite;
 import com.molinari.gestionespese.view.OggettoVistaBase;
 import com.molinari.gestionespese.view.font.TableF;
+
+import controller.ControlloreBase;
+import grafica.componenti.table.TableModel;
 
 public class TabellaUscita extends OggettoVistaBase {
 
@@ -32,8 +32,8 @@ public class TabellaUscita extends OggettoVistaBase {
 		TableModelUscite model = null;
 		try {
 			model = new TableModelUscite(null);
-		} catch (Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+		} catch (final Exception e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		final TableF table = createTable(model);
 		//Create the scroll pane and add the table to it.
@@ -65,18 +65,18 @@ public class TabellaUscita extends OggettoVistaBase {
 	public static void setPrimo(final String[][] primo) {
 		TabellaUscita.primo = primo;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * Permette di generare una tabella
-	 * 
+	 *
 	 * @param primo
 	 * @param nomiColonne
 	 * @return TableF
 	 */
 	public static TableF createTable(TableModel model) {
-		ArrayList<String> nomiColonne = model.getNomiColonne().getListaCelle();
-		TableF table = new TableF(model.getMatrice(), nomiColonne.toArray(new String[nomiColonne.size()]));
+		final ArrayList<String> nomiColonne = model.getNomiColonne().getListaCelle();
+		final TableF table = new TableF(model.getMatrice(), nomiColonne.toArray(new String[nomiColonne.size()]));
 
 		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
 		table.setFillsViewportHeight(true);
@@ -88,14 +88,11 @@ public class TabellaUscita extends OggettoVistaBase {
 	public static void main(final String[] args) {
 		//Schedule a job for the event-dispatching thread:
 		//creating and showing this application's GUI.
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					createAndShowGUI();
-				} catch (final Exception e) {
-					Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
-				}
+		javax.swing.SwingUtilities.invokeLater(() -> {
+			try {
+				createAndShowGUI();
+			} catch (final Exception e) {
+				ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			}
 		});
 	}

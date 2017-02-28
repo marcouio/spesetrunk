@@ -1,14 +1,15 @@
 package com.molinari.gestionespese.business;
 
-import grafica.componenti.alert.Alert;
-
 import java.io.File;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 
+import controller.ControlloreBase;
+import grafica.componenti.alert.Alert;
+
 public class AltreUtil {
-	
+
 	public static final int GENNAIO = 1;
 	public static final int FEBBRAIO = 2;
 	public static final int MARZO = 3;
@@ -27,13 +28,13 @@ public class AltreUtil {
 	private AltreUtil() {
 		//do nothing
 	}
-	
+
 	public static boolean checkInteger(final String integer) {
 		boolean ok = true;
 		try {
 			new Integer(integer);
 		} catch (final Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		return ok;
@@ -44,7 +45,7 @@ public class AltreUtil {
 		try {
 			AltreUtil.arrotondaDecimaliDouble(Double.parseDouble(number));
 		} catch (final Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		return ok;
@@ -63,11 +64,11 @@ public class AltreUtil {
 				ok = false;
 				Alert.segnalazioneErroreGrave("Inserire la data con valori numerici e con il formato suggerito: AAAA/MM/GG");
 			} catch (final IllegalArgumentException e1) {
-				Controllore.getLog().log(Level.SEVERE, e1.getMessage(), e1);
+				ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				ok = false;
 				Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore("Non hai inserito una data, " + e1.getMessage()));
 			} catch (final StringIndexOutOfBoundsException e3) {
-				Controllore.getLog().log(Level.SEVERE, e3.getMessage(), e3);
+				ControlloreBase.getLog().log(Level.SEVERE, e3.getMessage(), e3);
 				ok = false;
 				Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore("Numero di caratteri errato per una data, " + e3.getMessage()));
 			}
@@ -84,7 +85,7 @@ public class AltreUtil {
 	 * utilizzare il metodo Math.round che permette l'arrotondamento. Divido
 	 * nuovamente per 100 e riottengo i decimali arrotondati a due cifre. A
 	 * questo punto posso aggiungerli nuovamente agli interi
-	 * 
+	 *
 	 * @param d
 	 * @return un double arrotondato a due cifre
 	 */
@@ -96,15 +97,15 @@ public class AltreUtil {
 		final double parteDecimali = d - parteIntera;
 		if (parteDecimali * 100 != 0) {
 			final double decimaliDaArrotondare = parteDecimali * 100;
-			String arrotondato = Long.toString(Math.round(decimaliDaArrotondare));
-			decimaleArrotondato = (Double.parseDouble(arrotondato)) / 100;
+			final String arrotondato = Long.toString(Math.round(decimaliDaArrotondare));
+			decimaleArrotondato = Double.parseDouble(arrotondato) / 100;
 		}
-		return parteIntera + (decimaleArrotondato);
+		return parteIntera + decimaleArrotondato;
 	}
 
 	/**
 	 * Cancella tutti i file all'interno della directory passato come parametro
-	 * 
+	 *
 	 * @param directory
 	 * @return
 	 */
@@ -113,8 +114,8 @@ public class AltreUtil {
 		final String[] files = dir.list();
 		boolean deleted = true;
 		if(files != null){
-			for (int i = 0; i < files.length; i++) {
-				final File f = new File(dir, files[i]);
+			for (final String file : files) {
+				final File f = new File(dir, file);
 				if(!f.delete()){
 					deleted = false;
 				}
@@ -128,11 +129,11 @@ public class AltreUtil {
 		final String[] files = dir.list();
 		boolean deleted = true;
 		if(files != null){
-			for (int i = 0; i < files.length; i++) {
-				final File f = new File(dir, files[i]);
-				boolean equalPrefix = f.getName().substring(0, 3).equals(treCharIniziali);
+			for (final String file : files) {
+				final File f = new File(dir, file);
+				final boolean equalPrefix = f.getName().substring(0, 3).equals(treCharIniziali);
 				if (!f.isDirectory() && equalPrefix && !f.delete()) {
-					 deleted = false;
+					deleted = false;
 				}
 			}
 		}
@@ -143,7 +144,7 @@ public class AltreUtil {
 	 * Genera per una tabella specifica un array con tutti i nomi delle colonne.
 	 * Sfrutta il metodo nomiColonne(tabella) che crea un vettore con i nomi
 	 * delle colonne
-	 * 
+	 *
 	 * @param tabella
 	 * @return Object[]
 	 */

@@ -109,7 +109,7 @@ public class WrapNote extends Observable implements IDAO, INote {
 
 	@Override
 	public Object selectById(final int id) {
-		
+
 		final String sql = SELECT_FROM + Note.NOME_TABELLA + WHERE + Note.ID + " = " + id;
 
 		final Note note = new Note();
@@ -120,7 +120,7 @@ public class WrapNote extends Observable implements IDAO, INote {
 
 				@Override
 				protected Object doWithResultSet(ResultSet rs) throws SQLException {
-					
+
 					if (rs.next()) {
 						note.setIdNote(rs.getInt(1));
 						note.setNome(rs.getString(2));
@@ -128,34 +128,34 @@ public class WrapNote extends Observable implements IDAO, INote {
 						note.setUtenti((Utenti) Controllore.getSingleton().getUtenteLogin());
 						note.setData(rs.getString(5));
 						note.setDataIns(rs.getString(6));
-						
+
 					}
-					
+
 					return note;
 				}
-				
+
 			}.execute(sql);
 
 		} catch (final SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
-		} 
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+		}
 		return note;
 	}
 
 	@Override
 	public List<Object> selectAll() {
 		final List<Object> note = new ArrayList<>();
-		
+
 
 		final String sql = SELECT_FROM + Note.NOME_TABELLA;
 		try {
-			
+
 			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
 
 				@Override
 				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
 					final List<Object> note = new ArrayList<>();
-					
+
 					while (rs != null && rs.next()) {
 						final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(4)));
 						final Note nota = new Note();
@@ -167,24 +167,24 @@ public class WrapNote extends Observable implements IDAO, INote {
 						nota.setDataIns(rs.getString(5));
 						note.add(nota);
 					}
-					
+
 					return note;
 				}
-				
+
 			}.execute(sql);
-			
+
 		} catch (final Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
-		} 
-			
-		
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+		}
+
+
 		return note;
 	}
 
 	@Override
 	public boolean insert(final Object oggettoEntita) {
 		boolean ok = false;
-		Connection cn = ConnectionPool.getSingleton().getConnection();
+		final Connection cn = ConnectionPool.getSingleton().getConnection();
 		String sql = "";
 		try {
 			final Note nota = (Note) oggettoEntita;
@@ -207,12 +207,12 @@ public class WrapNote extends Observable implements IDAO, INote {
 			ok = true;
 		} catch (final Exception e) {
 			ok = false;
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} finally {
 			try {
 				cn.close();
 			} catch (final SQLException e) {
-				Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+				ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			}
 			DBUtil.closeConnection();
 		}
@@ -223,40 +223,40 @@ public class WrapNote extends Observable implements IDAO, INote {
 	public boolean delete(final int id) {
 		boolean ok = false;
 		final String sql = "DELETE FROM " + Note.NOME_TABELLA + WHERE + Note.ID + " = " + id;
-		
+
 
 		try {
-			
+
 			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
 		} catch (final SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
-		
+
 		return ok;
 	}
 
 	@Override
 	public boolean update(final Object oggettoEntita) {
 		boolean ok = false;
-		
+
 
 		final Note nota = (Note) oggettoEntita;
 		final String sql = "UPDATE " + Note.NOME_TABELLA + " SET " + Note.DESCRIZIONE + " = '" + nota.getDescrizione() + "', " + Entrate.DATA + " = '" + nota.getData() + "', "
 				+ Entrate.NOME + " = '" + nota.getnome() + "', " + Entrate.IDUTENTE + " = " + nota.getUtenti().getidUtente() + ", " + Entrate.DATAINS + " = '" + nota.getDataIns()
 				+ "' WHERE " + Note.ID + " = " + nota.getIdNote();
 		try {
-			
+
 			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
 		} catch (final SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
-		
+
 		return ok;
 	}
 
@@ -264,18 +264,18 @@ public class WrapNote extends Observable implements IDAO, INote {
 	public boolean deleteAll() {
 		boolean ok = false;
 		final String sql = "DELETE FROM " + Note.NOME_TABELLA;
-		
+
 
 		try {
-			
+
 			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
 		} catch (final SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
-		
+
 		return ok;
 	}
 
@@ -284,18 +284,18 @@ public class WrapNote extends Observable implements IDAO, INote {
 	 */
 	public boolean DeleteLastNote() {
 		boolean ok = false;
-		
+
 		final String sql = SELECT_FROM + Note.NOME_TABELLA + WHERE + Note.IDUTENTE + " = " + ((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente() + " ORDER BY "
 				+ Note.DATAINS + " DESC";
-		Connection cn = ConnectionPool.getSingleton().getConnection();
+		final Connection cn = ConnectionPool.getSingleton().getConnection();
 
 		try {
-			
+
 			ok = ConnectionPool.getSingleton().new ExecuteResultSet<Boolean>() {
 
 				@Override
 				protected Boolean doWithResultSet(ResultSet rs) throws SQLException {
-					
+
 					if (rs.next()) {
 						final String sql2 = "DELETE FROM " + Note.NOME_TABELLA + WHERE + Note.ID + "=?";
 						final PreparedStatement ps = cn.prepareStatement(sql2);
@@ -306,17 +306,17 @@ public class WrapNote extends Observable implements IDAO, INote {
 					}
 					return false;
 				}
-				
+
 			}.execute(sql);
-			
+
 		} catch (final Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ControlloreBase.getLog().severe("Operazione non eseguita: " + e.getMessage());
 		}
 		try {
 			cn.close();
 		} catch (final SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		DBUtil.closeConnection();
 		return ok;

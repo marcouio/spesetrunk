@@ -1,7 +1,5 @@
 package com.molinari.gestionespese.business.comandi.entrate;
 
-import grafica.componenti.alert.Alert;
-
 import com.molinari.gestionespese.business.cache.CacheEntrate;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.IEntrate;
@@ -9,12 +7,13 @@ import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
 
 import command.ICommand;
 import command.javabeancommand.AbstractCommandForJavaBean;
+import grafica.componenti.alert.Alert;
 
 public class CommandUpdateEntrata extends AbstractCommandForJavaBean<Entrate> implements ICommand {
 
-	private Entrate newEntita;
-	private Entrate oldEntita;
-	private WrapEntrate wrap;
+	private final Entrate newEntita;
+	private final Entrate oldEntita;
+	private final WrapEntrate wrap;
 
 	public CommandUpdateEntrata(final Entrate oldEntita, final IEntrate newEntita) {
 		this.newEntita = (Entrate) newEntita;
@@ -42,7 +41,7 @@ public class CommandUpdateEntrata extends AbstractCommandForJavaBean<Entrate> im
 
 	@Override
 	public String toString() {
-		return "Modificata Entrata " + (newEntita).getnome();
+		return "Modificata Entrata " + newEntita.getnome();
 	}
 
 	@Override

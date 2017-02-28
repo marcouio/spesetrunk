@@ -12,8 +12,8 @@ import com.molinari.gestionespese.domain.wrapper.WrapCatSpese;
 public class CacheCategorie extends AbstractCacheBase<CatSpese> {
 
 	private static CacheCategorie singleton;
-	private WrapCatSpese catSpeseDAO = new WrapCatSpese();
-	
+	private final WrapCatSpese catSpeseDAO = new WrapCatSpese();
+
 	private CacheCategorie() {
 		setCache(new HashMap<String, CatSpese>());
 	}
@@ -39,8 +39,8 @@ public class CacheCategorie extends AbstractCacheBase<CatSpese> {
 		final Object[] lista = mappa.values().toArray();
 		final CatSpese categoria = new CatSpese();
 		categoria.setnome("");
-		for (int i = 0; i < lista.length; i++) {
-			categorie.add((CatSpese) lista[i]);
+		for (final Object element : lista) {
+			categorie.add((CatSpese) element);
 		}
 		categorie.add(0, categoria);
 		return categorie;
@@ -52,8 +52,8 @@ public class CacheCategorie extends AbstractCacheBase<CatSpese> {
 		final Object[] lista = mappa.values().toArray();
 		final CatSpese categoria = new CatSpese();
 		categoria.setnome("");
-		for (int i = 0; i < lista.length; i++) {
-			categorie.add((CatSpese) lista[i]);
+		for (final Object element : lista) {
+			categorie.add((CatSpese) element);
 		}
 		categorie.add(0, categoria);
 		return categorie;
@@ -74,8 +74,8 @@ public class CacheCategorie extends AbstractCacheBase<CatSpese> {
 	public List<CatSpese> getVettoreCategorie(final Map<String, CatSpese> mappa) {
 		final List<CatSpese> categorie = new ArrayList<>();
 		final Object[] lista = mappa.values().toArray();
-		for (int i = 0; i < lista.length; i++) {
-			categorie.add((CatSpese) lista[i]);
+		for (final Object element : lista) {
+			categorie.add((CatSpese) element);
 		}
 		return categorie;
 	}
@@ -84,8 +84,8 @@ public class CacheCategorie extends AbstractCacheBase<CatSpese> {
 		final ArrayList<String> nomiCategorie = new ArrayList<>();
 		final Map<String, CatSpese> mappa = this.getAllCategorie();
 		final Object[] lista = mappa.values().toArray();
-		for (int i = 0; i < lista.length; i++) {
-			nomiCategorie.add(((CatSpese) lista[i]).getnome());
+		for (final Object element : lista) {
+			nomiCategorie.add(((CatSpese) element).getnome());
 		}
 		return nomiCategorie.toArray(new String[nomiCategorie.size()]);
 	}
@@ -94,8 +94,8 @@ public class CacheCategorie extends AbstractCacheBase<CatSpese> {
 		final List<CatSpese> categorie = new ArrayList<>();
 		final Map<String, CatSpese> mappa = this.getAllCategorie();
 		final Object[] lista = mappa.values().toArray();
-		for (int i = 0; i < lista.length; i++) {
-			categorie.add((CatSpese) lista[i]);
+		for (final Object element : lista) {
+			categorie.add((CatSpese) element);
 		}
 		return categorie;
 	}
@@ -110,7 +110,7 @@ public class CacheCategorie extends AbstractCacheBase<CatSpese> {
 		final Map<String, CatSpese> mappa = getAllCategorie();
 		final Iterator<String> chiavi = mappa.keySet().iterator();
 		while (chiavi.hasNext()) {
-			final CatSpese categoria = (CatSpese) mappa.get(chiavi.next());
+			final CatSpese categoria = mappa.get(chiavi.next());
 			if (categoria != null) {
 				final int idCategorie = categoria.getidCategoria();
 				if (idCategorie > maxId) {

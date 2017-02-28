@@ -26,6 +26,7 @@ import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapLookAndFeel;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 
+import controller.ControlloreBase;
 import db.ConnectionPool;
 import grafica.componenti.alert.Alert;
 
@@ -93,12 +94,10 @@ public class Database {
 	}
 
 	public void generaDB() throws SQLException {
-		@SuppressWarnings("unused")
-		final
-		File db = new File(Database.DB_URL);
-		
+		new File(Database.DB_URL);
+
 		String sql = "CREATE TABLE \"utenti\" (\"idUtente\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , \"nome\" TEXT NOT NULL , \"cognome\" TEXT NOT NULL , \"username\" TEXT NOT NULL  UNIQUE , \"password\" TEXT NOT NULL );";
-		ConnectionPool cp = ConnectionPool.getSingleton();
+		final ConnectionPool cp = ConnectionPool.getSingleton();
 		cp.executeUpdate(sql);
 		sql = "CREATE TABLE \"gruppi\" (\"idGruppo\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , \"nome\" TEXT NOT NULL , \"descrizione\" TEXT);";
 		cp.executeUpdate(sql);
@@ -121,11 +120,11 @@ public class Database {
 	}
 
 	/**
-	 * 
+	 *
 	 * Esegue un'istruzione SQL specificando come parametri il comando, la
 	 * tabella, i campi di riferimento e clausole where. Non permette funzioni
 	 * complesse.
-	 * 
+	 *
 	 * @param comando
 	 * @param tabella
 	 * @param campi
@@ -154,7 +153,7 @@ public class Database {
 			}
 
 		} catch (final Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} finally {
 			DBUtil.closeConnection();
 		}
@@ -214,8 +213,8 @@ public class Database {
 			if (where.hasNext()) {
 				sql.append(", ");
 			}
-			
-			
+
+
 			if (ConnectionPool.getSingleton().executeUpdate(sql.toString()) != 0) {
 				ok = true;
 			}
@@ -225,7 +224,7 @@ public class Database {
 
 	private boolean gestioneIstruzioneUpdate(final String tabella, final HashMap<String, String> campi,
 			final HashMap<String, String> clausole, boolean ok, final StringBuilder sql, final String command)
-	throws SQLException {
+					throws SQLException {
 		final Iterator<String> iterUpdate = campi.keySet().iterator();
 		sql.append(command).append(" " + tabella).append(" SET ");
 		while (iterUpdate.hasNext()) {
@@ -262,8 +261,8 @@ public class Database {
 				}
 			}
 		}
-		
-		
+
+
 		if (ConnectionPool.getSingleton().executeUpdate(sql.toString()) != 0) {
 			ok = true;
 		}
@@ -299,8 +298,8 @@ public class Database {
 		}
 
 		sql.append(")");
-		
-		
+
+
 		if (ConnectionPool.getSingleton().executeUpdate(sql.toString()) != 0) {
 			ok = true;
 		}
@@ -310,16 +309,16 @@ public class Database {
 
 	/**
 	 * Il metodo esegue le stringhe di codice Sql inserite nel campo.
-	 * 
+	 *
 	 * @param sql
 	 * @return HashMap<String, ArrayList>
 	 */
 	@SuppressWarnings("rawtypes")
 	public HashMap<String, ArrayList> terminaleSql(final String sql) {
-		final HashMap<String, ArrayList> nomi = new HashMap<String, ArrayList>();
+		final HashMap<String, ArrayList> nomi = new HashMap<>();
 		if ("S".equalsIgnoreCase(sql.substring(0, 1))) {
 			try {
-				
+
 				return ConnectionPool.getSingleton().new ExecuteResultSet<HashMap<String, ArrayList>>() {
 
 					@Override
@@ -332,7 +331,7 @@ public class Database {
 						nomi.put("nomiColonne", lista);
 						int z = 0;
 						while (rs.next()) {
-							final ArrayList<String> lista2 = new ArrayList<String>();
+							final ArrayList<String> lista2 = new ArrayList<>();
 							z++;
 							for (int i = 1; i <= rsmd.getColumnCount(); i++) {
 								if (rsmd.getColumnType(i) == java.sql.Types.INTEGER) {
@@ -349,9 +348,9 @@ public class Database {
 						}
 						return nomi;
 					}
-					
+
 				}.execute(sql);
-				
+
 			} catch (final SQLException e) {
 				Alert.segnalazioneErroreGrave("Operazione SQL non eseguita:" + e.getMessage());
 			}
@@ -371,7 +370,7 @@ public class Database {
 	/**
 	 * Restuisce un double che rappresenta la somma delle uscite per tipologia
 	 * e mese di appartenenza
-	 * 
+	 *
 	 * @param mese
 	 * @param categoria
 	 * @return double
@@ -399,7 +398,7 @@ public class Database {
 	public static double speseMeseGruppo(final int mese, final int gruppo) {
 		double spesaTotMeseGruppo = 0.0;
 		final List<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
-		
+
 		for (int i = 0; i < listaUscite.size(); i++) {
 			final SingleSpesa uscita = listaUscite.get(i);
 			final CatSpese cat = uscita.getCatSpese();
@@ -441,7 +440,7 @@ public class Database {
 	/**
 	 * Restuisce un double che rappresenta la somma delle entrate per tipologia
 	 * e mese di appartenenza
-	 * 
+	 *
 	 * @param mese
 	 * @param tipoEntrata
 	 * @return double
@@ -467,7 +466,7 @@ public class Database {
 	/**
 	 * Calcola interrogando la cache il totale delle spese nel mese passato come
 	 * parametro
-	 * 
+	 *
 	 * @param mese
 	 * @return totale mensile delle spese(double)
 	 */
@@ -488,7 +487,7 @@ public class Database {
 	/**
 	 * Calcola interrogando la cache il totale delle entrate nel mese passato
 	 * come parametro
-	 * 
+	 *
 	 * @param mese
 	 * @return totale mensile delle spese(double)
 	 */
@@ -542,46 +541,46 @@ public class Database {
 	/**
 	 * Restituisce in un vettore di stringhe i nomi delle colonne della tabella
 	 * specificata nel parametro
-	 * 
+	 *
 	 * @param tabella
 	 * @return List<String>
 	 */
 	public List<String> nomiColonne(final String tabella) {
-		List<String> colonne = null;
+		final List<String> colonne = null;
 		String sql = "";
 		if (tabella.equals(Entrate.NOME_TABELLA)) {
 			sql = "SELECT " + Entrate.NOME_TABELLA + "." + Entrate.DATA + ", " + Entrate.NOME_TABELLA + "."
-			+ Entrate.NOME + ", " + Entrate.NOME_TABELLA + "." + Entrate.DESCRIZIONE + ", "
-			+ Entrate.NOME_TABELLA + "." + Entrate.INEURO + " as euro, " + Entrate.NOME_TABELLA + "."
-			+ Entrate.FISSEOVAR + " as categoria, " + Entrate.NOME_TABELLA + "." + Entrate.ID + ", "
-			+ Entrate.NOME_TABELLA + "." + Entrate.DATAINS + " as inserimento" + FROM + tabella
-			+ " order by " + Entrate.ID + " desc";
+					+ Entrate.NOME + ", " + Entrate.NOME_TABELLA + "." + Entrate.DESCRIZIONE + ", "
+					+ Entrate.NOME_TABELLA + "." + Entrate.INEURO + " as euro, " + Entrate.NOME_TABELLA + "."
+					+ Entrate.FISSEOVAR + " as categoria, " + Entrate.NOME_TABELLA + "." + Entrate.ID + ", "
+					+ Entrate.NOME_TABELLA + "." + Entrate.DATAINS + " as inserimento" + FROM + tabella
+					+ " order by " + Entrate.ID + " desc";
 		} else if (tabella.equals(SingleSpesa.NOME_TABELLA)) {
 			sql = "SELECT " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.DATA + " as data, "
-			+ SingleSpesa.NOME_TABELLA + "." + SingleSpesa.NOME + ", " + SingleSpesa.NOME_TABELLA + "."
-			+ SingleSpesa.DESCRIZIONE + ", " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.INEURO
-			+ " as euro, " + CatSpese.NOME_TABELLA + "." + CatSpese.NOME + " as categoria, "
-			+ SingleSpesa.NOME_TABELLA + "." + SingleSpesa.ID + ", " + SingleSpesa.NOME_TABELLA + "."
-			+ SingleSpesa.DATAINS + " as inserimento" + FROM + tabella + ", " + CatSpese.NOME_TABELLA
-			+ ", " + Utenti.NOME_TABELLA + " where " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.IDCATEGORIE
-			+ " = " + CatSpese.NOME_TABELLA + "." + CatSpese.ID + " and " + SingleSpesa.NOME_TABELLA + "."
-			+ SingleSpesa.IDUTENTE + " = " + Utenti.NOME_TABELLA + "." + Utenti.ID + " order by "
-			+ SingleSpesa.ID + " desc";
+					+ SingleSpesa.NOME_TABELLA + "." + SingleSpesa.NOME + ", " + SingleSpesa.NOME_TABELLA + "."
+					+ SingleSpesa.DESCRIZIONE + ", " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.INEURO
+					+ " as euro, " + CatSpese.NOME_TABELLA + "." + CatSpese.NOME + " as categoria, "
+					+ SingleSpesa.NOME_TABELLA + "." + SingleSpesa.ID + ", " + SingleSpesa.NOME_TABELLA + "."
+					+ SingleSpesa.DATAINS + " as inserimento" + FROM + tabella + ", " + CatSpese.NOME_TABELLA
+					+ ", " + Utenti.NOME_TABELLA + " where " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.IDCATEGORIE
+					+ " = " + CatSpese.NOME_TABELLA + "." + CatSpese.ID + " and " + SingleSpesa.NOME_TABELLA + "."
+					+ SingleSpesa.IDUTENTE + " = " + Utenti.NOME_TABELLA + "." + Utenti.ID + " order by "
+					+ SingleSpesa.ID + " desc";
 		}
 
-		
+
 		try {
 			return ConnectionPool.getSingleton().new ExecuteResultSet<List<String>>() {
 
 				@Override
 				protected List<String> doWithResultSet(ResultSet rs)
 						throws SQLException {
-					List<String> colonne = new ArrayList<>();
-					
+					final List<String> colonne = new ArrayList<>();
+
 					if(rs != null && rs.next()){
 						final ResultSetMetaData rsm = rs.getMetaData();
-						int columnCount = rsm.getColumnCount();
-	
+						final int columnCount = rsm.getColumnCount();
+
 						for (int i = 1; i <= columnCount; i++) {
 							colonne.add(rsm.getColumnName(i));
 						}
@@ -589,10 +588,10 @@ public class Database {
 					return colonne;
 				}
 			}.execute(sql);
-		} catch (SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+		} catch (final SQLException e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
-		
+
 		return colonne;
 	}
 
@@ -635,8 +634,8 @@ public class Database {
 	}
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @return Metodo per calcolare il totale delle entrate per il mese
 	 *         precedente
 	 */
@@ -658,8 +657,8 @@ public class Database {
 	}
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @return Metodo per calcolare il totale delle uscite per il mese
 	 *         precedente
 	 */
@@ -682,8 +681,8 @@ public class Database {
 	}
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @return metodo per calcolare il totale delle entrate per il mese
 	 *         precedente
 	 */
@@ -696,7 +695,7 @@ public class Database {
 			final Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), YYYY_MM_DD);
 			final int mese = Integer.parseInt(DBUtil.dataToString(dataEntrata, "MM"));
 			final int anno = Integer.parseInt(DBUtil.dataToString(dataEntrata, "yyyy"));
-			if (mese == (data.get(Calendar.MONTH) + 1) && anno == data.get(Calendar.YEAR)) {
+			if (mese == data.get(Calendar.MONTH) + 1 && anno == data.get(Calendar.YEAR)) {
 				emensile10 += entrata.getinEuro();
 			}
 		}
@@ -706,7 +705,7 @@ public class Database {
 
 	/**
 	 * Metodo che calcola il totale delle uscite per il mese in corso
-	 * 
+	 *
 	 * @return double
 	 * @throws SQLException
 	 */
@@ -720,7 +719,7 @@ public class Database {
 			final int mese = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
 			final int anno = Integer.parseInt(DBUtil.dataToString(dataUscita, "yyyy"));
 
-			if (mese == (data.get(Calendar.MONTH) + 1) && anno == data.get(Calendar.YEAR)) {
+			if (mese == data.get(Calendar.MONTH) + 1 && anno == data.get(Calendar.YEAR)) {
 				mensile += uscita.getinEuro();
 			}
 		}
@@ -732,10 +731,10 @@ public class Database {
 		final double totaleAnnuo = uAnnuale();
 
 		final List<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
-		Stream<SingleSpesa> stream = listaUscite.stream();
-		Predicate<? super SingleSpesa> predicate = ss -> ss.getCatSpese() != null && ss.getCatSpese().equals(importanza);
-		Stream<SingleSpesa> filter = stream.filter(predicate);
-		double speseTipo = filter.mapToDouble(u -> u.getinEuro()).sum();
+		final Stream<SingleSpesa> stream = listaUscite.stream();
+		final Predicate<? super SingleSpesa> predicate = ss -> ss.getCatSpese() != null && ss.getCatSpese().equals(importanza);
+		final Stream<SingleSpesa> filter = stream.filter(predicate);
+		final double speseTipo = filter.mapToDouble(u -> u.getinEuro()).sum();
 
 		if (speseTipo != 0 && totaleAnnuo != 0.0) {
 			percentualeTipo = speseTipo / totaleAnnuo * 100;

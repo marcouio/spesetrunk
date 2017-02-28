@@ -25,13 +25,14 @@ import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import com.molinari.gestionespese.business.AltreUtil;
-import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.DBUtil;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.view.componenti.movimenti.DialogHandler;
 import com.molinari.gestionespese.view.font.ButtonF;
+
+import controller.ControlloreBase;
 
 public class GrGenerale extends JDialog implements ActionListener {
 
@@ -60,7 +61,7 @@ public class GrGenerale extends JDialog implements ActionListener {
 			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (final Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
@@ -123,7 +124,7 @@ public class GrGenerale extends JDialog implements ActionListener {
 		try {
 			ChartUtilities.saveChartAsPNG(new java.io.File("immagini/LineChartGen1" + dataMinuti + ".png"), chart, 550, 510);
 		} catch (final IOException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		DBUtil.closeConnection();
 		final ImageIcon image = new ImageIcon("immagini/LineChartGen1" + dataMinuti + ".png");
@@ -146,9 +147,9 @@ public class GrGenerale extends JDialog implements ActionListener {
 	}
 
 	public HashMap<Integer, ArrayList<Double>> creaMappaMese(final int mese) {
-		final HashMap<Integer, ArrayList<Double>> mappaMese = new HashMap<Integer, ArrayList<Double>>();
+		final HashMap<Integer, ArrayList<Double>> mappaMese = new HashMap<>();
 
-		final ArrayList<Double> listaSpeseMeseCategoria = new ArrayList<Double>();
+		final ArrayList<Double> listaSpeseMeseCategoria = new ArrayList<>();
 		for (int i = 0; i < categorie.size(); i++) {
 			final CatSpese cat = categorie.get(i);
 			double speseMeseCategoria;
@@ -156,7 +157,7 @@ public class GrGenerale extends JDialog implements ActionListener {
 				speseMeseCategoria = AltreUtil.arrotondaDecimaliDouble(Database.speseMeseCategoria(mese, cat.getidCategoria()));
 				listaSpeseMeseCategoria.add(speseMeseCategoria);
 			} catch (final Exception e) {
-				Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+				ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			}
 
 		}

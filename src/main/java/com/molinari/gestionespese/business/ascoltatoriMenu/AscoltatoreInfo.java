@@ -9,12 +9,12 @@ import com.molinari.gestionespese.view.Help;
 public class AscoltatoreInfo implements ActionListener {
 
 	final Help dialog = new Help();
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		dialog.setBounds(400, 200, 600, 400);
-        dialog.setVisible(true);
-        dialog.setModalityType(ModalityType.APPLICATION_MODAL);
+		dialog.setVisible(true);
+		dialog.setModalityType(ModalityType.APPLICATION_MODAL);
 	}
 
 }

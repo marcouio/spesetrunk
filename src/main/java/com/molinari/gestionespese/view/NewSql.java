@@ -15,10 +15,8 @@ import java.util.logging.Level;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
 import com.molinari.gestionespese.business.AltreUtil;
-import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.DBUtil;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreNiente;
@@ -30,9 +28,9 @@ import com.molinari.gestionespese.domain.Note;
 import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.view.font.ButtonF;
-import com.molinari.gestionespese.view.font.LabelTitolo;
 import com.molinari.gestionespese.view.font.TextAreaF;
 
+import controller.ControlloreBase;
 import grafica.componenti.alert.Alert;
 import grafica.componenti.button.ButtonBase;
 import grafica.componenti.contenitori.PannelloBase;
@@ -41,14 +39,12 @@ import math.UtilMath;
 
 public class NewSql extends PannelloBase {
 
-	
+
 
 	private static final long serialVersionUID = 1L;
 	private TextAreaBase         areaSql;
 	private TextAreaBase         result;
 	private String            totale           = "";
-
-	private String            riga;
 
 	public NewSql(Container contenitore) {
 		super(contenitore);
@@ -57,24 +53,24 @@ public class NewSql extends PannelloBase {
 
 	private void initGUI() {
 		try {
-			
+
 			setPreferredSize(new Dimension(getContenitorePadre().getWidth(), getContenitorePadre().getHeight()));
 			setLayout(null);
 
-			PannelloBase headerPane = createHeaderPanel();
-			
+			final PannelloBase headerPane = createHeaderPanel();
+
 			createContentPane(headerPane);
-			
+
 		} catch (final Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
 	private void createContentPane(PannelloBase headerPane) {
-		PannelloBase contentPane = new PannelloBase(this);
+		final PannelloBase contentPane = new PannelloBase(this);
 		contentPane.posizionaSottoA(headerPane, 0, 0);
 		contentPane.setSize(getContenitorePadre().getWidth(), getContenitorePadre().getHeight() - headerPane.getHeight());
-		
+
 		result = new TextAreaBase(contentPane);
 		result.setSize(contentPane.getWidth(), contentPane.getHeight());
 		contentPane.add(result);
@@ -84,24 +80,24 @@ public class NewSql extends PannelloBase {
 	}
 
 	private PannelloBase createHeaderPanel() {
-		int widthButton = (int) UtilMath.getPercentage(getContenitorePadre().getWidth(), 10);
-		int widthInfoButton = (int) UtilMath.getPercentage(getContenitorePadre().getWidth(), 5);
-		PannelloBase headerPane = new PannelloBase(this);
+		final int widthButton = (int) UtilMath.getPercentage(getContenitorePadre().getWidth(), 10);
+		final int widthInfoButton = (int) UtilMath.getPercentage(getContenitorePadre().getWidth(), 5);
+		final PannelloBase headerPane = new PannelloBase(this);
 		headerPane.setSize(getContenitorePadre().getWidth(), (int) UtilMath.getPercentage(getContenitorePadre().getHeight(), 20));
-		
-		ButtonBase bottone = new ButtonBase(headerPane);
+
+		final ButtonBase bottone = new ButtonBase(headerPane);
 		bottone.addActionListener(getRunListener());
-		int heightButton = headerPane.getHeight() / 2;
+		final int heightButton = headerPane.getHeight() / 2;
 		bottone.setSize(widthButton, heightButton);
 		headerPane.add(bottone);
 		bottone.setText(I18NManager.getSingleton().getMessaggio("esegui"));
-		
+
 		final ButtonBase bottoneSvuota = new ButtonBase(this);
 		bottoneSvuota.posizionaSottoA(bottone, 0, 0);
 		bottoneSvuota.setSize(widthButton, heightButton);
 		headerPane.add(bottoneSvuota);
 		bottoneSvuota.setText(I18NManager.getSingleton().getMessaggio("svuota"));
-		
+
 		areaSql = new TextAreaBase(this);
 		areaSql.posizionaADestraDi(bottone, 0, 0);
 		areaSql.setSize(getContenitorePadre().getWidth()-widthButton-widthInfoButton, headerPane.getHeight());
@@ -128,7 +124,6 @@ public class NewSql extends PannelloBase {
 
 	private ActionListener getCleanListener() {
 		return e -> {
-			riga = "";
 			totale = "";
 			result.setText("");
 
@@ -152,21 +147,21 @@ public class NewSql extends PannelloBase {
 						final ArrayList lista = nomi.get(chiave);
 						String finale = "";
 						for (int i = 0; i < lista.size(); i++) {
-							StringBuilder stringBuilder = new StringBuilder();
+							final StringBuilder stringBuilder = new StringBuilder();
 							final String porzione = DBUtil.creaStringStessaDimensione((String) lista.get(i), 30);
 							stringBuilder.append(porzione);
 						}
 						String trattini = "";
 
-						for (int x = 0; x < (lista.size() * 35); x++) {
+						for (int x = 0; x < lista.size() * 35; x++) {
 							trattini = trattini + "-";
 							finale = finale + "*";
 						}
-						StringBuilder stringBuilder = new StringBuilder();
+						final StringBuilder stringBuilder = new StringBuilder();
 						stringBuilder.append("\n");
 						stringBuilder.append(trattini);
 						stringBuilder.append("\n");
-						StringBuilder stringBuilder2 = new StringBuilder();
+						final StringBuilder stringBuilder2 = new StringBuilder();
 						stringBuilder2.append(totale);
 						stringBuilder2.append(stringBuilder.toString());
 						totale = stringBuilder.toString();
@@ -181,7 +176,7 @@ public class NewSql extends PannelloBase {
 			}
 		};
 	}
-	
+
 	private static final class InfoListener extends AscoltatoreAggiornatoreNiente {
 		@Override
 		protected void actionPerformedOverride(ActionEvent e) throws Exception {

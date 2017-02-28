@@ -1,7 +1,5 @@
 package com.molinari.gestionespese.view.entrateuscite;
 
-import grafica.componenti.alert.Alert;
-
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,11 +25,13 @@ import com.molinari.gestionespese.view.font.LabelListaGruppi;
 import com.molinari.gestionespese.view.font.TextAreaF;
 import com.molinari.gestionespese.view.font.TextFieldF;
 
+import grafica.componenti.alert.Alert;
+
 public class EntrateView extends AbstractEntrateView {
 
 	private static final long        serialVersionUID = 1L;
 
-	static private ArrayList<String> lista = new ArrayList<String>();
+	static private ArrayList<String> lista = new ArrayList<>();
 	static{
 		lista.add(I18NManager.getSingleton().getMessaggio("variables"));
 		lista.add(I18NManager.getSingleton().getMessaggio("fixity"));
@@ -44,14 +44,11 @@ public class EntrateView extends AbstractEntrateView {
 	private final TextFieldF         tfEuro;
 
 	public static void main(final String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				final EntrateView dialog = new EntrateView(new WrapEntrate());
-				dialog.setLocationRelativeTo(null);
-				dialog.setBounds(0, 0, 347, 318);
-				dialog.setVisible(true);
-			}
+		SwingUtilities.invokeLater(() -> {
+			final EntrateView dialog = new EntrateView(new WrapEntrate());
+			dialog.setLocationRelativeTo(null);
+			dialog.setBounds(0, 0, 347, 318);
+			dialog.setVisible(true);
 		});
 	}
 
@@ -84,7 +81,7 @@ public class EntrateView extends AbstractEntrateView {
 		tfNome.setColumns(10);
 
 		// array per Categoria
-		ArrayList<String> listaCombo = new ArrayList<String>();
+		final ArrayList<String> listaCombo = new ArrayList<>();
 		listaCombo.add("");
 		for(int i = 0; i<lista.size(); i++){
 			listaCombo.add(lista.get(i));
@@ -124,7 +121,7 @@ public class EntrateView extends AbstractEntrateView {
 				try {
 					aggiornaModelDaVista();
 					if (Controllore.invocaComando(new CommandDeleteEntrata(getModelEntrate()))) {
-						String msg = I18NManager.getSingleton().getMessaggio("okentrata")+" " + getModelEntrate().getnome() + " "+ I18NManager.getSingleton().getMessaggio("correctlydeleted");
+						final String msg = I18NManager.getSingleton().getMessaggio("okentrata")+" " + getModelEntrate().getnome() + " "+ I18NManager.getSingleton().getMessaggio("correctlydeleted");
 						Alert.segnalazioneInfo(msg);
 					}
 				} catch (final Exception e2) {
@@ -142,7 +139,7 @@ public class EntrateView extends AbstractEntrateView {
 
 	public boolean nonEsistonoCampiNonValorizzati() {
 		return getcNome() != null && getcDescrizione() != null && getcData() != null && getDataIns() != null
-		                && getFisseOVar() != null && getdEuro() != 0.0 && getUtenti() != null;
+				&& getFisseOVar() != null && getdEuro() != 0.0 && getUtenti() != null;
 	}
 
 	private void initLabel() {
@@ -178,7 +175,7 @@ public class EntrateView extends AbstractEntrateView {
 	}
 
 	public void aggiornaModelDaVista() {
-		final int idEntrate = (CacheEntrate.getSingleton().getMaxId()) + 1;
+		final int idEntrate = CacheEntrate.getSingleton().getMaxId() + 1;
 		getModelEntrate().setidEntrate(idEntrate);
 
 		final CorreggiTesto checkTesto = new CorreggiTesto(tfNome.getText());

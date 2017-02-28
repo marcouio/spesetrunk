@@ -1,7 +1,5 @@
 package com.molinari.gestionespese.view.tabelleMesi;
 
-import grafica.componenti.table.TableModel.Riga;
-
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.logging.Level;
@@ -10,10 +8,12 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.generatori.TableModelUsciteGruppi;
 import com.molinari.gestionespese.view.OggettoVistaBase;
 import com.molinari.gestionespese.view.font.TableF;
+
+import controller.ControlloreBase;
+import grafica.componenti.table.TableModel.Riga;
 
 public class TabellaUscitaGruppi extends OggettoVistaBase {
 
@@ -28,8 +28,8 @@ public class TabellaUscitaGruppi extends OggettoVistaBase {
 
 		try {
 			getDatiPerTabella();
-		} catch (Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+		} catch (final Exception e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 
 		// Create the scroll pane and add the table to it.
@@ -41,10 +41,10 @@ public class TabellaUscitaGruppi extends OggettoVistaBase {
 	}
 
 	public static JTable getDatiPerTabella() throws Exception {
-		
-		TableModelUsciteGruppi model = new TableModelUsciteGruppi(null);
-		
-		Riga nomiColonne = model.getNomiColonne();
+
+		final TableModelUsciteGruppi model = new TableModelUsciteGruppi(null);
+
+		final Riga nomiColonne = model.getNomiColonne();
 		table = new TableF(model.getMatrice(), nomiColonne.getListaCelle().toArray());
 		table.setRowHeight(27);
 		table.setPreferredScrollableViewportSize(new Dimension(700, 300));
@@ -86,14 +86,11 @@ public class TabellaUscitaGruppi extends OggettoVistaBase {
 	public static void main(final String[] args) {
 		// Schedule a job for the event-dispatching thread:
 		// creating and showing this application's GUI.
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					createAndShowGUI();
-				} catch (final Exception e) {
-					Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
-				}
+		javax.swing.SwingUtilities.invokeLater(() -> {
+			try {
+				createAndShowGUI();
+			} catch (final Exception e) {
+				ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			}
 		});
 	}

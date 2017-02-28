@@ -9,7 +9,7 @@ import javax.swing.text.Document;
 public class TextFieldF extends JTextField {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 

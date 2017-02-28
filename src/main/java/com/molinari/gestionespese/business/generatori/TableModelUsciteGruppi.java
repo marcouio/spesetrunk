@@ -25,28 +25,28 @@ public class TableModelUsciteGruppi extends TableModel{
 	@Override
 	protected void preBuild(Object parametro) throws Exception {
 		aggiungiNomiColonne();
-		HashMap<Integer, String> mapMesi = TableModelUscite.mapMesi;
+		final HashMap<Integer, String> mapMesi = TableModelUscite.mapMesi;
 		for (int i = 1; i <= 12; i++) {
-			Riga riga = new Riga();
+			final Riga riga = new Riga();
 			riga.add(mapMesi.get(i));
 			for (int x = 0; x < getGruppi().size(); x++) {
-				int idGruppo = Integer.parseInt(gruppi.get(x).getIdEntita());
-				String spesaMeseGruppo = Double.toString(Database.speseMeseGruppo(i, idGruppo));
+				final int idGruppo = Integer.parseInt(gruppi.get(x).getIdEntita());
+				final String spesaMeseGruppo = Double.toString(Database.speseMeseGruppo(i, idGruppo));
 				riga.add(spesaMeseGruppo);
 			}
 			for (int x = 0; x < getCategorie().size(); x++) {
-				int idCategoria = Integer.parseInt(catSpese.get(x).getIdEntita());
-				String spesaMeseCat = Double.toString(Database.speseMeseCategoria(i, idCategoria));
+				final int idCategoria = Integer.parseInt(catSpese.get(x).getIdEntita());
+				final String spesaMeseCat = Double.toString(Database.speseMeseCategoria(i, idCategoria));
 				riga.add(spesaMeseCat);
 			}
-	
+
 			addRiga(riga);
 		}
-		
+
 	}
-	
+
 	private void aggiungiNomiColonne(){
-		
+
 		addColumn(I18NManager.getSingleton().getMessaggio("months"));
 		for (int i = 0; i < getGruppi().size(); i++) {
 			addColumn(getGruppi().get(i).getnome());
@@ -56,18 +56,18 @@ public class TableModelUsciteGruppi extends TableModel{
 		}
 	}
 
-public List<Gruppi> getGruppi() {
-	if(gruppi == null){
-		gruppi = CacheGruppi.getSingleton().getVettoreGruppiSenzaZero();
+	public List<Gruppi> getGruppi() {
+		if(gruppi == null){
+			gruppi = CacheGruppi.getSingleton().getVettoreGruppiSenzaZero();
+		}
+		return gruppi;
 	}
-	return gruppi;
-}
 
-public List<CatSpese> getCategorie() {
-	if(catSpese == null){
-		catSpese = CacheCategorie.getSingleton().getCategorieSenzaGruppo();
+	public List<CatSpese> getCategorie() {
+		if(catSpese == null){
+			catSpese = CacheCategorie.getSingleton().getCategorieSenzaGruppo();
+		}
+		return catSpese;
 	}
-	return catSpese;
-}
-	
+
 }

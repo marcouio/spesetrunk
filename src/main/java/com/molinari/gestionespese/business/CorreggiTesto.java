@@ -14,7 +14,7 @@ public class CorreggiTesto {
 
 	/**
 	 * Non so come gestire gli apici che mi creano problemi con istuzioni SQL, li elimino
-	 * 
+	 *
 	 * @return testo corretto
 	 */
 	public String checkApici() {

@@ -11,7 +11,7 @@ import command.javabeancommand.AbstractOggettoEntita;
 
 /**
  * The persistent class for the LOOKANDFEEL database table.
- * 
+ *
  */
 @Entity
 @Table(name = "LOOKANDFEEL")
@@ -82,7 +82,7 @@ public class Lookandfeel implements AbstractOggettoEntita, Serializable, ILookan
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

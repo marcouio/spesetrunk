@@ -1,13 +1,13 @@
 package com.molinari.gestionespese.view.impostazioni.ascoltatori;
 
-import grafica.componenti.alert.Alert;
-
 import java.awt.event.ActionEvent;
 
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreTutto;
 import com.molinari.gestionespese.business.comandi.categorie.CommandDeleteCategoria;
 import com.molinari.gestionespese.view.impostazioni.CategorieView;
+
+import grafica.componenti.alert.Alert;
 
 public class AscoltatoreCancellaCategoria extends AscoltatoreAggiornatoreTutto {
 

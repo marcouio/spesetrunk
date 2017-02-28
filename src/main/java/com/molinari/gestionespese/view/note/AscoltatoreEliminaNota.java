@@ -1,7 +1,5 @@
 package com.molinari.gestionespese.view.note;
 
-import grafica.componenti.alert.Alert;
-
 import java.awt.event.ActionEvent;
 
 import javax.swing.JFrame;
@@ -11,6 +9,8 @@ import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreNi
 import com.molinari.gestionespese.business.comandi.note.CommandDeleteNota;
 import com.molinari.gestionespese.domain.Note;
 import com.molinari.gestionespese.domain.wrapper.WrapNote;
+
+import grafica.componenti.alert.Alert;
 
 public class AscoltatoreEliminaNota extends AscoltatoreAggiornatoreNiente {
 

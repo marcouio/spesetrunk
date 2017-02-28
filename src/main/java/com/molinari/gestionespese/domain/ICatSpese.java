@@ -3,7 +3,7 @@ package com.molinari.gestionespese.domain;
 import java.util.Set;
 
 public interface ICatSpese {
-	
+
 	public String getdescrizione();
 
 	public void setdescrizione(String descrizione);
@@ -23,11 +23,11 @@ public interface ICatSpese {
 	public Budget getBudget();
 
 	public void setBudget(Budget budget);
-	
+
 	public Gruppi getGruppi();
 
 	public void setGruppi(Gruppi gruppi);
-	
+
 	public Set<SingleSpesa> getSingleSpesas();
 
 	public void setSingleSpesas(Set<SingleSpesa> singleSpesas);

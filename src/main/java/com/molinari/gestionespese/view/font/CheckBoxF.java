@@ -10,7 +10,7 @@ import javax.swing.JCheckBox;
 public class CheckBoxF extends JCheckBox{
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -28,29 +28,29 @@ public class CheckBoxF extends JCheckBox{
 
 	public CheckBoxF(Icon icon) {
 		super(icon);
-		
+
 	}
 
 	public CheckBoxF(String text, boolean selected) {
 		super(text, selected);
-		
+
 	}
 
 	public CheckBoxF(String text, Icon icon, boolean selected) {
 		super(text, icon, selected);
-		
+
 	}
 
 	public CheckBoxF(String text, Icon icon) {
 		super(text, icon);
-		
+
 	}
 
 	public CheckBoxF(String text) {
 		super(text);
 		setForeground(Color.DARK_GRAY);
 		setFont(new Font("Century Gothic", Font.PLAIN, 10));
-		
+
 	}
 
 }

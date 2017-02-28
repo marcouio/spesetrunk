@@ -56,7 +56,7 @@ public class AscoltatoreBottoniUscita extends MouseAdapter {
 	/**
 	 * Valorizza la dialog con i valori catturati dalla riga selezionata dalla
 	 * tabella
-	 * 
+	 *
 	 * @param row
 	 * @param dialogNew
 	 */

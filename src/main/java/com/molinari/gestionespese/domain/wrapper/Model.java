@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.DBUtil;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
@@ -13,6 +12,8 @@ import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.Gruppi;
 import com.molinari.gestionespese.domain.SingleSpesa;
+
+import controller.ControlloreBase;
 
 public class Model {
 
@@ -133,7 +134,7 @@ public class Model {
 				try {
 					primoUscite[i][x] = Double.toString(Database.speseMeseCategoria(i + 1, catSpese.get(x).getidCategoria()));
 				} catch (final Exception e) {
-					Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+					ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		}
@@ -181,7 +182,7 @@ public class Model {
 				try {
 					primoEntrate[i][x] = Double.toString(Database.getSingleton().entrateMeseTipo(i + 1, nomiColonneEntrate[x]));
 				} catch (final Exception e) {
-					Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+					ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		}
@@ -245,9 +246,9 @@ public class Model {
 	 * Valorizza una matrice utile per i pannelli movimenti in entrata. crea il
 	 * numero di righe specificato in parametro con le entita' della tabella
 	 * passata in parametro
-	 * 
+	 *
 	 * }
-	 * 
+	 *
 	 * @param numEntry
 	 * @param tabella
 	 * @return String[][]
@@ -303,9 +304,9 @@ public class Model {
 	 * Valorizza una matrice utile per i pannelli movimenti in entrata. crea il
 	 * numero di righe specificato in parametro con le entita' della tabella
 	 * passata in parametro
-	 * 
+	 *
 	 * }
-	 * 
+	 *
 	 * @param numEntry
 	 * @param tabella
 	 * @return String[][]
@@ -414,7 +415,7 @@ public class Model {
 	 * Valorizza una matrice utile per i pannelli movimenti in uscita. crea il
 	 * numero di righe specificato in parametro con le entita' della tabella
 	 * passata in parametro
-	 * 
+	 *
 	 * @param numUscite
 	 * @param tabella
 	 * @return String[][]

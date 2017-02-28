@@ -1,7 +1,5 @@
 package com.molinari.gestionespese.view.componenti.movimenti;
 
-import grafica.componenti.alert.Alert;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,6 +9,8 @@ import com.molinari.gestionespese.business.aggiornatori.AggiornatoreManager;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.SingleSpesa;
+
+import grafica.componenti.alert.Alert;
 
 public class AscoltatoreNumeroMovimenti implements ActionListener {
 

@@ -39,7 +39,7 @@ public class CommandInserisciCategoria extends AbstractCommandForJavaBean<CatSpe
 
 	@Override
 	public String toString() {
-		return "Inserita Categoria " + ((CatSpese) entita).getNome();
+		return "Inserita Categoria " + entita.getNome();
 	}
 
 	@Override

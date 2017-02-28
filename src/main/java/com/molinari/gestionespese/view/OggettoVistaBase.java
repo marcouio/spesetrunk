@@ -23,16 +23,13 @@ public class OggettoVistaBase extends JPanel {
 
 	public static void main(final String[] args) {
 
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				final JFrame inst = new JFrame();
-				inst.setSize(950, 700);
-				inst.getContentPane().add(new OggettoVistaBase());
-				inst.setLocationRelativeTo(null);
-				inst.setVisible(true);
+		SwingUtilities.invokeLater(() -> {
+			final JFrame inst = new JFrame();
+			inst.setSize(950, 700);
+			inst.getContentPane().add(new OggettoVistaBase());
+			inst.setLocationRelativeTo(null);
+			inst.setVisible(true);
 
-			}
 		});
 	}
 

@@ -27,12 +27,12 @@ public class PannelloNota extends JPanel {
 		this.padre = padre;
 		setLayout(null);
 
-		JLabel lNome = new JLabel();
+		final JLabel lNome = new JLabel();
 		lNome.setText(this.nota.getnome());
 		lNome.setBounds(4, 16, 150, 15);
 		add(lNome);
 
-		JTextArea taDescrizione = new TextAreaF();
+		final JTextArea taDescrizione = new TextAreaF();
 		taDescrizione.setText(this.nota.getDescrizione());
 		taDescrizione.setBounds(6, 63, 190, 85);
 		add(taDescrizione);
@@ -46,19 +46,19 @@ public class PannelloNota extends JPanel {
 		taDescrizione.setAutoscrolls(true);
 		taDescrizione.setEditable(false);
 
-		JLabel lData = new JLabel();
+		final JLabel lData = new JLabel();
 		lData.setText(this.nota.getData());
 		lData.setBounds(6, 36, 148, 15);
 		add(lData);
 
-		JButton eliminaNota = new ButtonF();
+		final JButton eliminaNota = new ButtonF();
 		eliminaNota.setText("-");
 		eliminaNota.addActionListener(new AscoltatoreEliminaNota(this, nota));
 
 		eliminaNota.setBounds(149, 17, 44, 15);
 		add(eliminaNota);
 
-		ButtonF btnfAggiorna = new ButtonF();
+		final ButtonF btnfAggiorna = new ButtonF();
 		btnfAggiorna.addActionListener(new AscoltatoreApriPannelloUpdateNote(this.padre, new WrapNote(nota)));
 
 		btnfAggiorna.setText("!=");

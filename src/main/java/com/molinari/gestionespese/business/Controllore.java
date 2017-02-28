@@ -1,10 +1,10 @@
 package com.molinari.gestionespese.business;
 
+import java.awt.Frame;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -37,7 +37,7 @@ public class Controllore extends ControlloreBase{
 	private Controllore() {
 		//do nothing
 	}
-	
+
 	private void settaLookFeel() {
 		try {
 			final CacheLookAndFeel cacheLook = CacheLookAndFeel.getSingleton();
@@ -68,7 +68,7 @@ public class Controllore extends ControlloreBase{
 
 	private static void verificaPresenzaDb() {
 		final String sql = "SELECT * FROM " + Lookandfeel.NOME_TABELLA;
-		
+
 		try {
 			ConnectionPool.getSingleton().new ExecuteResultSet<Boolean>() {
 
@@ -77,11 +77,11 @@ public class Controllore extends ControlloreBase{
 					return resulSet.next();
 				}
 			}.execute(sql);
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			getLog().log(Level.SEVERE, "Il database non c'è ancora, è da creare!", e);
 			try {
 				Database.getSingleton().generaDB();
-			} catch (SQLException e1) {
+			} catch (final SQLException e1) {
 				getLog().log(Level.SEVERE, "Error on Db creation: " + e1.getMessage(), e1);
 			}
 			getLog().severe(e.getMessage());
@@ -171,7 +171,7 @@ public class Controllore extends ControlloreBase{
 
 		Database.DB_URL = Database.DB_URL_WORKSPACE;
 		verificaPresenzaDb();
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setExtendedState(Frame.MAXIMIZED_BOTH);
 		frame.setBounds(10, 20, 1024, 648);
 		genPan = new GeneralFrame(frame);
 		view = frame;
@@ -179,23 +179,23 @@ public class Controllore extends ControlloreBase{
 		setStartUtenteLogin();
 
 		settaLookFeel();
-		
+
 		Controllore.getSingleton();
-		
+
 		view.setTitle(I18NManager.getSingleton().getMessaggio("title"));
-		
+
 		final MyWindowListener windowListener = new MyWindowListener(genPan);
 		frame.addWindowListener(windowListener);
 		frame.addComponentListener(windowListener);
 		frame.addWindowFocusListener(windowListener);
 		frame.addMouseListener(windowListener);
-		
+
 	}
-	
+
 	public FrameBase getGenView(){
 		return view;
 	}
-	
+
 	public GeneralFrame getGeneralFrame(){
 		return this.genPan;
 	}

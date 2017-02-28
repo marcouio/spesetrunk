@@ -1,7 +1,5 @@
 package com.molinari.gestionespese.view.componenti.componentipannello;
 
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -15,13 +13,14 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
-import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.view.font.LabelTestoPiccolo;
 import com.molinari.gestionespese.view.font.TextFieldF;
+
+import controller.ControlloreBase;
 
 public class SottoPannelloCategorie {
 
@@ -89,36 +88,32 @@ public class SottoPannelloCategorie {
 			componenti[2] = totaleMeseCategoria;
 
 			// CategoriaSpese
-			List<CatSpese> listCategoriePerCombo = CacheCategorie.getSingleton().getListCategoriePerCombo();
+			final List<CatSpese> listCategoriePerCombo = CacheCategorie.getSingleton().getListCategoriePerCombo();
 			categorieCombo = new JComboBox(new Vector<>(listCategoriePerCombo));
 
 			categorieCombo.setBounds(16, 85, 106, 27);
 
 			categorieCombo.setSelectedIndex(0);
-			categorieCombo.addItemListener(new ItemListener() {
-
-				@Override
-				public void itemStateChanged(final ItemEvent e) {
-					CatSpese spese = null;
-					if (categorieCombo.getSelectedIndex() != 0) {
-						spese = (CatSpese) categorieCombo.getSelectedItem();
-						final int mese = new GregorianCalendar().get(Calendar.MONTH) + 1;
-						double spesa = 0;
-						try {
-							spesa = Database.speseMeseCategoria(mese, spese.getidCategoria());
-						} catch (final Exception e1) {
-							e1.printStackTrace();
-						}
-
-						totaleAnnualeCateg.setText(Double.toString(Database.totaleUscitaAnnoCategoria(spese.getidCategoria())));
-						totaleMeseCategoria.setText(Double.toString(spesa));
+			categorieCombo.addItemListener(e -> {
+				CatSpese spese = null;
+				if (categorieCombo.getSelectedIndex() != 0) {
+					spese = (CatSpese) categorieCombo.getSelectedItem();
+					final int mese = new GregorianCalendar().get(Calendar.MONTH) + 1;
+					double spesa = 0;
+					try {
+						spesa = Database.speseMeseCategoria(mese, spese.getidCategoria());
+					} catch (final Exception e1) {
+						e1.printStackTrace();
 					}
+
+					totaleAnnualeCateg.setText(Double.toString(Database.totaleUscitaAnnoCategoria(spese.getidCategoria())));
+					totaleMeseCategoria.setText(Double.toString(spesa));
 				}
 			});
 			componenti[0] = categorieCombo;
 
 		} catch (final Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 

@@ -5,7 +5,7 @@ public interface ICommand {
 	/**
 	 * Metodo implementato dai singoli comandi per eseguire la specifica
 	 * operazione
-	 * 
+	 *
 	 * @return true se il comando è andato a buon fine
 	 */
 	public boolean execute();
@@ -13,7 +13,7 @@ public interface ICommand {
 	/**
 	 * Metodo implementato dai singoli comandi per eseguire l'undo della
 	 * specifica operazione
-	 * 
+	 *
 	 * @return true se il comando è andato a buon fine
 	 */
 	public boolean unExecute();
@@ -21,7 +21,7 @@ public interface ICommand {
 	/**
 	 * Metodo implementato all'interno di AbstractCommand, richiama l'unExecute
 	 * del comando
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean undoCommand();
@@ -29,7 +29,7 @@ public interface ICommand {
 	/**
 	 * Metodo implementato all'interno di AbstractCommand, richiama l'execute
 	 * del comando
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean doCommand();
@@ -37,7 +37,7 @@ public interface ICommand {
 	/**
 	 * Metodo implementato all'interno dei singoli comandi, scrive il log
 	 * generato dall'esecuzione del comando
-	 * 
+	 *
 	 * @param isComandoEseguito
 	 */
 	public void scriviLogExecute(boolean isComandoEseguito);
@@ -45,7 +45,7 @@ public interface ICommand {
 	/**
 	 * Metodo implementato all'interno dei singoli comandi, scrive il log
 	 * generato dall'esecuzione del comando
-	 * 
+	 *
 	 * @param isComandoEseguito
 	 */
 	public void scriviLogUnExecute(boolean isComandoEseguito);

@@ -5,27 +5,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Set;
 import java.util.logging.Level;
 
-import com.molinari.gestionespese.business.ConnectionPoolGGS;
-import com.molinari.gestionespese.business.Controllore;
-import com.molinari.gestionespese.business.DBUtil;
-import com.molinari.gestionespese.business.cache.CacheCategorie;
-import com.molinari.gestionespese.business.cache.CacheUtenti;
 import com.molinari.gestionespese.domain.CatSpese;
-import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.Gruppi;
 import com.molinari.gestionespese.domain.IGruppi;
-import com.molinari.gestionespese.domain.Utenti;
-
-import java.util.List;
 
 import command.javabeancommand.AbstractOggettoEntita;
+import controller.ControlloreBase;
 import db.Clausola;
 import db.ConnectionPool;
-import db.ConnectionPool.ExecuteResultSet;
 import db.dao.IDAO;
 
 public class WrapGruppi extends Observable implements IDAO, IGruppi {
@@ -38,7 +30,7 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 
 	@Override
 	public Object selectById(final int id) {
-		
+
 		final String sql = "SELECT * FROM " + Gruppi.NOME_TABELLA + " WHERE " + Gruppi.ID + " = " + id;
 
 		final Gruppi gruppo = new Gruppi();
@@ -49,39 +41,39 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 
 				@Override
 				protected Object doWithResultSet(ResultSet rs) throws SQLException {
-					
+
 					if (rs.next()) {
 						gruppo.setidGruppo(rs.getInt(1));
 						gruppo.setnome(rs.getString(2));
 						gruppo.setdescrizione(rs.getString(3));
 					}
-					
+
 					return gruppo;
 				}
-				
+
 			}.execute(sql);
 
 		} catch (final SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
-		} 
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+		}
 		return gruppo;
 
 	}
 
 	@Override
 	public List<Object> selectAll() {
-		
+
 		final String sql = "SELECT * FROM " + Gruppi.NOME_TABELLA + " ORDER BY " + Gruppi.ID + " asc";
 		try {
-			
+
 			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
 
 				@Override
 				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
 					final List<Object> gruppi = new ArrayList<>();
-					
+
 					while (rs != null && rs.next()) {
-						
+
 						final Gruppi gruppo = new Gruppi();
 						gruppo.setidGruppo(rs.getInt(1));
 						gruppo.setnome(rs.getString(2));
@@ -90,12 +82,12 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 					}
 					return gruppi;
 				}
-				
+
 			}.execute(sql);
-			
+
 		} catch (final Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
-		} 
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+		}
 		return null;
 
 	}
@@ -103,7 +95,7 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 	@Override
 	public boolean insert(final Object oggettoEntita) {
 		boolean ok = false;
-		Connection cn = ConnectionPool.getSingleton().getConnection();
+		final Connection cn = ConnectionPool.getSingleton().getConnection();
 		String sql = "";
 		try {
 			final Gruppi gruppo = (Gruppi) oggettoEntita;
@@ -118,9 +110,9 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 			ok = true;
 		} catch (final Exception e) {
 			ok = false;
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
-		} 
-		
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+		}
+
 		ConnectionPool.getSingleton().chiudiOggettiDb(cn);
 		return ok;
 	}
@@ -129,15 +121,15 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 	public boolean delete(final int id) {
 		boolean ok = false;
 		final String sql = "DELETE FROM " + Gruppi.NOME_TABELLA + " WHERE " + Gruppi.ID + " = " + id;
-		
+
 
 		try {
-			
+
 			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
 		} catch (final SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		return ok;
@@ -146,19 +138,19 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 	@Override
 	public boolean update(final Object oggettoEntita) {
 		boolean ok = false;
-		
+
 
 		final Gruppi gruppo = (Gruppi) oggettoEntita;
 		final String sql = "UPDATE " + Gruppi.NOME_TABELLA + " SET " + Gruppi.NOME + " = '" + gruppo.getnome() + "', "
 				+ Gruppi.DESCRIZIONE + " = '" + gruppo.getdescrizione() + "' WHERE " + Gruppi.ID + " = "
 				+ gruppo.getidGruppo();
 		try {
-			
+
 			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
 		} catch (final SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		return ok;
@@ -168,27 +160,27 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 	public boolean deleteAll() {
 		boolean ok = false;
 		final String sql = "DELETE FROM " + Gruppi.NOME_TABELLA;
-		
+
 
 		try {
-			
+
 			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
 		} catch (final SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
-		
+
 		return ok;
 	}
 
 	public Gruppi selectByNome(final String nome) {
 
-		
+
 		final String sql = "SELECT * FROM " + Gruppi.NOME_TABELLA + " WHERE " + Gruppi.NOME + " = \"" + nome + "\"";
 
-		Gruppi gruppo = new Gruppi();
+		final Gruppi gruppo = new Gruppi();
 
 		try {
 
@@ -196,21 +188,21 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 
 				@Override
 				protected Gruppi doWithResultSet(ResultSet rs) throws SQLException {
-					
+
 					if (rs.next()) {
 						gruppo.setidGruppo(rs.getInt(1));
 						gruppo.setnome(rs.getString(2));
 						gruppo.setdescrizione(rs.getString(3));
 					}
-					
+
 					return gruppo;
 				}
-				
+
 			}.execute(sql);
-			
+
 		} catch (final SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
-		} 
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+		}
 		return gruppo;
 	}
 

@@ -1,7 +1,5 @@
 package com.molinari.gestionespese.business.comandi.categorie;
 
-import grafica.componenti.alert.Alert;
-
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.ICatSpese;
@@ -10,11 +8,12 @@ import com.molinari.gestionespese.domain.wrapper.WrapCatSpese;
 import command.ICommand;
 import command.javabeancommand.AbstractCommandForJavaBean;
 import db.dao.IDAO;
+import grafica.componenti.alert.Alert;
 
 public class CommandDeleteCategoria extends AbstractCommandForJavaBean implements ICommand {
 
 	public CommandDeleteCategoria(ICatSpese entita) throws Exception {
-		CacheCategorie cache = CacheCategorie.getSingleton();
+		final CacheCategorie cache = CacheCategorie.getSingleton();
 		mappaCache = cache.getCache();
 		this.wrap = new WrapCatSpese();
 		this.entita = ((IDAO) entita).getEntitaPadre();

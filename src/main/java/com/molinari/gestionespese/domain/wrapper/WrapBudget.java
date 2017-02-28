@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.Observable;
 import java.util.logging.Level;
 
-import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.domain.Budget;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.IBudget;
 
 import command.javabeancommand.AbstractOggettoEntita;
+import controller.ControlloreBase;
 import db.Clausola;
 import db.ConnectionPool;
 import db.dao.IDAO;
@@ -24,68 +24,68 @@ public class WrapBudget extends Observable implements IDAO, IBudget{
 
 
 	Budget budget;
-	
+
 	public WrapBudget() {
 		budget = new Budget();
 	}
 
 	@Override
 	public Object selectById(int id) {
-		String sql = "SELECT * FROM "+Budget.NOME_TABELLA+" WHERE "+Budget.ID+" = " +id;
-		
+		final String sql = "SELECT * FROM "+Budget.NOME_TABELLA+" WHERE "+Budget.ID+" = " +id;
+
 		final Budget budget = new Budget();
-		
+
 		try {
-			
+
 			return ConnectionPool.getSingleton().new ExecuteResultSet<Object>() {
 
 				@Override
 				protected Object doWithResultSet(ResultSet rs) throws SQLException {
-					
+
 					if (rs.next()) {
 						budget.setidBudget(rs.getInt(1));
-						CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(2)));
+						final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(2)));
 						budget.setCatSpese(categoria);
 						budget.setpercSulTot(rs.getDouble(3));
 					}
 					return budget;
 				}
-				
+
 			}.execute(sql);
-			
-		} catch (SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
-		} 
+
+		} catch (final SQLException e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+		}
 		return budget;
 
 	}
 
 	@Override
 	public List<Object> selectAll() {
-		String sql = "SELECT * FROM " + Budget.NOME_TABELLA ;
+		final String sql = "SELECT * FROM " + Budget.NOME_TABELLA ;
 		try{
-			
+
 			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
 
 				@Override
 				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
-					List<Object> budgets = new ArrayList<>();
-					
+					final List<Object> budgets = new ArrayList<>();
+
 					while(rs.next()){
-						Budget budget = new Budget();
+						final Budget budget = new Budget();
 						budget.setidBudget(rs.getInt(1));
-						CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(2)));
+						final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(2)));
 						budget.setCatSpese(categoria);
 						budget.setpercSulTot(rs.getDouble(3));
 						budgets.add(budget);
 					}
 					return budgets;
 				}
-				
+
 			}.execute(sql);
-			
-		}catch (Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+
+		}catch (final Exception e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		return null;
 	}
@@ -93,22 +93,23 @@ public class WrapBudget extends Observable implements IDAO, IBudget{
 	@Override
 	public boolean insert(Object oggettoEntita) {
 		boolean ok = false;
-		Connection cn = ConnectionPool.getSingleton().getConnection();
+		final Connection cn = ConnectionPool.getSingleton().getConnection();
 		String sql = "";
 		try {
-			Budget budget = (Budget)oggettoEntita;
-			
+			final Budget budget = (Budget)oggettoEntita;
+
 			sql="INSERT INTO " + Budget.NOME_TABELLA + " (" + Budget.IDCATEGORIE+", "+Budget.PERCSULTOT+") VALUES(?,?)";
-			PreparedStatement ps = cn.prepareStatement(sql);
-			if (budget.getCatSpese() != null)
+			final PreparedStatement ps = cn.prepareStatement(sql);
+			if (budget.getCatSpese() != null) {
 				ps.setInt(1, budget.getCatSpese().getidCategoria());
-			ps.setDouble(2, budget.getpercSulTot());			
-			
+			}
+			ps.setDouble(2, budget.getpercSulTot());
+
 			ps.executeUpdate();
 			ok = true;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			ok = false;
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} finally {
 			ConnectionPool.getSingleton().chiudiOggettiDb(cn);
 		}
@@ -118,36 +119,36 @@ public class WrapBudget extends Observable implements IDAO, IBudget{
 	@Override
 	public boolean delete(int id) {
 		boolean ok = false;
-		String sql = "DELETE FROM "+Budget.NOME_TABELLA+" WHERE "+Budget.ID+" = "+id;
-		
+		final String sql = "DELETE FROM "+Budget.NOME_TABELLA+" WHERE "+Budget.ID+" = "+id;
+
 		try {
 			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok=true;
-			
-		} catch (SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+
+		} catch (final SQLException e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok=false;
 		}
-		
+
 		ConnectionPool.getSingleton().chiudiOggettiDb(null);
-		
+
 		return ok;
 	}
 
 	@Override
 	public boolean update(Object oggettoEntita) {
 		boolean ok = false;
-		
-		
-		Budget budget = (Budget) oggettoEntita;
-		String sql = "UPDATE "+Budget.NOME_TABELLA+ " SET " +Budget.IDCATEGORIE+ " = " +budget.getidCategorie()+", "+Budget.PERCSULTOT+" = "+budget.getpercSulTot()+
+
+
+		final Budget budget = (Budget) oggettoEntita;
+		final String sql = "UPDATE "+Budget.NOME_TABELLA+ " SET " +Budget.IDCATEGORIE+ " = " +budget.getidCategorie()+", "+Budget.PERCSULTOT+" = "+budget.getpercSulTot()+
 				" WHERE "+ Budget.ID +" = "+budget.getidBudget();
 		try {
 			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok=true;
-			
-		} catch (SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+
+		} catch (final SQLException e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok=false;
 		}
 		ConnectionPool.getSingleton().chiudiOggettiDb(null);
@@ -157,15 +158,15 @@ public class WrapBudget extends Observable implements IDAO, IBudget{
 	@Override
 	public boolean deleteAll() {
 		boolean ok = false;
-		String sql = "DELETE FROM "+Budget.NOME_TABELLA;
-		
-		
+		final String sql = "DELETE FROM "+Budget.NOME_TABELLA;
+
+
 		try {
 			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok=true;
-			
-		} catch (SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+
+		} catch (final SQLException e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok=false;
 		}
 		ConnectionPool.getSingleton().chiudiOggettiDb(null);
@@ -185,7 +186,7 @@ public class WrapBudget extends Observable implements IDAO, IBudget{
 	@Override
 	public void setidBudget(int idBudget) {
 		budget.setidBudget(idBudget);
-		
+
 	}
 
 	@Override
@@ -195,7 +196,7 @@ public class WrapBudget extends Observable implements IDAO, IBudget{
 
 	@Override
 	public void setidCategorie(int idCategorie) {
-		budget.setidCategorie(idCategorie);		
+		budget.setidCategorie(idCategorie);
 	}
 
 	@Override
@@ -205,7 +206,7 @@ public class WrapBudget extends Observable implements IDAO, IBudget{
 
 	@Override
 	public void setpercSulTot(double percSulTot) {
-		budget.setpercSulTot(percSulTot);		
+		budget.setpercSulTot(percSulTot);
 	}
 
 	@Override
@@ -215,13 +216,13 @@ public class WrapBudget extends Observable implements IDAO, IBudget{
 
 	@Override
 	public void setCatSpese(CatSpese catSpese) {
-		budget.setCatSpese(catSpese);		
+		budget.setCatSpese(catSpese);
 	}
 	@Override
 	public void notifyObservers() {
 		super.notifyObservers();
 	}
-	
+
 	@Override
 	protected synchronized void setChanged() {
 		super.setChanged();

@@ -1,7 +1,5 @@
 package com.molinari.gestionespese.view.impostazioni.ascoltatori;
 
-import grafica.componenti.alert.Alert;
-
 import java.awt.event.ActionEvent;
 
 import com.molinari.gestionespese.business.Controllore;
@@ -10,6 +8,8 @@ import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.comandi.categorie.CommandInserisciCategoria;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.view.impostazioni.CategorieView;
+
+import grafica.componenti.alert.Alert;
 
 public class AscoltatoreInserisciCategoria extends AscoltatoreAggiornatoreTutto {
 

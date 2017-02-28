@@ -1,10 +1,10 @@
 package com.molinari.gestionespese.view.impostazioni;
 
 import java.awt.Dimension;
+import java.util.List;
 import java.util.Observable;
 import java.util.Vector;
 import java.util.logging.Level;
-import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -12,7 +12,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
-import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.CorreggiTesto;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.cache.CacheGruppi;
@@ -26,6 +25,8 @@ import com.molinari.gestionespese.view.font.TextFieldF;
 import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreAggiornaCategoria;
 import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreCancellaCategoria;
 import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreInserisciCategoria;
+
+import controller.ControlloreBase;
 
 public class CategorieView extends AbstractCategorieView {
 
@@ -45,7 +46,7 @@ public class CategorieView extends AbstractCategorieView {
 		modelCatSpese.addObserver(this);
 		initGUI();
 	}
-	
+
 	private void initGUI() {
 		try {
 
@@ -82,7 +83,7 @@ public class CategorieView extends AbstractCategorieView {
 
 			final List<Gruppi> vettoreGruppi = CacheGruppi.getSingleton().getListCategoriePerCombo(CacheGruppi.getSingleton().getAllGruppi());
 			// combo gruppi
-			cbGruppi = new JComboBox<Gruppi>();
+			cbGruppi = new JComboBox<>();
 			for (int i = 0; i < vettoreGruppi.size(); i++) {
 				cbGruppi.addItem(vettoreGruppi.get(i));
 			}
@@ -102,7 +103,7 @@ public class CategorieView extends AbstractCategorieView {
 					final int numeroGruppi = cbGruppi.getModel().getSize();
 					boolean trovato = false;
 					for (int i = 0; i < numeroGruppi; i++) {
-						final Gruppi gruppo = (Gruppi) cbGruppi.getModel().getElementAt(i);
+						final Gruppi gruppo = cbGruppi.getModel().getElementAt(i);
 						if (gruppo != null && gruppo.getnome()!=null &&  categoria.getGruppi()!=null) {
 							if(gruppo.getnome().equals(categoria.getGruppi().getnome())){
 								cbGruppi.setSelectedIndex(i);
@@ -141,7 +142,7 @@ public class CategorieView extends AbstractCategorieView {
 			getContentPane().add(aggiorna);
 
 		} catch (final Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
@@ -152,12 +153,12 @@ public class CategorieView extends AbstractCategorieView {
 	public void aggiornaModelDaVista(final String actionCommand) {
 
 		if (actionCommand.equals("Inserisci")) {
-			final int idCategoria = (CacheCategorie.getSingleton().getMaxId()) + 1;
+			final int idCategoria = CacheCategorie.getSingleton().getMaxId() + 1;
 			getModelCatSpese().setidCategoria(idCategoria);
 		} else {
 			final int idCategoriaDaCombo = getCategoria().getidCategoria();
 			if (idCategoriaDaCombo == 0) {
-				final int idCategorie = (CacheCategorie.getSingleton().getMaxId()) + 1;
+				final int idCategorie = CacheCategorie.getSingleton().getMaxId() + 1;
 				getModelCatSpese().setidCategoria(idCategorie);
 			} else {
 				getModelCatSpese().setidCategoria(idCategoriaDaCombo);

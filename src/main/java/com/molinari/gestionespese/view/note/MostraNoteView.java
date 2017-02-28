@@ -57,14 +57,10 @@ public class MostraNoteView extends JFrame {
 	}
 
 	public static void main(final String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				final MostraNoteView fe = new MostraNoteView();
-				fe.setVisible(true);
-				fe.setSize(280, 500);
-			}
+		SwingUtilities.invokeLater(() -> {
+			final MostraNoteView fe = new MostraNoteView();
+			fe.setVisible(true);
+			fe.setSize(280, 500);
 		});
 	}
 

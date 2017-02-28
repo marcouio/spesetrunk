@@ -13,7 +13,7 @@ import command.javabeancommand.AbstractOggettoEntita;
 
 /**
  * The persistent class for the UTENTI database table.
- * 
+ *
  */
 @Entity
 @Table(name = "UTENTI")

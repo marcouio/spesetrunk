@@ -1,7 +1,5 @@
 package com.molinari.gestionespese.view.impostazioni;
 
-import grafica.componenti.alert.Alert;
-
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -40,6 +38,9 @@ import com.molinari.gestionespese.view.font.TextFieldF;
 import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreLanguage;
 import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreLook;
 
+import controller.ControlloreBase;
+import grafica.componenti.alert.Alert;
+
 public class Impostazioni extends JDialog {
 
 	private static final long serialVersionUID = 1L;
@@ -58,14 +59,14 @@ public class Impostazioni extends JDialog {
 		super();
 		initGUI();
 	}
-	
+
 	public static synchronized final Impostazioni getSingleton() {
 		if (singleton == null) {
 			singleton = new Impostazioni();
 		}
 		return singleton;
 	} // getSingleton()
-	
+
 
 	private void initGUI() {
 		try {
@@ -85,7 +86,7 @@ public class Impostazioni extends JDialog {
 			getContentPane().add(calendario);
 
 			utente = new TextFieldF();
-			Utenti utenteLogin = (Utenti) Controllore.getSingleton().getUtenteLogin();
+			final Utenti utenteLogin = (Utenti) Controllore.getSingleton().getUtenteLogin();
 			utente.setText(utenteLogin != null ? utenteLogin.getusername() : null);
 			utente.setBounds(140, 126, 113, 27);
 			getContentPane().add(utente);
@@ -104,7 +105,7 @@ public class Impostazioni extends JDialog {
 					try {
 						anno = Integer.parseInt(annotextField.getText());
 					} catch (final Exception e1) {
-						Controllore.getLog().log(Level.SEVERE, e1.getMessage(), e1);
+						ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 					}
 				}
 			});
@@ -181,8 +182,8 @@ public class Impostazioni extends JDialog {
 			final List<Lookandfeel> vettore = cacheLook.getVettoreLooksPerCombo();
 
 			Lookandfeel look = null;
-			comboLook = new JComboBox<Lookandfeel>(new Vector<>(vettore));
-			Lookandfeel system = new Lookandfeel();
+			comboLook = new JComboBox<>(new Vector<>(vettore));
+			final Lookandfeel system = new Lookandfeel();
 			system.setnome("System");
 			system.setvalore(UIManager.getSystemLookAndFeelClassName());
 			system.setusato(0);
@@ -204,18 +205,18 @@ public class Impostazioni extends JDialog {
 			labelLook.setBounds(22, 29, 70, 15);
 			getContentPane().add(labelLook);
 
-			JLabel lblLang = new JLabel("Language");
+			final JLabel lblLang = new JLabel("Language");
 			lblLang.setBounds(278, 29, 113, 15);
 			getContentPane().add(lblLang);
 
-			Object[] languages = new Object[] { "it", "en" };
-			JComboBox comboLanguage = new JComboBox(languages);
+			final Object[] languages = new Object[] { "it", "en" };
+			final JComboBox comboLanguage = new JComboBox(languages);
 
 			comboLanguage.addActionListener(new AscoltatoreLanguage(comboLanguage));
 			comboLanguage.setBounds(396, 24, 115, 24);
 
 			for (int i = 0; i < languages.length; i++) {
-				String lingua = ConfiguratoreXml.getSingleton().getLanguage();
+				final String lingua = ConfiguratoreXml.getSingleton().getLanguage();
 				if (languages[i].equals(lingua)) {
 					comboLanguage.setSelectedIndex(i);
 				}
@@ -243,7 +244,7 @@ public class Impostazioni extends JDialog {
 			});
 
 		} catch (final Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 

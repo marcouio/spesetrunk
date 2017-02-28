@@ -17,7 +17,7 @@ import javax.swing.SwingConstants;
  */
 /**
  * @author marco.molinari
- * 
+ *
  */
 public class ToggleBtn extends JToggleButton {
 	private static final long serialVersionUID = 1L;
@@ -29,14 +29,14 @@ public class ToggleBtn extends JToggleButton {
 
 	/**
 	 * La distanza dell'immagine dal bordo ovest
-	 * 
+	 *
 	 * @return int
 	 */
 	private int distanzaBordoImageX = 10;
 
 	/**
 	 * la coordinata x di partenza del testo
-	 * 
+	 *
 	 * @return int
 	 */
 	private int xPartenzaTesto = 38;
@@ -121,7 +121,7 @@ public class ToggleBtn extends JToggleButton {
 
 	/**
 	 * metodo di disegno interno alla classe del bottone
-	 * 
+	 *
 	 * @param g
 	 * @param foreground
 	 * @param selected
@@ -154,8 +154,8 @@ public class ToggleBtn extends JToggleButton {
 	// metodo da verificare
 	private int calcolaTextGap(final Icon i) {
 		if (i != null) {
-			if (xPartenzaTesto > (i.getIconWidth() - distanzaBordoImageX)) {
-				return xPartenzaTesto - (i.getIconWidth());
+			if (xPartenzaTesto > i.getIconWidth() - distanzaBordoImageX) {
+				return xPartenzaTesto - i.getIconWidth();
 			} else {
 				return 0;
 			}
@@ -178,10 +178,10 @@ public class ToggleBtn extends JToggleButton {
 		this.setRolloverEnabled(true);
 		this.setBackground(Color.WHITE);
 		this.setHorizontalAlignment(SwingConstants.LEFT); // allinea il
-															// contenuto a
-															// sinitra
+		// contenuto a
+		// sinitra
 		if (this instanceof ToggleBtn) {
-			final Icon icona1 = (this).getMyIcon();
+			final Icon icona1 = this.getMyIcon();
 			this.setRolloverIcon(icona1);
 		}
 		this.setRolloverEnabled(true);
@@ -221,7 +221,7 @@ public class ToggleBtn extends JToggleButton {
 
 	/**
 	 * Restituisce la distanza dell'immagine dal bordo ovest
-	 * 
+	 *
 	 * @return int
 	 */
 	public int getXDistanzaBordoImage() {
@@ -230,7 +230,7 @@ public class ToggleBtn extends JToggleButton {
 
 	/**
 	 * Setta la distanza dell'immagine dal bordo ovest
-	 * 
+	 *
 	 * @param distanzaBordoImageX
 	 */
 	public void setXDistanzaBordoImage(final int distanzaBordoImageX) {
@@ -239,7 +239,7 @@ public class ToggleBtn extends JToggleButton {
 
 	/**
 	 * Prende la coordinata x di partenza del testo
-	 * 
+	 *
 	 * @return int
 	 */
 	public int getxPartenzaTesto() {
@@ -248,7 +248,7 @@ public class ToggleBtn extends JToggleButton {
 
 	/**
 	 * Setta la coordinata x di partenza del testo
-	 * 
+	 *
 	 * @return
 	 */
 	public void setxPartenzaTesto(final int xPartenzaTesto) {
@@ -257,7 +257,7 @@ public class ToggleBtn extends JToggleButton {
 
 	/**
 	 * Restituisce il colore del testo con il pulsante è selezionato
-	 * 
+	 *
 	 * @return
 	 */
 	public Color getColorForegroundSelected() {
@@ -279,7 +279,7 @@ public class ToggleBtn extends JToggleButton {
 	/**
 	 * Non serve ad un cazzo! il testo non cambia perché il rollover è gestito
 	 * dal super e questo lascia il testo
-	 * 
+	 *
 	 * @return
 	 */
 	public Color getColorForegroundIcon() {
@@ -289,7 +289,7 @@ public class ToggleBtn extends JToggleButton {
 	/**
 	 * Non serve ad un cazzo! il testo non cambia perché il rollover è gestito
 	 * dal super e questo lascia il testo
-	 * 
+	 *
 	 * @return
 	 */
 	public void setColorForegroundIcon(final Color colorForegroundIcon) {
@@ -298,7 +298,7 @@ public class ToggleBtn extends JToggleButton {
 
 	/**
 	 * Restituisce il colore del background del rollover
-	 * 
+	 *
 	 * @return colorIconRollover
 	 */
 	public Color getColorBackgroundIcon() {
@@ -307,7 +307,7 @@ public class ToggleBtn extends JToggleButton {
 
 	/**
 	 * Setta il colore del background del rollover
-	 * 
+	 *
 	 * @param colorBackgroundIcon
 	 */
 	public void setColorBackgroundIcon(final Color colorBackgroundIcon) {

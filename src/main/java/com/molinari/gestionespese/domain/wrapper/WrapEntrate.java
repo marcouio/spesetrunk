@@ -34,18 +34,18 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 
 	@Override
 	public Object selectById(final int id) {
-		
+
 		final String sql = "SELECT * FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.ID + " = " + id;
 
 		final Entrate entrata = new Entrate();
 
 		try {
-			
+
 			ConnectionPool.getSingleton().new ExecuteResultSet<Object>() {
 
 				@Override
 				protected Object doWithResultSet(ResultSet rs) throws SQLException {
-					
+
 					return extracted(entrata, rs);
 				}
 
@@ -68,14 +68,14 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 					}
 					return entrata;
 				}
-				
+
 			}.execute(sql);
 
 
 		} catch (final SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} finally {
-			
+
 		}
 		return entrata;
 
@@ -83,18 +83,18 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 
 	public List<Object> selectAllForUtente() {
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
-		
+
 		final String sql = "SELECT * FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.IDUTENTE + " = " + utente.getidUtente();
 		try {
-			
+
 			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
 
 				@Override
 				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
-					
+
 					final List<Object> entrate = new ArrayList<>();
 					while (rs != null && rs.next()) {
-						
+
 						final Entrate entrata = new Entrate();
 						entrata.setidEntrate(rs.getInt(1));
 						entrata.setdescrizione(rs.getString(2));
@@ -108,19 +108,19 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 					}
 					return entrate;
 				}
-				
+
 			}.execute(sql);
 
 		} catch (final Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
-		
+
 		return null;
 	}
 
 	@Override
 	public List<Object> selectAll() {
-		
+
 
 		final String sql = "SELECT * FROM " + Entrate.NOME_TABELLA;
 		try {
@@ -135,7 +135,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 				private List<Object> extracted(ResultSet rs)
 						throws SQLException {
 					final List<Object> entrate = new ArrayList<>();
-					
+
 					while (rs != null && rs.next()) {
 						final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
 						final Entrate entrata = new Entrate();
@@ -151,14 +151,14 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 					}
 					return entrate;
 				}
-				
+
 			}.execute(sql);
-			
+
 
 		} catch (final Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
-		} 
-		
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+		}
+
 		ConnectionPool.getSingleton().chiudiOggettiDb(null);
 		return null;
 	}
@@ -166,7 +166,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	@Override
 	public boolean insert(final Object oggettoEntita) {
 		boolean ok = false;
-		Connection cn = ConnectionPool.getSingleton().getConnection();
+		final Connection cn = ConnectionPool.getSingleton().getConnection();
 		String sql = "";
 		try {
 			final Entrate entrata = (Entrate) oggettoEntita;
@@ -193,12 +193,12 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 			ok = true;
 		} catch (final Exception e) {
 			ok = false;
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} finally {
 			try {
 				cn.close();
 			} catch (final SQLException e) {
-				Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+				ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			}
 			DBUtil.closeConnection();
 		}
@@ -209,24 +209,24 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	public boolean delete(final int id) {
 		boolean ok = false;
 		final String sql = "DELETE FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.ID + " = " + id;
-		
+
 		try {
-			
+
 			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
 		} catch (final SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
-		
+
 		return ok;
 	}
 
 	@Override
 	public boolean update(final Object oggettoEntita) {
 		boolean ok = false;
-		
+
 
 		final Entrate entrata = (Entrate) oggettoEntita;
 		final String sql = "UPDATE " + Entrate.NOME_TABELLA + " SET " + Entrate.DESCRIZIONE + " = '" + entrata.getdescrizione() + "', " + Entrate.FISSEOVAR + " = '"
@@ -234,12 +234,12 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 				+ entrata.getnome() + "', " + Entrate.IDUTENTE + " = " + entrata.getUtenti().getidUtente() + ", " + Entrate.DATAINS + " = '" + entrata.getDataIns() + "' WHERE "
 				+ Entrate.ID + " = " + entrata.getidEntrate();
 		try {
-			
+
 			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
 		} catch (final SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		return ok;
@@ -249,15 +249,15 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	public boolean deleteAll() {
 		boolean ok = false;
 		final String sql = "DELETE FROM " + Entrate.NOME_TABELLA;
-		
+
 
 		try {
-			
+
 			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
 		} catch (final SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		return ok;
@@ -267,7 +267,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	/**
 	 * Permette di ottenere un vettore con un numero di entita' entrate inserito
 	 * come parametro
-	 * 
+	 *
 	 * @param numEntry
 	 * @return List<Entrate>
 	 */
@@ -294,15 +294,15 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 		if (categoria != null) {
 			sql.append(" AND " + Entrate.FISSEOVAR + " = '" + categoria + "'");
 		}
-		
+
 		try {
-			
+
 			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Entrate>>() {
 
 				@Override
 				protected List<Entrate> doWithResultSet(ResultSet rs) throws SQLException {
 
-					List<Entrate> entrate = new ArrayList<>();
+					final List<Entrate> entrate = new ArrayList<>();
 					while (rs != null && rs.next()) {
 						final Entrate e = new Entrate();
 						e.setdata(rs.getString(5));
@@ -317,11 +317,11 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 					}
 					return entrate;
 				}
-				
+
 			}.execute(sql.toString());
-			
+
 		} catch (final SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		return null;
 
@@ -331,7 +331,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	/**
 	 * Permette di ottenere un vettore con un numero di entita' entrate inserito
 	 * come parametro
-	 * 
+	 *
 	 * @param numEntry
 	 * @return List<Entrate>
 	 */
@@ -344,16 +344,16 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 
 		final String sql = "SELECT * FROM " + Entrate.NOME_TABELLA + " where " + Entrate.DATA + " BETWEEN '" + Impostazioni.getAnno() + "/01/01" + "'" + " AND '"
 				+ Impostazioni.getAnno() + "/12/31" + "'" + " AND " + Entrate.IDUTENTE + " = " + idUtente + " ORDER BY " + Entrate.ID + " desc limit 0," + numEntry;
-		
+
 		try {
-			
+
 			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Entrate>>() {
 
 				@Override
 				protected List<Entrate> doWithResultSet(ResultSet rs) throws SQLException {
 
-					List<Entrate> entrate = new ArrayList<Entrate>();
-					
+					final List<Entrate> entrate = new ArrayList<>();
+
 					while (rs != null && rs.next()) {
 						final Entrate e = new Entrate();
 						e.setdata(rs.getString(5));
@@ -366,15 +366,15 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 						e.setDataIns(rs.getString(8));
 						entrate.add(e);
 					}
-					
+
 					return entrate;
 				}
-				
+
 			}.execute(sql);
-			
-			
+
+
 		} catch (final SQLException e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		return null;
 
@@ -385,14 +385,14 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	 */
 	public boolean DeleteLastEntrate() {
 		boolean ok = false;
-		
+
 		final String sql = "SELECT * FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.IDUTENTE + " = " + ((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente()
 				+ " ORDER BY " + Entrate.DATAINS + " DESC";
 
-		Connection cn = ConnectionPool.getSingleton().getConnection();
-		
+		final Connection cn = ConnectionPool.getSingleton().getConnection();
+
 		try {
-			
+
 			ok = ConnectionPool.getSingleton().new ExecuteResultSet<Boolean>() {
 
 				@Override
@@ -403,15 +403,15 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 						final PreparedStatement ps = cn.prepareStatement(sql2);
 						ps.setInt(1, rs.getInt(1));
 						ps.executeUpdate();
-						
+
 					}
 					return true;
 				}
-				
+
 			}.execute(sql);
-			
+
 		} catch (final Exception e) {
-			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ControlloreBase.getLog().severe("Operazione non riuscita: " + e.getMessage());
 		}
 		return ok;

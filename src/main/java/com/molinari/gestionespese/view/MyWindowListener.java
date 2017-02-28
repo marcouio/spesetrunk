@@ -15,7 +15,7 @@ import com.molinari.gestionespese.business.InizializzatoreFinestre;
 
 public class MyWindowListener extends WindowAdapter implements WindowFocusListener, ComponentListener, MouseListener {
 
-	private GeneralFrame view;
+	private final GeneralFrame view;
 
 	public MyWindowListener(final GeneralFrame view) {
 		super();
@@ -40,9 +40,8 @@ public class MyWindowListener extends WindowAdapter implements WindowFocusListen
 	@Override
 	public void windowIconified(final WindowEvent e) {
 		final JFrame[] finestre = Controllore.getSingleton().getInitFinestre().getFinestre();
-		for (int i = 0; i < finestre.length; i++) {
+		for (final JFrame jFrame : finestre) {
 
-			final JFrame jFrame = finestre[i];
 			if (jFrame != null) {
 				jFrame.setVisible(false);
 			}
@@ -56,7 +55,7 @@ public class MyWindowListener extends WindowAdapter implements WindowFocusListen
 
 	@Override
 	public void componentMoved(final ComponentEvent e) {
-		InizializzatoreFinestre initFinestre = Controllore.getSingleton().getInitFinestre(); 
+		final InizializzatoreFinestre initFinestre = Controllore.getSingleton().getInitFinestre();
 		if (initFinestre.getFinestraVisibile() != null) {
 			initFinestre.getFinestraVisibile().setVisible(true);
 			initFinestre.getFinestraVisibile().setState(WindowEvent.WINDOW_DEICONIFIED);

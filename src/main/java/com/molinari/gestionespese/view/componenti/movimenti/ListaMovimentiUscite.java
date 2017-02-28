@@ -57,8 +57,8 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 					}
 
 					{
-						List<CatSpese> listCategoriePerCombo = CacheCategorie.getSingleton().getListCategoriePerCombo();
-						comboBoxCat = new JComboBox(new Vector<CatSpese>(listCategoriePerCombo));
+						final List<CatSpese> listCategoriePerCombo = CacheCategorie.getSingleton().getListCategoriePerCombo();
+						comboBoxCat = new JComboBox(new Vector<>(listCategoriePerCombo));
 						comboBoxCat.setBounds(512, 26, 89, 25);
 						getContentPane().add(comboBoxCat);
 

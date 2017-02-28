@@ -15,10 +15,10 @@ import com.molinari.gestionespese.view.font.TextFieldF;
 public abstract class FiltraDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-	private TextFieldF tfDa;
-	private TextFieldF tfA;
-	private TextFieldF tfNome;
-	private TextFieldF tfEuro;
+	private final TextFieldF tfDa;
+	private final TextFieldF tfA;
+	private final TextFieldF tfNome;
+	private final TextFieldF tfEuro;
 	protected JComboBox<?> comboBoxCat;
 
 	private String dataDa;
@@ -35,12 +35,12 @@ public abstract class FiltraDialog extends JDialog {
 		setBounds(100, 100, 663, 148);
 		getContentPane().setLayout(null);
 
-		JPanel buttonPane = new JPanel();
+		final JPanel buttonPane = new JPanel();
 		buttonPane.setBounds(0, 83, 661, 35);
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane);
 
-		ButtonF okButton = new ButtonF("OK");
+		final ButtonF okButton = new ButtonF("OK");
 		okButton.setActionCommand("OK");
 		buttonPane.add(okButton);
 		okButton.addActionListener(e -> {
@@ -50,7 +50,7 @@ public abstract class FiltraDialog extends JDialog {
 
 		getRootPane().setDefaultButton(okButton);
 
-		ButtonF cancelButton = new ButtonF(I18NManager.getSingleton().getMessaggio("cancel"));
+		final ButtonF cancelButton = new ButtonF(I18NManager.getSingleton().getMessaggio("cancel"));
 		cancelButton.setActionCommand(I18NManager.getSingleton().getMessaggio("cancel"));
 		buttonPane.add(cancelButton);
 		cancelButton.addActionListener(e -> dispose());

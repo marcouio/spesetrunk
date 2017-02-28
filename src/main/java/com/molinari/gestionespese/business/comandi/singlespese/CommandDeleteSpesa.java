@@ -1,7 +1,5 @@
 package com.molinari.gestionespese.business.comandi.singlespese;
 
-import grafica.componenti.alert.Alert;
-
 import com.molinari.gestionespese.business.cache.CacheUscite;
 import com.molinari.gestionespese.domain.ISingleSpesa;
 import com.molinari.gestionespese.domain.SingleSpesa;
@@ -9,11 +7,12 @@ import com.molinari.gestionespese.domain.wrapper.WrapSingleSpesa;
 
 import command.javabeancommand.AbstractCommandForJavaBean;
 import db.dao.IDAO;
+import grafica.componenti.alert.Alert;
 
 public class CommandDeleteSpesa extends AbstractCommandForJavaBean<SingleSpesa> {
 
 	public CommandDeleteSpesa(ISingleSpesa entita) {
-		CacheUscite cache = CacheUscite.getSingleton();
+		final CacheUscite cache = CacheUscite.getSingleton();
 		mappaCache = cache.getCache();
 		this.wrap = new WrapSingleSpesa();
 		this.entita = (SingleSpesa) ((IDAO) entita).getEntitaPadre();
@@ -39,7 +38,7 @@ public class CommandDeleteSpesa extends AbstractCommandForJavaBean<SingleSpesa> 
 
 	@Override
 	public String toString() {
-		return "Eliminata Spesa " + ((SingleSpesa) entita).getnome();
+		return "Eliminata Spesa " + entita.getnome();
 	}
 
 	@Override
