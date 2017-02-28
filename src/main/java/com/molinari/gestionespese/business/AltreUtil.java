@@ -5,6 +5,7 @@ import grafica.componenti.alert.Alert;
 import java.io.File;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.logging.Level;
 
 public class AltreUtil {
 	
@@ -23,21 +24,27 @@ public class AltreUtil {
 
 	public static final String IMGUTILPATH = "imgUtil/";
 
+	private AltreUtil() {
+		//do nothing
+	}
+	
 	public static boolean checkInteger(final String integer) {
 		boolean ok = true;
 		try {
 			new Integer(integer);
 		} catch (final Exception e) {
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		return ok;
 	}
 
-	public static boolean checkDouble(final String Doble) {
+	public static boolean checkDouble(final String number) {
 		boolean ok = true;
 		try {
-			AltreUtil.arrotondaDecimaliDouble(Double.parseDouble(Doble));
+			AltreUtil.arrotondaDecimaliDouble(Double.parseDouble(number));
 		} catch (final Exception e) {
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		return ok;
@@ -56,9 +63,11 @@ public class AltreUtil {
 				ok = false;
 				Alert.segnalazioneErroreGrave("Inserire la data con valori numerici e con il formato suggerito: AAAA/MM/GG");
 			} catch (final IllegalArgumentException e1) {
+				Controllore.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				ok = false;
 				Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore("Non hai inserito una data, " + e1.getMessage()));
 			} catch (final StringIndexOutOfBoundsException e3) {
+				Controllore.getLog().log(Level.SEVERE, e3.getMessage(), e3);
 				ok = false;
 				Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore("Numero di caratteri errato per una data, " + e3.getMessage()));
 			}
@@ -80,10 +89,10 @@ public class AltreUtil {
 	 * @return un double arrotondato a due cifre
 	 */
 	public static double arrotondaDecimaliDouble(final double d) {
-		String arrotondato = null;
+		String arrotondato;
 		double decimaleArrotondato = 0;
 		final String stringaDouble = Double.toString(d);
-		final String interi = stringaDouble.substring(0, stringaDouble.indexOf("."));
+		final String interi = stringaDouble.substring(0, stringaDouble.indexOf('.'));
 		final double parteIntera = Double.parseDouble(interi);
 		final double parteDecimali = d - parteIntera;
 		if (parteDecimali * 100 != 0) {
@@ -94,18 +103,14 @@ public class AltreUtil {
 		return parteIntera + (decimaleArrotondato);
 	}
 
-	public AltreUtil() {
-
-	}
-
 	/**
 	 * Cancella tutti i file all'interno della directory passato come parametro
 	 * 
-	 * @param Dir
+	 * @param directory
 	 * @return
 	 */
-	public static String[] deleteFileDaDirectory2(final String Dir) {
-		final File dir = new File(Dir);
+	public static String[] deleteFileDaDirectory2(final String directory) {
+		final File dir = new File(directory);
 		final String[] files = dir.list();
 		if(files != null){
 			for (int i = 0; i < files.length; i++) {
@@ -116,13 +121,13 @@ public class AltreUtil {
 		return files;
 	}
 
-	public static String[] deleteFileDaDirectory(final String Dir, final String treCharIniziali) {
-		final File dir = new File(Dir);
+	public static String[] deleteFileDaDirectory(final String directory, final String treCharIniziali) {
+		final File dir = new File(directory);
 		final String[] files = dir.list();
 		if(files != null){
 			for (int i = 0; i < files.length; i++) {
 				final File f = new File(dir, files[i]);
-				if (f.isDirectory() == false && f.getName().substring(0, 3).equals(treCharIniziali)) {
+				if (!f.isDirectory() && f.getName().substring(0, 3).equals(treCharIniziali)) {
 					f.delete();
 				}
 			}

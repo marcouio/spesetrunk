@@ -1,7 +1,5 @@
 package com.molinari.gestionespese.business;
 
-import java.awt.Dimension;
-import java.awt.Frame;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -151,7 +149,6 @@ public class Controllore extends ControlloreBase{
 	public void quit() {
 		view.setVisible(false);
 		view.dispose();
-		System.exit(0);
 	}
 
 	public InizializzatoreFinestre getInitFinestre() {
