@@ -109,30 +109,35 @@ public class AltreUtil {
 	 * @param directory
 	 * @return
 	 */
-	public static String[] deleteFileDaDirectory2(final String directory) {
+	public static boolean deleteFileDaDirectory2(final String directory) {
 		final File dir = new File(directory);
 		final String[] files = dir.list();
+		boolean deleted = true;
 		if(files != null){
 			for (int i = 0; i < files.length; i++) {
 				final File f = new File(dir, files[i]);
-				f.delete();
-			}
-		}
-		return files;
-	}
-
-	public static String[] deleteFileDaDirectory(final String directory, final String treCharIniziali) {
-		final File dir = new File(directory);
-		final String[] files = dir.list();
-		if(files != null){
-			for (int i = 0; i < files.length; i++) {
-				final File f = new File(dir, files[i]);
-				if (!f.isDirectory() && f.getName().substring(0, 3).equals(treCharIniziali)) {
-					f.delete();
+				if(!f.delete()){
+					deleted = false;
 				}
 			}
 		}
-		return files;
+		return deleted;
+	}
+
+	public static boolean deleteFileDaDirectory(final String directory, final String treCharIniziali) {
+		final File dir = new File(directory);
+		final String[] files = dir.list();
+		boolean deleted = true;
+		if(files != null){
+			for (int i = 0; i < files.length; i++) {
+				final File f = new File(dir, files[i]);
+				boolean equalPrefix = f.getName().substring(0, 3).equals(treCharIniziali);
+				if (!f.isDirectory() && equalPrefix && !f.delete()) {
+					 deleted = false;
+				}
+			}
+		}
+		return deleted;
 	}
 
 	/**
