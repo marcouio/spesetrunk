@@ -1,6 +1,5 @@
 package com.molinari.gestionespese.domain.wrapper;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Set;
+import java.util.logging.Level;
 
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.IUtenti;
@@ -15,12 +15,15 @@ import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.Utenti;
 
 import command.javabeancommand.AbstractOggettoEntita;
+import controller.ControlloreBase;
 import db.Clausola;
 import db.ConnectionPool;
 import db.dao.IDAO;
 
 public class WrapUtenti extends Observable implements IDAO, IUtenti {
 
+	private static final String WHERE = " WHERE ";
+	private static final String SELECT_FROM = "SELECT * FROM ";
 	private Utenti utente;
 
 	public WrapUtenti() {
@@ -30,7 +33,7 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 	@Override
 	public Object selectById(int id) {
 		
-		String sql = "SELECT * FROM " + Utenti.NOME_TABELLA + " WHERE " + Utenti.ID + "=" + id;
+		String sql = SELECT_FROM + Utenti.NOME_TABELLA + WHERE + Utenti.ID + "=" + id;
 		try {
 			
 			return ConnectionPool.getSingleton().new ExecuteResultSet<Object>() {
@@ -39,12 +42,12 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 				protected Object doWithResultSet(ResultSet rs) throws SQLException {
 					
 					if (rs.next()) {
-						Utenti utente = new Utenti();
-						utente.setidUtente(rs.getInt(1));
-						utente.setNome(rs.getString(2));
-						utente.setCognome(rs.getString(3));
-						utente.setusername(rs.getString(4));
-						utente.setpassword(rs.getString(5));
+						Utenti utenteLoc = new Utenti();
+						utenteLoc.setidUtente(rs.getInt(1));
+						utenteLoc.setNome(rs.getString(2));
+						utenteLoc.setCognome(rs.getString(3));
+						utenteLoc.setusername(rs.getString(4));
+						utenteLoc.setpassword(rs.getString(5));
 					}
 					
 					return utente;
@@ -53,7 +56,7 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 			}.execute(sql);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} 
 		return null;
 	}
@@ -61,7 +64,7 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 	@Override
 	public List<Object> selectAll() {
 		
-		String sql = "SELECT * FROM " + Utenti.NOME_TABELLA;
+		String sql = SELECT_FROM + Utenti.NOME_TABELLA;
 
 		try {
 
@@ -72,32 +75,32 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 					final List<Object> utenti = new ArrayList<>();
 					
 					while(rs != null && rs.next()) {
-						Utenti utente = new Utenti();
-						utente.setidUtente(rs.getInt(1));
-						utente.setNome(rs.getString(2));
-						utente.setCognome(rs.getString(3));
-						utente.setusername(rs.getString(4));
-						utente.setpassword(rs.getString(5));
-						utenti.add(utente);
+						Utenti utenteLoc = new Utenti();
+						utenteLoc.setidUtente(rs.getInt(1));
+						utenteLoc.setNome(rs.getString(2));
+						utenteLoc.setCognome(rs.getString(3));
+						utenteLoc.setusername(rs.getString(4));
+						utenteLoc.setpassword(rs.getString(5));
+						utenti.add(utenteLoc);
 					}
 										
 					return utenti;
 				}
 				
-			}.execute(sql.toString());
+			}.execute(sql);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} 
-		return null;
+		return new ArrayList<>();
 
 	}
 
 	public Utenti utenteLogin(String username, String password) {
-		String sql = "SELECT * FROM " + Utenti.NOME_TABELLA + " WHERE " + Utenti.USERNAME + " = '" + username + "' AND " + Utenti.PASSWORD
+		String sql = SELECT_FROM + Utenti.NOME_TABELLA + WHERE + Utenti.USERNAME + " = '" + username + "' AND " + Utenti.PASSWORD
 				+ "='" + password + "'";
 		
-		Utenti utente = new Utenti();
+		Utenti utenteLoc = new Utenti();
 
 		try {
 			
@@ -107,57 +110,48 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 				protected Utenti doWithResultSet(ResultSet rs) throws SQLException {
 					
 					if (rs.next()) {
-						utente.setidUtente(rs.getInt(1));
-						utente.setusername(rs.getString(2));
-						utente.setpassword(rs.getString(3));
+						utenteLoc.setidUtente(rs.getInt(1));
+						utenteLoc.setusername(rs.getString(2));
+						utenteLoc.setpassword(rs.getString(3));
 					}
 					
-					return utente;
+					return utenteLoc;
 				}
 				
 			}.execute(sql);
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} 
-		return utente;
+		return utenteLoc;
 
 	}
 
 	@Override
 	public boolean insert(Object oggettoEntita) {
-		boolean ok = false;
 		
-		Connection cn = ConnectionPool.getSingleton().getConnection();
+		Utenti utenteLoc = (Utenti) oggettoEntita;
 		
-		String sql = "";
-		try {
-			Utenti utente = (Utenti) oggettoEntita;
-			sql = "INSERT INTO " + Utenti.NOME_TABELLA + " (" + Utenti.USERNAME + ", " + Utenti.PASSWORD + ", " +  Utenti.NOME
-					+ ", " + Utenti.COGNOME + ") VALUES (?,?,?,?)";
-			PreparedStatement ps = cn.prepareStatement(sql);
-			ps.setString(1, utente.getusername());
-			ps.setString(2, utente.getpassword());
-			ps.setString(3, utente.getnome());
-			ps.setString(4, utente.getCognome());
+		String sql = "INSERT INTO " + Utenti.NOME_TABELLA + " (" + Utenti.USERNAME + ", " + Utenti.PASSWORD + ", " +  Utenti.NOME
+				+ ", " + Utenti.COGNOME + ") VALUES (?,?,?,?)";
+		
+		return ConnectionPool.getSingleton().new ExecutePreparedStatement<Utenti>() {
 
-			ps.executeUpdate();
-			ok = true;
-		} catch (Exception e) {
-			ok = false;
-			e.printStackTrace();
-		} 
+			@Override
+			protected void doWithPreparedStatement(PreparedStatement ps, Utenti obj) throws SQLException {
+				ps.setString(1, obj.getusername());
+				ps.setString(2, obj.getpassword());
+				ps.setString(3, obj.getnome());
+				ps.setString(4, obj.getCognome());
+			}
+		}.executeUpdate(sql, utenteLoc);
 		
-		ConnectionPool.getSingleton().chiudiOggettiDb(cn);
-		return ok;
-
 	}
 
 	@Override
 	public boolean delete(int id) {
 		boolean ok = false;
-		String sql = "DELETE FROM " + Utenti.NOME_TABELLA + " WHERE " + Utenti.ID + " = " + id;
-		
+		String sql = "DELETE FROM " + Utenti.NOME_TABELLA + WHERE + Utenti.ID + " = " + id;
 
 		try {
 			
@@ -165,7 +159,7 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 			ok = true;
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		
@@ -175,19 +169,18 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 	@Override
 	public boolean update(Object oggettoEntita) {
 		boolean ok = false;
-		
 
-		Utenti utente = (Utenti) oggettoEntita;
-		String sql = "UPDATE " + Utenti.NOME_TABELLA + " SET " + Utenti.USERNAME + " = " + utente.getusername() + ", "
-				+ Utenti.PASSWORD + " = " + utente.getpassword() + ", " + Utenti.NOME + " = " + utente.getnome() + ", "
-				+ Utenti.COGNOME + " = " + utente.getCognome() + " WHERE " + Utenti.ID + " = " + utente.getidUtente();
+		Utenti utenteLoc = (Utenti) oggettoEntita;
+		String sql = "UPDATE " + Utenti.NOME_TABELLA + " SET " + Utenti.USERNAME + " = " + utenteLoc.getusername() + ", "
+				+ Utenti.PASSWORD + " = " + utenteLoc.getpassword() + ", " + Utenti.NOME + " = " + utenteLoc.getnome() + ", "
+				+ Utenti.COGNOME + " = " + utenteLoc.getCognome() + WHERE + Utenti.ID + " = " + utenteLoc.getidUtente();
 		try {
 			
 			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		
@@ -206,7 +199,7 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 			ok = true;
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		
@@ -214,7 +207,7 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 	}
 
 	public Utenti selectByUserAndPass(String user, String pass) {
-		String sql = "SELECT * FROM " + Utenti.NOME_TABELLA + " WHERE " + Utenti.USERNAME + " = '" + user + "' AND " + Utenti.PASSWORD
+		String sql = SELECT_FROM + Utenti.NOME_TABELLA + WHERE + Utenti.USERNAME + " = '" + user + "' AND " + Utenti.PASSWORD
 				+ "='" + pass + "'";
 		
 		
@@ -225,23 +218,23 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 
 				@Override
 				protected Utenti doWithResultSet(ResultSet rs) throws SQLException {
-					Utenti utente = null;
+					Utenti utenteLoc = null;
 					if (rs.next()) {
-						utente = new Utenti();
-						utente.setidUtente(rs.getInt(1));
-						utente.setNome(rs.getString(2));
-						utente.setCognome(rs.getString(3));
-						utente.setusername(rs.getString(4));
-						utente.setpassword(rs.getString(5));
+						utenteLoc = new Utenti();
+						utenteLoc.setidUtente(rs.getInt(1));
+						utenteLoc.setNome(rs.getString(2));
+						utenteLoc.setCognome(rs.getString(3));
+						utenteLoc.setusername(rs.getString(4));
+						utenteLoc.setpassword(rs.getString(5));
 					}
 					
-					return utente;
+					return utenteLoc;
 				}
 				
 			}.execute(sql);
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} 
 		return utente;
 
@@ -321,21 +314,12 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 	public AbstractOggettoEntita getEntitaPadre() {
 		return utente;
 	}
-	@Override
-	public void notifyObservers() {
-		super.notifyObservers();
-	}
 	
-	@Override
-	protected synchronized void setChanged() {
-		super.setChanged();
-	}
 
 	@Override
 	public Object selectWhere(List<Clausola> clausole,
 			String appentoToQuery){
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 }
