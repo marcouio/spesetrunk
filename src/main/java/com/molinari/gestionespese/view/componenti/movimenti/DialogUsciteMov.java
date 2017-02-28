@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
+import java.util.logging.Level;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -109,7 +110,7 @@ public class DialogUsciteMov extends AbstractUsciteView {
 			this.add(delete);
 			setSize(300, 500);
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 

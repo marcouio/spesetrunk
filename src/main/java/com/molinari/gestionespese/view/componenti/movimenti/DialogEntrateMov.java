@@ -95,7 +95,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 			this.add(delete);
 			setSize(300, 500);
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 

@@ -3,13 +3,13 @@ package com.molinari.gestionespese.view.mymenu;
 import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import com.molinari.gestionespese.business.AltreUtil;
@@ -80,7 +80,7 @@ public class MyMenu extends JMenuBar {
 
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				System.exit(0);
+				Controllore.getSingleton().getGenView().dispose();
 
 			}
 		});
@@ -112,11 +112,11 @@ public class MyMenu extends JMenuBar {
 			public void actionPerformedOverride(final ActionEvent e) {
 				PannelloAScomparsa pas;
 				try {
-					pas = ((PannelloAScomparsa) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, null));
+					pas = (PannelloAScomparsa) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, null);
 					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(pas, finestre, chckbxmntmDati);
 					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
 				} catch (final Exception e1) {
-					e1.printStackTrace();
+					Controllore.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}
 			}
 		});
@@ -130,11 +130,11 @@ public class MyMenu extends JMenuBar {
 			public void actionPerformedOverride(final ActionEvent e) {
 				MostraNoteView note;
 				try {
-					note = ((MostraNoteView) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_NOTE, null));
+					note = (MostraNoteView) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_NOTE, null);
 					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(note, finestre, mntmNote);
 					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
 				} catch (final Exception e1) {
-					e1.printStackTrace();
+					Controllore.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}
 			}
 		});
@@ -144,11 +144,11 @@ public class MyMenu extends JMenuBar {
 			public void actionPerformedOverride(final ActionEvent e) {
 				ReportView report;
 				try {
-					report = ((ReportView) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_REPORT, null));
+					report = (ReportView) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_REPORT, null);
 					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(report, finestre, mntmReport);
 					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
 				} catch (final Exception e1) {
-					e1.printStackTrace();
+					Controllore.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}
 			}
 		});
@@ -158,11 +158,11 @@ public class MyMenu extends JMenuBar {
 			public void actionPerformedOverride(final ActionEvent e) {
 				FinestraListaComandi history;
 				try {
-					history = ((FinestraListaComandi) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, null));
+					history = (FinestraListaComandi) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, null);
 					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(history, finestre, listaComandi);
 					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
 				} catch (final Exception e1) {
-					e1.printStackTrace();
+					Controllore.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}
 			}
 		});
@@ -236,7 +236,7 @@ public class MyMenu extends JMenuBar {
 					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (final Exception e1) {
-					e1.printStackTrace();
+					Controllore.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}
 			}
 		});
@@ -251,7 +251,7 @@ public class MyMenu extends JMenuBar {
 					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (final Exception ex) {
-					ex.printStackTrace();
+					Controllore.getLog().log(Level.SEVERE, ex.getMessage(), ex);
 				}
 			}
 		});
@@ -281,7 +281,7 @@ public class MyMenu extends JMenuBar {
 					dialog.setSize(700, 700);
 					dialog.setVisible(true);
 				} catch (final Exception e1) {
-					e1.printStackTrace();
+					Controllore.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}
 			}
 		});
@@ -312,7 +312,7 @@ public class MyMenu extends JMenuBar {
 					dialog.setBounds(0, 0, 347, 407);
 					dialog.setVisible(true);
 				} catch (final Exception e1) {
-					e1.printStackTrace();
+					Controllore.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}
 			}
 		});
@@ -326,7 +326,7 @@ public class MyMenu extends JMenuBar {
 					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (final Exception e1) {
-					e1.printStackTrace();
+					Controllore.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}
 
 			}
@@ -343,7 +343,7 @@ public class MyMenu extends JMenuBar {
 					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 					dialog.setModalityType(ModalityType.APPLICATION_MODAL);
 				} catch (final Exception e1) {
-					e1.printStackTrace();
+					Controllore.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				} finally {
 					f.dispose();
 				}
@@ -360,22 +360,6 @@ public class MyMenu extends JMenuBar {
 		final JMenuItem manuale = new JMenuItem(I18NManager.getSingleton().getMessaggio("userguide"));
 		help.add(manuale);
 
-	}
-
-	/**
-	 * @param args
-	 */
-	public static void main(final String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				final JFrame frame = new JFrame();
-				frame.setSize(1000, 50);
-				frame.getContentPane().add(new MyMenu());
-				frame.setVisible(true);
-			}
-		});
 	}
 
 }

@@ -5,6 +5,7 @@ package com.molinari.gestionespese.view.tabelleMesi;
 
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import javax.swing.JScrollPane;
 
@@ -33,7 +34,7 @@ public class TabellaEntrata extends OggettoVistaBase {
 			TableModelEntrate model = new TableModelEntrate(null);
 			table = createTable(model);
 		}catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 
 		//Create the scroll pane and add the table to it.

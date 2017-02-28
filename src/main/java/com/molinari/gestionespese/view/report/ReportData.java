@@ -5,8 +5,10 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
 
 import com.molinari.gestionespese.business.AltreUtil;
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.domain.CatSpese;
@@ -94,7 +96,7 @@ public class ReportData {
 					final Double spesaMeseCategoria = Database.speseMeseCategoria(i + 1, idCat);
 					usciteCatMensili[i][x] = spesaMeseCategoria.toString();
 				}catch (Exception e) {
-					e.printStackTrace();
+					Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		}

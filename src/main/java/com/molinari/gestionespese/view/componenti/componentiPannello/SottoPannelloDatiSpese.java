@@ -1,5 +1,7 @@
 package com.molinari.gestionespese.view.componenti.componentiPannello;
 
+import java.util.logging.Level;
+
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -7,6 +9,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import com.molinari.gestionespese.business.AltreUtil;
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.view.font.LabelTestoPiccolo;
@@ -72,7 +75,7 @@ public class SottoPannelloDatiSpese {
 			componenti[0] = meseInCors;
 			meseInCors.setBounds(16, 85, 106, 27);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 

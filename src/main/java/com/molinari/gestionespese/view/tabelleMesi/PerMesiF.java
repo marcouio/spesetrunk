@@ -2,11 +2,13 @@ package com.molinari.gestionespese.view.tabelleMesi;
 
 import java.awt.Container;
 import java.awt.Dimension;
+import java.util.logging.Level;
 
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 
 import grafica.componenti.contenitori.PannelloBase;
@@ -59,7 +61,7 @@ public class PerMesiF extends PannelloBase {
 			this.add(tabGenerale);
 
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 

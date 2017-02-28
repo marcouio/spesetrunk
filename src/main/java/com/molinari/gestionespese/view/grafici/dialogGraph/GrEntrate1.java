@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,6 +20,7 @@ import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.DBUtil;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.domain.Entrate;
@@ -46,7 +48,7 @@ public class GrEntrate1 extends JDialog implements ActionListener {
 			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 

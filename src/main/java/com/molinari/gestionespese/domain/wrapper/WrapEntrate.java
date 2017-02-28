@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.logging.Level;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Controllore;
@@ -72,7 +73,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 
 
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} finally {
 			
 		}
@@ -111,7 +112,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 			}.execute(sql);
 
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		
 		return null;
@@ -155,7 +156,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 			
 
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} 
 		
 		ConnectionPool.getSingleton().chiudiOggettiDb(null);
@@ -192,12 +193,12 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 			ok = true;
 		} catch (final Exception e) {
 			ok = false;
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} finally {
 			try {
 				cn.close();
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			}
 			DBUtil.closeConnection();
 		}
@@ -215,7 +216,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 			ok = true;
 
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		
@@ -238,7 +239,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 			ok = true;
 
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		return ok;
@@ -256,7 +257,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 			ok = true;
 
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		return ok;
@@ -320,7 +321,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 			}.execute(sql.toString());
 			
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		return null;
 
@@ -373,7 +374,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 			
 			
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		return null;
 
@@ -410,7 +411,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 			}.execute(sql);
 			
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ControlloreBase.getLog().severe("Operazione non riuscita: " + e.getMessage());
 		}
 		return ok;

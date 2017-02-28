@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,6 +21,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.domain.CatSpese;
@@ -39,7 +41,7 @@ public class GrUscite1 extends JDialog implements ActionListener {
 			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 

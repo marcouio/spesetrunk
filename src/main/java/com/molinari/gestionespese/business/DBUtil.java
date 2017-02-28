@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import org.sqlite.JDBC;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
 
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 
@@ -30,7 +31,7 @@ public class DBUtil {
 //		try {
 //			Class.forName(DBUtil.DRIVERCLASSNAME);
 //		} catch (final ClassNotFoundException e) {
-//			e.printStackTrace();
+//			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 //		}
 //
 //	}
@@ -226,7 +227,7 @@ public class DBUtil {
 			}
 			connection = DriverManager.getConnection(DBUtil.URL);
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		return connection;
 	}
@@ -240,7 +241,7 @@ public class DBUtil {
 			try {
 				connection.close();
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			}
 		}
 

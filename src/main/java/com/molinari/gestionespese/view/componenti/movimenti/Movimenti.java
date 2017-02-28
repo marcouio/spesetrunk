@@ -1,5 +1,8 @@
 package com.molinari.gestionespese.view.componenti.movimenti;
 
+import java.util.logging.Level;
+
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.view.OggettoVistaBase;
 
 public class Movimenti extends OggettoVistaBase {
@@ -19,7 +22,7 @@ public class Movimenti extends OggettoVistaBase {
 			this.setLayout(null);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 

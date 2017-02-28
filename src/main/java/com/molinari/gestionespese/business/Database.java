@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.logging.Level;
 import java.util.stream.Stream;
 
 import com.molinari.gestionespese.business.cache.CacheEntrate;
@@ -153,7 +154,7 @@ public class Database {
 			}
 
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} finally {
 			DBUtil.closeConnection();
 		}
@@ -589,7 +590,7 @@ public class Database {
 				}
 			}.execute(sql);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		
 		return colonne;

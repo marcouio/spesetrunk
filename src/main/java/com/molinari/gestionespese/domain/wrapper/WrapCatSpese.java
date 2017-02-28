@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Set;
+import java.util.logging.Level;
 
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.cache.CacheGruppi;
 import com.molinari.gestionespese.domain.Budget;
 import com.molinari.gestionespese.domain.CatSpese;
@@ -60,7 +62,7 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 			}.execute(sql);
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} 
 		return categorie;
 	}
@@ -100,7 +102,7 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 			}.execute(sql);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} 
 		return null;
 
@@ -126,7 +128,7 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 			ok = true;
 		} catch (Exception e) {
 			ok = false;
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} finally {
 			ConnectionPool.getSingleton().chiudiOggettiDb(cn);
 		}
@@ -145,7 +147,7 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 			ok = true;
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		ConnectionPool.getSingleton().chiudiOggettiDb(null);
@@ -167,7 +169,7 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 			ok = true;
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		ConnectionPool.getSingleton().chiudiOggettiDb(null);
@@ -187,7 +189,7 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 			ok = true;
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		ConnectionPool.getSingleton().chiudiOggettiDb(null);

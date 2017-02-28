@@ -7,8 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Set;
+import java.util.logging.Level;
 
 import com.molinari.gestionespese.business.ConnectionPoolGGS;
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.DBUtil;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.cache.CacheUtenti;
@@ -60,7 +62,7 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 			}.execute(sql);
 
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} 
 		return gruppo;
 
@@ -92,7 +94,7 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 			}.execute(sql);
 			
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} 
 		return null;
 
@@ -116,7 +118,7 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 			ok = true;
 		} catch (final Exception e) {
 			ok = false;
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} 
 		
 		ConnectionPool.getSingleton().chiudiOggettiDb(cn);
@@ -135,7 +137,7 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 			ok = true;
 
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		return ok;
@@ -156,7 +158,7 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 			ok = true;
 
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		return ok;
@@ -174,7 +176,7 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 			ok = true;
 
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		
@@ -207,7 +209,7 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 			}.execute(sql);
 			
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} 
 		return gruppo;
 	}

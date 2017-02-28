@@ -7,7 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.logging.Level;
 
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.domain.ILookandfeel;
 import com.molinari.gestionespese.domain.Lookandfeel;
 
@@ -52,7 +54,7 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 			
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} 
 		return look;
 
@@ -83,7 +85,7 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 			}.execute(sql);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} 
 		return looks;
 	}
@@ -110,7 +112,7 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 			ok = true;
 		} catch (final Exception e) {
 			ok = false;
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}finally{
 			ConnectionPool.getSingleton().chiudiOggettiDb(cn);
 		}
@@ -139,7 +141,7 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 			ok = true;
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		

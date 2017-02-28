@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.logging.Level;
 
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.DBUtil;
@@ -24,6 +25,8 @@ import db.dao.IDAO;
 
 public class WrapNote extends Observable implements IDAO, INote {
 
+	private static final String WHERE = " WHERE ";
+	private static final String SELECT_FROM = "SELECT * FROM ";
 	private final Note note;
 
 	public WrapNote(final Note nota) {
@@ -40,8 +43,8 @@ public class WrapNote extends Observable implements IDAO, INote {
 	}
 
 	@Override
-	public void setData(final String _data_) {
-		note.setData(_data_);
+	public void setData(final String data) {
+		note.setData(data);
 	}
 
 	@Override
@@ -50,8 +53,8 @@ public class WrapNote extends Observable implements IDAO, INote {
 	}
 
 	@Override
-	public void setDataIns(final String _dataIns_) {
-		note.setDataIns(_dataIns_);
+	public void setDataIns(final String dataIns) {
+		note.setDataIns(dataIns);
 	}
 
 	@Override
@@ -60,8 +63,8 @@ public class WrapNote extends Observable implements IDAO, INote {
 	}
 
 	@Override
-	public void setDescrizione(final String _descrizione_) {
-		note.setDescrizione(_descrizione_);
+	public void setDescrizione(final String descrizione) {
+		note.setDescrizione(descrizione);
 	}
 
 	@Override
@@ -70,8 +73,8 @@ public class WrapNote extends Observable implements IDAO, INote {
 	}
 
 	@Override
-	public void setIdNote(final int _idNote_) {
-		note.setIdNote(_idNote_);
+	public void setIdNote(final int idNote) {
+		note.setIdNote(idNote);
 	}
 
 	@Override
@@ -80,8 +83,8 @@ public class WrapNote extends Observable implements IDAO, INote {
 	}
 
 	@Override
-	public void setIdUtente(final int _idUtente_) {
-		note.setIdUtente(_idUtente_);
+	public void setIdUtente(final int idUtente) {
+		note.setIdUtente(idUtente);
 	}
 
 	@Override
@@ -90,8 +93,8 @@ public class WrapNote extends Observable implements IDAO, INote {
 	}
 
 	@Override
-	public void setNome(final String _nome_) {
-		note.setNome(_nome_);
+	public void setNome(final String nome) {
+		note.setNome(nome);
 	}
 
 	@Override
@@ -107,7 +110,7 @@ public class WrapNote extends Observable implements IDAO, INote {
 	@Override
 	public Object selectById(final int id) {
 		
-		final String sql = "SELECT * FROM " + Note.NOME_TABELLA + " WHERE " + Note.ID + " = " + id;
+		final String sql = SELECT_FROM + Note.NOME_TABELLA + WHERE + Note.ID + " = " + id;
 
 		final Note note = new Note();
 
@@ -134,7 +137,7 @@ public class WrapNote extends Observable implements IDAO, INote {
 			}.execute(sql);
 
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} 
 		return note;
 	}
@@ -144,7 +147,7 @@ public class WrapNote extends Observable implements IDAO, INote {
 		final List<Object> note = new ArrayList<>();
 		
 
-		final String sql = "SELECT * FROM " + Note.NOME_TABELLA;
+		final String sql = SELECT_FROM + Note.NOME_TABELLA;
 		try {
 			
 			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
@@ -171,7 +174,7 @@ public class WrapNote extends Observable implements IDAO, INote {
 			}.execute(sql);
 			
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} 
 			
 		
@@ -204,12 +207,12 @@ public class WrapNote extends Observable implements IDAO, INote {
 			ok = true;
 		} catch (final Exception e) {
 			ok = false;
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} finally {
 			try {
 				cn.close();
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			}
 			DBUtil.closeConnection();
 		}
@@ -219,7 +222,7 @@ public class WrapNote extends Observable implements IDAO, INote {
 	@Override
 	public boolean delete(final int id) {
 		boolean ok = false;
-		final String sql = "DELETE FROM " + Note.NOME_TABELLA + " WHERE " + Note.ID + " = " + id;
+		final String sql = "DELETE FROM " + Note.NOME_TABELLA + WHERE + Note.ID + " = " + id;
 		
 
 		try {
@@ -228,7 +231,7 @@ public class WrapNote extends Observable implements IDAO, INote {
 			ok = true;
 
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		
@@ -250,7 +253,7 @@ public class WrapNote extends Observable implements IDAO, INote {
 			ok = true;
 
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		
@@ -269,7 +272,7 @@ public class WrapNote extends Observable implements IDAO, INote {
 			ok = true;
 
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		
@@ -282,7 +285,7 @@ public class WrapNote extends Observable implements IDAO, INote {
 	public boolean DeleteLastNote() {
 		boolean ok = false;
 		
-		final String sql = "SELECT * FROM " + Note.NOME_TABELLA + " WHERE " + Note.IDUTENTE + " = " + ((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente() + " ORDER BY "
+		final String sql = SELECT_FROM + Note.NOME_TABELLA + WHERE + Note.IDUTENTE + " = " + ((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente() + " ORDER BY "
 				+ Note.DATAINS + " DESC";
 		Connection cn = ConnectionPool.getSingleton().getConnection();
 
@@ -294,7 +297,7 @@ public class WrapNote extends Observable implements IDAO, INote {
 				protected Boolean doWithResultSet(ResultSet rs) throws SQLException {
 					
 					if (rs.next()) {
-						final String sql2 = "DELETE FROM " + Note.NOME_TABELLA + " WHERE " + Note.ID + "=?";
+						final String sql2 = "DELETE FROM " + Note.NOME_TABELLA + WHERE + Note.ID + "=?";
 						final PreparedStatement ps = cn.prepareStatement(sql2);
 						ps.setInt(1, rs.getInt(1));
 						ps.executeUpdate();
@@ -307,13 +310,13 @@ public class WrapNote extends Observable implements IDAO, INote {
 			}.execute(sql);
 			
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ControlloreBase.getLog().severe("Operazione non eseguita: " + e.getMessage());
 		}
 		try {
 			cn.close();
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		DBUtil.closeConnection();
 		return ok;

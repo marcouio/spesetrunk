@@ -5,16 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
+import java.util.logging.Level;
 
-import com.molinari.gestionespese.business.ConnectionPoolGGS;
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.domain.IRisparmio;
 import com.molinari.gestionespese.domain.Risparmio;
 
-import java.util.List;
-
 import command.javabeancommand.AbstractOggettoEntita;
-
 import db.Clausola;
 import db.ConnectionPool;
 import db.dao.IDAO;
@@ -51,7 +50,7 @@ public class WrapRisparmio extends Observable implements IDAO,IRisparmio{
 			
 		
 		}catch (Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		
 		ConnectionPool.getSingleton().chiudiOggettiDb(null);
@@ -85,7 +84,7 @@ public class WrapRisparmio extends Observable implements IDAO,IRisparmio{
 			}.execute(sql);
 			
 		}catch (Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		return risparmi;
 	
@@ -107,7 +106,7 @@ public class WrapRisparmio extends Observable implements IDAO,IRisparmio{
 			ok = true;
 		} catch (Exception e) {
 			ok = false;
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} 
 		
 		ConnectionPool.getSingleton().chiudiOggettiDb(cn);
@@ -127,7 +126,7 @@ public class WrapRisparmio extends Observable implements IDAO,IRisparmio{
 			ok=true;
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok=false;
 		}
 
@@ -149,7 +148,7 @@ public class WrapRisparmio extends Observable implements IDAO,IRisparmio{
 			ok=true;
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok=false;
 		}
 		ConnectionPool.getSingleton().chiudiOggettiDb(null);
@@ -168,7 +167,7 @@ public class WrapRisparmio extends Observable implements IDAO,IRisparmio{
 			ok=true;
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok=false;
 		}
 		ConnectionPool.getSingleton().chiudiOggettiDb(null);	

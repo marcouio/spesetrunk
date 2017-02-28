@@ -3,6 +3,7 @@ package com.molinari.gestionespese.view.componenti.movimenti;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -10,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.view.font.ButtonF;
 import com.molinari.gestionespese.view.font.LabelListaGruppi;
@@ -73,7 +75,7 @@ public abstract class AbstractListaMov extends PannelloBase {
 
 
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 
 	}

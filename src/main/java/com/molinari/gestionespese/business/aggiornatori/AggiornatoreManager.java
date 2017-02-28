@@ -92,7 +92,7 @@ public class AggiornatoreManager {
 				return true;
 			}
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			return false;
 		}
 		return false;
@@ -108,7 +108,7 @@ public class AggiornatoreManager {
 			DBUtil.closeConnection();
 			return true;
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			return false;
 		}
 	}
@@ -132,7 +132,7 @@ public class AggiornatoreManager {
 			}
 			return true;
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			return false;
 		}
 
@@ -158,7 +158,7 @@ public class AggiornatoreManager {
 			}
 			return true;
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			return false;
 		}
 	}
@@ -182,7 +182,7 @@ public class AggiornatoreManager {
 			}
 			return true;
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			return false;
 		}
 	}
@@ -280,7 +280,7 @@ public class AggiornatoreManager {
 			}
 			return true;
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			return false;
 		}
 	}
@@ -306,7 +306,7 @@ public class AggiornatoreManager {
 			max = rs.getInt(1);
 			ConnectionPool.getSingleton().chiudiOggettiDb(cn);
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		final JComboBox gruppi = categoria.getComboGruppi();
 
@@ -355,7 +355,7 @@ public class AggiornatoreManager {
 			max = rs.getInt(1);
 			ConnectionPool.getSingleton().chiudiOggettiDb(cn);
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 
 		final JComboBox categorie1 = comboCategorie;
@@ -397,7 +397,7 @@ public class AggiornatoreManager {
 			}
 			return true;
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			return false;
 		}
 
@@ -423,7 +423,7 @@ public class AggiornatoreManager {
 			}
 			return true;
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			return false;
 		}
 
@@ -449,7 +449,7 @@ public class AggiornatoreManager {
 			}
 			return true;
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 			return false;
 		}
 	}

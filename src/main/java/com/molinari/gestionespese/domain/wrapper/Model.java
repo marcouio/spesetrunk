@@ -2,7 +2,9 @@ package com.molinari.gestionespese.domain.wrapper;
 
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.DBUtil;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
@@ -131,7 +133,7 @@ public class Model {
 				try {
 					primoUscite[i][x] = Double.toString(Database.speseMeseCategoria(i + 1, catSpese.get(x).getidCategoria()));
 				} catch (final Exception e) {
-					e.printStackTrace();
+					Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		}
@@ -179,7 +181,7 @@ public class Model {
 				try {
 					primoEntrate[i][x] = Double.toString(Database.getSingleton().entrateMeseTipo(i + 1, nomiColonneEntrate[x]));
 				} catch (final Exception e) {
-					e.printStackTrace();
+					Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		}

@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,6 +21,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.view.componenti.movimenti.DialogHandler;
 import com.molinari.gestionespese.view.font.ButtonF;
@@ -38,7 +40,7 @@ public class GrGenerale2 extends JDialog implements ActionListener {
 			dialog.setSize(700, 700);
 			dialog.setVisible(true);
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
@@ -74,7 +76,7 @@ public class GrGenerale2 extends JDialog implements ActionListener {
 					"./immagini/LineChartGen2" + dataMinuti + ".png"), chart,
 					550, 550);
 		} catch (final IOException e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 
 		final ImageIcon image = new ImageIcon("./immagini/LineChartGen2" + dataMinuti

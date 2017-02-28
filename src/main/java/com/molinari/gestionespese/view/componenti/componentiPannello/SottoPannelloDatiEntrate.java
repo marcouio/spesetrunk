@@ -1,5 +1,7 @@
 package com.molinari.gestionespese.view.componenti.componentiPannello;
 
+import java.util.logging.Level;
+
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -7,6 +9,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import com.molinari.gestionespese.business.AltreUtil;
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.view.font.LabelTestoPiccolo;
@@ -28,8 +31,8 @@ public class SottoPannelloDatiEntrate {
 	}
 
 	private static JTextField EntrateMesePrec;
-	private static JTextField EnAnCorso;
-	private static JTextField EnMeCorso;
+	private static JTextField enAnCorso;
+	private static JTextField enMeCorso;
 
 	JComponent[]              componenti = new JComponent[3];
 	JLabel[]                  labels     = new JLabel[3];
@@ -62,23 +65,23 @@ public class SottoPannelloDatiEntrate {
 			componenti[1] = EntrateMesePrec;
 			EntrateMesePrec.setColumns(10);
 
-			EnAnCorso = new TextFieldF();
+			enAnCorso = new TextFieldF();
 
-			double EAnnuale = Database.EAnnuale();
-			EnAnCorso.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(EAnnuale)));
-			EnAnCorso.setBounds(164, 84, 106, 27);
-			componenti[2] = EnAnCorso;
-			EnAnCorso.setColumns(10);
+			double eAnnuale = Database.EAnnuale();
+			enAnCorso.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(eAnnuale)));
+			enAnCorso.setBounds(164, 84, 106, 27);
+			componenti[2] = enAnCorso;
+			enAnCorso.setColumns(10);
 
-			EnMeCorso = new TextFieldF();
-			double EMensile = Database.eMensileInCorso();
-			EnMeCorso.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(EMensile)));
-			EnMeCorso.setBounds(317, 85, 106, 27);
-			componenti[0] = EnMeCorso;
-			EnMeCorso.setColumns(10);
+			enMeCorso = new TextFieldF();
+			double eMensile = Database.eMensileInCorso();
+			enMeCorso.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(eMensile)));
+			enMeCorso.setBounds(317, 85, 106, 27);
+			componenti[0] = enMeCorso;
+			enMeCorso.setColumns(10);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
@@ -92,19 +95,19 @@ public class SottoPannelloDatiEntrate {
 	}
 
 	public static JTextField getEnAnCorso() {
-		return EnAnCorso;
+		return enAnCorso;
 	}
 
 	public static void setEnAnCorso(JTextField enAnCorso) {
-		EnAnCorso = enAnCorso;
+		SottoPannelloDatiEntrate.enAnCorso = enAnCorso;
 	}
 
 	public static JTextField getEnMeCorso() {
-		return EnMeCorso;
+		return enMeCorso;
 	}
 
 	public static void setEnMeCorso(JTextField enMeCorso) {
-		EnMeCorso = enMeCorso;
+		enMeCorso = enMeCorso;
 	}
 
 	protected JComponent[] getComponenti() {

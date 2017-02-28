@@ -4,11 +4,13 @@ import grafica.componenti.table.TableModel.Riga;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.logging.Level;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.generatori.TableModelUsciteGruppi;
 import com.molinari.gestionespese.view.OggettoVistaBase;
 import com.molinari.gestionespese.view.font.TableF;
@@ -27,7 +29,7 @@ public class TabellaUscitaGruppi extends OggettoVistaBase {
 		try {
 			getDatiPerTabella();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 
 		// Create the scroll pane and add the table to it.
@@ -90,7 +92,7 @@ public class TabellaUscitaGruppi extends OggettoVistaBase {
 				try {
 					createAndShowGUI();
 				} catch (final Exception e) {
-					e.printStackTrace();
+					Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		});

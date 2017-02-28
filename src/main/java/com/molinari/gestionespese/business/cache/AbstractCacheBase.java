@@ -2,6 +2,9 @@ package com.molinari.gestionespese.business.cache;
 
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+
+import com.molinari.gestionespese.business.Controllore;
 
 import command.javabeancommand.AbstractOggettoEntita;
 import db.dao.IDAO;
@@ -58,7 +61,7 @@ public abstract class AbstractCacheBase<T extends AbstractOggettoEntita> {
 			}
 			caricata = true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		return cache;
 	}
@@ -74,7 +77,7 @@ public abstract class AbstractCacheBase<T extends AbstractOggettoEntita> {
 		try {
 			return (T) dao.selectById(Integer.parseInt(id));
 		} catch (Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		return null;
 	}

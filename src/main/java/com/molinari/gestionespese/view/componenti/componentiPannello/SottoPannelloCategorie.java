@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -14,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
@@ -116,7 +118,7 @@ public class SottoPannelloCategorie {
 			componenti[0] = categorieCombo;
 
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 

@@ -243,7 +243,7 @@ public class Impostazioni extends JDialog {
 			});
 
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 

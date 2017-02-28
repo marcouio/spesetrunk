@@ -89,7 +89,6 @@ public class AltreUtil {
 	 * @return un double arrotondato a due cifre
 	 */
 	public static double arrotondaDecimaliDouble(final double d) {
-		String arrotondato;
 		double decimaleArrotondato = 0;
 		final String stringaDouble = Double.toString(d);
 		final String interi = stringaDouble.substring(0, stringaDouble.indexOf('.'));
@@ -97,7 +96,7 @@ public class AltreUtil {
 		final double parteDecimali = d - parteIntera;
 		if (parteDecimali * 100 != 0) {
 			final double decimaliDaArrotondare = parteDecimali * 100;
-			arrotondato = Long.toString(Math.round(decimaliDaArrotondare));
+			String arrotondato = Long.toString(Math.round(decimaliDaArrotondare));
 			decimaleArrotondato = (Double.parseDouble(arrotondato)) / 100;
 		}
 		return parteIntera + (decimaleArrotondato);

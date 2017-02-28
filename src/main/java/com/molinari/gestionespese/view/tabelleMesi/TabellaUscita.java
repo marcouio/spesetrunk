@@ -7,10 +7,12 @@ import grafica.componenti.table.TableModel;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.generatori.TableModelUscite;
 import com.molinari.gestionespese.view.OggettoVistaBase;
 import com.molinari.gestionespese.view.font.TableF;
@@ -31,7 +33,7 @@ public class TabellaUscita extends OggettoVistaBase {
 		try {
 			model = new TableModelUscite(null);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		final TableF table = createTable(model);
 		//Create the scroll pane and add the table to it.
@@ -92,7 +94,7 @@ public class TabellaUscita extends OggettoVistaBase {
 				try {
 					createAndShowGUI();
 				} catch (final Exception e) {
-					e.printStackTrace();
+					Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		});

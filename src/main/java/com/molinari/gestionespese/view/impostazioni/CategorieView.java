@@ -3,6 +3,7 @@ package com.molinari.gestionespese.view.impostazioni;
 import java.awt.Dimension;
 import java.util.Observable;
 import java.util.Vector;
+import java.util.logging.Level;
 import java.util.List;
 
 import javax.swing.JComboBox;
@@ -11,6 +12,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.CorreggiTesto;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.cache.CacheGruppi;
@@ -139,7 +141,7 @@ public class CategorieView extends AbstractCategorieView {
 			getContentPane().add(aggiorna);
 
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Controllore.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
