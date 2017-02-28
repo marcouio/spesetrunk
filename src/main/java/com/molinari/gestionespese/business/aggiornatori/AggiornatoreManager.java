@@ -27,16 +27,16 @@ import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.wrapper.Model;
 import com.molinari.gestionespese.view.FinestraListaComandi;
 import com.molinari.gestionespese.view.GeneralFrame;
-import com.molinari.gestionespese.view.componenti.componentiPannello.SottoPannelloCategorie;
-import com.molinari.gestionespese.view.componenti.componentiPannello.SottoPannelloDatiEntrate;
-import com.molinari.gestionespese.view.componenti.componentiPannello.SottoPannelloDatiSpese;
-import com.molinari.gestionespese.view.componenti.componentiPannello.SottoPannelloMesi;
-import com.molinari.gestionespese.view.componenti.componentiPannello.SottoPannelloTotali;
+import com.molinari.gestionespese.view.componenti.componentipannello.PannelloAScomparsa;
+import com.molinari.gestionespese.view.componenti.componentipannello.SottoPannelloCategorie;
+import com.molinari.gestionespese.view.componenti.componentipannello.SottoPannelloDatiEntrate;
+import com.molinari.gestionespese.view.componenti.componentipannello.SottoPannelloDatiSpese;
+import com.molinari.gestionespese.view.componenti.componentipannello.SottoPannelloMesi;
+import com.molinari.gestionespese.view.componenti.componentipannello.SottoPannelloTotali;
 import com.molinari.gestionespese.view.componenti.movimenti.AscoltatoreBottoniEntrata;
 import com.molinari.gestionespese.view.componenti.movimenti.AscoltatoreBottoniUscita;
 import com.molinari.gestionespese.view.componenti.movimenti.ListaMovimentiEntrate;
 import com.molinari.gestionespese.view.componenti.movimenti.ListaMovimentiUscite;
-import com.molinari.gestionespese.view.componenti.movimenti.Movimenti;
 import com.molinari.gestionespese.view.font.TableF;
 import com.molinari.gestionespese.view.impostazioni.CategorieView;
 import com.molinari.gestionespese.view.tabelleMesi.PerMesiF;
@@ -257,10 +257,15 @@ public class AggiornatoreManager {
 
 	public static boolean aggiornaPannelloDatiEntrate() {
 		try {
-			if (SottoPannelloDatiEntrate.getEnAnCorso() != null) {
-				SottoPannelloDatiEntrate.getEnAnCorso().setText(Double.toString(Database.EAnnuale()));
-				SottoPannelloDatiEntrate.getEnMeCorso().setText(Double.toString(Database.eMensileInCorso()));
-				SottoPannelloDatiEntrate.getEntrateMesePrec().setText(Double.toString(Database.eMensile()));
+			InizializzatoreFinestre initFinestre = Controllore.getSingleton().getInitFinestre();
+			PannelloAScomparsa finestra = (PannelloAScomparsa) initFinestre.getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, null);
+			
+			
+			SottoPannelloDatiEntrate pannelloEntrate = finestra.getPannelloEntrate();
+			if (pannelloEntrate != null) {
+				pannelloEntrate.getEnAnCorso().setText(Double.toString(Database.EAnnuale()));
+				pannelloEntrate.getEnMeCorso().setText(Double.toString(Database.eMensileInCorso()));
+				pannelloEntrate.getEntrateMesePrec().setText(Double.toString(Database.eMensile()));
 				DBUtil.closeConnection();
 			}
 			return true;

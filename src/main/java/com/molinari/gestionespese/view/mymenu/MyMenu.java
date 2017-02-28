@@ -27,7 +27,7 @@ import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
 import com.molinari.gestionespese.domain.wrapper.WrapGruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapSingleSpesa;
 import com.molinari.gestionespese.view.FinestraListaComandi;
-import com.molinari.gestionespese.view.componenti.componentiPannello.PannelloAScomparsa;
+import com.molinari.gestionespese.view.componenti.componentipannello.PannelloAScomparsa;
 import com.molinari.gestionespese.view.entrateuscite.EntrateView;
 import com.molinari.gestionespese.view.entrateuscite.UsciteView;
 import com.molinari.gestionespese.view.grafici.dialogGraph.GrEntrate1;

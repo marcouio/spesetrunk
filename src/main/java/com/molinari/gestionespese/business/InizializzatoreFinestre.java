@@ -8,7 +8,7 @@ import javax.swing.JMenu;
 import javax.swing.UIManager;
 
 import com.molinari.gestionespese.view.FinestraListaComandi;
-import com.molinari.gestionespese.view.componenti.componentiPannello.PannelloAScomparsa;
+import com.molinari.gestionespese.view.componenti.componentipannello.PannelloAScomparsa;
 import com.molinari.gestionespese.view.note.MostraNoteView;
 import com.molinari.gestionespese.view.report.ReportView;
 
