@@ -1,20 +1,16 @@
 package com.molinari.gestionespese.domain.wrapper;
 
-import grafica.componenti.alert.Alert;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
-import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.molinari.gestionespese.business.AltreUtil;
-import com.molinari.gestionespese.business.ConnectionPoolGGS;
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.cache.CacheUscite;
@@ -22,21 +18,23 @@ import com.molinari.gestionespese.business.cache.CacheUtenti;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.ISingleSpesa;
-import com.molinari.gestionespese.domain.Risparmio;
 import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 
-import log.LoggerOggetto;
 import command.javabeancommand.AbstractOggettoEntita;
 import controller.ControlloreBase;
 import db.Clausola;
 import db.ConnectionPool;
-import db.ConnectionPool.ExecuteResultSet;
 import db.dao.IDAO;
+import grafica.componenti.alert.Alert;
 
 public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 
+	private static final String AND = " AND ";
+	private static final String DELETE_FROM = "DELETE FROM ";
+	private static final String WHERE = " WHERE ";
+	private static final String SELECT_FROM = "SELECT * FROM ";
 	private final SingleSpesa uscita;
 
 	public WrapSingleSpesa() {
@@ -46,7 +44,7 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 	@Override
 	public Object selectById(final int id) {
 		
-		final String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA + " WHERE " + SingleSpesa.ID + " = " + id;
+		final String sql = SELECT_FROM + SingleSpesa.NOME_TABELLA + WHERE + SingleSpesa.ID + " = " + id;
 
 
 		try {
@@ -55,28 +53,28 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 
 				@Override
 				protected Object doWithResultSet(ResultSet rs) throws SQLException {
-					SingleSpesa uscita = new SingleSpesa();
+					SingleSpesa uscitaLoc = new SingleSpesa();
 					
 					if (rs.next()) {
 						final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(5)));
 						final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
-						uscita.setidSpesa(rs.getInt(1));
-						uscita.setData(rs.getString(2));
-						uscita.setinEuro(rs.getDouble(3));
-						uscita.setdescrizione(rs.getString(4));
-						uscita.setCatSpese(categoria);
-						uscita.setnome(rs.getString(6));
-						uscita.setUtenti(utente);
-						uscita.setDataIns(rs.getString(8));
+						uscitaLoc.setidSpesa(rs.getInt(1));
+						uscitaLoc.setData(rs.getString(2));
+						uscitaLoc.setinEuro(rs.getDouble(3));
+						uscitaLoc.setdescrizione(rs.getString(4));
+						uscitaLoc.setCatSpese(categoria);
+						uscitaLoc.setnome(rs.getString(6));
+						uscitaLoc.setUtenti(utente);
+						uscitaLoc.setDataIns(rs.getString(8));
 					}
 					
-					return uscita;
+					return uscitaLoc;
 				}
 				
 			}.execute(sql);
 			
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		return null; 
 	}
@@ -86,7 +84,7 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		final Map<String, CatSpese> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
 		
-		final String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA + " WHERE " + SingleSpesa.IDUTENTE + " = " + utente.getidUtente();
+		final String sql = SELECT_FROM + SingleSpesa.NOME_TABELLA + WHERE + SingleSpesa.IDUTENTE + " = " + utente.getidUtente();
 		try {
 			
 			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
@@ -98,16 +96,16 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 					while (rs != null && rs.next()) {
 						final CatSpese categoria = (CatSpese) mappaCategorie.get(Integer.toString(rs.getInt(5)));
 						
-						final SingleSpesa uscita = new SingleSpesa();
-						uscita.setidSpesa(rs.getInt(1));
-						uscita.setData(rs.getString(2));
-						uscita.setinEuro(rs.getDouble(3));
-						uscita.setdescrizione(rs.getString(4));
-						uscita.setCatSpese(categoria);
-						uscita.setnome(rs.getString(6));
-						uscita.setUtenti(utente);
-						uscita.setDataIns(rs.getString(8));
-						uscite.add(uscita);
+						final SingleSpesa uscitaLoc = new SingleSpesa();
+						uscitaLoc.setidSpesa(rs.getInt(1));
+						uscitaLoc.setData(rs.getString(2));
+						uscitaLoc.setinEuro(rs.getDouble(3));
+						uscitaLoc.setdescrizione(rs.getString(4));
+						uscitaLoc.setCatSpese(categoria);
+						uscitaLoc.setnome(rs.getString(6));
+						uscitaLoc.setUtenti(utente);
+						uscitaLoc.setDataIns(rs.getString(8));
+						uscite.add(uscitaLoc);
 					}
 					
 					return uscite;
@@ -116,7 +114,7 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 			}.execute(sql);
 			
 		} catch (final Exception e) {
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} 
 		return uscite;
 
@@ -133,7 +131,7 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 		final Map<String, Utenti> mappaUtenti = CacheUtenti.getSingleton().getAllUtenti();
 		final Map<String, CatSpese> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
 		
-		final String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA;
+		final String sql = SELECT_FROM + SingleSpesa.NOME_TABELLA;
 		try {
 			
 			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
@@ -146,16 +144,16 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 						final Utenti utente = (Utenti) mappaUtenti.get(Integer.toString(rs.getInt(7)));
 						final CatSpese categoria = (CatSpese) mappaCategorie.get(Integer.toString(rs.getInt(5)));
 						
-						final SingleSpesa uscita = new SingleSpesa();
-						uscita.setidSpesa(rs.getInt(1));
-						uscita.setData(rs.getString(2));
-						uscita.setinEuro(rs.getDouble(3));
-						uscita.setdescrizione(rs.getString(4));
-						uscita.setCatSpese(categoria);
-						uscita.setnome(rs.getString(6));
-						uscita.setUtenti(utente);
-						uscita.setDataIns(rs.getString(8));
-						uscite.add(uscita);
+						final SingleSpesa uscitaLoc = new SingleSpesa();
+						uscitaLoc.setidSpesa(rs.getInt(1));
+						uscitaLoc.setData(rs.getString(2));
+						uscitaLoc.setinEuro(rs.getDouble(3));
+						uscitaLoc.setdescrizione(rs.getString(4));
+						uscitaLoc.setCatSpese(categoria);
+						uscitaLoc.setnome(rs.getString(6));
+						uscitaLoc.setUtenti(utente);
+						uscitaLoc.setDataIns(rs.getString(8));
+						uscite.add(uscitaLoc);
 					}
 					return uscite;
 				}
@@ -163,7 +161,7 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 			}.execute(sql);
 			
 		} catch (final Exception e) {
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} 
 		return uscite;
 
@@ -171,45 +169,42 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 
 	@Override
 	public boolean insert(final Object oggettoEntita) {
-		boolean ok = false;
-		Connection cn = ConnectionPool.getSingleton().getConnection();
-		String sql = "";
-		try {
-			final SingleSpesa uscita = (SingleSpesa) oggettoEntita;
+		
+		String sql = "INSERT INTO " + SingleSpesa.NOME_TABELLA + " (" + SingleSpesa.DATA + ", " + SingleSpesa.INEURO + ", " + SingleSpesa.DESCRIZIONE + ", " + SingleSpesa.IDCATEGORIE
+				+ ", " + SingleSpesa.NOME + ", " + SingleSpesa.IDUTENTE + ", " + SingleSpesa.DATAINS + ") VALUES (?,?,?,?,?,?,?)";
+		final SingleSpesa uscitaLoc = (SingleSpesa) oggettoEntita;
+		boolean inserted = ConnectionPool.getSingleton().new ExecutePreparedStatement<SingleSpesa>() {
 
-			sql = "INSERT INTO " + SingleSpesa.NOME_TABELLA + " (" + SingleSpesa.DATA + ", " + SingleSpesa.INEURO + ", " + SingleSpesa.DESCRIZIONE + ", " + SingleSpesa.IDCATEGORIE
-			+ ", " + SingleSpesa.NOME + ", " + SingleSpesa.IDUTENTE + ", " + SingleSpesa.DATAINS + ") VALUES (?,?,?,?,?,?,?)";
-			final PreparedStatement ps = cn.prepareStatement(sql);
-			final String data = uscita.getData();
-			ps.setString(1, data);
-			ps.setDouble(2, uscita.getinEuro());
-			ps.setString(3, uscita.getdescrizione());
-			if (uscita.getCatSpese() != null) {
-				ps.setInt(4, uscita.getCatSpese().getidCategoria());
+			@Override
+			protected void doWithPreparedStatement(PreparedStatement ps, SingleSpesa uscitaLoc) throws SQLException {
+				
+				final String data = uscitaLoc.getData();
+				ps.setString(1, data);
+				ps.setDouble(2, uscitaLoc.getinEuro());
+				ps.setString(3, uscitaLoc.getdescrizione());
+				if (uscitaLoc.getCatSpese() != null) {
+					ps.setInt(4, uscitaLoc.getCatSpese().getidCategoria());
+				}
+				ps.setString(5, uscitaLoc.getnome());
+				if (uscitaLoc.getUtenti() != null) {
+					ps.setInt(6, uscitaLoc.getUtenti().getidUtente());
+				}
+				final String dataIns = uscitaLoc.getDataIns();
+				ps.setString(7, dataIns);
+				
 			}
-			ps.setString(5, uscita.getnome());
-			if (uscita.getUtenti() != null) {
-				ps.setInt(6, uscita.getUtenti().getidUtente());
-			}
-			final String dataIns = uscita.getDataIns();
-			ps.setString(7, dataIns);
-			ps.executeUpdate();
-			ok = true;
-			CacheUscite.getSingleton().getCache().put(Integer.toString(uscita.getidSpesa()), uscita);
-			System.out.println("Stampata uscita: " + uscita);
-		} catch (final Exception e) {
-			ok = false;
-			e.printStackTrace();
-		} finally {
-			ConnectionPool.getSingleton().chiudiOggettiDb(cn);
+		}.executeUpdate(sql, uscitaLoc);
+		
+		if(inserted){
+			CacheUscite.getSingleton().getCache().put(Integer.toString(uscitaLoc.getidSpesa()), uscitaLoc);
 		}
-		return ok;
+		return inserted;
 	}
 
 	@Override
 	public boolean delete(final int id) {
 		boolean ok = false;
-		final String sql = "DELETE FROM " + SingleSpesa.NOME_TABELLA + " WHERE " + SingleSpesa.ID + " = " + id;
+		final String sql = DELETE_FROM + SingleSpesa.NOME_TABELLA + WHERE + SingleSpesa.ID + " = " + id;
 		
 
 		try {
@@ -217,7 +212,7 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 			ok = true;
 			CacheUscite.getSingleton().getCache().remove(id);
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		return ok;
@@ -228,18 +223,18 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 		boolean ok = false;
 		
 
-		final SingleSpesa uscita = (SingleSpesa) oggettoEntita;
-		final String sql = "UPDATE " + SingleSpesa.NOME_TABELLA + " SET " + SingleSpesa.DATA + " = '" + uscita.getData() + "', " + SingleSpesa.INEURO + " = " + uscita.getinEuro()
-		+ ", " + SingleSpesa.DESCRIZIONE + " = '" + uscita.getdescrizione() + "', " + SingleSpesa.IDCATEGORIE + " = " + uscita.getCatSpese().getidCategoria() + ", "
-		+ SingleSpesa.NOME + " = '" + uscita.getnome() + "', " + SingleSpesa.IDUTENTE + " = " + uscita.getUtenti().getidUtente() + ", " + SingleSpesa.DATAINS + " = '"
-		+ uscita.getDataIns() + "' WHERE " + SingleSpesa.ID + " = " + uscita.getidSpesa();
+		final SingleSpesa uscitaLoc = (SingleSpesa) oggettoEntita;
+		final String sql = "UPDATE " + SingleSpesa.NOME_TABELLA + " SET " + SingleSpesa.DATA + " = '" + uscitaLoc.getData() + "', " + SingleSpesa.INEURO + " = " + uscitaLoc.getinEuro()
+		+ ", " + SingleSpesa.DESCRIZIONE + " = '" + uscitaLoc.getdescrizione() + "', " + SingleSpesa.IDCATEGORIE + " = " + uscitaLoc.getCatSpese().getidCategoria() + ", "
+		+ SingleSpesa.NOME + " = '" + uscitaLoc.getnome() + "', " + SingleSpesa.IDUTENTE + " = " + uscitaLoc.getUtenti().getidUtente() + ", " + SingleSpesa.DATAINS + " = '"
+		+ uscitaLoc.getDataIns() + "' WHERE " + SingleSpesa.ID + " = " + uscitaLoc.getidSpesa();
 		try {
 			
 			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		return ok;
@@ -248,16 +243,15 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 	@Override
 	public boolean deleteAll() {
 		boolean ok = false;
-		final String sql = "DELETE FROM " + SingleSpesa.NOME_TABELLA;
+		final String sql = DELETE_FROM + SingleSpesa.NOME_TABELLA;
 		
 
 		try {
 			
 			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
-			// CacheUscite.getSingleton().getCache().reset();
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
 		return ok;
@@ -278,21 +272,21 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 			idUtente = utente.getidUtente();
 		}
 
-		final StringBuffer sql = new StringBuffer();
-		sql.append("SELECT * FROM " + SingleSpesa.NOME_TABELLA + " WHERE " + SingleSpesa.IDUTENTE + " = " + idUtente);
+		final StringBuilder sql = new StringBuilder();
+		sql.append(SELECT_FROM + SingleSpesa.NOME_TABELLA + WHERE + SingleSpesa.IDUTENTE + " = " + idUtente);
 		if (AltreUtil.checkData(dataDa) && AltreUtil.checkData(dataA) && dataDa != null && dataA != null) {
-			sql.append(" AND " + SingleSpesa.DATA + " BETWEEN '" + dataDa + "'" + " AND '" + dataA + "'");
+			sql.append(AND + SingleSpesa.DATA + " BETWEEN '" + dataDa + "'" + " AND '" + dataA + "'");
 		} else if (AltreUtil.checkData(dataDa) && dataDa != null) {
-			sql.append(" AND " + SingleSpesa.DATA + " = '" + dataDa + "'");
+			sql.append(AND + SingleSpesa.DATA + " = '" + dataDa + "'");
 		}
 		if (nome != null) {
-			sql.append(" AND " + SingleSpesa.NOME + " = '" + nome + "'");
+			sql.append(AND + SingleSpesa.NOME + " = '" + nome + "'");
 		}
 		if (euro != null) {
-			sql.append(" AND " + SingleSpesa.INEURO + " = " + euro);
+			sql.append(AND + SingleSpesa.INEURO + " = " + euro);
 		}
 		if (catSpese != null && Integer.parseInt(catSpese) != 0) {
-			sql.append(" AND " + SingleSpesa.IDCATEGORIE + " = " + Integer.parseInt(catSpese));
+			sql.append(AND + SingleSpesa.IDCATEGORIE + " = " + Integer.parseInt(catSpese));
 		}
 		
 
@@ -302,9 +296,9 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 
 				@Override
 				protected List<SingleSpesa> doWithResultSet(ResultSet rs) throws SQLException {
-					final List<SingleSpesa> uscite = new ArrayList<SingleSpesa>();
+					final List<SingleSpesa> uscite = new ArrayList<>();
 					
-					List<SingleSpesa> sSpesa = new ArrayList<SingleSpesa>();
+					List<SingleSpesa> sSpesa = new ArrayList<>();
 					while (rs != null && rs.next()) {
 						final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(rs.getString(5));
 						final SingleSpesa ss = new SingleSpesa();
@@ -326,10 +320,10 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 			
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().severe("Operazione non eseguita: " + e.getMessage());
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		
-		return null;
+		return new ArrayList<>();
 
 	}
 
@@ -341,7 +335,6 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 	 * @return List<SingleSpesa>
 	 */
 	public List<SingleSpesa> dieciUscite(final int dieci) {
-		List<SingleSpesa> sSpesa = null;
 
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		int idUtente = 0;
@@ -350,7 +343,7 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 		}
 
 		final String sql = "select * from " + SingleSpesa.NOME_TABELLA + " where " + SingleSpesa.DATA + " BETWEEN '" + Impostazioni.getAnno() + "/01/01'" + " AND '"
-		+ Impostazioni.getAnno() + "/12/31'" + " AND " + SingleSpesa.IDUTENTE + " = " + idUtente + " ORDER BY " + SingleSpesa.ID + " desc limit 0," + dieci;
+		+ Impostazioni.getAnno() + "/12/31'" + AND + SingleSpesa.IDUTENTE + " = " + idUtente + " ORDER BY " + SingleSpesa.ID + " desc limit 0," + dieci;
 		
 		CacheCategorie.getSingleton().getAllCategorie();
 
@@ -361,7 +354,7 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 				@Override
 				protected List<SingleSpesa> doWithResultSet(ResultSet rs) throws SQLException {
 					
-					List<SingleSpesa> sSpesa = new ArrayList<SingleSpesa>();
+					List<SingleSpesa> sSpesa = new ArrayList<>();
 					while (rs != null && rs.next()) {
 						final SingleSpesa ss = new SingleSpesa();
 						final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(rs.getString(5));
@@ -378,13 +371,13 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 					return sSpesa;
 				}
 				
-			}.execute(sql.toString());
+			}.execute(sql);
 			
 		} catch (final SQLException e) {
 			Controllore.getLog().log(Level.SEVERE, "Impossibile caricare il record da single_spesa: "+e.getMessage());
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
-		return sSpesa;
+		return new ArrayList<>();
 
 	}
 
@@ -394,7 +387,7 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 	public boolean deleteLastSpesa() {
 		boolean ok = false;
 		
-		final String sql = "SELECT * FROM " + SingleSpesa.NOME_TABELLA + " WHERE " + Entrate.IDUTENTE + " = " + ((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente()
+		final String sql = SELECT_FROM + SingleSpesa.NOME_TABELLA + WHERE + Entrate.IDUTENTE + " = " + ((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente()
 		+ " ORDER BY " + SingleSpesa.DATAINS + " DESC";
 
 		try {
@@ -404,18 +397,13 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 				@Override
 				protected Boolean doWithResultSet(ResultSet rs) throws SQLException {
 					
-					List<SingleSpesa> sSpesa = new ArrayList<SingleSpesa>();
-
 					if (rs.next()) {
-						SingleSpesa ss = new SingleSpesa();
-						ss = new SingleSpesa();
-						ss.setidSpesa(rs.getInt(1));
 						
-						final String sql2 = "DELETE FROM " + SingleSpesa.NOME_TABELLA + " WHERE " + SingleSpesa.ID + "=?";
+						final String sql2 = DELETE_FROM + SingleSpesa.NOME_TABELLA + WHERE + SingleSpesa.ID + "=?";
 						
 						Connection cn = ConnectionPool.getSingleton().getConnection();
 						final PreparedStatement ps = cn.prepareStatement(sql2);
-						ps.setInt(1, ss.getidSpesa());
+						ps.setInt(1, rs.getInt(1));
 						ps.executeUpdate();
 						
 						ConnectionPool.getSingleton().chiudiOggettiDb(cn);
@@ -426,11 +414,11 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 					}
 				}
 				
-			}.execute(sql.toString());
+			}.execute(sql);
 			
 
 		} catch (final Exception e) {
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ControlloreBase.getLog().severe("Operazione non eseguita: " + e.getMessage());
 		}
 		return ok;
@@ -442,8 +430,8 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 	}
 
 	@Override
-	public void setData(final String Data) {
-		uscita.setData(Data);
+	public void setData(final String data) {
+		uscita.setData(data);
 	}
 
 	@Override
@@ -523,20 +511,9 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 	}
 
 	@Override
-	public void notifyObservers() {
-		super.notifyObservers();
-	}
-
-	@Override
-	protected synchronized void setChanged() {
-		super.setChanged();
-	}
-
-	@Override
 	public Object selectWhere(List<Clausola> clausole,
 			String appentoToQuery) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 }
