@@ -14,13 +14,13 @@ public class PannelloAScomparsa extends JFrame implements ItemListener {
 
 	private static final long serialVersionUID = 1L;
 
-	private final ArrayList<JPanel>  pannelli = new ArrayList<JPanel>();
-	private JComboBox                combo;
-	private SottoPannelloDatiSpese   pannelloSpese;
-	private SottoPannelloDatiEntrate pannelloEntrate;
-	private SottoPannelloMesi        pannelloMesi;
-	private SottoPannelloCategorie   pannelloCategorie;
-	private SottoPannelloTotali      pannelloTotali;
+	private final ArrayList<JPanel>  pannelli = new ArrayList<>();
+	private JComboBox<String>                combo;
+	private transient SottoPannelloDatiSpese   pannelloSpese;
+	private transient SottoPannelloDatiEntrate pannelloEntrate;
+	private transient SottoPannelloMesi        pannelloMesi;
+	private transient SottoPannelloCategorie   pannelloCategorie;
+	private transient SottoPannelloTotali      pannelloTotali;
 	CostruttoreSottoPannello[] arrayPannelli;
 
 	public PannelloAScomparsa() {
@@ -40,7 +40,7 @@ public class PannelloAScomparsa extends JFrame implements ItemListener {
 
 		initArrayPannello();
 		
-		combo = new JComboBox();
+		combo = new JComboBox<>();
 		this.add(combo);
 		combo.setBounds(65, 50, 120, 40);
 		combo.addItem("");
@@ -63,7 +63,7 @@ public class PannelloAScomparsa extends JFrame implements ItemListener {
 			this.remove(pannello);
 		}
 		pannelli.clear();
-		CostruttoreSottoPannello sottoPannello = null;
+		CostruttoreSottoPannello sottoPannello;
 		if(combo.getSelectedIndex() != 0 && e.getStateChange() == ItemEvent.SELECTED){
 			sottoPannello = arrayPannelli[combo.getSelectedIndex()];
 			mostra(p, sottoPannello);
