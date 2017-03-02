@@ -6,14 +6,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.logging.Level;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.WindowConstants;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
@@ -26,32 +24,14 @@ import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.view.componenti.movimenti.DialogHandler;
 import com.molinari.gestionespese.view.font.ButtonF;
 
-import controller.ControlloreBase;
-
 public class GrEntrate1 extends JDialog implements ActionListener {
 
 
+	private static final String CHIUDI2 = "chiudi";
 	private static final long       serialVersionUID = 1L;
 	private final DefaultPieDataset dataset;
 	private final double            entrateFisse     = Database.totaleEntrateAnnoCategoria(Entrate.IMPORTANZA_FISSE);
 	private final double            enrateVariabili  = Database.totaleEntrateAnnoCategoria(Entrate.IMPORTANZA_VARIABILI);
-
-	/**
-	 * Entrate per tipo. Create the dialog.
-	 *
-	 * @throws SQLException
-	 * @throws IOException
-	 */
-
-	public static void main(final String[] args) {
-		try {
-			final GrEntrate1 dialog = new GrEntrate1(new JFrame(), "Entrate", true);
-			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (final Exception e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
 
 	public GrEntrate1(final JFrame frame, final String title, final boolean modal)
 			throws SQLException, IOException {
@@ -65,7 +45,7 @@ public class GrEntrate1 extends JDialog implements ActionListener {
 				true, true, true);
 		final GregorianCalendar data = new GregorianCalendar();
 
-		final String dataMinuti = "" + data.get(Calendar.HOUR_OF_DAY)
+		final String dataMinuti = Integer.toString(data.get(Calendar.HOUR_OF_DAY))
 		+ data.get(Calendar.MINUTE);
 
 		ChartUtilities.saveChartAsPNG(new java.io.File("./immagini/torta"
@@ -79,7 +59,7 @@ public class GrEntrate1 extends JDialog implements ActionListener {
 		immagine.setIcon(image);
 		getContentPane().add(immagine);
 		final JButton chiudi = new ButtonF("Chiudi");
-		chiudi.setActionCommand("chiudi");
+		chiudi.setActionCommand(CHIUDI2);
 		immagine.setBounds(12, 22, 618, 546);
 		chiudi.setBounds(269, 580, 97, 30);
 		setBounds(100, 100, 650, 650);
@@ -90,8 +70,8 @@ public class GrEntrate1 extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(final ActionEvent e) {
-		if (e.getActionCommand().equals("chiudi")) {
-			if (e.getActionCommand().equals("chiudi")) {
+		if (e.getActionCommand().equals(CHIUDI2)) {
+			if (e.getActionCommand().equals(CHIUDI2)) {
 				setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 				this.dispose();
 			}

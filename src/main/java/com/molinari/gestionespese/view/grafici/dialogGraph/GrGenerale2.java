@@ -11,7 +11,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.WindowConstants;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
@@ -30,20 +29,6 @@ import controller.ControlloreBase;
 public class GrGenerale2 extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(final String[] args) {
-		try {
-			final GrGenerale2 dialog = new GrGenerale2();
-			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-			dialog.setSize(700, 700);
-			dialog.setVisible(true);
-		} catch (final Exception e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
 
 	/**
 	 * Create the dialog.
@@ -69,19 +54,17 @@ public class GrGenerale2 extends JDialog implements ActionListener {
 		plot.setRenderer(renderer);
 
 		final GregorianCalendar data = new GregorianCalendar();
-		final String dataMinuti = "" + data.get(Calendar.HOUR_OF_DAY)
+		final String dataMinuti = Integer.toString(data.get(Calendar.HOUR_OF_DAY))
 		+ data.get(Calendar.MINUTE);
 
 		try {
-			ChartUtilities.saveChartAsPNG(new java.io.File(
-					"./immagini/LineChartGen2" + dataMinuti + ".png"), chart,
-					550, 550);
+			java.io.File image = new java.io.File("./immagini/LineChartGen2" + dataMinuti + ".png");
+			ChartUtilities.saveChartAsPNG(image, chart, 550, 550);
 		} catch (final IOException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 
-		final ImageIcon image = new ImageIcon("./immagini/LineChartGen2" + dataMinuti
-				+ ".png");
+		final ImageIcon image = new ImageIcon("./immagini/LineChartGen2" + dataMinuti + ".png");
 		final JLabel label = new JLabel(image);
 
 
@@ -101,7 +84,7 @@ public class GrGenerale2 extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(final ActionEvent e) {
-		if (e.getActionCommand().equals("chiudi")) {
+		if ("chiudi".equals(e.getActionCommand())) {
 			setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 			this.dispose();
 		}

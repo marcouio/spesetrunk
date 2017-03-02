@@ -12,7 +12,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.WindowConstants;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
@@ -28,22 +27,8 @@ import controller.ControlloreBase;
 
 public class GrEntrate2 extends JDialog implements ActionListener {
 
+	private static final String CHIUDI = "chiudi";
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * Entrate Mensili
-	 *
-	 * Launch the application.
-	 */
-	public static void main(final String[] args) {
-		try {
-			final GrEntrate2 dialog = new GrEntrate2();
-			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (final Exception e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
 
 	/**
 	 * Create the dialog.
@@ -76,14 +61,14 @@ public class GrEntrate2 extends JDialog implements ActionListener {
 		setBounds(100, 100, 650, 650);
 		getContentPane().add(immagine);
 		getContentPane().add(chiudi);
-		chiudi.setActionCommand("chiudi");
+		chiudi.setActionCommand(CHIUDI);
 		chiudi.addActionListener(new DialogHandler(this));
 		chiudi.addActionListener(this);
 	}
 
 	@Override
 	public void actionPerformed(final ActionEvent e) {
-		if (e.getActionCommand().equals("chiudi")) {
+		if (CHIUDI.equals(e.getActionCommand())) {
 			setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 			this.dispose();
 		}

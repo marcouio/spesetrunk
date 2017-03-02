@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 import javax.swing.ImageIcon;
@@ -37,19 +38,19 @@ import controller.ControlloreBase;
 public class GrGenerale extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	private static HashMap<Integer, ArrayList<Double>> mappaGennaio;
-	private static HashMap<Integer, ArrayList<Double>> mappaFebbraio;
-	private static HashMap<Integer, ArrayList<Double>> mappaMarzo;
-	private static HashMap<Integer, ArrayList<Double>> mappaAprile;
-	private static HashMap<Integer, ArrayList<Double>> mappaMaggio;
-	private static HashMap<Integer, ArrayList<Double>> mappaGiugno;
-	private static HashMap<Integer, ArrayList<Double>> mappaLuglio;
-	private static HashMap<Integer, ArrayList<Double>> mappaAgosto;
-	private static HashMap<Integer, ArrayList<Double>> mappaSettembre;
-	private static HashMap<Integer, ArrayList<Double>> mappaOttobre;
-	private static HashMap<Integer, ArrayList<Double>> mappaNovembre;
-	private static HashMap<Integer, ArrayList<Double>> mappaDicembre;
-	List<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
+	private static Map<Integer, List<Double>> mappaGennaio;
+	private static Map<Integer, List<Double>> mappaFebbraio;
+	private static Map<Integer, List<Double>> mappaMarzo;
+	private static Map<Integer, List<Double>> mappaAprile;
+	private static Map<Integer, List<Double>> mappaMaggio;
+	private static Map<Integer, List<Double>> mappaGiugno;
+	private static Map<Integer, List<Double>> mappaLuglio;
+	private static Map<Integer, List<Double>> mappaAgosto;
+	private static Map<Integer, List<Double>> mappaSettembre;
+	private static Map<Integer, List<Double>> mappaOttobre;
+	private static Map<Integer, List<Double>> mappaNovembre;
+	private static Map<Integer, List<Double>> mappaDicembre;
+	private List<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
 
 	/**
 	 * Uscite mensili per categoria Launch the application.
@@ -90,32 +91,32 @@ public class GrGenerale extends JDialog implements ActionListener {
 		renderer.setSeriesShapesFilled(0, true);
 		plot.setRenderer(renderer);
 
-		final ArrayList<Double> ListaValori1 = mappaGennaio.get(1);
-		final ArrayList<Double> ListaValori2 = mappaFebbraio.get(2);
-		final ArrayList<Double> ListaValori3 = mappaMarzo.get(3);
-		final ArrayList<Double> ListaValori4 = mappaAprile.get(4);
-		final ArrayList<Double> ListaValori5 = mappaMaggio.get(5);
-		final ArrayList<Double> ListaValori6 = mappaGiugno.get(6);
-		final ArrayList<Double> ListaValori7 = mappaLuglio.get(7);
-		final ArrayList<Double> ListaValori8 = mappaAgosto.get(8);
-		final ArrayList<Double> ListaValori9 = mappaSettembre.get(9);
-		final ArrayList<Double> ListaValori10 = mappaOttobre.get(10);
-		final ArrayList<Double> ListaValori11 = mappaNovembre.get(11);
-		final ArrayList<Double> ListaValori12 = mappaDicembre.get(12);
+		final List<Double> listaValori1 = mappaGennaio.get(1);
+		final List<Double> listaValori2 = mappaFebbraio.get(2);
+		final List<Double> listaValori3 = mappaMarzo.get(3);
+		final List<Double> listaValori4 = mappaAprile.get(4);
+		final List<Double> listaValori5 = mappaMaggio.get(5);
+		final List<Double> listaValori6 = mappaGiugno.get(6);
+		final List<Double> listaValori7 = mappaLuglio.get(7);
+		final List<Double> listaValori8 = mappaAgosto.get(8);
+		final List<Double> listaValori9 = mappaSettembre.get(9);
+		final List<Double> listaValori10 = mappaOttobre.get(10);
+		final List<Double> listaValori11 = mappaNovembre.get(11);
+		final List<Double> listaValori12 = mappaDicembre.get(12);
 
-		for (int i = 0; i < ListaValori1.size(); i++) {
-			dataset.addValue(ListaValori1.get(i), "Gennaio", categorie.get(i).getnome());
-			dataset.addValue(ListaValori2.get(i), "Febbraio", categorie.get(i).getnome());
-			dataset.addValue(ListaValori3.get(i), "Marzo", categorie.get(i).getnome());
-			dataset.addValue(ListaValori4.get(i), "Aprile", categorie.get(i).getnome());
-			dataset.addValue(ListaValori5.get(i), "Maggio", categorie.get(i).getnome());
-			dataset.addValue(ListaValori6.get(i), "Giugno", categorie.get(i).getnome());
-			dataset.addValue(ListaValori7.get(i), "Luglio", categorie.get(i).getnome());
-			dataset.addValue(ListaValori8.get(i), "Agosto", categorie.get(i).getnome());
-			dataset.addValue(ListaValori9.get(i), "Settembre", categorie.get(i).getnome());
-			dataset.addValue(ListaValori10.get(i), "Ottobre", categorie.get(i).getnome());
-			dataset.addValue(ListaValori11.get(i), "Novembre", categorie.get(i).getnome());
-			dataset.addValue(ListaValori12.get(i), "Dicembre", categorie.get(i).getnome());
+		for (int i = 0; i < listaValori1.size(); i++) {
+			dataset.addValue(listaValori1.get(i), "Gennaio", categorie.get(i).getnome());
+			dataset.addValue(listaValori2.get(i), "Febbraio", categorie.get(i).getnome());
+			dataset.addValue(listaValori3.get(i), "Marzo", categorie.get(i).getnome());
+			dataset.addValue(listaValori4.get(i), "Aprile", categorie.get(i).getnome());
+			dataset.addValue(listaValori5.get(i), "Maggio", categorie.get(i).getnome());
+			dataset.addValue(listaValori6.get(i), "Giugno", categorie.get(i).getnome());
+			dataset.addValue(listaValori7.get(i), "Luglio", categorie.get(i).getnome());
+			dataset.addValue(listaValori8.get(i), "Agosto", categorie.get(i).getnome());
+			dataset.addValue(listaValori9.get(i), "Settembre", categorie.get(i).getnome());
+			dataset.addValue(listaValori10.get(i), "Ottobre", categorie.get(i).getnome());
+			dataset.addValue(listaValori11.get(i), "Novembre", categorie.get(i).getnome());
+			dataset.addValue(listaValori12.get(i), "Dicembre", categorie.get(i).getnome());
 		}
 
 		final GregorianCalendar data = new GregorianCalendar();
@@ -146,8 +147,8 @@ public class GrGenerale extends JDialog implements ActionListener {
 
 	}
 
-	public HashMap<Integer, ArrayList<Double>> creaMappaMese(final int mese) {
-		final HashMap<Integer, ArrayList<Double>> mappaMese = new HashMap<>();
+	public Map<Integer, List<Double>> creaMappaMese(final int mese) {
+		final Map<Integer, List<Double>> mappaMese = new HashMap<>();
 
 		final ArrayList<Double> listaSpeseMeseCategoria = new ArrayList<>();
 		for (int i = 0; i < categorie.size(); i++) {
@@ -167,7 +168,7 @@ public class GrGenerale extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(final ActionEvent e) {
-		if (e.getActionCommand().equals("chiudi")) {
+		if ("chiudi".equals(e.getActionCommand())) {
 			setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 			this.dispose();
 		}

@@ -13,7 +13,6 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.WindowConstants;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
@@ -30,19 +29,6 @@ import controller.ControlloreBase;
 public class GrUscite2 extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * Suddivise per mesi. Launch the application.
-	 */
-	public static void main(final String[] args) {
-		try {
-			final GrUscite2 dialog = new GrUscite2();
-			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (final Exception e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
 
 	/**
 	 * Create the dialog.
