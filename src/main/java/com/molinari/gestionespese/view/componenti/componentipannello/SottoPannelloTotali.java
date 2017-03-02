@@ -71,7 +71,7 @@ public class SottoPannelloTotali {
 			componenti[2] = avanzo;
 			avanzo.setColumns(10);
 
-			final double differenza = AltreUtil.arrotondaDecimaliDouble(Database.EAnnuale() - Database.uAnnuale());
+			final double differenza = AltreUtil.arrotondaDecimaliDouble(Database.eAnnuale() - Database.uAnnuale());
 			avanzo.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(differenza)));
 			avanzo.setBounds(16, 85, 106, 27);
 			avanzo.setSize(92, 27);

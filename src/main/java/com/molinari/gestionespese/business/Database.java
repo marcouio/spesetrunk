@@ -39,7 +39,7 @@ public class Database {
 	private static Database singleton;
 	public static final String DB_URL_WORKSPACE = "../GestioneSpese.sqlite";
 	public static final String DB_URL_JAR = "./GestioneSpese.sqlite";
-	public static String DB_URL = DB_URL_WORKSPACE;
+	private static String dburl = DB_URL_WORKSPACE;
 
 	private Database() {
 
@@ -95,7 +95,7 @@ public class Database {
 	}
 
 	public void generaDB() throws SQLException {
-		new File(Database.DB_URL);
+		new File(Database.dburl);
 
 		String sql = "CREATE TABLE \"utenti\" (\"idUtente\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , \"nome\" TEXT NOT NULL , \"cognome\" TEXT NOT NULL , \"username\" TEXT NOT NULL  UNIQUE , \"password\" TEXT NOT NULL );";
 		final ConnectionPool cp = ConnectionPool.getSingleton();
@@ -143,9 +143,9 @@ public class Database {
 			if (tabella != null) {
 				// comando
 				if ("INSERT".equals(command)) {
-					ok = gestioneIstruzioneInsert(tabella, campi, ok, sql, command);
+					ok = gestioneIstruzioneInsert(tabella, campi, sql, command);
 				} else if ("UPDATE".equals(command)) {
-					ok = gestioneIstruzioneUpdate(tabella, campi, clausole, ok, sql, command);
+					ok = gestioneIstruzioneUpdate(tabella, campi, clausole, sql, command);
 				} else if ("DELETE".equals(command)) {
 					ok = gestioneIstruzioneDelete(tabella, clausole, ok, sql, command);
 				} else if ("SELECT".equals(command)) {
@@ -227,7 +227,7 @@ public class Database {
 	}
 
 	private boolean gestioneIstruzioneUpdate(final String tabella, final Map<String, String> campi,
-			final Map<String, String> clausole, boolean ok, final StringBuilder sql, final String command)
+			final Map<String, String> clausole, final StringBuilder sql, final String command)
 					throws SQLException {
 		final Iterator<String> iterUpdate = campi.keySet().iterator();
 		sql.append(command).append(" " + tabella).append(" SET ");
@@ -248,32 +248,36 @@ public class Database {
 			}
 		}
 		if (!clausole.isEmpty()) {
-			sql.append(" WHERE 1=1");
-			final Iterator<String> where = clausole.keySet().iterator();
-
-			while (where.hasNext()) {
-				sql.append(AND);
-				final String prossimo = where.next();
-				sql.append(prossimo).append(" = ");
-				try {
-					sql.append(Integer.parseInt(clausole.get(prossimo)));
-				} catch (final NumberFormatException e) {
-					sql.append("'" + clausole.get(prossimo) + "'");
-				}
-				if (where.hasNext()) {
-					sql.append(", ");
-				}
-			}
+			elaborateClause(clausole, sql);
 		}
 
 
 		if (ConnectionPool.getSingleton().executeUpdate(sql.toString()) != 0) {
-			ok = true;
+			return true;
 		}
-		return ok;
+		return false;
 	}
 
-	private boolean gestioneIstruzioneInsert(final String tabella, final Map<String, String> campi, boolean ok,
+	private void elaborateClause(final Map<String, String> clausole, final StringBuilder sql) {
+		sql.append(" WHERE 1=1");
+		final Iterator<String> where = clausole.keySet().iterator();
+
+		while (where.hasNext()) {
+			sql.append(AND);
+			final String prossimo = where.next();
+			sql.append(prossimo).append(" = ");
+			try {
+				sql.append(Integer.parseInt(clausole.get(prossimo)));
+			} catch (final NumberFormatException e) {
+				sql.append("'" + clausole.get(prossimo) + "'");
+			}
+			if (where.hasNext()) {
+				sql.append(", ");
+			}
+		}
+	}
+
+	private boolean gestioneIstruzioneInsert(final String tabella, final Map<String, String> campi,
 			final StringBuilder sql, final String command) throws SQLException {
 		sql.append(command).append(" INTO ").append(tabella);
 		sql.append("(");
@@ -305,10 +309,10 @@ public class Database {
 
 
 		if (ConnectionPool.getSingleton().executeUpdate(sql.toString()) != 0) {
-			ok = true;
+			return true;
 		}
-		System.out.println("Record inserito correttamente");
-		return ok;
+		ControlloreBase.getLog().info("Record inserito correttamente ("+sql.toString()+")");
+		return false;
 	}
 
 	/**
@@ -317,45 +321,15 @@ public class Database {
 	 * @param sql
 	 * @return HashMap<String, ArrayList>
 	 */
-	@SuppressWarnings("rawtypes")
-	public HashMap<String, ArrayList> terminaleSql(final String sql) {
-		final HashMap<String, ArrayList> nomi = new HashMap<>();
+	public Map<String, ArrayList<String>> terminaleSql(final String sql) {
+		final HashMap<String, ArrayList<String>> nomi = new HashMap<>();
 		if ("S".equalsIgnoreCase(sql.substring(0, 1))) {
 			try {
 
-				return ConnectionPool.getSingleton().new ExecuteResultSet<HashMap<String, ArrayList>>() {
-
-					@Override
-					protected HashMap<String, ArrayList> doWithResultSet(ResultSet rs) throws SQLException {
-						final ResultSetMetaData rsmd = rs.getMetaData();
-						final ArrayList<String> lista = new ArrayList<>();
-						for (int i = 0; i < rsmd.getColumnCount(); i++) {
-							lista.add(rsmd.getColumnLabel(i + 1));
-						}
-						nomi.put("nomiColonne", lista);
-						int z = 0;
-						while (rs.next()) {
-							final ArrayList<String> lista2 = new ArrayList<>();
-							z++;
-							for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-								if (rsmd.getColumnType(i) == java.sql.Types.INTEGER) {
-									lista2.add(Integer.toString(rs.getInt(i)));
-								} else if (rsmd.getColumnType(i) == java.sql.Types.DOUBLE) {
-									lista2.add(Double.toString(rs.getInt(i)));
-								} else if (rsmd.getColumnType(i) == java.sql.Types.DATE) {
-									lista2.add(rs.getDate(i).toString());
-								} else {
-									lista2.add(rs.getString(i));
-								}
-							}
-							nomi.put("row" + z, lista2);
-						}
-						return nomi;
-					}
-
-				}.execute(sql);
+				return execute(sql, nomi);
 
 			} catch (final SQLException e) {
+				ControlloreBase.getLog().log(Level.SEVERE, "Operazione SQL non eseguita: " + sql, e);
 				Alert.segnalazioneErroreGrave("Operazione SQL non eseguita:" + e.getMessage());
 			}
 
@@ -364,10 +338,46 @@ public class Database {
 			try {
 				ConnectionPool.getSingleton().executeUpdate(sql);
 			} catch (final SQLException e) {
+				ControlloreBase.getLog().log(Level.SEVERE, "Operazione SQL non eseguita: " + sql, e);
 				Alert.segnalazioneErroreGrave("Operazione SQL non eseguita:" + e.getMessage());
 			}
 		}
 		return nomi;
+	}
+
+	private Map<String, ArrayList<String>> execute(final String sql, final HashMap<String, ArrayList<String>> nomi)
+			throws SQLException {
+		return ConnectionPool.getSingleton().new ExecuteResultSet<HashMap<String, ArrayList<String>>>() {
+
+			@Override
+			protected HashMap<String, ArrayList<String>> doWithResultSet(ResultSet rs) throws SQLException {
+				final ResultSetMetaData rsmd = rs.getMetaData();
+				final ArrayList<String> lista = new ArrayList<>();
+				for (int i = 0; i < rsmd.getColumnCount(); i++) {
+					lista.add(rsmd.getColumnLabel(i + 1));
+				}
+				nomi.put("nomiColonne", lista);
+				int z = 0;
+				while (rs.next()) {
+					final ArrayList<String> lista2 = new ArrayList<>();
+					z++;
+					for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+						if (rsmd.getColumnType(i) == java.sql.Types.INTEGER) {
+							lista2.add(Integer.toString(rs.getInt(i)));
+						} else if (rsmd.getColumnType(i) == java.sql.Types.DOUBLE) {
+							lista2.add(Double.toString(rs.getInt(i)));
+						} else if (rsmd.getColumnType(i) == java.sql.Types.DATE) {
+							lista2.add(rs.getDate(i).toString());
+						} else {
+							lista2.add(rs.getString(i));
+						}
+					}
+					nomi.put("row" + z, lista2);
+				}
+				return nomi;
+			}
+
+		}.execute(sql);
 	}
 
 	// questo metodo riempie tabella uscite
@@ -380,7 +390,7 @@ public class Database {
 	 * @return double
 	 * @throws Exception
 	 */
-	public static double speseMeseCategoria(final int mese, final int categoria) throws Exception {
+	public static double speseMeseCategoria(final int mese, final int categoria) {
 
 		double spesaTotMeseCat = 0.0;
 		final List<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
@@ -410,10 +420,8 @@ public class Database {
 				final Gruppi group = cat.getGruppi();
 				final Date dataUscita = DBUtil.stringToDate(uscita.getData(), YYYY_MM_DD);
 				final int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
-				if (group != null && group.getidGruppo() != 0) {
-					if (mesee == mese && group.getidGruppo() == gruppo) {
-						spesaTotMeseGruppo += uscita.getinEuro();
-					}
+				if (group != null && group.getidGruppo() != 0 && mesee == mese && group.getidGruppo() == gruppo) {
+					spesaTotMeseGruppo += uscita.getinEuro();
 				}
 			}
 		}
@@ -430,10 +438,8 @@ public class Database {
 				final Gruppi group = cat.getGruppi();
 				final Date dataUscita = DBUtil.stringToDate(uscita.getData(), YYYY_MM_DD);
 				final int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
-				if (group == null || group.getidGruppo() == 0) {
-					if (mesee == mese && cat.getidCategoria() == categoria) {
-						spesaTotMeseCat += uscita.getinEuro();
-					}
+				if ((group == null || group.getidGruppo() == 0) && mesee == mese && cat.getidCategoria() == categoria) {
+					spesaTotMeseCat += uscita.getinEuro();
 				}
 			}
 		}
@@ -450,7 +456,7 @@ public class Database {
 	 * @return double
 	 * @throws Exception
 	 */
-	public double entrateMeseTipo(final int mese, final String tipoEntrata) throws Exception {
+	public double entrateMeseTipo(final int mese, final String tipoEntrata) {
 		double entrateMeseTipo = 0;
 		final List<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtenteEAnno();
 		for (int i = 0; i < listaEntrate.size(); i++) {
@@ -550,7 +556,6 @@ public class Database {
 	 * @return List<String>
 	 */
 	public List<String> nomiColonne(final String tabella) {
-		final List<String> colonne;
 		String sql = "";
 		if (tabella.equals(Entrate.NOME_TABELLA)) {
 			sql = "SELECT " + Entrate.NOME_TABELLA + "." + Entrate.DATA + ", " + Entrate.NOME_TABELLA + "."
@@ -739,7 +744,6 @@ public class Database {
 		final Predicate<? super SingleSpesa> predicate = ss -> ss.getCatSpese() != null && ss.getCatSpese().equals(importanza);
 		final Stream<SingleSpesa> filter = stream.filter(predicate);
 		final double speseTipo = filter.mapToDouble(u -> u.getinEuro()).sum();
-
 		if (speseTipo != 0 && totaleAnnuo != 0.0) {
 			percentualeTipo = speseTipo / totaleAnnuo * 100;
 		}
@@ -747,4 +751,13 @@ public class Database {
 		return AltreUtil.arrotondaDecimaliDouble(percentualeTipo);
 
 	}
+
+	public static String getDburl() {
+		return dburl;
+	}
+
+	public static void setDburl(String dburl) {
+		Database.dburl = dburl;
+	}
+
 }

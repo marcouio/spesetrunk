@@ -27,24 +27,12 @@ public class Model {
 	private WrapLookAndFeel modelLookAndFeel;
 	private static Model singleton;
 	private static String[][] primoUscite;
-	private static String[][] primoEntrate;
 	private static String[] nomiColonneUscite;
 	private static String[] nomiColonneEntrate;
 	private static String[][] movimentiEntrate;
 	private static String[][] movimentiUscite;
 
 	private static List<CatSpese> catSpese = CacheCategorie.getSingleton().getVettoreCategorie();
-
-	public static Model getSingleton() {
-		if (singleton == null) {
-			synchronized (CacheCategorie.class) {
-				if (singleton == null) {
-					singleton = new Model();
-				}
-			} // if
-		} // if
-		return singleton;
-	}
 
 	private Model() {
 		modelCategorie = new WrapCatSpese();
@@ -54,6 +42,13 @@ public class Model {
 		modelRisparmio = new WrapRisparmio();
 		modelUscita = new WrapSingleSpesa();
 		modelUtenti = new WrapUtenti();
+	}
+
+	public static synchronized Model getSingleton() {
+		if (singleton == null) {
+			singleton = new Model();
+		} // if
+		return singleton;
 	}
 
 	public WrapCatSpese getModelCategorie() {
@@ -112,10 +107,6 @@ public class Model {
 		this.modelUtenti = modelUtenti;
 	}
 
-	// public void setSingleton(Model singleton) {
-	// Model.singleton = singleton;
-	// }
-
 	// *************************************TABELLA-USCITE******************************************
 
 	private static String[][] setTabellaUscitaPrimo() {
@@ -132,7 +123,8 @@ public class Model {
 		for (int i = 0; i < 12; i++) {
 			for (int x = 0; x < catSpese.size(); x++) {
 				try {
-					primoUscite[i][x] = Double.toString(Database.speseMeseCategoria(i + 1, catSpese.get(x).getidCategoria()));
+					primoUscite[i][x] = Double
+							.toString(Database.speseMeseCategoria(i + 1, catSpese.get(x).getidCategoria()));
 				} catch (final Exception e) {
 					ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 				}
@@ -169,26 +161,7 @@ public class Model {
 	}
 
 	// *************************************TABELLA-ENTRATE******************************************
-
-	private static String[][] setTabellaEntratePrimo() {
-
-		final String[] nomiColonneEntrate = nomiColonneEntrate();
-		final int numColonne = nomiColonneEntrate.length;
-
-		primoEntrate = new String[12][numColonne];
-
-		for (int i = 0; i < 12; i++) {
-			for (int x = 0; x < numColonne; x++) {
-				try {
-					primoEntrate[i][x] = Double.toString(Database.getSingleton().entrateMeseTipo(i + 1, nomiColonneEntrate[x]));
-				} catch (final Exception e) {
-					ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-				}
-			}
-		}
-		return primoEntrate;
-	}
-
+	
 	private static String[] nomiColonneEntrate() {
 
 		nomiColonneEntrate = new String[2];
@@ -196,10 +169,6 @@ public class Model {
 		nomiColonneEntrate[1] = "Variabili";
 
 		return nomiColonneEntrate;
-	}
-
-	public static String[][] getPrimoEntrate() {
-		return setTabellaEntratePrimo();
 	}
 
 	public static void setPrimoEntrate(final String[][] primo) {
@@ -251,53 +220,51 @@ public class Model {
 	 *
 	 * @param numEntry
 	 * @param tabella
+	 * @param numMovimenti 
 	 * @return String[][]
 	 */
-	public String[][] movimentiFiltratiEntratePerNumero(final String tabella, final List<Entrate> entry1) {
+	public static String[][] movimentiFiltratiEntratePerNumero(final String tabella, final List<Entrate> entry1, int numMovimenti) {
 		final List<String> nomi = Database.getSingleton().nomiColonne(tabella);
 
-		final int numEntry = entry1.size();
+		final int numEntry = numMovimenti;
 
-		if (entry1.size() > 0 && (entry1.size() == numEntry || entry1.size() >= numEntry)) {
-			movimentiEntrate = new String[numEntry][nomi.size()];
-			for (int x = 0; x < entry1.size(); x++) {
-				final Entrate entrate = entry1.get(x);
-				movimentiEntrate[x][0] = entrate.getdata().toString();
-				movimentiEntrate[x][1] = entrate.getnome();
-				movimentiEntrate[x][2] = entrate.getdescrizione();
-				movimentiEntrate[x][3] = Double.toString(entrate.getinEuro());
-				movimentiEntrate[x][4] = entrate.getFisseoVar();
-				movimentiEntrate[x][5] = Integer.toString(entrate.getidEntrate());
-				movimentiEntrate[x][6] = entrate.getDataIns();
-
-			}
-		} else if (entry1.size() > 0 && entry1.size() < numEntry) {
-			movimentiEntrate = new String[numEntry][nomi.size()];
-			for (int x = 0; x < entry1.size(); x++) {
-				final Entrate entrate = entry1.get(x);
-				movimentiEntrate[x][0] = entrate.getdata().toString();
-				movimentiEntrate[x][1] = entrate.getnome();
-				movimentiEntrate[x][2] = entrate.getdescrizione();
-				movimentiEntrate[x][3] = Double.toString(entrate.getinEuro());
-				movimentiEntrate[x][4] = entrate.getFisseoVar();
-				movimentiEntrate[x][5] = Integer.toString(entrate.getidEntrate());
-				movimentiEntrate[x][6] = entrate.getDataIns();
-			}
+		if (!entry1.isEmpty() && (entry1.size() == numEntry || entry1.size() >= numEntry)) {
+			popolaArrayMovimentiEntrata(entry1, nomi, numEntry);
+		} else if (!entry1.isEmpty() && entry1.size() < numEntry) {
+			popolaArrayMovimentiEntrata(entry1, nomi, numEntry);
 			for (int y = entry1.size(); y < numEntry; y++) {
-				for (int z = 0; z < nomi.size(); z++) {
-					movimentiEntrate[y][z] = "0";
-				}
+				riempiArrayMovEntrateConZeri(nomi, y);
 			}
 		} else {
 			movimentiEntrate = new String[numEntry][nomi.size()];
 			for (int x = 0; x < numEntry; x++) {
-				for (int z = 0; z < nomi.size(); z++) {
-					movimentiEntrate[x][z] = "0";
-				}
+				riempiArrayMovEntrateConZeri(nomi, x);
 			}
 		}
 		DBUtil.closeConnection();
 		return movimentiEntrate;
+	}
+
+	private static void riempiArrayMovEntrateConZeri(final List<String> nomi, int x) {
+		for (int z = 0; z < nomi.size(); z++) {
+			movimentiEntrate[x][z] = "0";
+		}
+	}
+
+	private static void popolaArrayMovimentiEntrata(final List<Entrate> entry1, final List<String> nomi,
+			final int numEntry) {
+		movimentiEntrate = new String[numEntry][nomi.size()];
+		for (int x = 0; x < entry1.size(); x++) {
+			final Entrate entrate = entry1.get(x);
+			movimentiEntrate[x][0] = entrate.getdata().toString();
+			movimentiEntrate[x][1] = entrate.getnome();
+			movimentiEntrate[x][2] = entrate.getdescrizione();
+			movimentiEntrate[x][3] = Double.toString(entrate.getinEuro());
+			movimentiEntrate[x][4] = entrate.getFisseoVar();
+			movimentiEntrate[x][5] = Integer.toString(entrate.getidEntrate());
+			movimentiEntrate[x][6] = entrate.getDataIns();
+
+		}
 	}
 
 	/**
@@ -311,46 +278,21 @@ public class Model {
 	 * @param tabella
 	 * @return String[][]
 	 */
-	public String[][] movimentiEntrate(final int numEntry, final String tabella) {
+	public static String[][] movimentiEntrate(final int numEntry, final String tabella) {
 		final List<String> nomi = Database.getSingleton().nomiColonne(tabella);
 		final List<Entrate> entry1 = Model.getSingleton().modelEntrate.dieciEntrate(numEntry);
 
-		if (entry1.size() > 0 && (entry1.size() == numEntry || entry1.size() >= numEntry)) {
-			movimentiEntrate = new String[numEntry][nomi.size()];
-			for (int x = 0; x < entry1.size(); x++) {
-				final Entrate entrate = entry1.get(x);
-				movimentiEntrate[x][0] = entrate.getdata().toString();
-				movimentiEntrate[x][1] = entrate.getnome();
-				movimentiEntrate[x][2] = entrate.getdescrizione();
-				movimentiEntrate[x][3] = Double.toString(entrate.getinEuro());
-				movimentiEntrate[x][4] = entrate.getFisseoVar();
-				movimentiEntrate[x][5] = Integer.toString(entrate.getidEntrate());
-				movimentiEntrate[x][6] = entrate.getDataIns();
-
-			}
-		} else if (entry1.size() > 0 && entry1.size() < numEntry) {
-			movimentiEntrate = new String[numEntry][nomi.size()];
-			for (int x = 0; x < entry1.size(); x++) {
-				final Entrate entrate = entry1.get(x);
-				movimentiEntrate[x][0] = entrate.getdata().toString();
-				movimentiEntrate[x][1] = entrate.getnome();
-				movimentiEntrate[x][2] = entrate.getdescrizione();
-				movimentiEntrate[x][3] = Double.toString(entrate.getinEuro());
-				movimentiEntrate[x][4] = entrate.getFisseoVar();
-				movimentiEntrate[x][5] = Integer.toString(entrate.getidEntrate());
-				movimentiEntrate[x][6] = entrate.getDataIns();
-			}
+		if (!entry1.isEmpty() && (entry1.size() == numEntry || entry1.size() >= numEntry)) {
+			popolaArrayMovimentiEntrata(entry1, nomi, numEntry);
+		} else if (!entry1.isEmpty() && entry1.size() < numEntry) {
+			popolaArrayMovimentiEntrata(entry1, nomi, numEntry);
 			for (int y = entry1.size(); y < numEntry; y++) {
-				for (int z = 0; z < nomi.size(); z++) {
-					movimentiEntrate[y][z] = "0";
-				}
+				riempiArrayMovEntrateConZeri(nomi, y);
 			}
 		} else {
 			movimentiEntrate = new String[numEntry][nomi.size()];
 			for (int x = 0; x < numEntry; x++) {
-				for (int z = 0; z < nomi.size(); z++) {
-					movimentiEntrate[x][z] = "0";
-				}
+				riempiArrayMovEntrateConZeri(nomi, x);
 			}
 		}
 		DBUtil.closeConnection();
@@ -359,56 +301,49 @@ public class Model {
 
 	// *************************************MOVIMENTI-USCITE***********************************
 
-	public String[][] movimentiFiltratiUscitePerNumero(final String tabella, final List<SingleSpesa> uscite) {
+	public static String[][] movimentiFiltratiUscitePerNumero(final String tabella, final List<SingleSpesa> uscite) {
 		final List<String> nomi = Database.getSingleton().nomiColonne(tabella);
 
 		final int numUscite = uscite.size();
 
-		if (uscite.size() > 0 && (uscite.size() == numUscite || uscite.size() >= numUscite)) {
+		if (!uscite.isEmpty() && (uscite.size() == numUscite || uscite.size() >= numUscite)) {
 			movimentiUscite = new String[numUscite][nomi.size()];
 			for (int x = 0; x < numUscite; x++) {
-				final SingleSpesa uscita = uscite.get(x);
-				movimentiUscite[x][0] = uscita.getData();
-				movimentiUscite[x][1] = uscita.getnome();
-				movimentiUscite[x][2] = uscita.getdescrizione();
-				movimentiUscite[x][3] = Double.toString(uscita.getinEuro());
-				movimentiUscite[x][4] = uscita.getCatSpese().getnome();
-				movimentiUscite[x][5] = Integer.toString(uscita.getidSpesa());
-				movimentiUscite[x][6] = uscita.getDataIns();
+				popolaArrayMovUsciteConSingleSpesa(uscite, x);
 
 			}
-		} else if (uscite.size() > 0 && uscite.size() < numUscite) {
+		} else if (!uscite.isEmpty() && uscite.size() < numUscite) {
 
 			movimentiUscite = new String[numUscite][nomi.size()];
 			for (int x = 0; x < uscite.size(); x++) {
 
-				final SingleSpesa uscita = uscite.get(x);
-				movimentiUscite[x][0] = uscita.getData();
-				movimentiUscite[x][1] = uscita.getnome();
-				movimentiUscite[x][2] = uscita.getdescrizione();
-				movimentiUscite[x][3] = Double.toString(uscita.getinEuro());
-				movimentiUscite[x][4] = uscita.getCatSpese() != null ? uscita.getCatSpese().getnome() : "Nessuna";
-				movimentiUscite[x][5] = Integer.toString(uscita.getidSpesa());
-				movimentiUscite[x][6] = uscita.getDataIns();
+				popolaArrayMovUsciteConSingleSpesa(uscite, x);
 
 				for (int y = uscite.size(); y < numUscite; y++) {
-					for (int z = 0; z < nomi.size(); z++) {
-						movimentiUscite[y][z] = "0";
-					}
+					riempiArrayMovUsciteConZeri(nomi, y);
 				}
 			}
 		} else {
 			movimentiUscite = new String[numUscite][nomi.size()];
 			for (int x = 0; x < numUscite; x++) {
-				for (int z = 0; z < nomi.size(); z++) {
-					movimentiUscite[x][z] = "0";
-				}
+				riempiArrayMovUsciteConZeri(nomi, x);
 			}
 
 		}
 		DBUtil.closeConnection();
 		return movimentiUscite;
 
+	}
+
+	private static void popolaArrayMovUsciteConSingleSpesa(final List<SingleSpesa> uscite, int x) {
+		final SingleSpesa uscita = uscite.get(x);
+		movimentiUscite[x][0] = uscita.getData();
+		movimentiUscite[x][1] = uscita.getnome();
+		movimentiUscite[x][2] = uscita.getdescrizione();
+		movimentiUscite[x][3] = Double.toString(uscita.getinEuro());
+		movimentiUscite[x][4] = uscita.getCatSpese() != null ? uscita.getCatSpese().getnome() : "Nessuna";
+		movimentiUscite[x][5] = Integer.toString(uscita.getidSpesa());
+		movimentiUscite[x][6] = uscita.getDataIns();
 	}
 
 	/**
@@ -420,55 +355,43 @@ public class Model {
 	 * @param tabella
 	 * @return String[][]
 	 */
-	public String[][] movimentiUscite(final int numUscite, final String tabella) {
+	public static String[][] movimentiUscite(final int numUscite, final String tabella) {
 		final List<String> nomi = Database.getSingleton().nomiColonne(tabella);
 		final List<SingleSpesa> uscite = Model.getSingleton().modelUscita.dieciUscite(numUscite);
 
-		if (uscite.size() > 0 && (uscite.size() == numUscite || uscite.size() >= numUscite)) {
+		if (!uscite.isEmpty() && (uscite.size() == numUscite || uscite.size() >= numUscite)) {
 			movimentiUscite = new String[numUscite][nomi.size()];
 			for (int x = 0; x < numUscite; x++) {
-				final SingleSpesa uscita = uscite.get(x);
-				movimentiUscite[x][0] = uscita.getData();
-				movimentiUscite[x][1] = uscita.getnome();
-				movimentiUscite[x][2] = uscita.getdescrizione();
-				movimentiUscite[x][3] = Double.toString(uscita.getinEuro());
-				movimentiUscite[x][4] = uscita.getCatSpese().getnome();
-				movimentiUscite[x][5] = Integer.toString(uscita.getidSpesa());
-				movimentiUscite[x][6] = uscita.getDataIns();
+				popolaArrayMovUsciteConSingleSpesa(uscite, x);
 
 			}
-		} else if (uscite.size() > 0 && uscite.size() < numUscite) {
+		} else if (!uscite.isEmpty() && uscite.size() < numUscite) {
 
 			movimentiUscite = new String[numUscite][nomi.size()];
 			for (int x = 0; x < uscite.size(); x++) {
 
-				final SingleSpesa uscita = uscite.get(x);
-				movimentiUscite[x][0] = uscita.getData();
-				movimentiUscite[x][1] = uscita.getnome();
-				movimentiUscite[x][2] = uscita.getdescrizione();
-				movimentiUscite[x][3] = Double.toString(uscita.getinEuro());
-				movimentiUscite[x][4] = uscita.getCatSpese() != null ? uscita.getCatSpese().getnome() : "Nessuna";
-				movimentiUscite[x][5] = Integer.toString(uscita.getidSpesa());
-				movimentiUscite[x][6] = uscita.getDataIns();
+				popolaArrayMovUsciteConSingleSpesa(uscite, x);
 
 				for (int y = uscite.size(); y < numUscite; y++) {
-					for (int z = 0; z < nomi.size(); z++) {
-						movimentiUscite[y][z] = "0";
-					}
+					riempiArrayMovUsciteConZeri(nomi, y);
 				}
 			}
 		} else {
 			movimentiUscite = new String[numUscite][nomi.size()];
 			for (int x = 0; x < numUscite; x++) {
-				for (int z = 0; z < nomi.size(); z++) {
-					movimentiUscite[x][z] = "0";
-				}
+				riempiArrayMovUsciteConZeri(nomi, x);
 			}
 
 		}
 		DBUtil.closeConnection();
 		return movimentiUscite;
 
+	}
+
+	private static void riempiArrayMovUsciteConZeri(final List<String> nomi, int x) {
+		for (int z = 0; z < nomi.size(); z++) {
+			movimentiUscite[x][z] = "0";
+		}
 	}
 
 	public void setModelLookAndFeel(final WrapLookAndFeel modelLookAndFeel) {

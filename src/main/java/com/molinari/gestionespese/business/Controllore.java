@@ -169,7 +169,7 @@ public class Controllore extends ControlloreBase{
 	@Override
 	public void mainOverridato(FrameBase frame) throws Exception {
 
-		Database.DB_URL = Database.DB_URL_WORKSPACE;
+		Database.setDburl(Database.DB_URL_WORKSPACE);
 		verificaPresenzaDb();
 		frame.setExtendedState(Frame.MAXIMIZED_BOTH);
 		frame.setBounds(10, 20, 1024, 648);

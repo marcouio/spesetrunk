@@ -104,7 +104,7 @@ public class AggiornatoreManager {
 			if (SottoPannelloTotali.getPercentoFutili() != null) {
 				SottoPannelloTotali.getPercentoFutili().setText(Double.toString(Database.percentoUscite(CatSpese.IMPORTANZA_FUTILE)));
 				SottoPannelloTotali.getPercentoVariabili().setText(Double.toString(Database.percentoUscite(CatSpese.IMPORTANZA_VARIABILE)));
-				SottoPannelloTotali.getAvanzo().setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(Database.EAnnuale() - Database.uAnnuale())));
+				SottoPannelloTotali.getAvanzo().setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(Database.eAnnuale() - Database.uAnnuale())));
 			}
 			DBUtil.closeConnection();
 			return true;
@@ -264,7 +264,7 @@ public class AggiornatoreManager {
 
 			final SottoPannelloDatiEntrate pannelloEntrate = finestra.getPannelloEntrate();
 			if (pannelloEntrate != null) {
-				pannelloEntrate.getEnAnCorso().setText(Double.toString(Database.EAnnuale()));
+				pannelloEntrate.getEnAnCorso().setText(Double.toString(Database.eAnnuale()));
 				pannelloEntrate.getEnMeCorso().setText(Double.toString(Database.eMensileInCorso()));
 				pannelloEntrate.getEntrateMesePrec().setText(Double.toString(Database.eMensile()));
 				DBUtil.closeConnection();

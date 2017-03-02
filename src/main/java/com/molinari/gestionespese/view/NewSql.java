@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 
 import javax.swing.ImageIcon;
@@ -138,7 +139,7 @@ public class NewSql extends PannelloBase {
 			public void actionPerformed(final ActionEvent e) {
 				final String sql = areaSql.getText();
 				try {
-					final HashMap<String, ArrayList> nomi = Database.getSingleton().terminaleSql(sql);
+					final Map<String, ArrayList<String>> nomi = Database.getSingleton().terminaleSql(sql);
 
 					final Iterator<String> chiavi = nomi.keySet().iterator();
 
@@ -154,8 +155,14 @@ public class NewSql extends PannelloBase {
 						String trattini = "";
 
 						for (int x = 0; x < lista.size() * 35; x++) {
-							trattini = trattini + "-";
-							finale = finale + "*";
+							StringBuilder stringBuilder2 = new StringBuilder();
+							stringBuilder2.append(trattini);
+							stringBuilder2.append("-");
+							trattini = stringBuilder2.toString();
+							StringBuilder stringBuilder = new StringBuilder();
+							stringBuilder.append(finale);
+							stringBuilder.append("*");
+							finale = stringBuilder.toString();
 						}
 						final StringBuilder stringBuilder = new StringBuilder();
 						stringBuilder.append("\n");
@@ -171,6 +178,7 @@ public class NewSql extends PannelloBase {
 					result.setText(totale + "\n");
 
 				} catch (final Exception e1) {
+					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 					Alert.segnalazioneErroreGrave(e1.getMessage());
 				}
 			}

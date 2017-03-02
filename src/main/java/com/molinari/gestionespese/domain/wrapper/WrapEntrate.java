@@ -11,7 +11,6 @@ import java.util.logging.Level;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Controllore;
-import com.molinari.gestionespese.business.DBUtil;
 import com.molinari.gestionespese.business.cache.CacheUtenti;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.IEntrate;
@@ -26,6 +25,10 @@ import db.dao.IDAO;
 
 public class WrapEntrate extends Observable implements IEntrate, IDAO {
 
+	private static final String AND = " AND ";
+	private static final String DELETE_FROM = "DELETE FROM ";
+	private static final String WHERE = " WHERE ";
+	private static final String SELECT_FROM = "SELECT * FROM ";
 	private final Entrate entrate;
 
 	public WrapEntrate() {
@@ -35,7 +38,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	@Override
 	public Object selectById(final int id) {
 
-		final String sql = "SELECT * FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.ID + " = " + id;
+		final String sql = SELECT_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.ID + " = " + id;
 
 		final Entrate entrata = new Entrate();
 
@@ -51,21 +54,11 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 
 				private Object extracted(final Entrate entrata, ResultSet rs)
 						throws SQLException {
-					if (rs.next()) {
 
 						if (rs.next()) {
-							final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
-							entrata.setidEntrate(rs.getInt(1));
-							entrata.setdescrizione(rs.getString(2));
-							entrata.setFisseoVar(rs.getString(3));
-							entrata.setinEuro(rs.getDouble(4));
-							entrata.setdata(rs.getString(5));
-							entrata.setnome(rs.getString(6));
-							entrata.setUtenti(utente);
-							entrata.setDataIns(rs.getString(8));
+							riempiEntrataFromResultSet(entrata, rs);
 						}
 
-					}
 					return entrata;
 				}
 
@@ -75,7 +68,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} finally {
-
+			ConnectionPool.getSingleton().chiudiOggettiDb(null);
 		}
 		return entrata;
 
@@ -84,7 +77,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	public List<Object> selectAllForUtente() {
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 
-		final String sql = "SELECT * FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.IDUTENTE + " = " + utente.getidUtente();
+		final String sql = SELECT_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.IDUTENTE + " = " + utente.getidUtente();
 		try {
 
 			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
@@ -92,21 +85,13 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 				@Override
 				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
 
-					final List<Object> entrate = new ArrayList<>();
+					final List<Object> entrateLoc = new ArrayList<>();
 					while (rs != null && rs.next()) {
 
-						final Entrate entrata = new Entrate();
-						entrata.setidEntrate(rs.getInt(1));
-						entrata.setdescrizione(rs.getString(2));
-						entrata.setFisseoVar(rs.getString(3));
-						entrata.setinEuro(rs.getDouble(4));
-						entrata.setdata(rs.getString(5));
-						entrata.setnome(rs.getString(6));
-						entrata.setUtenti(utente);
-						entrata.setDataIns(rs.getString(8));
-						entrate.add(entrata);
+						final Entrate entrata = riempiEntrataWithResultSet(utente, rs);
+						entrateLoc.add(entrata);
 					}
-					return entrate;
+					return entrateLoc;
 				}
 
 			}.execute(sql);
@@ -115,14 +100,14 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
 	public List<Object> selectAll() {
 
 
-		final String sql = "SELECT * FROM " + Entrate.NOME_TABELLA;
+		final String sql = SELECT_FROM + Entrate.NOME_TABELLA;
 		try {
 			CacheUtenti.getSingleton().getAllUtenti();
 			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
@@ -134,22 +119,14 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 
 				private List<Object> extracted(ResultSet rs)
 						throws SQLException {
-					final List<Object> entrate = new ArrayList<>();
+					final List<Object> entrateLoc = new ArrayList<>();
 
 					while (rs != null && rs.next()) {
 						final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
-						final Entrate entrata = new Entrate();
-						entrata.setidEntrate(rs.getInt(1));
-						entrata.setdescrizione(rs.getString(2));
-						entrata.setFisseoVar(rs.getString(3));
-						entrata.setinEuro(rs.getDouble(4));
-						entrata.setdata(rs.getString(5));
-						entrata.setnome(rs.getString(6));
-						entrata.setUtenti(utente);
-						entrata.setDataIns(rs.getString(8));
-						entrate.add(entrata);
+						final Entrate entrata = riempiEntrataWithResultSet(utente, rs);
+						entrateLoc.add(entrata);
 					}
-					return entrate;
+					return entrateLoc;
 				}
 
 			}.execute(sql);
@@ -160,7 +137,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 		}
 
 		ConnectionPool.getSingleton().chiudiOggettiDb(null);
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -173,7 +150,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 
 			sql = "INSERT INTO " + Entrate.NOME_TABELLA + " (" + Entrate.DESCRIZIONE + ", " + Entrate.FISSEOVAR + ", " + Entrate.INEURO + ", " + Entrate.DATA + ", " + Entrate.NOME
 					+ ", " + Entrate.IDUTENTE + ", " + Entrate.DATAINS + ") VALUES (?,?,?,?,?,?,?)";
-			final PreparedStatement ps = cn.prepareStatement(sql);
+			final PreparedStatement ps = createPreparedStatement(cn, sql);
 			// descrizione
 			ps.setString(1, entrata.getdescrizione());
 			// tipo
@@ -190,25 +167,25 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 			ps.setString(7, entrata.getDataIns());
 
 			ps.executeUpdate();
+			ps.close();
 			ok = true;
 		} catch (final Exception e) {
 			ok = false;
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} finally {
-			try {
-				cn.close();
-			} catch (final SQLException e) {
-				ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-			}
-			DBUtil.closeConnection();
+			ConnectionPool.getSingleton().chiudiOggettiDb(cn);
 		}
 		return ok;
+	}
+
+	private PreparedStatement createPreparedStatement(final Connection cn, String sql) throws SQLException {
+		return cn.prepareStatement(sql);
 	}
 
 	@Override
 	public boolean delete(final int id) {
 		boolean ok = false;
-		final String sql = "DELETE FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.ID + " = " + id;
+		final String sql = DELETE_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.ID + " = " + id;
 
 		try {
 
@@ -248,7 +225,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	@Override
 	public boolean deleteAll() {
 		boolean ok = false;
-		final String sql = "DELETE FROM " + Entrate.NOME_TABELLA;
+		final String sql = DELETE_FROM + Entrate.NOME_TABELLA;
 
 
 		try {
@@ -278,21 +255,21 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 			idUtente = utente.getidUtente();
 		}
 
-		final StringBuffer sql = new StringBuffer();
-		sql.append("SELECT * FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.IDUTENTE + " = " + idUtente);
+		final StringBuilder sql = new StringBuilder();
+		sql.append(SELECT_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.IDUTENTE + " = " + idUtente);
 		if (AltreUtil.checkData(dataDa) && AltreUtil.checkData(dataA)) {
-			sql.append(" AND " + Entrate.DATA + " BETWEEN '" + dataDa + "'" + " AND '" + dataA + "'");
+			sql.append(AND + Entrate.DATA + " BETWEEN '" + dataDa + "'" + " AND '" + dataA + "'");
 		} else if (AltreUtil.checkData(dataDa)) {
-			sql.append(" AND " + Entrate.DATA + " = '" + dataDa + "'");
+			sql.append(AND + Entrate.DATA + " = '" + dataDa + "'");
 		}
 		if (nome != null) {
-			sql.append(" AND " + Entrate.NOME + " = '" + nome + "'");
+			sql.append(AND + Entrate.NOME + " = '" + nome + "'");
 		}
 		if (euro != null) {
-			sql.append(" AND " + Entrate.INEURO + " = " + euro);
+			sql.append(AND + Entrate.INEURO + " = " + euro);
 		}
 		if (categoria != null) {
-			sql.append(" AND " + Entrate.FISSEOVAR + " = '" + categoria + "'");
+			sql.append(AND + Entrate.FISSEOVAR + " = '" + categoria + "'");
 		}
 
 		try {
@@ -302,7 +279,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 				@Override
 				protected List<Entrate> doWithResultSet(ResultSet rs) throws SQLException {
 
-					final List<Entrate> entrate = new ArrayList<>();
+					final List<Entrate> entrateLoc = new ArrayList<>();
 					while (rs != null && rs.next()) {
 						final Entrate e = new Entrate();
 						e.setdata(rs.getString(5));
@@ -313,9 +290,9 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 						e.setnome(rs.getString(6));
 						e.setUtenti(utente);
 						e.setDataIns(rs.getString(8));
-						entrate.add(e);
+						entrateLoc.add(e);
 					}
-					return entrate;
+					return entrateLoc;
 				}
 
 			}.execute(sql.toString());
@@ -323,7 +300,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
-		return null;
+		return new ArrayList<>();
 
 	}
 
@@ -342,8 +319,8 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 			idUtente = utente.getidUtente();
 		}
 
-		final String sql = "SELECT * FROM " + Entrate.NOME_TABELLA + " where " + Entrate.DATA + " BETWEEN '" + Impostazioni.getAnno() + "/01/01" + "'" + " AND '"
-				+ Impostazioni.getAnno() + "/12/31" + "'" + " AND " + Entrate.IDUTENTE + " = " + idUtente + " ORDER BY " + Entrate.ID + " desc limit 0," + numEntry;
+		final String sql = SELECT_FROM + Entrate.NOME_TABELLA + " where " + Entrate.DATA + " BETWEEN '" + Impostazioni.getAnno() + "/01/01" + "'" + " AND '"
+				+ Impostazioni.getAnno() + "/12/31" + "'" + AND + Entrate.IDUTENTE + " = " + idUtente + " ORDER BY " + Entrate.ID + " desc limit 0," + numEntry;
 
 		try {
 
@@ -352,7 +329,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 				@Override
 				protected List<Entrate> doWithResultSet(ResultSet rs) throws SQLException {
 
-					final List<Entrate> entrate = new ArrayList<>();
+					final List<Entrate> entrateLoc = new ArrayList<>();
 
 					while (rs != null && rs.next()) {
 						final Entrate e = new Entrate();
@@ -364,10 +341,10 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 						e.setnome(rs.getString(6));
 						e.setUtenti(utente);
 						e.setDataIns(rs.getString(8));
-						entrate.add(e);
+						entrateLoc.add(e);
 					}
 
-					return entrate;
+					return entrateLoc;
 				}
 
 			}.execute(sql);
@@ -376,7 +353,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
-		return null;
+		return new ArrayList<>();
 
 	}
 
@@ -386,7 +363,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	public boolean DeleteLastEntrate() {
 		boolean ok = false;
 
-		final String sql = "SELECT * FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.IDUTENTE + " = " + ((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente()
+		final String sql = SELECT_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.IDUTENTE + " = " + ((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente()
 				+ " ORDER BY " + Entrate.DATAINS + " DESC";
 
 		final Connection cn = ConnectionPool.getSingleton().getConnection();
@@ -399,11 +376,11 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 				protected Boolean doWithResultSet(ResultSet rs) throws SQLException {
 
 					if (rs.next()) {
-						final String sql2 = "DELETE FROM " + Entrate.NOME_TABELLA + " WHERE " + Entrate.ID + "=?";
-						final PreparedStatement ps = cn.prepareStatement(sql2);
+						final String sql2 = DELETE_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.ID + "=?";
+						
+						final PreparedStatement ps = createPreparedStatement(cn, sql2);
 						ps.setInt(1, rs.getInt(1));
 						ps.executeUpdate();
-
 					}
 					return true;
 				}
@@ -443,8 +420,8 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	}
 
 	@Override
-	public void setFisseoVar(final String FisseoVar) {
-		entrate.setFisseoVar(FisseoVar);
+	public void setFisseoVar(final String fisseoVar) {
+		entrate.setFisseoVar(fisseoVar);
 	}
 
 	@Override
@@ -498,16 +475,6 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	}
 
 	@Override
-	public void notifyObservers() {
-		super.notifyObservers();
-	}
-
-	@Override
-	public synchronized void setChanged() {
-		super.setChanged();
-	}
-
-	@Override
 	public AbstractOggettoEntita getEntitaPadre() {
 		return entrate;
 	}
@@ -515,8 +482,32 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	@Override
 	public Object selectWhere(List<Clausola> clausole,
 			String appentoToQuery) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
+	}
+
+	private void riempiEntrataFromResultSet(final Entrate entrata, ResultSet rs) throws SQLException {
+		final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
+		entrata.setidEntrate(rs.getInt(1));
+		entrata.setdescrizione(rs.getString(2));
+		entrata.setFisseoVar(rs.getString(3));
+		entrata.setinEuro(rs.getDouble(4));
+		entrata.setdata(rs.getString(5));
+		entrata.setnome(rs.getString(6));
+		entrata.setUtenti(utente);
+		entrata.setDataIns(rs.getString(8));
+	}
+
+	private Entrate riempiEntrataWithResultSet(final Utenti utente, ResultSet rs) throws SQLException {
+		final Entrate entrata = new Entrate();
+		entrata.setidEntrate(rs.getInt(1));
+		entrata.setdescrizione(rs.getString(2));
+		entrata.setFisseoVar(rs.getString(3));
+		entrata.setinEuro(rs.getDouble(4));
+		entrata.setdata(rs.getString(5));
+		entrata.setnome(rs.getString(6));
+		entrata.setUtenti(utente);
+		entrata.setDataIns(rs.getString(8));
+		return entrata;
 	}
 
 }

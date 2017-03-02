@@ -19,7 +19,7 @@ public abstract class FiltraDialog extends JDialog {
 	private final TextFieldF tfA;
 	private final TextFieldF tfNome;
 	private final TextFieldF tfEuro;
-	protected JComboBox<?> comboBoxCat;
+	protected JComboBox<String> comboBoxCat;
 
 	private String dataDa;
 	private String dataA;

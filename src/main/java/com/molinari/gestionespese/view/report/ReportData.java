@@ -36,7 +36,7 @@ public class ReportData {
 
 
 	public Double generaEntrateAnnuali(){
-		return Database.EAnnuale();
+		return Database.eAnnuale();
 	}
 
 	public HashMap<String, Double> generaEntrateMese(){
@@ -130,7 +130,7 @@ public class ReportData {
 	}
 
 	public Double generaAvanzo() {
-		return AltreUtil.arrotondaDecimaliDouble(Database.EAnnuale() - Database.uAnnuale());
+		return AltreUtil.arrotondaDecimaliDouble(Database.eAnnuale() - Database.uAnnuale());
 	}
 
 	public Double generaMediaUscite() {
@@ -138,7 +138,7 @@ public class ReportData {
 	}
 
 	public Double generaMediaEntrate() {
-		return Database.EAnnuale() / new GregorianCalendar().get(Calendar.MONTH + 1);
+		return Database.eAnnuale() / new GregorianCalendar().get(Calendar.MONTH + 1);
 	}
 
 }

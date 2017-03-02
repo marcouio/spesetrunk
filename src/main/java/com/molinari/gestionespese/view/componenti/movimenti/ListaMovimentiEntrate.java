@@ -4,6 +4,7 @@ import java.awt.Container;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.swing.JComboBox;
 import javax.swing.WindowConstants;
@@ -14,6 +15,8 @@ import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.wrapper.Model;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
+
+import controller.ControlloreBase;
 
 public class ListaMovimentiEntrate extends AbstractListaMov {
 
@@ -26,7 +29,7 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 
 	@Override
 	public String[][] createMovimenti() {
-		return Model.getSingleton().movimentiEntrate(numMovimenti, Entrate.NOME_TABELLA);
+		return Model.movimentiEntrate(numMovimenti, Entrate.NOME_TABELLA);
 	}
 
 	@Override
@@ -36,6 +39,7 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 
 	@Override
 	public void impostaTableSpecifico() {
+		//do nothing
 	}
 
 	@Override
@@ -50,7 +54,7 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 					public String[][] getMovimenti() {
 						final WrapEntrate modelEntrate = Model.getSingleton().getModelEntrate();
 						final List<Entrate> entrate = modelEntrate.movimentiEntrateFiltrati(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
-						final String[][] mov = Model.getSingleton().movimentiFiltratiEntratePerNumero(Entrate.NOME_TABELLA, entrate);
+						final String[][] mov = Model.movimentiFiltratiEntratePerNumero(Entrate.NOME_TABELLA, entrate, numMovimenti);
 						AggiornatoreManager.aggiornaMovimentiEntrateDaFiltro(createNomiColonne(), mov);
 						return mov;
 					}
@@ -80,7 +84,7 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 				dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 				dialog.setVisible(true);
 			} catch (final Exception e1) {
-				e1.printStackTrace();
+				ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 			}
 
 		};

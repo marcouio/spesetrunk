@@ -19,7 +19,7 @@ import controller.ControlloreBase;
 
 public class DBUtil {
 
-	private static String url = "jdbc:sqlite:" + Database.DB_URL;
+	private static String url = "jdbc:sqlite:" + Database.getDburl();
 	public static final String USR = "root";
 	public static final String DRIVERCLASSNAME = JDBC.class.getName();
 	private static Connection connection = null;

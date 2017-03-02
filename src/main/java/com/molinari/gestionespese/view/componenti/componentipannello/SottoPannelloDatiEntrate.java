@@ -53,7 +53,7 @@ public class SottoPannelloDatiEntrate {
 
 			enAnCorso = new TextFieldF();
 
-			final double eAnnuale = Database.EAnnuale();
+			final double eAnnuale = Database.eAnnuale();
 			enAnCorso.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(eAnnuale)));
 			enAnCorso.setBounds(164, 84, 106, 27);
 			componenti[2] = enAnCorso;
