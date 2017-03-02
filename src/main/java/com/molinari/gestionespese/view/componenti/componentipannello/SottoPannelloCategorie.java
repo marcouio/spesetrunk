@@ -8,10 +8,8 @@ import java.util.logging.Level;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.WindowConstants;
 
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
@@ -24,26 +22,7 @@ import controller.ControlloreBase;
 
 public class SottoPannelloCategorie {
 
-	/**
-	 * Auto-generated main method to display this JPanel inside a new JFrame.
-	 */
-	public static void main(final String[] args) {
-		final JFrame frame = new JFrame();
-		final SottoPannelloCategorie pan = new SottoPannelloCategorie();
-		frame.getContentPane().add(pan.getPannello());
-		frame.setBounds(0, 0, (pan.getPannello().getWidth() + pan.getPannello().distanzaDalBordoX * 2) * 3,
-				(pan.getPannello().getHeight() + pan.getPannello().distanzaDalBordoY * 2) * 2);
-		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		frame.pack();
-		frame.setVisible(true);
-	}
-
-	private JLabel jLabel5;
-
-	private JLabel jLabel11;
-	private JLabel jLabel6;
-
-	private static JComboBox categorieCombo;
+	private static JComboBox<CatSpese> categorieCombo;
 	private static JTextField totaleMeseCategoria;
 	private static JTextField totaleAnnualeCateg;
 
@@ -60,17 +39,17 @@ public class SottoPannelloCategorie {
 	private void initGUI() {
 		try {
 
-			jLabel5 = new LabelTestoPiccolo();
+			LabelTestoPiccolo jLabel5 = new LabelTestoPiccolo();
 			jLabel5.setText(I18NManager.getSingleton().getMessaggio("categories"));
 			jLabel5.setBounds(177, 25, 90, 19);
 			labels[0] = jLabel5;
 
-			jLabel11 = new LabelTestoPiccolo();
+			LabelTestoPiccolo jLabel11 = new LabelTestoPiccolo();
 			jLabel11.setText(I18NManager.getSingleton().getMessaggio("annualtotal"));
 			jLabel11.setBounds(135, 67, 78, 14);
 			labels[1] = jLabel11;
 
-			jLabel6 = new LabelTestoPiccolo();
+			LabelTestoPiccolo jLabel6 = new LabelTestoPiccolo();
 			jLabel6.setText(I18NManager.getSingleton().getMessaggio("monthlytotal"));
 			jLabel6.setBounds(253, 67, 106, 14);
 			labels[2] = jLabel6;
@@ -89,7 +68,7 @@ public class SottoPannelloCategorie {
 
 			// CategoriaSpese
 			final List<CatSpese> listCategoriePerCombo = CacheCategorie.getSingleton().getListCategoriePerCombo();
-			categorieCombo = new JComboBox(new Vector<>(listCategoriePerCombo));
+			categorieCombo = new JComboBox<>(new Vector<>(listCategoriePerCombo));
 
 			categorieCombo.setBounds(16, 85, 106, 27);
 
@@ -103,7 +82,7 @@ public class SottoPannelloCategorie {
 					try {
 						spesa = Database.speseMeseCategoria(mese, spese.getidCategoria());
 					} catch (final Exception e1) {
-						e1.printStackTrace();
+						ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 					}
 
 					totaleAnnualeCateg.setText(Double.toString(Database.totaleUscitaAnnoCategoria(spese.getidCategoria())));
@@ -117,11 +96,11 @@ public class SottoPannelloCategorie {
 		}
 	}
 
-	public static JComboBox getCategorieCombo() {
+	public static JComboBox<CatSpese> getCategorieCombo() {
 		return categorieCombo;
 	}
 
-	public static void setCategorieCombo(final JComboBox categorieCombo) {
+	public static void setCategorieCombo(final JComboBox<CatSpese> categorieCombo) {
 		SottoPannelloCategorie.categorieCombo = categorieCombo;
 	}
 

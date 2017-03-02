@@ -1,12 +1,11 @@
+
 package com.molinari.gestionespese.view.componenti.componentipannello;
 
 import java.util.logging.Level;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.WindowConstants;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Database;
@@ -19,28 +18,22 @@ import controller.ControlloreBase;
 public class SottoPannelloDatiSpese {
 
 
-	/**
-	 * Auto-generated main method to display this JPanel inside a new JFrame.
-	 */
-	public static void main(String[] args) {
-		final JFrame frame = new JFrame();
-		frame.getContentPane().add(new SottoPannelloDatiSpese().getPannello());
-		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		frame.pack();
-		frame.setVisible(true);
-	}
-
 	private static JTextField meseInCors;
 	private static JTextField speseAnnuali;
-	private static double     annuale;
+	private double     annuale;
 	private static JTextField mesePrecUsc;
-	private static double     mensile;
-	private static double     mensile2;
+	private double     mensile;
 
-	JComponent[]              componenti = new JComponent[3];
-	JLabel[]                  labels     = new JLabel[3];
-	CostruttoreSottoPannello  pannello;
-
+	private JComponent[]              componenti = new JComponent[3];
+	private JLabel[]                  labels     = new JLabel[3];
+	private CostruttoreSottoPannello  pannello;
+	
+	public SottoPannelloDatiSpese() {
+		super();
+		initGUI();
+		pannello = new CostruttoreSottoPannello(componenti, labels, CostruttoreSottoPannello.VERTICAL);
+	}
+	
 	private void initGUI() {
 		try {
 
@@ -71,7 +64,7 @@ public class SottoPannelloDatiSpese {
 			speseAnnuali.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(annuale)));
 
 			meseInCors = new TextFieldF();
-			mensile2 = Database.uMensileInCorso();
+			double mensile2 = Database.uMensileInCorso();
 			meseInCors.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(mensile2)));
 			componenti[0] = meseInCors;
 			meseInCors.setBounds(16, 85, 106, 27);
@@ -96,12 +89,12 @@ public class SottoPannelloDatiSpese {
 		SottoPannelloDatiSpese.speseAnnuali = speseAnnuali;
 	}
 
-	public static double getAnnuale() {
+	public double getAnnuale() {
 		return annuale;
 	}
 
-	public static void setAnnuale(double annuale) {
-		SottoPannelloDatiSpese.annuale = annuale;
+	public void setAnnuale(double annuale) {
+		this.annuale = annuale;
 	}
 
 	public static JTextField getMesePrecUsc() {
@@ -112,18 +105,12 @@ public class SottoPannelloDatiSpese {
 		SottoPannelloDatiSpese.mesePrecUsc = mesePrecUsc;
 	}
 
-	public static double getMensile() {
+	public double getMensile() {
 		return mensile;
 	}
 
-	public static void setMensile(double mensile) {
-		SottoPannelloDatiSpese.mensile = mensile;
-	}
-
-	public SottoPannelloDatiSpese() {
-		super();
-		initGUI();
-		pannello = new CostruttoreSottoPannello(componenti, labels, CostruttoreSottoPannello.VERTICAL);
+	public void setMensile(double mensile) {
+		this.mensile = mensile;
 	}
 
 	protected JComponent[] getComponenti() {

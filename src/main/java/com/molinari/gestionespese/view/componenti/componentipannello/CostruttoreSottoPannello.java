@@ -1,14 +1,11 @@
 package com.molinari.gestionespese.view.componenti.componentipannello;
 
 import java.awt.Dimension;
-import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class CostruttoreSottoPannello extends JPanel {
 
@@ -27,15 +24,19 @@ public class CostruttoreSottoPannello extends JPanel {
 	public static final int   HORIZONTAL             = 0;
 	public static final int   VERTICAL               = 1;
 
-	public static void main(String[] args) {
-		final JFrame f = new JFrame();
-		final JComponent[] componenti = new JComponent[] { new JTextField("Ciao"), new JComboBox(), new JTextField("ccd") };
-		final JLabel[] labels = new JLabel[] { new JLabel("ciao"), new JLabel("ciao2"), new JLabel("cdscs") };
-		final CostruttoreSottoPannello pan = new CostruttoreSottoPannello(componenti, labels, 1);
-		f.getContentPane().add(pan);
-		f.setVisible(true);
-		f.setBounds(0, 0, (pan.getMaxWidth(componenti) + pan.distanzaDalBordoX * 2) * 3, (pan.getMaxHeight(componenti) + pan.distanzaDalBordoY * 2) * 2);
-		f.setSize(500, 500);
+	public CostruttoreSottoPannello(List<JComponent> componenti, List<JLabel> labels, int orientation) {
+		this.setLayout(null);
+		if (orientation == HORIZONTAL) {
+			initLabelOrizzontale(labels);
+			initComponentsOrizzontale(componenti);
+			this.setSize(getMaxWidth(componenti) + distanzaDalBordoX * 2, getMaxHeight(componenti) + distanzaDalBordoY * 2);
+		} else {
+			//devo farlo...
+		}
+	}
+
+	public CostruttoreSottoPannello() {
+		//do nothing
 	}
 
 	/**
@@ -46,7 +47,6 @@ public class CostruttoreSottoPannello extends JPanel {
 		this.componenti = componenti;
 		if (orientation == VERTICAL) {
 			initGUI(componenti, labels);
-			// TODO dimensione pannello
 			this.setPreferredSize(new Dimension(this.getMaxWidth(componenti) + this.distanzaDalBordoX * 2, (this.getMaxHeight(componenti) + this.distanzaDalBordoY * 2) * componenti.length));
 		} else {
 			initLabelOrizzontale(labels);
@@ -58,25 +58,6 @@ public class CostruttoreSottoPannello extends JPanel {
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension((this.getMaxWidth(componenti) + this.distanzaDalBordoX * 2) * componenti.length, (this.getMaxHeight(componenti) + this.distanzaDalBordoY * 2) * 3);
-	}
-
-	public CostruttoreSottoPannello(ArrayList<JComponent> componenti, ArrayList<JLabel> labels, int orientation) {
-		this.setLayout(null);
-		if (orientation == HORIZONTAL) {
-			initLabelOrizzontale(labels);
-			initComponentsOrizzontale(componenti);
-			this.setSize(getMaxWidth(componenti) + distanzaDalBordoX * 2, getMaxHeight(componenti) + distanzaDalBordoY * 2);
-		} else {
-			// TODO
-			// initGUI(componenti, labels);
-			// this.setPreferredSize(new Dimension((this.getMaxWidth(componenti)
-			// + this.distanzaDalBordoX * 2) * componenti.length,
-			// (this.getMaxHeight(componenti) + this.distanzaDalBordoY * 2) *
-			// 2));
-		}
-	}
-
-	public CostruttoreSottoPannello() {
 	}
 
 	private void initGUI(final JComponent[] componenti, final JLabel[] labels) {
@@ -94,7 +75,7 @@ public class CostruttoreSottoPannello extends JPanel {
 		}
 	}
 
-	private void initLabelOrizzontale(final ArrayList<JLabel> labels) {
+	private void initLabelOrizzontale(final List<JLabel> labels) {
 		for (final JLabel label : labels) {
 			label.setBounds(indiceX, indiceY, getLarghezzaComponent(), getAltezzaComponent());
 			indiceX += distanzaDaiComponentiX + label.getWidth();
@@ -112,7 +93,7 @@ public class CostruttoreSottoPannello extends JPanel {
 		}
 	}
 
-	private void initComponentsOrizzontale(ArrayList<JComponent> componenti) {
+	private void initComponentsOrizzontale(List<JComponent> componenti) {
 		indiceX = distanzaDalBordoX;
 		for (final JComponent component : componenti) {
 			component.setBounds(indiceX, indiceY + distanzaDaiComponentiY + getAltezzaComponent(), getLarghezzaComponent(), getAltezzaComponent());
@@ -148,7 +129,7 @@ public class CostruttoreSottoPannello extends JPanel {
 		return maxWidth;
 	}
 
-	int getMaxWidth(final ArrayList<JComponent> componenti) {
+	int getMaxWidth(final List<JComponent> componenti) {
 		int maxWidth = 0;
 		for (final JComponent component : componenti) {
 			if (component.getWidth() > maxWidth) {
@@ -158,7 +139,7 @@ public class CostruttoreSottoPannello extends JPanel {
 		return maxWidth;
 	}
 
-	private int getMaxHeight(final ArrayList<JComponent> componenti) {
+	private int getMaxHeight(final List<JComponent> componenti) {
 		int maxHeight = 0;
 		for (final JComponent component : componenti) {
 			if (component.getHeight() > maxHeight) {
