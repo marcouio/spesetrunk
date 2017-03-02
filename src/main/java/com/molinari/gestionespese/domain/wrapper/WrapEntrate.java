@@ -77,7 +77,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	public List<Object> selectAllForUtente() {
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 
-		final String sql = SELECT_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.IDUTENTE + " = " + utente.getidUtente();
+		final String sql = SELECT_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.COL_IDUTENTE + " = " + utente.getidUtente();
 		try {
 
 			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
@@ -148,8 +148,8 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 		try {
 			final Entrate entrata = (Entrate) oggettoEntita;
 
-			sql = "INSERT INTO " + Entrate.NOME_TABELLA + " (" + Entrate.DESCRIZIONE + ", " + Entrate.FISSEOVAR + ", " + Entrate.INEURO + ", " + Entrate.DATA + ", " + Entrate.NOME
-					+ ", " + Entrate.IDUTENTE + ", " + Entrate.DATAINS + ") VALUES (?,?,?,?,?,?,?)";
+			sql = "INSERT INTO " + Entrate.NOME_TABELLA + " (" + Entrate.COL_DESCRIZIONE + ", " + Entrate.COL_FISSEOVAR + ", " + Entrate.COL_INEURO + ", " + Entrate.COL_DATA + ", " + Entrate.COL_NOME
+					+ ", " + Entrate.COL_IDUTENTE + ", " + Entrate.COL_DATAINS + ") VALUES (?,?,?,?,?,?,?)";
 			final PreparedStatement ps = createPreparedStatement(cn, sql);
 			// descrizione
 			ps.setString(1, entrata.getdescrizione());
@@ -206,9 +206,9 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 
 
 		final Entrate entrata = (Entrate) oggettoEntita;
-		final String sql = "UPDATE " + Entrate.NOME_TABELLA + " SET " + Entrate.DESCRIZIONE + " = '" + entrata.getdescrizione() + "', " + Entrate.FISSEOVAR + " = '"
-				+ entrata.getFisseoVar() + "', " + Entrate.INEURO + " = " + entrata.getinEuro() + ", " + Entrate.DATA + " = '" + entrata.getdata() + "', " + Entrate.NOME + " = '"
-				+ entrata.getnome() + "', " + Entrate.IDUTENTE + " = " + entrata.getUtenti().getidUtente() + ", " + Entrate.DATAINS + " = '" + entrata.getDataIns() + "' WHERE "
+		final String sql = "UPDATE " + Entrate.NOME_TABELLA + " SET " + Entrate.COL_DESCRIZIONE + " = '" + entrata.getdescrizione() + "', " + Entrate.COL_FISSEOVAR + " = '"
+				+ entrata.getFisseoVar() + "', " + Entrate.COL_INEURO + " = " + entrata.getinEuro() + ", " + Entrate.COL_DATA + " = '" + entrata.getdata() + "', " + Entrate.COL_NOME + " = '"
+				+ entrata.getnome() + "', " + Entrate.COL_IDUTENTE + " = " + entrata.getUtenti().getidUtente() + ", " + Entrate.COL_DATAINS + " = '" + entrata.getDataIns() + "' WHERE "
 				+ Entrate.ID + " = " + entrata.getidEntrate();
 		try {
 
@@ -256,20 +256,20 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 		}
 
 		final StringBuilder sql = new StringBuilder();
-		sql.append(SELECT_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.IDUTENTE + " = " + idUtente);
+		sql.append(SELECT_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.COL_IDUTENTE + " = " + idUtente);
 		if (AltreUtil.checkData(dataDa) && AltreUtil.checkData(dataA)) {
-			sql.append(AND + Entrate.DATA + " BETWEEN '" + dataDa + "'" + " AND '" + dataA + "'");
+			sql.append(AND + Entrate.COL_DATA + " BETWEEN '" + dataDa + "'" + " AND '" + dataA + "'");
 		} else if (AltreUtil.checkData(dataDa)) {
-			sql.append(AND + Entrate.DATA + " = '" + dataDa + "'");
+			sql.append(AND + Entrate.COL_DATA + " = '" + dataDa + "'");
 		}
 		if (nome != null) {
-			sql.append(AND + Entrate.NOME + " = '" + nome + "'");
+			sql.append(AND + Entrate.COL_NOME + " = '" + nome + "'");
 		}
 		if (euro != null) {
-			sql.append(AND + Entrate.INEURO + " = " + euro);
+			sql.append(AND + Entrate.COL_INEURO + " = " + euro);
 		}
 		if (categoria != null) {
-			sql.append(AND + Entrate.FISSEOVAR + " = '" + categoria + "'");
+			sql.append(AND + Entrate.COL_FISSEOVAR + " = '" + categoria + "'");
 		}
 
 		try {
@@ -319,8 +319,8 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 			idUtente = utente.getidUtente();
 		}
 
-		final String sql = SELECT_FROM + Entrate.NOME_TABELLA + " where " + Entrate.DATA + " BETWEEN '" + Impostazioni.getAnno() + "/01/01" + "'" + " AND '"
-				+ Impostazioni.getAnno() + "/12/31" + "'" + AND + Entrate.IDUTENTE + " = " + idUtente + " ORDER BY " + Entrate.ID + " desc limit 0," + numEntry;
+		final String sql = SELECT_FROM + Entrate.NOME_TABELLA + " where " + Entrate.COL_DATA + " BETWEEN '" + Impostazioni.getAnno() + "/01/01" + "'" + " AND '"
+				+ Impostazioni.getAnno() + "/12/31" + "'" + AND + Entrate.COL_IDUTENTE + " = " + idUtente + " ORDER BY " + Entrate.ID + " desc limit 0," + numEntry;
 
 		try {
 
@@ -363,8 +363,8 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	public boolean DeleteLastEntrate() {
 		boolean ok = false;
 
-		final String sql = SELECT_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.IDUTENTE + " = " + ((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente()
-				+ " ORDER BY " + Entrate.DATAINS + " DESC";
+		final String sql = SELECT_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.COL_IDUTENTE + " = " + ((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente()
+				+ " ORDER BY " + Entrate.COL_DATAINS + " DESC";
 
 		final Connection cn = ConnectionPool.getSingleton().getConnection();
 

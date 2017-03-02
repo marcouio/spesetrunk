@@ -98,7 +98,7 @@ public class WrapRisparmio extends Observable implements IDAO,IRisparmio{
 		try {
 			final Risparmio risparmio = (Risparmio)oggettoEntita;
 
-			sql="INSERT INTO " + Risparmio.NOME_TABELLA + " (" +Risparmio.PERCSULTOT+") VALUES(?)";
+			sql="INSERT INTO " + Risparmio.NOME_TABELLA + " (" +Risparmio.COL_PERCSULTOT+") VALUES(?)";
 			final PreparedStatement ps = cn.prepareStatement(sql);
 
 			ps.setDouble(1, risparmio.getPerSulTotale());
@@ -140,7 +140,7 @@ public class WrapRisparmio extends Observable implements IDAO,IRisparmio{
 
 
 		final Risparmio risparmio = (Risparmio) oggettoEntita;
-		final String sql = "UPDATE "+Risparmio.NOME_TABELLA+ " SET " +Risparmio.PERCSULTOT+ " = " +risparmio.getPerSulTotale()
+		final String sql = "UPDATE "+Risparmio.NOME_TABELLA+ " SET " +Risparmio.COL_PERCSULTOT+ " = " +risparmio.getPerSulTotale()
 		+" WHERE "+ Risparmio.ID +" = "+risparmio.getidRisparmio();
 		try {
 

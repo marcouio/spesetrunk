@@ -21,12 +21,12 @@ import command.javabeancommand.AbstractOggettoEntita;
 public class Note implements AbstractOggettoEntita, Serializable, INote {
 	private static final long serialVersionUID = 1L;
 	public static final String NOME_TABELLA = "note";
-	public static final String NOME = "nome";
-	public static final String DATA = "data";
-	public static final String DATAINS = "dataIns";
-	public static final String DESCRIZIONE = "descrizione";
+	public static final String COL_NOME = "nome";
+	public static final String COL_DATA = "data";
+	public static final String COL_DATAINS = "dataIns";
+	public static final String COL_DESCRIZIONE = "descrizione";
 	public static final String ID = "idNote";
-	public static final String IDUTENTE = "idUtente";
+	public static final String COL_IDUTENTE = "idUtente";
 
 	@Column(name = "\"data\"")
 	private String data;
@@ -52,17 +52,14 @@ public class Note implements AbstractOggettoEntita, Serializable, INote {
 	@JoinColumns({})
 	private Utenti utenti;
 
-	public Note() {
-	}
-
 	@Override
 	public String getData() {
 		return this.data;
 	}
 
 	@Override
-	public void setData(final String _data_) {
-		this.data = _data_;
+	public void setData(final String data) {
+		this.data = data;
 	}
 
 	@Override
@@ -71,8 +68,8 @@ public class Note implements AbstractOggettoEntita, Serializable, INote {
 	}
 
 	@Override
-	public void setDataIns(final String _dataIns_) {
-		this.dataIns = _dataIns_;
+	public void setDataIns(final String dataIns) {
+		this.dataIns = dataIns;
 	}
 
 	@Override
@@ -81,8 +78,8 @@ public class Note implements AbstractOggettoEntita, Serializable, INote {
 	}
 
 	@Override
-	public void setDescrizione(final String _descrizione_) {
-		this.descrizione = _descrizione_;
+	public void setDescrizione(final String descrizione) {
+		this.descrizione = descrizione;
 	}
 
 	@Override
@@ -91,8 +88,8 @@ public class Note implements AbstractOggettoEntita, Serializable, INote {
 	}
 
 	@Override
-	public void setIdNote(final int _idNote_) {
-		this.idNote = _idNote_;
+	public void setIdNote(final int idNote) {
+		this.idNote = idNote;
 	}
 
 	@Override
@@ -101,8 +98,8 @@ public class Note implements AbstractOggettoEntita, Serializable, INote {
 	}
 
 	@Override
-	public void setIdUtente(final int _idUtente_) {
-		this.idUtente = _idUtente_;
+	public void setIdUtente(final int idUtente) {
+		this.idUtente = idUtente;
 	}
 
 	@Override
@@ -111,8 +108,8 @@ public class Note implements AbstractOggettoEntita, Serializable, INote {
 	}
 
 	@Override
-	public void setNome(final String _nome_) {
-		this.nome = _nome_;
+	public void setNome(final String nome) {
+		this.nome = nome;
 	}
 
 	@Override

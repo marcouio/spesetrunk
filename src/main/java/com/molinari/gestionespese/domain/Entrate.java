@@ -22,14 +22,14 @@ public class Entrate implements AbstractOggettoEntita, Serializable, IEntrate {
 
 	public static final String NOME_TABELLA = "entrate";
 	public static final String ID = "idEntrate";
-	public static final String DATA = "data";
-	public static final String DATAINS = "dataIns";
-	public static final String NOME = "nome";
-	public static final String INEURO = "inEuro";
-	public static final String DESCRIZIONE = "descrizione";
-	public static final String FISSEOVAR = "Fisse_o_Var";
-	public static final String IDUTENTE = "idUtente";
-	public static final String IDENTRATE = "idEntrate";
+	public static final String COL_DATA = "data";
+	public static final String COL_DATAINS = "dataIns";
+	public static final String COL_NOME = "nome";
+	public static final String COL_INEURO = "inEuro";
+	public static final String COL_DESCRIZIONE = "descrizione";
+	public static final String COL_FISSEOVAR = "Fisse_o_Var";
+	public static final String COL_IDUTENTE = "idUtente";
+	public static final String COL_IDENTRATE = "idEntrate";
 
 	public static final String IMPORTANZA_FISSE = "Fisse";
 	public static final String IMPORTANZA_VARIABILI = "Variabili";
@@ -44,14 +44,11 @@ public class Entrate implements AbstractOggettoEntita, Serializable, IEntrate {
 	private String descrizione;
 
 	@Column(name = "\"Fisse_o_Var\"", nullable = false, length = 2000000000)
-	private String FisseoVar;
+	private String fisseoVar;
 
 	@Id
 	@Column(name = "\"idEntrate\"", nullable = false)
 	private int idEntrate;
-
-	// @Column(name="idUtente", nullable=false)
-	// private int idUtente;
 
 	@Column(name = "\"inEuro\"", nullable = false)
 	private double inEuro;
@@ -63,9 +60,6 @@ public class Entrate implements AbstractOggettoEntita, Serializable, IEntrate {
 	@ManyToOne
 	@JoinColumns({})
 	private Utenti utenti;
-
-	public Entrate() {
-	}
 
 	@Override
 	public String getdata() {
@@ -89,12 +83,12 @@ public class Entrate implements AbstractOggettoEntita, Serializable, IEntrate {
 
 	@Override
 	public String getFisseoVar() {
-		return this.FisseoVar;
+		return this.fisseoVar;
 	}
 
 	@Override
-	public void setFisseoVar(final String FisseoVar) {
-		this.FisseoVar = FisseoVar;
+	public void setFisseoVar(final String fisseoVar) {
+		this.fisseoVar = fisseoVar;
 	}
 
 	@Override

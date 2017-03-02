@@ -98,8 +98,8 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 		try {
 			final Lookandfeel look = (Lookandfeel) oggettoEntita;
 
-			sql = "INSERT INTO " + Lookandfeel.NOME_TABELLA + " (" + Lookandfeel.NOME + ", " + Lookandfeel.VALORE
-					+ ", " + Lookandfeel.USATO + ") VALUES (?,?,?)";
+			sql = "INSERT INTO " + Lookandfeel.NOME_TABELLA + " (" + Lookandfeel.COL_NOME + ", " + Lookandfeel.COL_VALORE
+					+ ", " + Lookandfeel.COL_USATO + ") VALUES (?,?,?)";
 			final PreparedStatement ps = cn.prepareStatement(sql);
 			// nome
 			ps.setString(1, look.getnome());
@@ -132,8 +132,8 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 
 		final Lookandfeel look = (Lookandfeel) oggettoEntita;
 		final String sql = "UPDATE " + Lookandfeel.NOME_TABELLA + " SET " + Lookandfeel.ID + " = " + look.getidLook() + ", "
-				+ Lookandfeel.NOME + " = " + look.getnome() + ", " + Lookandfeel.VALORE + " = " + look.getvalore()
-				+ ", " + Lookandfeel.USATO + " = " + look.getusato() + " WHERE " + Lookandfeel.ID + " = "
+				+ Lookandfeel.COL_NOME + " = " + look.getnome() + ", " + Lookandfeel.COL_VALORE + " = " + look.getvalore()
+				+ ", " + Lookandfeel.COL_USATO + " = " + look.getusato() + " WHERE " + Lookandfeel.ID + " = "
 				+ look.getidLook();
 		try {
 

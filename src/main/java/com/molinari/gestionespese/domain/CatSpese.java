@@ -30,9 +30,6 @@ public class CatSpese implements AbstractOggettoEntita,Serializable, ICatSpese {
 	@Column(name = "\"idCategoria\"", nullable = false)
 	private int idCategoria;
 
-	// @Column(name="idGruppo", nullable=false)
-	// private int idGruppo;
-
 	@Column(name = "\"importanza\"", nullable = false, length = 2000000000)
 	private String importanza;
 
@@ -51,10 +48,17 @@ public class CatSpese implements AbstractOggettoEntita,Serializable, ICatSpese {
 	// bi-directional many-to-one association to SingleSpesa
 	@OneToMany(mappedBy = "catSpese")
 	private Set<SingleSpesa> singleSpesas;
+	
+	public static final String NOME_TABELLA = "cat_spese";
+	public static final String ID = "idCategoria";
+	public static final String COL_DESCRIZIONE = "descrizione";
+	public static final String COL_IMPORTANZA = "importanza";
+	public static final String COL_NOME = "nome";
+	public static final String IDGRUPPO = "idGruppo";
 
-	public CatSpese() {
-
-	}
+	public static final String IMPORTANZA_FUTILE = "Futili";
+	public static final String IMPORTANZA_VARIABILE = "Variabili";
+	public static final String IMPORTANZA_FISSO = "Fisse";
 
 	@Override
 	public String getdescrizione() {
@@ -130,17 +134,6 @@ public class CatSpese implements AbstractOggettoEntita,Serializable, ICatSpese {
 	public String toString() {
 		return nome;
 	}
-
-	public static final String NOME_TABELLA = "cat_spese";
-	public static final String ID = "idCategoria";
-	public static final String DESCRIZIONE = "descrizione";
-	public static final String IMPORTANZA = "importanza";
-	public static final String NOME = "nome";
-	public static final String IDGRUPPO = "idGruppo";
-
-	public static final String IMPORTANZA_FUTILE = "Futili";
-	public static final String IMPORTANZA_VARIABILE = "Variabili";
-	public static final String IMPORTANZA_FISSO = "Fisse";
 
 	@Override
 	public String getIdEntita() {

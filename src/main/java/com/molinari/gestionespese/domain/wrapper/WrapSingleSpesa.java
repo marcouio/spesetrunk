@@ -387,7 +387,7 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 	public boolean deleteLastSpesa() {
 		boolean ok = false;
 
-		final String sql = SELECT_FROM + SingleSpesa.NOME_TABELLA + WHERE + Entrate.IDUTENTE + " = " + ((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente()
+		final String sql = SELECT_FROM + SingleSpesa.NOME_TABELLA + WHERE + Entrate.COL_IDUTENTE + " = " + ((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente()
 				+ " ORDER BY " + SingleSpesa.DATAINS + " DESC";
 
 		try {

@@ -34,9 +34,11 @@ public class Gruppi implements AbstractOggettoEntita, Serializable, IGruppi {
 	@OneToMany(mappedBy = "gruppi")
 	private Set<CatSpese> catSpeses;
 
-	public Gruppi() {
-	}
-
+	public static final String NOME_TABELLA = "gruppi";
+	public static final String ID = "idGruppo";
+	public static final String COL_DESCRIZIONE = "descrizione";
+	public static final String COL_NOME = "nome";
+	
 	@Override
 	public String getdescrizione() {
 		return this.descrizione;
@@ -81,11 +83,6 @@ public class Gruppi implements AbstractOggettoEntita, Serializable, IGruppi {
 	public String toString() {
 		return nome;
 	}
-
-	public static final String NOME_TABELLA = "gruppi";
-	public static final String ID = "idGruppo";
-	public static final String DESCRIZIONE = "descrizione";
-	public static final String NOME = "nome";
 
 	@Override
 	public String getIdEntita() {

@@ -20,9 +20,9 @@ public class Lookandfeel implements AbstractOggettoEntita, Serializable, ILookan
 
 	public static final String NOME_TABELLA = "lookAndFeel";
 	public static final String ID = "idLook";
-	public static final String NOME = "nome";
-	public static final String VALORE = "valore";
-	public static final String USATO = "usato";
+	public static final String COL_NOME = "nome";
+	public static final String COL_VALORE = "valore";
+	public static final String COL_USATO = "usato";
 
 	@Id
 	@Column(name = "\"idLook\"", nullable = false)

@@ -100,7 +100,7 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 		try {
 			final Gruppi gruppo = (Gruppi) oggettoEntita;
 
-			sql = "INSERT INTO " + Gruppi.NOME_TABELLA + " (" + Gruppi.NOME + ", " + Gruppi.DESCRIZIONE
+			sql = "INSERT INTO " + Gruppi.NOME_TABELLA + " (" + Gruppi.COL_NOME + ", " + Gruppi.COL_DESCRIZIONE
 					+ ") VALUES(?,?)";
 			final PreparedStatement ps = cn.prepareStatement(sql);
 			ps.setString(1, gruppo.getnome());
@@ -141,8 +141,8 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 
 
 		final Gruppi gruppo = (Gruppi) oggettoEntita;
-		final String sql = "UPDATE " + Gruppi.NOME_TABELLA + " SET " + Gruppi.NOME + " = '" + gruppo.getnome() + "', "
-				+ Gruppi.DESCRIZIONE + " = '" + gruppo.getdescrizione() + "' WHERE " + Gruppi.ID + " = "
+		final String sql = "UPDATE " + Gruppi.NOME_TABELLA + " SET " + Gruppi.COL_NOME + " = '" + gruppo.getnome() + "', "
+				+ Gruppi.COL_DESCRIZIONE + " = '" + gruppo.getdescrizione() + "' WHERE " + Gruppi.ID + " = "
 				+ gruppo.getidGruppo();
 		try {
 
@@ -178,7 +178,7 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 	public Gruppi selectByNome(final String nome) {
 
 
-		final String sql = "SELECT * FROM " + Gruppi.NOME_TABELLA + " WHERE " + Gruppi.NOME + " = \"" + nome + "\"";
+		final String sql = "SELECT * FROM " + Gruppi.NOME_TABELLA + " WHERE " + Gruppi.COL_NOME + " = \"" + nome + "\"";
 
 		final Gruppi gruppo = new Gruppi();
 

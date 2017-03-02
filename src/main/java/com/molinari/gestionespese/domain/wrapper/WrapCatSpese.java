@@ -116,7 +116,7 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 		try {
 			final CatSpese categoria = (CatSpese) oggettoEntita;
 
-			sql = "INSERT INTO " + CatSpese.NOME_TABELLA + " (" + CatSpese.DESCRIZIONE + ", " + CatSpese.IMPORTANZA + ", " + CatSpese.NOME + ", " + CatSpese.IDGRUPPO + ") VALUES(?,?,?,?)";
+			sql = "INSERT INTO " + CatSpese.NOME_TABELLA + " (" + CatSpese.COL_DESCRIZIONE + ", " + CatSpese.COL_IMPORTANZA + ", " + CatSpese.COL_NOME + ", " + CatSpese.IDGRUPPO + ") VALUES(?,?,?,?)";
 			final PreparedStatement ps = cn.prepareStatement(sql);
 			ps.setString(1, categoria.getdescrizione());
 			ps.setString(2, categoria.getimportanza());
@@ -161,8 +161,8 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO {
 
 
 		final CatSpese categoria = (CatSpese) oggettoEntita;
-		final String sql = "UPDATE " + CatSpese.NOME_TABELLA + " SET " + CatSpese.DESCRIZIONE + " = '" + categoria.getdescrizione() + "', " + CatSpese.IMPORTANZA + " = '"
-				+ categoria.getimportanza() + "', " + CatSpese.NOME + " = '" + categoria.getnome() + "', " + CatSpese.IDGRUPPO + " = " + categoria.getGruppi().getidGruppo()
+		final String sql = "UPDATE " + CatSpese.NOME_TABELLA + " SET " + CatSpese.COL_DESCRIZIONE + " = '" + categoria.getdescrizione() + "', " + CatSpese.COL_IMPORTANZA + " = '"
+				+ categoria.getimportanza() + "', " + CatSpese.COL_NOME + " = '" + categoria.getnome() + "', " + CatSpese.IDGRUPPO + " = " + categoria.getGruppi().getidGruppo()
 				+ " WHERE " + CatSpese.ID + " = " + categoria.getidCategoria();
 		try {
 

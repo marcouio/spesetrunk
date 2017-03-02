@@ -189,7 +189,7 @@ public class WrapNote extends Observable implements IDAO, INote {
 		try {
 			final Note nota = (Note) oggettoEntita;
 
-			sql = "INSERT INTO " + Note.NOME_TABELLA + " (" + Note.DESCRIZIONE + ", " + Entrate.DATA + ", " + Entrate.NOME + ", " + Entrate.IDUTENTE + ", " + Entrate.DATAINS
+			sql = "INSERT INTO " + Note.NOME_TABELLA + " (" + Note.COL_DESCRIZIONE + ", " + Entrate.COL_DATA + ", " + Entrate.COL_NOME + ", " + Entrate.COL_IDUTENTE + ", " + Entrate.COL_DATAINS
 					+ ") VALUES (?,?,?,?,?)";
 			final PreparedStatement ps = cn.prepareStatement(sql);
 			// descrizione
@@ -244,8 +244,8 @@ public class WrapNote extends Observable implements IDAO, INote {
 
 
 		final Note nota = (Note) oggettoEntita;
-		final String sql = "UPDATE " + Note.NOME_TABELLA + " SET " + Note.DESCRIZIONE + " = '" + nota.getDescrizione() + "', " + Entrate.DATA + " = '" + nota.getData() + "', "
-				+ Entrate.NOME + " = '" + nota.getnome() + "', " + Entrate.IDUTENTE + " = " + nota.getUtenti().getidUtente() + ", " + Entrate.DATAINS + " = '" + nota.getDataIns()
+		final String sql = "UPDATE " + Note.NOME_TABELLA + " SET " + Note.COL_DESCRIZIONE + " = '" + nota.getDescrizione() + "', " + Entrate.COL_DATA + " = '" + nota.getData() + "', "
+				+ Entrate.COL_NOME + " = '" + nota.getnome() + "', " + Entrate.COL_IDUTENTE + " = " + nota.getUtenti().getidUtente() + ", " + Entrate.COL_DATAINS + " = '" + nota.getDataIns()
 				+ "' WHERE " + Note.ID + " = " + nota.getIdNote();
 		try {
 
@@ -285,8 +285,8 @@ public class WrapNote extends Observable implements IDAO, INote {
 	public boolean DeleteLastNote() {
 		boolean ok = false;
 
-		final String sql = SELECT_FROM + Note.NOME_TABELLA + WHERE + Note.IDUTENTE + " = " + ((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente() + " ORDER BY "
-				+ Note.DATAINS + " DESC";
+		final String sql = SELECT_FROM + Note.NOME_TABELLA + WHERE + Note.COL_IDUTENTE + " = " + ((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente() + " ORDER BY "
+				+ Note.COL_DATAINS + " DESC";
 		final Connection cn = ConnectionPool.getSingleton().getConnection();
 
 		try {

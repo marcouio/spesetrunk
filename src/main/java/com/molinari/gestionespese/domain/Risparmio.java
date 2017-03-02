@@ -20,17 +20,14 @@ public class Risparmio implements AbstractOggettoEntita, Serializable, IRisparmi
 
 	public static final String NOME_TABELLA = "risparmio";
 	public static final String ID = "idRisparmio";
-	public static final String PERCSULTOT = "PercSulTotale";
+	public static final String COL_PERCSULTOT = "PercSulTotale";
 
 	@Id
 	@Column(name = "\"idRisparmio\"", nullable = false)
 	private int idRisparmio;
 
 	@Column(name = "\"PerSulTotale\"", nullable = false)
-	private double PerSulTotale;
-
-	public Risparmio() {
-	}
+	private double perSulTotale;
 
 	@Override
 	public int getidRisparmio() {
@@ -44,12 +41,12 @@ public class Risparmio implements AbstractOggettoEntita, Serializable, IRisparmi
 
 	@Override
 	public double getPerSulTotale() {
-		return this.PerSulTotale;
+		return this.perSulTotale;
 	}
 
 	@Override
-	public void setPerSulTotale(final double PerSulTotale) {
-		this.PerSulTotale = PerSulTotale;
+	public void setPerSulTotale(final double perSulTotale) {
+		this.perSulTotale = perSulTotale;
 	}
 
 	@Override
