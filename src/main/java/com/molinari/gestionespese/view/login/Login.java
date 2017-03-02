@@ -1,6 +1,7 @@
 package com.molinari.gestionespese.view.login;
 
 import java.awt.event.ActionEvent;
+import java.util.logging.Level;
 
 import javax.swing.JDialog;
 import javax.swing.WindowConstants;
@@ -16,6 +17,7 @@ import com.molinari.gestionespese.view.font.LabelTitolo;
 import com.molinari.gestionespese.view.font.TextFieldF;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 
+import controller.ControlloreBase;
 import grafica.componenti.alert.Alert;
 
 public class Login extends JDialog {
@@ -56,32 +58,39 @@ public class Login extends JDialog {
 		btnEntra.setBounds(148, 148, 91, 23);
 		getContentPane().add(btnEntra);
 
-		btnEntra.addActionListener(new AscoltatoreAggiornatoreNiente() {
+		btnEntra.addActionListener(getListenerLogin());
+
+	}
+
+	private AscoltatoreAggiornatoreNiente getListenerLogin() {
+		return new AscoltatoreAggiornatoreNiente() {
 
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
 				final WrapUtenti utentiwrap = new WrapUtenti();
 				final Utenti utente = utentiwrap.selectByUserAndPass(user.getText(), pass.getText());
 				if (utente != null) {
-					final Impostazioni impostazioni = Impostazioni.getSingleton();
-					try {
-						Controllore.getSingleton().setUtenteLogin(utente);
-						impostazioni.getUtente().setText(utente.getusername());
-						// TODO creare comando per sostituire tutto con nuova
-						// gestione
-						AggiornatoreManager.aggiornamentoPerImpostazioni();
-						Alert.info("Benvenuto, " + utente.getnome(), Alert.TITLE_OK);
-					} catch (final Exception e1) {
-						e1.printStackTrace();
-					}
-					impostazioni.repaint();
-					dispose();
+					login(utente);
 				} else {
 					Alert.segnalazioneErroreGrave("Login non effettuato: username o password non corretti");
 				}
 
 			}
-		});
+		};
+	}
 
+	private void login(final Utenti utente) {
+		final Impostazioni impostazioni = Impostazioni.getSingleton();
+		try {
+			Controllore.getSingleton().setUtenteLogin(utente);
+			impostazioni.getUtente().setText(utente.getusername());
+			//  creare comando per sostituire tutto con nuova  gestione
+			AggiornatoreManager.aggiornamentoPerImpostazioni();
+			Alert.info("Benvenuto, " + utente.getnome(), Alert.TITLE_OK);
+		} catch (final Exception e1) {
+			ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
+		}
+		impostazioni.repaint();
+		dispose();
 	}
 }

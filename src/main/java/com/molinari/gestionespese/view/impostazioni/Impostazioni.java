@@ -60,7 +60,7 @@ public class Impostazioni extends JDialog {
 		initGUI();
 	}
 
-	public static synchronized final Impostazioni getSingleton() {
+	public static final synchronized Impostazioni getSingleton() {
 		if (singleton == null) {
 			singleton = new Impostazioni();
 		}
@@ -98,17 +98,7 @@ public class Impostazioni extends JDialog {
 			final ButtonF btnChange = new ButtonF();
 			btnChange.setText("Cambia");
 			btnChange.setBounds(504, 78, 91, 27);
-			btnChange.addActionListener(new AscoltatoreAggiornatoreTutto() {
-
-				@Override
-				public void actionPerformedOverride(final ActionEvent e) {
-					try {
-						anno = Integer.parseInt(annotextField.getText());
-					} catch (final Exception e1) {
-						ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
-					}
-				}
-			});
+			btnChange.addActionListener(getListenerChange());
 			getContentPane().add(btnChange);
 
 			final JLabel lblCaricaDatabase = new LabelListaGruppi("Carica Database");
@@ -119,13 +109,7 @@ public class Impostazioni extends JDialog {
 			btnCarica.setText("Carica");
 			btnCarica.setBounds(333, 179, 91, 27);
 			getContentPane().add(btnCarica);
-			btnCarica.addActionListener(new AscoltatoreAggiornatoreTutto() {
-
-				@Override
-				public void actionPerformedOverride(final ActionEvent e) {
-					AggiornatoreManager.aggiornamentoPerImpostazioni();
-				}
-			});
+			btnCarica.addActionListener(getListenerCharge());
 
 			caricaDatabase = new TextFieldF();
 			caricaDatabase.setBounds(140, 179, 149, 27);
@@ -139,22 +123,7 @@ public class Impostazioni extends JDialog {
 
 			final ButtonF elimina = new ButtonF();
 			elimina.setText("Elimina");
-			elimina.addActionListener(new AscoltatoreAggiornatoreTutto() {
-				@Override
-				public void actionPerformedOverride(final ActionEvent arg0) {
-					if (Model.getSingleton().getModelEntrate().deleteAll()
-							&& Model.getSingleton().getModelUscita().deleteAll()) {
-						// TODO creare comando per eliminare tutto
-						Alert.segnalazioneInfo("Ok, tutti i dati sono stati cancellati: puoi ripartire!");
-						try {
-							AggiornatoreManager.aggiornamentoGenerale(Entrate.NOME_TABELLA);
-							AggiornatoreManager.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
-						} catch (final Exception e) {
-							e.getMessage();
-						}
-					}
-				}
-			});
+			elimina.addActionListener(getListenerDelete());
 
 			elimina.setBounds(504, 125, 91, 27);
 			getContentPane().add(elimina);
@@ -181,7 +150,7 @@ public class Impostazioni extends JDialog {
 			final CacheLookAndFeel cacheLook = CacheLookAndFeel.getSingleton();
 			final List<Lookandfeel> vettore = cacheLook.getVettoreLooksPerCombo();
 
-			Lookandfeel look = null;
+			Lookandfeel look;
 			comboLook = new JComboBox<>(new Vector<>(vettore));
 			final Lookandfeel system = new Lookandfeel();
 			system.setnome("System");
@@ -209,8 +178,8 @@ public class Impostazioni extends JDialog {
 			lblLang.setBounds(278, 29, 113, 15);
 			getContentPane().add(lblLang);
 
-			final Object[] languages = new Object[] { "it", "en" };
-			final JComboBox comboLanguage = new JComboBox(languages);
+			final String[] languages = new String[] { "it", "en" };
+			final JComboBox<String> comboLanguage = new JComboBox<>(languages);
 
 			comboLanguage.addActionListener(new AscoltatoreLanguage(comboLanguage));
 			comboLanguage.setBounds(396, 24, 115, 24);
@@ -248,6 +217,49 @@ public class Impostazioni extends JDialog {
 		}
 	}
 
+	private AscoltatoreAggiornatoreTutto getListenerDelete() {
+		return new AscoltatoreAggiornatoreTutto() {
+			@Override
+			public void actionPerformedOverride(final ActionEvent arg0) {
+				if (Model.getSingleton().getModelEntrate().deleteAll()
+						&& Model.getSingleton().getModelUscita().deleteAll()) {
+					// creare comando per eliminare tutto
+					Alert.segnalazioneInfo("Ok, tutti i dati sono stati cancellati: puoi ripartire!");
+					try {
+						AggiornatoreManager.aggiornamentoGenerale(Entrate.NOME_TABELLA);
+						AggiornatoreManager.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
+					} catch (final Exception e) {
+						ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+					}
+				}
+			}
+		};
+	}
+
+	private AscoltatoreAggiornatoreTutto getListenerCharge() {
+		return new AscoltatoreAggiornatoreTutto() {
+
+			@Override
+			public void actionPerformedOverride(final ActionEvent e) {
+				AggiornatoreManager.aggiornamentoPerImpostazioni();
+			}
+		};
+	}
+
+	private AscoltatoreAggiornatoreTutto getListenerChange() {
+		return new AscoltatoreAggiornatoreTutto() {
+
+			@Override
+			public void actionPerformedOverride(final ActionEvent e) {
+				try {
+					anno = Integer.parseInt(annotextField.getText());
+				} catch (final Exception e1) {
+					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
+				}
+			}
+		};
+	}
+
 	public TextFieldF getAnnotextField() {
 		return annotextField;
 	}
@@ -274,7 +286,7 @@ public class Impostazioni extends JDialog {
 	/**
 	 * @return the listaLook
 	 */
-	public ArrayList<String> getListaLook() {
+	public List<String> getListaLook() {
 		return listaLook;
 	}
 
@@ -320,7 +332,7 @@ public class Impostazioni extends JDialog {
 	/**
 	 * @return the comboLook
 	 */
-	public JComboBox getComboLook() {
+	public JComboBox<Lookandfeel> getComboLook() {
 		return comboLook;
 	}
 
@@ -328,7 +340,7 @@ public class Impostazioni extends JDialog {
 	 * @param comboLook
 	 *            the comboLook to set
 	 */
-	public void setComboLook(final JComboBox comboLook) {
+	public void setComboLook(final JComboBox<Lookandfeel> comboLook) {
 		this.comboLook = comboLook;
 	}
 

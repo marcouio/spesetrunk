@@ -78,14 +78,7 @@ public class MyMenu extends JMenuBar {
 		file.add(registra);
 
 		final JMenuItem chiudi = new JMenuItem(I18NManager.getSingleton().getMessaggio("close"));
-		chiudi.addActionListener(new AscoltatoreAggiornatoreNiente() {
-
-			@Override
-			public void actionPerformedOverride(final ActionEvent e) {
-				Controllore.getSingleton().getGenView().dispose();
-
-			}
-		});
+		chiudi.addActionListener(getAscoltatoreClose());
 		file.add(chiudi);
 
 		final JMenu modifica = new JMenu(I18NManager.getSingleton().getMessaggio("edit"));
@@ -109,65 +102,14 @@ public class MyMenu extends JMenuBar {
 		finestre.add(mntmReport);
 
 		final JCheckBoxMenuItem chckbxmntmDati = new JCheckBoxMenuItem(I18NManager.getSingleton().getMessaggio("summarydata"));
-		chckbxmntmDati.addActionListener(new AscoltatoreAggiornatoreNiente() {
-			@Override
-			public void actionPerformedOverride(final ActionEvent e) {
-				PannelloAScomparsa pas;
-				try {
-					pas = (PannelloAScomparsa) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, null);
-					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(pas, finestre, chckbxmntmDati);
-					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
-				} catch (final Exception e1) {
-					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
-				}
-			}
-		});
+		chckbxmntmDati.addActionListener(getAscoltatoreSummary(finestre, chckbxmntmDati));
 		finestre.add(chckbxmntmDati);
 
 		final JCheckBoxMenuItem mntmNote = new JCheckBoxMenuItem(I18NManager.getSingleton().getMessaggio("notes"));
 		finestre.add(mntmNote);
-		mntmNote.addActionListener(new AscoltatoreAggiornatoreNiente() {
-
-			@Override
-			public void actionPerformedOverride(final ActionEvent e) {
-				MostraNoteView note;
-				try {
-					note = (MostraNoteView) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_NOTE, null);
-					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(note, finestre, mntmNote);
-					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
-				} catch (final Exception e1) {
-					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
-				}
-			}
-		});
-		mntmReport.addActionListener(new AscoltatoreAggiornatoreNiente() {
-
-			@Override
-			public void actionPerformedOverride(final ActionEvent e) {
-				ReportView report;
-				try {
-					report = (ReportView) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_REPORT, null);
-					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(report, finestre, mntmReport);
-					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
-				} catch (final Exception e1) {
-					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
-				}
-			}
-		});
-		listaComandi.addActionListener(new AscoltatoreAggiornatoreNiente() {
-
-			@Override
-			public void actionPerformedOverride(final ActionEvent e) {
-				FinestraListaComandi history;
-				try {
-					history = (FinestraListaComandi) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, null);
-					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(history, finestre, listaComandi);
-					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
-				} catch (final Exception e1) {
-					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
-				}
-			}
-		});
+		mntmNote.addActionListener(getListenerNote(finestre, mntmNote));
+		mntmReport.addActionListener(getListenerReport(finestre, mntmReport));
+		listaComandi.addActionListener(getListenerComandi(finestre, listaComandi));
 
 		final JMenu mnStrumenti = new JMenu(I18NManager.getSingleton().getMessaggio("tools"));
 		add(mnStrumenti);
@@ -176,39 +118,15 @@ public class MyMenu extends JMenuBar {
 		mnStrumenti.add(mnImpostazioni);
 
 		final JMenuItem mntmConfigurazione = new JMenuItem(I18NManager.getSingleton().getMessaggio("config"));
-		mntmConfigurazione.addActionListener(new AscoltatoreAggiornatoreNiente() {
-			@Override
-			public void actionPerformedOverride(final ActionEvent e) {
-				final Impostazioni dialog = new Impostazioni();
-				dialog.pack();
-				dialog.setVisible(true);
-				dialog.setModalityType(ModalityType.APPLICATION_MODAL);
-			}
-		});
+		mntmConfigurazione.addActionListener(getListenerConfig());
 		mnImpostazioni.add(mntmConfigurazione);
 
 		final JMenuItem mntmCategorie = new JMenuItem(I18NManager.getSingleton().getMessaggio("categories"));
-		mntmCategorie.addActionListener(new AscoltatoreAggiornatoreNiente() {
-			@Override
-			public void actionPerformedOverride(final ActionEvent e) {
-				final CategorieView dialog2 = new CategorieView(new WrapCatSpese());
-				dialog2.pack();
-				dialog2.setVisible(true);
-				dialog2.setModalityType(ModalityType.APPLICATION_MODAL);
-			}
-		});
+		mntmCategorie.addActionListener(getListenerCategories());
 		mnImpostazioni.add(mntmCategorie);
 
 		final JMenuItem mntmGr = new JMenuItem(I18NManager.getSingleton().getMessaggio("groups"));
-		mntmGr.addActionListener(new AscoltatoreAggiornatoreNiente() {
-			@Override
-			public void actionPerformedOverride(final ActionEvent e) {
-				final GruppiView dialog = new GruppiView(new WrapGruppi());
-				dialog.pack();
-				dialog.setVisible(true);
-				dialog.setModalityType(ModalityType.APPLICATION_MODAL);
-			}
-		});
+		mntmGr.addActionListener(getListenerGroups());
 		mnImpostazioni.add(mntmGr);
 
 		final JMenu mnGrafici = new JMenu(I18NManager.getSingleton().getMessaggio("charts"));
@@ -274,34 +192,14 @@ public class MyMenu extends JMenuBar {
 		mnGrafici.add(mnTotali);
 
 		final JMenuItem mntmSaldo = new JMenuItem(I18NManager.getSingleton().getMessaggio("balance"));
-		mntmSaldo.addActionListener(new AscoltatoreAggiornatoreNiente() {
-			@Override
-			public void actionPerformedOverride(final ActionEvent e) {
-				try {
-					final GrGenerale2 dialog = new GrGenerale2();
-					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-					dialog.setSize(700, 700);
-					dialog.setVisible(true);
-				} catch (final Exception e1) {
-					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
-				}
-			}
-		});
+		mntmSaldo.addActionListener(getListenerBalance());
 		mnTotali.add(mntmSaldo);
 
 		final JMenu mnDati = new JMenu(I18NManager.getSingleton().getMessaggio("dataentry"));
 		mnStrumenti.add(mnDati);
 
 		final JMenuItem mntmEntrate = new JMenuItem(I18NManager.getSingleton().getMessaggio("entries"));
-		mntmEntrate.addActionListener(new AscoltatoreAggiornatoreNiente() {
-			@Override
-			public void actionPerformedOverride(final ActionEvent e) {
-				final EntrateView dialog = new EntrateView(new WrapEntrate());
-				dialog.setLocationRelativeTo(null);
-				dialog.setBounds(0, 0, 347, 318);
-				dialog.setVisible(true);
-			}
-		});
+		mntmEntrate.addActionListener(getListenerEntries());
 		mnDati.add(mntmEntrate);
 
 		final JMenuItem mntmUscite = new JMenuItem(I18NManager.getSingleton().getMessaggio("charge"));
@@ -339,7 +237,7 @@ public class MyMenu extends JMenuBar {
 				final JFrame f = new JFrame();
 				try {
 					AltreUtil.deleteFileDaDirectory2("./immagini/");
-					final GrEntrate1 dialog = new GrEntrate1(f, null, true);
+					final GrEntrate1 dialog = new GrEntrate1(true);
 					dialog.setSize(700, 700);
 					dialog.setVisible(true);
 					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -362,6 +260,150 @@ public class MyMenu extends JMenuBar {
 		final JMenuItem manuale = new JMenuItem(I18NManager.getSingleton().getMessaggio("userguide"));
 		help.add(manuale);
 
+	}
+
+	private AscoltatoreAggiornatoreNiente getListenerBalance() {
+		return new AscoltatoreAggiornatoreNiente() {
+			@Override
+			public void actionPerformedOverride(final ActionEvent e) {
+				try {
+					final GrGenerale2 dialog = new GrGenerale2();
+					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+					dialog.setSize(700, 700);
+					dialog.setVisible(true);
+				} catch (final Exception e1) {
+					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
+				}
+			}
+		};
+	}
+
+	private AscoltatoreAggiornatoreNiente getListenerEntries() {
+		return new AscoltatoreAggiornatoreNiente() {
+			@Override
+			public void actionPerformedOverride(final ActionEvent e) {
+				final EntrateView dialog = new EntrateView(new WrapEntrate());
+				dialog.setLocationRelativeTo(null);
+				dialog.setBounds(0, 0, 347, 318);
+				dialog.setVisible(true);
+			}
+		};
+	}
+
+	private AscoltatoreAggiornatoreNiente getListenerGroups() {
+		return new AscoltatoreAggiornatoreNiente() {
+			@Override
+			public void actionPerformedOverride(final ActionEvent e) {
+				final GruppiView dialog = new GruppiView(new WrapGruppi());
+				dialog.pack();
+				dialog.setVisible(true);
+				dialog.setModalityType(ModalityType.APPLICATION_MODAL);
+			}
+		};
+	}
+
+	private AscoltatoreAggiornatoreNiente getListenerCategories() {
+		return new AscoltatoreAggiornatoreNiente() {
+			@Override
+			public void actionPerformedOverride(final ActionEvent e) {
+				final CategorieView dialog2 = new CategorieView(new WrapCatSpese());
+				dialog2.pack();
+				dialog2.setVisible(true);
+				dialog2.setModalityType(ModalityType.APPLICATION_MODAL);
+			}
+		};
+	}
+
+	private AscoltatoreAggiornatoreNiente getListenerConfig() {
+		return new AscoltatoreAggiornatoreNiente() {
+			@Override
+			public void actionPerformedOverride(final ActionEvent e) {
+				final Impostazioni dialog = new Impostazioni();
+				dialog.pack();
+				dialog.setVisible(true);
+				dialog.setModalityType(ModalityType.APPLICATION_MODAL);
+			}
+		};
+	}
+
+	private AscoltatoreAggiornatoreNiente getListenerComandi(final JMenu finestre,
+			final JCheckBoxMenuItem listaComandi) {
+		return new AscoltatoreAggiornatoreNiente() {
+
+			@Override
+			public void actionPerformedOverride(final ActionEvent e) {
+				FinestraListaComandi history;
+				try {
+					history = (FinestraListaComandi) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, null);
+					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(history, finestre, listaComandi);
+					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
+				} catch (final Exception e1) {
+					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
+				}
+			}
+		};
+	}
+
+	private AscoltatoreAggiornatoreNiente getListenerReport(final JMenu finestre, final JCheckBoxMenuItem mntmReport) {
+		return new AscoltatoreAggiornatoreNiente() {
+
+			@Override
+			public void actionPerformedOverride(final ActionEvent e) {
+				ReportView report;
+				try {
+					report = (ReportView) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_REPORT, null);
+					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(report, finestre, mntmReport);
+					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
+				} catch (final Exception e1) {
+					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
+				}
+			}
+		};
+	}
+
+	private AscoltatoreAggiornatoreNiente getListenerNote(final JMenu finestre, final JCheckBoxMenuItem mntmNote) {
+		return new AscoltatoreAggiornatoreNiente() {
+
+			@Override
+			public void actionPerformedOverride(final ActionEvent e) {
+				MostraNoteView note;
+				try {
+					note = (MostraNoteView) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_NOTE, null);
+					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(note, finestre, mntmNote);
+					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
+				} catch (final Exception e1) {
+					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
+				}
+			}
+		};
+	}
+
+	private AscoltatoreAggiornatoreNiente getAscoltatoreSummary(final JMenu finestre,
+			final JCheckBoxMenuItem chckbxmntmDati) {
+		return new AscoltatoreAggiornatoreNiente() {
+			@Override
+			public void actionPerformedOverride(final ActionEvent e) {
+				PannelloAScomparsa pas;
+				try {
+					pas = (PannelloAScomparsa) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, null);
+					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(pas, finestre, chckbxmntmDati);
+					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
+				} catch (final Exception e1) {
+					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
+				}
+			}
+		};
+	}
+
+	private AscoltatoreAggiornatoreNiente getAscoltatoreClose() {
+		return new AscoltatoreAggiornatoreNiente() {
+
+			@Override
+			public void actionPerformedOverride(final ActionEvent e) {
+				Controllore.getSingleton().getGenView().dispose();
+
+			}
+		};
 	}
 
 }
