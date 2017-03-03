@@ -185,52 +185,8 @@ public class Database {
 
 		}
 		if (!clausole.isEmpty()) {
-			sql.append("WHERE 1=1");
-			final Iterator<String> where = clausole.keySet().iterator();
-			while (where.hasNext()) {
-				sql.append(AND);
-				final String prossimo = where.next();
-				sql.append(prossimo).append(" = ");
-				try {
-					sql.append(Integer.parseInt(clausole.get(prossimo)));
-				} catch (final NumberFormatException e) {
-					sql.append("'" + clausole.get(prossimo) + "'");
-				}
-			}
+			elaborateClause(clausole, sql);
 		}
-	}
-
-	private boolean gestioneIstruzioneDelete(final String tabella, final Map<String, String> clausole, boolean ok,
-			final StringBuilder sql, final String command) throws SQLException {
-		
-		boolean ret = ok;
-		
-		sql.append(command).append(FROM).append(tabella);
-		if (!clausole.isEmpty()) {
-			sql.append(" WHERE 1=1");
-			final Iterator<String> where = clausole.keySet().iterator();
-			while (where.hasNext()) {
-				sql.append(AND);
-
-				final String prossimo = where.next();
-				sql.append(prossimo).append(" = ");
-
-				try {
-					sql.append(Integer.parseInt(clausole.get(prossimo)));
-				} catch (final NumberFormatException e) {
-					sql.append("'" + clausole.get(prossimo) + "'");
-				}
-			}
-			if (where.hasNext()) {
-				sql.append(", ");
-			}
-
-
-			if (ConnectionPool.getSingleton().executeUpdate(sql.toString()) != 0) {
-				ret = true;
-			}
-		}
-		return ret;
 	}
 
 	private boolean gestioneIstruzioneUpdate(final String tabella, final Map<String, String> campi,
@@ -263,6 +219,22 @@ public class Database {
 			return true;
 		}
 		return false;
+	}
+	
+	private boolean gestioneIstruzioneDelete(final String tabella, final Map<String, String> clausole, boolean ok,
+			final StringBuilder sql, final String command) throws SQLException {
+		
+		boolean ret = ok;
+		
+		sql.append(command).append(FROM).append(tabella);
+		if (!clausole.isEmpty()) {
+			elaborateClause(clausole, sql);
+
+			if (ConnectionPool.getSingleton().executeUpdate(sql.toString()) != 0) {
+				ret = true;
+			}
+		}
+		return ret;
 	}
 
 	private void elaborateClause(final Map<String, String> clausole, final StringBuilder sql) {
