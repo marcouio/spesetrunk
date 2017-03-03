@@ -16,8 +16,10 @@ import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.DBUtil;
 import com.molinari.gestionespese.business.Database;
+import com.molinari.gestionespese.business.GestioneSpeseException;
 import com.molinari.gestionespese.business.InizializzatoreFinestre;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
+import com.molinari.gestionespese.business.cache.CacheGruppi;
 import com.molinari.gestionespese.business.generatori.TableModelEntrate;
 import com.molinari.gestionespese.business.generatori.TableModelUscite;
 import com.molinari.gestionespese.domain.CatSpese;
@@ -149,7 +151,7 @@ public class AggiornatoreManager {
 	 */
 	public static boolean aggiornaMovimentiUsciteDaEsterno(final Object[] nomiColonne, final int numUscite) {
 		try {
-			final String[][] movimenti = Model.getSingleton().movimentiUscite(numUscite, SingleSpesa.NOME_TABELLA);
+			final String[][] movimenti = Model.movimentiUscite(numUscite, SingleSpesa.NOME_TABELLA);
 			final ListaMovimentiUscite tabMovimenti = Controllore.getSingleton().getGeneralFrame().getPannelTabs().getTabMovUscite();
 			if(tabMovimenti != null){
 				final TableF table1 = new TableF(movimenti, nomiColonne);
@@ -198,7 +200,7 @@ public class AggiornatoreManager {
 	 */
 	public static boolean aggiornaMovimentiEntrateDaEsterno(final Object[] nomiColonne, final int numEntry) {
 		try {
-			final String[][] movimenti = Model.getSingleton().movimentiEntrate(numEntry, Entrate.NOME_TABELLA);
+			final String[][] movimenti = Model.movimentiEntrate(numEntry, Entrate.NOME_TABELLA);
 			if(Controllore.getSingleton().getGeneralFrame()!=null){
 				final TableF table1 = new TableF(movimenti, nomiColonne);
 				final ListaMovimentiEntrate tabMovimenti = Controllore.getSingleton().getGeneralFrame().getPannelTabs().getTabMovEntrate();
@@ -235,8 +237,7 @@ public class AggiornatoreManager {
 	 * @param tipo
 	 * @throws Exception
 	 */
-	public static boolean aggiornamentoGenerale(final String tipo)
-			throws Exception {
+	public static boolean aggiornamentoGenerale(final String tipo) {
 
 		aggiornaListaComandi();
 
@@ -251,7 +252,7 @@ public class AggiornatoreManager {
 				return true;
 			}
 		} else {
-			throw new Exception("Aggiornamento non gestito: " + tipo);
+			throw new GestioneSpeseException("Aggiornamento non gestito: " + tipo);
 		}
 		return false;
 	}
@@ -314,11 +315,11 @@ public class AggiornatoreManager {
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
-		final JComboBox gruppi = categoria.getComboGruppi();
+		final JComboBox<Gruppi> gruppi = categoria.getComboGruppi();
 
 		gruppi.setSelectedIndex(0);
-		int i = 1;
-		for (i = 1; i <= max; i++) {
+
+		for (int i = 1; i <= max; i++) {
 
 			Gruppi gruppo1 = (Gruppi) gruppi.getItemAt(i);
 			if (gruppo1 == null) {
@@ -327,12 +328,12 @@ public class AggiornatoreManager {
 			}
 			if (gruppo.getidGruppo() == gruppo1.getidGruppo()) {
 				gruppi.removeItemAt(i);
-				final CatSpese categoriaPresa = CacheCategorie.getSingleton().getCatSpese(Integer.toString(gruppo.getidGruppo()));
+				Gruppi gruppinew = CacheGruppi.getSingleton().getGruppo(Integer.toString(gruppo.getidGruppo()));
 				// non è possibile sostituirlo la categoria presa dal database
 				// con quella passata nel parametro
 				// perché il parametro mantiene i vecchi settaggi e non si
 				// aggiorna
-				gruppi.insertItemAt(categoriaPresa, i);
+				gruppi.insertItemAt(gruppinew, i);
 			}
 		}
 
@@ -349,7 +350,7 @@ public class AggiornatoreManager {
 	 *
 	 * @param CatSpese
 	 */
-	public static void aggiornaCategorie(final CatSpese categoria, final JComboBox comboCategorie) {
+	public static void aggiornaCategorie(final CatSpese categoria, final JComboBox<CatSpese> comboCategorie) {
 		int max = 0;
 		final String sql = "SELECT MAX(" + CatSpese.ID + ") FROM " + CatSpese.NOME_TABELLA;
 
@@ -364,10 +365,9 @@ public class AggiornatoreManager {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 
-		final JComboBox categorie1 = comboCategorie;
+		final JComboBox<CatSpese> categorie1 = comboCategorie;
 
-		int i = 1;
-		for (i = 1; i <= max; i++) {
+		for (int i = 1; i <= max; i++) {
 
 			CatSpese catspese1 = (CatSpese) categorie1.getItemAt(i);
 			if (catspese1 == null) {

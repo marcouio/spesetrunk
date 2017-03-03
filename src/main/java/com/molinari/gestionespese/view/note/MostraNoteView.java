@@ -77,7 +77,6 @@ public class MostraNoteView extends JFrame {
 		pannello.removeAll();
 		for (int i = 0; i < note.size(); i++) {
 			final Note nota = note.get(i);
-			System.out.println(nota.getnome());
 			final PannelloNota pNota = new PannelloNota(nota, this);
 			pannello.add(pNota);
 			pannello.setPreferredSize(new Dimension(220, 180 * note.size()));

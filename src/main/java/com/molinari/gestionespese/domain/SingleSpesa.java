@@ -22,16 +22,16 @@ public class SingleSpesa implements AbstractOggettoEntita, Serializable, ISingle
 
 	public static final String NOME_TABELLA = "single_spesa";
 	public static final String ID = "idSpesa";
-	public static final String DATA = "Data";
-	public static final String DATAINS = "dataIns";
-	public static final String IDCATEGORIE = "idCategorie";
-	public static final String INEURO = "inEuro";
-	public static final String DESCRIZIONE = "descrizione";
-	public static final String NOME = "nome";
-	public static final String IDUTENTE = "idUtente";
+	public static final String COL_DATA = "Data";
+	public static final String COL_DATAINS = "dataIns";
+	public static final String COL_IDCATEGORIE = "idCategorie";
+	public static final String COL_INEURO = "inEuro";
+	public static final String COL_DESCRIZIONE = "descrizione";
+	public static final String COL_NOME = "nome";
+	public static final String COL_IDUTENTE = "idUtente";
 
 	@Column(name = "\"Data\"", nullable = false, length = 2000000000)
-	private String Data;
+	private String data;
 
 	@Column(name = "\"descrizione\"", nullable = false, length = 2000000000)
 	private String descrizione;
@@ -59,17 +59,14 @@ public class SingleSpesa implements AbstractOggettoEntita, Serializable, ISingle
 	@JoinColumns({})
 	private Utenti utenti;
 
-	public SingleSpesa() {
-	}
-
 	@Override
 	public String getData() {
-		return this.Data;
+		return this.data;
 	}
 
 	@Override
-	public void setData(final String Data) {
-		this.Data = Data;
+	public void setData(final String data) {
+		this.data = data;
 	}
 
 	@Override

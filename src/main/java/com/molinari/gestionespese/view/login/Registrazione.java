@@ -83,11 +83,7 @@ public class Registrazione extends JDialog {
 			final String sUser = username.getText();
 			final WrapUtenti utentiwrap = new WrapUtenti();
 			if (!"".equals(sNome) && !"".equals(sCognome) && !"".equals(sPass) && !"".equals(sUser)) {
-				final Utenti utente = new Utenti();
-				utente.setNome(sNome);
-				utente.setCognome(sCognome);
-				utente.setpassword(sPass);
-				utente.setusername(sUser);
+				final Utenti utente = fillUtente(sNome, sCognome, sPass, sUser);
 				final boolean ok = CacheUtenti.getSingleton().checkUtentePerUsername(sUser);
 				// TODO creare i comandi anche per gli utenti registrati:
 				// cancella, inserisci, aggiorna.
@@ -102,5 +98,14 @@ public class Registrazione extends JDialog {
 			}
 
 		});
+	}
+
+	private Utenti fillUtente(final String sNome, final String sCognome, final String sPass, final String sUser) {
+		final Utenti utente = new Utenti();
+		utente.setNome(sNome);
+		utente.setCognome(sCognome);
+		utente.setpassword(sPass);
+		utente.setusername(sUser);
+		return utente;
 	}
 }

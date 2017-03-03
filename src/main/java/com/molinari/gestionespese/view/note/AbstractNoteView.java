@@ -9,7 +9,7 @@ public class AbstractNoteView extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
-	public WrapNote           wrapNote         = null;
+	private WrapNote           wrapNote         = null;
 
 	public AbstractNoteView(WrapNote note) {
 		this.wrapNote = note;
@@ -53,6 +53,14 @@ public class AbstractNoteView extends JDialog {
 
 	public void setUtenti(Utenti utente) {
 		wrapNote.setUtenti(utente);
+	}
+
+	public WrapNote getWrapNote() {
+		return wrapNote;
+	}
+
+	public void setWrapNote(WrapNote wrapNote) {
+		this.wrapNote = wrapNote;
 	}
 
 }

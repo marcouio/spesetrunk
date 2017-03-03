@@ -10,7 +10,7 @@ import com.molinari.gestionespese.domain.wrapper.WrapCatSpese;
 public abstract class AbstractCategorieView extends JDialog implements Observer {
 
 	private static final long serialVersionUID = 1L;
-	public WrapCatSpese modelCatSpese = null;
+	private WrapCatSpese modelCatSpese = null;
 
 	public AbstractCategorieView(final WrapCatSpese modelCatSpese) {
 		this.modelCatSpese = modelCatSpese;

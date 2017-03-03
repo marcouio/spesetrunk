@@ -1,6 +1,8 @@
 package com.molinari.gestionespese.view.impostazioni;
 
 import java.awt.Dimension;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.List;
 import java.util.Observable;
 import java.util.Vector;
@@ -43,7 +45,7 @@ public class CategorieView extends AbstractCategorieView {
 	public CategorieView(final WrapCatSpese cat) {
 		super(cat);
 
-		modelCatSpese.addObserver(this);
+		getModelCatSpese().addObserver(this);
 		initGUI();
 	}
 
@@ -69,7 +71,7 @@ public class CategorieView extends AbstractCategorieView {
 			taDescrizione.setBounds(26, 91, 206, 88);
 
 			// importanza Spesa
-			cbImportanza = new JComboBox();
+			cbImportanza = new JComboBox<>();
 			cbImportanza.addItem("");
 			cbImportanza.addItem("Futili");
 			cbImportanza.addItem("Variabili");
@@ -93,30 +95,7 @@ public class CategorieView extends AbstractCategorieView {
 			categorieSpesa = CacheCategorie.getSingleton().getListCategoriePerCombo(CacheCategorie.getSingleton().getAllCategorie());
 			cbCategorie = new JComboBox<>(new Vector<>(categorieSpesa));
 			cbCategorie.setBounds(26, 380, 206, 25);
-			cbCategorie.addItemListener(e -> {
-
-				if (cbCategorie.getSelectedIndex() != 0 && cbCategorie.getSelectedItem() != null) {
-					categoria = (CatSpese) cbCategorie.getSelectedItem();
-					tfNome.setText(categoria.getnome());
-					taDescrizione.setText(categoria.getdescrizione());
-					cbImportanza.setSelectedItem(categoria.getimportanza());
-					final int numeroGruppi = cbGruppi.getModel().getSize();
-					boolean trovato = false;
-					for (int i = 0; i < numeroGruppi; i++) {
-						final Gruppi gruppo = cbGruppi.getModel().getElementAt(i);
-						if (gruppo != null && gruppo.getnome()!=null &&  categoria.getGruppi()!=null) {
-							if(gruppo.getnome().equals(categoria.getGruppi().getnome())){
-								cbGruppi.setSelectedIndex(i);
-								trovato = true;
-							}
-						}
-					}
-					if(!trovato){
-						cbGruppi.setSelectedIndex(0);
-					}
-
-				}
-			});
+			cbCategorie.addItemListener(getListener());
 
 			// bottone Update
 			final ButtonF aggiorna = new ButtonF();
@@ -146,13 +125,44 @@ public class CategorieView extends AbstractCategorieView {
 		}
 	}
 
+	private ItemListener getListener() {
+		return (ItemEvent e) -> {
+
+			if (cbCategorie.getSelectedIndex() != 0 && cbCategorie.getSelectedItem() != null) {
+				setFields();
+
+			}
+		};
+	}
+
+	private void setFields() {
+		categoria = (CatSpese) cbCategorie.getSelectedItem();
+		tfNome.setText(categoria.getnome());
+		taDescrizione.setText(categoria.getdescrizione());
+		cbImportanza.setSelectedItem(categoria.getimportanza());
+		final int numeroGruppi = cbGruppi.getModel().getSize();
+		boolean trovato = false;
+		
+		for (int i = 0; i < numeroGruppi; i++) {
+			final Gruppi gruppo = cbGruppi.getModel().getElementAt(i);
+			boolean groupIsNotNull = gruppo != null && gruppo.getnome()!=null &&  categoria.getGruppi()!=null;
+			if (groupIsNotNull && gruppo.getnome().equals(categoria.getGruppi().getnome())) {
+				cbGruppi.setSelectedIndex(i);
+				trovato = true;
+			}
+		}
+		if(!trovato){
+			cbGruppi.setSelectedIndex(0);
+		}
+	}
+
 	public boolean nonEsistonoCampiNonValorizzati() {
-		return getcDescrizione() != null && getcImportanza() != null && getcNome() != null && getcImportanza() != null;
+		return getcDescrizione() != null && getcImportanza() != null && getcNome() != null;
 	}
 
 	public void aggiornaModelDaVista(final String actionCommand) {
 
-		if (actionCommand.equals("Inserisci")) {
+		if ("Inserisci".equals(actionCommand)) {
 			final int idCategoria = CacheCategorie.getSingleton().getMaxId() + 1;
 			getModelCatSpese().setidCategoria(idCategoria);
 		} else {
@@ -185,7 +195,7 @@ public class CategorieView extends AbstractCategorieView {
 	/**
 	 * @return the comboCategorie
 	 */
-	public JComboBox getComboCategorie() {
+	public JComboBox<CatSpese> getComboCategorie() {
 		return cbCategorie;
 	}
 
@@ -193,15 +203,15 @@ public class CategorieView extends AbstractCategorieView {
 	 * @param comboCategorie
 	 *            the comboCategorie to set
 	 */
-	public void setComboCategorie(final JComboBox comboCategorie) {
+	public void setComboCategorie(final JComboBox<CatSpese> comboCategorie) {
 		this.cbCategorie = comboCategorie;
 	}
 
-	public JComboBox getComboGruppi() {
+	public JComboBox<Gruppi> getComboGruppi() {
 		return cbGruppi;
 	}
 
-	public void setComboGruppi(final JComboBox comboGruppi) {
+	public void setComboGruppi(final JComboBox<Gruppi> comboGruppi) {
 		this.cbGruppi = comboGruppi;
 	}
 

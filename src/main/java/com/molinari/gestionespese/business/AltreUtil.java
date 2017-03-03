@@ -5,6 +5,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.apache.commons.math3.util.MathUtils;
+
 import controller.ControlloreBase;
 import grafica.componenti.alert.Alert;
 
@@ -95,7 +97,8 @@ public class AltreUtil {
 		final String interi = stringaDouble.substring(0, stringaDouble.indexOf('.'));
 		final double parteIntera = Double.parseDouble(interi);
 		final double parteDecimali = d - parteIntera;
-		if (parteDecimali * 100 != 0) {
+		boolean equalzero = MathUtils.equals(parteDecimali * 100, 0);
+		if (!equalzero) {
 			final double decimaliDaArrotondare = parteDecimali * 100;
 			final String arrotondato = Long.toString(Math.round(decimaliDaArrotondare));
 			decimaleArrotondato = Double.parseDouble(arrotondato) / 100;

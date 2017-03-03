@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 public class Bottone extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private AbstractButton    bottone;
+	private AbstractButton    btn;
 	private PannelloBottoni   contenuto;
 	private boolean           isEspanso;
 
@@ -20,7 +20,7 @@ public class Bottone extends JPanel {
 
 	public Bottone(AbstractButton bottone) {
 		init();
-		this.bottone = bottone;
+		this.btn = bottone;
 		this.add(bottone, BorderLayout.NORTH);
 	}
 
@@ -33,8 +33,8 @@ public class Bottone extends JPanel {
 	public Bottone(PannelloBottoni contenuto, AbstractButton bottone) {
 		init();
 		this.contenuto = contenuto;
-		this.bottone = bottone;
-		this.add(this.bottone, BorderLayout.NORTH);
+		this.btn = bottone;
+		this.add(this.btn, BorderLayout.NORTH);
 		this.add(this.contenuto, BorderLayout.SOUTH);
 
 	}
@@ -60,11 +60,11 @@ public class Bottone extends JPanel {
 	}
 
 	public AbstractButton getBottone() {
-		return bottone;
+		return btn;
 	}
 
 	protected void setBottone(AbstractButton bottone) {
-		this.bottone = bottone;
+		this.btn = bottone;
 	}
 
 	public PannelloBottoni getContenuto() {

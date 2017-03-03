@@ -8,27 +8,28 @@ import javax.swing.text.Document;
 
 public class TextAreaF extends JTextArea {
 
+	private static final String ERAS_LIGHT_ITC = "Eras Light ITC";
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
 	public TextAreaF() {
-		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
+		setFont(new Font(ERAS_LIGHT_ITC, Font.PLAIN, 12));
 		setBackground(Color.GRAY);
 		setForeground(Color.WHITE);
 	}
 
 	public TextAreaF(String arg0) {
 		super(arg0);
-		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
+		setFont(new Font(ERAS_LIGHT_ITC, Font.PLAIN, 12));
 		setBackground(Color.GRAY);
 		setForeground(Color.WHITE);
 	}
 
 	public TextAreaF(Document arg0) {
 		super(arg0);
-		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
+		setFont(new Font(ERAS_LIGHT_ITC, Font.PLAIN, 12));
 		setBackground(Color.GRAY);
 		setForeground(Color.WHITE);
 
@@ -36,14 +37,14 @@ public class TextAreaF extends JTextArea {
 
 	public TextAreaF(int arg0, int arg1) {
 		super(arg0, arg1);
-		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
+		setFont(new Font(ERAS_LIGHT_ITC, Font.PLAIN, 12));
 		setBackground(Color.GRAY);
 		setForeground(Color.WHITE);
 	}
 
 	public TextAreaF(String arg0, int arg1, int arg2) {
 		super(arg0, arg1, arg2);
-		setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
+		setFont(new Font(ERAS_LIGHT_ITC, Font.PLAIN, 12));
 		setBackground(Color.GRAY);
 		setForeground(Color.WHITE);
 	}

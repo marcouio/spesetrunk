@@ -13,8 +13,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.function.ToDoubleFunction;
 import java.util.logging.Level;
 import java.util.stream.Stream;
+
+import org.apache.commons.math3.util.MathUtils;
 
 import com.molinari.gestionespese.business.cache.CacheEntrate;
 import com.molinari.gestionespese.business.cache.CacheUscite;
@@ -361,23 +364,29 @@ public class Database {
 				while (rs.next()) {
 					final ArrayList<String> lista2 = new ArrayList<>();
 					z++;
-					for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-						if (rsmd.getColumnType(i) == java.sql.Types.INTEGER) {
-							lista2.add(Integer.toString(rs.getInt(i)));
-						} else if (rsmd.getColumnType(i) == java.sql.Types.DOUBLE) {
-							lista2.add(Double.toString(rs.getInt(i)));
-						} else if (rsmd.getColumnType(i) == java.sql.Types.DATE) {
-							lista2.add(rs.getDate(i).toString());
-						} else {
-							lista2.add(rs.getString(i));
-						}
-					}
+					riempiLista(rs, rsmd, lista2);
 					nomi.put("row" + z, lista2);
 				}
 				return nomi;
 			}
 
+
 		}.execute(sql);
+	}
+	
+	private void riempiLista(ResultSet rs, final ResultSetMetaData rsmd, final ArrayList<String> lista2)
+			throws SQLException {
+		for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+			if (rsmd.getColumnType(i) == java.sql.Types.INTEGER) {
+				lista2.add(Integer.toString(rs.getInt(i)));
+			} else if (rsmd.getColumnType(i) == java.sql.Types.DOUBLE) {
+				lista2.add(Double.toString(rs.getInt(i)));
+			} else if (rsmd.getColumnType(i) == java.sql.Types.DATE) {
+				lista2.add(rs.getDate(i).toString());
+			} else {
+				lista2.add(rs.getString(i));
+			}
+		}
 	}
 
 	// questo metodo riempie tabella uscite
@@ -558,22 +567,22 @@ public class Database {
 	public List<String> nomiColonne(final String tabella) {
 		String sql = "";
 		if (tabella.equals(Entrate.NOME_TABELLA)) {
-			sql = "SELECT " + Entrate.NOME_TABELLA + "." + Entrate.DATA + ", " + Entrate.NOME_TABELLA + "."
-					+ Entrate.NOME + ", " + Entrate.NOME_TABELLA + "." + Entrate.DESCRIZIONE + ", "
-					+ Entrate.NOME_TABELLA + "." + Entrate.INEURO + " as euro, " + Entrate.NOME_TABELLA + "."
-					+ Entrate.FISSEOVAR + " as categoria, " + Entrate.NOME_TABELLA + "." + Entrate.ID + ", "
-					+ Entrate.NOME_TABELLA + "." + Entrate.DATAINS + " as inserimento" + FROM + tabella
+			sql = "SELECT " + Entrate.NOME_TABELLA + "." + Entrate.COL_DATA + ", " + Entrate.NOME_TABELLA + "."
+					+ Entrate.COL_NOME + ", " + Entrate.NOME_TABELLA + "." + Entrate.COL_DESCRIZIONE + ", "
+					+ Entrate.NOME_TABELLA + "." + Entrate.COL_INEURO + " as euro, " + Entrate.NOME_TABELLA + "."
+					+ Entrate.COL_FISSEOVAR + " as categoria, " + Entrate.NOME_TABELLA + "." + Entrate.ID + ", "
+					+ Entrate.NOME_TABELLA + "." + Entrate.COL_DATAINS + " as inserimento" + FROM + tabella
 					+ " order by " + Entrate.ID + " desc";
 		} else if (tabella.equals(SingleSpesa.NOME_TABELLA)) {
-			sql = "SELECT " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.DATA + " as data, "
-					+ SingleSpesa.NOME_TABELLA + "." + SingleSpesa.NOME + ", " + SingleSpesa.NOME_TABELLA + "."
-					+ SingleSpesa.DESCRIZIONE + ", " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.INEURO
-					+ " as euro, " + CatSpese.NOME_TABELLA + "." + CatSpese.NOME + " as categoria, "
+			sql = "SELECT " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.COL_DATA + " as data, "
+					+ SingleSpesa.NOME_TABELLA + "." + SingleSpesa.COL_NOME + ", " + SingleSpesa.NOME_TABELLA + "."
+					+ SingleSpesa.COL_DESCRIZIONE + ", " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.COL_INEURO
+					+ " as euro, " + CatSpese.NOME_TABELLA + "." + CatSpese.COL_NOME + " as categoria, "
 					+ SingleSpesa.NOME_TABELLA + "." + SingleSpesa.ID + ", " + SingleSpesa.NOME_TABELLA + "."
-					+ SingleSpesa.DATAINS + " as inserimento" + FROM + tabella + ", " + CatSpese.NOME_TABELLA
-					+ ", " + Utenti.NOME_TABELLA + " where " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.IDCATEGORIE
+					+ SingleSpesa.COL_DATAINS + " as inserimento" + FROM + tabella + ", " + CatSpese.NOME_TABELLA
+					+ ", " + Utenti.NOME_TABELLA + " where " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.COL_IDCATEGORIE
 					+ " = " + CatSpese.NOME_TABELLA + "." + CatSpese.ID + " and " + SingleSpesa.NOME_TABELLA + "."
-					+ SingleSpesa.IDUTENTE + " = " + Utenti.NOME_TABELLA + "." + Utenti.ID + " order by "
+					+ SingleSpesa.COL_IDUTENTE + " = " + Utenti.NOME_TABELLA + "." + Utenti.ID + " order by "
 					+ SingleSpesa.ID + " desc";
 		}
 
@@ -743,13 +752,19 @@ public class Database {
 		final Stream<SingleSpesa> stream = listaUscite.stream();
 		final Predicate<? super SingleSpesa> predicate = ss -> ss.getCatSpese() != null && ss.getCatSpese().equals(importanza);
 		final Stream<SingleSpesa> filter = stream.filter(predicate);
-		final double speseTipo = filter.mapToDouble(u -> u.getinEuro()).sum();
-		if (speseTipo != 0 && totaleAnnuo != 0.0) {
+		final double speseTipo = filter.mapToDouble(getFilter()).sum();
+		boolean spesezero = MathUtils.equals(speseTipo, 0);
+		boolean totannozero = MathUtils.equals(totaleAnnuo, 0);
+		if (!spesezero && !totannozero) {
 			percentualeTipo = speseTipo / totaleAnnuo * 100;
 		}
-
+		
 		return AltreUtil.arrotondaDecimaliDouble(percentualeTipo);
 
+	}
+
+	private static ToDoubleFunction<? super SingleSpesa> getFilter() {
+		return SingleSpesa::getinEuro;
 	}
 
 	public static String getDburl() {

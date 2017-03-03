@@ -35,7 +35,7 @@ public class AscoltatoreLook implements ActionListener {
 				lookAnd.setusato(0);
 				final HashMap<String, String> campi = new HashMap<>();
 				final HashMap<String, String> clausole = new HashMap<>();
-				campi.put(Lookandfeel.USATO, "0");
+				campi.put(Lookandfeel.COL_USATO, "0");
 				clausole.put(Lookandfeel.ID, Integer.toString(lookAnd.getidLook()));
 				Database.getSingleton().eseguiIstruzioneSql("update", Lookandfeel.NOME_TABELLA, campi, clausole);
 			}
@@ -44,7 +44,7 @@ public class AscoltatoreLook implements ActionListener {
 				valoreLook.setusato(1);
 				final HashMap<String, String> campi = new HashMap<>();
 				final HashMap<String, String> clausole = new HashMap<>();
-				campi.put(Lookandfeel.USATO, "1");
+				campi.put(Lookandfeel.COL_USATO, "1");
 				clausole.put(Lookandfeel.ID, Integer.toString(valoreLook.getidLook()));
 				Database.getSingleton().eseguiIstruzioneSql("update", Lookandfeel.NOME_TABELLA, campi, clausole);
 			}

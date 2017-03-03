@@ -20,8 +20,12 @@ import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreInser
 
 public class GruppiView extends AbstractGruppiView {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Gruppi gruppi = null;
-	private JComboBox comboGruppi;
+	private JComboBox<Gruppi> comboGruppi;
 	private TextFieldF nome;
 	private TextAreaF descrizione;
 
@@ -60,8 +64,8 @@ public class GruppiView extends AbstractGruppiView {
 		inserisci.addActionListener(new AscoltatoreInserisciGruppo(this));
 
 		final List<Gruppi> vettoreGruppi = CacheGruppi.getSingleton().getVettoreGruppi();
-		comboGruppi = new JComboBox();
-		comboGruppi.addItem("");
+		comboGruppi = new JComboBox<>();
+		comboGruppi.addItem(new Gruppi());
 
 		for (int i = 0; i < vettoreGruppi.size(); i++) {
 			comboGruppi.addItem(vettoreGruppi.get(i));
@@ -123,7 +127,7 @@ public class GruppiView extends AbstractGruppiView {
 	}
 
 	public void setGruppo(final String actionCommand) {
-		if (actionCommand.equals("Inserisci")) {
+		if ("Inserisci".equals(actionCommand)) {
 			final int idGruppo = CacheGruppi.getSingleton().getMaxId() + 1;
 			getModelGruppi().setidGruppo(idGruppo);
 		} else {
@@ -149,20 +153,11 @@ public class GruppiView extends AbstractGruppiView {
 
 	}
 
-	private static final long serialVersionUID = 1L;
-
-	public static void main(final String[] args) {
-		final GruppiView dialog = new GruppiView(new WrapGruppi());
-		dialog.pack();
-		dialog.setBounds(10, 10, 500, 500);
-		dialog.setVisible(true);
-	}
-
-	public JComboBox getComboGruppi() {
+	public JComboBox<Gruppi> getComboGruppi() {
 		return comboGruppi;
 	}
 
-	public void setComboGruppi(final JComboBox comboGruppi) {
+	public void setComboGruppi(final JComboBox<Gruppi> comboGruppi) {
 		this.comboGruppi = comboGruppi;
 	}
 }

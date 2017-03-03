@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.util.Date;
 
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Controllore;
@@ -27,16 +26,6 @@ import grafica.componenti.alert.Alert;
 public class NoteView extends AbstractNoteView {
 
 	private static final long serialVersionUID = 1L;
-
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(() -> {
-			final NoteView dialog = new NoteView(new WrapNote(), new MostraNoteView());
-			dialog.setLocationRelativeTo(null);
-			dialog.setBounds(0, 0, 346, 250);
-			dialog.setVisible(true);
-		});
-	}
-
 	private final TextFieldF nota;
 	private final TextAreaF  descrizione;
 	private final TextFieldF data;
@@ -91,10 +80,10 @@ public class NoteView extends AbstractNoteView {
 			@Override
 			public void actionPerformedOverride(ActionEvent e) throws Exception {
 				final int id = CacheNote.getSingleton().getAllNoteForUtenteEAnno().size();
-				if (e.getActionCommand().equals("Aggiorna")) {
+				if ("Aggiorna".equals(e.getActionCommand())) {
 					aggiornaModelDaVista(null);
 					if (nonEsistonoCampiNonValorizzati()) {
-						Controllore.invocaComando(new CommandUpdateNota((Note) note.getEntitaPadre(), (INote) wrapNote.getEntitaPadre()));
+						Controllore.invocaComando(new CommandUpdateNota((Note) note.getEntitaPadre(), (INote) getWrapNote().getEntitaPadre()));
 						((MostraNoteView) padre).aggiornaVista();
 						dispose();
 					} else {
@@ -119,13 +108,14 @@ public class NoteView extends AbstractNoteView {
 	}
 
 	private boolean nonEsistonoCampiNonValorizzati() {
-		return getNome() != null && getDescrizione() != null && getData() != null && getDataIns() != null
+		boolean dateIsNotNull = getData() != null && getDataIns() != null;
+		return getNome() != null && getDescrizione() != null && dateIsNotNull
 				&& getUtenti() != null;
 	}
 
 	private void aggiornaModelDaVista(WrapNote wNote) {
 		if (wNote != null) {
-			wrapNote = wNote;
+			setWrapNote(wNote);
 		}
 		setNome(nota.getText());
 
