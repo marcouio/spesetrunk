@@ -220,6 +220,38 @@ public class Model {
 	 *
 	 * @param numEntry
 	 * @param tabella
+	 * @return String[][]
+	 */
+	public static String[][] movimentiEntrate(final int numEntry, final String tabella) {
+		final List<String> nomi = Database.getSingleton().nomiColonne(tabella);
+		final List<Entrate> entry1 = Model.getSingleton().modelEntrate.dieciEntrate(numEntry);
+
+		if (!entry1.isEmpty() && (entry1.size() == numEntry || entry1.size() >= numEntry)) {
+			popolaArrayMovimentiEntrata(entry1, nomi, numEntry);
+		} else if (!entry1.isEmpty() && entry1.size() < numEntry) {
+			popolaArrayMovimentiEntrata(entry1, nomi, numEntry);
+			for (int y = entry1.size(); y < numEntry; y++) {
+				riempiArrayMovEntrateConZeri(nomi, y);
+			}
+		} else {
+			movimentiEntrate = new String[numEntry][nomi.size()];
+			for (int x = 0; x < numEntry; x++) {
+				riempiArrayMovEntrateConZeri(nomi, x);
+			}
+		}
+		DBUtil.closeConnection();
+		return movimentiEntrate;
+	}
+	
+	/**
+	 * Valorizza una matrice utile per i pannelli movimenti in entrata. crea il
+	 * numero di righe specificato in parametro con le entita' della tabella
+	 * passata in parametro
+	 *
+	 * }
+	 *
+	 * @param numEntry
+	 * @param tabella
 	 * @param numMovimenti 
 	 * @return String[][]
 	 */
@@ -265,38 +297,6 @@ public class Model {
 			movimentiEntrate[x][6] = entrate.getDataIns();
 
 		}
-	}
-
-	/**
-	 * Valorizza una matrice utile per i pannelli movimenti in entrata. crea il
-	 * numero di righe specificato in parametro con le entita' della tabella
-	 * passata in parametro
-	 *
-	 * }
-	 *
-	 * @param numEntry
-	 * @param tabella
-	 * @return String[][]
-	 */
-	public static String[][] movimentiEntrate(final int numEntry, final String tabella) {
-		final List<String> nomi = Database.getSingleton().nomiColonne(tabella);
-		final List<Entrate> entry1 = Model.getSingleton().modelEntrate.dieciEntrate(numEntry);
-
-		if (!entry1.isEmpty() && (entry1.size() == numEntry || entry1.size() >= numEntry)) {
-			popolaArrayMovimentiEntrata(entry1, nomi, numEntry);
-		} else if (!entry1.isEmpty() && entry1.size() < numEntry) {
-			popolaArrayMovimentiEntrata(entry1, nomi, numEntry);
-			for (int y = entry1.size(); y < numEntry; y++) {
-				riempiArrayMovEntrateConZeri(nomi, y);
-			}
-		} else {
-			movimentiEntrate = new String[numEntry][nomi.size()];
-			for (int x = 0; x < numEntry; x++) {
-				riempiArrayMovEntrateConZeri(nomi, x);
-			}
-		}
-		DBUtil.closeConnection();
-		return movimentiEntrate;
 	}
 
 	// *************************************MOVIMENTI-USCITE***********************************
