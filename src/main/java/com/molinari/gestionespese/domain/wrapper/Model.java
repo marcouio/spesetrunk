@@ -223,24 +223,8 @@ public class Model {
 	 * @return String[][]
 	 */
 	public static String[][] movimentiEntrate(final int numEntry, final String tabella) {
-		final List<String> nomi = Database.getSingleton().nomiColonne(tabella);
 		final List<Entrate> entry1 = Model.getSingleton().modelEntrate.dieciEntrate(numEntry);
-
-		if (!entry1.isEmpty() && (entry1.size() == numEntry || entry1.size() >= numEntry)) {
-			popolaArrayMovimentiEntrata(entry1, nomi, numEntry);
-		} else if (!entry1.isEmpty() && entry1.size() < numEntry) {
-			popolaArrayMovimentiEntrata(entry1, nomi, numEntry);
-			for (int y = entry1.size(); y < numEntry; y++) {
-				riempiArrayMovEntrateConZeri(nomi, y);
-			}
-		} else {
-			movimentiEntrate = new String[numEntry][nomi.size()];
-			for (int x = 0; x < numEntry; x++) {
-				riempiArrayMovEntrateConZeri(nomi, x);
-			}
-		}
-		DBUtil.closeConnection();
-		return movimentiEntrate;
+		return movimentiFiltratiEntratePerNumero(tabella, entry1, numEntry);
 	}
 	
 	/**
