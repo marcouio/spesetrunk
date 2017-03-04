@@ -276,6 +276,7 @@ public class WrapNote extends Observable implements IDAO<Note>, INote {
 						final PreparedStatement ps = cn.prepareStatement(sql2);
 						ps.setInt(1, rs.getInt(1));
 						ps.executeUpdate();
+						ps.close();
 						return true;
 
 					}
