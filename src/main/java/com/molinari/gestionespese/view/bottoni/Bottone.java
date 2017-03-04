@@ -9,7 +9,7 @@ public class Bottone extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private AbstractButton    btn;
-	private PannelloBottoni   contenuto;
+	private transient PannelloBottoni   contenuto;
 	private boolean           isEspanso;
 
 	public static final int   RIEMPITO         = 0;
