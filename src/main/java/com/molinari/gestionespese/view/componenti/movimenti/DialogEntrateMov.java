@@ -11,6 +11,8 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import org.apache.commons.math3.util.MathUtils;
+
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.aggiornatori.AggiornatoreManager;
@@ -98,11 +100,6 @@ public class DialogEntrateMov extends AbstractEntrateView {
 		} catch (final Exception e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
-	}
-
-	private boolean nonEsistonoCampiNonValorizzati() {
-		final boolean nomeDescrDataOk = getcNome() != null && getcDescrizione() != null && getcData() != null;
-		return nomeDescrDataOk && getFisseOVar() != null && getdEuro() != 0.0 && getUtenti() != null;
 	}
 
 	public void setEuro(final JTextField euro) {
@@ -196,9 +193,15 @@ public class DialogEntrateMov extends AbstractEntrateView {
 		public AscoltatoreDialogEntrate(final JDialog dialog) {
 			this.dialog = dialog;
 		}
+		
+		private boolean nonEsistonoCampiNonValorizzati() {
+			final boolean nomeDescrDataOk = getcNome() != null && getcDescrizione() != null && getcData() != null;
+			boolean eurozero = MathUtils.equals(getdEuro(), 0);
+			return nomeDescrDataOk && getFisseOVar() != null && eurozero && getUtenti() != null;
+		}
 
 		@Override
-		protected void actionPerformedOverride(final ActionEvent e) throws Exception {
+		protected void actionPerformedOverride(final ActionEvent e) {
 			super.actionPerformedOverride(e);
 			if (e.getActionCommand().equals(I18NManager.getSingleton().getMessaggio("update"))) {
 				update();
@@ -207,7 +210,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 			}
 		}
 
-		private void delete() throws Exception {
+		private void delete() {
 			final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
 			final JTextField campo = Controllore.getSingleton().getGeneralFrame().getPannelTabs().getTabMovEntrate().getCampo();
 			aggiornaModelDaVista();
@@ -224,7 +227,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 			dialog.dispose();
 		}
 
-		private void update() throws Exception {
+		private void update()  {
 			aggiornaModelDaVista();
 			final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
 			final PannelTabs pannelTabs = Controllore.getSingleton().getGeneralFrame().getPannelTabs();

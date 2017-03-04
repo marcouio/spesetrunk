@@ -3,6 +3,7 @@ package com.molinari.gestionespese.view;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.util.logging.Level;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -14,6 +15,7 @@ import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.view.font.ButtonF;
 import com.molinari.gestionespese.view.font.LabelListaGruppi;
 
+import controller.ControlloreBase;
 import grafica.componenti.alert.Alert;
 
 public class Help extends JDialog {
@@ -56,13 +58,14 @@ public class Help extends JDialog {
 		btnHelp.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
-			protected void actionPerformedOverride(ActionEvent e) throws Exception {
+			protected void actionPerformedOverride(ActionEvent e) {
 				super.actionPerformedOverride(e);
 				final Desktop desktop = Desktop.getDesktop();
 				try {
 					desktop.open(new File("help.pdf"));
 				} catch (final Exception e1) {
 					Alert.segnalazioneErroreWarning(e1.getMessage());
+					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}
 
 			}

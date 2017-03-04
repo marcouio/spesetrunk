@@ -2,9 +2,13 @@ package com.molinari.gestionespese.business.ascoltatori;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
 
 import com.molinari.gestionespese.business.Controllore;
+import com.molinari.gestionespese.business.GestioneSpeseException;
 import com.molinari.gestionespese.business.aggiornatori.IAggiornatore;
+
+import controller.ControlloreBase;
 
 public abstract class AscoltatoreBase implements ActionListener {
 
@@ -23,7 +27,7 @@ public abstract class AscoltatoreBase implements ActionListener {
 		try {
 			actionPerformedOverride(e);
 		} catch (final Exception e1) {
-			e1.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 		}
 		aggiornatore.aggiorna();
 	}
@@ -35,6 +39,6 @@ public abstract class AscoltatoreBase implements ActionListener {
 	 * @param e
 	 * @throws Exception
 	 */
-	protected abstract void actionPerformedOverride(final ActionEvent e) throws Exception;
+	protected abstract void actionPerformedOverride(final ActionEvent e) throws GestioneSpeseException;
 
 }

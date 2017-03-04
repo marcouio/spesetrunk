@@ -1,7 +1,7 @@
 package com.molinari.gestionespese.view.report;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public abstract class ScrittoreReportBase implements IScrittoreReport{
 
@@ -31,7 +31,7 @@ public abstract class ScrittoreReportBase implements IScrittoreReport{
 	@Override
 	public boolean generaReport() throws Exception{
 		boolean ok = operazioniPreliminari();
-		final ArrayList<OggettoReport> listaOggetti = reportData.getListaOggetti();
+		final List<OggettoReport> listaOggetti = reportData.getListaOggetti();
 		for (OggettoReport oggettoReport : listaOggetti) {
 			if(!smista(oggettoReport)){
 				ok = false;
@@ -41,12 +41,6 @@ public abstract class ScrittoreReportBase implements IScrittoreReport{
 	}
 
 	protected abstract boolean operazioniPreliminari() throws Exception;
-
-	public static void main(final String[] args) {
-		final String[][] matrice = new String[12][2];
-		System.out.println(matrice.length);
-		System.out.println(matrice[0].length);
-	}
 
 
 	/**

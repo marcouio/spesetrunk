@@ -8,7 +8,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
@@ -187,7 +186,7 @@ public class NewSql extends PannelloBase {
 
 	private static final class InfoListener extends AscoltatoreAggiornatoreNiente {
 		@Override
-		protected void actionPerformedOverride(ActionEvent e) throws Exception {
+		protected void actionPerformedOverride(ActionEvent e) {
 			super.actionPerformedOverride(e);
 			final StringBuilder sb = new StringBuilder();
 			sb.append(I18NManager.getSingleton().getMessaggio("tables")+": \n");

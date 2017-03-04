@@ -4,11 +4,15 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Observable;
+import java.util.logging.Level;
 
 import javax.swing.JComboBox;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
+
+import org.apache.commons.math3.util.MathUtils;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Controllore;
@@ -25,13 +29,15 @@ import com.molinari.gestionespese.view.font.LabelListaGruppi;
 import com.molinari.gestionespese.view.font.TextAreaF;
 import com.molinari.gestionespese.view.font.TextFieldF;
 
+import controller.ControlloreBase;
 import grafica.componenti.alert.Alert;
 
 public class EntrateView extends AbstractEntrateView {
 
 	private static final long        serialVersionUID = 1L;
 
-	static private ArrayList<String> lista = new ArrayList<>();
+	private static List<String> lista = new ArrayList<>();
+	
 	static{
 		lista.add(I18NManager.getSingleton().getMessaggio("variables"));
 		lista.add(I18NManager.getSingleton().getMessaggio("fixity"));
@@ -115,7 +121,7 @@ public class EntrateView extends AbstractEntrateView {
 		eliminaUltima.addActionListener(new AscoltatoreAggiornatoreEntrate() {
 
 			@Override
-			protected void actionPerformedOverride(ActionEvent e) throws Exception {
+			protected void actionPerformedOverride(ActionEvent e) {
 				super.actionPerformedOverride(e);
 
 				try {
@@ -125,7 +131,7 @@ public class EntrateView extends AbstractEntrateView {
 						Alert.segnalazioneInfo(msg);
 					}
 				} catch (final Exception e2) {
-					e2.printStackTrace();
+					ControlloreBase.getLog().log(Level.SEVERE, e2.getMessage(), e2);
 					Alert.segnalazioneErroreGrave(e2.getMessage());
 					DBUtil.closeConnection();
 				}
@@ -138,8 +144,11 @@ public class EntrateView extends AbstractEntrateView {
 	}
 
 	public boolean nonEsistonoCampiNonValorizzati() {
-		return getcNome() != null && getcDescrizione() != null && getcData() != null && getDataIns() != null
-				&& getFisseOVar() != null && getdEuro() != 0.0 && getUtenti() != null;
+		boolean dateNotNull = getcData() != null && getDataIns() != null;
+		boolean descrizioneNotNull = getcNome() != null && getcDescrizione() != null;
+		boolean euroNotNull = MathUtils.equals(getdEuro(), 0.0);
+		return descrizioneNotNull && dateNotNull
+				&& getFisseOVar() != null && euroNotNull && getUtenti() != null;
 	}
 
 	private void initLabel() {
@@ -170,7 +179,7 @@ public class EntrateView extends AbstractEntrateView {
 	/**
 	 * @return the lista
 	 */
-	public static ArrayList<String> getLista() {
+	public static List<String> getLista() {
 		return EntrateView.lista;
 	}
 
@@ -209,7 +218,7 @@ public class EntrateView extends AbstractEntrateView {
 	 * @param lista
 	 *            the lista to set
 	 */
-	public static void setLista(final ArrayList<String> lista) {
+	public static void setLista(final List<String> lista) {
 		EntrateView.lista = lista;
 	}
 

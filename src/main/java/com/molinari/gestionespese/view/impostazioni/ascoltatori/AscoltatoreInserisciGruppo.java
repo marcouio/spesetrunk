@@ -23,7 +23,7 @@ public class AscoltatoreInserisciGruppo extends AscoltatoreAggiornatoreTutto {
 	private Gruppi gruppo1;
 
 	@Override
-	protected void actionPerformedOverride(ActionEvent e) throws Exception {
+	protected void actionPerformedOverride(ActionEvent e) {
 		super.actionPerformedOverride(e);
 
 		gruppiView.setGruppo("Inserisci");

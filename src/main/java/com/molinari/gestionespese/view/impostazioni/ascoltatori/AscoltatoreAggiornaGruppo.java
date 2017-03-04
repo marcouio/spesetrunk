@@ -28,7 +28,7 @@ public class AscoltatoreAggiornaGruppo extends AscoltatoreAggiornatoreTutto {
 	}
 
 	@Override
-	protected void actionPerformedOverride(final ActionEvent e) throws Exception {
+	protected void actionPerformedOverride(final ActionEvent e) {
 		super.actionPerformedOverride(e);
 
 		final Gruppi gruppi = (Gruppi) gruppiView.getComboGruppi().getSelectedItem();

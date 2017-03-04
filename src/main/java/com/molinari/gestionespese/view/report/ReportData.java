@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 import com.molinari.gestionespese.business.AltreUtil;
@@ -25,7 +26,7 @@ public class ReportData {
 		datiReport.add(oggettoReport);
 	}
 
-	public ArrayList<OggettoReport> getListaOggetti(){
+	public List<OggettoReport> getListaOggetti(){
 		return datiReport;
 	}
 
@@ -39,7 +40,7 @@ public class ReportData {
 		return Database.eAnnuale();
 	}
 
-	public HashMap<String, Double> generaEntrateMese(){
+	public Map<String, Double> generaEntrateMese(){
 
 		final HashMap<String, Double> entrateMese = new HashMap<>();
 
@@ -50,7 +51,7 @@ public class ReportData {
 		return entrateMese;
 	}
 
-	public HashMap<String, Double> generaUsciteMese() {
+	public Map<String, Double> generaUsciteMese() {
 		final HashMap<String, Double> usciteMese = new HashMap<>();
 		for (int i = 1; i <= 12; i++) {
 			final String mese = Mesi.getMeseStringa(i);
@@ -60,7 +61,7 @@ public class ReportData {
 	}
 
 
-	public HashMap<String, Double> generaUsciteCatAnnuali() {
+	public Map<String, Double> generaUsciteCatAnnuali() {
 		final HashMap<String, Double> usciteCatAnnuali = new HashMap<>();
 		for (int i = 0; i < categorie.size(); i++) {
 			final CatSpese categoria = categorie.get(i);
@@ -70,9 +71,9 @@ public class ReportData {
 		return usciteCatAnnuali;
 	}
 
-	public HashMap<String, Double> generaEntrateCatAnnuali() {
+	public Map<String, Double> generaEntrateCatAnnuali() {
 		final HashMap<String, Double> entrateCatAnnuali = new HashMap<>();
-		final ArrayList<String> nomiColonne = EntrateView.getLista();
+		final List<String> nomiColonne = EntrateView.getLista();
 		for (int i = 0; i < nomiColonne.size(); i++) {
 			entrateCatAnnuali.put(nomiColonne.get(i), Database.totaleEntrateAnnoCategoria(nomiColonne.get(i)));
 		}
@@ -105,7 +106,7 @@ public class ReportData {
 	}
 
 	public String[][] generaEntrateCatMensili() {
-		final ArrayList<String> nomiColonne = EntrateView.getLista();
+		final List<String> nomiColonne = EntrateView.getLista();
 		final String [][] entrateCatMensili = new String[12][2];
 		for (int i = 0; i < 12; i++) {
 			for (int x = 0; x < 2; x++) {
@@ -114,7 +115,7 @@ public class ReportData {
 							nomiColonne.get(x));
 					entrateCatMensili[i][x] = entrataMeseTipo.toString();
 				} catch (final Exception e2) {
-					e2.printStackTrace();
+					ControlloreBase.getLog().log(Level.SEVERE, e2.getMessage(), e2);
 				}
 			}
 		}

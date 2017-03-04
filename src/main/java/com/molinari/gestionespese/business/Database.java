@@ -727,7 +727,7 @@ public class Database {
 
 		final List<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
 		final Stream<SingleSpesa> stream = listaUscite.stream();
-		final Predicate<? super SingleSpesa> predicate = ss -> ss.getCatSpese() != null && ss.getCatSpese().equals(importanza);
+		final Predicate<? super SingleSpesa> predicate = getPredicatePercentoUscite(importanza);
 		final Stream<SingleSpesa> filter = stream.filter(predicate);
 		final double speseTipo = filter.mapToDouble(getFilter()).sum();
 		boolean spesezero = MathUtils.equals(speseTipo, 0);
@@ -738,6 +738,10 @@ public class Database {
 		
 		return AltreUtil.arrotondaDecimaliDouble(percentualeTipo);
 
+	}
+
+	private static Predicate<? super SingleSpesa> getPredicatePercentoUscite(final String importanza) {
+		return ss -> importanza != null && ss.getCatSpese() != null && importanza.equals(ss.getCatSpese().getimportanza());
 	}
 
 	private static ToDoubleFunction<? super SingleSpesa> getFilter() {

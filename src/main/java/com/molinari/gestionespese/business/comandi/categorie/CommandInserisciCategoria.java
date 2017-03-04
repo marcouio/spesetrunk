@@ -12,7 +12,7 @@ import grafica.componenti.alert.Alert;
 
 public class CommandInserisciCategoria extends AbstractCommandForJavaBean<CatSpese> implements ICommand {
 
-	public CommandInserisciCategoria(final ICatSpese entita) throws Exception {
+	public CommandInserisciCategoria(final ICatSpese entita) {
 		final CacheCategorie cache = CacheCategorie.getSingleton();
 		mappaCache = cache.getCache();
 		this.wrap = new WrapCatSpese();

@@ -1,6 +1,6 @@
 package com.molinari.gestionespese.view.report;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JFrame;
 
@@ -8,6 +8,7 @@ import com.molinari.gestionespese.business.cache.CacheCategorie;
 
 public abstract class AbstractReportView extends JFrame {
 
+	private static final String CATEGORIA = "Categoria";
 	protected ReportData reportData;
 	private static final long serialVersionUID = 1L;
 
@@ -36,7 +37,7 @@ public abstract class AbstractReportView extends JFrame {
 
 	public void inserisciEntrateMensili(final boolean hasEntrateMensili) {
 		if (hasEntrateMensili) {
-			final HashMap<String, Double> entrateMese = reportData.generaEntrateMese();
+			final Map<String, Double> entrateMese = reportData.generaEntrateMese();
 			final String[]mesi = Mesi.getListaMesi().toArray(new String[Mesi.getListaMesi().size()]);
 			final OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_MAPPA, entrateMese, "Entrate", "Mese", mesi);
 			reportData.inserisci(oggettoReport);
@@ -45,7 +46,7 @@ public abstract class AbstractReportView extends JFrame {
 
 	public void inserisciUsciteMensili(final boolean hasUsciteMensili) {
 		if (hasUsciteMensili) {
-			final HashMap<String, Double> usciteMese = reportData.generaUsciteMese();
+			final Map<String, Double> usciteMese = reportData.generaUsciteMese();
 			final String[]mesi = Mesi.getListaMesi().toArray(new String[Mesi.getListaMesi().size()]);
 			final OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_MAPPA, usciteMese, "Uscite", "Mese",mesi);
 			reportData.inserisci(oggettoReport);
@@ -57,7 +58,7 @@ public abstract class AbstractReportView extends JFrame {
 			final String[][] entrateCatMensili = reportData.generaEntrateCatMensili();
 			final String[] categorie = new String[]{"Fisse","Variabili"};
 			final String[]mesi = Mesi.getListaMesi().toArray(new String[Mesi.getListaMesi().size()]);
-			final OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_MATRICE, entrateCatMensili, "Entrate", "Mese", "Categoria", mesi, categorie);
+			final OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_MATRICE, entrateCatMensili, "Entrate", "Mese", CATEGORIA, mesi, categorie);
 			reportData.inserisci(oggettoReport);
 		}
 	}
@@ -67,25 +68,25 @@ public abstract class AbstractReportView extends JFrame {
 			final String[][] usciteCatMensili = reportData.generaUsciteCatMensili();
 			final String[]categorie = CacheCategorie.getSingleton().getArrayCategorie();
 			final String[]mesi = Mesi.getListaMesi().toArray(new String[Mesi.getListaMesi().size()]);
-			final OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_MATRICE, usciteCatMensili, "Uscite", "Mese", "Categoria", mesi, categorie);
+			final OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_MATRICE, usciteCatMensili, "Uscite", "Mese", CATEGORIA, mesi, categorie);
 			reportData.inserisci(oggettoReport);
 		}
 	}
 
 	public void inserisciEntrateCatAnnuali(final boolean hasEntrateCatAnnuali) {
 		if (hasEntrateCatAnnuali) {
-			final HashMap<String, Double> entrateCatAnnuali = reportData.generaEntrateCatAnnuali();
+			final Map<String, Double> entrateCatAnnuali = reportData.generaEntrateCatAnnuali();
 			final String[] categorie = new String[]{"Fisse","Variabili"};
-			final OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_MAPPA, entrateCatAnnuali, "Entrate Annuali", "Categoria", categorie);
+			final OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_MAPPA, entrateCatAnnuali, "Entrate Annuali", CATEGORIA, categorie);
 			reportData.inserisci(oggettoReport);
 		}
 	}
 
 	public void inserisciUsciteCatAnnuali(final boolean hasUsciteCatAnnuali) {
 		if (hasUsciteCatAnnuali) {
-			final HashMap<String, Double> usciteCatAnnuali = reportData.generaUsciteCatAnnuali();
+			final Map<String, Double> usciteCatAnnuali = reportData.generaUsciteCatAnnuali();
 			final String[]categorie = CacheCategorie.getSingleton().getArrayCategorie();
-			final OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_MAPPA, usciteCatAnnuali, "Uscite Annuali", "Categoria",categorie);
+			final OggettoReport oggettoReport = new OggettoReport(OggettoReport.TIPO_MAPPA, usciteCatAnnuali, "Uscite Annuali", CATEGORIA,categorie);
 			reportData.inserisci(oggettoReport);
 		}
 	}

@@ -7,7 +7,7 @@ public class OggettoReport {
 	public static final String TIPO_MAPPA = "mappa";
 
 	private String tipo;
-	private Object oggettoReport;
+	private Object fieldObjReport;
 	private String nomeOggetto;
 	private String nomeDipendenza1;
 	private String nomeDipendenza2;
@@ -26,7 +26,7 @@ public class OggettoReport {
 			final String nomeDipendenza, final String nomeDipendenza2, final String[] listaDipendenza1,
 			final String[] listaDipendenza2) {
 		this.tipo = tipo;
-		this.oggettoReport = oggettoReport;
+		this.fieldObjReport = oggettoReport;
 		this.setNomeDipendenza(nomeDipendenza);
 		this.setNomeDipendenza2(nomeDipendenza2);
 		this.setNomeOggetto(nomeOggetto);
@@ -43,11 +43,11 @@ public class OggettoReport {
 	}
 
 	public Object getOggettoReport() {
-		return oggettoReport;
+		return fieldObjReport;
 	}
 
 	public void setOggettoReport(Object oggettoReport) {
-		this.oggettoReport = oggettoReport;
+		this.fieldObjReport = oggettoReport;
 	}
 
 	public void setNomeOggetto(String nomeOggetto) {

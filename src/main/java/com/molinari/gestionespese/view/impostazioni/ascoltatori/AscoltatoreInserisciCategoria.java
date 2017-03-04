@@ -21,7 +21,7 @@ public class AscoltatoreInserisciCategoria extends AscoltatoreAggiornatoreTutto 
 	}
 
 	@Override
-	protected void actionPerformedOverride(final ActionEvent e) throws Exception {
+	protected void actionPerformedOverride(final ActionEvent e) {
 		super.actionPerformedOverride(e);
 		categorieView.aggiornaModelDaVista("Inserisci");
 		if (categorieView.nonEsistonoCampiNonValorizzati()) {
@@ -31,7 +31,6 @@ public class AscoltatoreInserisciCategoria extends AscoltatoreAggiornatoreTutto 
 				if (categoria1 != null) {
 					categorieView.getComboCategorie().addItem(categoria1);
 				}
-				//				Alert.operazioniSegnalazioneInfo("Inserita correttamente categoria: " + categorieView.getModelCatSpese().getnome());
 				categorieView.getModelCatSpese().setChanged();
 				categorieView.getModelCatSpese().notifyObservers();
 				categorieView.dispose();

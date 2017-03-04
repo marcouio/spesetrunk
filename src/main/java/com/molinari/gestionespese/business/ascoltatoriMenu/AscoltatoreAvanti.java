@@ -11,7 +11,7 @@ import command.CommandManager;
 public class AscoltatoreAvanti extends AscoltatoreAggiornatoreTutto {
 
 	@Override
-	protected void actionPerformedOverride(final ActionEvent e) throws Exception {
+	protected void actionPerformedOverride(final ActionEvent e) {
 		final CommandManager managerComandi = Controllore.getSingleton().getCommandManager();
 		managerComandi.invocaComando(new RedoCommand());
 	}

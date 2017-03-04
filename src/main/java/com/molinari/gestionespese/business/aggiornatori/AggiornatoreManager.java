@@ -219,14 +219,9 @@ public class AggiornatoreManager {
 
 	public static boolean aggiornaListaComandi(){
 		final InizializzatoreFinestre initFinestre = Controllore.getSingleton().getInitFinestre();
-		try {
-			final FinestraListaComandi finestra = (FinestraListaComandi) initFinestre.getFinestra(InizializzatoreFinestre.INDEX_HISTORY, ControlloreBase.getApplicationframe());
-			finestra.insertDati();
-			return true;
-		} catch (InstantiationException | IllegalAccessException e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-		}
-		return false;
+		final FinestraListaComandi finestra = (FinestraListaComandi) initFinestre.getFinestra(InizializzatoreFinestre.INDEX_HISTORY, ControlloreBase.getApplicationframe());
+		finestra.insertDati();
+		return true;
 	}
 
 	/**

@@ -3,6 +3,7 @@ package com.molinari.gestionespese.view.report;
 import java.awt.event.ActionEvent;
 import java.io.FileNotFoundException;
 import java.util.Date;
+import java.util.logging.Level;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -22,14 +23,14 @@ public class ReportView extends AbstractReportView {
 
 	private static final long serialVersionUID = 1L;
 
-	private void settaValoriReportDati(final JCheckBox chckbxSpeseVariabili_1,
+	private void settaValoriReportDati(final JCheckBox chckbxSpeseVariabili1,
 			final JCheckBox chckbxEntrateMensCategorie, final JCheckBox chckbxSpeseMensCat,
 			final JCheckBox chckbxEntratePerCategorie, final JCheckBox chckbxSpesePerCategorie,
 			final JCheckBox chckbxUsciteMensili, final JCheckBox chckbxEntrateMensili,
 			final JCheckBox chckbxUsciteAnnuali, final JCheckBox chckbxEntrateAnnuali,
-			final JCheckBox chckbxSpeseFutili_1, final JCheckBox chckbxAvanzo, final JCheckBox chckbxMedie) {
+			final JCheckBox chckbxSpeseFutili1, final JCheckBox chckbxAvanzo, final JCheckBox chckbxMedie) {
 
-		inserisciUsciteVariabili(chckbxSpeseVariabili_1.isSelected());
+		inserisciUsciteVariabili(chckbxSpeseVariabili1.isSelected());
 		inserisciEntrateCatMensili(chckbxEntrateMensCategorie.isSelected());
 		inserisciUsciteCatMensili(chckbxSpeseMensCat.isSelected());
 		inserisciEntrateCatAnnuali(chckbxEntratePerCategorie.isSelected());
@@ -38,7 +39,7 @@ public class ReportView extends AbstractReportView {
 		inserisciEntrateMensili(chckbxEntrateMensili.isSelected());
 		inserisciUsciteAnnuali(chckbxUsciteAnnuali.isSelected());
 		inserisciEntrateAnnuali(chckbxEntrateAnnuali.isSelected());
-		inserisciUsciteFutili(chckbxSpeseFutili_1.isSelected());
+		inserisciUsciteFutili(chckbxSpeseFutili1.isSelected());
 		inserisciAvanzo(chckbxAvanzo.isSelected());
 		inserisciMediaEntrate(chckbxMedie.isSelected());
 		inserisciMediaUscite(chckbxMedie.isSelected());
@@ -54,10 +55,10 @@ public class ReportView extends AbstractReportView {
 		getContentPane().setLayout(null);
 		this.setTitle("Report");
 		this.setSize(250, 425);
-		final JLabel Istruzioni = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("selectreport"));
-		Istruzioni.setText(I18NManager.getSingleton().getMessaggio("select") + ":");
-		Istruzioni.setBounds(12, 12, 207, 20);
-		getContentPane().add(Istruzioni);
+		final JLabel istruzioni = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("selectreport"));
+		istruzioni.setText(I18NManager.getSingleton().getMessaggio("select") + ":");
+		istruzioni.setBounds(12, 12, 207, 20);
+		getContentPane().add(istruzioni);
 
 		final JCheckBox chckbxEntrateAnnuali = new CheckBoxF(I18NManager.getSingleton().getMessaggio("yearincome"));
 		chckbxEntrateAnnuali.setBounds(22, 40, 197, 23);
@@ -93,14 +94,14 @@ public class ReportView extends AbstractReportView {
 		chckbxEntrateMensCategorie.setBounds(22, 202, 197, 23);
 		getContentPane().add(chckbxEntrateMensCategorie);
 
-		final JCheckBox chckbxSpeseVariabili_1 = new CheckBoxF("% "
+		final JCheckBox chckbxSpeseVariabili1 = new CheckBoxF("% "
 				+ I18NManager.getSingleton().getMessaggio("spesevar"));
-		chckbxSpeseVariabili_1.setBounds(22, 255, 197, 23);
-		getContentPane().add(chckbxSpeseVariabili_1);
+		chckbxSpeseVariabili1.setBounds(22, 255, 197, 23);
+		getContentPane().add(chckbxSpeseVariabili1);
 
-		final JCheckBox chckbxSpeseFutili_1 = new CheckBoxF("% " + I18NManager.getSingleton().getMessaggio("spesefut"));
-		chckbxSpeseFutili_1.setBounds(22, 282, 197, 23);
-		getContentPane().add(chckbxSpeseFutili_1);
+		final JCheckBox chckbxSpeseFutili1 = new CheckBoxF("% " + I18NManager.getSingleton().getMessaggio("spesefut"));
+		chckbxSpeseFutili1.setBounds(22, 282, 197, 23);
+		getContentPane().add(chckbxSpeseFutili1);
 
 		final JCheckBox chckbxMedie = new CheckBoxF(I18NManager.getSingleton().getMessaggio("annualaverages"));
 		chckbxMedie.setBounds(22, 336, 197, 23);
@@ -117,18 +118,18 @@ public class ReportView extends AbstractReportView {
 		btnGeneraReport.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
-			protected void actionPerformedOverride(ActionEvent e) throws Exception {
+			protected void actionPerformedOverride(ActionEvent e) {
 				super.actionPerformedOverride(e);
 
-				settaValoriReportDati(chckbxSpeseVariabili_1, chckbxEntrateMensCategorie, chckbxSpeseMensCat,
+				settaValoriReportDati(chckbxSpeseVariabili1, chckbxEntrateMensCategorie, chckbxSpeseMensCat,
 						chckbxEntratePerCategorie, chckbxSpesePerCategorie, chckbxUsciteMensili, chckbxEntrateMensili,
-						chckbxUsciteAnnuali, chckbxEntrateAnnuali, chckbxSpeseFutili_1, chckbxAvanzo, chckbxMedie);
+						chckbxUsciteAnnuali, chckbxEntrateAnnuali, chckbxSpeseFutili1, chckbxAvanzo, chckbxMedie);
 
 				try {
 					final IScrittoreReport scrittoreReport = new ScrittoreReportTxt(reportData);
 					scrittoreReport.generaReport();
 				} catch (final Exception e11) {
-					e11.printStackTrace();
+					ControlloreBase.getLog().log(Level.SEVERE, e11.getMessage(), e11);
 				}
 				Alert.segnalazioneInfo("Aggiornato Report: " + DBUtil.dataToString(new Date(), "dd/MM/yyyy HH:mm"));
 			}

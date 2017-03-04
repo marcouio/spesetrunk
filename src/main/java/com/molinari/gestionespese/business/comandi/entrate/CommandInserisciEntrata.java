@@ -12,7 +12,7 @@ import grafica.componenti.alert.Alert;
 
 public class CommandInserisciEntrata extends AbstractCommandForJavaBean<Entrate> implements ICommand {
 
-	public CommandInserisciEntrata(final IEntrate entita) throws Exception {
+	public CommandInserisciEntrata(final IEntrate entita) {
 		final CacheEntrate cache = CacheEntrate.getSingleton();
 		mappaCache = cache.getCache();
 		this.wrap = new WrapEntrate();

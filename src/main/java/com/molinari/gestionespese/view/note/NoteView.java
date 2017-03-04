@@ -78,7 +78,7 @@ public class NoteView extends AbstractNoteView {
 		btnInserisci.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
-			public void actionPerformedOverride(ActionEvent e) throws Exception {
+			public void actionPerformedOverride(ActionEvent e) {
 				final int id = CacheNote.getSingleton().getAllNoteForUtenteEAnno().size();
 				if ("Aggiorna".equals(e.getActionCommand())) {
 					aggiornaModelDaVista(null);

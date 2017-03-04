@@ -120,7 +120,7 @@ public class UsciteView extends AbstractUsciteView {
 		eliminaUltima.addActionListener(new AscoltatoreAggiornatoreUscite() {
 
 			@Override
-			protected void actionPerformedOverride(final ActionEvent e) throws Exception {
+			protected void actionPerformedOverride(final ActionEvent e) {
 				super.actionPerformedOverride(e);
 				try {
 					Controllore.invocaComando(new CommandDeleteSpesa(modelUscita));

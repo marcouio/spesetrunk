@@ -22,7 +22,7 @@ public class AscoltatoreAggiornaCategoria extends AscoltatoreAggiornatoreTutto {
 	}
 
 	@Override
-	protected void actionPerformedOverride(final ActionEvent e) throws Exception {
+	protected void actionPerformedOverride(final ActionEvent e) {
 		super.actionPerformedOverride(e);
 		final CatSpese oldCategoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(categorieView.getCategoria().getidCategoria()));
 

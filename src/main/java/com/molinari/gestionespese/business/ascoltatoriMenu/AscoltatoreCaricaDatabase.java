@@ -14,7 +14,7 @@ import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 public class AscoltatoreCaricaDatabase extends AscoltatoreAggiornatoreTutto {
 
 	@Override
-	protected void actionPerformedOverride(final ActionEvent e) throws Exception {
+	protected void actionPerformedOverride(final ActionEvent e) {
 
 		super.actionPerformedOverride(e);
 

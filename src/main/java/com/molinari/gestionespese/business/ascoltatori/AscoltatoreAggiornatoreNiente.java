@@ -11,7 +11,8 @@ public class AscoltatoreAggiornatoreNiente extends AscoltatoreBase {
 	}
 
 	@Override
-	protected void actionPerformedOverride(final ActionEvent e) throws Exception {
+	protected void actionPerformedOverride(final ActionEvent e) {
+		//do nothing
 	}
 
 }

@@ -11,7 +11,7 @@ import grafica.componenti.alert.Alert;
 
 public class CommandDeleteCategoria extends AbstractCommandForJavaBean<CatSpese> implements ICommand {
 
-	public CommandDeleteCategoria(ICatSpese entita) throws Exception {
+	public CommandDeleteCategoria(ICatSpese entita) {
 		final CacheCategorie cache = CacheCategorie.getSingleton();
 		mappaCache = cache.getCache();
 		this.wrap = new WrapCatSpese();

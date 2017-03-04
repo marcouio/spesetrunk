@@ -2,6 +2,8 @@ package com.molinari.gestionespese.view.report;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public final class Mesi {
 
@@ -45,11 +47,11 @@ public final class Mesi {
 		return mesiStringa.get(mese);
 	}
 
-	public static HashMap<String, String> getMesiStringa() {
+	public static Map<String, String> getMesiStringa() {
 		return mesiStringa;
 	}
 
-	public static ArrayList<String> getListaMesi(){
+	public static List<String> getListaMesi(){
 		final String[] listaValori = mesiStringa.values().toArray(new String[mesiStringa.values().size()]);
 		final ArrayList<String> listaMesi = new ArrayList<>();
 		for (final String mese : listaValori) {

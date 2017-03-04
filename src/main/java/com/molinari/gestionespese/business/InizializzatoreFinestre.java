@@ -1,6 +1,7 @@
 package com.molinari.gestionespese.business;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
@@ -12,6 +13,7 @@ import com.molinari.gestionespese.view.componenti.componentipannello.PannelloASc
 import com.molinari.gestionespese.view.note.MostraNoteView;
 import com.molinari.gestionespese.view.report.ReportView;
 
+import controller.ControlloreBase;
 import grafica.componenti.alert.Alert;
 
 public class InizializzatoreFinestre {
@@ -32,7 +34,6 @@ public class InizializzatoreFinestre {
 
 	JFrame finestraVisibile;
 
-	@SuppressWarnings("rawtypes")
 	public InizializzatoreFinestre() {
 		// inizializzo l'array list con le class per evitare di caricare tutto
 		// all'avvio del programma
@@ -55,22 +56,26 @@ public class InizializzatoreFinestre {
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 */
-	public JFrame getFinestra(final int index, final JFrame view) throws InstantiationException, IllegalAccessException {
-		if (finestre[index] == null) {
-			return creaIstanza(index, view);
-		} else {
-			final JFrame window = finestre[index];
-			if (view != null) {
-				window.setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
-			}
-			try {
+	public JFrame getFinestra(final int index, final JFrame view) {
+		JFrame window = null;
+		try {
+
+			if (finestre[index] == null) {
+				return creaIstanza(index, view);
+			} else {
+				window = finestre[index];
+				if (view != null) {
+					window.setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
+				}
+
 				UIManager.setLookAndFeel(Controllore.getSingleton().getLookUsato());
 
-			} catch (final Exception e) {
-				Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore(e.getMessage()));
 			}
-			return window;
+		} catch (final Exception e) {
+			Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore(e.getMessage()));
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
+		return window;
 	}
 
 	/**
