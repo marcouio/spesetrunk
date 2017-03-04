@@ -164,8 +164,7 @@ public class WrapLookAndFeel extends Observable implements IDAO<Lookandfeel>, IL
 		sb.append(Lookandfeel.ID);
 		sb.append(" = ");
 		sb.append(look.getidLook());
-		final String sql = sb.toString();
-		return sql;
+		return sb.toString();
 	}
 
 	@Override

@@ -3,15 +3,16 @@ package com.molinari.gestionespese.view.bottoni;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.util.ArrayList;
+import java.util.List;
 
 public class PannelloBottoniInterno extends PannelloBottoni {
+
+	private static final long serialVersionUID = 1L;
 
 	public PannelloBottoniInterno(Container contenitore) {
 		super(contenitore);
 	}
 
-	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void init() {
@@ -33,7 +34,7 @@ public class PannelloBottoniInterno extends PannelloBottoni {
 		}
 	}
 
-	public void addDueBottoni(ArrayList<Bottone> dueBottoni) {
+	public void addDueBottoni(List<Bottone> dueBottoni) {
 		final Bottone bottone = dueBottoni.get(0);
 		this.add(bottone, BorderLayout.NORTH);
 		this.gruppoBottoni.add(bottone.getBottone());

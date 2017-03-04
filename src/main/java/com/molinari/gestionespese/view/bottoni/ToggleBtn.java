@@ -24,7 +24,7 @@ public class ToggleBtn extends JToggleButton {
 	String s;
 	ImageIcon i;
 
-	MyIcon icona;
+	private transient MyIcon icona;
 	private JPanel padre;
 
 	/**
@@ -62,10 +62,6 @@ public class ToggleBtn extends JToggleButton {
 	 */
 	private Color colorIconRollover = new Color(252, 228, 179);
 
-	public MyIcon getMyIcon() {
-		return icona != null ? icona : new MyIcon();
-	}
-
 	public ToggleBtn(final String text, final ImageIcon icon, final int xDistanzaBordoImmagine, final int xPartenzaTesto) {
 		this(text, icon);
 		this.distanzaBordoImageX = xDistanzaBordoImmagine != -1 ? xDistanzaBordoImmagine : distanzaBordoImageX;
@@ -92,6 +88,10 @@ public class ToggleBtn extends JToggleButton {
 	public ToggleBtn(final ImageIcon icon) {
 		super(icon);
 		i = icon;
+	}
+	
+	public MyIcon getMyIcon() {
+		return icona != null ? icona : new MyIcon();
 	}
 
 	@Override
@@ -169,21 +169,14 @@ public class ToggleBtn extends JToggleButton {
 	 */
 	public void settaggioBottoneStandard() {
 
-		// final Border bordo =
-		// BorderFactory.createBevelBorder(BevelBorder.RAISED, Color.GRAY,
-		// Color.LIGHT_GRAY);
-		// Border bordo = BorderFactory.createEtchedBorder(EtchedBorder.RAISED,
-		// Color.RED, Color.GREEN);
 		this.setBorder(null);
 		this.setRolloverEnabled(true);
 		this.setBackground(Color.WHITE);
-		this.setHorizontalAlignment(SwingConstants.LEFT); // allinea il
-		// contenuto a
-		// sinitra
-		if (this instanceof ToggleBtn) {
-			final Icon icona1 = this.getMyIcon();
-			this.setRolloverIcon(icona1);
-		}
+		// allinea il contenuto a sinitra
+		this.setHorizontalAlignment(SwingConstants.LEFT); 
+		
+		final Icon icona1 = this.getMyIcon();
+		this.setRolloverIcon(icona1);
 		this.setRolloverEnabled(true);
 	}
 
