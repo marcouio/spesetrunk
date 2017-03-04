@@ -4,12 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 
 import javax.swing.ImageIcon;
@@ -17,7 +16,6 @@ import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 
 import com.molinari.gestionespese.business.AltreUtil;
-import com.molinari.gestionespese.business.DBUtil;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
@@ -28,12 +26,15 @@ import com.molinari.gestionespese.domain.Note;
 import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.view.font.ButtonF;
+import com.molinari.gestionespese.view.font.TableF;
 import com.molinari.gestionespese.view.font.TextAreaF;
 
 import controller.ControlloreBase;
 import grafica.componenti.alert.Alert;
 import grafica.componenti.button.ButtonBase;
 import grafica.componenti.contenitori.PannelloBase;
+import grafica.componenti.contenitori.ScrollPaneBase;
+import grafica.componenti.table.TableModel;
 import grafica.componenti.textarea.TextAreaBase;
 import math.UtilMath;
 
@@ -43,8 +44,7 @@ public class NewSql extends PannelloBase {
 
 	private static final long serialVersionUID = 1L;
 	private TextAreaBase         areaSql;
-	private TextAreaBase         result;
-	private String            totale           = "";
+	private ScrollPaneBase       result;
 
 	public NewSql(Container contenitore) {
 		super(contenitore);
@@ -71,7 +71,7 @@ public class NewSql extends PannelloBase {
 		contentPane.posizionaSottoA(headerPane, 0, 0);
 		contentPane.setSize(getContenitorePadre().getWidth(), getContenitorePadre().getHeight() - headerPane.getHeight());
 
-		result = new TextAreaBase(contentPane);
+		result = new ScrollPaneBase(contentPane);
 		result.setSize(contentPane.getWidth(), contentPane.getHeight());
 		contentPane.add(result);
 		final JScrollPane scroll = new JScrollPane(result);
@@ -124,62 +124,48 @@ public class NewSql extends PannelloBase {
 
 	private ActionListener getCleanListener() {
 		return e -> {
-			totale = "";
-			result.setText("");
-
+			// do nothing
 		};
 	}
 
 	private ActionListener getRunListener() {
 		return new ActionListener() {
 
-			@SuppressWarnings("rawtypes")
 			@Override
 			public void actionPerformed(final ActionEvent e) {
 				final String sql = areaSql.getText();
 				try {
 					final Map<String, ArrayList<String>> nomi = Database.getSingleton().terminaleSql(sql);
-
-					final Iterator<String> chiavi = nomi.keySet().iterator();
-
-					while (chiavi.hasNext()) {
-						final String chiave = chiavi.next();
-						final ArrayList lista = nomi.get(chiave);
-						String finale = "";
-						for (int i = 0; i < lista.size(); i++) {
-							final StringBuilder stringBuilder = new StringBuilder();
-							final String porzione = DBUtil.creaStringStessaDimensione((String) lista.get(i), 30);
-							stringBuilder.append(porzione);
-						}
-						String trattini = "";
-
-						for (int x = 0; x < lista.size() * 35; x++) {
-							StringBuilder stringBuilder2 = new StringBuilder();
-							stringBuilder2.append(trattini);
-							stringBuilder2.append("-");
-							trattini = stringBuilder2.toString();
-							StringBuilder stringBuilder = new StringBuilder();
-							stringBuilder.append(finale);
-							stringBuilder.append("*");
-							finale = stringBuilder.toString();
-						}
-						final StringBuilder stringBuilder = new StringBuilder();
-						stringBuilder.append("\n");
-						stringBuilder.append(trattini);
-						stringBuilder.append("\n");
-						final StringBuilder stringBuilder2 = new StringBuilder();
-						stringBuilder2.append(totale);
-						stringBuilder2.append(stringBuilder.toString());
-						totale = stringBuilder.toString();
+					if(!nomi.isEmpty()){
+						addTable(nomi);
 					}
-					result.setFont(new Font("Courier", Font.ITALIC, 10));
-					totale = totale + "\n" + "\n";
-					result.setText(totale + "\n");
 
 				} catch (final Exception e1) {
 					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 					Alert.segnalazioneErroreGrave(e1.getMessage());
 				}
+			}
+
+			private void addTable(final Map<String, ArrayList<String>> nomi) {
+				TableModel tableModel = new TableModel(nomi) {
+					
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					protected void preBuild(Object parametro) {
+						@SuppressWarnings("unchecked")
+						Map<String, ArrayList<String>> mappa = (Map<String, ArrayList<String>>) parametro;
+						Consumer<? super String> action = this::addColumn;
+						mappa.get("nomiColonne").stream().forEachOrdered(action);
+						mappa.remove("nomiColonne");
+						mappa.values().stream().forEach(this::addRiga);
+					}
+				};
+				
+				final ArrayList<String> listaCelle = tableModel.getNomiColonne().getListaCelle();
+				final TableF table = new TableF(tableModel.getMatrice(), listaCelle.toArray(new String[listaCelle.size()]));
+				table.setFillsViewportHeight(true);
+				result.setViewportView(table);
 			}
 		};
 	}

@@ -37,7 +37,7 @@ public class TableModelUscite extends TableModel{
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected void preBuild(Object parametro) throws Exception {
+	protected void preBuild(Object parametro) {
 		aggiungiNomiColonne();
 		for (int i = 1; i <= 12; i++) {
 			final Riga riga = new Riga();

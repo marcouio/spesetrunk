@@ -47,6 +47,8 @@ public class CommandInserisciEntrata extends AbstractCommandForJavaBean<Entrate>
 	public void scriviLogExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
 			Alert.segnalazioneInfo("Entrata " + entita.getNome() + " inserita correttamente");
+		}else{
+			Alert.getMessaggioErrore("Entrata " + entita.getNome() + "non inserita: verifica i log");
 		}
 
 	}
@@ -55,6 +57,8 @@ public class CommandInserisciEntrata extends AbstractCommandForJavaBean<Entrate>
 	public void scriviLogUnExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
 			Alert.segnalazioneInfo("Eliminata entrata " + entita.getNome() + " inserita precedentemente");
+		}else{
+			Alert.getMessaggioErrore("Impossibile eliminare l'entrata " + entita.getNome() + " inserita precedentemente: verificare i log");
 		}
 	}
 

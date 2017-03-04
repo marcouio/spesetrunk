@@ -9,7 +9,7 @@ import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import grafica.componenti.table.TableModel;
 
 public class TableModelEntrate extends TableModel{
-	public static Map<Integer, String> mapMesi = new HashMap<>();
+	protected static final Map<Integer, String> mapMesi = new HashMap<>();
 
 	static{
 		mapMesi.put(1, I18NManager.getSingleton().getMessaggio("january"));
@@ -29,13 +29,13 @@ public class TableModelEntrate extends TableModel{
 	private String[] listaColonne;
 	private static final long serialVersionUID = 1L;
 
-	public TableModelEntrate(Object parametro) throws Exception {
+	public TableModelEntrate(Object parametro) {
 		super(parametro);
 	}
 
 
 	@Override
-	protected void preBuild(Object parametro) throws Exception {
+	protected void preBuild(Object parametro) {
 		final String[] listaColonneloc = getListaColonne();
 		aggiungiNomiColonne();
 		for (int i = 1; i <= 12; i++) {

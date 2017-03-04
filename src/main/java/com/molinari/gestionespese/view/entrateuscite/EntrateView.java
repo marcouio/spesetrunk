@@ -49,15 +49,6 @@ public class EntrateView extends AbstractEntrateView {
 	private final TextFieldF         tfData;
 	private final TextFieldF         tfEuro;
 
-	public static void main(final String[] args) {
-		SwingUtilities.invokeLater(() -> {
-			final EntrateView dialog = new EntrateView(new WrapEntrate());
-			dialog.setLocationRelativeTo(null);
-			dialog.setBounds(0, 0, 347, 318);
-			dialog.setVisible(true);
-		});
-	}
-
 	/**
 	 * Create the panel.
 	 */
@@ -147,8 +138,8 @@ public class EntrateView extends AbstractEntrateView {
 		boolean dateNotNull = getcData() != null && getDataIns() != null;
 		boolean descrizioneNotNull = getcNome() != null && getcDescrizione() != null;
 		boolean euroNotNull = MathUtils.equals(getdEuro(), 0.0);
-		return descrizioneNotNull && dateNotNull
-				&& getFisseOVar() != null && euroNotNull && getUtenti() != null;
+		boolean sameFieldNotNull = getFisseOVar() != null && !euroNotNull;
+		return descrizioneNotNull && dateNotNull && sameFieldNotNull && getUtenti() != null;
 	}
 
 	private void initLabel() {

@@ -148,7 +148,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<Entrate> {
 			sql = "INSERT INTO " + Entrate.NOME_TABELLA + " (" + Entrate.COL_DESCRIZIONE + ", " + Entrate.COL_FISSEOVAR + ", " + Entrate.COL_INEURO + ", " + Entrate.COL_DATA + ", " + Entrate.COL_NOME
 					+ ", " + Entrate.COL_IDUTENTE + ", " + Entrate.COL_DATAINS + ") VALUES (?,?,?,?,?,?,?)";
 			
-			new ExecutePreparedStatement<Entrate>() {
+			return new ExecutePreparedStatement<Entrate>() {
 
 				@Override
 				protected void doWithPreparedStatement(PreparedStatement ps, Entrate obj) throws SQLException {

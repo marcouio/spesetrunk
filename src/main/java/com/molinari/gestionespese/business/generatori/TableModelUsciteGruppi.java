@@ -18,12 +18,12 @@ public class TableModelUsciteGruppi extends TableModel{
 	List<Gruppi> gruppi = null;
 	List<CatSpese> catSpese = null;
 
-	public TableModelUsciteGruppi(Object parametro) throws Exception {
+	public TableModelUsciteGruppi(Object parametro) {
 		super(parametro);
 	}
 
 	@Override
-	protected void preBuild(Object parametro) throws Exception {
+	protected void preBuild(Object parametro) {
 		aggiungiNomiColonne();
 		final HashMap<Integer, String> mapMesi = TableModelUscite.mapMesi;
 		for (int i = 1; i <= 12; i++) {

@@ -37,6 +37,7 @@ import grafica.componenti.alert.Alert;
 
 public class Database {
 
+	private static final String ROW_S = " row/s";
 	private static final String AND = " AND ";
 	private static final String FROM = " FROM ";
 	private static final String YYYY_MM_DD = "yyyy/MM/dd";
@@ -303,7 +304,7 @@ public class Database {
 	 */
 	public Map<String, ArrayList<String>> terminaleSql(final String sql) {
 		final HashMap<String, ArrayList<String>> nomi = new HashMap<>();
-		if ("S".equalsIgnoreCase(sql.substring(0, 1))) {
+		if (startWith(sql, "S")) {
 			try {
 
 				return execute(sql, nomi);
@@ -316,7 +317,8 @@ public class Database {
 		} else {
 
 			try {
-				ConnectionPool.getSingleton().executeUpdate(sql);
+				int executeUpdate = ConnectionPool.getSingleton().executeUpdate(sql);
+				sendAlert(sql, executeUpdate);
 			} catch (final SQLException e) {
 				ControlloreBase.getLog().log(Level.SEVERE, "Operazione SQL non eseguita: " + sql, e);
 				Alert.segnalazioneErroreGrave("Operazione SQL non eseguita:" + e.getMessage());
@@ -324,6 +326,23 @@ public class Database {
 		}
 		return nomi;
 	}
+
+	private boolean startWith(final String sql, String starting) {
+		return starting.equalsIgnoreCase(sql.substring(0, 1));
+	}
+
+	private void sendAlert(String sql, long executeUpdate) {
+		if(startWith(sql, "I")){
+			Alert.segnalazioneInfo("Insert " + executeUpdate + ROW_S);
+		}else if(startWith(sql, "U")){
+			Alert.segnalazioneInfo("Update " + executeUpdate + ROW_S);
+		}else if(startWith(sql, "D")) {
+			Alert.segnalazioneInfo("Delete " + executeUpdate + ROW_S);
+		}
+		
+	}
+	
+	
 
 	private Map<String, ArrayList<String>> execute(final String sql, final HashMap<String, ArrayList<String>> nomi)
 			throws SQLException {

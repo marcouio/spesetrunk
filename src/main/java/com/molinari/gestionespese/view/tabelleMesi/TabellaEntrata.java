@@ -56,11 +56,9 @@ public class TabellaEntrata extends OggettoVistaBase {
 		final ArrayList<String> listaCelle = model.getNomiColonne().getListaCelle();
 		final TableF table = new TableF(model.getMatrice(), listaCelle.toArray(new String[listaCelle.size()]));
 
-		//		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
 		table.setFillsViewportHeight(true);
 		final PannelloBase panel = Controllore.getSingleton().getGeneralFrame().getPannelTabs().getPanel();
 		table.setRowHeight(panel.getHeight()/12);
-		//		table.setRowHeight(27);
 		return table;
 	}
 

@@ -215,43 +215,47 @@ public class WrapNote extends Observable implements IDAO<Note>, INote {
 
 	@Override
 	public boolean update(final Note oggettoEntita) {
-		boolean ok = false;
+		final Note nota = oggettoEntita;
+		final String sql = getQueryUpdate(nota);
+		return base.executeUpdate(sql);
 
+	}
 
-		final Note nota = (Note) oggettoEntita;
-		final String sql = "UPDATE " + Note.NOME_TABELLA + " SET " + Note.COL_DESCRIZIONE + " = '" + nota.getDescrizione() + "', " + Entrate.COL_DATA + " = '" + nota.getData() + "', "
-				+ Entrate.COL_NOME + " = '" + nota.getnome() + "', " + Entrate.COL_IDUTENTE + " = " + nota.getUtenti().getidUtente() + ", " + Entrate.COL_DATAINS + " = '" + nota.getDataIns()
-				+ "' WHERE " + Note.ID + " = " + nota.getIdNote();
-		try {
-
-			ConnectionPool.getSingleton().executeUpdate(sql);
-			ok = true;
-
-		} catch (final SQLException e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-			ok = false;
-		}
-
-		return ok;
+	private String getQueryUpdate(final Note nota) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("UPDATE ");
+		sb.append(Note.NOME_TABELLA);
+		sb.append(" SET ");
+		sb.append(Note.COL_DESCRIZIONE);
+		sb.append(" = '");
+		sb.append(nota.getDescrizione());
+		sb.append("', ");
+		sb.append(Entrate.COL_DATA);
+		sb.append(" = '");
+		sb.append(nota.getData());
+		sb.append("', ");
+		sb.append(Entrate.COL_NOME);
+		sb.append(" = '");
+		sb.append(nota.getnome());
+		sb.append("', ");
+		sb.append(Entrate.COL_IDUTENTE);
+		sb.append(" = ");
+		sb.append(nota.getUtenti().getidUtente());
+		sb.append(", ");
+		sb.append(Entrate.COL_DATAINS);
+		sb.append(" = '");
+		sb.append(nota.getDataIns());
+		sb.append("' WHERE ");
+		sb.append(Note.ID);
+		sb.append(" = ");
+		sb.append(nota.getIdNote());
+		return sb.toString();
 	}
 
 	@Override
 	public boolean deleteAll() {
-		boolean ok = false;
 		final String sql = DELETE_FROM + Note.NOME_TABELLA;
-
-
-		try {
-
-			ConnectionPool.getSingleton().executeUpdate(sql);
-			ok = true;
-
-		} catch (final SQLException e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-			ok = false;
-		}
-
-		return ok;
+		return base.executeUpdate(sql);
 	}
 
 	/**
@@ -273,14 +277,18 @@ public class WrapNote extends Observable implements IDAO<Note>, INote {
 
 					if (rs.next()) {
 						final String sql2 = DELETE_FROM + Note.NOME_TABELLA + WHERE + Note.ID + "=?";
-						final PreparedStatement ps = cn.prepareStatement(sql2);
+						final PreparedStatement ps = createPreparedStatement(cn, sql2);
 						ps.setInt(1, rs.getInt(1));
 						ps.executeUpdate();
-						ps.close();
 						return true;
 
 					}
 					return false;
+				}
+
+				private PreparedStatement createPreparedStatement(final Connection cn, final String sql2)
+						throws SQLException {
+					return cn.prepareStatement(sql2);
 				}
 
 			}.execute(sql);
