@@ -1,10 +1,8 @@
 package com.molinari.gestionespese.domain.wrapper;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -13,17 +11,16 @@ import java.util.logging.Level;
 import com.molinari.gestionespese.domain.ILookandfeel;
 import com.molinari.gestionespese.domain.Lookandfeel;
 
-import command.javabeancommand.AbstractOggettoEntita;
 import controller.ControlloreBase;
 import db.Clausola;
-import db.ConnectionPool;
+import db.ExecutePreparedStatement;
 import db.ExecuteResultSet;
 import db.dao.IDAO;
 
 public class WrapLookAndFeel extends Observable implements IDAO<Lookandfeel>, ILookandfeel {
 
 	private final Lookandfeel lookandfeel;
-	private WrapBase base = new WrapBase();;
+	private WrapBase base = new WrapBase();
 
 	public WrapLookAndFeel() {
 		lookandfeel = new Lookandfeel();
@@ -34,7 +31,7 @@ public class WrapLookAndFeel extends Observable implements IDAO<Lookandfeel>, IL
 
 		final String sql = "SELECT * FROM " + Lookandfeel.NOME_TABELLA + " WHERE " + Lookandfeel.ID + " = " + id;
 
-		final Lookandfeel look = new Lookandfeel();;
+		final Lookandfeel look = new Lookandfeel();
 
 		try {
 
@@ -95,31 +92,37 @@ public class WrapLookAndFeel extends Observable implements IDAO<Lookandfeel>, IL
 
 	@Override
 	public boolean insert(Lookandfeel oggettoEntita) {
-		boolean ok = false;
-		final Connection cn = ConnectionPool.getSingleton().getConnection();
-		String sql = "";
-		try {
-			final Lookandfeel look = (Lookandfeel) oggettoEntita;
+		String sql = getQueryInsert();
 
-			sql = "INSERT INTO " + Lookandfeel.NOME_TABELLA + " (" + Lookandfeel.COL_NOME + ", " + Lookandfeel.COL_VALORE
-					+ ", " + Lookandfeel.COL_USATO + ") VALUES (?,?,?)";
-			final PreparedStatement ps = cn.prepareStatement(sql);
-			// nome
-			ps.setString(1, look.getnome());
-			// valore
-			ps.setString(2, look.getvalore());
-			// usato
-			ps.setDouble(3, look.getusato());
+		return new ExecutePreparedStatement<Lookandfeel>(){
 
-			ps.executeUpdate();
-			ok = true;
-		} catch (final Exception e) {
-			ok = false;
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-		}finally{
-			ConnectionPool.getSingleton().chiudiOggettiDb(cn);
-		}
-		return ok;
+			@Override
+			protected void doWithPreparedStatement(PreparedStatement ps, Lookandfeel obj) throws SQLException {
+				// nome
+				ps.setString(1, oggettoEntita.getnome());
+				// valore
+				ps.setString(2, oggettoEntita.getvalore());
+				// usato
+				ps.setDouble(3, oggettoEntita.getusato());
+
+			}
+
+		}.executeUpdate(sql, oggettoEntita);
+
+	}
+
+	private String getQueryInsert() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("INSERT INTO ");
+		sb.append(Lookandfeel.NOME_TABELLA);
+		sb.append(" (");
+		sb.append(Lookandfeel.COL_NOME);
+		sb.append(", ");
+		sb.append(Lookandfeel.COL_VALORE);
+		sb.append(", ");
+		sb.append(Lookandfeel.COL_USATO);
+		sb.append(") VALUES (?,?,?)");
+		return sb.toString();
 	}
 
 	@Override
@@ -129,17 +132,40 @@ public class WrapLookAndFeel extends Observable implements IDAO<Lookandfeel>, IL
 
 	@Override
 	public boolean update(Lookandfeel oggettoEntita) {
-		boolean ok = false;
-
 
 		final Lookandfeel look = (Lookandfeel) oggettoEntita;
-		final String sql = "UPDATE " + Lookandfeel.NOME_TABELLA + " SET " + Lookandfeel.ID + " = " + look.getidLook() + ", "
-				+ Lookandfeel.COL_NOME + " = " + look.getnome() + ", " + Lookandfeel.COL_VALORE + " = " + look.getvalore()
-				+ ", " + Lookandfeel.COL_USATO + " = " + look.getusato() + " WHERE " + Lookandfeel.ID + " = "
-				+ look.getidLook();
+		final String sql = getQueryUpdate(look);
 		return base .executeUpdate(sql);
 
 
+	}
+
+	private String getQueryUpdate(final Lookandfeel look) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("UPDATE ");
+		sb.append(Lookandfeel.NOME_TABELLA);
+		sb.append(" SET ");
+		sb.append(Lookandfeel.ID);
+		sb.append(" = ");
+		sb.append(look.getidLook());
+		sb.append(", ");
+		sb.append(Lookandfeel.COL_NOME);
+		sb.append(" = ");
+		sb.append(look.getnome());
+		sb.append(", ");
+		sb.append(Lookandfeel.COL_VALORE);
+		sb.append(" = ");
+		sb.append(look.getvalore());
+		sb.append(", ");
+		sb.append(Lookandfeel.COL_USATO);
+		sb.append(" = ");
+		sb.append(look.getusato());
+		sb.append(" WHERE ");
+		sb.append(Lookandfeel.ID);
+		sb.append(" = ");
+		sb.append(look.getidLook());
+		final String sql = sb.toString();
+		return sql;
 	}
 
 	@Override

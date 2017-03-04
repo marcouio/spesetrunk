@@ -41,38 +41,35 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<Entrate> {
 
 		final String sql = SELECT_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.ID + " = " + id;
 
-		final Entrate entrata = new Entrate();
-
 		try {
 
-			new ExecuteResultSet<Entrate>() {
-
-				@Override
-				protected Entrate doWithResultSet(ResultSet rs) throws SQLException {
-
-					return extracted(entrata, rs);
-				}
-
-				private Entrate extracted(final Entrate entrata, ResultSet rs)
-						throws SQLException {
-
-						if (rs.next()) {
-							riempiEntrataFromResultSet(entrata, rs);
-						}
-
-					return entrata;
-				}
-
-			}.execute(sql);
-
+			return getEntrata(sql);
 
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} finally {
 			ConnectionPool.getSingleton().chiudiOggettiDb(null);
 		}
-		return entrata;
+		return null;
 
+	}
+
+	private Entrate getEntrata(final String sql) throws SQLException {
+		final Entrate entrata = new Entrate();
+		return new ExecuteResultSet<Entrate>() {
+
+			@Override
+			protected Entrate doWithResultSet(ResultSet rs) throws SQLException {
+
+				if (rs.next()) {
+					riempiEntrataFromResultSet(entrata, rs);
+				}
+				return entrata;
+			}
+
+			
+
+		}.execute(sql);
 	}
 
 	public List<Entrate> selectAllForUtente() {
