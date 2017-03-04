@@ -17,17 +17,20 @@ import com.molinari.gestionespese.domain.INote;
 import com.molinari.gestionespese.domain.Note;
 import com.molinari.gestionespese.domain.Utenti;
 
-import command.javabeancommand.AbstractOggettoEntita;
 import controller.ControlloreBase;
 import db.Clausola;
 import db.ConnectionPool;
+import db.ExecutePreparedStatement;
+import db.ExecuteResultSet;
 import db.dao.IDAO;
 
-public class WrapNote extends Observable implements IDAO, INote {
+public class WrapNote extends Observable implements IDAO<Note>, INote {
 
+	private static final String DELETE_FROM = "DELETE FROM ";
 	private static final String WHERE = " WHERE ";
 	private static final String SELECT_FROM = "SELECT * FROM ";
 	private final Note note;
+	private WrapBase base = new WrapBase();
 
 	public WrapNote(final Note nota) {
 		this.note = nota;
@@ -108,26 +111,25 @@ public class WrapNote extends Observable implements IDAO, INote {
 	}
 
 	@Override
-	public Object selectById(final int id) {
+	public Note selectById(final int id) {
 
 		final String sql = SELECT_FROM + Note.NOME_TABELLA + WHERE + Note.ID + " = " + id;
 
-		final Note note = new Note();
-
 		try {
 
-			ConnectionPool.getSingleton().new ExecuteResultSet<Object>() {
+			new ExecuteResultSet<Note>() {
 
 				@Override
-				protected Object doWithResultSet(ResultSet rs) throws SQLException {
+				protected Note doWithResultSet(ResultSet rs) throws SQLException {
 
 					if (rs.next()) {
-						note.setIdNote(rs.getInt(1));
-						note.setNome(rs.getString(2));
-						note.setDescrizione(rs.getString(3));
-						note.setUtenti((Utenti) Controllore.getSingleton().getUtenteLogin());
-						note.setData(rs.getString(5));
-						note.setDataIns(rs.getString(6));
+						final Note noteLoc = new Note();
+						noteLoc.setIdNote(rs.getInt(1));
+						noteLoc.setNome(rs.getString(2));
+						noteLoc.setDescrizione(rs.getString(3));
+						noteLoc.setUtenti((Utenti) Controllore.getSingleton().getUtenteLogin());
+						noteLoc.setData(rs.getString(5));
+						noteLoc.setDataIns(rs.getString(6));
 
 					}
 
@@ -143,18 +145,17 @@ public class WrapNote extends Observable implements IDAO, INote {
 	}
 
 	@Override
-	public List<Object> selectAll() {
-		final List<Object> note = new ArrayList<>();
+	public List<Note> selectAll() {
 
 
 		final String sql = SELECT_FROM + Note.NOME_TABELLA;
 		try {
 
-			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
+			return new ExecuteResultSet<List<Note>>() {
 
 				@Override
-				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
-					final List<Object> note = new ArrayList<>();
+				protected List<Note> doWithResultSet(ResultSet rs) throws SQLException {
+					final List<Note> noteList = new ArrayList<>();
 
 					while (rs != null && rs.next()) {
 						final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(4)));
@@ -165,10 +166,10 @@ public class WrapNote extends Observable implements IDAO, INote {
 						nota.setNome(rs.getString(2));
 						nota.setUtenti(utente);
 						nota.setDataIns(rs.getString(5));
-						note.add(nota);
+						noteList.add(nota);
 					}
 
-					return note;
+					return noteList;
 				}
 
 			}.execute(sql);
@@ -178,68 +179,42 @@ public class WrapNote extends Observable implements IDAO, INote {
 		}
 
 
-		return note;
+		return new ArrayList<>();
 	}
 
 	@Override
-	public boolean insert(final Object oggettoEntita) {
-		boolean ok = false;
-		final Connection cn = ConnectionPool.getSingleton().getConnection();
-		String sql = "";
-		try {
-			final Note nota = (Note) oggettoEntita;
+	public boolean insert(final Note oggettoEntita) {
+		String sql = "INSERT INTO " + Note.NOME_TABELLA + " (" + Note.COL_DESCRIZIONE + ", " + Entrate.COL_DATA + ", " + Entrate.COL_NOME + ", " + Entrate.COL_IDUTENTE + ", " + Entrate.COL_DATAINS
+				+ ") VALUES (?,?,?,?,?)";
 
-			sql = "INSERT INTO " + Note.NOME_TABELLA + " (" + Note.COL_DESCRIZIONE + ", " + Entrate.COL_DATA + ", " + Entrate.COL_NOME + ", " + Entrate.COL_IDUTENTE + ", " + Entrate.COL_DATAINS
-					+ ") VALUES (?,?,?,?,?)";
-			final PreparedStatement ps = cn.prepareStatement(sql);
-			// descrizione
-			ps.setString(1, nota.getDescrizione());
-			// data
-			ps.setString(2, nota.getData());
-			// nome
-			ps.setString(3, nota.getnome());
-			// idutente
-			ps.setInt(4, nota.getUtenti().getidUtente());
-			// datains
-			ps.setString(5, nota.getDataIns());
+		return new ExecutePreparedStatement<Note>() {
 
-			ps.executeUpdate();
-			ok = true;
-		} catch (final Exception e) {
-			ok = false;
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-		} finally {
-			try {
-				cn.close();
-			} catch (final SQLException e) {
-				ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+			@Override
+			protected void doWithPreparedStatement(PreparedStatement ps, Note obj) throws SQLException {
+				// descrizione
+				ps.setString(1, obj.getDescrizione());
+				// data
+				ps.setString(2, obj.getData());
+				// nome
+				ps.setString(3, obj.getnome());
+				// idutente
+				ps.setInt(4, obj.getUtenti().getidUtente());
+				// datains
+				ps.setString(5, obj.getDataIns());
+
 			}
-			DBUtil.closeConnection();
-		}
-		return ok;
+		}.executeUpdate(sql, oggettoEntita);
 	}
 
 	@Override
 	public boolean delete(final int id) {
-		boolean ok = false;
-		final String sql = "DELETE FROM " + Note.NOME_TABELLA + WHERE + Note.ID + " = " + id;
+		final String sql = DELETE_FROM + Note.NOME_TABELLA + WHERE + Note.ID + " = " + id;
 
-
-		try {
-
-			ConnectionPool.getSingleton().executeUpdate(sql);
-			ok = true;
-
-		} catch (final SQLException e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-			ok = false;
-		}
-
-		return ok;
+		return base.executeUpdate(sql);
 	}
 
 	@Override
-	public boolean update(final Object oggettoEntita) {
+	public boolean update(final Note oggettoEntita) {
 		boolean ok = false;
 
 
@@ -263,7 +238,7 @@ public class WrapNote extends Observable implements IDAO, INote {
 	@Override
 	public boolean deleteAll() {
 		boolean ok = false;
-		final String sql = "DELETE FROM " + Note.NOME_TABELLA;
+		final String sql = DELETE_FROM + Note.NOME_TABELLA;
 
 
 		try {
@@ -291,13 +266,13 @@ public class WrapNote extends Observable implements IDAO, INote {
 
 		try {
 
-			ok = ConnectionPool.getSingleton().new ExecuteResultSet<Boolean>() {
+			ok = new ExecuteResultSet<Boolean>() {
 
 				@Override
 				protected Boolean doWithResultSet(ResultSet rs) throws SQLException {
 
 					if (rs.next()) {
-						final String sql2 = "DELETE FROM " + Note.NOME_TABELLA + WHERE + Note.ID + "=?";
+						final String sql2 = DELETE_FROM + Note.NOME_TABELLA + WHERE + Note.ID + "=?";
 						final PreparedStatement ps = cn.prepareStatement(sql2);
 						ps.setInt(1, rs.getInt(1));
 						ps.executeUpdate();
@@ -323,24 +298,13 @@ public class WrapNote extends Observable implements IDAO, INote {
 	}
 
 	@Override
-	public void notifyObservers() {
-		super.notifyObservers();
-	}
-
-	@Override
-	public synchronized void setChanged() {
-		super.setChanged();
-	}
-
-	@Override
-	public AbstractOggettoEntita getEntitaPadre() {
+	public Note getEntitaPadre() {
 		return note;
 	}
 
 	@Override
-	public Object selectWhere(List<Clausola> clausole,
+	public List<Note> selectWhere(List<Clausola> clausole,
 			String appentoToQuery) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 }

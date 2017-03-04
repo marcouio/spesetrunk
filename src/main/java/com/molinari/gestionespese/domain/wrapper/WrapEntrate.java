@@ -17,26 +17,27 @@ import com.molinari.gestionespese.domain.IEntrate;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 
-import command.javabeancommand.AbstractOggettoEntita;
 import controller.ControlloreBase;
 import db.Clausola;
 import db.ConnectionPool;
+import db.ExecutePreparedStatement;
+import db.ExecuteResultSet;
 import db.dao.IDAO;
 
-public class WrapEntrate extends Observable implements IEntrate, IDAO {
+public class WrapEntrate extends Observable implements IEntrate, IDAO<Entrate> {
 
 	private static final String AND = " AND ";
 	private static final String DELETE_FROM = "DELETE FROM ";
 	private static final String WHERE = " WHERE ";
 	private static final String SELECT_FROM = "SELECT * FROM ";
 	private final Entrate entrate;
-
+	private final WrapBase base = new WrapBase(); 
 	public WrapEntrate() {
 		entrate = new Entrate();
 	}
 
 	@Override
-	public Object selectById(final int id) {
+	public Entrate selectById(final int id) {
 
 		final String sql = SELECT_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.ID + " = " + id;
 
@@ -44,15 +45,15 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 
 		try {
 
-			ConnectionPool.getSingleton().new ExecuteResultSet<Object>() {
+			new ExecuteResultSet<Entrate>() {
 
 				@Override
-				protected Object doWithResultSet(ResultSet rs) throws SQLException {
+				protected Entrate doWithResultSet(ResultSet rs) throws SQLException {
 
 					return extracted(entrata, rs);
 				}
 
-				private Object extracted(final Entrate entrata, ResultSet rs)
+				private Entrate extracted(final Entrate entrata, ResultSet rs)
 						throws SQLException {
 
 						if (rs.next()) {
@@ -74,18 +75,18 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 
 	}
 
-	public List<Object> selectAllForUtente() {
+	public List<Entrate> selectAllForUtente() {
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 
 		final String sql = SELECT_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.COL_IDUTENTE + " = " + utente.getidUtente();
 		try {
 
-			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
+			return new ExecuteResultSet<List<Entrate>>() {
 
 				@Override
-				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
+				protected List<Entrate> doWithResultSet(ResultSet rs) throws SQLException {
 
-					final List<Object> entrateLoc = new ArrayList<>();
+					final List<Entrate> entrateLoc = new ArrayList<>();
 					while (rs != null && rs.next()) {
 
 						final Entrate entrata = riempiEntrataWithResultSet(utente, rs);
@@ -104,22 +105,22 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	}
 
 	@Override
-	public List<Object> selectAll() {
+	public List<Entrate> selectAll() {
 
 
 		final String sql = SELECT_FROM + Entrate.NOME_TABELLA;
 		try {
 			CacheUtenti.getSingleton().getAllUtenti();
-			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
+			return new ExecuteResultSet<List<Entrate>>() {
 
 				@Override
-				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
+				protected List<Entrate> doWithResultSet(ResultSet rs) throws SQLException {
 					return extracted(rs);
 				}
 
-				private List<Object> extracted(ResultSet rs)
+				private List<Entrate> extracted(ResultSet rs)
 						throws SQLException {
-					final List<Object> entrateLoc = new ArrayList<>();
+					final List<Entrate> entrateLoc = new ArrayList<>();
 
 					while (rs != null && rs.next()) {
 						final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
@@ -141,34 +142,31 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	}
 
 	@Override
-	public boolean insert(final Object oggettoEntita) {
+	public boolean insert(final Entrate oggettoEntita) {
 		boolean ok = false;
 		final Connection cn = ConnectionPool.getSingleton().getConnection();
 		String sql = "";
 		try {
-			final Entrate entrata = (Entrate) oggettoEntita;
 
 			sql = "INSERT INTO " + Entrate.NOME_TABELLA + " (" + Entrate.COL_DESCRIZIONE + ", " + Entrate.COL_FISSEOVAR + ", " + Entrate.COL_INEURO + ", " + Entrate.COL_DATA + ", " + Entrate.COL_NOME
 					+ ", " + Entrate.COL_IDUTENTE + ", " + Entrate.COL_DATAINS + ") VALUES (?,?,?,?,?,?,?)";
-			final PreparedStatement ps = createPreparedStatement(cn, sql);
-			// descrizione
-			ps.setString(1, entrata.getdescrizione());
-			// tipo
-			ps.setString(2, entrata.getFisseoVar());
-			// euro
-			ps.setDouble(3, entrata.getinEuro());
-			// data
-			ps.setString(4, entrata.getdata());
-			// nome
-			ps.setString(5, entrata.getnome());
-			// idutente
-			ps.setInt(6, entrata.getUtenti().getidUtente());
-			// datains
-			ps.setString(7, entrata.getDataIns());
+			
+			new ExecutePreparedStatement<Entrate>() {
 
-			ps.executeUpdate();
-			ps.close();
-			ok = true;
+				@Override
+				protected void doWithPreparedStatement(PreparedStatement ps, Entrate obj) throws SQLException {
+					ps.setString(1, obj.getdescrizione());
+					ps.setString(2, obj.getFisseoVar());
+					ps.setDouble(3, obj.getinEuro());
+					ps.setString(4, obj.getdata());
+					ps.setString(5, obj.getnome());
+					ps.setInt(6, obj.getUtenti().getidUtente());
+					ps.setString(7, obj.getDataIns());
+					
+				}
+			}.executeUpdate(sql, (Entrate) oggettoEntita);
+			
+			
 		} catch (final Exception e) {
 			ok = false;
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
@@ -201,43 +199,60 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	}
 
 	@Override
-	public boolean update(final Object oggettoEntita) {
-		boolean ok = false;
-
+	public boolean update(final Entrate oggettoEntita) {
 
 		final Entrate entrata = (Entrate) oggettoEntita;
-		final String sql = "UPDATE " + Entrate.NOME_TABELLA + " SET " + Entrate.COL_DESCRIZIONE + " = '" + entrata.getdescrizione() + "', " + Entrate.COL_FISSEOVAR + " = '"
-				+ entrata.getFisseoVar() + "', " + Entrate.COL_INEURO + " = " + entrata.getinEuro() + ", " + Entrate.COL_DATA + " = '" + entrata.getdata() + "', " + Entrate.COL_NOME + " = '"
-				+ entrata.getnome() + "', " + Entrate.COL_IDUTENTE + " = " + entrata.getUtenti().getidUtente() + ", " + Entrate.COL_DATAINS + " = '" + entrata.getDataIns() + "' WHERE "
-				+ Entrate.ID + " = " + entrata.getidEntrate();
-		try {
-
-			ConnectionPool.getSingleton().executeUpdate(sql);
-			ok = true;
-
-		} catch (final SQLException e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-			ok = false;
-		}
+		final String sql = getQueryUpdate(entrata);
+		
+		boolean ok = base.executeUpdate(sql);
+		
+		ConnectionPool.getSingleton().chiudiOggettiDb(null);
 		return ok;
+	}
+
+	private String getQueryUpdate(final Entrate entrata) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("UPDATE ");
+		sb.append(Entrate.NOME_TABELLA);
+		sb.append(" SET ");
+		sb.append(Entrate.COL_DESCRIZIONE);
+		sb.append(" = '");
+		sb.append(entrata.getdescrizione());
+		sb.append("', ");
+		sb.append(Entrate.COL_FISSEOVAR);
+		sb.append(" = '");
+		sb.append(entrata.getFisseoVar());
+		sb.append("', ");
+		sb.append(Entrate.COL_INEURO);
+		sb.append(" = ");
+		sb.append(entrata.getinEuro());
+		sb.append(", ");
+		sb.append(Entrate.COL_DATA);
+		sb.append(" = '");
+		sb.append(entrata.getdata());
+		sb.append("', ");
+		sb.append(Entrate.COL_NOME);
+		sb.append(" = '");
+		sb.append(entrata.getnome());
+		sb.append("', ");
+		sb.append(Entrate.COL_IDUTENTE);
+		sb.append(" = ");
+		sb.append(entrata.getUtenti().getidUtente());
+		sb.append(", ");
+		sb.append(Entrate.COL_DATAINS);
+		sb.append(" = '");
+		sb.append(entrata.getDataIns());
+		sb.append("' WHERE ");
+		sb.append(Entrate.ID);
+		sb.append(" = ");
+		sb.append(entrata.getidEntrate());
+		return sb.toString();
 	}
 
 	@Override
 	public boolean deleteAll() {
-		boolean ok = false;
 		final String sql = DELETE_FROM + Entrate.NOME_TABELLA;
-
-
-		try {
-
-			ConnectionPool.getSingleton().executeUpdate(sql);
-			ok = true;
-
-		} catch (final SQLException e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-			ok = false;
-		}
-		return ok;
+		return base.executeUpdate(sql);
 	}
 
 	// metodo che restituisce le ultime dieci entrate
@@ -274,7 +289,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 
 		try {
 
-			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Entrate>>() {
+			return new ExecuteResultSet<List<Entrate>>() {
 
 				@Override
 				protected List<Entrate> doWithResultSet(ResultSet rs) throws SQLException {
@@ -319,36 +334,10 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 			idUtente = utente.getidUtente();
 		}
 
-		final String sql = SELECT_FROM + Entrate.NOME_TABELLA + " where " + Entrate.COL_DATA + " BETWEEN '" + Impostazioni.getAnno() + "/01/01" + "'" + " AND '"
-				+ Impostazioni.getAnno() + "/12/31" + "'" + AND + Entrate.COL_IDUTENTE + " = " + idUtente + " ORDER BY " + Entrate.ID + " desc limit 0," + numEntry;
+		final String sql = getQueryDieciEntrate(numEntry, idUtente);
 
 		try {
-
-			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Entrate>>() {
-
-				@Override
-				protected List<Entrate> doWithResultSet(ResultSet rs) throws SQLException {
-
-					final List<Entrate> entrateLoc = new ArrayList<>();
-
-					while (rs != null && rs.next()) {
-						final Entrate e = new Entrate();
-						e.setdata(rs.getString(5));
-						e.setdescrizione(rs.getString(2));
-						e.setFisseoVar(rs.getString(3));
-						e.setidEntrate(rs.getInt(1));
-						e.setinEuro(rs.getDouble(4));
-						e.setnome(rs.getString(6));
-						e.setUtenti(utente);
-						e.setDataIns(rs.getString(8));
-						entrateLoc.add(e);
-					}
-
-					return entrateLoc;
-				}
-
-			}.execute(sql);
-
+			return getExecRsDieciEntrate(utente).execute(sql);
 
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
@@ -357,20 +346,71 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 
 	}
 
+	private String getQueryDieciEntrate(final int numEntry, int idUtente) {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(SELECT_FROM);
+		stringBuilder.append(Entrate.NOME_TABELLA);
+		stringBuilder.append(" WHERE ");
+		stringBuilder.append(Entrate.COL_DATA);
+		stringBuilder.append(" BETWEEN '");
+		stringBuilder.append(Impostazioni.getAnno());
+		stringBuilder.append("/01/01");
+		stringBuilder.append("'");
+		stringBuilder.append(" AND '");
+		stringBuilder.append(Impostazioni.getAnno());
+		stringBuilder.append("/12/31");
+		stringBuilder.append("'");
+		stringBuilder.append(AND);
+		stringBuilder.append(Entrate.COL_IDUTENTE);
+		stringBuilder.append(" = ");
+		stringBuilder.append(idUtente);
+		stringBuilder.append(" ORDER BY ");
+		stringBuilder.append(Entrate.ID);
+		stringBuilder.append(" desc limit 0,");
+		stringBuilder.append(numEntry);
+		return stringBuilder.toString();
+	}
+
+	private ExecuteResultSet<List<Entrate>> getExecRsDieciEntrate(final Utenti utente) {
+		return new ExecuteResultSet<List<Entrate>>() {
+
+			@Override
+			protected List<Entrate> doWithResultSet(ResultSet rs) throws SQLException {
+
+				final List<Entrate> entrateLoc = new ArrayList<>();
+
+				while (rs != null && rs.next()) {
+					final Entrate e = new Entrate();
+					e.setdata(rs.getString(5));
+					e.setdescrizione(rs.getString(2));
+					e.setFisseoVar(rs.getString(3));
+					e.setidEntrate(rs.getInt(1));
+					e.setinEuro(rs.getDouble(4));
+					e.setnome(rs.getString(6));
+					e.setUtenti(utente);
+					e.setDataIns(rs.getString(8));
+					entrateLoc.add(e);
+				}
+
+				return entrateLoc;
+			}
+
+		};
+	}
+
 	/**
 	 * Cancella l'ultima entita' "Entrate" inserita
 	 */
 	public boolean DeleteLastEntrate() {
 		boolean ok = false;
 
-		final String sql = SELECT_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.COL_IDUTENTE + " = " + ((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente()
-				+ " ORDER BY " + Entrate.COL_DATAINS + " DESC";
+		final String sql = getQueryDeleteLastEntrate();
 
 		final Connection cn = ConnectionPool.getSingleton().getConnection();
 
 		try {
 
-			ok = ConnectionPool.getSingleton().new ExecuteResultSet<Boolean>() {
+			ok = new ExecuteResultSet<Boolean>() {
 
 				@Override
 				protected Boolean doWithResultSet(ResultSet rs) throws SQLException {
@@ -392,6 +432,20 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 			ControlloreBase.getLog().severe("Operazione non riuscita: " + e.getMessage());
 		}
 		return ok;
+	}
+
+	private String getQueryDeleteLastEntrate() {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(SELECT_FROM);
+		stringBuilder.append(Entrate.NOME_TABELLA);
+		stringBuilder.append(WHERE);
+		stringBuilder.append(Entrate.COL_IDUTENTE);
+		stringBuilder.append(" = ");
+		stringBuilder.append(((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente());
+		stringBuilder.append(" ORDER BY ");
+		stringBuilder.append(Entrate.COL_DATAINS);
+		stringBuilder.append(" DESC");
+		return stringBuilder.toString();
 	}
 
 	@Override
@@ -475,12 +529,12 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO {
 	}
 
 	@Override
-	public AbstractOggettoEntita getEntitaPadre() {
+	public Entrate getEntitaPadre() {
 		return entrate;
 	}
 
 	@Override
-	public Object selectWhere(List<Clausola> clausole,
+	public List<Entrate> selectWhere(List<Clausola> clausole,
 			String appentoToQuery) {
 		throw new UnsupportedOperationException();
 	}

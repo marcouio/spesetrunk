@@ -22,14 +22,15 @@ import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 
-import command.javabeancommand.AbstractOggettoEntita;
 import controller.ControlloreBase;
 import db.Clausola;
 import db.ConnectionPool;
+import db.ExecutePreparedStatement;
+import db.ExecuteResultSet;
 import db.dao.IDAO;
 import grafica.componenti.alert.Alert;
 
-public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
+public class WrapSingleSpesa extends Observable implements IDAO<SingleSpesa>, ISingleSpesa {
 
 	private static final String AND = " AND ";
 	private static final String DELETE_FROM = "DELETE FROM ";
@@ -42,17 +43,17 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 	}
 
 	@Override
-	public Object selectById(final int id) {
+	public SingleSpesa selectById(final int id) {
 
 		final String sql = SELECT_FROM + SingleSpesa.NOME_TABELLA + WHERE + SingleSpesa.ID + " = " + id;
 
 
 		try {
 
-			return ConnectionPool.getSingleton().new ExecuteResultSet<Object>() {
+			return new ExecuteResultSet<SingleSpesa>() {
 
 				@Override
-				protected Object doWithResultSet(ResultSet rs) throws SQLException {
+				protected SingleSpesa doWithResultSet(ResultSet rs) throws SQLException {
 					final SingleSpesa uscitaLoc = new SingleSpesa();
 
 					if (rs.next()) {
@@ -79,19 +80,19 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 		return null;
 	}
 
-	public List<Object> selectAllForUtente() {
-		final List<Object> uscite = new ArrayList<>();
+	public List<SingleSpesa> selectAllForUtente() {
+		final List<SingleSpesa> uscite = new ArrayList<>();
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		final Map<String, CatSpese> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
 
 		final String sql = SELECT_FROM + SingleSpesa.NOME_TABELLA + WHERE + SingleSpesa.COL_IDUTENTE + " = " + utente.getidUtente();
 		try {
 
-			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
+			return new ExecuteResultSet<List<SingleSpesa>>() {
 
 				@Override
-				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
-					final List<Object> uscite = new ArrayList<>();
+				protected List<SingleSpesa> doWithResultSet(ResultSet rs) throws SQLException {
+					final List<SingleSpesa> uscite = new ArrayList<>();
 
 					while (rs != null && rs.next()) {
 						final CatSpese categoria = mappaCategorie.get(Integer.toString(rs.getInt(5)));
@@ -126,19 +127,19 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 	}
 
 	@Override
-	public List<Object> selectAll() {
-		final List<Object> uscite = new ArrayList<>();
+	public List<SingleSpesa> selectAll() {
+		final List<SingleSpesa> uscite = new ArrayList<>();
 		final Map<String, Utenti> mappaUtenti = CacheUtenti.getSingleton().getAllUtenti();
 		final Map<String, CatSpese> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
 
 		final String sql = SELECT_FROM + SingleSpesa.NOME_TABELLA;
 		try {
 
-			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
+			return new ExecuteResultSet<List<SingleSpesa>>() {
 
 				@Override
-				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
-					final List<Object> uscite = new ArrayList<>();
+				protected List<SingleSpesa> doWithResultSet(ResultSet rs) throws SQLException {
+					final List<SingleSpesa> uscite = new ArrayList<>();
 
 					while (rs != null && rs.next()) {
 						final SingleSpesa uscitaLoc = fillSpesa(mappaUtenti, mappaCategorie, rs);
@@ -157,12 +158,12 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 	}
 
 	@Override
-	public boolean insert(final Object oggettoEntita) {
+	public boolean insert(final SingleSpesa oggettoEntita) {
 
 		final String sql = "INSERT INTO " + SingleSpesa.NOME_TABELLA + " (" + SingleSpesa.COL_DATA + ", " + SingleSpesa.COL_INEURO + ", " + SingleSpesa.COL_DESCRIZIONE + ", " + SingleSpesa.COL_IDCATEGORIE
 				+ ", " + SingleSpesa.COL_NOME + ", " + SingleSpesa.COL_IDUTENTE + ", " + SingleSpesa.COL_DATAINS + ") VALUES (?,?,?,?,?,?,?)";
 		final SingleSpesa uscitaLoc = (SingleSpesa) oggettoEntita;
-		final boolean inserted = ConnectionPool.getSingleton().new ExecutePreparedStatement<SingleSpesa>() {
+		final boolean inserted = new ExecutePreparedStatement<SingleSpesa>() {
 
 			@Override
 			protected void doWithPreparedStatement(PreparedStatement ps, SingleSpesa uscitaLoc) throws SQLException {
@@ -208,7 +209,7 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 	}
 
 	@Override
-	public boolean update(final Object oggettoEntita) {
+	public boolean update(final SingleSpesa oggettoEntita) {
 		boolean ok = false;
 
 
@@ -281,7 +282,7 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 
 		try {
 
-			return ConnectionPool.getSingleton().new ExecuteResultSet<List<SingleSpesa>>() {
+			return new ExecuteResultSet<List<SingleSpesa>>() {
 
 				@Override
 				protected List<SingleSpesa> doWithResultSet(ResultSet rs) throws SQLException {
@@ -329,7 +330,7 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 
 		try {
 
-			return ConnectionPool.getSingleton().new ExecuteResultSet<List<SingleSpesa>>() {
+			return new ExecuteResultSet<List<SingleSpesa>>() {
 
 				@Override
 				protected List<SingleSpesa> doWithResultSet(ResultSet rs) throws SQLException {
@@ -372,7 +373,7 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 
 		try {
 
-			ok = ConnectionPool.getSingleton().new ExecuteResultSet<Boolean>() {
+			ok = new ExecuteResultSet<Boolean>() {
 
 				@Override
 				protected Boolean doWithResultSet(ResultSet rs) throws SQLException {
@@ -487,12 +488,12 @@ public class WrapSingleSpesa extends Observable implements IDAO, ISingleSpesa {
 	}
 
 	@Override
-	public AbstractOggettoEntita getEntitaPadre() {
+	public SingleSpesa getEntitaPadre() {
 		return uscita;
 	}
 
 	@Override
-	public Object selectWhere(List<Clausola> clausole,
+	public List<SingleSpesa> selectWhere(List<Clausola> clausole,
 			String appentoToQuery) {
 		throw new UnsupportedOperationException();
 	}

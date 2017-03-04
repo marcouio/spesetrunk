@@ -14,13 +14,14 @@ import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.Utenti;
 
-import command.javabeancommand.AbstractOggettoEntita;
 import controller.ControlloreBase;
 import db.Clausola;
 import db.ConnectionPool;
+import db.ExecutePreparedStatement;
+import db.ExecuteResultSet;
 import db.dao.IDAO;
 
-public class WrapUtenti extends Observable implements IDAO, IUtenti {
+public class WrapUtenti extends Observable implements IDAO<Utenti>, IUtenti {
 
 	private static final String WHERE = " WHERE ";
 	private static final String SELECT_FROM = "SELECT * FROM ";
@@ -31,15 +32,15 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 	}
 
 	@Override
-	public Object selectById(int id) {
+	public Utenti selectById(int id) {
 
 		final String sql = SELECT_FROM + Utenti.NOME_TABELLA + WHERE + Utenti.ID + "=" + id;
 		try {
 
-			return ConnectionPool.getSingleton().new ExecuteResultSet<Object>() {
+			return new ExecuteResultSet<Utenti>() {
 
 				@Override
-				protected Object doWithResultSet(ResultSet rs) throws SQLException {
+				protected Utenti doWithResultSet(ResultSet rs) throws SQLException {
 
 					if (rs.next()) {
 						final Utenti utenteLoc = new Utenti();
@@ -62,17 +63,17 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 	}
 
 	@Override
-	public List<Object> selectAll() {
+	public List<Utenti> selectAll() {
 
 		final String sql = SELECT_FROM + Utenti.NOME_TABELLA;
 
 		try {
 
-			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
+			return new ExecuteResultSet<List<Utenti>>() {
 
 				@Override
-				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
-					final List<Object> utenti = new ArrayList<>();
+				protected List<Utenti> doWithResultSet(ResultSet rs) throws SQLException {
+					final List<Utenti> utenti = new ArrayList<>();
 
 					while(rs != null && rs.next()) {
 						final Utenti utenteLoc = new Utenti();
@@ -104,7 +105,7 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 
 		try {
 
-			return ConnectionPool.getSingleton().new ExecuteResultSet<Utenti>() {
+			return new ExecuteResultSet<Utenti>() {
 
 				@Override
 				protected Utenti doWithResultSet(ResultSet rs) throws SQLException {
@@ -128,14 +129,14 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 	}
 
 	@Override
-	public boolean insert(Object oggettoEntita) {
+	public boolean insert(Utenti oggettoEntita) {
 
 		final Utenti utenteLoc = (Utenti) oggettoEntita;
 
 		final String sql = "INSERT INTO " + Utenti.NOME_TABELLA + " (" + Utenti.USERNAME + ", " + Utenti.PASSWORD + ", " +  Utenti.NOME
 				+ ", " + Utenti.COGNOME + ") VALUES (?,?,?,?)";
 
-		return ConnectionPool.getSingleton().new ExecutePreparedStatement<Utenti>() {
+		return new ExecutePreparedStatement<Utenti>() {
 
 			@Override
 			protected void doWithPreparedStatement(PreparedStatement ps, Utenti obj) throws SQLException {
@@ -167,7 +168,7 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 	}
 
 	@Override
-	public boolean update(Object oggettoEntita) {
+	public boolean update(Utenti oggettoEntita) {
 		boolean ok = false;
 
 		final Utenti utenteLoc = (Utenti) oggettoEntita;
@@ -214,7 +215,7 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 
 		try {
 
-			return ConnectionPool.getSingleton().new ExecuteResultSet<Utenti>() {
+			return new ExecuteResultSet<Utenti>() {
 
 				@Override
 				protected Utenti doWithResultSet(ResultSet rs) throws SQLException {
@@ -311,13 +312,13 @@ public class WrapUtenti extends Observable implements IDAO, IUtenti {
 	}
 
 	@Override
-	public AbstractOggettoEntita getEntitaPadre() {
+	public Utenti getEntitaPadre() {
 		return utente;
 	}
 
 
 	@Override
-	public Object selectWhere(List<Clausola> clausole,
+	public List<Utenti> selectWhere(List<Clausola> clausole,
 			String appentoToQuery){
 		throw new UnsupportedOperationException();
 	}

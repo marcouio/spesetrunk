@@ -1,6 +1,5 @@
 package com.molinari.gestionespese.domain.wrapper;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,39 +13,39 @@ import com.molinari.gestionespese.domain.Budget;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.IBudget;
 
-import command.javabeancommand.AbstractOggettoEntita;
 import controller.ControlloreBase;
 import db.Clausola;
-import db.ConnectionPool;
+import db.ExecutePreparedStatement;
+import db.ExecuteResultSet;
 import db.dao.IDAO;
 
-public class WrapBudget extends Observable implements IDAO, IBudget{
+public class WrapBudget extends Observable implements IDAO<Budget>, IBudget{
 
-
-	Budget budget;
+	private static final String WHERE = " WHERE ";
+	private WrapBase base = new WrapBase();
+	private Budget budget;
 
 	public WrapBudget() {
 		budget = new Budget();
 	}
 
 	@Override
-	public Object selectById(int id) {
-		final String sql = "SELECT * FROM "+Budget.NOME_TABELLA+" WHERE "+Budget.ID+" = " +id;
-
-		final Budget budget = new Budget();
+	public Budget selectById(int id) {
+		final String sql = getQuerySelectById(id);
 
 		try {
 
-			return ConnectionPool.getSingleton().new ExecuteResultSet<Object>() {
+			return new ExecuteResultSet<Budget>() {
 
 				@Override
-				protected Object doWithResultSet(ResultSet rs) throws SQLException {
+				protected Budget doWithResultSet(ResultSet rs) throws SQLException {
 
 					if (rs.next()) {
-						budget.setidBudget(rs.getInt(1));
+						final Budget budgetLoc = new Budget();
+						budgetLoc.setidBudget(rs.getInt(1));
 						final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(2)));
-						budget.setCatSpese(categoria);
-						budget.setpercSulTot(rs.getDouble(3));
+						budgetLoc.setCatSpese(categoria);
+						budgetLoc.setpercSulTot(rs.getDouble(3));
 					}
 					return budget;
 				}
@@ -60,24 +59,35 @@ public class WrapBudget extends Observable implements IDAO, IBudget{
 
 	}
 
+	private String getQuerySelectById(int id) {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("SELECT * FROM ");
+		stringBuilder.append(Budget.NOME_TABELLA);
+		stringBuilder.append(WHERE);
+		stringBuilder.append(Budget.ID);
+		stringBuilder.append(" = ");
+		stringBuilder.append(id);
+		return stringBuilder.toString();
+	}
+
 	@Override
-	public List<Object> selectAll() {
+	public List<Budget> selectAll() {
 		final String sql = "SELECT * FROM " + Budget.NOME_TABELLA ;
 		try{
 
-			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
+			return new ExecuteResultSet<List<Budget>>() {
 
 				@Override
-				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
-					final List<Object> budgets = new ArrayList<>();
+				protected List<Budget> doWithResultSet(ResultSet rs) throws SQLException {
+					final List<Budget> budgets = new ArrayList<>();
 
 					while(rs.next()){
-						final Budget budget = new Budget();
-						budget.setidBudget(rs.getInt(1));
+						final Budget budgetLoc = new Budget();
+						budgetLoc.setidBudget(rs.getInt(1));
 						final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(2)));
-						budget.setCatSpese(categoria);
-						budget.setpercSulTot(rs.getDouble(3));
-						budgets.add(budget);
+						budgetLoc.setCatSpese(categoria);
+						budgetLoc.setpercSulTot(rs.getDouble(3));
+						budgets.add(budgetLoc);
 					}
 					return budgets;
 				}
@@ -87,94 +97,75 @@ public class WrapBudget extends Observable implements IDAO, IBudget{
 		}catch (final Exception e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
-	public boolean insert(Object oggettoEntita) {
-		boolean ok = false;
-		final Connection cn = ConnectionPool.getSingleton().getConnection();
-		String sql = "";
-		try {
-			final Budget budget = (Budget)oggettoEntita;
+	public boolean insert(Budget oggettoEntita) {
 
-			sql="INSERT INTO " + Budget.NOME_TABELLA + " (" + Budget.IDCATEGORIE+", "+Budget.PERCSULTOT+") VALUES(?,?)";
-			final PreparedStatement ps = cn.prepareStatement(sql);
-			if (budget.getCatSpese() != null) {
-				ps.setInt(1, budget.getCatSpese().getidCategoria());
+		final Budget budgetLoc = (Budget)oggettoEntita;
+
+		String sql = "INSERT INTO " + Budget.NOME_TABELLA + " (" + Budget.IDCATEGORIE+", "+Budget.PERCSULTOT+") VALUES(?,?)";
+
+		return new ExecutePreparedStatement<Budget>() {
+
+			@Override
+			protected void doWithPreparedStatement(PreparedStatement ps, Budget obj) throws SQLException {
+				if (obj.getCatSpese() != null) {
+					ps.setInt(1, obj.getCatSpese().getidCategoria());
+				}
+				ps.setDouble(2, obj.getpercSulTot());
+
 			}
-			ps.setDouble(2, budget.getpercSulTot());
+		}.executeUpdate(sql, budgetLoc);
 
-			ps.executeUpdate();
-			ok = true;
-		} catch (final Exception e) {
-			ok = false;
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-		} finally {
-			ConnectionPool.getSingleton().chiudiOggettiDb(cn);
-		}
-		return ok;
+
 	}
 
 	@Override
 	public boolean delete(int id) {
-		boolean ok = false;
-		final String sql = "DELETE FROM "+Budget.NOME_TABELLA+" WHERE "+Budget.ID+" = "+id;
+		final String sql = "DELETE FROM "+Budget.NOME_TABELLA+WHERE+Budget.ID+" = "+id;
 
-		try {
-			ConnectionPool.getSingleton().executeUpdate(sql);
-			ok=true;
-
-		} catch (final SQLException e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-			ok=false;
-		}
-
-		ConnectionPool.getSingleton().chiudiOggettiDb(null);
-
-		return ok;
+		return base.executeUpdate(sql);
 	}
 
 	@Override
-	public boolean update(Object oggettoEntita) {
-		boolean ok = false;
+	public boolean update(Budget oggettoEntita) {
 
+		final Budget budgetLoc = (Budget) oggettoEntita;
+		final String sql = getQueryUpdate(budgetLoc);
+		
+		return base.executeUpdate(sql);
+		
+	}
 
-		final Budget budget = (Budget) oggettoEntita;
-		final String sql = "UPDATE "+Budget.NOME_TABELLA+ " SET " +Budget.IDCATEGORIE+ " = " +budget.getidCategorie()+", "+Budget.PERCSULTOT+" = "+budget.getpercSulTot()+
-				" WHERE "+ Budget.ID +" = "+budget.getidBudget();
-		try {
-			ConnectionPool.getSingleton().executeUpdate(sql);
-			ok=true;
-
-		} catch (final SQLException e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-			ok=false;
-		}
-		ConnectionPool.getSingleton().chiudiOggettiDb(null);
-		return ok;
+	private String getQueryUpdate(final Budget budgetLoc) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("UPDATE ");
+		sb.append(Budget.NOME_TABELLA);
+		sb.append(" SET ");
+		sb.append(Budget.IDCATEGORIE);
+		sb.append(" = ");
+		sb.append(budgetLoc.getidCategorie());
+		sb.append(", ");
+		sb.append(Budget.PERCSULTOT);
+		sb.append(" = ");
+		sb.append(budgetLoc.getpercSulTot());
+		sb.append(WHERE);
+		sb.append(Budget.ID);
+		sb.append(" = ");
+		sb.append(budgetLoc.getidBudget());
+		return sb.toString();
 	}
 
 	@Override
 	public boolean deleteAll() {
-		boolean ok = false;
 		final String sql = "DELETE FROM "+Budget.NOME_TABELLA;
-
-
-		try {
-			ConnectionPool.getSingleton().executeUpdate(sql);
-			ok=true;
-
-		} catch (final SQLException e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-			ok=false;
-		}
-		ConnectionPool.getSingleton().chiudiOggettiDb(null);
-		return ok;
+		return base.executeUpdate(sql);
 	}
 
 	@Override
-	public AbstractOggettoEntita getEntitaPadre() {
+	public Budget getEntitaPadre() {
 		return budget;
 	}
 
@@ -218,21 +209,11 @@ public class WrapBudget extends Observable implements IDAO, IBudget{
 	public void setCatSpese(CatSpese catSpese) {
 		budget.setCatSpese(catSpese);
 	}
-	@Override
-	public void notifyObservers() {
-		super.notifyObservers();
-	}
 
 	@Override
-	protected synchronized void setChanged() {
-		super.setChanged();
-	}
-
-	@Override
-	public Object selectWhere(List<Clausola> clausole,
+	public List<Budget> selectWhere(List<Clausola> clausole,
 			String appentoToQuery) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package com.molinari.gestionespese.domain.wrapper;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,41 +13,44 @@ import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.Gruppi;
 import com.molinari.gestionespese.domain.IGruppi;
 
-import command.javabeancommand.AbstractOggettoEntita;
 import controller.ControlloreBase;
 import db.Clausola;
-import db.ConnectionPool;
+import db.ExecutePreparedStatement;
+import db.ExecuteResultSet;
 import db.dao.IDAO;
 
-public class WrapGruppi extends Observable implements IDAO, IGruppi {
+public class WrapGruppi extends Observable implements IDAO<Gruppi>, IGruppi {
 
+	private static final String WHERE = " WHERE ";
+	private static final String SELECT_FROM = "SELECT * FROM ";
 	private final Gruppi gruppo;
+	private WrapBase base = new WrapBase();
 
 	public WrapGruppi() {
 		gruppo = new Gruppi();
 	}
 
 	@Override
-	public Object selectById(final int id) {
+	public Gruppi selectById(final int id) {
 
-		final String sql = "SELECT * FROM " + Gruppi.NOME_TABELLA + " WHERE " + Gruppi.ID + " = " + id;
+		final String sql = getQuerySelectById(id);
 
-		final Gruppi gruppo = new Gruppi();
+		final Gruppi gruppoLoc = new Gruppi();
 
 		try {
 
-			return ConnectionPool.getSingleton().new ExecuteResultSet<Object>() {
+			return new ExecuteResultSet<Gruppi>() {
 
 				@Override
-				protected Object doWithResultSet(ResultSet rs) throws SQLException {
+				protected Gruppi doWithResultSet(ResultSet rs) throws SQLException {
 
 					if (rs.next()) {
-						gruppo.setidGruppo(rs.getInt(1));
-						gruppo.setnome(rs.getString(2));
-						gruppo.setdescrizione(rs.getString(3));
+						gruppoLoc.setidGruppo(rs.getInt(1));
+						gruppoLoc.setnome(rs.getString(2));
+						gruppoLoc.setdescrizione(rs.getString(3));
 					}
 
-					return gruppo;
+					return gruppoLoc;
 				}
 
 			}.execute(sql);
@@ -56,29 +58,40 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
-		return gruppo;
+		return gruppoLoc;
 
 	}
 
-	@Override
-	public List<Object> selectAll() {
+	private String getQuerySelectById(final int id) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(SELECT_FROM);
+		sb.append(Gruppi.NOME_TABELLA);
+		sb.append(WHERE);
+		sb.append(Gruppi.ID);
+		sb.append(" = ");
+		sb.append(id);
+		return sb.toString();
+	}
 
-		final String sql = "SELECT * FROM " + Gruppi.NOME_TABELLA + " ORDER BY " + Gruppi.ID + " asc";
+	@Override
+	public List<Gruppi> selectAll() {
+
+		final String sql = SELECT_FROM + Gruppi.NOME_TABELLA + " ORDER BY " + Gruppi.ID + " asc";
 		try {
 
-			return ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
+			return new ExecuteResultSet<List<Gruppi>>() {
 
 				@Override
-				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
-					final List<Object> gruppi = new ArrayList<>();
+				protected List<Gruppi> doWithResultSet(ResultSet rs) throws SQLException {
+					final List<Gruppi> gruppi = new ArrayList<>();
 
 					while (rs != null && rs.next()) {
 
-						final Gruppi gruppo = new Gruppi();
-						gruppo.setidGruppo(rs.getInt(1));
-						gruppo.setnome(rs.getString(2));
-						gruppo.setdescrizione(rs.getString(3));
-						gruppi.add(gruppo);
+						final Gruppi gruppoLoc = new Gruppi();
+						gruppoLoc.setidGruppo(rs.getInt(1));
+						gruppoLoc.setnome(rs.getString(2));
+						gruppoLoc.setdescrizione(rs.getString(3));
+						gruppi.add(gruppoLoc);
 					}
 					return gruppi;
 				}
@@ -88,114 +101,110 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 		} catch (final Exception e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
-		return null;
+		return new ArrayList<>();
 
 	}
 
 	@Override
-	public boolean insert(final Object oggettoEntita) {
-		boolean ok = false;
-		final Connection cn = ConnectionPool.getSingleton().getConnection();
-		String sql = "";
-		try {
-			final Gruppi gruppo = (Gruppi) oggettoEntita;
+	public boolean insert(final Gruppi oggettoEntita) {
+		String sql = getQueryInsert();
 
-			sql = "INSERT INTO " + Gruppi.NOME_TABELLA + " (" + Gruppi.COL_NOME + ", " + Gruppi.COL_DESCRIZIONE
-					+ ") VALUES(?,?)";
-			final PreparedStatement ps = cn.prepareStatement(sql);
-			ps.setString(1, gruppo.getnome());
-			ps.setString(2, gruppo.getdescrizione());
+		ExecutePreparedStatement<Gruppi> eps = new ExecutePreparedStatement<Gruppi>() {
 
-			ps.executeUpdate();
-			ok = true;
-		} catch (final Exception e) {
-			ok = false;
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-		}
+			@Override
+			protected void doWithPreparedStatement(PreparedStatement ps, Gruppi obj) throws SQLException {
+				ps.setString(1, gruppo.getnome());
+				ps.setString(2, gruppo.getdescrizione());
 
-		ConnectionPool.getSingleton().chiudiOggettiDb(cn);
-		return ok;
+			}
+		};
+		return eps.executeUpdate(sql, oggettoEntita);
+	}
+
+	private String getQueryInsert() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("INSERT INTO ");
+		sb.append(Gruppi.NOME_TABELLA);
+		sb.append(" (");
+		sb.append(Gruppi.COL_NOME);
+		sb.append(", ");
+		sb.append(Gruppi.COL_DESCRIZIONE);
+		sb.append(") VALUES(?,?)");
+		return sb.toString();
 	}
 
 	@Override
 	public boolean delete(final int id) {
-		boolean ok = false;
-		final String sql = "DELETE FROM " + Gruppi.NOME_TABELLA + " WHERE " + Gruppi.ID + " = " + id;
+		final String sql = getQueryDelete(id);
+		return base.executeUpdate(sql);
+	}
 
-
-		try {
-
-			ConnectionPool.getSingleton().executeUpdate(sql);
-			ok = true;
-
-		} catch (final SQLException e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-			ok = false;
-		}
-		return ok;
+	private String getQueryDelete(final int id) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("DELETE FROM ");
+		sb.append(Gruppi.NOME_TABELLA);
+		sb.append(WHERE);
+		sb.append(Gruppi.ID);
+		sb.append(" = ");
+		sb.append(id);
+		return sb.toString();
 	}
 
 	@Override
-	public boolean update(final Object oggettoEntita) {
-		boolean ok = false;
+	public boolean update(final Gruppi oggettoEntita) {
 
+		final Gruppi gruppoLoc = (Gruppi) oggettoEntita;
+		final String sql = getQueryUpdate(gruppoLoc);
+		
+		return base.executeUpdate(sql);
+	}
 
-		final Gruppi gruppo = (Gruppi) oggettoEntita;
-		final String sql = "UPDATE " + Gruppi.NOME_TABELLA + " SET " + Gruppi.COL_NOME + " = '" + gruppo.getnome() + "', "
-				+ Gruppi.COL_DESCRIZIONE + " = '" + gruppo.getdescrizione() + "' WHERE " + Gruppi.ID + " = "
-				+ gruppo.getidGruppo();
-		try {
-
-			ConnectionPool.getSingleton().executeUpdate(sql);
-			ok = true;
-
-		} catch (final SQLException e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-			ok = false;
-		}
-		return ok;
+	private String getQueryUpdate(final Gruppi gruppoLoc) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("UPDATE ");
+		sb.append(Gruppi.NOME_TABELLA);
+		sb.append(" SET ");
+		sb.append(Gruppi.COL_NOME);
+		sb.append(" = '");
+		sb.append(gruppoLoc.getnome());
+		sb.append("', ");
+		sb.append(Gruppi.COL_DESCRIZIONE);
+		sb.append(" = '");
+		sb.append(gruppoLoc.getdescrizione());
+		sb.append("' WHERE ");
+		sb.append(Gruppi.ID);
+		sb.append(" = ");
+		sb.append(gruppoLoc.getidGruppo());
+		return sb.toString();
 	}
 
 	@Override
 	public boolean deleteAll() {
-		boolean ok = false;
 		final String sql = "DELETE FROM " + Gruppi.NOME_TABELLA;
-
-
-		try {
-
-			ConnectionPool.getSingleton().executeUpdate(sql);
-			ok = true;
-
-		} catch (final SQLException e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-			ok = false;
-		}
-
-		return ok;
+		return base.executeUpdate(sql);
 	}
 
 	public Gruppi selectByNome(final String nome) {
 
 
-		final String sql = "SELECT * FROM " + Gruppi.NOME_TABELLA + " WHERE " + Gruppi.COL_NOME + " = \"" + nome + "\"";
+		final String sql = getQuerySelectByName(nome);
 
-		final Gruppi gruppo = new Gruppi();
+		final Gruppi gruppoLoc = new Gruppi();
 
 		try {
 
-			return ConnectionPool.getSingleton().new ExecuteResultSet<Gruppi>() {
+			return new ExecuteResultSet<Gruppi>() {
 
 				@Override
 				protected Gruppi doWithResultSet(ResultSet rs) throws SQLException {
 
 					if (rs.next()) {
-						gruppo.setidGruppo(rs.getInt(1));
-						gruppo.setnome(rs.getString(2));
-						gruppo.setdescrizione(rs.getString(3));
+						gruppoLoc.setidGruppo(rs.getInt(1));
+						gruppoLoc.setnome(rs.getString(2));
+						gruppoLoc.setdescrizione(rs.getString(3));
 					}
 
-					return gruppo;
+					return gruppoLoc;
 				}
 
 			}.execute(sql);
@@ -203,7 +212,19 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
-		return gruppo;
+		return gruppoLoc;
+	}
+
+	private String getQuerySelectByName(final String nome) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(SELECT_FROM);
+		sb.append(Gruppi.NOME_TABELLA);
+		sb.append(WHERE);
+		sb.append(Gruppi.COL_NOME);
+		sb.append(" = \"");
+		sb.append(nome);
+		sb.append("\"");
+		return sb.toString();
 	}
 
 	@Override
@@ -247,25 +268,19 @@ public class WrapGruppi extends Observable implements IDAO, IGruppi {
 	}
 
 	@Override
-	public void notifyObservers() {
-		super.notifyObservers();
+	public Gruppi getEntitaPadre()  {
+		return gruppo;
 	}
-
+	
 	@Override
 	public synchronized void setChanged() {
 		super.setChanged();
 	}
 
 	@Override
-	public AbstractOggettoEntita getEntitaPadre()  {
-		return gruppo;
-	}
-
-	@Override
-	public Object selectWhere(List<Clausola> clausole,
+	public List<Gruppi> selectWhere(List<Clausola> clausole,
 			String appentoToQuery)  {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 }

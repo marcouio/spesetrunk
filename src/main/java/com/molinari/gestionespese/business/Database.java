@@ -32,6 +32,7 @@ import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 
 import controller.ControlloreBase;
 import db.ConnectionPool;
+import db.ExecuteResultSet;
 import grafica.componenti.alert.Alert;
 
 public class Database {
@@ -326,7 +327,7 @@ public class Database {
 
 	private Map<String, ArrayList<String>> execute(final String sql, final HashMap<String, ArrayList<String>> nomi)
 			throws SQLException {
-		return ConnectionPool.getSingleton().new ExecuteResultSet<HashMap<String, ArrayList<String>>>() {
+		return new ExecuteResultSet<HashMap<String, ArrayList<String>>>() {
 
 			@Override
 			protected HashMap<String, ArrayList<String>> doWithResultSet(ResultSet rs) throws SQLException {
@@ -564,7 +565,7 @@ public class Database {
 
 
 		try {
-			return ConnectionPool.getSingleton().new ExecuteResultSet<List<String>>() {
+			return new ExecuteResultSet<List<String>>() {
 
 				@Override
 				protected List<String> doWithResultSet(ResultSet rs)

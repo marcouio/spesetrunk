@@ -21,7 +21,7 @@ import com.molinari.gestionespese.view.MyWindowListener;
 import command.AbstractCommand;
 import command.CommandManager;
 import controller.ControlloreBase;
-import db.ConnectionPool;
+import db.ExecuteResultSet;
 import grafica.componenti.contenitori.FrameBase;
 
 public class Controllore extends ControlloreBase{
@@ -70,7 +70,7 @@ public class Controllore extends ControlloreBase{
 		final String sql = "SELECT * FROM " + Lookandfeel.NOME_TABELLA;
 
 		try {
-			ConnectionPool.getSingleton().new ExecuteResultSet<Boolean>() {
+			new ExecuteResultSet<Boolean>() {
 
 				@Override
 				protected Boolean doWithResultSet(ResultSet resulSet) throws SQLException {

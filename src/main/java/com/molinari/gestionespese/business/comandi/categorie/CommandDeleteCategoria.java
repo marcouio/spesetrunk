@@ -7,16 +7,15 @@ import com.molinari.gestionespese.domain.wrapper.WrapCatSpese;
 
 import command.ICommand;
 import command.javabeancommand.AbstractCommandForJavaBean;
-import db.dao.IDAO;
 import grafica.componenti.alert.Alert;
 
-public class CommandDeleteCategoria extends AbstractCommandForJavaBean implements ICommand {
+public class CommandDeleteCategoria extends AbstractCommandForJavaBean<CatSpese> implements ICommand {
 
 	public CommandDeleteCategoria(ICatSpese entita) throws Exception {
 		final CacheCategorie cache = CacheCategorie.getSingleton();
 		mappaCache = cache.getCache();
 		this.wrap = new WrapCatSpese();
-		this.entita = ((IDAO) entita).getEntitaPadre();
+		this.entita =  ((WrapCatSpese)entita).getEntitaPadre();
 	}
 
 	@Override

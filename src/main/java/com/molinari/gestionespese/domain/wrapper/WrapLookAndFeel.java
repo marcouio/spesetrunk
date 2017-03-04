@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -16,18 +17,20 @@ import command.javabeancommand.AbstractOggettoEntita;
 import controller.ControlloreBase;
 import db.Clausola;
 import db.ConnectionPool;
+import db.ExecuteResultSet;
 import db.dao.IDAO;
 
-public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
+public class WrapLookAndFeel extends Observable implements IDAO<Lookandfeel>, ILookandfeel {
 
 	private final Lookandfeel lookandfeel;
+	private WrapBase base = new WrapBase();;
 
 	public WrapLookAndFeel() {
 		lookandfeel = new Lookandfeel();
 	}
 
 	@Override
-	public Object selectById(int id) {
+	public Lookandfeel selectById(int id) {
 
 		final String sql = "SELECT * FROM " + Lookandfeel.NOME_TABELLA + " WHERE " + Lookandfeel.ID + " = " + id;
 
@@ -35,10 +38,10 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 
 		try {
 
-			ConnectionPool.getSingleton().new ExecuteResultSet<Object>() {
+			new ExecuteResultSet<Lookandfeel>() {
 
 				@Override
-				protected Object doWithResultSet(ResultSet rs) throws SQLException {
+				protected Lookandfeel doWithResultSet(ResultSet rs) throws SQLException {
 
 					if (rs.next()) {
 						look.setidLook(rs.getInt(1));
@@ -61,16 +64,16 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 	}
 
 	@Override
-	public List<Object> selectAll() {
-		final List<Object> looks = new ArrayList<>();
+	public List<Lookandfeel> selectAll() {
+		final List<Lookandfeel> looks = new ArrayList<>();
 
 		final String sql = "SELECT * FROM " + Lookandfeel.NOME_TABELLA;
 		try {
 
-			ConnectionPool.getSingleton().new ExecuteResultSet<List<Object>>() {
+			new ExecuteResultSet<List<Lookandfeel>>() {
 
 				@Override
-				protected List<Object> doWithResultSet(ResultSet rs) throws SQLException {
+				protected List<Lookandfeel> doWithResultSet(ResultSet rs) throws SQLException {
 					while (rs != null && rs.next()) {
 						final Lookandfeel look = new Lookandfeel();
 						look.setidLook(rs.getInt(1));
@@ -91,7 +94,7 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 	}
 
 	@Override
-	public boolean insert(Object oggettoEntita) {
+	public boolean insert(Lookandfeel oggettoEntita) {
 		boolean ok = false;
 		final Connection cn = ConnectionPool.getSingleton().getConnection();
 		String sql = "";
@@ -121,12 +124,11 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 
 	@Override
 	public boolean delete(int id) {
-		// TODO Auto-generated method stub
-		return false;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean update(Object oggettoEntita) {
+	public boolean update(Lookandfeel oggettoEntita) {
 		boolean ok = false;
 
 
@@ -135,24 +137,14 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 				+ Lookandfeel.COL_NOME + " = " + look.getnome() + ", " + Lookandfeel.COL_VALORE + " = " + look.getvalore()
 				+ ", " + Lookandfeel.COL_USATO + " = " + look.getusato() + " WHERE " + Lookandfeel.ID + " = "
 				+ look.getidLook();
-		try {
+		return base .executeUpdate(sql);
 
-			ConnectionPool.getSingleton().executeUpdate(sql);
-			ok = true;
-
-		} catch (final SQLException e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-			ok = false;
-		}
-
-		return ok;
 
 	}
 
 	@Override
 	public boolean deleteAll() {
-		// TODO Auto-generated method stub
-		return false;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -196,24 +188,13 @@ public class WrapLookAndFeel extends Observable implements IDAO, ILookandfeel {
 	}
 
 	@Override
-	public void notifyObservers() {
-		super.notifyObservers();
-	}
-
-	@Override
-	protected synchronized void setChanged() {
-		super.setChanged();
-	}
-
-	@Override
-	public AbstractOggettoEntita getEntitaPadre()  {
+	public Lookandfeel getEntitaPadre()  {
 		return lookandfeel;
 	}
 
 	@Override
-	public Object selectWhere(List<Clausola> clausole, String appentoToQuery)  {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Lookandfeel> selectWhere(List<Clausola> clausole, String appentoToQuery)  {
+		throw new UnsupportedOperationException();
 	}
 
 }
