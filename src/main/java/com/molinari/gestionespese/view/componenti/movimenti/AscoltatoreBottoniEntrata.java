@@ -11,6 +11,8 @@ import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.wrapper.Model;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
 
+import grafica.componenti.alert.Alert;
+
 public class AscoltatoreBottoniEntrata extends MouseAdapter {
 
 	private final JTable table;
@@ -32,8 +34,8 @@ public class AscoltatoreBottoniEntrata extends MouseAdapter {
 	@Override
 	public void mouseClicked(final MouseEvent e) {
 
-		final JTable table = this.table;
-		if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 1 && e.getSource() == table) {
+		final JTable tableLoc = this.table;
+		if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 1 && e.getSource() == tableLoc) {
 			final JTable tabella = (JTable) e.getSource();
 			final int row = tabella.getSelectedRow();
 			arrayUtil[INDEX_DATA] = tabella.getValueAt(row, 0);
@@ -46,7 +48,7 @@ public class AscoltatoreBottoniEntrata extends MouseAdapter {
 
 			final DialogEntrateMov dialogNew = new DialogEntrateMov(new WrapEntrate());
 
-			settaDialog(row, dialogNew);
+			settaDialog(dialogNew);
 
 		}
 	}
@@ -66,7 +68,7 @@ public class AscoltatoreBottoniEntrata extends MouseAdapter {
 	 * @param row
 	 * @param dialogNew
 	 */
-	private void settaDialog(final int row, final DialogEntrateMov dialogNew) {
+	private void settaDialog( final DialogEntrateMov dialogNew) {
 		dialogNew.getIdEntrate().setText((String) arrayUtil[INDEX_IDENTRATA]);
 		dialogNew.getNome().setText((String) arrayUtil[INDEX_NOME]);
 		dialogNew.getDescrizione().setText((String) arrayUtil[INDEX_DESCRIZIONE]);
@@ -84,17 +86,17 @@ public class AscoltatoreBottoniEntrata extends MouseAdapter {
 		// visualizzata la dialog e settata l'entita associata
 		if (arrayUtil[INDEX_IDENTRATA] != "0") {
 
-			dialogNew.setSize(400, 220);
-			dialogNew.setModalityType(ModalityType.APPLICATION_MODAL);
-			dialogNew.setVisible(true);
+			dialogNew.getDialog().setSize(400, 220);
+			dialogNew.getDialog().setModalityType(ModalityType.APPLICATION_MODAL);
+			dialogNew.getDialog().setVisible(true);
 			dialogNew.aggiornaModelDaVista();
 		}
 		try {
 			AggiornatoreManager.aggiornamentoGenerale(Entrate.NOME_TABELLA);
 		} catch (final Exception e1) {
-			e1.printStackTrace();
+			Alert.segnalazioneEccezione(e1, null);
 		}
-		dialogNew.dispose();
+		dialogNew.getDialog().dispose();
 
 	}
 

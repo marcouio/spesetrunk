@@ -37,9 +37,9 @@ public class AscoltatoreAggiornaGruppo extends AscoltatoreAggiornatoreTutto {
 		if (gruppi != null) {
 			final Gruppi oldGruppo = CacheGruppi.getSingleton().getGruppo(Integer.toString(gruppi.getidGruppo()));
 			gruppiView.setGruppo("Aggiorna");
-			if (gruppi != null) {
-				modelGruppi.setidGruppo(gruppi.getidGruppo());
-			}
+			
+			modelGruppi.setidGruppo(gruppi.getidGruppo());
+			
 			try {
 				if (Controllore.invocaComando(new CommandUpdateGruppo(oldGruppo, (IGruppi) modelGruppi.getEntitaPadre()))) {
 
@@ -49,11 +49,10 @@ public class AscoltatoreAggiornaGruppo extends AscoltatoreAggiornatoreTutto {
 					AggiornatoreManager.aggiornamentoComboBox(CacheCategorie.getSingleton().getVettoreCategorie());
 					modelGruppi.setChanged();
 					modelGruppi.notifyObservers();
-					gruppiView.dispose();
+					gruppiView.getDialog().dispose();
 				}
 			} catch (final Exception e22) {
-				e22.printStackTrace();
-				Alert.segnalazioneErroreGrave("Inserisci i dati correttamente: " + e22.getMessage());
+				Alert.segnalazioneEccezione(e22, "Inserisci i dati correttamente: " + e22.getMessage());
 			}
 		} else {
 			Alert.segnalazioneErroreGrave("Impossibile aggiornare un gruppo inesistente!");

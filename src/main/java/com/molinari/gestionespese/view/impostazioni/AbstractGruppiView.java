@@ -6,9 +6,9 @@ import javax.swing.JDialog;
 
 import com.molinari.gestionespese.domain.wrapper.WrapGruppi;
 
-public abstract class AbstractGruppiView extends JDialog implements Observer {
+public abstract class AbstractGruppiView implements Observer {
 
-	private static final long serialVersionUID = 1L;
+	private JDialog dialog;
 	protected WrapGruppi modelGruppi = null;
 
 	public AbstractGruppiView(final WrapGruppi modelGruppi) {
@@ -37,6 +37,14 @@ public abstract class AbstractGruppiView extends JDialog implements Observer {
 
 	public void setModelGruppi(final WrapGruppi modelGruppi) {
 		this.modelGruppi = modelGruppi;
+	}
+
+	public JDialog getDialog() {
+		return dialog;
+	}
+
+	public void setDialog(JDialog dialog) {
+		this.dialog = dialog;
 	}
 
 }

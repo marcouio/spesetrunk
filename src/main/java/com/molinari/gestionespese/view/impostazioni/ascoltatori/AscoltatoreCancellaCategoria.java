@@ -24,7 +24,7 @@ public class AscoltatoreCancellaCategoria extends AscoltatoreAggiornatoreTutto {
 			categorieView.aggiornaModelDaVista("Cancella");
 			if (Controllore.invocaComando(new CommandDeleteCategoria(categorieView.getModelCatSpese()))) {
 				categorieView.getComboCategorie().removeItem(categorieView.getCategoria());
-				categorieView.dispose();
+				categorieView.getDialog().dispose();
 			}
 		} else {
 			Alert.segnalazioneErroreGrave("Impossibile cancellare una categoria inesistente!");

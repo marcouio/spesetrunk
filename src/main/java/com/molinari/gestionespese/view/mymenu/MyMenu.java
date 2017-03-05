@@ -281,9 +281,9 @@ public class MyMenu extends JMenuBar {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
 				final EntrateView dialog = new EntrateView(new WrapEntrate());
-				dialog.setLocationRelativeTo(null);
-				dialog.setBounds(0, 0, 347, 318);
-				dialog.setVisible(true);
+				dialog.getDialog().setLocationRelativeTo(null);
+				dialog.getDialog().setBounds(0, 0, 347, 318);
+				dialog.getDialog().setVisible(true);
 			}
 		};
 	}
@@ -293,9 +293,9 @@ public class MyMenu extends JMenuBar {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
 				final GruppiView dialog = new GruppiView(new WrapGruppi());
-				dialog.pack();
-				dialog.setVisible(true);
-				dialog.setModalityType(ModalityType.APPLICATION_MODAL);
+				dialog.getDialog().pack();
+				dialog.getDialog().setVisible(true);
+				dialog.getDialog().setModalityType(ModalityType.APPLICATION_MODAL);
 			}
 		};
 	}
@@ -305,9 +305,9 @@ public class MyMenu extends JMenuBar {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
 				final CategorieView dialog2 = new CategorieView(new WrapCatSpese());
-				dialog2.pack();
-				dialog2.setVisible(true);
-				dialog2.setModalityType(ModalityType.APPLICATION_MODAL);
+				dialog2.getDialog().pack();
+				dialog2.getDialog().setVisible(true);
+				dialog2.getDialog().setModalityType(ModalityType.APPLICATION_MODAL);
 			}
 		};
 	}

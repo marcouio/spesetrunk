@@ -20,8 +20,6 @@ public class AscoltatoreInserisciGruppo extends AscoltatoreAggiornatoreTutto {
 		this.gruppiView = gruppiView;
 	}
 
-	private Gruppi gruppo1;
-
 	@Override
 	protected void actionPerformedOverride(ActionEvent e) {
 		super.actionPerformedOverride(e);
@@ -32,14 +30,14 @@ public class AscoltatoreInserisciGruppo extends AscoltatoreAggiornatoreTutto {
 		if (gruppiView.nonEsistonoCampiNonValorizzati()) {
 
 			if (Controllore.invocaComando(new CommandInserisciGruppo(modelGruppi))) {
-				gruppo1 = CacheGruppi.getSingleton().getGruppo(Integer.toString(modelGruppi.getidGruppo()));
+				Gruppi gruppo1 = CacheGruppi.getSingleton().getGruppo(Integer.toString(modelGruppi.getidGruppo()));
 				if (gruppo1 != null) {
 					gruppiView.getComboGruppi().addItem(gruppo1);
 				}
 
 				modelGruppi.setChanged();
 				modelGruppi.notifyObservers();
-				gruppiView.dispose();
+				gruppiView.getDialog().dispose();
 			}
 		} else {
 			final String messaggio = "E' necessario riempire tutti i campi";

@@ -36,11 +36,10 @@ public class AscoltatoreAggiornaCategoria extends AscoltatoreAggiornatoreTutto {
 					AggiornatoreManager.aggiornaCategorie((CatSpese) categorieView.getModelCatSpese().getEntitaPadre(), categorieView.getComboCategorie());
 					categorieView.getModelCatSpese().setChanged();
 					categorieView.getModelCatSpese().notifyObservers();
-					categorieView.dispose();
+					categorieView.getDialog().dispose();
 				}
 			} catch (final Exception e22) {
-				e22.printStackTrace();
-				Alert.segnalazioneErroreGrave("Inserisci i dati correttamente: " + e22.getMessage());
+				Alert.segnalazioneEccezione(e22, "Inserisci i dati correttamente: " + e22.getMessage());
 			}
 		} else {
 			Alert.segnalazioneErroreGrave("Impossibile aggiornare una categoria inesistente!");

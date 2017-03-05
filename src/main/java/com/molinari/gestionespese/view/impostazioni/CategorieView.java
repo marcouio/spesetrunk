@@ -1,5 +1,6 @@
 package com.molinari.gestionespese.view.impostazioni;
 
+import java.awt.Dialog.ModalityType;
 import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -52,11 +53,11 @@ public class CategorieView extends AbstractCategorieView {
 	private void initGUI() {
 		try {
 
-			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-			setModalityType(ModalityType.APPLICATION_MODAL);
-			setTitle("Categorie");
-			this.setPreferredSize(new Dimension(260, 556));
-			setLayout(null);
+			getDialog().setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+			getDialog().setModalityType(ModalityType.APPLICATION_MODAL);
+			getDialog().setTitle("Categorie");
+			this.getDialog().setPreferredSize(new Dimension(260, 556));
+			getDialog().setLayout(null);
 
 			initLabel();
 
@@ -90,7 +91,7 @@ public class CategorieView extends AbstractCategorieView {
 				cbGruppi.addItem(vettoreGruppi.get(i));
 			}
 			cbGruppi.setBounds(26, 265, 206, 25);
-			getContentPane().add(cbGruppi);
+			getDialog().getContentPane().add(cbGruppi);
 
 			categorieSpesa = CacheCategorie.getSingleton().getListCategoriePerCombo(CacheCategorie.getSingleton().getAllCategorie());
 			cbCategorie = new JComboBox<>(new Vector<>(categorieSpesa));
@@ -112,13 +113,13 @@ public class CategorieView extends AbstractCategorieView {
 			cancella.setBounds(132, 421, 100, 25);
 			cancella.addActionListener(new AscoltatoreCancellaCategoria(this));
 
-			getContentPane().add(cancella);
-			getContentPane().add(inserisci);
-			getContentPane().add(taDescrizione);
-			getContentPane().add(cbImportanza);
-			getContentPane().add(tfNome);
-			getContentPane().add(cbCategorie);
-			getContentPane().add(aggiorna);
+			getDialog().getContentPane().add(cancella);
+			getDialog().getContentPane().add(inserisci);
+			getDialog().getContentPane().add(taDescrizione);
+			getDialog().getContentPane().add(cbImportanza);
+			getDialog().getContentPane().add(tfNome);
+			getDialog().getContentPane().add(cbCategorie);
+			getDialog().getContentPane().add(aggiorna);
 
 		} catch (final Exception e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
@@ -253,11 +254,11 @@ public class CategorieView extends AbstractCategorieView {
 		final LabelListaGruppi lbltstGruppo = new LabelListaGruppi();
 		lbltstGruppo.setText("Gruppo");
 		lbltstGruppo.setBounds(26, 239, 100, 25);
-		getContentPane().add(lbltstGruppo);
-		getContentPane().add(labelDescrizione);
-		getContentPane().add(labelCategorie);
-		getContentPane().add(labelNome);
-		getContentPane().add(labelComboCategorie);
+		getDialog().getContentPane().add(lbltstGruppo);
+		getDialog().getContentPane().add(labelDescrizione);
+		getDialog().getContentPane().add(labelCategorie);
+		getDialog().getContentPane().add(labelNome);
+		getDialog().getContentPane().add(labelComboCategorie);
 
 	}
 

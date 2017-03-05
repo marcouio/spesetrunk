@@ -1,5 +1,6 @@
 package com.molinari.gestionespese.view.componenti.movimenti;
 
+import java.awt.Dialog.ModalityType;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.util.Observable;
@@ -37,7 +38,6 @@ import grafica.componenti.alert.Alert;
 
 public class DialogEntrateMov extends AbstractEntrateView {
 
-	private static final long serialVersionUID = 1L;
 	private final JLabel labelEuro = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("eur"));
 	private final JLabel labelData = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("date"));
 	private final JLabel labelTipoEntrate = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("incometype"));
@@ -49,7 +49,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 	private JTextField tfEuro = new TextFieldF();
 	private JTextField tfDataIns = new TextFieldF();
 	private JTextField tfData = new TextFieldF();
-	private JComboBox cbTipoEntrata = new JComboBox(Model.getNomiColonneEntrate());
+	private JComboBox<String> cbTipoEntrata = new JComboBox<>(Model.getNomiColonneEntrate());
 	private JTextField taDescrizione = new TextFieldF();
 	private JTextField tfNome = new TextFieldF();
 	private JTextField idEntrate = new TextFieldF();
@@ -64,9 +64,9 @@ public class DialogEntrateMov extends AbstractEntrateView {
 	private void initGUI() {
 		try {
 			// questo permette di mantenere il focus sulla dialog
-			this.setModalityType(ModalityType.APPLICATION_MODAL);
+			this.getDialog().setModalityType(ModalityType.APPLICATION_MODAL);
 			idEntrate.setEditable(false);
-			this.setLayout(new GridLayout(0, 2));
+			this.getDialog().setLayout(new GridLayout(0, 2));
 			update.setSize(60, 40);
 			delete.setSize(60, 40);
 			labelData.setSize(100, 40);
@@ -77,26 +77,26 @@ public class DialogEntrateMov extends AbstractEntrateView {
 			labelTipoEntrate.setSize(100, 40);
 			labelDataIns.setSize(100, 40);
 
-			update.addActionListener(new AscoltatoreDialogEntrate(this));
-			delete.addActionListener(new AscoltatoreDialogEntrate(this));
+			update.addActionListener(new AscoltatoreDialogEntrate(this.getDialog()));
+			delete.addActionListener(new AscoltatoreDialogEntrate(this.getDialog()));
 
-			this.add(labelIdEntrate);
-			this.add(idEntrate);
-			this.add(labelNome);
-			this.add(tfNome);
-			this.add(labelDescrizione);
-			this.add(taDescrizione);
-			this.add(labelData);
-			this.add(tfData);
-			this.add(labelTipoEntrate);
-			this.add(cbTipoEntrata);
-			this.add(labelEuro);
-			this.add(tfEuro);
-			this.add(labelDataIns);
-			this.add(tfDataIns);
-			this.add(update);
-			this.add(delete);
-			setSize(300, 500);
+			this.getDialog().add(labelIdEntrate);
+			this.getDialog().add(idEntrate);
+			this.getDialog().add(labelNome);
+			this.getDialog().add(tfNome);
+			this.getDialog().add(labelDescrizione);
+			this.getDialog().add(taDescrizione);
+			this.getDialog().add(labelData);
+			this.getDialog().add(tfData);
+			this.getDialog().add(labelTipoEntrate);
+			this.getDialog().add(cbTipoEntrata);
+			this.getDialog().add(labelEuro);
+			this.getDialog().add(tfEuro);
+			this.getDialog().add(labelDataIns);
+			this.getDialog().add(tfDataIns);
+			this.getDialog().add(update);
+			this.getDialog().add(delete);
+			getDialog().setSize(300, 500);
 		} catch (final Exception e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
@@ -126,11 +126,11 @@ public class DialogEntrateMov extends AbstractEntrateView {
 		return taDescrizione;
 	}
 
-	public void setTipoEntrata(final JComboBox tipoEntrata) {
+	public void setTipoEntrata(final JComboBox<String> tipoEntrata) {
 		this.cbTipoEntrata = tipoEntrata;
 	}
 
-	public JComboBox getTipoEntrata() {
+	public JComboBox<String> getTipoEntrata() {
 		return cbTipoEntrata;
 	}
 
@@ -244,7 +244,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 						Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore(e22.getMessage()));
 					}
 					// chiude la dialog e rilascia le risorse
-					dispose();
+					getDialog().dispose();
 				}
 			} else {
 				Alert.segnalazioneErroreGrave(I18NManager.getSingleton().getMessaggio("fillinall"));

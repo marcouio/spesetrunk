@@ -7,9 +7,9 @@ import javax.swing.JDialog;
 import com.molinari.gestionespese.domain.Gruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapCatSpese;
 
-public abstract class AbstractCategorieView extends JDialog implements Observer {
+public abstract class AbstractCategorieView implements Observer {
 
-	private static final long serialVersionUID = 1L;
+	private JDialog dialog = new JDialog();
 	private WrapCatSpese modelCatSpese = null;
 
 	public AbstractCategorieView(final WrapCatSpese modelCatSpese) {
@@ -54,6 +54,14 @@ public abstract class AbstractCategorieView extends JDialog implements Observer 
 
 	public void setModelCatSpese(final WrapCatSpese modelCatSpese) {
 		this.modelCatSpese = modelCatSpese;
+	}
+
+	public JDialog getDialog() {
+		return dialog;
+	}
+
+	public void setDialog(JDialog dialog) {
+		this.dialog = dialog;
 	}
 
 }

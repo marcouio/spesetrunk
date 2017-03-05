@@ -13,7 +13,7 @@ import com.molinari.gestionespese.domain.wrapper.WrapSingleSpesa;
 
 public abstract class AbstractUsciteView implements Observer {
 
-	private JDialog dialog;
+	private JDialog dialog = new JDialog();
 	public static final long serialVersionUID = 1L;
 	private WrapSingleSpesa modelUscita = null;
 

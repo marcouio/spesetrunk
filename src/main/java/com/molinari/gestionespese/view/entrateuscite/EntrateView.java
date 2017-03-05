@@ -1,5 +1,6 @@
 package com.molinari.gestionespese.view.entrateuscite;
 
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,8 +34,6 @@ import grafica.componenti.alert.Alert;
 
 public class EntrateView extends AbstractEntrateView {
 
-	private static final long        serialVersionUID = 1L;
-
 	private static List<String> lista = new ArrayList<>();
 	
 	static{
@@ -53,17 +52,17 @@ public class EntrateView extends AbstractEntrateView {
 	 */
 	public EntrateView(final WrapEntrate entrate) {
 		super(entrate);
-		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		setModalityType(ModalityType.APPLICATION_MODAL);
-		setTitle(I18NManager.getSingleton().getMessaggio("insertentry"));
+		getDialog().setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		getDialog().setModalityType(ModalityType.APPLICATION_MODAL);
+		getDialog().setTitle(I18NManager.getSingleton().getMessaggio("insertentry"));
 		getModelEntrate().addObserver(this);
-		getContentPane().setLayout(null);
+		getDialog().getContentPane().setLayout(null);
 
 		initLabel();
 
 		taDescrizione = new TextAreaF(I18NManager.getSingleton().getMessaggio("insertheredescrentry"));
 		taDescrizione.setBounds(13, 89, 318, 75);
-		getContentPane().add(taDescrizione);
+		getDialog().getContentPane().add(taDescrizione);
 
 		// specifica se �true� di andare a capo automaticamente a fine riga
 		taDescrizione.setLineWrap(true);
@@ -73,7 +72,7 @@ public class EntrateView extends AbstractEntrateView {
 
 		tfNome = new TextFieldF();
 		tfNome.setBounds(12, 38, 150, 27);
-		getContentPane().add(tfNome);
+		getDialog().getContentPane().add(tfNome);
 		tfNome.setColumns(10);
 
 		// array per Categoria
@@ -85,28 +84,28 @@ public class EntrateView extends AbstractEntrateView {
 
 		cbTipo = new JComboBox<>(lista.toArray(new String[lista.size()]));
 		cbTipo.setBounds(181, 38, 150, 27);
-		getContentPane().add(cbTipo);
+		getDialog().getContentPane().add(cbTipo);
 
 		final GregorianCalendar gc = new GregorianCalendar();
 		tfData = new TextFieldF(DBUtil.dataToString(gc.getTime(), "yyyy/MM/dd"));
 		tfData.setColumns(10);
 		tfData.setBounds(13, 191, 150, 27);
-		getContentPane().add(tfData);
+		getDialog().getContentPane().add(tfData);
 
 		tfEuro = new TextFieldF("0.0");
 		tfEuro.setColumns(10);
 		tfEuro.setBounds(182, 191, 150, 27);
-		getContentPane().add(tfEuro);
+		getDialog().getContentPane().add(tfEuro);
 
 		final ButtonF inserisci = new ButtonF();
 		inserisci.setText(I18NManager.getSingleton().getMessaggio("insert"));
 		inserisci.setBounds(13, 238, 149, 27);
-		getContentPane().add(inserisci);
+		getDialog().getContentPane().add(inserisci);
 
 		final ButtonF eliminaUltima = new ButtonF();
 		eliminaUltima.setText(I18NManager.getSingleton().getMessaggio("deletelast"));
 		eliminaUltima.setBounds(184, 238, 144, 27);
-		getContentPane().add(eliminaUltima);
+		getDialog().getContentPane().add(eliminaUltima);
 
 		eliminaUltima.addActionListener(new AscoltatoreAggiornatoreEntrate() {
 
@@ -145,25 +144,25 @@ public class EntrateView extends AbstractEntrateView {
 		final LabelListaGruppi lblNomeEntrata = new LabelListaGruppi("Nome Entrata");
 		lblNomeEntrata.setText(I18NManager.getSingleton().getMessaggio("name"));
 		lblNomeEntrata.setBounds(13, 12, 97, 27);
-		getContentPane().add(lblNomeEntrata);
+		getDialog().getContentPane().add(lblNomeEntrata);
 
 		final LabelListaGruppi lblEuro = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("eur"));
 		lblEuro.setBounds(184, 165, 77, 27);
-		getContentPane().add(lblEuro);
+		getDialog().getContentPane().add(lblEuro);
 
 		final LabelListaGruppi lblCategorie = new LabelListaGruppi("Categorie");
 		lblCategorie.setText(I18NManager.getSingleton().getMessaggio("type"));
 		lblCategorie.setBounds(181, 12, 77, 27);
-		getContentPane().add(lblCategorie);
+		getDialog().getContentPane().add(lblCategorie);
 
 		final LabelListaGruppi lblData = new LabelListaGruppi("Data");
 		lblData.setBounds(13, 165, 77, 27);
-		getContentPane().add(lblData);
+		getDialog().getContentPane().add(lblData);
 
 		final LabelListaGruppi lblDescrizione = new LabelListaGruppi("Descrizione Spesa");
 		lblDescrizione.setText(I18NManager.getSingleton().getMessaggio("descr"));
 		lblDescrizione.setBounds(14, 64, 123, 25);
-		getContentPane().add(lblDescrizione);
+		getDialog().getContentPane().add(lblDescrizione);
 	}
 
 	/**

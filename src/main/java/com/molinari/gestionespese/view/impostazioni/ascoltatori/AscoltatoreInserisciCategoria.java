@@ -14,7 +14,6 @@ import grafica.componenti.alert.Alert;
 public class AscoltatoreInserisciCategoria extends AscoltatoreAggiornatoreTutto {
 
 	private final CategorieView categorieView;
-	private CatSpese      categoria1;
 
 	public AscoltatoreInserisciCategoria(final CategorieView categorieView) {
 		this.categorieView = categorieView;
@@ -27,13 +26,13 @@ public class AscoltatoreInserisciCategoria extends AscoltatoreAggiornatoreTutto 
 		if (categorieView.nonEsistonoCampiNonValorizzati()) {
 
 			if (Controllore.invocaComando(new CommandInserisciCategoria(categorieView.getModelCatSpese()))) {
-				categoria1 = CacheCategorie.getSingleton().getCatSpese(Integer.toString(categorieView.getModelCatSpese().getidCategoria()));
+				CatSpese categoria1 = CacheCategorie.getSingleton().getCatSpese(Integer.toString(categorieView.getModelCatSpese().getidCategoria()));
 				if (categoria1 != null) {
 					categorieView.getComboCategorie().addItem(categoria1);
 				}
 				categorieView.getModelCatSpese().setChanged();
 				categorieView.getModelCatSpese().notifyObservers();
-				categorieView.dispose();
+				categorieView.getDialog().dispose();
 			}
 		} else {
 			Alert.segnalazioneErroreGrave("E' necessario riempire tutti i campi");

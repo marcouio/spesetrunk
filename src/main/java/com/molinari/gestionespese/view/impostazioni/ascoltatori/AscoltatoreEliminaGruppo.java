@@ -32,7 +32,7 @@ public class AscoltatoreEliminaGruppo extends AscoltatoreAggiornatoreTutto {
 			gruppiView.setGruppo("Cancella");
 			if (Controllore.invocaComando(new CommandDeleteGruppo(gruppiView.getModelGruppi()))) {
 				comboGruppi.removeItem(gruppi);
-				gruppiView.dispose();
+				gruppiView.getDialog().dispose();
 			}
 		} else {
 			Alert.segnalazioneErroreGrave("Impossibile cancellare un gruppo inesistente!");

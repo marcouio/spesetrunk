@@ -161,9 +161,9 @@ public class GeneralFrame extends PannelloBase {
 			public void actionPerformedOverride(final ActionEvent e) {
 				final PannelloBottoni pannelloEntrateUscite = bottoneEntrateUscite.getContenuto();
 				final EntrateView dialog = new EntrateView(new WrapEntrate());
-				dialog.setLocationRelativeTo(null);
-				dialog.setBounds(0, 0, 347, 318);
-				dialog.setVisible(true);
+				dialog.getDialog().setLocationRelativeTo(null);
+				dialog.getDialog().setBounds(0, 0, 347, 318);
+				dialog.getDialog().setVisible(true);
 				pannelloEntrateUscite.getGruppoBottoni().clearSelection();
 			}
 		});

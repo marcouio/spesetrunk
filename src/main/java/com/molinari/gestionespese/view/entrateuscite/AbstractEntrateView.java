@@ -8,9 +8,9 @@ import com.molinari.gestionespese.business.CorreggiTesto;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
 
-public abstract class AbstractEntrateView extends JDialog implements Observer {
+public abstract class AbstractEntrateView implements Observer {
 
-	private static final long serialVersionUID = 1703525939065075165L;
+	private JDialog dialog = new JDialog() ;
 	private WrapEntrate modelEntrate = null;
 
 	public AbstractEntrateView(final WrapEntrate modelEntrate) {
@@ -86,5 +86,13 @@ public abstract class AbstractEntrateView extends JDialog implements Observer {
 
 	public void setnEntrate(final String idEntrata) {
 		modelEntrate.setidEntrate(Integer.parseInt(idEntrata));
+	}
+
+	public JDialog getDialog() {
+		return dialog;
+	}
+
+	public void setDialog(JDialog dialog) {
+		this.dialog = dialog;
 	}
 }

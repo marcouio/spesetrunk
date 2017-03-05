@@ -23,7 +23,7 @@ public class AscoltaInserisciEntrate extends AscoltatoreAggiornatoreEntrate {
 
 		if (view.nonEsistonoCampiNonValorizzati()) {
 			if (Controllore.invocaComando(new CommandInserisciEntrata(view.getModelEntrate()))) {
-				view.dispose();
+				view.getDialog().dispose();
 			}
 		} else {
 			Alert.segnalazioneErroreWarning(I18NManager.getSingleton().getMessaggio("fillinall"));

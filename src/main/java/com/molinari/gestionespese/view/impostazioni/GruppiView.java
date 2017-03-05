@@ -1,5 +1,6 @@
 package com.molinari.gestionespese.view.impostazioni;
 
+import java.awt.Dialog.ModalityType;
 import java.awt.Dimension;
 import java.util.List;
 import java.util.Observable;
@@ -23,7 +24,6 @@ public class GruppiView extends AbstractGruppiView {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	private Gruppi gruppi = null;
 	private JComboBox<Gruppi> comboGruppi;
 	private TextFieldF nome;
@@ -37,29 +37,29 @@ public class GruppiView extends AbstractGruppiView {
 
 	private void initGUI() {
 
-		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		setTitle("Gruppi");
-		getContentPane().setLayout(null);
+		getDialog().setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		getDialog().setTitle("Gruppi");
+		getDialog().getContentPane().setLayout(null);
 
 		initLabel();
-		this.setPreferredSize(new Dimension(260, 405));
-		this.setModalityType(ModalityType.APPLICATION_MODAL);
+		getDialog().setPreferredSize(new Dimension(260, 405));
+		getDialog().setModalityType(ModalityType.APPLICATION_MODAL);
 
 		nome = new TextFieldF();
 		nome.setBounds(25, 49, 206, 26);
-		getContentPane().add(nome);
+		getDialog().getContentPane().add(nome);
 
 		descrizione = new TextAreaF("Inserisci la descrizione della spesa", 50, 25);
 		descrizione.setWrapStyleWord(true);
 		descrizione.setLineWrap(true);
 		descrizione.setAutoscrolls(true);
 		descrizione.setBounds(25, 103, 206, 88);
-		getContentPane().add(descrizione);
+		getDialog().getContentPane().add(descrizione);
 
 		final ButtonF inserisci = new ButtonF();
 		inserisci.setText("Inserisci");
 		inserisci.setBounds(26, 214, 206, 25);
-		getContentPane().add(inserisci);
+		getDialog().getContentPane().add(inserisci);
 
 		inserisci.addActionListener(new AscoltatoreInserisciGruppo(this));
 
@@ -72,7 +72,7 @@ public class GruppiView extends AbstractGruppiView {
 		}
 
 		comboGruppi.setBounds(25, 279, 206, 25);
-		getContentPane().add(comboGruppi);
+		getDialog().getContentPane().add(comboGruppi);
 		comboGruppi.addItemListener(e -> {
 			if (comboGruppi.getSelectedIndex() != 0 && comboGruppi.getSelectedItem() != null) {
 				gruppi = (Gruppi) comboGruppi.getSelectedItem();
@@ -84,12 +84,12 @@ public class GruppiView extends AbstractGruppiView {
 		final ButtonF aggiorna = new ButtonF();
 		aggiorna.setText("Aggiorna");
 		aggiorna.setBounds(25, 320, 100, 25);
-		getContentPane().add(aggiorna);
+		getDialog().getContentPane().add(aggiorna);
 
 		final ButtonF cancella = new ButtonF();
 		cancella.setText("Cancella");
 		cancella.setBounds(131, 320, 100, 25);
-		getContentPane().add(cancella);
+		getDialog().getContentPane().add(cancella);
 
 		aggiorna.addActionListener(new AscoltatoreAggiornaGruppo(this));
 
@@ -112,17 +112,17 @@ public class GruppiView extends AbstractGruppiView {
 		final LabelListaGruppi lbltstGruppo = new LabelListaGruppi();
 		lbltstGruppo.setText("Gruppo");
 		lbltstGruppo.setBounds(25, 24, 100, 25);
-		getContentPane().add(lbltstGruppo);
+		getDialog().getContentPane().add(lbltstGruppo);
 
 		final LabelListaGruppi lbltstListaGruppi = new LabelListaGruppi();
 		lbltstListaGruppi.setText("Lista Gruppi");
 		lbltstListaGruppi.setBounds(25, 251, 100, 25);
-		getContentPane().add(lbltstListaGruppi);
+		getDialog().getContentPane().add(lbltstListaGruppi);
 
 		final LabelListaGruppi labelDescrizione = new LabelListaGruppi();
 		labelDescrizione.setText("Descrizione");
 		labelDescrizione.setBounds(25, 77, 90, 25);
-		getContentPane().add(labelDescrizione);
+		getDialog().getContentPane().add(labelDescrizione);
 
 	}
 
