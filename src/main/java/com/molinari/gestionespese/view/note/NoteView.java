@@ -3,11 +3,10 @@ package com.molinari.gestionespese.view.note;
 import java.awt.event.ActionEvent;
 import java.util.Date;
 
-import javax.swing.JFrame;
-
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.DBUtil;
+import com.molinari.gestionespese.business.Finestra;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import com.molinari.gestionespese.business.cache.CacheNote;
 import com.molinari.gestionespese.business.comandi.note.CommandInserisciNota;
@@ -31,7 +30,7 @@ public class NoteView extends AbstractNoteView {
 	private final TextFieldF data;
 	private ButtonF          btnInserisci;
 
-	public NoteView(final WrapNote note, final JFrame padre) {
+	public NoteView(final WrapNote note, final Finestra padre) {
 		super(note);
 		setTitle("Pannello Nota");
 		getContentPane().setLayout(null);

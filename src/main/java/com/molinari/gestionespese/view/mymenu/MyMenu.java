@@ -334,7 +334,7 @@ public class MyMenu extends JMenuBar {
 			public void actionPerformedOverride(final ActionEvent e) {
 				FinestraListaComandi history;
 				try {
-					history = (FinestraListaComandi) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, null);
+					history = (FinestraListaComandi) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, ControlloreBase.getApplicationframe());
 					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(history, finestre, listaComandi);
 					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
 				} catch (final Exception e1) {
@@ -351,8 +351,9 @@ public class MyMenu extends JMenuBar {
 			public void actionPerformedOverride(final ActionEvent e) {
 				ReportView report;
 				try {
-					report = (ReportView) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_REPORT, null);
-					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(report, finestre, mntmReport);
+					InizializzatoreFinestre initFinestre = Controllore.getSingleton().getInitFinestre();
+					report = (ReportView) initFinestre.getFinestra(InizializzatoreFinestre.INDEX_REPORT, ControlloreBase.getApplicationframe());
+					initFinestre.setVisibilitaFinestre(report, finestre, mntmReport);
 					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
 				} catch (final Exception e1) {
 					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
@@ -368,7 +369,7 @@ public class MyMenu extends JMenuBar {
 			public void actionPerformedOverride(final ActionEvent e) {
 				MostraNoteView note;
 				try {
-					note = (MostraNoteView) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_NOTE, null);
+					note = (MostraNoteView) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_NOTE, ControlloreBase.getApplicationframe());
 					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(note, finestre, mntmNote);
 					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
 				} catch (final Exception e1) {
@@ -385,7 +386,7 @@ public class MyMenu extends JMenuBar {
 			public void actionPerformedOverride(final ActionEvent e) {
 				PannelloAScomparsa pas;
 				try {
-					pas = (PannelloAScomparsa) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, null);
+					pas = (PannelloAScomparsa) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, ControlloreBase.getApplicationframe());
 					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(pas, finestre, chckbxmntmDati);
 					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
 				} catch (final Exception e1) {

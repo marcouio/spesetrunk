@@ -1,44 +1,45 @@
 package com.molinari.gestionespese.view.note;
 
+import java.awt.Container;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
 
+import com.molinari.gestionespese.business.Finestra;
 import com.molinari.gestionespese.business.cache.CacheNote;
 import com.molinari.gestionespese.domain.Note;
 import com.molinari.gestionespese.view.font.ButtonF;
 
-public class MostraNoteView extends JFrame {
+import grafica.componenti.contenitori.FrameBase;
+import grafica.componenti.contenitori.PannelloBase;
 
-	private static final long serialVersionUID = 1L;
+public class MostraNoteView implements Finestra {
+
+	private Container container;
 	private JScrollPane scrollPane;
 	private final JPanel pannello;
 
-	public MostraNoteView() {
+	public MostraNoteView(FrameBase cont) {
+		container = new PannelloBase(cont.getContentPane());
 		final ArrayList<Note> note = CacheNote.getSingleton().getAllNoteForUtenteEAnno();
-		this.setSize(250, 425);
-		setResizable(true);
-		getContentPane().setLayout(null);
+		getContainer().setSize(250, 425);
+		getContainer().setLayout(null);
 
 		scrollPane = new JScrollPane();
 		scrollPane.setBorder(null);
 
 		pannello = new JPanel();
-		getContentPane().add(scrollPane);
+		getContainer().add(scrollPane);
 		scrollPane.setViewportView(pannello);
 		pannello.setLayout(null);
 		scrollPane.setBounds(10, 40, 230, 350);
 
-		this.setTitle("Note");
-
 		final JButton inserisci = new ButtonF();
 		inserisci.setText("+");
-		getContentPane().add(inserisci);
+		getContainer().add(inserisci);
 
 		inserisci.setBounds(82, 0, 90, 30);
 		inserisci.addActionListener(new AscoltatoreApriPannelloInserisciNota(this));
@@ -54,14 +55,6 @@ public class MostraNoteView extends JFrame {
 			}
 		}
 
-	}
-
-	public static void main(final String[] args) {
-		SwingUtilities.invokeLater(() -> {
-			final MostraNoteView fe = new MostraNoteView();
-			fe.setVisible(true);
-			fe.setSize(280, 500);
-		});
 	}
 
 	public JScrollPane getScrollPane() {
@@ -89,7 +82,15 @@ public class MostraNoteView extends JFrame {
 		final JScrollPane pane = scrollPane;
 		pane.setViewportView(pannello);
 		setScrollPane(pane);
-		this.validate();
-		this.repaint();
+		this.getContainer().validate();
+		this.getContainer().repaint();
+	}
+
+	public Container getContainer() {
+		return container;
+	}
+
+	public void setContainer(Container container) {
+		this.container = container;
 	}
 }

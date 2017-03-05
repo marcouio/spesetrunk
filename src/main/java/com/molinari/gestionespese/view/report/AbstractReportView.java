@@ -1,22 +1,28 @@
 package com.molinari.gestionespese.view.report;
 
+import java.awt.Container;
 import java.util.Map;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 
-public abstract class AbstractReportView extends JFrame {
+import grafica.componenti.contenitori.FrameBase;
+import grafica.componenti.contenitori.PannelloBase;
 
+public abstract class AbstractReportView  {
+
+	private Container container;
 	private static final String CATEGORIA = "Categoria";
 	protected ReportData reportData;
-	private static final long serialVersionUID = 1L;
 
-	public AbstractReportView() {
+	public AbstractReportView(FrameBase cont) {
+		container = new PannelloBase(cont.getContentPane());
 	}
 
 	public AbstractReportView(final ReportData reportData) {
 		this.setReportData(reportData);
+		container = new JPanel();
 	}
 
 	public void inserisciUsciteAnnuali(final boolean hasUsciteAnnuali) {
@@ -137,5 +143,13 @@ public abstract class AbstractReportView extends JFrame {
 
 	public ReportData getReportData() {
 		return reportData;
+	}
+
+	public Container getContainer() {
+		return container;
+	}
+
+	public void setContainer(Container container) {
+		this.container = container;
 	}
 }

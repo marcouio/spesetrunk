@@ -3,15 +3,14 @@ package com.molinari.gestionespese.view.note;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
-
+import com.molinari.gestionespese.business.Finestra;
 import com.molinari.gestionespese.domain.wrapper.WrapNote;
 
 public class AscoltatoreApriPannelloInserisciNota implements ActionListener {
 
-	JFrame f = null;
+	Finestra f = null;
 
-	public AscoltatoreApriPannelloInserisciNota(JFrame frame) {
+	public AscoltatoreApriPannelloInserisciNota(Finestra frame) {
 		f = frame;
 	}
 

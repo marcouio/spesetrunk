@@ -1,10 +1,10 @@
 package com.molinari.gestionespese.business;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
 import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.UIManager;
 
@@ -15,6 +15,7 @@ import com.molinari.gestionespese.view.report.ReportView;
 
 import controller.ControlloreBase;
 import grafica.componenti.alert.Alert;
+import grafica.componenti.contenitori.FrameBase;
 
 public class InizializzatoreFinestre {
 
@@ -23,16 +24,15 @@ public class InizializzatoreFinestre {
 	public static final int INDEX_NOTE = 2;
 	public static final int INDEX_REPORT = 3;
 
-	protected static PannelloAScomparsa pannelloDati;
-	protected static FinestraListaComandi historyCommands;
-	protected static MostraNoteView pannelloNote;
-	protected static ReportView report;
+	protected static Finestra pannelloDati;
+	protected static Finestra historyCommands;
+	protected static Finestra pannelloNote;
+	protected static Finestra report;
 
-	JFrame[] finestre;
-	@SuppressWarnings("rawtypes")
-	ArrayList<Class> finestreClass;
+	Finestra[] finestre;
+	ArrayList<Class<? extends Finestra>> finestreClass;
 
-	JFrame finestraVisibile;
+	Finestra finestraVisibile;
 
 	public InizializzatoreFinestre() {
 		// inizializzo l'array list con le class per evitare di caricare tutto
@@ -42,7 +42,7 @@ public class InizializzatoreFinestre {
 		finestreClass.add(FinestraListaComandi.class);
 		finestreClass.add(MostraNoteView.class);
 		finestreClass.add(ReportView.class);
-		this.finestre = new JFrame[finestreClass.size()];
+		this.finestre = new Finestra[finestreClass.size()];
 
 	}
 
@@ -56,8 +56,8 @@ public class InizializzatoreFinestre {
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 */
-	public JFrame getFinestra(final int index, final JFrame view) {
-		JFrame window = null;
+	public Finestra getFinestra(final int index, final FrameBase view) {
+		Finestra window = null;
 		try {
 
 			if (finestre[index] == null) {
@@ -65,7 +65,7 @@ public class InizializzatoreFinestre {
 			} else {
 				window = finestre[index];
 				if (view != null) {
-					window.setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
+					window.getContainer().setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
 				}
 
 				UIManager.setLookAndFeel(Controllore.getSingleton().getLookUsato());
@@ -88,15 +88,19 @@ public class InizializzatoreFinestre {
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 */
-	private JFrame creaIstanza(final int index, final JFrame view) throws InstantiationException, IllegalAccessException {
-		@SuppressWarnings("unchecked")
-		final Class<JFrame> finestra = finestreClass.get(index);
-		final JFrame newFinestra = finestra.newInstance();
+	private Finestra creaIstanza(final int index, final FrameBase view) throws InstantiationException, IllegalAccessException {
+		final Class<? extends Finestra> finestra = finestreClass.get(index);
+		Finestra newFinestra = null;
+		try {
+			newFinestra = finestra.getConstructor(FrameBase.class).newInstance(view);
+		} catch (IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+		}
 		finestre[index] = newFinestra;
-
-		if (view != null) {
-			newFinestra.setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
-			newFinestra.setVisible(false);
+		
+		if (view != null && newFinestra != null) {
+			newFinestra.getContainer().setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
+			newFinestra.getContainer().setVisible(false);
 		}
 		return newFinestra;
 	}
@@ -109,12 +113,12 @@ public class InizializzatoreFinestre {
 	 * @param menu
 	 * @param menuItem
 	 */
-	public void setVisibilitaFinestre(final JFrame finestraVisibile, final JMenu menu, final JCheckBoxMenuItem menuItem) {
-		final boolean visibile = finestraVisibile.isVisible();
+	public void setVisibilitaFinestre(final Finestra finestraVisibile, final JMenu menu, final JCheckBoxMenuItem menuItem) {
+		final boolean visibile = finestraVisibile.getContainer().isVisible();
 		// oscura tutte le finestre
-		for (final JFrame finestra : finestre) {
+		for (final Finestra finestra : finestre) {
 			if (finestra != null) {
-				finestra.setVisible(false);
+				finestra.getContainer().setVisible(false);
 			}
 		}
 		// gestisce il check del menu
@@ -126,34 +130,33 @@ public class InizializzatoreFinestre {
 		// la visualizza
 		if (visibile) {
 			menuItem.setSelected(false);
-			finestraVisibile.setVisible(false);
+			finestraVisibile.getContainer().setVisible(false);
 		} else {
 			menuItem.setSelected(true);
-			finestraVisibile.setVisible(true);
+			finestraVisibile.getContainer().setVisible(true);
 			setFinestraVisibile(finestraVisibile);
 		}
 	}
 
 	public void quitFinestre() {
-		for (final JFrame finestra : finestre) {
-			finestra.setVisible(false);
-			finestra.dispose();
+		for (final Finestra finestra : finestre) {
+			finestra.getContainer().setVisible(false);
 		}
 	}
 
-	public JFrame getFinestraVisibile() {
+	public Finestra getFinestraVisibile() {
 		return finestraVisibile;
 	}
 
-	public void setFinestraVisibile(final JFrame finestraVisibile) {
+	public void setFinestraVisibile(final Finestra finestraVisibile) {
 		this.finestraVisibile = finestraVisibile;
 	}
 
-	public JFrame[] getFinestre() {
+	public Finestra[] getFinestre() {
 		return finestre;
 	}
 
-	public void setFinestre(final JFrame[] finestre) {
+	public void setFinestre(final Finestra[] finestre) {
 		this.finestre = finestre;
 	}
 }

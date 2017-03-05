@@ -1,18 +1,20 @@
 package com.molinari.gestionespese.view.note;
 
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
+import com.molinari.gestionespese.business.Finestra;
 import com.molinari.gestionespese.domain.wrapper.WrapNote;
 
 public class AscoltatoreApriPannelloUpdateNote implements ActionListener {
 
-	JFrame   f    = null;
+	Finestra   f    = null;
 	WrapNote note = null;
 
-	public AscoltatoreApriPannelloUpdateNote(final JFrame f, final WrapNote note) {
+	public AscoltatoreApriPannelloUpdateNote(final Finestra f, final WrapNote note) {
 		this.f = f;
 		this.note = note;
 	}

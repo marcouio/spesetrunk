@@ -14,6 +14,7 @@ import javax.swing.WindowConstants;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Controllore;
+import com.molinari.gestionespese.business.Finestra;
 import com.molinari.gestionespese.business.GestioneSpeseException;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
@@ -49,7 +50,12 @@ public class GeneralFrame extends PannelloBase {
 		final PannelloBottoni pannelloBottoni = createPannelloBottoni(menu);
 
 		createTabsPanel(this, pannelloBottoni);
-
+		
+		PannelloBase pb = new PannelloBase(this);
+		pb.setSize(100, 100);
+		pb.posizionaADestraDi(pannelloBottoni, 0, 0);
+		pb.setBackground(Color.RED);
+		
 		getPannelTabs().initConsollle();
 		getPannelTabs().getConsolle().setVisible(true);
 		repaint();
@@ -282,17 +288,17 @@ public class GeneralFrame extends PannelloBase {
 	}
 
 	public void relocateFinestreLaterali() {
-		if (Controllore.getSingleton().getInitFinestre().getFinestraVisibile() != null) {
-			final Point p = getLocation();
-			final Dimension d = getSize();
-			p.setLocation(p.x + d.width + 5, p.y);
-			try {
-				final JFrame finestraVisibile = Controllore.getSingleton().getInitFinestre().getFinestraVisibile();
-				finestraVisibile.setLocation(p);
-			} catch (final Exception e) {
-				throw new GestioneSpeseException(e);
-			}
-		}
+//		if (Controllore.getSingleton().getInitFinestre().getFinestraVisibile() != null) {
+//			final Point p = getLocation();
+//			final Dimension d = getSize();
+//			p.setLocation(p.x + d.width + 5, p.y);
+//			try {
+//				final Finestra finestraVisibile = Controllore.getSingleton().getInitFinestre().getFinestraVisibile();
+//				finestraVisibile.getContainer().setLocation(p);
+//			} catch (final Exception e) {
+//				throw new GestioneSpeseException(e);
+//			}
+//		}
 	}
 
 	public PannelTabs getPannelTabs() {

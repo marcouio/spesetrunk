@@ -3,9 +3,8 @@ package com.molinari.gestionespese.view.note;
 import java.awt.event.ActionEvent;
 import java.util.logging.Level;
 
-import javax.swing.JFrame;
-
 import com.molinari.gestionespese.business.Controllore;
+import com.molinari.gestionespese.business.Finestra;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import com.molinari.gestionespese.business.comandi.note.CommandDeleteNota;
 import com.molinari.gestionespese.domain.Note;
@@ -34,9 +33,9 @@ public class AscoltatoreEliminaNota extends AscoltatoreAggiornatoreNiente {
 			Alert.segnalazioneErroreGrave("Nota " + nota.getnome() + " non eliminata: " + e1.getMessage());
 			ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 		}
-		final JFrame f = pNota.getPadre();
+		final Finestra f = pNota.getPadre();
 		pNota.setVisible(false);
-		f.remove(pNota);
+		f.getContainer().remove(pNota);
 		((MostraNoteView) f).aggiornaVista();
 	}
 

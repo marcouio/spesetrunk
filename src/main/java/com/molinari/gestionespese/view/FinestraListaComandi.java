@@ -1,26 +1,28 @@
 package com.molinari.gestionespese.view;
 
-import javax.swing.JFrame;
+import java.awt.Container;
+
 import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 import com.molinari.gestionespese.business.Controllore;
+import com.molinari.gestionespese.business.Finestra;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.view.font.TableF;
 
-public class FinestraListaComandi extends JFrame {
+import grafica.componenti.contenitori.FrameBase;
+import grafica.componenti.contenitori.PannelloBase;
 
-	private static final long serialVersionUID = 1L;
+public class FinestraListaComandi implements Finestra {
+
+	private Container container;
 	private TableF            table;
 	private JScrollPane       scrollPane;
 
-	public FinestraListaComandi() {
-		setResizable(false);
-		this.setSize(250, 425);
-		getContentPane().setLayout(null);
-		final String lista = I18NManager.getSingleton().getMessaggio("lista");
-		this.setTitle(lista);
+	public FinestraListaComandi(FrameBase cont) {
+		container = new PannelloBase(cont.getContentPane());
+		getContainer().setSize(250, 425);
+		getContainer().setLayout(null);
 		scrollPane = new JScrollPane();
 		insertDati();
 
@@ -38,7 +40,7 @@ public class FinestraListaComandi extends JFrame {
 
 		scrollPane.setViewportView(table);
 		// Add the scroll pane to this panel.
-		getContentPane().add(scrollPane);
+		getContainer().add(scrollPane);
 		scrollPane.setBounds(21, 23, 214, 337);
 	}
 
@@ -54,16 +56,6 @@ public class FinestraListaComandi extends JFrame {
 		this.table = table;
 	}
 
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(() -> {
-			final JFrame f = new JFrame();
-			final FinestraListaComandi fe = new FinestraListaComandi();
-			f.getContentPane().add(fe);
-			f.setVisible(true);
-			f.setSize(280, 500);
-		});
-	}
-
 	public JScrollPane getScrollPane() {
 		return scrollPane;
 	}
@@ -71,4 +63,13 @@ public class FinestraListaComandi extends JFrame {
 	public void setScrollPane(JScrollPane scrollPane) {
 		this.scrollPane = scrollPane;
 	}
+	
+	public Container getContainer() {
+		return container;
+	}
+
+	public void setContainer(Container container) {
+		this.container = container;
+	}
+
 }

@@ -48,6 +48,7 @@ import com.molinari.gestionespese.view.tabelleMesi.TabellaUscitaGruppi;
 
 import controller.ControlloreBase;
 import db.ConnectionPool;
+import grafica.componenti.contenitori.FrameBase;
 
 public class AggiornatoreManager {
 
@@ -255,7 +256,8 @@ public class AggiornatoreManager {
 	public static boolean aggiornaPannelloDatiEntrate() {
 		try {
 			final InizializzatoreFinestre initFinestre = Controllore.getSingleton().getInitFinestre();
-			final PannelloAScomparsa finestra = (PannelloAScomparsa) initFinestre.getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, null);
+			FrameBase generalFrame = Controllore.getSingleton().getView();
+			final PannelloAScomparsa finestra = (PannelloAScomparsa) initFinestre.getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, generalFrame);
 
 
 			final SottoPannelloDatiEntrate pannelloEntrate = finestra.getPannelloEntrate();

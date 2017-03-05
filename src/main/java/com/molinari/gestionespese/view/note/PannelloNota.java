@@ -1,11 +1,11 @@
 package com.molinari.gestionespese.view.note;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import com.molinari.gestionespese.business.Finestra;
 import com.molinari.gestionespese.domain.Note;
 import com.molinari.gestionespese.domain.wrapper.WrapNote;
 import com.molinari.gestionespese.view.font.ButtonF;
@@ -20,9 +20,9 @@ public class PannelloNota extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private final Note        nota;
-	private final JFrame      padre;
+	private final Finestra      padre;
 
-	public PannelloNota(final Note note2, JFrame padre) {
+	public PannelloNota(final Note note2, Finestra padre) {
 		this.nota = note2;
 		this.padre = padre;
 		setLayout(null);
@@ -37,11 +37,9 @@ public class PannelloNota extends JPanel {
 		taDescrizione.setBounds(6, 63, 190, 85);
 		add(taDescrizione);
 
-		// specifica se �true� di andare a capo automaticamente a
-		// fine riga
+		// specifica se andare a capo automaticamente a fine riga
 		taDescrizione.setLineWrap(true);
-		// va a capo con la parola se �true� o col singolo carattere
-		// se �false�
+		// va a capo con la parola se col singolo carattere
 		taDescrizione.setWrapStyleWord(true);
 		taDescrizione.setAutoscrolls(true);
 		taDescrizione.setEditable(false);
@@ -66,7 +64,7 @@ public class PannelloNota extends JPanel {
 		add(btnfAggiorna);
 	}
 
-	public JFrame getPadre() {
+	public Finestra getPadre() {
 		return padre;
 
 	}

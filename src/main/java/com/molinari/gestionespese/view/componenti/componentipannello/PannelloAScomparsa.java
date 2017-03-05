@@ -1,19 +1,22 @@
 package com.molinari.gestionespese.view.componenti.componentipannello;
 
+import java.awt.Container;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.molinari.gestionespese.business.Finestra;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 
-public class PannelloAScomparsa extends JFrame implements ItemListener {
+import grafica.componenti.contenitori.FrameBase;
+import grafica.componenti.contenitori.PannelloBase;
 
-	private static final long serialVersionUID = 1L;
+public class PannelloAScomparsa implements ItemListener, Finestra {
 
+	private Container container;
 	private final ArrayList<JPanel>  pannelli = new ArrayList<>();
 	private JComboBox<String>                combo;
 	private transient SottoPannelloDatiSpese   pannelloSpese;
@@ -23,15 +26,15 @@ public class PannelloAScomparsa extends JFrame implements ItemListener {
 	private transient SottoPannelloTotali      pannelloTotali;
 	CostruttoreSottoPannello[] arrayPannelli;
 
-	public PannelloAScomparsa() {
+	public PannelloAScomparsa(FrameBase cont) {
+		container = new PannelloBase(cont.getContentPane());
 		initGui();
 	}
 
 	private void initGui() {
 
-		this.setLayout(null);
-		this.setTitle(I18NManager.getSingleton().getMessaggio("datapanel"));
-		this.setSize(250, 425);
+		getContainer().setLayout(null);
+		getContainer().setSize(250, 425);
 		pannelloSpese = new SottoPannelloDatiSpese();
 		pannelloEntrate = new SottoPannelloDatiEntrate();
 		pannelloMesi = new SottoPannelloMesi();
@@ -41,7 +44,7 @@ public class PannelloAScomparsa extends JFrame implements ItemListener {
 		initArrayPannello();
 
 		combo = new JComboBox<>();
-		this.add(combo);
+		getContainer().add(combo);
 		combo.setBounds(65, 50, 120, 40);
 		combo.addItem("");
 		combo.addItem("1 - " + I18NManager.getSingleton().getMessaggio("withdrawal"));
@@ -60,7 +63,7 @@ public class PannelloAScomparsa extends JFrame implements ItemListener {
 
 		for (final JPanel pannello : pannelli) {
 			pannello.setVisible(false);
-			this.remove(pannello);
+			getContainer().remove(pannello);
 		}
 		pannelli.clear();
 		CostruttoreSottoPannello sottoPannello;
@@ -68,13 +71,13 @@ public class PannelloAScomparsa extends JFrame implements ItemListener {
 			sottoPannello = arrayPannelli[combo.getSelectedIndex()];
 			mostra(p, sottoPannello);
 		}
-		this.validate();
-		repaint();
+		getContainer().validate();
+		getContainer().repaint();
 
 	}
 
 	private void mostra(JPanel p, CostruttoreSottoPannello sottoPannello) {
-		this.add(p);
+		getContainer().add(p);
 		pannelli.add(p);
 		p.add(sottoPannello);
 		p.setVisible(true);
@@ -106,6 +109,14 @@ public class PannelloAScomparsa extends JFrame implements ItemListener {
 
 	public void setPannelloEntrate(SottoPannelloDatiEntrate pannelloEntrate) {
 		this.pannelloEntrate = pannelloEntrate;
+	}
+
+	public Container getContainer() {
+		return container;
+	}
+
+	public void setContainer(Container container) {
+		this.container = container;
 	}
 
 
