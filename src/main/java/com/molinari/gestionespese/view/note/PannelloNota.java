@@ -20,7 +20,7 @@ public class PannelloNota extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private final Note        nota;
-	private final Finestra      padre;
+	private final transient Finestra      padre;
 
 	public PannelloNota(final Note note2, Finestra padre) {
 		this.nota = note2;
