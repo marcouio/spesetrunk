@@ -16,7 +16,6 @@ import com.molinari.gestionespese.domain.Lookandfeel;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapUtenti;
 import com.molinari.gestionespese.view.GeneralFrame;
-import com.molinari.gestionespese.view.MyWindowListener;
 
 import command.AbstractCommand;
 import command.CommandManager;
@@ -29,7 +28,6 @@ public class Controllore extends ControlloreBase{
 	private static final String GUEST = "guest";
 	private FrameBase view;
 	private AggiornatoreManager aggiornatoreManager;
-	private InizializzatoreFinestre initFinestre;
 	private GeneralFrame genPan;
 	private static Controllore singleton;
 	private String lookUsato;
@@ -151,17 +149,6 @@ public class Controllore extends ControlloreBase{
 		view.dispose();
 	}
 
-	public InizializzatoreFinestre getInitFinestre() {
-		if (initFinestre == null) {
-			initFinestre = new InizializzatoreFinestre();
-		}
-		return initFinestre;
-	}
-
-	public void setInitFinestre(final InizializzatoreFinestre initFinestre) {
-		this.initFinestre = initFinestre;
-	}
-
 	public static void main(final String[] args) {
 		Controllore.getSingleton().myMain(Controllore.getSingleton(), false, "myApplication");
 	}
@@ -183,12 +170,6 @@ public class Controllore extends ControlloreBase{
 		Controllore.getSingleton();
 
 		view.setTitle(I18NManager.getSingleton().getMessaggio("title"));
-
-		final MyWindowListener windowListener = new MyWindowListener(genPan);
-		frame.addWindowListener(windowListener);
-		frame.addComponentListener(windowListener);
-		frame.addWindowFocusListener(windowListener);
-		frame.addMouseListener(windowListener);
 
 	}
 

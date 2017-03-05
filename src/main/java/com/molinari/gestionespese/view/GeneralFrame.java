@@ -1,21 +1,15 @@
-
 package com.molinari.gestionespese.view;
 
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import com.molinari.gestionespese.business.AltreUtil;
-import com.molinari.gestionespese.business.Controllore;
-import com.molinari.gestionespese.business.Finestra;
-import com.molinari.gestionespese.business.GestioneSpeseException;
+import com.molinari.gestionespese.business.InizializzatoreFinestre;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
@@ -39,6 +33,8 @@ public class GeneralFrame extends PannelloBase {
 	private static final int MENU_HEIGHT = 18;
 	private static final long serialVersionUID = 1L;
 	private PannelTabs pannelTabs;
+	private InizializzatoreFinestre initFinestre;
+	private PannelloBottoni pannelloBottoni;
 
 
 	public GeneralFrame(Container contenitore) {
@@ -47,14 +43,9 @@ public class GeneralFrame extends PannelloBase {
 
 		final MyMenu menu = createMenu(this);
 
-		final PannelloBottoni pannelloBottoni = createPannelloBottoni(menu);
+		pannelloBottoni = createPannelloBottoni(menu);
 
 		createTabsPanel(this, pannelloBottoni);
-		
-		PannelloBase pb = new PannelloBase(this);
-		pb.setSize(100, 100);
-		pb.posizionaADestraDi(pannelloBottoni, 0, 0);
-		pb.setBackground(Color.RED);
 		
 		getPannelTabs().initConsollle();
 		getPannelTabs().getConsolle().setVisible(true);
@@ -81,7 +72,7 @@ public class GeneralFrame extends PannelloBase {
 	}
 
 	private PannelloBottoni createPannelloBottoni(MyMenu menu) {
-		final PannelloBottoni pannelloBottoni = initPannelloBottoni(menu);
+		final PannelloBottoni pannelloBottoniLoc = initPannelloBottoni(menu);
 
 		final ImageIcon iconaMovimenti = new ImageIcon(AltreUtil.IMGUTILPATH+"controlli.gif");
 		final ImageIcon iconaMovimentiPic = new ImageIcon(AltreUtil.IMGUTILPATH+"controlli_pic.gif");
@@ -184,14 +175,14 @@ public class GeneralFrame extends PannelloBase {
 		entrateUsciteContenuto.addDueBottoni(dueBottoni);
 		bottoneEntrateUscite.setContenuto(entrateUsciteContenuto);
 
-		pannelloBottoni.addBottone(bottoneSql);
-		pannelloBottoni.addBottone(bottoneMesi);
-		pannelloBottoni.addBottone(bottoneMovimenti);
-		pannelloBottoni.addBottone(bottoneEntrateUscite);
+		pannelloBottoniLoc.addBottone(bottoneSql);
+		pannelloBottoniLoc.addBottone(bottoneMesi);
+		pannelloBottoniLoc.addBottone(bottoneMovimenti);
+		pannelloBottoniLoc.addBottone(bottoneEntrateUscite);
 
-		add(pannelloBottoni);
+		add(pannelloBottoniLoc);
 
-		return pannelloBottoni;
+		return pannelloBottoniLoc;
 	}
 
 	private void addListenerConsolle(final ToggleBtn toggleSql) {
@@ -273,14 +264,14 @@ public class GeneralFrame extends PannelloBase {
 	}
 
 	private PannelloBottoni initPannelloBottoni(MyMenu menu) {
-		final PannelloBottoni pannelloBottoni = new PannelloBottoni(this);
+		final PannelloBottoni pannelloBottoniLoc = new PannelloBottoni(this);
 		final int heightBtnPanel = getHeightBtnPanel();
-		pannelloBottoni.posizionaSottoA(menu, 0, 3);
-		pannelloBottoni.setSize(getContenitorePadre().getWidth(), heightBtnPanel);
-		pannelloBottoni.setBackground(Color.RED);
-		pannelloBottoni.setVisible(true);
-		add(pannelloBottoni);
-		return pannelloBottoni;
+		pannelloBottoniLoc.posizionaSottoA(menu, 0, 3);
+		pannelloBottoniLoc.setSize(getContenitorePadre().getWidth(), heightBtnPanel);
+		pannelloBottoniLoc.setBackground(Color.RED);
+		pannelloBottoniLoc.setVisible(true);
+		add(pannelloBottoniLoc);
+		return pannelloBottoniLoc;
 	}
 
 	private int getHeightBtnPanel() {
@@ -288,17 +279,7 @@ public class GeneralFrame extends PannelloBase {
 	}
 
 	public void relocateFinestreLaterali() {
-//		if (Controllore.getSingleton().getInitFinestre().getFinestraVisibile() != null) {
-//			final Point p = getLocation();
-//			final Dimension d = getSize();
-//			p.setLocation(p.x + d.width + 5, p.y);
-//			try {
-//				final Finestra finestraVisibile = Controllore.getSingleton().getInitFinestre().getFinestraVisibile();
-//				finestraVisibile.getContainer().setLocation(p);
-//			} catch (final Exception e) {
-//				throw new GestioneSpeseException(e);
-//			}
-//		}
+		//Do nothing
 	}
 
 	public PannelTabs getPannelTabs() {
@@ -307,5 +288,14 @@ public class GeneralFrame extends PannelloBase {
 
 	public void setPannelTabs(PannelTabs pannelTabs) {
 		this.pannelTabs = pannelTabs;
+	}
+
+	public InizializzatoreFinestre getInitFinestre() {
+		if (initFinestre == null) {
+			initFinestre = new InizializzatoreFinestre();
+			initFinestre.getPannello().posizionaADestraDi(pannelloBottoni, 0, 0);
+			initFinestre.getPannello().setBackground(Color.RED);
+		}
+		return initFinestre;
 	}
 }

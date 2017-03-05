@@ -22,8 +22,8 @@ public class MostraNoteView implements Finestra {
 	private JScrollPane scrollPane;
 	private final JPanel pannello;
 
-	public MostraNoteView(FrameBase cont) {
-		container = new PannelloBase(cont.getContentPane());
+	public MostraNoteView(Container cont) {
+		container = new PannelloBase(cont);
 		final ArrayList<Note> note = CacheNote.getSingleton().getAllNoteForUtenteEAnno();
 		getContainer().setSize(250, 425);
 		getContainer().setLayout(null);

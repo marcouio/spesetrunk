@@ -14,6 +14,7 @@ import javax.swing.WindowConstants;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Controllore;
+import com.molinari.gestionespese.business.Finestra;
 import com.molinari.gestionespese.business.InizializzatoreFinestre;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import com.molinari.gestionespese.business.ascoltatoriMenu.AscoltatoreAvanti;
@@ -26,8 +27,7 @@ import com.molinari.gestionespese.domain.wrapper.WrapCatSpese;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
 import com.molinari.gestionespese.domain.wrapper.WrapGruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapSingleSpesa;
-import com.molinari.gestionespese.view.FinestraListaComandi;
-import com.molinari.gestionespese.view.componenti.componentipannello.PannelloAScomparsa;
+import com.molinari.gestionespese.view.GeneralFrame;
 import com.molinari.gestionespese.view.entrateuscite.EntrateView;
 import com.molinari.gestionespese.view.entrateuscite.UsciteView;
 import com.molinari.gestionespese.view.grafici.dialogGraph.GrEntrate1;
@@ -41,8 +41,6 @@ import com.molinari.gestionespese.view.impostazioni.GruppiView;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 import com.molinari.gestionespese.view.login.Login;
 import com.molinari.gestionespese.view.login.Registrazione;
-import com.molinari.gestionespese.view.note.MostraNoteView;
-import com.molinari.gestionespese.view.report.ReportView;
 
 import controller.ControlloreBase;
 
@@ -332,11 +330,11 @@ public class MyMenu extends JMenuBar {
 
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				FinestraListaComandi history;
+				Finestra history;
 				try {
-					history = (FinestraListaComandi) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, ControlloreBase.getApplicationframe());
-					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(history, finestre, listaComandi);
-					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
+					GeneralFrame generalFrame = Controllore.getSingleton().getGeneralFrame();
+					history = generalFrame.getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, generalFrame);
+					generalFrame.getInitFinestre().setVisibilitaFinestre(history, finestre, listaComandi);
 				} catch (final Exception e1) {
 					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}
@@ -349,12 +347,10 @@ public class MyMenu extends JMenuBar {
 
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				ReportView report;
 				try {
-					InizializzatoreFinestre initFinestre = Controllore.getSingleton().getInitFinestre();
-					report = (ReportView) initFinestre.getFinestra(InizializzatoreFinestre.INDEX_REPORT, ControlloreBase.getApplicationframe());
-					initFinestre.setVisibilitaFinestre(report, finestre, mntmReport);
-					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
+					GeneralFrame generalFrame = Controllore.getSingleton().getGeneralFrame();
+					Finestra report = generalFrame.getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_REPORT, generalFrame);
+					generalFrame.getInitFinestre().setVisibilitaFinestre(report, finestre, mntmReport);
 				} catch (final Exception e1) {
 					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}
@@ -367,11 +363,11 @@ public class MyMenu extends JMenuBar {
 
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				MostraNoteView note;
+				Finestra note;
 				try {
-					note = (MostraNoteView) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_NOTE, ControlloreBase.getApplicationframe());
-					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(note, finestre, mntmNote);
-					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
+					GeneralFrame generalFrame = Controllore.getSingleton().getGeneralFrame();
+					note = generalFrame.getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_NOTE, generalFrame);
+					generalFrame.getInitFinestre().setVisibilitaFinestre(note, finestre, mntmNote);
 				} catch (final Exception e1) {
 					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}
@@ -384,11 +380,11 @@ public class MyMenu extends JMenuBar {
 		return new AscoltatoreAggiornatoreNiente() {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				PannelloAScomparsa pas;
+				Finestra pas;
 				try {
-					pas = (PannelloAScomparsa) Controllore.getSingleton().getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, ControlloreBase.getApplicationframe());
-					Controllore.getSingleton().getInitFinestre().setVisibilitaFinestre(pas, finestre, chckbxmntmDati);
-					Controllore.getSingleton().getGeneralFrame().relocateFinestreLaterali();
+					GeneralFrame generalFrame = Controllore.getSingleton().getGeneralFrame();
+					pas = generalFrame.getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, generalFrame);
+					generalFrame.getInitFinestre().setVisibilitaFinestre(pas, finestre, chckbxmntmDati);
 				} catch (final Exception e1) {
 					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}

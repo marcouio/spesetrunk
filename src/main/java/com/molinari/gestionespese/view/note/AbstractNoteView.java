@@ -5,10 +5,9 @@ import javax.swing.JDialog;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapNote;
 
-public class AbstractNoteView extends JDialog {
-
-	private static final long serialVersionUID = 1L;
-
+public class AbstractNoteView {
+	
+	private JDialog dialog = new JDialog();
 	private WrapNote           wrapNote         = null;
 
 	public AbstractNoteView(WrapNote note) {
@@ -61,6 +60,14 @@ public class AbstractNoteView extends JDialog {
 
 	public void setWrapNote(WrapNote wrapNote) {
 		this.wrapNote = wrapNote;
+	}
+
+	public JDialog getDialog() {
+		return dialog;
+	}
+
+	public void setDialog(JDialog dialog) {
+		this.dialog = dialog;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.molinari.gestionespese.view.report;
 
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.io.FileNotFoundException;
 import java.util.Date;
@@ -19,7 +20,6 @@ import com.molinari.gestionespese.view.font.LabelListaGruppi;
 
 import controller.ControlloreBase;
 import grafica.componenti.alert.Alert;
-import grafica.componenti.contenitori.FrameBase;
 
 public class ReportView extends AbstractReportView implements Finestra {
 
@@ -29,7 +29,7 @@ public class ReportView extends AbstractReportView implements Finestra {
 	 *
 	 * @throws FileNotFoundException
 	 */
-	public ReportView(FrameBase cont) throws FileNotFoundException {
+	public ReportView(Container cont) throws FileNotFoundException {
 		super(cont);
 		setReportData(new ReportData());
 		getContainer().setLayout(null);

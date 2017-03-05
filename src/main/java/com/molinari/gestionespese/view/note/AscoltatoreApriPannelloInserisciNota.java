@@ -17,8 +17,8 @@ public class AscoltatoreApriPannelloInserisciNota implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		final NoteView dialog = new NoteView(new WrapNote(), f);
-		dialog.setLocationRelativeTo(null);
-		dialog.setBounds(0, 0, 350, 260);
-		dialog.setVisible(true);
+		dialog.getDialog().setLocationRelativeTo(null);
+		dialog.getDialog().setBounds(0, 0, 350, 260);
+		dialog.getDialog().setVisible(true);
 	}
 }

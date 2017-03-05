@@ -114,9 +114,6 @@ public class PannelTabs {
 		this.panel = panel;
 	}
 
-	//	public void setBoundsTab(OggettoVistaBase ovb){
-	//		ovb.setBounds(0, getHeightBtnPanel() + MENU_HEIGHT, getContenitorePadre().getWidth(), getHeightSottoPannelli());
-	//	}
 	public void setBoundsTab(JPanel ovb){
 		ovb.setBounds(0, 0, getContenitore().getWidth(), getHeightSottoPannelli());
 	}

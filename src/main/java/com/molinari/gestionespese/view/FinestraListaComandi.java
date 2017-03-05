@@ -10,7 +10,6 @@ import com.molinari.gestionespese.business.Finestra;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.view.font.TableF;
 
-import grafica.componenti.contenitori.FrameBase;
 import grafica.componenti.contenitori.PannelloBase;
 
 public class FinestraListaComandi implements Finestra {
@@ -19,8 +18,8 @@ public class FinestraListaComandi implements Finestra {
 	private TableF            table;
 	private JScrollPane       scrollPane;
 
-	public FinestraListaComandi(FrameBase cont) {
-		container = new PannelloBase(cont.getContentPane());
+	public FinestraListaComandi(Container cont) {
+		container = new PannelloBase(cont);
 		getContainer().setSize(250, 425);
 		getContainer().setLayout(null);
 		scrollPane = new JScrollPane();

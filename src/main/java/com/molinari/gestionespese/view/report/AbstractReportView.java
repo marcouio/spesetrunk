@@ -16,8 +16,8 @@ public abstract class AbstractReportView  {
 	private static final String CATEGORIA = "Categoria";
 	protected ReportData reportData;
 
-	public AbstractReportView(FrameBase cont) {
-		container = new PannelloBase(cont.getContentPane());
+	public AbstractReportView(Container cont) {
+		container = new PannelloBase(cont);
 	}
 
 	public AbstractReportView(final ReportData reportData) {

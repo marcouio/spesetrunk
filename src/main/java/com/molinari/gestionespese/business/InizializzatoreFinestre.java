@@ -1,5 +1,6 @@
 package com.molinari.gestionespese.business;
 
+import java.awt.Container;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -9,13 +10,15 @@ import javax.swing.JMenu;
 import javax.swing.UIManager;
 
 import com.molinari.gestionespese.view.FinestraListaComandi;
+import com.molinari.gestionespese.view.GeneralFrame;
 import com.molinari.gestionespese.view.componenti.componentipannello.PannelloAScomparsa;
 import com.molinari.gestionespese.view.note.MostraNoteView;
 import com.molinari.gestionespese.view.report.ReportView;
 
 import controller.ControlloreBase;
 import grafica.componenti.alert.Alert;
-import grafica.componenti.contenitori.FrameBase;
+import grafica.componenti.contenitori.PannelloBase;
+import math.UtilMath;
 
 public class InizializzatoreFinestre {
 
@@ -31,10 +34,15 @@ public class InizializzatoreFinestre {
 
 	Finestra[] finestre;
 	ArrayList<Class<? extends Finestra>> finestreClass;
+	private PannelloBase pannello;
 
 	Finestra finestraVisibile;
 
 	public InizializzatoreFinestre() {
+		
+		GeneralFrame generalFrame = Controllore.getSingleton().getGeneralFrame();
+		pannello = new PannelloBase(generalFrame);
+		pannello.setSize((int) UtilMath.getPercentage(generalFrame.getWidth(), 17), generalFrame.getHeight());
 		// inizializzo l'array list con le class per evitare di caricare tutto
 		// all'avvio del programma
 		this.finestreClass = new ArrayList<>();
@@ -56,21 +64,21 @@ public class InizializzatoreFinestre {
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 */
-	public Finestra getFinestra(final int index, final FrameBase view) {
-		Finestra window = null;
+	public Finestra getFinestra(final int index, final Container view) {
+		Finestra window = finestre[index];
 		try {
 
 			if (finestre[index] == null) {
-				return creaIstanza(index, view);
-			} else {
-				window = finestre[index];
-				if (view != null) {
-					window.getContainer().setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
+				window = creaIstanza(index, view);
+				if(window != null){
+					getPannello().add(window.getContainer());
+					window.getContainer().setBounds(0, 0, getPannello().getWidth(), getPannello().getHeight());
 				}
-
-				UIManager.setLookAndFeel(Controllore.getSingleton().getLookUsato());
-
 			}
+
+			UIManager.setLookAndFeel(Controllore.getSingleton().getLookUsato());
+
+			
 		} catch (final Exception e) {
 			Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore(e.getMessage()));
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
@@ -88,20 +96,15 @@ public class InizializzatoreFinestre {
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 */
-	private Finestra creaIstanza(final int index, final FrameBase view) throws InstantiationException, IllegalAccessException {
+	private Finestra creaIstanza(final int index, final Container view) throws InstantiationException, IllegalAccessException {
 		final Class<? extends Finestra> finestra = finestreClass.get(index);
 		Finestra newFinestra = null;
 		try {
-			newFinestra = finestra.getConstructor(FrameBase.class).newInstance(view);
+			newFinestra = finestra.getConstructor(Container.class).newInstance(view);
 		} catch (IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		finestre[index] = newFinestra;
-		
-		if (view != null && newFinestra != null) {
-			newFinestra.getContainer().setBounds(view.getX() + view.getWidth(), view.getY(), 250, 425);
-			newFinestra.getContainer().setVisible(false);
-		}
 		return newFinestra;
 	}
 
@@ -126,15 +129,16 @@ public class InizializzatoreFinestre {
 			final JCheckBoxMenuItem item = (JCheckBoxMenuItem) menu.getMenuComponents()[i];
 			item.setSelected(false);
 		}
-		// se già visibile oscura la finestra passata come parametro, altrimenti
-		// la visualizza
+		// se già visibile oscura la finestra passata come parametro, altrimenti la visualizza
 		if (visibile) {
 			menuItem.setSelected(false);
 			finestraVisibile.getContainer().setVisible(false);
+			getPannello().setVisible(false);
 		} else {
 			menuItem.setSelected(true);
 			finestraVisibile.getContainer().setVisible(true);
 			setFinestraVisibile(finestraVisibile);
+			getPannello().setVisible(true);
 		}
 	}
 
@@ -158,5 +162,13 @@ public class InizializzatoreFinestre {
 
 	public void setFinestre(final Finestra[] finestre) {
 		this.finestre = finestre;
+	}
+
+	public PannelloBase getPannello() {
+		return pannello;
+	}
+
+	public void setPannello(PannelloBase pannello) {
+		this.pannello = pannello;
 	}
 }

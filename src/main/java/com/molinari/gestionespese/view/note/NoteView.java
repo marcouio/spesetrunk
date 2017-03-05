@@ -24,7 +24,6 @@ import grafica.componenti.alert.Alert;
 
 public class NoteView extends AbstractNoteView {
 
-	private static final long serialVersionUID = 1L;
 	private final TextFieldF nota;
 	private final TextAreaF  descrizione;
 	private final TextFieldF data;
@@ -32,24 +31,24 @@ public class NoteView extends AbstractNoteView {
 
 	public NoteView(final WrapNote note, final Finestra padre) {
 		super(note);
-		setTitle("Pannello Nota");
-		getContentPane().setLayout(null);
+		getDialog().setTitle("Pannello Nota");
+		getDialog().getContentPane().setLayout(null);
 
 		final LabelListaGruppi lbltstNota = new LabelListaGruppi("Nome Spesa");
 		lbltstNota.setText("Nota");
 		lbltstNota.setBounds(13, 12, 97, 27);
-		getContentPane().add(lbltstNota);
+		getDialog().getContentPane().add(lbltstNota);
 
 		nota = new TextFieldF();
 		nota.setText("Nome della nota");
 		nota.setColumns(10);
 		nota.setBounds(12, 38, 150, 27);
-		getContentPane().add(nota);
+		getDialog().getContentPane().add(nota);
 
 		final LabelListaGruppi lbltstDa = new LabelListaGruppi("Categorie");
 		lbltstDa.setText("Data");
 		lbltstDa.setBounds(181, 12, 77, 27);
-		getContentPane().add(lbltstDa);
+		getDialog().getContentPane().add(lbltstDa);
 
 		descrizione = new TextAreaF();
 		descrizione.setText("Inserisci qui la descrizione della nota");
@@ -57,23 +56,23 @@ public class NoteView extends AbstractNoteView {
 		descrizione.setLineWrap(true);
 		descrizione.setAutoscrolls(true);
 		descrizione.setBounds(13, 89, 318, 75);
-		getContentPane().add(descrizione);
+		getDialog().getContentPane().add(descrizione);
 
 		final LabelListaGruppi lbltstDescrizioneNota = new LabelListaGruppi("Descrizione Spesa");
 		lbltstDescrizioneNota.setText("Descrizione Nota");
 		lbltstDescrizioneNota.setBounds(14, 64, 123, 25);
-		getContentPane().add(lbltstDescrizioneNota);
+		getDialog().getContentPane().add(lbltstDescrizioneNota);
 
 		data = new TextFieldF();
 		data.setColumns(10);
 		data.setBounds(181, 38, 150, 27);
 		data.setText(DBUtil.dataToString(new Date(), "yyyy/MM/dd"));
-		getContentPane().add(data);
+		getDialog().getContentPane().add(data);
 
 		btnInserisci = new ButtonF();
 		btnInserisci.setText("Inserisci");
 		btnInserisci.setBounds(13, 175, 318, 25);
-		getContentPane().add(btnInserisci);
+		getDialog().getContentPane().add(btnInserisci);
 		btnInserisci.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
@@ -84,7 +83,7 @@ public class NoteView extends AbstractNoteView {
 					if (nonEsistonoCampiNonValorizzati()) {
 						Controllore.invocaComando(new CommandUpdateNota((Note) note.getEntitaPadre(), (INote) getWrapNote().getEntitaPadre()));
 						((MostraNoteView) padre).aggiornaVista();
-						dispose();
+						getDialog().dispose();
 					} else {
 						Alert.segnalazioneErroreGrave("Nota non aggiornata: tutti i campi devono essere valorizzati");
 					}
@@ -96,7 +95,7 @@ public class NoteView extends AbstractNoteView {
 						wNote.getEntitaPadre().setIdEntita(Integer.toString(id));
 						Controllore.invocaComando(new CommandInserisciNota(wNote));
 						((MostraNoteView) padre).aggiornaVista();
-						dispose();
+						getDialog().dispose();
 					} else {
 						Alert.segnalazioneErroreGrave("Nota non inserita: tutti i campi devono essere valorizzati");
 					}

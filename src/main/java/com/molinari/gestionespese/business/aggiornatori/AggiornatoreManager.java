@@ -219,7 +219,8 @@ public class AggiornatoreManager {
 	}
 
 	public static boolean aggiornaListaComandi(){
-		final InizializzatoreFinestre initFinestre = Controllore.getSingleton().getInitFinestre();
+		GeneralFrame generalFrame = Controllore.getSingleton().getGeneralFrame();
+		final InizializzatoreFinestre initFinestre = generalFrame.getInitFinestre();
 		final FinestraListaComandi finestra = (FinestraListaComandi) initFinestre.getFinestra(InizializzatoreFinestre.INDEX_HISTORY, ControlloreBase.getApplicationframe());
 		finestra.insertDati();
 		return true;
@@ -255,7 +256,8 @@ public class AggiornatoreManager {
 
 	public static boolean aggiornaPannelloDatiEntrate() {
 		try {
-			final InizializzatoreFinestre initFinestre = Controllore.getSingleton().getInitFinestre();
+			GeneralFrame generalFram = Controllore.getSingleton().getGeneralFrame();
+			final InizializzatoreFinestre initFinestre = generalFram.getInitFinestre();
 			FrameBase generalFrame = Controllore.getSingleton().getView();
 			final PannelloAScomparsa finestra = (PannelloAScomparsa) initFinestre.getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, generalFrame);
 
@@ -459,7 +461,7 @@ public class AggiornatoreManager {
 
 	public static void aggiornamentoComboBox(final List<CatSpese> categorie) {
 		final Vector<CatSpese> v = new Vector<>(categorie);
-		final DefaultComboBoxModel model = new DefaultComboBoxModel(v);
+		final DefaultComboBoxModel<CatSpese> model = new DefaultComboBoxModel<>(v);
 		if (SottoPannelloCategorie.getCategorieCombo() != null) {
 			SottoPannelloCategorie.getCategorieCombo().setModel(model);
 			SottoPannelloCategorie.getCategorieCombo().validate();
