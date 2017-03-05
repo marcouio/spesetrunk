@@ -208,9 +208,9 @@ public class MyMenu extends JMenuBar {
 			public void actionPerformedOverride(final ActionEvent e) {
 				try {
 					final UsciteView dialog = new UsciteView(new WrapSingleSpesa());
-					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-					dialog.setBounds(0, 0, 347, 407);
-					dialog.setVisible(true);
+					dialog.getDialog().setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+					dialog.getDialog().setBounds(0, 0, 347, 407);
+					dialog.getDialog().setVisible(true);
 				} catch (final Exception e1) {
 					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}

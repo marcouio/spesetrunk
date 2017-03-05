@@ -30,6 +30,7 @@ import com.molinari.gestionespese.view.entrateuscite.EntrateView;
 import com.molinari.gestionespese.view.entrateuscite.UsciteView;
 import com.molinari.gestionespese.view.mymenu.MyMenu;
 
+import grafica.componenti.alert.Alert;
 import grafica.componenti.contenitori.PannelloBase;
 
 public class GeneralFrame extends PannelloBase {
@@ -54,7 +55,7 @@ public class GeneralFrame extends PannelloBase {
 		repaint();
 	}
 
-	private void createTabsPanel(Container contenitore, PannelloBottoni pannelloBottoni) {
+	public void createTabsPanel(Container contenitore, PannelloBottoni pannelloBottoni) {
 		pannelTabs = new PannelTabs(contenitore);
 		final PannelloBase tabPanel = pannelTabs.getPanel();
 		tabPanel.posizionaSottoA(pannelloBottoni, 0, 0);
@@ -65,7 +66,7 @@ public class GeneralFrame extends PannelloBase {
 		return getContenitorePadre().getHeight() - getHeightBtnPanel() - MENU_HEIGHT;
 	}
 
-	private MyMenu createMenu(Container contenitore) {
+	public MyMenu createMenu(Container contenitore) {
 		final MyMenu menu = new MyMenu();
 		menu.setBounds(0, 0, this.getWidth(), MENU_HEIGHT);
 		add(menu);
@@ -142,12 +143,12 @@ public class GeneralFrame extends PannelloBase {
 				try {
 					final PannelloBottoni pannelloEntrateUscite = bottoneEntrateUscite.getContenuto();
 					final UsciteView dialog = new UsciteView(new WrapSingleSpesa());
-					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-					dialog.setBounds(0, 0, 347, 407);
-					dialog.setVisible(true);
+					dialog.getDialog().setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+					dialog.getDialog().setBounds(0, 0, 347, 407);
+					dialog.getDialog().setVisible(true);
 					pannelloEntrateUscite.getGruppoBottoni().clearSelection();
 				} catch (final Exception e1) {
-					e1.printStackTrace();
+					Alert.segnalazioneEccezione(e1, null);
 				}
 			}
 		});

@@ -191,9 +191,9 @@ public class Model {
 		return cache.getAllCategorie();
 	}
 
-	public Object[] getCategorieCombo(final boolean ricarica) {
+	public CatSpese[] getCategorieCombo(final boolean ricarica) {
 		final Map<String, CatSpese> cat = getCatPerCombo(ricarica);
-		return cat.values().toArray();
+		return cat.values().toArray(new CatSpese[cat.values().size()]);
 	}
 
 	// *************************************GRUPPI-PERCOMBOBOX***********************************

@@ -13,6 +13,8 @@ import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.wrapper.WrapSingleSpesa;
 
+import grafica.componenti.alert.Alert;
+
 public class AscoltatoreBottoniUscita extends MouseAdapter {
 
 	private final JTable table;
@@ -34,8 +36,8 @@ public class AscoltatoreBottoniUscita extends MouseAdapter {
 	@Override
 	public void mouseClicked(final MouseEvent e) {
 
-		final JTable table = this.table;
-		if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 1 && e.getSource() == table) {
+		final JTable tableLoc = this.table;
+		if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 1 && e.getSource() == tableLoc) {
 			final JTable tabella = (JTable) e.getSource();
 			final int row = tabella.getSelectedRow();
 			arrayUtil[INDEX_DATA] = tabella.getValueAt(row, 0);
@@ -76,17 +78,17 @@ public class AscoltatoreBottoniUscita extends MouseAdapter {
 		}
 
 		if (arrayUtil[INDEX_IDSPESA] != "0") {
-			dialogNew.setSize(400, 220);
-			dialogNew.setModalityType(ModalityType.APPLICATION_MODAL);
+			dialogNew.getDialog().setSize(400, 220);
+			dialogNew.getDialog().setModalityType(ModalityType.APPLICATION_MODAL);
 			dialogNew.aggiornaModelDaVista();
-			dialogNew.setVisible(true);
+			dialogNew.getDialog().setVisible(true);
 		}
 		try {
 			AggiornatoreManager.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);
 		} catch (final Exception e1) {
-			e1.printStackTrace();
+			Alert.segnalazioneEccezione(e1, null);
 		}
-		dialogNew.dispose();
+		dialogNew.getDialog().dispose();
 	}
 
 	public Object[] getArrayUtil() {

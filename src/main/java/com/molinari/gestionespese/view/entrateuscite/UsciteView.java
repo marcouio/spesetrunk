@@ -1,5 +1,6 @@
 package com.molinari.gestionespese.view.entrateuscite;
 
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -31,34 +32,22 @@ import grafica.componenti.alert.Alert;
 
 public class UsciteView extends AbstractUsciteView {
 
-	private static final long serialVersionUID = 1L;
 	private final TextFieldF  tfNome;
 	private final TextFieldF  tfData;
 	private final TextFieldF  tfEuro;
 	private final TextAreaF   taDescrizione;
-	private static JComboBox  cCategorie;
-
-	public static void main(final String[] args) {
-		try {
-			final UsciteView dialog = new UsciteView(new WrapSingleSpesa());
-			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-			dialog.setBounds(0, 0, 347, 407);
-			dialog.setVisible(true);
-		} catch (final Exception e1) {
-			e1.printStackTrace();
-		}
-	}
+	private static JComboBox<CatSpese>  cCategorie;
 
 	/**
 	 * Create the panel.
 	 */
 	public UsciteView(final WrapSingleSpesa spesa) {
 		super(spesa);
-		setTitle(I18NManager.getSingleton().getMessaggio("insertcharge"));
-		setModalityType(ModalityType.APPLICATION_MODAL);
-		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		modelUscita.addObserver(this);
-		getContentPane().setLayout(null);
+		getDialog().setTitle(I18NManager.getSingleton().getMessaggio("insertcharge"));
+		getDialog().setModalityType(ModalityType.APPLICATION_MODAL);
+		getDialog().setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		getModelUscita().addObserver(this);
+		getDialog().getContentPane().setLayout(null);
 
 		initLabel();
 
@@ -68,7 +57,7 @@ public class UsciteView extends AbstractUsciteView {
 		taDescrizione.setLineWrap(true);
 		taDescrizione.setWrapStyleWord(true);
 		taDescrizione.setAutoscrolls(true);
-		getContentPane().add(taDescrizione);
+		getDialog().getContentPane().add(taDescrizione);
 
 		final TextAreaF descCateg = new TextAreaF();
 		descCateg.setText(I18NManager.getSingleton().getMessaggio("heredesc"));
@@ -76,23 +65,22 @@ public class UsciteView extends AbstractUsciteView {
 		descCateg.setLineWrap(true);
 		descCateg.setWrapStyleWord(true);
 		descCateg.setAutoscrolls(true);
-		getContentPane().add(descCateg);
+		getDialog().getContentPane().add(descCateg);
 
 		tfNome = new TextFieldF();
 		tfNome.setBounds(12, 38, 150, 27);
-		getContentPane().add(tfNome);
+		getDialog().getContentPane().add(tfNome);
 		tfNome.setColumns(10);
 
 		final List<CatSpese> listCategoriePerCombo = CacheCategorie.getSingleton().getListCategoriePerCombo();
-		cCategorie = new JComboBox(new Vector<>(listCategoriePerCombo));
+		cCategorie = new JComboBox<>(new Vector<>(listCategoriePerCombo));
 		cCategorie.setBounds(181, 38, 150, 27);
-		getContentPane().add(cCategorie);
+		getDialog().getContentPane().add(cCategorie);
 
 		cCategorie.addItemListener(e -> {
 			CatSpese spese = null;
 			if (cCategorie.getSelectedIndex() != 0) {
 				spese = (CatSpese) cCategorie.getSelectedItem();
-				// int indice = categorie.getSelectedIndex();
 				// il campo sotto serve per inserire la descrizione nel
 				// caso
 				// si selezioni
@@ -108,12 +96,12 @@ public class UsciteView extends AbstractUsciteView {
 		final GregorianCalendar gc = new GregorianCalendar();
 		tfData.setText(DBUtil.dataToString(gc.getTime(), "yyyy/MM/dd"));
 		tfData.setBounds(13, 189, 150, 27);
-		getContentPane().add(tfData);
+		getDialog().getContentPane().add(tfData);
 
 		tfEuro = new TextFieldF();
 		tfEuro.setColumns(10);
 		tfEuro.setBounds(184, 189, 150, 27);
-		getContentPane().add(tfEuro);
+		getDialog().getContentPane().add(tfEuro);
 
 		// Bottone Elimina
 		final ButtonF eliminaUltima = new ButtonF();
@@ -123,57 +111,50 @@ public class UsciteView extends AbstractUsciteView {
 			protected void actionPerformedOverride(final ActionEvent e) {
 				super.actionPerformedOverride(e);
 				try {
-					Controllore.invocaComando(new CommandDeleteSpesa(modelUscita));
-					// TODO verificare se necessario ripristinare l'update
-					// update(modelUscita, null);
+					Controllore.invocaComando(new CommandDeleteSpesa(getModelUscita()));
 				} catch (final Exception e1) {
-					Alert.segnalazioneErroreGrave("Cancellazione della spesa " + modelUscita.getnome() + " non riuscita: " + e1.getMessage());
-					e1.printStackTrace();
+					Alert.segnalazioneEccezione(e1,"Cancellazione della spesa " + getModelUscita().getnome() + " non riuscita: " + e1.getMessage());
 				}
 			}
 		});
 
 		eliminaUltima.setText("Elimina Ultima");
 		eliminaUltima.setBounds(184, 325, 147, 27);
-		getContentPane().add(eliminaUltima);
+		getDialog().getContentPane().add(eliminaUltima);
 
 		final ButtonF inserisci = new ButtonF();
 		inserisci.setText("Inserisci");
 		inserisci.setBounds(13, 325, 150, 27);
-		getContentPane().add(inserisci);
+		getDialog().getContentPane().add(inserisci);
 
 		inserisci.addActionListener(new AscoltaInserisciUscite(this));
 
 	}
 
-	public boolean nonEsistonoCampiNonValorizzati() {
-		return getcNome() != null && getcDescrizione() != null && getcData() != null && getDataIns() != null && getCategoria() != null && getdEuro() != 0.0 && getUtenti() != null;
-	}
-
 	private void initLabel() {
 		final LabelListaGruppi lblNomeSpesa = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("name"));
 		lblNomeSpesa.setBounds(13, 12, 118, 27);
-		getContentPane().add(lblNomeSpesa);
+		getDialog().getContentPane().add(lblNomeSpesa);
 
 		final LabelListaGruppi lblEuro = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("eur"));
 		lblEuro.setBounds(184, 163, 77, 27);
-		getContentPane().add(lblEuro);
+		getDialog().getContentPane().add(lblEuro);
 
 		final LabelListaGruppi lblCategorie = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("categories"));
 		lblCategorie.setBounds(181, 12, 125, 27);
-		getContentPane().add(lblCategorie);
+		getDialog().getContentPane().add(lblCategorie);
 
 		final LabelListaGruppi lblData = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("date"));
 		lblData.setBounds(13, 163, 77, 27);
-		getContentPane().add(lblData);
+		getDialog().getContentPane().add(lblData);
 
 		final LabelListaGruppi lblDescrizione = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("descr"));
 		lblDescrizione.setBounds(14, 62, 212, 25);
-		getContentPane().add(lblDescrizione);
+		getDialog().getContentPane().add(lblDescrizione);
 
-		final LabelListaGruppi lblDescrizione_1 = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("descr")+" "+I18NManager.getSingleton().getMessaggio("category"));
-		lblDescrizione_1.setBounds(13, 216, 232, 27);
-		getContentPane().add(lblDescrizione_1);
+		final LabelListaGruppi lblDescrizione1 = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("descr")+" "+I18NManager.getSingleton().getMessaggio("category"));
+		lblDescrizione1.setBounds(13, 216, 232, 27);
+		getDialog().getContentPane().add(lblDescrizione1);
 	}
 
 	public void aggiornaModelDaVista() {
@@ -209,7 +190,7 @@ public class UsciteView extends AbstractUsciteView {
 	/**
 	 * @return the categorie
 	 */
-	public JComboBox getComboCategorie() {
+	public static JComboBox<CatSpese> getComboCategorie() {
 		return cCategorie;
 	}
 
@@ -217,7 +198,7 @@ public class UsciteView extends AbstractUsciteView {
 	 * @param categorie
 	 *            the categorie to set
 	 */
-	public void setComboCategorie(final JComboBox categorie) {
+	public static void setComboCategorie(final JComboBox<CatSpese> categorie) {
 		UsciteView.cCategorie = categorie;
 	}
 
