@@ -71,8 +71,8 @@ public abstract class AbstractEntrateView extends JDialog implements Observer {
 		return modelEntrate.getFisseoVar();
 	}
 
-	public void setFisseOVar(final String FisseVar) {
-		final CorreggiTesto correttoreTesto = new CorreggiTesto(FisseVar);
+	public void setFisseOVar(final String fisseVar) {
+		final CorreggiTesto correttoreTesto = new CorreggiTesto(fisseVar);
 		modelEntrate.setFisseoVar(correttoreTesto.getTesto());
 	}
 

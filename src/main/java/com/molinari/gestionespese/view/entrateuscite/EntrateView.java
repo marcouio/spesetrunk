@@ -9,7 +9,6 @@ import java.util.Observable;
 import java.util.logging.Level;
 
 import javax.swing.JComboBox;
-import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import org.apache.commons.math3.util.MathUtils;
@@ -45,7 +44,7 @@ public class EntrateView extends AbstractEntrateView {
 
 	private final TextFieldF         tfNome;
 	private final TextAreaF          taDescrizione;
-	private final JComboBox          cbTipo;
+	private final JComboBox<String>          cbTipo;
 	private final TextFieldF         tfData;
 	private final TextFieldF         tfEuro;
 
@@ -84,7 +83,7 @@ public class EntrateView extends AbstractEntrateView {
 			listaCombo.add(lista.get(i));
 		}
 
-		cbTipo = new JComboBox(lista.toArray());
+		cbTipo = new JComboBox<>(lista.toArray(new String[lista.size()]));
 		cbTipo.setBounds(181, 38, 150, 27);
 		getContentPane().add(cbTipo);
 
