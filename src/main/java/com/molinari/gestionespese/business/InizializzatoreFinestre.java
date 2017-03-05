@@ -101,6 +101,7 @@ public class InizializzatoreFinestre {
 		Finestra newFinestra = null;
 		try {
 			newFinestra = finestra.getConstructor(Container.class).newInstance(view);
+			newFinestra.getContainer().setVisible(false);
 		} catch (IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
