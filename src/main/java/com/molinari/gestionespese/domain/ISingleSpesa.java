@@ -1,10 +1,12 @@
 package com.molinari.gestionespese.domain;
 
-public interface ISingleSpesa {
+import command.javabeancommand.AbstractOggettoEntita;
+
+public interface ISingleSpesa extends AbstractOggettoEntita{
 
 	public String getData();
 
-	public void setData(String Data);
+	public void setData(String data);
 
 	public String getdescrizione();
 
@@ -18,9 +20,9 @@ public interface ISingleSpesa {
 
 	public void setinEuro(double d);
 
-	public String getnome();
+	public String getNome();
 
-	public void setnome(String nome);
+	public void setNome(String nome);
 
 	public CatSpese getCatSpese();
 

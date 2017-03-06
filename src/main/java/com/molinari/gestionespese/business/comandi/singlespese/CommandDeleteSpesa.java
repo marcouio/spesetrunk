@@ -8,7 +8,7 @@ import com.molinari.gestionespese.domain.wrapper.WrapSingleSpesa;
 import command.javabeancommand.AbstractCommandForJavaBean;
 import grafica.componenti.alert.Alert;
 
-public class CommandDeleteSpesa extends AbstractCommandForJavaBean<SingleSpesa> {
+public class CommandDeleteSpesa extends AbstractCommandForJavaBean<ISingleSpesa> {
 
 	public CommandDeleteSpesa(ISingleSpesa entita) {
 		final CacheUscite cache = CacheUscite.getSingleton();
@@ -37,7 +37,7 @@ public class CommandDeleteSpesa extends AbstractCommandForJavaBean<SingleSpesa> 
 
 	@Override
 	public String toString() {
-		return "Eliminata Spesa " + entita.getnome();
+		return "Eliminata Spesa " + entita.getNome();
 	}
 
 	@Override

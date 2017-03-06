@@ -23,7 +23,7 @@ public class AscoltaInserisciUscite extends AscoltatoreAggiornatoreUscite {
 		view.aggiornaModelDaVista();
 		if (view.nonEsistonoCampiNonValorizzati()) {
 			if (!Controllore.invocaComando(new CommandInserisciSpesa(view.getModelUscita()))) {
-				final String msg = I18NManager.getSingleton().getMessaggio("insertcharges")+" "+ view.getModelUscita().getnome() + " "+I18NManager.getSingleton().getMessaggio("failed");
+				final String msg = I18NManager.getSingleton().getMessaggio("insertcharges")+" "+ view.getModelUscita().getNome() + " "+I18NManager.getSingleton().getMessaggio("failed");
 				Alert.segnalazioneErroreGrave(msg);
 			}
 		} else {

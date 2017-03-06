@@ -30,7 +30,7 @@ import db.ExecuteResultSet;
 import db.dao.IDAO;
 import grafica.componenti.alert.Alert;
 
-public class WrapSingleSpesa extends Observable implements IDAO<SingleSpesa>, ISingleSpesa {
+public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, ISingleSpesa {
 
 	private static final String AND = " AND ";
 	private static final String DELETE_FROM = "DELETE FROM ";
@@ -65,7 +65,7 @@ public class WrapSingleSpesa extends Observable implements IDAO<SingleSpesa>, IS
 						uscitaLoc.setinEuro(rs.getDouble(3));
 						uscitaLoc.setdescrizione(rs.getString(4));
 						uscitaLoc.setCatSpese(categoria);
-						uscitaLoc.setnome(rs.getString(6));
+						uscitaLoc.setNome(rs.getString(6));
 						uscitaLoc.setUtenti(utente);
 						uscitaLoc.setDataIns(rs.getString(8));
 					}
@@ -104,7 +104,7 @@ public class WrapSingleSpesa extends Observable implements IDAO<SingleSpesa>, IS
 						uscitaLoc.setinEuro(rs.getDouble(3));
 						uscitaLoc.setdescrizione(rs.getString(4));
 						uscitaLoc.setCatSpese(categoria);
-						uscitaLoc.setnome(rs.getString(6));
+						uscitaLoc.setNome(rs.getString(6));
 						uscitaLoc.setUtenti(utente);
 						uscitaLoc.setDataIns(rs.getString(8));
 						uscite.add(uscitaLoc);
@@ -128,22 +128,22 @@ public class WrapSingleSpesa extends Observable implements IDAO<SingleSpesa>, IS
 	}
 
 	@Override
-	public List<SingleSpesa> selectAll() {
-		final List<SingleSpesa> uscite = new ArrayList<>();
+	public List<ISingleSpesa> selectAll() {
+		final List<ISingleSpesa> uscite = new ArrayList<>();
 		final Map<String, Utenti> mappaUtenti = CacheUtenti.getSingleton().getAllUtenti();
 		final Map<String, CatSpese> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
 
 		final String sql = SELECT_FROM + SingleSpesa.NOME_TABELLA;
 		try {
 
-			return new ExecuteResultSet<List<SingleSpesa>>() {
+			return new ExecuteResultSet<List<ISingleSpesa>>() {
 
 				@Override
-				protected List<SingleSpesa> doWithResultSet(ResultSet rs) throws SQLException {
-					final List<SingleSpesa> uscite = new ArrayList<>();
+				protected List<ISingleSpesa> doWithResultSet(ResultSet rs) throws SQLException {
+					final List<ISingleSpesa> uscite = new ArrayList<>();
 
 					while (rs != null && rs.next()) {
-						final SingleSpesa uscitaLoc = fillSpesa(mappaUtenti, mappaCategorie, rs);
+						final ISingleSpesa uscitaLoc = fillSpesa(mappaUtenti, mappaCategorie, rs);
 						uscite.add(uscitaLoc);
 					}
 					return uscite;
@@ -159,15 +159,15 @@ public class WrapSingleSpesa extends Observable implements IDAO<SingleSpesa>, IS
 	}
 
 	@Override
-	public boolean insert(final SingleSpesa oggettoEntita) {
+	public boolean insert(final ISingleSpesa oggettoEntita) {
 
 		final String sql = "INSERT INTO " + SingleSpesa.NOME_TABELLA + " (" + SingleSpesa.COL_DATA + ", " + SingleSpesa.COL_INEURO + ", " + SingleSpesa.COL_DESCRIZIONE + ", " + SingleSpesa.COL_IDCATEGORIE
 				+ ", " + SingleSpesa.COL_NOME + ", " + SingleSpesa.COL_IDUTENTE + ", " + SingleSpesa.COL_DATAINS + ") VALUES (?,?,?,?,?,?,?)";
-		final SingleSpesa uscitaLoc = (SingleSpesa) oggettoEntita;
-		final boolean inserted = new ExecutePreparedStatement<SingleSpesa>() {
+		final ISingleSpesa uscitaLoc = (ISingleSpesa) oggettoEntita;
+		final boolean inserted = new ExecutePreparedStatement<ISingleSpesa>() {
 
 			@Override
-			protected void doWithPreparedStatement(PreparedStatement ps, SingleSpesa uscitaLoc) throws SQLException {
+			protected void doWithPreparedStatement(PreparedStatement ps, ISingleSpesa uscitaLoc) throws SQLException {
 
 				final String data = uscitaLoc.getData();
 				ps.setString(1, data);
@@ -176,7 +176,7 @@ public class WrapSingleSpesa extends Observable implements IDAO<SingleSpesa>, IS
 				if (uscitaLoc.getCatSpese() != null) {
 					ps.setInt(4, uscitaLoc.getCatSpese().getidCategoria());
 				}
-				ps.setString(5, uscitaLoc.getnome());
+				ps.setString(5, uscitaLoc.getNome());
 				if (uscitaLoc.getUtenti() != null) {
 					ps.setInt(6, uscitaLoc.getUtenti().getidUtente());
 				}
@@ -210,15 +210,15 @@ public class WrapSingleSpesa extends Observable implements IDAO<SingleSpesa>, IS
 	}
 
 	@Override
-	public boolean update(final SingleSpesa oggettoEntita) {
+	public boolean update(final ISingleSpesa oggettoEntita) {
 
 		final String sql = getUpdateQuery(oggettoEntita);
 		
 		return base.executeUpdate(sql);
 	}
 
-	private String getUpdateQuery(final SingleSpesa oggettoEntita) {
-		final SingleSpesa uscitaLoc = (SingleSpesa) oggettoEntita;
+	private String getUpdateQuery(final ISingleSpesa oggettoEntita) {
+		final ISingleSpesa uscitaLoc = (ISingleSpesa) oggettoEntita;
 		StringBuilder sb = new StringBuilder();
 		sb.append("UPDATE ");
 		sb.append(SingleSpesa.NOME_TABELLA);
@@ -241,7 +241,7 @@ public class WrapSingleSpesa extends Observable implements IDAO<SingleSpesa>, IS
 		sb.append(", ");
 		sb.append(SingleSpesa.COL_NOME);
 		sb.append(" = '");
-		sb.append(uscitaLoc.getnome());
+		sb.append(uscitaLoc.getNome());
 		sb.append("', ");
 		sb.append(SingleSpesa.COL_IDUTENTE);
 		sb.append(" = ");
@@ -270,7 +270,7 @@ public class WrapSingleSpesa extends Observable implements IDAO<SingleSpesa>, IS
 	 * @param dieci
 	 * @return List<SingleSpesa>
 	 */
-	public List<SingleSpesa> movimentiUsciteFiltrate(final String dataDa, final String dataA, final String nome, final Double euro, final String catSpese) {
+	public List<ISingleSpesa> movimentiUsciteFiltrate(final String dataDa, final String dataA, final String nome, final Double euro, final String catSpese) {
 
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		int idUtente = 0;
@@ -283,15 +283,15 @@ public class WrapSingleSpesa extends Observable implements IDAO<SingleSpesa>, IS
 
 		try {
 
-			return new ExecuteResultSet<List<SingleSpesa>>() {
+			return new ExecuteResultSet<List<ISingleSpesa>>() {
 
 				@Override
-				protected List<SingleSpesa> doWithResultSet(ResultSet rs) throws SQLException {
-					final List<SingleSpesa> uscite = new ArrayList<>();
+				protected List<ISingleSpesa> doWithResultSet(ResultSet rs) throws SQLException {
+					final List<ISingleSpesa> uscite = new ArrayList<>();
 
-					final List<SingleSpesa> sSpesa = new ArrayList<>();
+					final List<ISingleSpesa> sSpesa = new ArrayList<>();
 					while (rs != null && rs.next()) {
-						final SingleSpesa ss = fillSpesa(utente, rs);
+						final ISingleSpesa ss = fillSpesa(utente, rs);
 						sSpesa.add(ss);
 					}
 
@@ -337,7 +337,7 @@ public class WrapSingleSpesa extends Observable implements IDAO<SingleSpesa>, IS
 	 * @param dieci
 	 * @return List<SingleSpesa>
 	 */
-	public List<SingleSpesa> dieciUscite(final int dieci) {
+	public List<ISingleSpesa> dieciUscite(final int dieci) {
 
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		int idUtente = 0;
@@ -352,20 +352,20 @@ public class WrapSingleSpesa extends Observable implements IDAO<SingleSpesa>, IS
 
 		try {
 
-			return new ExecuteResultSet<List<SingleSpesa>>() {
+			return new ExecuteResultSet<List<ISingleSpesa>>() {
 
 				@Override
-				protected List<SingleSpesa> doWithResultSet(ResultSet rs) throws SQLException {
+				protected List<ISingleSpesa> doWithResultSet(ResultSet rs) throws SQLException {
 
-					final List<SingleSpesa> sSpesa = new ArrayList<>();
+					final List<ISingleSpesa> sSpesa = new ArrayList<>();
 					while (rs != null && rs.next()) {
-						final SingleSpesa ss = new SingleSpesa();
+						final ISingleSpesa ss = new SingleSpesa();
 						final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(rs.getString(5));
 						ss.setidSpesa(rs.getInt(1));
 						ss.setData(rs.getString(2));
 						ss.setinEuro(rs.getDouble(3));
 						ss.setdescrizione(rs.getString(4));
-						ss.setnome(rs.getString(6));
+						ss.setNome(rs.getString(6));
 						ss.setCatSpese(categoria);
 						ss.setDataIns(rs.getString(8));
 						ss.setUtenti(utente);
@@ -470,13 +470,13 @@ public class WrapSingleSpesa extends Observable implements IDAO<SingleSpesa>, IS
 	}
 
 	@Override
-	public String getnome() {
-		return uscita.getnome();
+	public String getNome() {
+		return uscita.getNome();
 	}
 
 	@Override
-	public void setnome(final String nome) {
-		uscita.setnome(nome);
+	public void setNome(final String nome) {
+		uscita.setNome(nome);
 	}
 
 	@Override
@@ -515,7 +515,7 @@ public class WrapSingleSpesa extends Observable implements IDAO<SingleSpesa>, IS
 	}
 
 	@Override
-	public List<SingleSpesa> selectWhere(List<Clausola> clausole,
+	public List<ISingleSpesa> selectWhere(List<Clausola> clausole,
 			String appentoToQuery) {
 		throw new UnsupportedOperationException();
 	}
@@ -527,7 +527,7 @@ public class WrapSingleSpesa extends Observable implements IDAO<SingleSpesa>, IS
 		ss.setData(rs.getString(2));
 		ss.setinEuro(rs.getDouble(3));
 		ss.setdescrizione(rs.getString(4));
-		ss.setnome(rs.getString(6));
+		ss.setNome(rs.getString(6));
 		ss.setCatSpese(categoria);
 		ss.setDataIns(rs.getString(8));
 		ss.setUtenti(utente);
@@ -545,10 +545,21 @@ public class WrapSingleSpesa extends Observable implements IDAO<SingleSpesa>, IS
 		uscitaLoc.setinEuro(rs.getDouble(3));
 		uscitaLoc.setdescrizione(rs.getString(4));
 		uscitaLoc.setCatSpese(categoria);
-		uscitaLoc.setnome(rs.getString(6));
+		uscitaLoc.setNome(rs.getString(6));
 		uscitaLoc.setUtenti(utente);
 		uscitaLoc.setDataIns(rs.getString(8));
 		return uscitaLoc;
+	}
+
+	@Override
+	public String getIdEntita() {
+		return Integer.toString(getidSpesa());
+	}
+
+	@Override
+	public void setIdEntita(String idEntita) {
+		setidSpesa(Integer.parseInt(idEntita));
+		
 	}
 
 }

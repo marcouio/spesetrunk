@@ -103,7 +103,7 @@ public class Note implements AbstractOggettoEntita, Serializable, INote {
 	}
 
 	@Override
-	public String getnome() {
+	public String getNome() {
 		return this.nome;
 	}
 
@@ -136,11 +136,6 @@ public class Note implements AbstractOggettoEntita, Serializable, INote {
 	public void setIdEntita(String idEntita) {
 		setIdNote(Integer.parseInt(idEntita));
 
-	}
-
-	@Override
-	public String getNome() {
-		return nome;
 	}
 
 }

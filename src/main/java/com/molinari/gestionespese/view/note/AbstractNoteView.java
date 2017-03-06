@@ -19,7 +19,7 @@ public class AbstractNoteView {
 	}
 
 	public String getNome() {
-		return wrapNote.getnome();
+		return wrapNote.getNome();
 	}
 
 	public void setDescrizione(String descrizione) {

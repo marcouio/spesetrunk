@@ -7,7 +7,7 @@ import com.molinari.gestionespese.domain.Note;
 import command.javabeancommand.AbstractCommandForJavaBean;
 import grafica.componenti.alert.Alert;
 
-public class CommandUpdateNota extends AbstractCommandForJavaBean<Note> {
+public class CommandUpdateNota extends AbstractCommandForJavaBean<INote> {
 
 	private final Note newEntita;
 	private final Note oldEntita;
@@ -37,13 +37,13 @@ public class CommandUpdateNota extends AbstractCommandForJavaBean<Note> {
 
 	@Override
 	public String toString() {
-		return "Modificata Nota " + newEntita.getnome();
+		return "Modificata Nota " + newEntita.getNome();
 	}
 
 	@Override
 	public void scriviLogExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Aggiornata correttamente nota " + newEntita.getnome());
+			Alert.segnalazioneInfo("Aggiornata correttamente nota " + newEntita.getNome());
 		}
 
 	}
@@ -51,7 +51,7 @@ public class CommandUpdateNota extends AbstractCommandForJavaBean<Note> {
 	@Override
 	public void scriviLogUnExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Ripristinata nota " + oldEntita.getnome() + " precedentemente aggiornata");
+			Alert.segnalazioneInfo("Ripristinata nota " + oldEntita.getNome() + " precedentemente aggiornata");
 		}
 	}
 }

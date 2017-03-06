@@ -24,6 +24,7 @@ import com.molinari.gestionespese.business.cache.CacheUscite;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.Gruppi;
+import com.molinari.gestionespese.domain.ISingleSpesa;
 import com.molinari.gestionespese.domain.Lookandfeel;
 import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.Utenti;
@@ -398,10 +399,10 @@ public class Database {
 	public static double speseMeseCategoria(final int mese, final int categoria) {
 
 		double spesaTotMeseCat = 0.0;
-		final List<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
+		final List<ISingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
 
 		for (int i = 0; i < listaUscite.size(); i++) {
-			final SingleSpesa uscita = listaUscite.get(i);
+			final ISingleSpesa uscita = listaUscite.get(i);
 			final CatSpese cat = uscita.getCatSpese();
 			if (cat != null) {
 				final Date dataUscita = DBUtil.stringToDate(uscita.getData(), YYYY_MM_DD);
@@ -416,10 +417,10 @@ public class Database {
 
 	public static double speseMeseGruppo(final int mese, final int gruppo) {
 		double spesaTotMeseGruppo = 0.0;
-		final List<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
+		final List<ISingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
 
 		for (int i = 0; i < listaUscite.size(); i++) {
-			final SingleSpesa uscita = listaUscite.get(i);
+			final ISingleSpesa uscita = listaUscite.get(i);
 			final CatSpese cat = uscita.getCatSpese();
 			if (cat != null) {
 				final Gruppi group = cat.getGruppi();
@@ -435,9 +436,9 @@ public class Database {
 
 	public static double speseMeseSenzaGruppo(final int mese, final int categoria) {
 		double spesaTotMeseCat = 0.0;
-		final List<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
+		final List<ISingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
 		for (int i = 0; i < listaUscite.size(); i++) {
-			final SingleSpesa uscita = listaUscite.get(i);
+			final ISingleSpesa uscita = listaUscite.get(i);
 			final CatSpese cat = uscita.getCatSpese();
 			if (cat != null) {
 				final Gruppi group = cat.getGruppi();
@@ -487,9 +488,9 @@ public class Database {
 	 */
 	public double totaleUsciteMese(final int mese) {
 		double totaleMese = 0;
-		final List<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
+		final List<ISingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
 		for (int i = 0; i < listaUscite.size(); i++) {
-			final SingleSpesa uscita = listaUscite.get(i);
+			final ISingleSpesa uscita = listaUscite.get(i);
 			final Date dataUscita = DBUtil.stringToDate(uscita.getData(), YYYY_MM_DD);
 			final int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
 			if (mesee == mese) {
@@ -524,9 +525,9 @@ public class Database {
 	public static double totaleUscitaAnnoCategoria(final int categoria) {
 		double totale = 0;
 		final int anno = Impostazioni.getAnno();
-		final List<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
+		final List<ISingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
 		for (int i = 0; i < listaUscite.size(); i++) {
-			final SingleSpesa uscita = listaUscite.get(i);
+			final ISingleSpesa uscita = listaUscite.get(i);
 			final int cat = uscita.getCatSpese().getidCategoria();
 			final Date dataUscita = DBUtil.stringToDate(uscita.getData(), YYYY_MM_DD);
 			final int annoo = Integer.parseInt(DBUtil.dataToString(dataUscita, "yyyy"));
@@ -634,9 +635,9 @@ public class Database {
 	public static double uAnnuale() {
 		final int anno = Impostazioni.getAnno();
 		double annuale = 0;
-		final List<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
+		final List<ISingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
 		for (int i = 0; i < listaUscite.size(); i++) {
-			final SingleSpesa uscita = listaUscite.get(i);
+			final ISingleSpesa uscita = listaUscite.get(i);
 			final Date dataUscita = DBUtil.stringToDate(uscita.getData(), YYYY_MM_DD);
 			final String annoDaData = DBUtil.dataToString(dataUscita, "yyyy");
 			if (Integer.parseInt(annoDaData) == anno) {
@@ -679,9 +680,9 @@ public class Database {
 	public static double uMensile() {
 		double mensile1 = 0;
 		final GregorianCalendar data = new GregorianCalendar();
-		final List<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
+		final List<ISingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
 		for (int i = 0; i < listaUscite.size(); i++) {
-			final SingleSpesa uscita = listaUscite.get(i);
+			final ISingleSpesa uscita = listaUscite.get(i);
 			final Date dataUscita = DBUtil.stringToDate(uscita.getData(), YYYY_MM_DD);
 			final int mese = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
 			final int anno = Integer.parseInt(DBUtil.dataToString(dataUscita, "yyyy"));
@@ -726,9 +727,9 @@ public class Database {
 	public static double uMensileInCorso() {
 		double mensile = 0;
 		final GregorianCalendar data = new GregorianCalendar();
-		final List<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
+		final List<ISingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtente();
 		for (int i = 0; i < listaUscite.size(); i++) {
-			final SingleSpesa uscita = listaUscite.get(i);
+			final ISingleSpesa uscita = listaUscite.get(i);
 			final Date dataUscita = DBUtil.stringToDate(uscita.getData(), YYYY_MM_DD);
 			final int mese = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
 			final int anno = Integer.parseInt(DBUtil.dataToString(dataUscita, "yyyy"));
@@ -744,10 +745,10 @@ public class Database {
 		double percentualeTipo = 0;
 		final double totaleAnnuo = uAnnuale();
 
-		final List<SingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
-		final Stream<SingleSpesa> stream = listaUscite.stream();
-		final Predicate<? super SingleSpesa> predicate = getPredicatePercentoUscite(importanza);
-		final Stream<SingleSpesa> filter = stream.filter(predicate);
+		final List<ISingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
+		final Stream<ISingleSpesa> stream = listaUscite.stream();
+		final Predicate<? super ISingleSpesa> predicate = getPredicatePercentoUscite(importanza);
+		final Stream<ISingleSpesa> filter = stream.filter(predicate);
 		final double speseTipo = filter.mapToDouble(getFilter()).sum();
 		boolean spesezero = MathUtils.equals(speseTipo, 0);
 		boolean totannozero = MathUtils.equals(totaleAnnuo, 0);
@@ -759,12 +760,12 @@ public class Database {
 
 	}
 
-	private static Predicate<? super SingleSpesa> getPredicatePercentoUscite(final String importanza) {
+	private static Predicate<? super ISingleSpesa> getPredicatePercentoUscite(final String importanza) {
 		return ss -> importanza != null && ss.getCatSpese() != null && importanza.equals(ss.getCatSpese().getimportanza());
 	}
 
-	private static ToDoubleFunction<? super SingleSpesa> getFilter() {
-		return SingleSpesa::getinEuro;
+	private static ToDoubleFunction<? super ISingleSpesa> getFilter() {
+		return ISingleSpesa::getinEuro;
 	}
 
 	public static String getDburl() {

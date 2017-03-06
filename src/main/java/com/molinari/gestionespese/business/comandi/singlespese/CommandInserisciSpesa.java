@@ -1,20 +1,16 @@
 package com.molinari.gestionespese.business.comandi.singlespese;
 
 import com.molinari.gestionespese.business.cache.CacheUscite;
+import com.molinari.gestionespese.business.comandi.CommandInserisci;
 import com.molinari.gestionespese.domain.ISingleSpesa;
-import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.wrapper.WrapSingleSpesa;
 
-import command.javabeancommand.AbstractCommandForJavaBean;
 import grafica.componenti.alert.Alert;
 
-public class CommandInserisciSpesa extends AbstractCommandForJavaBean<SingleSpesa> {
+public class CommandInserisciSpesa extends CommandInserisci<ISingleSpesa> {
 
 	public CommandInserisciSpesa(ISingleSpesa entita) {
-		final CacheUscite cache = CacheUscite.getSingleton();
-		mappaCache = cache.getCache();
-		this.wrap = new WrapSingleSpesa();
-		this.entita = (SingleSpesa) ((WrapSingleSpesa) entita).getEntitaPadre();
+		super(entita, new WrapSingleSpesa(), CacheUscite.getSingleton());
 	}
 
 	@Override
@@ -37,7 +33,7 @@ public class CommandInserisciSpesa extends AbstractCommandForJavaBean<SingleSpes
 
 	@Override
 	public String toString() {
-		return "Inserita Spesa " + entita.getnome();
+		return "Inserita Spesa " + entita.getNome();
 	}
 
 	@Override

@@ -1,88 +1,46 @@
-mar 05, 2017 11:11:07 PM log.LoggerOggetto creaLog
+mar 06, 2017 10:19:38 PM log.LoggerOggetto creaLog
 INFORMAZIONI: Start programma!
-mar 05, 2017 11:11:07 PM db.ConnectionPool releaseNewConnection
+mar 06, 2017 10:19:38 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 05, 2017 11:11:07 PM db.ConnectionPool releaseNewConnection
+mar 06, 2017 10:19:38 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 1 connections
-mar 05, 2017 11:11:07 PM db.ConnectionPool releaseNewConnection
+mar 06, 2017 10:19:38 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 05, 2017 11:11:07 PM db.ConnectionPool releaseNewConnection
+mar 06, 2017 10:19:38 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 2 connections
-mar 05, 2017 11:11:07 PM db.ConnectionPool releaseNewConnection
+mar 06, 2017 10:19:38 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 05, 2017 11:11:07 PM db.ConnectionPool releaseNewConnection
+mar 06, 2017 10:19:38 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 3 connections
-mar 05, 2017 11:11:07 PM db.ConnectionPool releaseNewConnection
+mar 06, 2017 10:19:38 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 05, 2017 11:11:07 PM db.ConnectionPool releaseNewConnection
+mar 06, 2017 10:19:38 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 4 connections
-mar 05, 2017 11:11:07 PM db.ConnectionPool releaseNewConnection
+mar 06, 2017 10:19:38 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 05, 2017 11:11:07 PM db.ConnectionPool releaseNewConnection
+mar 06, 2017 10:19:38 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-mar 05, 2017 11:11:07 PM db.ConnectionPool getConnection
+mar 06, 2017 10:19:38 PM db.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-mar 05, 2017 11:11:07 PM db.ExecuteResultSet execute
+mar 06, 2017 10:19:38 PM db.ExecuteResultSet execute
 INFORMAZIONI: Query in esecuzione: SELECT * FROM lookAndFeel
-mar 05, 2017 11:11:07 PM db.ConnectionPool releaseNewConnection
+mar 06, 2017 10:19:38 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 05, 2017 11:11:07 PM db.ConnectionPool releaseNewConnection
+mar 06, 2017 10:19:38 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-mar 05, 2017 11:11:07 PM db.ConnectionPool getConnection
+mar 06, 2017 10:19:40 PM db.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-mar 05, 2017 11:11:07 PM db.ExecuteResultSet execute
+mar 06, 2017 10:19:40 PM db.ExecuteResultSet execute
 INFORMAZIONI: Query in esecuzione: SELECT * FROM utenti
-mar 05, 2017 11:11:07 PM db.ConnectionPool releaseNewConnection
+mar 06, 2017 10:19:40 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 05, 2017 11:11:07 PM db.ConnectionPool releaseNewConnection
+mar 06, 2017 10:19:40 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-mar 05, 2017 11:11:07 PM db.ConnectionPool getConnection
+mar 06, 2017 10:19:40 PM db.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-mar 05, 2017 11:11:07 PM db.ExecuteResultSet execute
+mar 06, 2017 10:19:40 PM db.ExecuteResultSet execute
 INFORMAZIONI: Query in esecuzione: SELECT * FROM lookAndFeel
-mar 05, 2017 11:11:07 PM db.ConnectionPool releaseNewConnection
+mar 06, 2017 10:19:40 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 05, 2017 11:11:07 PM db.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 05, 2017 11:11:13 PM db.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 05, 2017 11:11:13 PM db.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM gruppi ORDER BY idGruppo asc
-mar 05, 2017 11:11:13 PM db.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 05, 2017 11:11:13 PM db.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 05, 2017 11:11:13 PM db.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 05, 2017 11:11:13 PM db.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM cat_spese
-mar 05, 2017 11:11:13 PM db.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 05, 2017 11:11:13 PM db.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 05, 2017 11:11:13 PM com.molinari.gestionespese.view.report.ReportView <init>
-INFORMAZIONI: Registrato Report: 05/03/2017 23:11
-mar 05, 2017 11:11:22 PM db.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 05, 2017 11:11:22 PM db.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM single_spesa
-mar 05, 2017 11:11:22 PM db.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 05, 2017 11:11:22 PM db.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 05, 2017 11:11:22 PM db.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 05, 2017 11:11:22 PM db.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM entrate
-mar 05, 2017 11:11:22 PM db.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 05, 2017 11:11:22 PM db.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 05, 2017 11:11:26 PM db.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 05, 2017 11:11:26 PM db.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM note
-mar 05, 2017 11:11:26 PM db.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 05, 2017 11:11:26 PM db.ConnectionPool releaseNewConnection
+mar 06, 2017 10:19:40 PM db.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections

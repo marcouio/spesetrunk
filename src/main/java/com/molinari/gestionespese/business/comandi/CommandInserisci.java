@@ -6,9 +6,9 @@ import command.javabeancommand.AbstractCommandForJavaBean;
 import command.javabeancommand.AbstractOggettoEntita;
 import db.dao.IDAO;
 
-public class CommandInserisci extends AbstractCommandForJavaBean {
+public class CommandInserisci<T extends AbstractOggettoEntita> extends AbstractCommandForJavaBean<T> {
 
-	public CommandInserisci(final AbstractOggettoEntita entita, final IDAO wrap, final AbstractCacheBase cache) {
+	public CommandInserisci(final T entita, final IDAO<T> wrap, final AbstractCacheBase<T> cache) {
 		mappaCache = cache.getCache();
 		this.wrap = wrap;
 		this.entita = entita;
@@ -36,12 +36,12 @@ public class CommandInserisci extends AbstractCommandForJavaBean {
 
 	@Override
 	public void scriviLogExecute(final boolean isComandoEseguito) {
-
+		//do nothing
 	}
 
 	@Override
 	public void scriviLogUnExecute(final boolean isComandoEseguito) {
-
+		//do nothing
 	}
 
 }

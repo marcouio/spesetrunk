@@ -8,13 +8,13 @@ import com.molinari.gestionespese.domain.wrapper.WrapSingleSpesa;
 import command.javabeancommand.AbstractCommandForJavaBean;
 import grafica.componenti.alert.Alert;
 
-public class CommandUpdateSpesa extends AbstractCommandForJavaBean<SingleSpesa> {
+public class CommandUpdateSpesa extends AbstractCommandForJavaBean<ISingleSpesa> {
 
-	private final SingleSpesa newEntita;
-	private final SingleSpesa oldEntita;
+	private final ISingleSpesa newEntita;
+	private final ISingleSpesa oldEntita;
 	private final WrapSingleSpesa wrap;
 
-	public CommandUpdateSpesa(final SingleSpesa oldEntita, final ISingleSpesa newEntita) {
+	public CommandUpdateSpesa(final ISingleSpesa oldEntita, final ISingleSpesa newEntita) {
 		this.newEntita = (SingleSpesa) newEntita;
 		this.oldEntita = oldEntita;
 		this.wrap = new WrapSingleSpesa();
@@ -42,13 +42,13 @@ public class CommandUpdateSpesa extends AbstractCommandForJavaBean<SingleSpesa> 
 
 	@Override
 	public String toString() {
-		return "Modificata Spesa " + newEntita.getnome();
+		return "Modificata Spesa " + newEntita.getNome();
 	}
 
 	@Override
 	public void scriviLogExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Aggiornata correttamente spesa " + newEntita.getnome());
+			Alert.segnalazioneInfo("Aggiornata correttamente spesa " + newEntita.getNome());
 		}
 
 	}
@@ -56,7 +56,7 @@ public class CommandUpdateSpesa extends AbstractCommandForJavaBean<SingleSpesa> 
 	@Override
 	public void scriviLogUnExecute(final boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Ripristinata spesa " + oldEntita.getnome() + " precedentemente cancellata");
+			Alert.segnalazioneInfo("Ripristinata spesa " + oldEntita.getNome() + " precedentemente cancellata");
 		}
 	}
 

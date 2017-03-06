@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import com.molinari.gestionespese.business.Finestra;
+import com.molinari.gestionespese.domain.INote;
 import com.molinari.gestionespese.domain.Note;
 import com.molinari.gestionespese.domain.wrapper.WrapNote;
 import com.molinari.gestionespese.view.font.ButtonF;
@@ -19,16 +20,16 @@ public class PannelloNota extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private final Note        nota;
+	private final INote        nota;
 	private final transient Finestra      padre;
 
-	public PannelloNota(final Note note2, Finestra padre) {
+	public PannelloNota(final INote note2, Finestra padre) {
 		this.nota = note2;
 		this.padre = padre;
 		setLayout(null);
 
 		final JLabel lNome = new JLabel();
-		lNome.setText(this.nota.getnome());
+		lNome.setText(this.nota.getNome());
 		lNome.setBounds(4, 16, 150, 15);
 		add(lNome);
 

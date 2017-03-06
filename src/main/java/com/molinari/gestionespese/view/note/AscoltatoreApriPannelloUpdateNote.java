@@ -22,7 +22,7 @@ public class AscoltatoreApriPannelloUpdateNote implements ActionListener {
 		dialog.getDialog().setLocationRelativeTo(null);
 		dialog.getDialog().setBounds(0, 0, 350, 260);
 		dialog.getDialog().setVisible(true);
-		dialog.setNota(note.getnome());
+		dialog.setNota(note.getNome());
 		dialog.setTaDescrizione(note.getDescrizione());
 		dialog.settfData(note.getData());
 		dialog.getBtnInserisci().setText("Aggiorna");

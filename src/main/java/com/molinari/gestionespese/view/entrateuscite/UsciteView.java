@@ -113,7 +113,7 @@ public class UsciteView extends AbstractUsciteView {
 				try {
 					Controllore.invocaComando(new CommandDeleteSpesa(getModelUscita()));
 				} catch (final Exception e1) {
-					Alert.segnalazioneEccezione(e1,"Cancellazione della spesa " + getModelUscita().getnome() + " non riuscita: " + e1.getMessage());
+					Alert.segnalazioneEccezione(e1,"Cancellazione della spesa " + getModelUscita().getNome() + " non riuscita: " + e1.getMessage());
 				}
 			}
 		});

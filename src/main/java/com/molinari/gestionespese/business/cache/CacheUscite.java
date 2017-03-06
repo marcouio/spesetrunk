@@ -9,18 +9,19 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.molinari.gestionespese.business.Controllore;
+import com.molinari.gestionespese.domain.ISingleSpesa;
 import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapSingleSpesa;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 
-public class CacheUscite extends AbstractCacheBase<SingleSpesa> {
+public class CacheUscite extends AbstractCacheBase<ISingleSpesa> {
 
 	private static CacheUscite singleton;
 	private final WrapSingleSpesa usciteDAO = new WrapSingleSpesa();
 
 	private CacheUscite() {
-		setCache(new HashMap<String, SingleSpesa>());
+		setCache(new HashMap<String, ISingleSpesa>());
 	}
 
 	public static CacheUscite getSingleton() {
@@ -31,20 +32,20 @@ public class CacheUscite extends AbstractCacheBase<SingleSpesa> {
 		return singleton;
 	}
 
-	public SingleSpesa getSingleSpesa(final String id) {
+	public ISingleSpesa getSingleSpesa(final String id) {
 		return getObjectById(usciteDAO, id);
 	}
 
-	public Map<String, SingleSpesa> getAllUscite() {
+	public Map<String, ISingleSpesa> getAllUscite() {
 		return getAll(usciteDAO);
 	}
 
-	public List<SingleSpesa> getAllUsciteForUtente() {
+	public List<ISingleSpesa> getAllUsciteForUtente() {
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 
-		final Map<String, SingleSpesa> mappa = getAllUscite();
+		final Map<String, ISingleSpesa> mappa = getAllUscite();
 
-		final Stream<SingleSpesa> filter = mappa.values().stream().filter(ss ->
+		final Stream<ISingleSpesa> filter = mappa.values().stream().filter(ss ->
 		{
 			final Utenti utenti = ss.getUtenti();
 			return ss != null && utenti != null && utenti.getidUtente() == utente.getidUtente();
@@ -54,8 +55,8 @@ public class CacheUscite extends AbstractCacheBase<SingleSpesa> {
 
 	}
 
-	public List<SingleSpesa> getAllUsciteForUtenteEAnno() {
-		final Map<String, SingleSpesa> mappa = getAllUscite();
+	public List<ISingleSpesa> getAllUsciteForUtenteEAnno() {
+		final Map<String, ISingleSpesa> mappa = getAllUscite();
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		final String annoDaText = Integer.toString(Impostazioni.getAnno());
 		if (utente != null) {
@@ -69,8 +70,8 @@ public class CacheUscite extends AbstractCacheBase<SingleSpesa> {
 	}
 
 	public int getMaxId() {
-		final Map<String, SingleSpesa> mappa = getAllUscite();
-		final Optional<SingleSpesa> max = mappa.values().stream().max((s1, s2) -> Integer.compare(s1.getidSpesa(), s2.getidSpesa()));
+		final Map<String, ISingleSpesa> mappa = getAllUscite();
+		final Optional<ISingleSpesa> max = mappa.values().stream().max((s1, s2) -> Integer.compare(s1.getidSpesa(), s2.getidSpesa()));
 		return max.isPresent() ? max.get().getidSpesa() : 0;
 	}
 

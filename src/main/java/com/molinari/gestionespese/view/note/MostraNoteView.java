@@ -10,7 +10,7 @@ import javax.swing.JScrollPane;
 
 import com.molinari.gestionespese.business.Finestra;
 import com.molinari.gestionespese.business.cache.CacheNote;
-import com.molinari.gestionespese.domain.Note;
+import com.molinari.gestionespese.domain.INote;
 import com.molinari.gestionespese.view.font.ButtonF;
 
 import grafica.componenti.contenitori.PannelloBase;
@@ -23,7 +23,7 @@ public class MostraNoteView implements Finestra {
 
 	public MostraNoteView(Container cont) {
 		container = new PannelloBase(cont);
-		final List<Note> note = CacheNote.getSingleton().getAllNoteForUtenteEAnno();
+		final List<INote> note = CacheNote.getSingleton().getAllNoteForUtenteEAnno();
 		getContainer().setSize(250, 425);
 		getContainer().setLayout(null);
 
@@ -43,7 +43,7 @@ public class MostraNoteView implements Finestra {
 		inserisci.setBounds(82, 0, 90, 30);
 		inserisci.addActionListener(new AscoltatoreApriPannelloInserisciNota(this));
 		for (int i = 0; i < note.size(); i++) {
-			final Note nota = note.get(i);
+			final INote nota = note.get(i);
 			final PannelloNota pNota = new PannelloNota(nota, this);
 			pannello.add(pNota);
 			pannello.setPreferredSize(new Dimension(220, 180 * note.size()));
@@ -65,10 +65,10 @@ public class MostraNoteView implements Finestra {
 	}
 
 	public void aggiornaVista() {
-		final List<Note> note = CacheNote.getSingleton().getAllNoteForUtenteEAnno();
+		final List<INote> note = CacheNote.getSingleton().getAllNoteForUtenteEAnno();
 		pannello.removeAll();
 		for (int i = 0; i < note.size(); i++) {
-			final Note nota = note.get(i);
+			final INote nota = note.get(i);
 			final PannelloNota pNota = new PannelloNota(nota, this);
 			pannello.add(pNota);
 			pannello.setPreferredSize(new Dimension(220, 180 * note.size()));

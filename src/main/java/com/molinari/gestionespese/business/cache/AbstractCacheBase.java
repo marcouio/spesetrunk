@@ -35,7 +35,7 @@ public abstract class AbstractCacheBase<T extends AbstractOggettoEntita> {
 		this.cache = cache;
 	}
 
-	public T getObjectById(IDAO dao, String id){
+	public T getObjectById(IDAO<T> dao, String id){
 		T obj = cache.get(id);
 		if (obj == null) {
 			obj = caricaObj(dao, id);
@@ -46,16 +46,14 @@ public abstract class AbstractCacheBase<T extends AbstractOggettoEntita> {
 		return cache.get(id);
 	}
 
-	public Map<String, T> chargeAllObject(IDAO dao) {
+	public Map<String, T> chargeAllObject(IDAO<T> dao) {
 		try {
 			final List<T> objs = (List<T>) dao.selectAll();
 			if (objs != null && !objs.isEmpty()) {
 				for (int i = 0; i < objs.size(); i++) {
 					final T object = objs.get(i);
 					final String id = object.getIdEntita();
-					if (cache.get(id) == null) {
-						cache.put(id, object);
-					}
+					putInCache(object, id);
 				}
 			}
 			caricata = true;
@@ -65,7 +63,13 @@ public abstract class AbstractCacheBase<T extends AbstractOggettoEntita> {
 		return cache;
 	}
 
-	public Map<String, T> getAll(IDAO dao) {
+	private void putInCache(final T object, final String id) {
+		if (cache.get(id) == null) {
+			cache.put(id, object);
+		}
+	}
+
+	public Map<String, T> getAll(IDAO<T> dao) {
 		if (caricata) {
 			return cache;
 		} else {
@@ -73,7 +77,7 @@ public abstract class AbstractCacheBase<T extends AbstractOggettoEntita> {
 		}
 	}
 
-	private T caricaObj(IDAO dao, String id) {
+	private T caricaObj(IDAO<T> dao, String id) {
 		try {
 			return (T) dao.selectById(Integer.parseInt(id));
 		} catch (final Exception e) {

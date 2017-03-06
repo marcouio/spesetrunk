@@ -100,12 +100,12 @@ public class SingleSpesa implements AbstractOggettoEntita, Serializable, ISingle
 	}
 
 	@Override
-	public String getnome() {
+	public String getNome() {
 		return this.nome;
 	}
 
 	@Override
-	public void setnome(final String nome) {
+	public void setNome(final String nome) {
 		this.nome = nome;
 	}
 
@@ -153,10 +153,4 @@ public class SingleSpesa implements AbstractOggettoEntita, Serializable, ISingle
 	public void setIdEntita(String idEntita) {
 		setidSpesa(Integer.parseInt(idEntita));
 	}
-
-	@Override
-	public String getNome() {
-		return nome;
-	}
-
 }

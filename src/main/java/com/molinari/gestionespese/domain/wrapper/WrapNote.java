@@ -24,15 +24,15 @@ import db.ExecutePreparedStatement;
 import db.ExecuteResultSet;
 import db.dao.IDAO;
 
-public class WrapNote extends Observable implements IDAO<Note>, INote {
+public class WrapNote extends Observable implements IDAO<INote>, INote {
 
 	private static final String DELETE_FROM = "DELETE FROM ";
 	private static final String WHERE = " WHERE ";
 	private static final String SELECT_FROM = "SELECT * FROM ";
-	private final Note note;
+	private final INote note;
 	private WrapBase base = new WrapBase();
 
-	public WrapNote(final Note nota) {
+	public WrapNote(final INote nota) {
 		this.note = nota;
 	}
 
@@ -91,8 +91,8 @@ public class WrapNote extends Observable implements IDAO<Note>, INote {
 	}
 
 	@Override
-	public String getnome() {
-		return note.getnome();
+	public String getNome() {
+		return note.getNome();
 	}
 
 	@Override
@@ -111,19 +111,19 @@ public class WrapNote extends Observable implements IDAO<Note>, INote {
 	}
 
 	@Override
-	public Note selectById(final int id) {
+	public INote selectById(final int id) {
 
 		final String sql = SELECT_FROM + Note.NOME_TABELLA + WHERE + Note.ID + " = " + id;
 
 		try {
 
-			new ExecuteResultSet<Note>() {
+			new ExecuteResultSet<INote>() {
 
 				@Override
-				protected Note doWithResultSet(ResultSet rs) throws SQLException {
+				protected INote doWithResultSet(ResultSet rs) throws SQLException {
 
 					if (rs.next()) {
-						final Note noteLoc = new Note();
+						final INote noteLoc = new Note();
 						noteLoc.setIdNote(rs.getInt(1));
 						noteLoc.setNome(rs.getString(2));
 						noteLoc.setDescrizione(rs.getString(3));
@@ -145,21 +145,21 @@ public class WrapNote extends Observable implements IDAO<Note>, INote {
 	}
 
 	@Override
-	public List<Note> selectAll() {
+	public List<INote> selectAll() {
 
 
 		final String sql = SELECT_FROM + Note.NOME_TABELLA;
 		try {
 
-			return new ExecuteResultSet<List<Note>>() {
+			return new ExecuteResultSet<List<INote>>() {
 
 				@Override
-				protected List<Note> doWithResultSet(ResultSet rs) throws SQLException {
-					final List<Note> noteList = new ArrayList<>();
+				protected List<INote> doWithResultSet(ResultSet rs) throws SQLException {
+					final List<INote> noteList = new ArrayList<>();
 
 					while (rs != null && rs.next()) {
 						final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(4)));
-						final Note nota = new Note();
+						final INote nota = new Note();
 						nota.setIdNote(rs.getInt(1));
 						nota.setDescrizione(rs.getString(3));
 						nota.setData(rs.getString(6));
@@ -183,20 +183,20 @@ public class WrapNote extends Observable implements IDAO<Note>, INote {
 	}
 
 	@Override
-	public boolean insert(final Note oggettoEntita) {
+	public boolean insert(final INote oggettoEntita) {
 		String sql = "INSERT INTO " + Note.NOME_TABELLA + " (" + Note.COL_DESCRIZIONE + ", " + Entrate.COL_DATA + ", " + Entrate.COL_NOME + ", " + Entrate.COL_IDUTENTE + ", " + Entrate.COL_DATAINS
 				+ ") VALUES (?,?,?,?,?)";
 
-		return new ExecutePreparedStatement<Note>() {
+		return new ExecutePreparedStatement<INote>() {
 
 			@Override
-			protected void doWithPreparedStatement(PreparedStatement ps, Note obj) throws SQLException {
+			protected void doWithPreparedStatement(PreparedStatement ps, INote obj) throws SQLException {
 				// descrizione
 				ps.setString(1, obj.getDescrizione());
 				// data
 				ps.setString(2, obj.getData());
 				// nome
-				ps.setString(3, obj.getnome());
+				ps.setString(3, obj.getNome());
 				// idutente
 				ps.setInt(4, obj.getUtenti().getidUtente());
 				// datains
@@ -214,14 +214,14 @@ public class WrapNote extends Observable implements IDAO<Note>, INote {
 	}
 
 	@Override
-	public boolean update(final Note oggettoEntita) {
-		final Note nota = oggettoEntita;
+	public boolean update(final INote oggettoEntita) {
+		final INote nota = oggettoEntita;
 		final String sql = getQueryUpdate(nota);
 		return base.executeUpdate(sql);
 
 	}
 
-	private String getQueryUpdate(final Note nota) {
+	private String getQueryUpdate(final INote nota) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("UPDATE ");
 		sb.append(Note.NOME_TABELLA);
@@ -236,7 +236,7 @@ public class WrapNote extends Observable implements IDAO<Note>, INote {
 		sb.append("', ");
 		sb.append(Entrate.COL_NOME);
 		sb.append(" = '");
-		sb.append(nota.getnome());
+		sb.append(nota.getNome());
 		sb.append("', ");
 		sb.append(Entrate.COL_IDUTENTE);
 		sb.append(" = ");
@@ -307,13 +307,24 @@ public class WrapNote extends Observable implements IDAO<Note>, INote {
 	}
 
 	@Override
-	public Note getEntitaPadre() {
+	public INote getEntitaPadre() {
 		return note;
 	}
 
 	@Override
-	public List<Note> selectWhere(List<Clausola> clausole,
+	public List<INote> selectWhere(List<Clausola> clausole,
 			String appentoToQuery) {
 		throw new UnsupportedOperationException();
 	}
+
+	@Override
+	public String getIdEntita() {
+		return Integer.toString(getIdNote());
+	}
+
+	@Override
+	public void setIdEntita(String idEntita) {
+		setIdNote(Integer.parseInt(idEntita));
+	}
+
 }

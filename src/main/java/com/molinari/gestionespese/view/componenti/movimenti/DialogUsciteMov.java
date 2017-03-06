@@ -206,7 +206,7 @@ public class DialogUsciteMov extends AbstractUsciteView {
 			aggiornaModelDaVista();
 			try {
 				if (!Controllore.invocaComando(new CommandDeleteSpesa(getModelUscita()))) {
-					final String msg = I18NManager.getSingleton().getMessaggio("charge")+ getModelUscita().getnome() + " non aggiornata: tutti i dati devono essere valorizzati";
+					final String msg = I18NManager.getSingleton().getMessaggio("charge")+ getModelUscita().getNome() + " non aggiornata: tutti i dati devono essere valorizzati";
 					Alert.segnalazioneErroreGrave(msg);
 				}
 			} catch (final Exception e1) {
@@ -220,12 +220,12 @@ public class DialogUsciteMov extends AbstractUsciteView {
 			aggiornaModelDaVista();
 			final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(SingleSpesa.NOME_TABELLA);
 			final JTextField campo = Controllore.getSingleton().getGeneralFrame().getPannelTabs().getTabMovUscite().getCampo();
-			final SingleSpesa oldSpesa = CacheUscite.getSingleton().getSingleSpesa(idSpesa.getText());
+			final ISingleSpesa oldSpesa = CacheUscite.getSingleton().getSingleSpesa(idSpesa.getText());
 
 			if (dialog.nonEsistonoCampiNonValorizzati()) {
 				try {
 					if (!Controllore.invocaComando(new CommandUpdateSpesa(oldSpesa, (ISingleSpesa) getModelUscita().getEntitaPadre()))) {
-						Alert.segnalazioneErroreGrave("Spesa " + oldSpesa.getnome() + " non aggiornata");
+						Alert.segnalazioneErroreGrave("Spesa " + oldSpesa.getNome() + " non aggiornata");
 					}
 				} catch (final Exception e1) {
 					Alert.segnalazioneEccezione(e1, null);
@@ -235,7 +235,7 @@ public class DialogUsciteMov extends AbstractUsciteView {
 				// chiude la dialog e rilascia le risorse
 				getDialog().dispose();
 			} else {
-				final String msg = I18NManager.getSingleton().getMessaggio("charge")+ oldSpesa.getnome() + " non aggiornata: tutti i dati devono essere valorizzati";
+				final String msg = I18NManager.getSingleton().getMessaggio("charge")+ oldSpesa.getNome() + " non aggiornata: tutti i dati devono essere valorizzati";
 				Alert.segnalazioneErroreGrave(msg);
 			}
 		}

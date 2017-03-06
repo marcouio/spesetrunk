@@ -8,7 +8,7 @@ import com.molinari.gestionespese.domain.wrapper.WrapNote;
 import command.javabeancommand.AbstractCommandForJavaBean;
 import grafica.componenti.alert.Alert;
 
-public class CommandDeleteNota extends AbstractCommandForJavaBean<Note> {
+public class CommandDeleteNota extends AbstractCommandForJavaBean<INote> {
 
 	public CommandDeleteNota(INote entita) {
 		final CacheNote cache = CacheNote.getSingleton();

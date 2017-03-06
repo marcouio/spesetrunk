@@ -11,7 +11,7 @@ import com.molinari.gestionespese.business.cache.CacheGruppi;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.Gruppi;
-import com.molinari.gestionespese.domain.SingleSpesa;
+import com.molinari.gestionespese.domain.ISingleSpesa;
 
 import controller.ControlloreBase;
 
@@ -285,7 +285,7 @@ public class Model {
 
 	// *************************************MOVIMENTI-USCITE***********************************
 
-	public static String[][] movimentiFiltratiUscitePerNumero(final String tabella, final List<SingleSpesa> uscite) {
+	public static String[][] movimentiFiltratiUscitePerNumero(final String tabella, final List<ISingleSpesa> uscite) {
 		final List<String> nomi = Database.getSingleton().nomiColonne(tabella);
 
 		final int numUscite = uscite.size();
@@ -319,10 +319,10 @@ public class Model {
 
 	}
 
-	private static void popolaArrayMovUsciteConSingleSpesa(final List<SingleSpesa> uscite, int x) {
-		final SingleSpesa uscita = uscite.get(x);
+	private static void popolaArrayMovUsciteConSingleSpesa(final List<ISingleSpesa> uscite, int x) {
+		final ISingleSpesa uscita = uscite.get(x);
 		movimentiUscite[x][0] = uscita.getData();
-		movimentiUscite[x][1] = uscita.getnome();
+		movimentiUscite[x][1] = uscita.getNome();
 		movimentiUscite[x][2] = uscita.getdescrizione();
 		movimentiUscite[x][3] = Double.toString(uscita.getinEuro());
 		movimentiUscite[x][4] = uscita.getCatSpese() != null ? uscita.getCatSpese().getnome() : "Nessuna";
@@ -341,7 +341,7 @@ public class Model {
 	 */
 	public static String[][] movimentiUscite(final int numUscite, final String tabella) {
 		final List<String> nomi = Database.getSingleton().nomiColonne(tabella);
-		final List<SingleSpesa> uscite = Model.getSingleton().modelUscita.dieciUscite(numUscite);
+		final List<ISingleSpesa> uscite = Model.getSingleton().modelUscita.dieciUscite(numUscite);
 
 		if (!uscite.isEmpty() && (uscite.size() == numUscite || uscite.size() >= numUscite)) {
 			movimentiUscite = new String[numUscite][nomi.size()];

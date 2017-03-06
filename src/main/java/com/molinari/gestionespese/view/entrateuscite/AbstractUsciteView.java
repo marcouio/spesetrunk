@@ -37,12 +37,12 @@ public abstract class AbstractUsciteView implements Observer {
 	}
 
 	protected String getcNome() {
-		return modelUscita.getnome();
+		return modelUscita.getNome();
 	}
 
 	protected void setcNome(final String cNome) {
 		final CorreggiTesto correttoreTesto = new CorreggiTesto(cNome);
-		modelUscita.setnome(correttoreTesto.getTesto());
+		modelUscita.setNome(correttoreTesto.getTesto());
 	}
 
 	protected String getcData() {

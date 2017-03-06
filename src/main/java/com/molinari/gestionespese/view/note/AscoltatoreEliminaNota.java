@@ -7,6 +7,7 @@ import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.Finestra;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import com.molinari.gestionespese.business.comandi.note.CommandDeleteNota;
+import com.molinari.gestionespese.domain.INote;
 import com.molinari.gestionespese.domain.Note;
 import com.molinari.gestionespese.domain.wrapper.WrapNote;
 
@@ -16,9 +17,9 @@ import grafica.componenti.alert.Alert;
 public class AscoltatoreEliminaNota extends AscoltatoreAggiornatoreNiente {
 
 	PannelloNota pNota = null;
-	Note nota = null;
+	INote nota = null;
 
-	public AscoltatoreEliminaNota(final PannelloNota pNota, final Note nota) {
+	public AscoltatoreEliminaNota(final PannelloNota pNota, final INote nota) {
 		this.pNota = pNota;
 		this.nota = nota;
 	}
@@ -30,7 +31,7 @@ public class AscoltatoreEliminaNota extends AscoltatoreAggiornatoreNiente {
 		try {
 			Controllore.invocaComando(new CommandDeleteNota(wn));
 		} catch (final Exception e1) {
-			Alert.segnalazioneErroreGrave("Nota " + nota.getnome() + " non eliminata: " + e1.getMessage());
+			Alert.segnalazioneErroreGrave("Nota " + nota.getNome() + " non eliminata: " + e1.getMessage());
 			ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 		}
 		final Finestra f = pNota.getPadre();

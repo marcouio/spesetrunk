@@ -1,30 +1,32 @@
 package com.molinari.gestionespese.domain;
 
-public interface INote {
+import command.javabeancommand.AbstractOggettoEntita;
+
+public interface INote extends AbstractOggettoEntita{
 
 	public String getData();
 
-	public void setData(String _data_);
+	public void setData(String data);
 
 	public String getDataIns();
 
-	public void setDataIns(String _dataIns_);
+	public void setDataIns(String dataIns);
 
 	public String getDescrizione();
 
-	public void setDescrizione(String _descrizione_);
+	public void setDescrizione(String descrizione);
 
 	public int getIdNote();
 
-	public void setIdNote(int _idNote_);
+	public void setIdNote(int idNote);
 
 	public int getIdUtente();
 
-	public void setIdUtente(int _idUtente_);
+	public void setIdUtente(int idUtente);
 
-	public String getnome();
+	public String getNome();
 
-	public void setNome(String _nome_);
+	public void setNome(String nome);
 
 	public void setUtenti(Utenti utenti);
 

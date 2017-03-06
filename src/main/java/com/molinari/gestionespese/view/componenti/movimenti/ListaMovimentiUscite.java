@@ -13,6 +13,7 @@ import com.molinari.gestionespese.business.aggiornatori.AggiornatoreManager;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.Entrate;
+import com.molinari.gestionespese.domain.ISingleSpesa;
 import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.wrapper.Model;
 
@@ -49,7 +50,7 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 
 					@Override
 					public String[][] getMovimenti() {
-						final List<SingleSpesa> uscite = Model.getSingleton().getModelUscita()
+						final List<ISingleSpesa> uscite = Model.getSingleton().getModelUscita()
 								.movimentiUsciteFiltrate(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
 						final String[][] mov = Model.getSingleton().movimentiFiltratiUscitePerNumero(Entrate.NOME_TABELLA, uscite);
 						AggiornatoreManager.aggiornaMovimentiUsciteDaFiltro(createNomiColonne(), mov);
