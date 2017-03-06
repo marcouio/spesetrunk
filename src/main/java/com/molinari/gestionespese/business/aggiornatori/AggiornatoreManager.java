@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Vector;
 import java.util.logging.Level;
 
 import javax.swing.DefaultComboBoxModel;
@@ -460,7 +459,7 @@ public class AggiornatoreManager {
 	}
 
 	public static void aggiornamentoComboBox(final List<CatSpese> categorie) {
-		final Vector<CatSpese> v = new Vector<>(categorie);
+		CatSpese[] v = categorie.toArray(new CatSpese[categorie.size()]);
 		final DefaultComboBoxModel<CatSpese> model = new DefaultComboBoxModel<>(v);
 		if (SottoPannelloCategorie.getCategorieCombo() != null) {
 			SottoPannelloCategorie.getCategorieCombo().setModel(model);

@@ -1,7 +1,7 @@
 package com.molinari.gestionespese.business.generatori;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
@@ -25,7 +25,7 @@ public class TableModelUsciteGruppi extends TableModel{
 	@Override
 	protected void preBuild(Object parametro) {
 		aggiungiNomiColonne();
-		final HashMap<Integer, String> mapMesi = TableModelUscite.mapMesi;
+		final Map<Integer, String> mapMesi = TableModelUscite.getMapmesi();
 		for (int i = 1; i <= 12; i++) {
 			final Riga riga = new Riga();
 			riga.add(mapMesi.get(i));

@@ -2,6 +2,7 @@ package com.molinari.gestionespese.business.generatori;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
@@ -11,7 +12,11 @@ import com.molinari.gestionespese.domain.CatSpese;
 import grafica.componenti.table.TableModel;
 
 public class TableModelUscite extends TableModel{
-	public static HashMap<Integer, String> mapMesi = new HashMap<>();
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private static final Map<Integer, String> mapMesi = new HashMap<>();
 
 	static{
 		mapMesi.put(1, I18NManager.getSingleton().getMessaggio("january"));
@@ -28,13 +33,12 @@ public class TableModelUscite extends TableModel{
 		mapMesi.put(12, I18NManager.getSingleton().getMessaggio("december"));
 	}
 
-	List<CatSpese> categorie;
+	private List<CatSpese> categorie;
 
-	public TableModelUscite(Object parametro) throws Exception {
+	public TableModelUscite(Object parametro) {
 		super(parametro);
 	}
 
-	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void preBuild(Object parametro) {
@@ -64,6 +68,11 @@ public class TableModelUscite extends TableModel{
 			categorie = CacheCategorie.getSingleton().getVettoreCategorie();
 		}
 		return categorie;
+	}
+
+
+	public static Map<Integer, String> getMapmesi() {
+		return mapMesi;
 	}
 
 }
