@@ -25,7 +25,7 @@ public class CommandUpdateEntrata extends AbstractCommandForJavaBean<Entrate> im
 
 	@Override
 	public boolean execute() {
-		if (newEntita instanceof Entrate && wrap.update(newEntita)) {
+		if (wrap.update(newEntita)) {
 			return true;
 		}
 		return false;
@@ -33,7 +33,7 @@ public class CommandUpdateEntrata extends AbstractCommandForJavaBean<Entrate> im
 
 	@Override
 	public boolean unExecute() {
-		if (oldEntita instanceof Entrate && wrap.update(oldEntita)) {
+		if (wrap.update(oldEntita)) {
 			return true;
 		}
 		return false;

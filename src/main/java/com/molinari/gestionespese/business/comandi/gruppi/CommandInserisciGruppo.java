@@ -6,7 +6,6 @@ import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapGruppi;
 
 import command.javabeancommand.AbstractCommandForJavaBean;
-import db.dao.IDAO;
 import grafica.componenti.alert.Alert;
 
 public class CommandInserisciGruppo extends AbstractCommandForJavaBean<Gruppi> {
@@ -15,12 +14,12 @@ public class CommandInserisciGruppo extends AbstractCommandForJavaBean<Gruppi> {
 		final CacheGruppi cache = CacheGruppi.getSingleton();
 		mappaCache = cache.getCache();
 		this.wrap = new WrapGruppi();
-		this.entita = (Gruppi) ((IDAO) entita).getEntitaPadre();
+		this.entita = (Gruppi) ((WrapGruppi) entita).getEntitaPadre();
 	}
 
 	@Override
 	public boolean execute() throws Exception {
-		if (entita instanceof Gruppi && wrap.insert(entita)) {
+		if (wrap.insert(entita)) {
 			mappaCache.put(entita.getIdEntita(), entita);
 			return true;
 		}
@@ -29,7 +28,7 @@ public class CommandInserisciGruppo extends AbstractCommandForJavaBean<Gruppi> {
 
 	@Override
 	public boolean unExecute() throws Exception {
-		if (entita instanceof Gruppi && wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
+		if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
 			mappaCache.remove(entita.getIdEntita());
 			return true;
 		}

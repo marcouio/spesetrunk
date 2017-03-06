@@ -7,7 +7,6 @@ import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
 
 import command.ICommand;
 import command.javabeancommand.AbstractCommandForJavaBean;
-import db.dao.IDAO;
 import grafica.componenti.alert.Alert;
 
 public class CommandDeleteEntrata extends AbstractCommandForJavaBean<Entrate> implements ICommand {
@@ -16,12 +15,12 @@ public class CommandDeleteEntrata extends AbstractCommandForJavaBean<Entrate> im
 		final CacheEntrate cache = CacheEntrate.getSingleton();
 		mappaCache = cache.getCache();
 		this.wrap = new WrapEntrate();
-		this.entita = (Entrate) ((IDAO) entita).getEntitaPadre();
+		this.entita = (Entrate) ((WrapEntrate) entita).getEntitaPadre();
 	}
 
 	@Override
 	public boolean execute() throws Exception {
-		if (entita instanceof Entrate && wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
+		if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
 			mappaCache.remove(entita.getIdEntita());
 			return true;
 		}
@@ -30,7 +29,7 @@ public class CommandDeleteEntrata extends AbstractCommandForJavaBean<Entrate> im
 
 	@Override
 	public boolean unExecute() throws Exception {
-		if (entita instanceof Entrate && wrap.insert(entita)) {
+		if (wrap.insert(entita)) {
 			mappaCache.put(entita.getIdEntita(), entita);
 			return true;
 		}

@@ -21,7 +21,7 @@ public class CommandUpdateNota extends AbstractCommandForJavaBean<Note> {
 
 	@Override
 	public boolean execute() throws Exception {
-		if (newEntita instanceof Note && wrap.update(newEntita)) {
+		if (wrap.update(newEntita)) {
 			return true;
 		}
 		return false;
@@ -29,7 +29,7 @@ public class CommandUpdateNota extends AbstractCommandForJavaBean<Note> {
 
 	@Override
 	public boolean unExecute() throws Exception {
-		if (oldEntita instanceof Note && wrap.update(oldEntita)) {
+		if (wrap.update(oldEntita)) {
 			return true;
 		}
 		return false;

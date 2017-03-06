@@ -6,7 +6,6 @@ import com.molinari.gestionespese.domain.Note;
 import com.molinari.gestionespese.domain.wrapper.WrapNote;
 
 import command.javabeancommand.AbstractCommandForJavaBean;
-import db.dao.IDAO;
 import grafica.componenti.alert.Alert;
 
 public class CommandInserisciNota extends AbstractCommandForJavaBean<Note> {
@@ -15,13 +14,13 @@ public class CommandInserisciNota extends AbstractCommandForJavaBean<Note> {
 		final CacheNote cache = CacheNote.getSingleton();
 		mappaCache = cache.getCache();
 		this.wrap = new WrapNote();
-		this.entita = (Note) ((IDAO) entita).getEntitaPadre();
+		this.entita = (Note) ((WrapNote) entita).getEntitaPadre();
 
 	}
 
 	@Override
 	public boolean execute() throws Exception {
-		if (entita instanceof Note && wrap.insert(entita)) {
+		if (wrap.insert(entita)) {
 			mappaCache.put(entita.getIdEntita(), entita);
 			return true;
 		}
@@ -30,7 +29,7 @@ public class CommandInserisciNota extends AbstractCommandForJavaBean<Note> {
 
 	@Override
 	public boolean unExecute() throws Exception {
-		if (entita instanceof Note && wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
+		if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
 			mappaCache.remove(entita.getIdEntita());
 			return true;
 		}

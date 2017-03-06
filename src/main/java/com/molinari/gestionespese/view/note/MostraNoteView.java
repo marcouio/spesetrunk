@@ -2,7 +2,7 @@ package com.molinari.gestionespese.view.note;
 
 import java.awt.Container;
 import java.awt.Dimension;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -13,7 +13,6 @@ import com.molinari.gestionespese.business.cache.CacheNote;
 import com.molinari.gestionespese.domain.Note;
 import com.molinari.gestionespese.view.font.ButtonF;
 
-import grafica.componenti.contenitori.FrameBase;
 import grafica.componenti.contenitori.PannelloBase;
 
 public class MostraNoteView implements Finestra {
@@ -24,7 +23,7 @@ public class MostraNoteView implements Finestra {
 
 	public MostraNoteView(Container cont) {
 		container = new PannelloBase(cont);
-		final ArrayList<Note> note = CacheNote.getSingleton().getAllNoteForUtenteEAnno();
+		final List<Note> note = CacheNote.getSingleton().getAllNoteForUtenteEAnno();
 		getContainer().setSize(250, 425);
 		getContainer().setLayout(null);
 
@@ -66,7 +65,7 @@ public class MostraNoteView implements Finestra {
 	}
 
 	public void aggiornaVista() {
-		final ArrayList<Note> note = CacheNote.getSingleton().getAllNoteForUtenteEAnno();
+		final List<Note> note = CacheNote.getSingleton().getAllNoteForUtenteEAnno();
 		pannello.removeAll();
 		for (int i = 0; i < note.size(); i++) {
 			final Note nota = note.get(i);

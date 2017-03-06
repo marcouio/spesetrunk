@@ -11,7 +11,6 @@ import com.molinari.gestionespese.business.DBUtil;
 public class ScrittoreReportTxt extends ScrittoreReportBase implements IScrittoreReport {
 
 	private PrintStream stream = null;
-	private FileOutputStream file = null;
 	private Date dataRegistrazione = new Date();
 	private Date dataAggiornamento;
 	String trattini = "--------------------------------------------------------------------------";
@@ -23,22 +22,21 @@ public class ScrittoreReportTxt extends ScrittoreReportBase implements IScrittor
 	private PrintStream creaStream() throws FileNotFoundException {
 		AltreUtil.deleteFileDaDirectory("./", "Rep");
 		final String data = DBUtil.dataToString(new Date(), "dd_MM_yyyy_HH_mm_ss");
-		file = new FileOutputStream("Report" + data + ".txt");
+		FileOutputStream file = new FileOutputStream("Report" + data + ".txt");
 		stream = new PrintStream(file);
 		return stream;
 	}
 
 	@Override
 	protected boolean operazioniPreliminari() throws Exception {
-		if(creaStream()!=null) {
-			return true;
-		}
-		return false;
+		creaStream();
+		return true;
+		
 	}
 
 	@Override
 	protected boolean scriviCampoMatrice(final OggettoReport oggettoReport,final String dipendenza, final String dipendenza2,final String valore) {
-		final StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 		sb.append(oggettoReport.getNomeOggetto() + " per ");
 		sb.append(oggettoReport.getNomeDipendenza2() + " '" + dipendenza2+"' e ");
 		sb.append(oggettoReport.getNomeDipendenza() + " '" + dipendenza+"' ");
@@ -53,7 +51,7 @@ public class ScrittoreReportTxt extends ScrittoreReportBase implements IScrittor
 	public boolean scriviCampoMappa(final String chiave, final Double valoreDouble,
 			final OggettoReport oggettoReport) {
 
-		final StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 		sb.append(oggettoReport.getNomeOggetto());
 		sb.append(" per "+ oggettoReport.getNomeDipendenza()+ " '" + chiave);
 		sb.append("' vale: " + valoreDouble);
@@ -66,7 +64,7 @@ public class ScrittoreReportTxt extends ScrittoreReportBase implements IScrittor
 	@Override
 	protected boolean scriviCampoDaDouble(OggettoReport oggettoReport) {
 		final Double valore = (Double) oggettoReport.getOggettoReport();
-		final StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 		sb.append(oggettoReport.getNomeOggetto() + " vale: " + AltreUtil.arrotondaDecimaliDouble(valore));
 
 		chiudiSezione(stream, sb.toString());

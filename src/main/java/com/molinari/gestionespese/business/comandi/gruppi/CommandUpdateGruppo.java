@@ -23,7 +23,7 @@ public class CommandUpdateGruppo extends AbstractCommandForJavaBean<Gruppi> {
 
 	@Override
 	public boolean execute() throws Exception {
-		if (newEntita instanceof Gruppi && wrap.update(newEntita)) {
+		if (wrap.update(newEntita)) {
 			mappaCache.put(Integer.toString(newEntita.getidGruppo()), newEntita);
 			return true;
 		}
@@ -32,7 +32,7 @@ public class CommandUpdateGruppo extends AbstractCommandForJavaBean<Gruppi> {
 
 	@Override
 	public boolean unExecute() throws Exception {
-		if (oldEntita instanceof Gruppi && wrap.update(oldEntita)) {
+		if (wrap.update(oldEntita)) {
 			mappaCache.put(Integer.toString(oldEntita.getidGruppo()), oldEntita);
 			return true;
 		}

@@ -25,7 +25,7 @@ public class CommandUpdateCategoria extends AbstractCommandForJavaBean<CatSpese>
 
 	@Override
 	public boolean execute() {
-		if (newEntita instanceof CatSpese && wrap.update(newEntita)) {
+		if (wrap.update(newEntita)) {
 			mappaCache.put(Integer.toString(newEntita.getidCategoria()), newEntita);
 			return true;
 		}

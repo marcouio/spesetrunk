@@ -49,7 +49,7 @@ public class CacheUtenti extends AbstractCacheBase<Utenti> {
 	public List<Utenti> getVettoreUtenti() {
 		final List<Utenti> utenti = new ArrayList<>();
 		final Map<String, Utenti> mappa = this.getAllUtenti();
-		final Utenti[] lista = (Utenti[]) mappa.values().toArray();
+		final Utenti[] lista = (Utenti[]) mappa.values().toArray(new Utenti[0]);
 		for (final Utenti element : lista) {
 			utenti.add(element);
 		}

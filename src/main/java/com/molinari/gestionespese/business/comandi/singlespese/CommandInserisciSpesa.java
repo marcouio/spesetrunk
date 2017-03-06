@@ -6,7 +6,6 @@ import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.wrapper.WrapSingleSpesa;
 
 import command.javabeancommand.AbstractCommandForJavaBean;
-import db.dao.IDAO;
 import grafica.componenti.alert.Alert;
 
 public class CommandInserisciSpesa extends AbstractCommandForJavaBean<SingleSpesa> {
@@ -15,12 +14,12 @@ public class CommandInserisciSpesa extends AbstractCommandForJavaBean<SingleSpes
 		final CacheUscite cache = CacheUscite.getSingleton();
 		mappaCache = cache.getCache();
 		this.wrap = new WrapSingleSpesa();
-		this.entita = (SingleSpesa) ((IDAO) entita).getEntitaPadre();
+		this.entita = (SingleSpesa) ((WrapSingleSpesa) entita).getEntitaPadre();
 	}
 
 	@Override
 	public boolean execute() throws Exception {
-		if (entita instanceof SingleSpesa && wrap.insert(entita)) {
+		if (wrap.insert(entita)) {
 			mappaCache.put(entita.getIdEntita(), entita);
 			return true;
 		}
@@ -29,7 +28,7 @@ public class CommandInserisciSpesa extends AbstractCommandForJavaBean<SingleSpes
 
 	@Override
 	public boolean unExecute() throws Exception {
-		if (entita instanceof SingleSpesa && wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
+		if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
 			mappaCache.remove(entita.getIdEntita());
 			return true;
 		}

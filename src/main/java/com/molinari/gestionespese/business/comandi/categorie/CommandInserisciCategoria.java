@@ -7,7 +7,6 @@ import com.molinari.gestionespese.domain.wrapper.WrapCatSpese;
 
 import command.ICommand;
 import command.javabeancommand.AbstractCommandForJavaBean;
-import db.dao.IDAO;
 import grafica.componenti.alert.Alert;
 
 public class CommandInserisciCategoria extends AbstractCommandForJavaBean<CatSpese> implements ICommand {
@@ -16,12 +15,12 @@ public class CommandInserisciCategoria extends AbstractCommandForJavaBean<CatSpe
 		final CacheCategorie cache = CacheCategorie.getSingleton();
 		mappaCache = cache.getCache();
 		this.wrap = new WrapCatSpese();
-		this.entita = (CatSpese) ((IDAO) entita).getEntitaPadre();
+		this.entita = (CatSpese) ((WrapCatSpese) entita).getEntitaPadre();
 	}
 
 	@Override
 	public boolean execute() throws Exception {
-		if (entita instanceof CatSpese && wrap.insert(entita)) {
+		if (wrap.insert(entita)) {
 			mappaCache.put(entita.getIdEntita(), entita);
 			return true;
 		}
@@ -30,7 +29,7 @@ public class CommandInserisciCategoria extends AbstractCommandForJavaBean<CatSpe
 
 	@Override
 	public boolean unExecute() throws Exception {
-		if (entita instanceof CatSpese && wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
+		if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
 			mappaCache.remove(entita.getIdEntita());
 			return true;
 		}

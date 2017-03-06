@@ -24,7 +24,7 @@ public class CommandUpdateSpesa extends AbstractCommandForJavaBean<SingleSpesa> 
 
 	@Override
 	public boolean execute() {
-		if (newEntita instanceof SingleSpesa && wrap.update(newEntita)) {
+		if (wrap.update(newEntita)) {
 			mappaCache.put(Integer.toString(newEntita.getidSpesa()), newEntita);
 			return true;
 		}
@@ -33,7 +33,7 @@ public class CommandUpdateSpesa extends AbstractCommandForJavaBean<SingleSpesa> 
 
 	@Override
 	public boolean unExecute() {
-		if (oldEntita instanceof SingleSpesa && wrap.update(oldEntita)) {
+		if (wrap.update(oldEntita)) {
 			mappaCache.put(Integer.toString(oldEntita.getidSpesa()), oldEntita);
 			return true;
 		}

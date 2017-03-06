@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 
-import grafica.componenti.contenitori.FrameBase;
 import grafica.componenti.contenitori.PannelloBase;
 
 public abstract class AbstractReportView  {

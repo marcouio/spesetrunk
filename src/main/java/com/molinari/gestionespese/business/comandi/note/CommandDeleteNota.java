@@ -19,7 +19,7 @@ public class CommandDeleteNota extends AbstractCommandForJavaBean<Note> {
 
 	@Override
 	public boolean execute() throws Exception {
-		if (entita instanceof Note && wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
+		if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
 			mappaCache.remove(entita.getIdEntita());
 			return true;
 		}
@@ -28,7 +28,7 @@ public class CommandDeleteNota extends AbstractCommandForJavaBean<Note> {
 
 	@Override
 	public boolean unExecute() throws Exception {
-		if (entita instanceof Note && wrap.insert(entita)) {
+		if (wrap.insert(entita)) {
 			mappaCache.put(entita.getIdEntita(), entita);
 			return true;
 		}

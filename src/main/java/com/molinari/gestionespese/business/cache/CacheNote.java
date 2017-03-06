@@ -45,18 +45,24 @@ public class CacheNote extends AbstractCacheBase<Note> {
 			final Iterator<String> chiavi = mappa.keySet().iterator();
 
 			while (chiavi.hasNext()) {
-				final Note nota = mappa.get(chiavi.next());
-				if (nota != null && (nota.getUtenti() != null || nota.getUtenti().getnome().equals("guest"))) {
-					if (nota.getUtenti().getidUtente() == utente.getidUtente()) {
-						listaNote.add(nota);
-					}
-				}
+				addNota(listaNote, mappa, utente, chiavi);
 			}
 		}
 		return listaNote;
 	}
 
-	public ArrayList<Note> getAllNoteForUtenteEAnno() {
+	private void addNota(final ArrayList<Note> listaNote, final Map<String, Note> mappa, final Utenti utente,
+			final Iterator<String> chiavi) {
+		final Note nota = mappa.get(chiavi.next());
+		if(nota !=null){
+			boolean utenteValued = nota.getUtenti() != null || "guest".equals(nota.getUtenti().getnome());
+			if (utenteValued && nota.getUtenti().getidUtente() == utente.getidUtente()) {
+				listaNote.add(nota);
+			}
+		}
+	}
+
+	public List<Note> getAllNoteForUtenteEAnno() {
 		final ArrayList<Note> listaNote = new ArrayList<>();
 		final Map<String, Note> mappa = getAllNote();
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
@@ -66,16 +72,21 @@ public class CacheNote extends AbstractCacheBase<Note> {
 			final Iterator<String> chiavi = mappa.keySet().iterator();
 
 			while (chiavi.hasNext()) {
-				final Note nota = mappa.get(chiavi.next());
-				if (nota != null && (nota.getUtenti() != null || nota.getUtenti().getnome().equals("guest"))) {
-					final String annoNota = nota.getData().substring(0, 4);
-					if (nota.getUtenti().getidUtente() == utente.getidUtente() && annoNota.equals(annoDaText)) {
-						listaNote.add(nota);
-					}
-				}
+				addNote(listaNote, mappa, utente, annoDaText, chiavi);
 			}
 		}
 		return listaNote;
+	}
+
+	private void addNote(final ArrayList<Note> listaNote, final Map<String, Note> mappa, final Utenti utente,
+			final String annoDaText, final Iterator<String> chiavi) {
+		final Note nota = mappa.get(chiavi.next());
+		if (nota != null && (nota.getUtenti() != null || "guest".equals(nota.getUtenti().getnome()))) {
+			final String annoNota = nota.getData().substring(0, 4);
+			if (nota.getUtenti().getidUtente() == utente.getidUtente() && annoNota.equals(annoDaText)) {
+				listaNote.add(nota);
+			}
+		}
 	}
 
 }
