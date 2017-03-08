@@ -3,6 +3,7 @@ package com.molinari.gestionespese.business.config;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.logging.Level;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -19,6 +20,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import controller.ControlloreBase;
+
 public class ConfiguratoreXml {
 
 	private static ConfiguratoreXml singleton;
@@ -27,6 +30,15 @@ public class ConfiguratoreXml {
 	private Document                document;
 	private NodeList                listaNodi;
 
+	private ConfiguratoreXml() {
+		try {
+			listaNodi = getNodeList(XMLPOSITION);
+		} catch (final Exception e1) {
+			ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
+		}
+		
+	}
+	
 	/**
 	 * @return the singleton
 	 */
@@ -37,14 +49,6 @@ public class ConfiguratoreXml {
 		return singleton;
 	}
 
-	private ConfiguratoreXml() {
-		try {
-			listaNodi = getNodeList(XMLPOSITION);
-		} catch (final Exception e1) {
-			e1.printStackTrace();
-		}
-
-	}
 
 	public Node getNodo(String nodo) {
 		for (int i = 0; i < listaNodi.getLength(); i++) {
@@ -68,12 +72,11 @@ public class ConfiguratoreXml {
 	private Document createDocument(final File xml) throws ParserConfigurationException, SAXException, IOException {
 		final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		final DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		final Document doc = dBuilder.parse(xml);
-		return doc;
+		return dBuilder.parse(xml);
 	}
 
 	// This method writes a DOM document to a file
-	public static void writeXmlFile(Document doc, String filename) {
+	public static void writeXmlFile(Document doc) {
 		try {
 			final Transformer transformer = TransformerFactory.newInstance().newTransformer();
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -82,9 +85,10 @@ public class ConfiguratoreXml {
 			final StreamResult result = new StreamResult(new StringWriter());
 			final DOMSource source = new DOMSource(doc);
 			transformer.transform(source, result);
-			//			String xmlString = result.getWriter().toString();
 
-		} catch (final Exception e) {}
+		} catch (final Exception e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+		}
 
 	}
 
@@ -96,14 +100,17 @@ public class ConfiguratoreXml {
 			xformer.transform(new DOMSource(doc), new StreamResult(new File(filename)));
 
 		} catch (final Exception e) {
-			// TODO: handle exception
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
 	public String getLanguage(){
 		final Node nodo = ConfiguratoreXml.getSingleton().getNodo("lang");
 		final Element elemento = ConfiguratoreXml.getElement(nodo);
-		return elemento.getAttribute("locale");
+		if(elemento != null){
+			return elemento.getAttribute("locale");
+		}
+		return "en";
 	}
 
 	/**
@@ -120,8 +127,7 @@ public class ConfiguratoreXml {
 			throws ParserConfigurationException, SAXException, IOException {
 		document = createDocument(new File(path));
 		final Element root = document.getDocumentElement();
-		final NodeList listaNodi = root.hasChildNodes() ? root.getChildNodes() : null;
-		return listaNodi;
+		return root.hasChildNodes() ? root.getChildNodes() : null;
 	}
 
 	/**
