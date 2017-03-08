@@ -22,10 +22,10 @@ public class Utenti implements AbstractOggettoEntita, Serializable, IUtenti {
 
 	public static final String NOME_TABELLA = "utenti";
 	public static final String ID = "idUtente";
-	public static final String USERNAME = "username";
-	public static final String PASSWORD = "password";
-	public static final String NOME = "nome";
-	public static final String COGNOME = "cognome";
+	public static final String COL_USERNAME = "username";
+	public static final String COL_PASSWOR = "password";
+	public static final String COL_NOME = "nome";
+	public static final String COL_COGNOME = "cognome";
 
 	@Id
 	@Column(name = "\"idUtente\"", nullable = false)
@@ -52,6 +52,7 @@ public class Utenti implements AbstractOggettoEntita, Serializable, IUtenti {
 	private Set<SingleSpesa> singleSpesas;
 
 	public Utenti() {
+		//do nothing
 	}
 
 	@Override
