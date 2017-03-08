@@ -7,7 +7,6 @@ import javax.swing.JTextArea;
 
 import com.molinari.gestionespese.business.Finestra;
 import com.molinari.gestionespese.domain.INote;
-import com.molinari.gestionespese.domain.Note;
 import com.molinari.gestionespese.domain.wrapper.WrapNote;
 import com.molinari.gestionespese.view.font.ButtonF;
 import com.molinari.gestionespese.view.font.TextAreaF;
@@ -20,7 +19,7 @@ public class PannelloNota extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private final INote        nota;
+	private final transient INote        nota;
 	private final transient Finestra      padre;
 
 	public PannelloNota(final INote note2, Finestra padre) {
