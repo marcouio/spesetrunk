@@ -4,11 +4,13 @@ import java.awt.Container;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
 
 import javax.swing.JComboBox;
 import javax.swing.WindowConstants;
 
 import com.molinari.gestionespese.business.AltreUtil;
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.aggiornatori.AggiornatoreManager;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.domain.CatSpese;
@@ -19,6 +21,36 @@ import com.molinari.gestionespese.domain.wrapper.Model;
 
 public class ListaMovimentiUscite extends AbstractListaMov {
 
+	private final class FiltraDialogExtension extends FiltraDialog {
+		
+		private static final long serialVersionUID = 1L;
+
+		private FiltraDialogExtension(){
+			final List<CatSpese> listCategoriePerCombo = CacheCategorie.getSingleton().getListCategoriePerCombo();
+			comboBoxCat = new JComboBox<CatSpese>(new Vector<>(listCategoriePerCombo));
+			comboBoxCat.setBounds(512, 26, 89, 25);
+			getContentPane().add(comboBoxCat);
+		}
+
+		@Override
+		public String[][] getMovimenti() {
+			final List<ISingleSpesa> uscite = Model.getSingleton().getModelUscita()
+					.movimentiUsciteFiltrate(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
+			final String[][] mov = Model.movimentiFiltratiUscitePerNumero(Entrate.NOME_TABELLA, uscite);
+			AggiornatoreManager.aggiornaMovimentiUsciteDaFiltro(createNomiColonne(), mov);
+			return mov;
+		}
+
+		@Override
+		protected String getCategoria() {
+			if (comboBoxCat.getSelectedItem() != null) {
+				final int idCat = ((CatSpese) comboBoxCat.getSelectedItem()).getidCategoria();
+				categoria = Integer.toString(idCat);
+			}
+			return categoria;
+		}
+	}
+
 	private static final long serialVersionUID = 1L;
 
 	public ListaMovimentiUscite(Container contenitore) {
@@ -28,7 +60,7 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 
 	@Override
 	public String[][] createMovimenti() {
-		return Model.getSingleton().movimentiUscite(numMovimenti, SingleSpesa.NOME_TABELLA);
+		return Model.movimentiUscite(numMovimenti, SingleSpesa.NOME_TABELLA);
 	}
 
 	@Override
@@ -38,46 +70,18 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 
 	@Override
 	public void impostaTableSpecifico() {
-
+		//do nothing
 	}
 
 	@Override
 	public ActionListener getListener() {
 		return e -> {
 			try {
-				final FiltraDialog dialog = new FiltraDialog() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public String[][] getMovimenti() {
-						final List<ISingleSpesa> uscite = Model.getSingleton().getModelUscita()
-								.movimentiUsciteFiltrate(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
-						final String[][] mov = Model.getSingleton().movimentiFiltratiUscitePerNumero(Entrate.NOME_TABELLA, uscite);
-						AggiornatoreManager.aggiornaMovimentiUsciteDaFiltro(createNomiColonne(), mov);
-						return mov;
-					}
-
-					{
-						final List<CatSpese> listCategoriePerCombo = CacheCategorie.getSingleton().getListCategoriePerCombo();
-						comboBoxCat = new JComboBox(new Vector<>(listCategoriePerCombo));
-						comboBoxCat.setBounds(512, 26, 89, 25);
-						getContentPane().add(comboBoxCat);
-
-					}
-
-					@Override
-					protected String getCategoria() {
-						if (comboBoxCat.getSelectedItem() != null) {
-							final int idCat = ((CatSpese) comboBoxCat.getSelectedItem()).getidCategoria();
-							categoria = Integer.toString(idCat);
-						}
-						return categoria;
-					}
-				};
+				final FiltraDialog dialog = new FiltraDialogExtension();
 				dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 				dialog.setVisible(true);
 			} catch (final Exception e1) {
-				e1.printStackTrace();
+				Controllore.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 			}
 
 		};
