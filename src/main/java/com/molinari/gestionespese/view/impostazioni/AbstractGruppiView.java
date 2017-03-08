@@ -8,7 +8,7 @@ import com.molinari.gestionespese.domain.wrapper.WrapGruppi;
 
 public abstract class AbstractGruppiView implements Observer {
 
-	private JDialog dialog;
+	private JDialog dialog = new JDialog();
 	protected WrapGruppi modelGruppi = null;
 
 	public AbstractGruppiView(final WrapGruppi modelGruppi) {
