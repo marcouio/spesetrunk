@@ -20,6 +20,7 @@ import com.molinari.gestionespese.view.font.LabelListaGruppi;
 
 import controller.ControlloreBase;
 import grafica.componenti.alert.Alert;
+import grafica.componenti.contenitori.PannelloBase;
 
 public class ReportView extends AbstractReportView implements Finestra {
 
@@ -32,8 +33,9 @@ public class ReportView extends AbstractReportView implements Finestra {
 	public ReportView(Container cont) throws FileNotFoundException {
 		super(cont);
 		setReportData(new ReportData());
+		PannelloBase padre = (PannelloBase) ((PannelloBase)getContainer()).getContenitorePadre();
 		getContainer().setLayout(null);
-		getContainer().setSize(250, 425);
+		getContainer().setSize(padre.getWidth(), padre.getHeight());;
 		final JLabel istruzioni = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("selectreport"));
 		istruzioni.setText(I18NManager.getSingleton().getMessaggio("select") + ":");
 		istruzioni.setBounds(12, 12, 207, 20);

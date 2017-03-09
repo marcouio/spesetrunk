@@ -65,7 +65,7 @@ public class MyMenu extends JMenuBar {
 
 		// item Login
 		final JMenuItem menuItem2 = new JMenuItem("Login");
-		final ActionListener login = new AscoltatoreCreaDialog(new Login(), 380, 260);
+		final ActionListener login = new AscoltatoreCreaDialog(new Login().getDialog(), 380, 260);
 		menuItem2.addActionListener(login);
 		file.add(menuItem2);
 

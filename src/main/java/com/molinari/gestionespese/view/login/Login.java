@@ -1,5 +1,6 @@
 package com.molinari.gestionespese.view.login;
 
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.util.logging.Level;
 
@@ -20,43 +21,43 @@ import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 import controller.ControlloreBase;
 import grafica.componenti.alert.Alert;
 
-public class Login extends JDialog {
+public class Login {
 
-	private static final long serialVersionUID = 1L;
 	private final TextFieldF user;
 	private final TextFieldF pass;
-
+	private JDialog dialog = new JDialog();
+	
 	public Login() {
-		getContentPane().setLayout(null);
-		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		setModalityType(ModalityType.APPLICATION_MODAL);
-		this.setBounds(400, 300, 400, 220);
-		this.setTitle("Login");
+		getDialog().getContentPane().setLayout(null);
+		getDialog().setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		getDialog().setModalityType(ModalityType.APPLICATION_MODAL);
+		getDialog().setBounds(400, 300, 400, 220);
+		getDialog().setTitle("Login");
 		final LabelListaGruppi lblUsername = new LabelListaGruppi("Username");
 		lblUsername.setBounds(83, 69, 88, 25);
-		getContentPane().add(lblUsername);
+		getDialog().getContentPane().add(lblUsername);
 
 		final LabelListaGruppi lblPassword = new LabelListaGruppi("Password");
 		lblPassword.setBounds(221, 68, 88, 25);
-		getContentPane().add(lblPassword);
+		getDialog().getContentPane().add(lblPassword);
 
 		user = new TextFieldF();
 		user.setBounds(83, 94, 86, 25);
-		getContentPane().add(user);
+		getDialog().getContentPane().add(user);
 		user.setColumns(10);
 
 		pass = new TextFieldF();
 		pass.setColumns(10);
 		pass.setBounds(221, 94, 86, 25);
-		getContentPane().add(pass);
+		getDialog().getContentPane().add(pass);
 
 		final LabelTitolo lblLogin = new LabelTitolo("LOGIN");
 		lblLogin.setBounds(171, 25, 57, 32);
-		getContentPane().add(lblLogin);
+		getDialog().getContentPane().add(lblLogin);
 
 		final ButtonF btnEntra = new ButtonF("Entra");
 		btnEntra.setBounds(148, 148, 91, 23);
-		getContentPane().add(btnEntra);
+		getDialog().getContentPane().add(btnEntra);
 
 		btnEntra.addActionListener(getListenerLogin());
 
@@ -91,6 +92,14 @@ public class Login extends JDialog {
 			ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 		}
 		impostazioni.repaint();
-		dispose();
+		getDialog().dispose();
+	}
+
+	public JDialog getDialog() {
+		return dialog;
+	}
+
+	public void setDialog(JDialog dialog) {
+		this.dialog = dialog;
 	}
 }

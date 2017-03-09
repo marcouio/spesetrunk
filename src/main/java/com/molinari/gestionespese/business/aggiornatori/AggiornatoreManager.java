@@ -108,7 +108,6 @@ public class AggiornatoreManager {
 				SottoPannelloTotali.getPercentoVariabili().setText(Double.toString(Database.percentoUscite(CatSpese.IMPORTANZA_VARIABILE)));
 				SottoPannelloTotali.getAvanzo().setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(Database.eAnnuale() - Database.uAnnuale())));
 			}
-			DBUtil.closeConnection();
 			return true;
 		} catch (final Exception e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
@@ -220,7 +219,7 @@ public class AggiornatoreManager {
 	public static boolean aggiornaListaComandi(){
 		GeneralFrame generalFrame = Controllore.getSingleton().getGeneralFrame();
 		final InizializzatoreFinestre initFinestre = generalFrame.getInitFinestre();
-		final FinestraListaComandi finestra = (FinestraListaComandi) initFinestre.getFinestra(InizializzatoreFinestre.INDEX_HISTORY, ControlloreBase.getApplicationframe());
+		final FinestraListaComandi finestra = (FinestraListaComandi) initFinestre.getFinestra(InizializzatoreFinestre.INDEX_HISTORY, initFinestre.getPannello());
 		finestra.insertDati();
 		return true;
 	}
@@ -257,8 +256,7 @@ public class AggiornatoreManager {
 		try {
 			GeneralFrame generalFram = Controllore.getSingleton().getGeneralFrame();
 			final InizializzatoreFinestre initFinestre = generalFram.getInitFinestre();
-			FrameBase generalFrame = Controllore.getSingleton().getView();
-			final PannelloAScomparsa finestra = (PannelloAScomparsa) initFinestre.getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, generalFrame);
+			final PannelloAScomparsa finestra = (PannelloAScomparsa) initFinestre.getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, initFinestre.getPannello());
 
 
 			final SottoPannelloDatiEntrate pannelloEntrate = finestra.getPannelloEntrate();
@@ -266,7 +264,6 @@ public class AggiornatoreManager {
 				pannelloEntrate.getEnAnCorso().setText(Double.toString(Database.eAnnuale()));
 				pannelloEntrate.getEnMeCorso().setText(Double.toString(Database.eMensileInCorso()));
 				pannelloEntrate.getEntrateMesePrec().setText(Double.toString(Database.eMensile()));
-				DBUtil.closeConnection();
 			}
 			return true;
 		} catch (final Exception e) {
@@ -281,7 +278,6 @@ public class AggiornatoreManager {
 				SottoPannelloDatiSpese.getMeseInCors().setText(Double.toString(Database.uMensileInCorso()));
 				SottoPannelloDatiSpese.getMesePrecUsc().setText(Double.toString(Database.uMensile()));
 				SottoPannelloDatiSpese.getSpeseAnnuali().setText(Double.toString(Database.uAnnuale()));
-				DBUtil.closeConnection();
 			}
 			return true;
 		} catch (final Exception e) {

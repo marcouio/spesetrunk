@@ -20,8 +20,9 @@ public class FinestraListaComandi implements Finestra {
 
 	public FinestraListaComandi(Container cont) {
 		container = new PannelloBase(cont);
-		getContainer().setSize(250, 425);
+		PannelloBase padre = (PannelloBase) ((PannelloBase)getContainer()).getContenitorePadre();
 		getContainer().setLayout(null);
+		getContainer().setSize(padre.getWidth(), padre.getHeight());
 		scrollPane = new JScrollPane();
 		insertDati();
 
@@ -35,12 +36,12 @@ public class FinestraListaComandi implements Finestra {
 		final Object[][] dati = generaDati();
 		table.setModel(new DefaultTableModel(dati, new String[] { lista }));
 
-		table.setBounds(12, 12, 254, 61);
+		table.setBounds(0, 0, getContainer().getWidth(), getContainer().getHeight());
 
 		scrollPane.setViewportView(table);
 		// Add the scroll pane to this panel.
 		getContainer().add(scrollPane);
-		scrollPane.setBounds(21, 23, 214, 337);
+		scrollPane.setBounds(0, 0, getContainer().getWidth(), getContainer().getHeight());
 	}
 
 	public Object[][] generaDati() {

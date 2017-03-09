@@ -98,7 +98,7 @@ public class WrapUtenti extends Observable implements IDAO<Utenti>, IUtenti {
 	}
 
 	public Utenti utenteLogin(String username, String password) {
-		final String sql = SELECT_FROM + Utenti.NOME_TABELLA + WHERE + Utenti.USERNAME + " = '" + username + "' AND " + Utenti.PASSWORD
+		final String sql = SELECT_FROM + Utenti.NOME_TABELLA + WHERE + Utenti.COL_USERNAME + " = '" + username + "' AND " + Utenti.COL_PASSWOR
 				+ "='" + password + "'";
 
 		final Utenti utenteLoc = new Utenti();
@@ -133,8 +133,8 @@ public class WrapUtenti extends Observable implements IDAO<Utenti>, IUtenti {
 
 		final Utenti utenteLoc = (Utenti) oggettoEntita;
 
-		final String sql = "INSERT INTO " + Utenti.NOME_TABELLA + " (" + Utenti.USERNAME + ", " + Utenti.PASSWORD + ", " +  Utenti.NOME
-				+ ", " + Utenti.COGNOME + ") VALUES (?,?,?,?)";
+		final String sql = "INSERT INTO " + Utenti.NOME_TABELLA + " (" + Utenti.COL_USERNAME + ", " + Utenti.COL_PASSWOR + ", " +  Utenti.COL_NOME
+				+ ", " + Utenti.COL_COGNOME + ") VALUES (?,?,?,?)";
 
 		return new ExecutePreparedStatement<Utenti>() {
 
@@ -172,9 +172,9 @@ public class WrapUtenti extends Observable implements IDAO<Utenti>, IUtenti {
 		boolean ok = false;
 
 		final Utenti utenteLoc = (Utenti) oggettoEntita;
-		final String sql = "UPDATE " + Utenti.NOME_TABELLA + " SET " + Utenti.USERNAME + " = " + utenteLoc.getusername() + ", "
-				+ Utenti.PASSWORD + " = " + utenteLoc.getpassword() + ", " + Utenti.NOME + " = " + utenteLoc.getnome() + ", "
-				+ Utenti.COGNOME + " = " + utenteLoc.getCognome() + WHERE + Utenti.ID + " = " + utenteLoc.getidUtente();
+		final String sql = "UPDATE " + Utenti.NOME_TABELLA + " SET " + Utenti.COL_USERNAME + " = " + utenteLoc.getusername() + ", "
+				+ Utenti.COL_PASSWOR + " = " + utenteLoc.getpassword() + ", " + Utenti.COL_NOME + " = " + utenteLoc.getnome() + ", "
+				+ Utenti.COL_COGNOME + " = " + utenteLoc.getCognome() + WHERE + Utenti.ID + " = " + utenteLoc.getidUtente();
 		try {
 
 			ConnectionPool.getSingleton().executeUpdate(sql);
@@ -208,7 +208,7 @@ public class WrapUtenti extends Observable implements IDAO<Utenti>, IUtenti {
 	}
 
 	public Utenti selectByUserAndPass(String user, String pass) {
-		final String sql = SELECT_FROM + Utenti.NOME_TABELLA + WHERE + Utenti.USERNAME + " = '" + user + "' AND " + Utenti.PASSWORD
+		final String sql = SELECT_FROM + Utenti.NOME_TABELLA + WHERE + Utenti.COL_USERNAME + " = '" + user + "' AND " + Utenti.COL_PASSWOR
 				+ "='" + pass + "'";
 
 

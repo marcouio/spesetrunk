@@ -31,9 +31,9 @@ public class PannelloAScomparsa implements ItemListener, Finestra {
 	}
 
 	private void initGui() {
-
+		PannelloBase padre = (PannelloBase) ((PannelloBase)getContainer()).getContenitorePadre();
 		getContainer().setLayout(null);
-		getContainer().setSize(250, 425);
+		getContainer().setSize(padre.getWidth(), padre.getHeight());
 		pannelloSpese = new SottoPannelloDatiSpese();
 		pannelloEntrate = new SottoPannelloDatiEntrate();
 		pannelloMesi = new SottoPannelloMesi();
