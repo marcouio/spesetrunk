@@ -1,10 +1,11 @@
 package com.molinari.gestionespese.domain;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import command.javabeancommand.AbstractOggettoEntita;
 
-public interface IGruppi extends AbstractOggettoEntita{
+public interface IGruppi extends AbstractOggettoEntita, Serializable{
 
 	public String getdescrizione();
 
