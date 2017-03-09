@@ -24,9 +24,9 @@ public interface ICatSpese {
 
 	public void setBudget(Budget budget);
 
-	public Gruppi getGruppi();
+	public IGruppi getGruppi();
 
-	public void setGruppi(Gruppi gruppi);
+	public void setGruppi(IGruppi gruppi);
 
 	public Set<SingleSpesa> getSingleSpesas();
 

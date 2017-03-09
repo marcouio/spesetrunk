@@ -35,7 +35,7 @@ public class MostraNoteView implements Finestra {
 		getContainer().add(scrollPane);
 		scrollPane.setViewportView(pannello);
 		pannello.setLayout(null);
-		scrollPane.setBounds(10, 40, 230, 350);
+		scrollPane.setBounds(10, 40, padre.getWidth(), padre.getHeight());
 
 		final JButton inserisci = new ButtonF();
 		inserisci.setText("+");

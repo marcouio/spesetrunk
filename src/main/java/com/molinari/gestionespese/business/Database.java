@@ -23,7 +23,8 @@ import com.molinari.gestionespese.business.cache.CacheEntrate;
 import com.molinari.gestionespese.business.cache.CacheUscite;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.Entrate;
-import com.molinari.gestionespese.domain.Gruppi;
+import com.molinari.gestionespese.domain.IEntrate;
+import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.ISingleSpesa;
 import com.molinari.gestionespese.domain.Lookandfeel;
 import com.molinari.gestionespese.domain.SingleSpesa;
@@ -423,7 +424,7 @@ public class Database {
 			final ISingleSpesa uscita = listaUscite.get(i);
 			final CatSpese cat = uscita.getCatSpese();
 			if (cat != null) {
-				final Gruppi group = cat.getGruppi();
+				final IGruppi group = cat.getGruppi();
 				final Date dataUscita = DBUtil.stringToDate(uscita.getData(), YYYY_MM_DD);
 				final int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
 				if (group != null && group.getidGruppo() != 0 && mesee == mese && group.getidGruppo() == gruppo) {
@@ -441,7 +442,7 @@ public class Database {
 			final ISingleSpesa uscita = listaUscite.get(i);
 			final CatSpese cat = uscita.getCatSpese();
 			if (cat != null) {
-				final Gruppi group = cat.getGruppi();
+				final IGruppi group = cat.getGruppi();
 				final Date dataUscita = DBUtil.stringToDate(uscita.getData(), YYYY_MM_DD);
 				final int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
 				if ((group == null || group.getidGruppo() == 0) && mesee == mese && cat.getidCategoria() == categoria) {
@@ -464,9 +465,9 @@ public class Database {
 	 */
 	public double entrateMeseTipo(final int mese, final String tipoEntrata) {
 		double entrateMeseTipo = 0;
-		final List<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtenteEAnno();
+		final List<IEntrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtenteEAnno();
 		for (int i = 0; i < listaEntrate.size(); i++) {
-			final Entrate entrata = listaEntrate.get(i);
+			final IEntrate entrata = listaEntrate.get(i);
 			final String cat = entrata.getFisseoVar();
 			final Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), YYYY_MM_DD);
 			final int mesee = Integer.parseInt(DBUtil.dataToString(dataEntrata, "MM"));
@@ -509,9 +510,9 @@ public class Database {
 	 */
 	public double totaleEntrateMese(final int mese) {
 		double totaleMese = 0;
-		final List<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtenteEAnno();
+		final List<IEntrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtenteEAnno();
 		for (int i = 0; i < listaEntrate.size(); i++) {
-			final Entrate entrata = listaEntrate.get(i);
+			final IEntrate entrata = listaEntrate.get(i);
 			final Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), YYYY_MM_DD);
 			final int mesee = Integer.parseInt(DBUtil.dataToString(dataEntrata, "MM"));
 			if (mesee == mese) {
@@ -541,9 +542,9 @@ public class Database {
 	public static double totaleEntrateAnnoCategoria(final String fissoOVar) {
 		double totale = 0;
 		final int anno = Impostazioni.getAnno();
-		final List<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
+		final List<IEntrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
 		for (int i = 0; i < listaEntrate.size(); i++) {
-			final Entrate entrata = listaEntrate.get(i);
+			final IEntrate entrata = listaEntrate.get(i);
 			final String fxOVar = entrata.getFisseoVar();
 			final Date dataEntrate = DBUtil.stringToDate(entrata.getdata(), YYYY_MM_DD);
 			final int annoo = Integer.parseInt(DBUtil.dataToString(dataEntrate, "yyyy"));
@@ -617,9 +618,9 @@ public class Database {
 		double eannuale = 0;
 
 		final int anno = Impostazioni.getAnno();
-		final List<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
+		final List<IEntrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
 		for (int i = 0; i < listaEntrate.size(); i++) {
-			final Entrate entrata = listaEntrate.get(i);
+			final IEntrate entrata = listaEntrate.get(i);
 			final Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), YYYY_MM_DD);
 			final String annoDaData = DBUtil.dataToString(dataEntrata, "yyyy");
 			if (Integer.parseInt(annoDaData) == anno) {
@@ -657,9 +658,9 @@ public class Database {
 	public static double eMensile() {
 		double emensile10 = 0;
 		final GregorianCalendar data = new GregorianCalendar();
-		final List<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
+		final List<IEntrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
 		for (int i = 0; i < listaEntrate.size(); i++) {
-			final Entrate entrata = listaEntrate.get(i);
+			final IEntrate entrata = listaEntrate.get(i);
 			final Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), YYYY_MM_DD);
 			final int mese = Integer.parseInt(DBUtil.dataToString(dataEntrata, "MM"));
 			final int anno = Integer.parseInt(DBUtil.dataToString(dataEntrata, "yyyy"));
@@ -704,9 +705,9 @@ public class Database {
 	public static double eMensileInCorso() {
 		double emensile10 = 0;
 		final GregorianCalendar data = new GregorianCalendar();
-		final List<Entrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
+		final List<IEntrate> listaEntrate = CacheEntrate.getSingleton().getAllEntrateForUtente();
 		for (int i = 0; i < listaEntrate.size(); i++) {
-			final Entrate entrata = listaEntrate.get(i);
+			final IEntrate entrata = listaEntrate.get(i);
 			final Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), YYYY_MM_DD);
 			final int mese = Integer.parseInt(DBUtil.dataToString(dataEntrata, "MM"));
 			final int anno = Integer.parseInt(DBUtil.dataToString(dataEntrata, "yyyy"));

@@ -10,6 +10,7 @@ import javax.swing.WindowConstants;
 
 import com.molinari.gestionespese.business.cache.CacheGruppi;
 import com.molinari.gestionespese.domain.Gruppi;
+import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapGruppi;
 import com.molinari.gestionespese.view.font.ButtonF;
 import com.molinari.gestionespese.view.font.LabelListaGruppi;
@@ -25,7 +26,7 @@ public class GruppiView extends AbstractGruppiView {
 	 * 
 	 */
 	private Gruppi gruppi = null;
-	private JComboBox<Gruppi> comboGruppi;
+	private JComboBox<IGruppi> comboGruppi;
 	private TextFieldF nome;
 	private TextAreaF descrizione;
 
@@ -63,7 +64,7 @@ public class GruppiView extends AbstractGruppiView {
 
 		inserisci.addActionListener(new AscoltatoreInserisciGruppo(this));
 
-		final List<Gruppi> vettoreGruppi = CacheGruppi.getSingleton().getVettoreGruppi();
+		final List<IGruppi> vettoreGruppi = CacheGruppi.getSingleton().getVettoreGruppi();
 		comboGruppi = new JComboBox<>();
 		comboGruppi.addItem(new Gruppi());
 
@@ -153,11 +154,11 @@ public class GruppiView extends AbstractGruppiView {
 
 	}
 
-	public JComboBox<Gruppi> getComboGruppi() {
+	public JComboBox<IGruppi> getComboGruppi() {
 		return comboGruppi;
 	}
 
-	public void setComboGruppi(final JComboBox<Gruppi> comboGruppi) {
+	public void setComboGruppi(final JComboBox<IGruppi> comboGruppi) {
 		this.comboGruppi = comboGruppi;
 	}
 }

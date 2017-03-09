@@ -8,7 +8,7 @@ import db.dao.IDAO;
 
 public class CommandDelete<T extends AbstractOggettoEntita> extends AbstractCommandForJavaBean<T> {
 
-	public CommandDelete(final T entita, final IDAO wrap, final AbstractCacheBase<T> cache) {
+	public CommandDelete(final T entita, final IDAO<T> wrap, final AbstractCacheBase<T> cache) {
 		this.entita = entita;
 		this.wrap = wrap;
 		this.mappaCache = cache.getCache();
@@ -37,12 +37,12 @@ public class CommandDelete<T extends AbstractOggettoEntita> extends AbstractComm
 
 	@Override
 	public void scriviLogExecute(final boolean isComandoEseguito) {
-
+		//do nothing
 	}
 
 	@Override
 	public void scriviLogUnExecute(final boolean isComandoEseguito) {
-
+		//do nothing
 	}
 
 }

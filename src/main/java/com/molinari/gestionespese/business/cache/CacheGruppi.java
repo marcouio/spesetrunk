@@ -7,15 +7,16 @@ import java.util.List;
 import java.util.Map;
 
 import com.molinari.gestionespese.domain.Gruppi;
+import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapGruppi;
 
-public class CacheGruppi extends AbstractCacheBase<Gruppi> {
+public class CacheGruppi extends AbstractCacheBase<IGruppi> {
 
 	private static CacheGruppi singleton;
 	private final WrapGruppi gruppiDAO = new WrapGruppi();
 
 	private CacheGruppi() {
-		setCache(new HashMap<String, Gruppi>());
+		setCache(new HashMap<String, IGruppi>());
 	}
 
 	public static CacheGruppi getSingleton() {
@@ -25,12 +26,12 @@ public class CacheGruppi extends AbstractCacheBase<Gruppi> {
 		return singleton;
 	}
 
-	public Gruppi getGruppo(final String id) {
+	public IGruppi getGruppo(final String id) {
 		return getObjectById(gruppiDAO, id);
 	}
 
-	public Gruppi getGruppoPerNome(final String nome) {
-		Gruppi gruppo = getCache().get(nome);
+	public IGruppi getGruppoPerNome(final String nome) {
+		IGruppi gruppo = getCache().get(nome);
 		if (gruppo == null) {
 			gruppo = caricaGruppoPerNome(nome);
 			if (gruppo != null) {
@@ -40,44 +41,44 @@ public class CacheGruppi extends AbstractCacheBase<Gruppi> {
 		return gruppo;
 	}
 
-	private Gruppi caricaGruppoPerNome(final String nome) {
+	private IGruppi caricaGruppoPerNome(final String nome) {
 		return new WrapGruppi().selectByNome(nome);
 	}
 
-	public Map<String, Gruppi> getAllGruppi() {
+	public Map<String, IGruppi> getAllGruppi() {
 		return getAll(gruppiDAO);
 	}
 
-	public List<Gruppi> getVettoreGruppiSenzaZero() {
-		final List<Gruppi> gruppi = new ArrayList<>();
-		final Map<String, Gruppi> mappa = this.getAllGruppi();
+	public List<IGruppi> getVettoreGruppiSenzaZero() {
+		final List<IGruppi> gruppi = new ArrayList<>();
+		final Map<String, IGruppi> mappa = this.getAllGruppi();
 		final Object[] lista = mappa.values().toArray();
 		for (final Object element : lista) {
-			final Gruppi gruppo = (Gruppi) element;
+			final IGruppi gruppo = (IGruppi) element;
 			if (gruppo != null && gruppo.getnome() != null) {
-				gruppi.add((Gruppi) element);
+				gruppi.add((IGruppi) element);
 			}
 		}
 		return gruppi;
 	}
 
-	public List<Gruppi> getVettoreGruppi() {
-		final List<Gruppi> gruppi = new ArrayList<>();
-		final Map<String, Gruppi> mappa = this.getAllGruppi();
+	public List<IGruppi> getVettoreGruppi() {
+		final List<IGruppi> gruppi = new ArrayList<>();
+		final Map<String, IGruppi> mappa = this.getAllGruppi();
 		final Object[] lista = mappa.values().toArray();
 		for (int i = lista.length - 1; i >= 0; i--) {
-			gruppi.add((Gruppi) lista[i]);
+			gruppi.add((IGruppi) lista[i]);
 		}
 		return gruppi;
 	}
 
-	public List<Gruppi> getListCategoriePerCombo(final Map<String, Gruppi> mappa) {
-		final List<Gruppi> gruppi = new ArrayList<>();
+	public List<IGruppi> getListCategoriePerCombo(final Map<String, IGruppi> mappa) {
+		final List<IGruppi> gruppi = new ArrayList<>();
 		final Object[] lista = mappa.values().toArray();
-		final Gruppi gruppo = new Gruppi();
+		final IGruppi gruppo = new Gruppi();
 		gruppo.setnome("");
 		for (final Object element : lista) {
-			gruppi.add((Gruppi) element);
+			gruppi.add((IGruppi) element);
 		}
 		gruppi.add(0, gruppo);
 		return gruppi;
@@ -85,10 +86,10 @@ public class CacheGruppi extends AbstractCacheBase<Gruppi> {
 
 	public int getMaxId() {
 		int maxId = 0;
-		final Map<String, Gruppi> mappa = getAllGruppi();
+		final Map<String, IGruppi> mappa = getAllGruppi();
 		final Iterator<String> chiavi = mappa.keySet().iterator();
 		while (chiavi.hasNext()) {
-			final Gruppi gruppo = mappa.get(chiavi.next());
+			final IGruppi gruppo = mappa.get(chiavi.next());
 			if (gruppo != null) {
 				final int idGruppo = gruppo.getidGruppo();
 				if (idGruppo > maxId) {

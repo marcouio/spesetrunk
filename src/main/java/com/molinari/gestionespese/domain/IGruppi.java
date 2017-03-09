@@ -2,7 +2,9 @@ package com.molinari.gestionespese.domain;
 
 import java.util.Set;
 
-public interface IGruppi {
+import command.javabeancommand.AbstractOggettoEntita;
+
+public interface IGruppi extends AbstractOggettoEntita{
 
 	public String getdescrizione();
 

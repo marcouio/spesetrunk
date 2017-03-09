@@ -4,7 +4,7 @@ import java.util.Observer;
 
 import javax.swing.JDialog;
 
-import com.molinari.gestionespese.domain.Gruppi;
+import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapCatSpese;
 
 public abstract class AbstractCategorieView implements Observer {
@@ -40,11 +40,11 @@ public abstract class AbstractCategorieView implements Observer {
 		modelCatSpese.setimportanza(cImportanza);
 	}
 
-	public Gruppi getGruppo() {
+	public IGruppi getGruppo() {
 		return modelCatSpese.getGruppi();
 	}
 
-	public void setGruppo(final Gruppi gruppo) {
+	public void setGruppo(final IGruppi gruppo) {
 		modelCatSpese.setGruppi(gruppo);
 	}
 

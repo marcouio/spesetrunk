@@ -14,24 +14,6 @@ public class CommandInserisciSpesa extends CommandInserisci<ISingleSpesa> {
 	}
 
 	@Override
-	public boolean execute() throws Exception {
-		if (wrap.insert(entita)) {
-			mappaCache.put(entita.getIdEntita(), entita);
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public boolean unExecute() throws Exception {
-		if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
-			mappaCache.remove(entita.getIdEntita());
-			return true;
-		}
-		return false;
-	}
-
-	@Override
 	public String toString() {
 		return "Inserita Spesa " + entita.getNome();
 	}

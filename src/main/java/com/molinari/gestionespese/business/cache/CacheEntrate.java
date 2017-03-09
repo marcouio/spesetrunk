@@ -11,17 +11,18 @@ import java.util.stream.Stream;
 
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.domain.Entrate;
+import com.molinari.gestionespese.domain.IEntrate;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 
-public class CacheEntrate extends AbstractCacheBase<Entrate> {
+public class CacheEntrate extends AbstractCacheBase<IEntrate> {
 
 	private static CacheEntrate singleton;
 	private final WrapEntrate entrateDAO = new WrapEntrate();
 
 	private CacheEntrate() {
-		setCache(new HashMap<String, Entrate>());
+		setCache(new HashMap<String, IEntrate>());
 		setCaricata(false);
 	}
 
@@ -33,16 +34,16 @@ public class CacheEntrate extends AbstractCacheBase<Entrate> {
 		return singleton;
 	}
 
-	public Entrate getEntrate(final String id) {
+	public IEntrate getEntrate(final String id) {
 		return getObjectById(entrateDAO, id);
 	}
 
-	public Map<String, Entrate> getAllEntrate() {
+	public Map<String, IEntrate> getAllEntrate() {
 		return getAll(entrateDAO);
 	}
 
-	public List<Entrate> getAllEntrateForUtente() {
-		final Map<String, Entrate> mappa = getAllEntrate();
+	public List<IEntrate> getAllEntrateForUtente() {
+		final Map<String, IEntrate> mappa = getAllEntrate();
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		if (mappa != null && utente != null) {
 
@@ -52,7 +53,7 @@ public class CacheEntrate extends AbstractCacheBase<Entrate> {
 		return new ArrayList<>();
 	}
 
-	private Predicate<? super Entrate> getFilterForUser(final Utenti utente) {
+	private Predicate<? super IEntrate> getFilterForUser(final Utenti utente) {
 		return entrata ->
 		{
 			final Utenti utenti = entrata.getUtenti();
@@ -61,16 +62,16 @@ public class CacheEntrate extends AbstractCacheBase<Entrate> {
 		};
 	}
 
-	public List<Entrate> getAllEntrateForUtenteEAnno() {
+	public List<IEntrate> getAllEntrateForUtenteEAnno() {
 
-		final ArrayList<Entrate> listaEntrate = new ArrayList<>();
-		final Map<String, Entrate> mappa = getAllEntrate();
+		final ArrayList<IEntrate> listaEntrate = new ArrayList<>();
+		final Map<String, IEntrate> mappa = getAllEntrate();
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 		final String annoDaText = Integer.toString(Impostazioni.getAnno());
 
 		if (mappa != null && utente != null) {
 
-			final Stream<Entrate> streamEntrate = mappa.values().stream().filter(getFilterUserAndYear(utente, annoDaText));
+			final Stream<IEntrate> streamEntrate = mappa.values().stream().filter(getFilterUserAndYear(utente, annoDaText));
 			return streamEntrate.collect(Collectors.toList());
 		}
 
@@ -78,7 +79,7 @@ public class CacheEntrate extends AbstractCacheBase<Entrate> {
 
 	}
 
-	private Predicate<? super Entrate> getFilterUserAndYear(final Utenti utente, final String annoDaText) {
+	private Predicate<? super IEntrate> getFilterUserAndYear(final Utenti utente, final String annoDaText) {
 		return e -> {
 			if(e != null && e.getUtenti() != null && e.getUtenti().getidUtente() != 0){
 				final String annoEntrata = e.getdata().substring(0, 4);
@@ -89,8 +90,8 @@ public class CacheEntrate extends AbstractCacheBase<Entrate> {
 	}
 
 	public int getMaxId() {
-		final Map<String, Entrate> mappa = getAllEntrate();
-		final Optional<Entrate> max = mappa.values().stream().max((e1,e2) -> Integer.compare(e1.getidEntrate(), e2.getidEntrate()));
+		final Map<String, IEntrate> mappa = getAllEntrate();
+		final Optional<IEntrate> max = mappa.values().stream().max((e1,e2) -> Integer.compare(e1.getidEntrate(), e2.getidEntrate()));
 		return max.isPresent() ? max.get().getidEntrate() : 0;
 	}
 

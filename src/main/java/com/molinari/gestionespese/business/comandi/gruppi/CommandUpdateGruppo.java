@@ -1,30 +1,24 @@
 package com.molinari.gestionespese.business.comandi.gruppi;
 
 import com.molinari.gestionespese.business.cache.CacheGruppi;
-import com.molinari.gestionespese.domain.Gruppi;
+import com.molinari.gestionespese.business.comandi.CommandUpdate;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapGruppi;
 
-import command.javabeancommand.AbstractCommandForJavaBean;
 import grafica.componenti.alert.Alert;
 
-public class CommandUpdateGruppo extends AbstractCommandForJavaBean<Gruppi> {
+public class CommandUpdateGruppo extends CommandUpdate<IGruppi> {
 
-	private final Gruppi                                 newEntita;
-	private final Gruppi                                 oldEntita;
-
-	public CommandUpdateGruppo(final Gruppi oldEntita, final IGruppi newEntita) {
-		this.newEntita = (Gruppi) newEntita;
-		this.oldEntita = oldEntita;
-		this.wrap = new WrapGruppi();
+	public CommandUpdateGruppo(final IGruppi oldEntita, final IGruppi newEntita) {
+		super(oldEntita, newEntita, new WrapGruppi());
 		final CacheGruppi cache = CacheGruppi.getSingleton();
 		mappaCache = cache.getCache();
 	}
 
 	@Override
 	public boolean execute() throws Exception {
-		if (wrap.update(newEntita)) {
-			mappaCache.put(Integer.toString(newEntita.getidGruppo()), newEntita);
+		if(super.execute()){
+			mappaCache.put(Integer.toString(getNewEntita().getidGruppo()), getNewEntita());
 			return true;
 		}
 		return false;
@@ -32,22 +26,23 @@ public class CommandUpdateGruppo extends AbstractCommandForJavaBean<Gruppi> {
 
 	@Override
 	public boolean unExecute() throws Exception {
-		if (wrap.update(oldEntita)) {
-			mappaCache.put(Integer.toString(oldEntita.getidGruppo()), oldEntita);
+		if(super.unExecute()){
+			mappaCache.put(Integer.toString(getOldEntita().getidGruppo()), getOldEntita());
 			return true;
+			
 		}
 		return false;
 	}
 
 	@Override
 	public String toString() {
-		return "Modificata Gruppo " + newEntita.getnome();
+		return "Modificata Gruppo " + getNewEntita().getnome();
 	}
 
 	@Override
 	public void scriviLogExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Aggiornato correttamente gruppo " + newEntita.getnome());
+			Alert.segnalazioneInfo("Aggiornato correttamente gruppo " + getNewEntita().getnome());
 		}
 
 	}
@@ -55,7 +50,7 @@ public class CommandUpdateGruppo extends AbstractCommandForJavaBean<Gruppi> {
 	@Override
 	public void scriviLogUnExecute(boolean isComandoEseguito) {
 		if (isComandoEseguito) {
-			Alert.segnalazioneInfo("Ripristinato gruppo " + oldEntita.getnome() + " precedentemente aggiornato");
+			Alert.segnalazioneInfo("Ripristinato gruppo " + getOldEntita().getnome() + " precedentemente aggiornato");
 		}
 	}
 }

@@ -1,40 +1,17 @@
 package com.molinari.gestionespese.business.comandi.entrate;
 
 import com.molinari.gestionespese.business.cache.CacheEntrate;
-import com.molinari.gestionespese.domain.Entrate;
+import com.molinari.gestionespese.business.comandi.CommandInserisci;
 import com.molinari.gestionespese.domain.IEntrate;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
 
 import command.ICommand;
-import command.javabeancommand.AbstractCommandForJavaBean;
 import grafica.componenti.alert.Alert;
 
-public class CommandInserisciEntrata extends AbstractCommandForJavaBean<Entrate> implements ICommand {
+public class CommandInserisciEntrata extends CommandInserisci<IEntrate> implements ICommand {
 
 	public CommandInserisciEntrata(final IEntrate entita) {
-		final CacheEntrate cache = CacheEntrate.getSingleton();
-		mappaCache = cache.getCache();
-		this.wrap = new WrapEntrate();
-		this.entita = (Entrate) ((WrapEntrate) entita).getEntitaPadre();
-
-	}
-
-	@Override
-	public boolean execute() throws Exception {
-		if (wrap.insert(entita)) {
-			mappaCache.put(entita.getIdEntita(), entita);
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public boolean unExecute() throws Exception {
-		if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
-			mappaCache.remove(entita.getIdEntita());
-			return true;
-		}
-		return false;
+		super(entita, new WrapEntrate(), CacheEntrate.getSingleton());
 	}
 
 	@Override

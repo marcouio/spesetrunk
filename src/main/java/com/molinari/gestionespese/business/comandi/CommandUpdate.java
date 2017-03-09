@@ -4,12 +4,12 @@ import command.javabeancommand.AbstractCommandForJavaBean;
 import command.javabeancommand.AbstractOggettoEntita;
 import db.dao.IDAO;
 
-public class CommandUpdate extends AbstractCommandForJavaBean {
+public class CommandUpdate<T extends AbstractOggettoEntita> extends AbstractCommandForJavaBean<T> {
 
-	final private AbstractOggettoEntita newEntita;
-	final private AbstractOggettoEntita oldEntita;
+	private final T newEntita;
+	private final T oldEntita;
 
-	public CommandUpdate(final AbstractOggettoEntita oldEntita, final AbstractOggettoEntita newEntita, final IDAO wrap) {
+	public CommandUpdate(final T oldEntita, final T newEntita, final IDAO<T> wrap) {
 		this.newEntita = newEntita;
 		this.oldEntita = oldEntita;
 		this.wrap = wrap;
@@ -17,30 +17,30 @@ public class CommandUpdate extends AbstractCommandForJavaBean {
 
 	@Override
 	public boolean execute() throws Exception {
-		if (wrap.update(newEntita)) {
-			return true;
-		} else {
-			return false;
-		}
+		return wrap.update(newEntita);
 	}
 
 	@Override
 	public boolean unExecute() throws Exception {
-		if (wrap.update(oldEntita)) {
-			return true;
-		} else {
-			return false;
-		}
+		return wrap.update(oldEntita);
 	}
 
 	@Override
 	public void scriviLogExecute(final boolean isComandoEseguito) {
-
+		//do nothing
 	}
 
 	@Override
 	public void scriviLogUnExecute(final boolean isComandoEseguito) {
+		//do nothing
+	}
 
+	public T getNewEntita() {
+		return newEntita;
+	}
+
+	public T getOldEntita() {
+		return oldEntita;
 	}
 
 }

@@ -19,7 +19,7 @@ import db.ExecutePreparedStatement;
 import db.ExecuteResultSet;
 import db.dao.IDAO;
 
-public class WrapGruppi extends Observable implements IDAO<Gruppi>, IGruppi {
+public class WrapGruppi extends Observable implements IDAO<IGruppi>, IGruppi {
 
 	private static final String WHERE = " WHERE ";
 	private static final String SELECT_FROM = "SELECT * FROM ";
@@ -31,18 +31,18 @@ public class WrapGruppi extends Observable implements IDAO<Gruppi>, IGruppi {
 	}
 
 	@Override
-	public Gruppi selectById(final int id) {
+	public IGruppi selectById(final int id) {
 
 		final String sql = getQuerySelectById(id);
 
-		final Gruppi gruppoLoc = new Gruppi();
+		final IGruppi gruppoLoc = new Gruppi();
 
 		try {
 
-			return new ExecuteResultSet<Gruppi>() {
+			return new ExecuteResultSet<IGruppi>() {
 
 				@Override
-				protected Gruppi doWithResultSet(ResultSet rs) throws SQLException {
+				protected IGruppi doWithResultSet(ResultSet rs) throws SQLException {
 
 					if (rs.next()) {
 						gruppoLoc.setidGruppo(rs.getInt(1));
@@ -74,20 +74,20 @@ public class WrapGruppi extends Observable implements IDAO<Gruppi>, IGruppi {
 	}
 
 	@Override
-	public List<Gruppi> selectAll() {
+	public List<IGruppi> selectAll() {
 
 		final String sql = SELECT_FROM + Gruppi.NOME_TABELLA + " ORDER BY " + Gruppi.ID + " asc";
 		try {
 
-			return new ExecuteResultSet<List<Gruppi>>() {
+			return new ExecuteResultSet<List<IGruppi>>() {
 
 				@Override
-				protected List<Gruppi> doWithResultSet(ResultSet rs) throws SQLException {
-					final List<Gruppi> gruppi = new ArrayList<>();
+				protected List<IGruppi> doWithResultSet(ResultSet rs) throws SQLException {
+					final List<IGruppi> gruppi = new ArrayList<>();
 
 					while (rs != null && rs.next()) {
 
-						final Gruppi gruppoLoc = new Gruppi();
+						final IGruppi gruppoLoc = new Gruppi();
 						gruppoLoc.setidGruppo(rs.getInt(1));
 						gruppoLoc.setnome(rs.getString(2));
 						gruppoLoc.setdescrizione(rs.getString(3));
@@ -106,13 +106,13 @@ public class WrapGruppi extends Observable implements IDAO<Gruppi>, IGruppi {
 	}
 
 	@Override
-	public boolean insert(final Gruppi oggettoEntita) {
+	public boolean insert(final IGruppi oggettoEntita) {
 		String sql = getQueryInsert();
 
-		ExecutePreparedStatement<Gruppi> eps = new ExecutePreparedStatement<Gruppi>() {
+		ExecutePreparedStatement<IGruppi> eps = new ExecutePreparedStatement<IGruppi>() {
 
 			@Override
-			protected void doWithPreparedStatement(PreparedStatement ps, Gruppi obj) throws SQLException {
+			protected void doWithPreparedStatement(PreparedStatement ps, IGruppi obj) throws SQLException {
 				ps.setString(1, gruppo.getnome());
 				ps.setString(2, gruppo.getdescrizione());
 
@@ -151,15 +151,15 @@ public class WrapGruppi extends Observable implements IDAO<Gruppi>, IGruppi {
 	}
 
 	@Override
-	public boolean update(final Gruppi oggettoEntita) {
+	public boolean update(final IGruppi oggettoEntita) {
 
-		final Gruppi gruppoLoc = (Gruppi) oggettoEntita;
+		final IGruppi gruppoLoc = (IGruppi) oggettoEntita;
 		final String sql = getQueryUpdate(gruppoLoc);
 		
 		return base.executeUpdate(sql);
 	}
 
-	private String getQueryUpdate(final Gruppi gruppoLoc) {
+	private String getQueryUpdate(final IGruppi gruppoLoc) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("UPDATE ");
 		sb.append(Gruppi.NOME_TABELLA);
@@ -184,19 +184,19 @@ public class WrapGruppi extends Observable implements IDAO<Gruppi>, IGruppi {
 		return base.executeUpdate(sql);
 	}
 
-	public Gruppi selectByNome(final String nome) {
+	public IGruppi selectByNome(final String nome) {
 
 
 		final String sql = getQuerySelectByName(nome);
 
-		final Gruppi gruppoLoc = new Gruppi();
+		final IGruppi gruppoLoc = new Gruppi();
 
 		try {
 
-			return new ExecuteResultSet<Gruppi>() {
+			return new ExecuteResultSet<IGruppi>() {
 
 				@Override
-				protected Gruppi doWithResultSet(ResultSet rs) throws SQLException {
+				protected IGruppi doWithResultSet(ResultSet rs) throws SQLException {
 
 					if (rs.next()) {
 						gruppoLoc.setidGruppo(rs.getInt(1));
@@ -268,7 +268,7 @@ public class WrapGruppi extends Observable implements IDAO<Gruppi>, IGruppi {
 	}
 
 	@Override
-	public Gruppi getEntitaPadre()  {
+	public IGruppi getEntitaPadre()  {
 		return gruppo;
 	}
 	
@@ -278,9 +278,24 @@ public class WrapGruppi extends Observable implements IDAO<Gruppi>, IGruppi {
 	}
 
 	@Override
-	public List<Gruppi> selectWhere(List<Clausola> clausole,
+	public List<IGruppi> selectWhere(List<Clausola> clausole,
 			String appentoToQuery)  {
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public String getIdEntita() {
+		return Integer.toString(getidGruppo());
+	}
+
+	@Override
+	public void setIdEntita(String idEntita) {
+		setidGruppo(Integer.parseInt(idEntita));
+	}
+
+	@Override
+	public String getNome() {
+		return getnome();
 	}
 
 }

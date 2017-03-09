@@ -24,6 +24,7 @@ import com.molinari.gestionespese.business.generatori.TableModelUscite;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.Gruppi;
+import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.wrapper.Model;
 import com.molinari.gestionespese.view.FinestraListaComandi;
@@ -309,7 +310,7 @@ public class AggiornatoreManager {
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
-		final JComboBox<Gruppi> gruppi = categoria.getComboGruppi();
+		final JComboBox<IGruppi> gruppi = categoria.getComboGruppi();
 
 		gruppi.setSelectedIndex(0);
 
@@ -322,7 +323,7 @@ public class AggiornatoreManager {
 			}
 			if (gruppo.getidGruppo() == gruppo1.getidGruppo()) {
 				gruppi.removeItemAt(i);
-				Gruppi gruppinew = CacheGruppi.getSingleton().getGruppo(Integer.toString(gruppo.getidGruppo()));
+				IGruppi gruppinew = CacheGruppi.getSingleton().getGruppo(Integer.toString(gruppo.getidGruppo()));
 				// non è possibile sostituirlo la categoria presa dal database
 				// con quella passata nel parametro
 				// perché il parametro mantiene i vecchi settaggi e non si

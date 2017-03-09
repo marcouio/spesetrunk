@@ -8,14 +8,14 @@ import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.cache.CacheGruppi;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.domain.CatSpese;
-import com.molinari.gestionespese.domain.Gruppi;
+import com.molinari.gestionespese.domain.IGruppi;
 
 import grafica.componenti.table.TableModel;
 
 public class TableModelUsciteGruppi extends TableModel{
 
 	private static final long serialVersionUID = 1L;
-	List<Gruppi> gruppi = null;
+	List<IGruppi> gruppi = null;
 	List<CatSpese> catSpese = null;
 
 	public TableModelUsciteGruppi(Object parametro) {
@@ -56,7 +56,7 @@ public class TableModelUsciteGruppi extends TableModel{
 		}
 	}
 
-	public List<Gruppi> getGruppi() {
+	public List<IGruppi> getGruppi() {
 		if(gruppi == null){
 			gruppi = CacheGruppi.getSingleton().getVettoreGruppiSenzaZero();
 		}

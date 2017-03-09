@@ -20,6 +20,7 @@ import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.cache.CacheGruppi;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.Gruppi;
+import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapCatSpese;
 import com.molinari.gestionespese.view.font.ButtonF;
 import com.molinari.gestionespese.view.font.LabelListaGruppi;
@@ -39,9 +40,7 @@ public class CategorieView extends AbstractCategorieView {
 	private JTextField tfNome;
 	private JComboBox<CatSpese> cbCategorie;
 	private List<CatSpese> categorieSpesa;
-	private JComboBox<Gruppi> cbGruppi;
-
-	private static final long serialVersionUID = 1L;
+	private JComboBox<IGruppi> cbGruppi;
 
 	public CategorieView(final WrapCatSpese cat) {
 		super(cat);
@@ -84,7 +83,7 @@ public class CategorieView extends AbstractCategorieView {
 			inserisci.setBounds(26, 305, 206, 25);
 			inserisci.setText("Inserisci Categoria");
 
-			final List<Gruppi> vettoreGruppi = CacheGruppi.getSingleton().getListCategoriePerCombo(CacheGruppi.getSingleton().getAllGruppi());
+			final List<IGruppi> vettoreGruppi = CacheGruppi.getSingleton().getListCategoriePerCombo(CacheGruppi.getSingleton().getAllGruppi());
 			// combo gruppi
 			cbGruppi = new JComboBox<>();
 			for (int i = 0; i < vettoreGruppi.size(); i++) {
@@ -145,7 +144,7 @@ public class CategorieView extends AbstractCategorieView {
 		boolean trovato = false;
 		
 		for (int i = 0; i < numeroGruppi; i++) {
-			final Gruppi gruppo = cbGruppi.getModel().getElementAt(i);
+			final IGruppi gruppo = cbGruppi.getModel().getElementAt(i);
 			boolean groupIsNotNull = gruppo != null && gruppo.getnome()!=null &&  categoria.getGruppi()!=null;
 			if (groupIsNotNull && gruppo.getnome().equals(categoria.getGruppi().getnome())) {
 				cbGruppi.setSelectedIndex(i);
@@ -208,11 +207,11 @@ public class CategorieView extends AbstractCategorieView {
 		this.cbCategorie = comboCategorie;
 	}
 
-	public JComboBox<Gruppi> getComboGruppi() {
+	public JComboBox<IGruppi> getComboGruppi() {
 		return cbGruppi;
 	}
 
-	public void setComboGruppi(final JComboBox<Gruppi> comboGruppi) {
+	public void setComboGruppi(final JComboBox<IGruppi> comboGruppi) {
 		this.cbGruppi = comboGruppi;
 	}
 

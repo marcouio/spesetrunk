@@ -12,8 +12,8 @@ import java.util.logging.Level;
 import com.molinari.gestionespese.business.cache.CacheGruppi;
 import com.molinari.gestionespese.domain.Budget;
 import com.molinari.gestionespese.domain.CatSpese;
-import com.molinari.gestionespese.domain.Gruppi;
 import com.molinari.gestionespese.domain.ICatSpese;
+import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.SingleSpesa;
 
 import controller.ControlloreBase;
@@ -55,7 +55,7 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO<CatSpese
 						categorie.setimportanza(rs.getString(3));
 						categorie.setnome(rs.getString(4));
 						ConnectionPool.getSingleton().chiudiOggettiDb(null);
-						final Gruppi gruppo = CacheGruppi.getSingleton().getGruppo(idGruppo);
+						final IGruppi gruppo = CacheGruppi.getSingleton().getGruppo(idGruppo);
 						categorie.setGruppi(gruppo);
 					}
 					return categorie;
@@ -95,7 +95,7 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO<CatSpese
 						categoriaLoc.setnome(rs.getString(4));
 						categorie.add(categoriaLoc);
 
-						final Gruppi gruppo = CacheGruppi.getSingleton().getGruppo(idGruppo);
+						final IGruppi gruppo = CacheGruppi.getSingleton().getGruppo(idGruppo);
 						categoriaLoc.setGruppi(gruppo);
 					}
 					return categorie;
@@ -217,12 +217,12 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO<CatSpese
 	}
 
 	@Override
-	public Gruppi getGruppi() {
+	public IGruppi getGruppi() {
 		return categoria.getGruppi();
 	}
 
 	@Override
-	public void setGruppi(Gruppi gruppi) {
+	public void setGruppi(IGruppi gruppi) {
 		categoria.setGruppi(gruppi);
 	}
 

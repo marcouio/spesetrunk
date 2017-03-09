@@ -35,7 +35,7 @@ public class AscoltatoreAggiornaGruppo extends AscoltatoreAggiornatoreTutto {
 		final WrapGruppi modelGruppi = gruppiView.getModelGruppi();
 
 		if (gruppi != null) {
-			final Gruppi oldGruppo = CacheGruppi.getSingleton().getGruppo(Integer.toString(gruppi.getidGruppo()));
+			final IGruppi oldGruppo = CacheGruppi.getSingleton().getGruppo(Integer.toString(gruppi.getidGruppo()));
 			gruppiView.setGruppo("Aggiorna");
 			
 			modelGruppi.setidGruppo(gruppi.getidGruppo());
@@ -43,8 +43,8 @@ public class AscoltatoreAggiornaGruppo extends AscoltatoreAggiornatoreTutto {
 			try {
 				if (Controllore.invocaComando(new CommandUpdateGruppo(oldGruppo, (IGruppi) modelGruppi.getEntitaPadre()))) {
 
-					final List<Gruppi> vectorGruppi = CacheGruppi.getSingleton().getListCategoriePerCombo(CacheGruppi.getSingleton().getAllGruppi());
-					final DefaultComboBoxModel<Gruppi> model = new DefaultComboBoxModel<>(new Vector<>(vectorGruppi));
+					final List<IGruppi> vectorGruppi = CacheGruppi.getSingleton().getListCategoriePerCombo(CacheGruppi.getSingleton().getAllGruppi());
+					final DefaultComboBoxModel<IGruppi> model = new DefaultComboBoxModel<>(new Vector<>(vectorGruppi));
 					gruppiView.getComboGruppi().setModel(model);
 					AggiornatoreManager.aggiornamentoComboBox(CacheCategorie.getSingleton().getVettoreCategorie());
 					modelGruppi.setChanged();

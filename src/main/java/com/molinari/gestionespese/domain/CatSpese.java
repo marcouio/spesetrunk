@@ -43,7 +43,7 @@ public class CatSpese implements AbstractOggettoEntita,Serializable, ICatSpese {
 	// bi-directional many-to-one association to Gruppi
 	@ManyToOne
 	@JoinColumns({})
-	private Gruppi gruppi;
+	private IGruppi gruppi;
 
 	// bi-directional many-to-one association to SingleSpesa
 	@OneToMany(mappedBy = "catSpese")
@@ -111,12 +111,12 @@ public class CatSpese implements AbstractOggettoEntita,Serializable, ICatSpese {
 	}
 
 	@Override
-	public Gruppi getGruppi() {
+	public IGruppi getGruppi() {
 		return this.gruppi;
 	}
 
 	@Override
-	public void setGruppi(final Gruppi gruppi) {
+	public void setGruppi(final IGruppi gruppi) {
 		this.gruppi = gruppi;
 	}
 

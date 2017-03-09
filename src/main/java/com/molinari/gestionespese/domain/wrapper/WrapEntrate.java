@@ -24,7 +24,7 @@ import db.ExecutePreparedStatement;
 import db.ExecuteResultSet;
 import db.dao.IDAO;
 
-public class WrapEntrate extends Observable implements IEntrate, IDAO<Entrate> {
+public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> {
 
 	private static final String AND = " AND ";
 	private static final String DELETE_FROM = "DELETE FROM ";
@@ -44,7 +44,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<Entrate> {
 		try {
 
 			return getEntrata(sql);
-
+			
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} finally {
@@ -102,22 +102,22 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<Entrate> {
 	}
 
 	@Override
-	public List<Entrate> selectAll() {
+	public List<IEntrate> selectAll() {
 
 
 		final String sql = SELECT_FROM + Entrate.NOME_TABELLA;
 		try {
 			CacheUtenti.getSingleton().getAllUtenti();
-			return new ExecuteResultSet<List<Entrate>>() {
+			return new ExecuteResultSet<List<IEntrate>>() {
 
 				@Override
-				protected List<Entrate> doWithResultSet(ResultSet rs) throws SQLException {
+				protected List<IEntrate> doWithResultSet(ResultSet rs) throws SQLException {
 					return extracted(rs);
 				}
 
-				private List<Entrate> extracted(ResultSet rs)
+				private List<IEntrate> extracted(ResultSet rs)
 						throws SQLException {
-					final List<Entrate> entrateLoc = new ArrayList<>();
+					final List<IEntrate> entrateLoc = new ArrayList<>();
 
 					while (rs != null && rs.next()) {
 						final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
@@ -139,7 +139,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<Entrate> {
 	}
 
 	@Override
-	public boolean insert(final Entrate oggettoEntita) {
+	public boolean insert(final IEntrate oggettoEntita) {
 		boolean ok = false;
 		final Connection cn = ConnectionPool.getSingleton().getConnection();
 		String sql = "";
@@ -148,10 +148,10 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<Entrate> {
 			sql = "INSERT INTO " + Entrate.NOME_TABELLA + " (" + Entrate.COL_DESCRIZIONE + ", " + Entrate.COL_FISSEOVAR + ", " + Entrate.COL_INEURO + ", " + Entrate.COL_DATA + ", " + Entrate.COL_NOME
 					+ ", " + Entrate.COL_IDUTENTE + ", " + Entrate.COL_DATAINS + ") VALUES (?,?,?,?,?,?,?)";
 			
-			return new ExecutePreparedStatement<Entrate>() {
+			return new ExecutePreparedStatement<IEntrate>() {
 
 				@Override
-				protected void doWithPreparedStatement(PreparedStatement ps, Entrate obj) throws SQLException {
+				protected void doWithPreparedStatement(PreparedStatement ps, IEntrate obj) throws SQLException {
 					ps.setString(1, obj.getdescrizione());
 					ps.setString(2, obj.getFisseoVar());
 					ps.setDouble(3, obj.getinEuro());
@@ -161,7 +161,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<Entrate> {
 					ps.setString(7, obj.getDataIns());
 					
 				}
-			}.executeUpdate(sql, (Entrate) oggettoEntita);
+			}.executeUpdate(sql, oggettoEntita);
 			
 			
 		} catch (final Exception e) {
@@ -196,7 +196,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<Entrate> {
 	}
 
 	@Override
-	public boolean update(final Entrate oggettoEntita) {
+	public boolean update(final IEntrate oggettoEntita) {
 
 		final Entrate entrata = (Entrate) oggettoEntita;
 		final String sql = getQueryUpdate(entrata);
@@ -531,7 +531,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<Entrate> {
 	}
 
 	@Override
-	public List<Entrate> selectWhere(List<Clausola> clausole,
+	public List<IEntrate> selectWhere(List<Clausola> clausole,
 			String appentoToQuery) {
 		throw new UnsupportedOperationException();
 	}
@@ -559,6 +559,21 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<Entrate> {
 		entrata.setUtenti(utente);
 		entrata.setDataIns(rs.getString(8));
 		return entrata;
+	}
+
+	@Override
+	public String getIdEntita() {
+		return Integer.toString(getidEntrate());
+	}
+
+	@Override
+	public void setIdEntita(String idEntita) {
+		setidEntrate(Integer.parseInt(idEntita));
+	}
+
+	@Override
+	public String getNome() {
+		return getnome();
 	}
 
 }

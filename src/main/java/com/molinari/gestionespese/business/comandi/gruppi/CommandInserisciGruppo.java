@@ -1,38 +1,16 @@
 package com.molinari.gestionespese.business.comandi.gruppi;
 
 import com.molinari.gestionespese.business.cache.CacheGruppi;
-import com.molinari.gestionespese.domain.Gruppi;
+import com.molinari.gestionespese.business.comandi.CommandInserisci;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapGruppi;
 
-import command.javabeancommand.AbstractCommandForJavaBean;
 import grafica.componenti.alert.Alert;
 
-public class CommandInserisciGruppo extends AbstractCommandForJavaBean<Gruppi> {
+public class CommandInserisciGruppo extends CommandInserisci<IGruppi> {
 
 	public CommandInserisciGruppo(final IGruppi entita) {
-		final CacheGruppi cache = CacheGruppi.getSingleton();
-		mappaCache = cache.getCache();
-		this.wrap = new WrapGruppi();
-		this.entita = (Gruppi) ((WrapGruppi) entita).getEntitaPadre();
-	}
-
-	@Override
-	public boolean execute() throws Exception {
-		if (wrap.insert(entita)) {
-			mappaCache.put(entita.getIdEntita(), entita);
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public boolean unExecute() throws Exception {
-		if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
-			mappaCache.remove(entita.getIdEntita());
-			return true;
-		}
-		return false;
+		super(entita, new WrapGruppi(), CacheGruppi.getSingleton());
 	}
 
 	@Override

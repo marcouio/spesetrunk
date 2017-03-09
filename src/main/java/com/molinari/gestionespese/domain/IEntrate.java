@@ -1,7 +1,8 @@
 package com.molinari.gestionespese.domain;
 
+import command.javabeancommand.AbstractOggettoEntita;
 
-public interface IEntrate {
+public interface IEntrate extends AbstractOggettoEntita{
 
 	public String getdata();
 
@@ -13,7 +14,7 @@ public interface IEntrate {
 
 	public String getFisseoVar();
 
-	public void setFisseoVar(String FisseoVar);
+	public void setFisseoVar(String fisseoVar);
 
 	public int getidEntrate();
 

@@ -233,7 +233,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 			final PannelTabs pannelTabs = Controllore.getSingleton().getGeneralFrame().getPannelTabs();
 			final JTextField campo = pannelTabs.getTabMovEntrate().getCampo();
 
-			final Entrate oldEntrata = CacheEntrate.getSingleton().getEntrate(idEntrate.getText());
+			final IEntrate oldEntrata = CacheEntrate.getSingleton().getEntrate(idEntrate.getText());
 
 			if (nonEsistonoCampiNonValorizzati()) {
 				if (Controllore.invocaComando(new CommandUpdateEntrata(oldEntrata, (IEntrate) getModelEntrate().getEntitaPadre()))) {

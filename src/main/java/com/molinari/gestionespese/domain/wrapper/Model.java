@@ -10,7 +10,7 @@ import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.cache.CacheGruppi;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.Entrate;
-import com.molinari.gestionespese.domain.Gruppi;
+import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.ISingleSpesa;
 
 import controller.ControlloreBase;
@@ -198,14 +198,14 @@ public class Model {
 
 	// *************************************GRUPPI-PERCOMBOBOX***********************************
 
-	private Map<String, Gruppi> getGruppiPerCombo(final boolean ricarica) {
+	private Map<String, IGruppi> getGruppiPerCombo(final boolean ricarica) {
 		final CacheGruppi cache = CacheGruppi.getSingleton();
 		cache.setCaricata(!ricarica);
 		return cache.getAllGruppi();
 	}
 
 	public Object[] getGruppiCombo(final boolean ricarica) {
-		final Map<String, Gruppi> gruppi = getGruppiPerCombo(ricarica);
+		final Map<String, IGruppi> gruppi = getGruppiPerCombo(ricarica);
 		return gruppi.values().toArray();
 	}
 
