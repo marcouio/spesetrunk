@@ -1,6 +1,8 @@
 package com.molinari.gestionespese.domain;
 
-public interface IRisparmio {
+import java.io.Serializable;
+
+public interface IRisparmio extends Serializable{
 
 	public int getidRisparmio();
 
@@ -8,7 +10,7 @@ public interface IRisparmio {
 
 	public double getPerSulTotale();
 
-	public void setPerSulTotale(double PerSulTotale);
+	public void setPerSulTotale(double perSulTotale);
 
 	public String getnome();
 

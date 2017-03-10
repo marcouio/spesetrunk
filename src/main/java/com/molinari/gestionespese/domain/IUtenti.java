@@ -1,11 +1,12 @@
 package com.molinari.gestionespese.domain;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import command.javabeancommand.AbstractOggettoEntita;
 
 
-public interface IUtenti extends AbstractOggettoEntita{
+public interface IUtenti extends AbstractOggettoEntita, Serializable{
 
 	public int getidUtente();
 

@@ -1,8 +1,10 @@
 package com.molinari.gestionespese.domain;
 
+import java.io.Serializable;
+
 import command.javabeancommand.AbstractOggettoEntita;
 
-public interface INote extends AbstractOggettoEntita{
+public interface INote extends AbstractOggettoEntita, Serializable{
 
 	public String getData();
 

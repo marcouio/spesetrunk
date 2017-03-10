@@ -1,8 +1,10 @@
 package com.molinari.gestionespese.domain;
 
+import java.io.Serializable;
+
 import command.javabeancommand.AbstractOggettoEntita;
 
-public interface ILookandfeel extends AbstractOggettoEntita{
+public interface ILookandfeel extends AbstractOggettoEntita, Serializable{
 
 	public int getidLook();
 
