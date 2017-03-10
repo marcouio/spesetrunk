@@ -16,25 +16,6 @@ public class CommandUpdateGruppo extends CommandUpdate<IGruppi> {
 	}
 
 	@Override
-	public boolean execute() throws Exception {
-		if(super.execute()){
-			mappaCache.put(Integer.toString(getNewEntita().getidGruppo()), getNewEntita());
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public boolean unExecute() throws Exception {
-		if(super.unExecute()){
-			mappaCache.put(Integer.toString(getOldEntita().getidGruppo()), getOldEntita());
-			return true;
-			
-		}
-		return false;
-	}
-
-	@Override
 	public String toString() {
 		return "Modificata Gruppo " + getNewEntita().getnome();
 	}
