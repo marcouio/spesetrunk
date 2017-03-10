@@ -24,13 +24,13 @@ public interface ISingleSpesa extends AbstractOggettoEntita{
 
 	public void setNome(String nome);
 
-	public CatSpese getCatSpese();
+	public ICatSpese getCatSpese();
 
-	public void setCatSpese(CatSpese catSpese);
+	public void setCatSpese(ICatSpese catSpese);
 
-	public Utenti getUtenti();
+	public IUtenti getUtenti();
 
-	public void setUtenti(Utenti utenti);
+	public void setUtenti(IUtenti utenti);
 
 	public void setDataIns(String dataIns);
 

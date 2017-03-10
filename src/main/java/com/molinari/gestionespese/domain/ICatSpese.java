@@ -2,7 +2,9 @@ package com.molinari.gestionespese.domain;
 
 import java.util.Set;
 
-public interface ICatSpese {
+import command.javabeancommand.AbstractOggettoEntita;
+
+public interface ICatSpese extends AbstractOggettoEntita {
 
 	public String getdescrizione();
 

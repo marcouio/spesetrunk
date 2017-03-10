@@ -1,6 +1,8 @@
 package com.molinari.gestionespese.domain;
 
-public interface IBudget {
+import command.javabeancommand.AbstractOggettoEntita;
+
+public interface IBudget extends AbstractOggettoEntita{
 	public int getidBudget();
 
 	public void setidBudget(int idBudget);
@@ -13,9 +15,9 @@ public interface IBudget {
 
 	public void setpercSulTot(double percSulTot);
 
-	public CatSpese getCatSpese();
+	public ICatSpese getCatSpese();
 
-	public void setCatSpese(CatSpese catSpese);
+	public void setCatSpese(ICatSpese catSpese);
 
 	public String getnome();
 

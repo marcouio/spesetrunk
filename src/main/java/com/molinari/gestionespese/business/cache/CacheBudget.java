@@ -3,16 +3,16 @@ package com.molinari.gestionespese.business.cache;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.molinari.gestionespese.domain.Budget;
+import com.molinari.gestionespese.domain.IBudget;
 import com.molinari.gestionespese.domain.wrapper.WrapBudget;
 
-public class CacheBudget extends AbstractCacheBase<Budget> {
+public class CacheBudget extends AbstractCacheBase<IBudget> {
 
 	private static CacheBudget singleton;
 	WrapBudget budgetDAO = new WrapBudget();
 
 	private CacheBudget() {
-		setCache(new HashMap<String, Budget>());
+		setCache(new HashMap<String, IBudget>());
 	}
 
 	public static CacheBudget getSingleton() {
@@ -29,7 +29,7 @@ public class CacheBudget extends AbstractCacheBase<Budget> {
 	 * @param id
 	 * @return budget
 	 */
-	public Budget getBudget(String id) {
+	public IBudget getBudget(String id) {
 
 		return getObjectById(budgetDAO, id);
 
@@ -41,11 +41,11 @@ public class CacheBudget extends AbstractCacheBase<Budget> {
 	 *
 	 * @return
 	 */
-	public Map<String, Budget> chargeAllBudget() {
+	public Map<String, IBudget> chargeAllBudget() {
 		return chargeAllObject(budgetDAO);
 	}
 
-	public Map<String, Budget> getAllBudget() {
+	public Map<String, IBudget> getAllBudget() {
 		return getAll(budgetDAO);
 	}
 

@@ -1,6 +1,8 @@
 package com.molinari.gestionespese.domain;
 
-public interface ILookandfeel {
+import command.javabeancommand.AbstractOggettoEntita;
+
+public interface ILookandfeel extends AbstractOggettoEntita{
 
 	public int getidLook();
 

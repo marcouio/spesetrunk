@@ -23,6 +23,7 @@ import com.molinari.gestionespese.business.cache.CacheEntrate;
 import com.molinari.gestionespese.business.cache.CacheUscite;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.Entrate;
+import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.IEntrate;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.ISingleSpesa;
@@ -404,7 +405,7 @@ public class Database {
 
 		for (int i = 0; i < listaUscite.size(); i++) {
 			final ISingleSpesa uscita = listaUscite.get(i);
-			final CatSpese cat = uscita.getCatSpese();
+			final ICatSpese cat = uscita.getCatSpese();
 			if (cat != null) {
 				final Date dataUscita = DBUtil.stringToDate(uscita.getData(), YYYY_MM_DD);
 				final int mesee = Integer.parseInt(DBUtil.dataToString(dataUscita, "MM"));
@@ -422,7 +423,7 @@ public class Database {
 
 		for (int i = 0; i < listaUscite.size(); i++) {
 			final ISingleSpesa uscita = listaUscite.get(i);
-			final CatSpese cat = uscita.getCatSpese();
+			final ICatSpese cat = uscita.getCatSpese();
 			if (cat != null) {
 				final IGruppi group = cat.getGruppi();
 				final Date dataUscita = DBUtil.stringToDate(uscita.getData(), YYYY_MM_DD);
@@ -440,7 +441,7 @@ public class Database {
 		final List<ISingleSpesa> listaUscite = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
 		for (int i = 0; i < listaUscite.size(); i++) {
 			final ISingleSpesa uscita = listaUscite.get(i);
-			final CatSpese cat = uscita.getCatSpese();
+			final ICatSpese cat = uscita.getCatSpese();
 			if (cat != null) {
 				final IGruppi group = cat.getGruppi();
 				final Date dataUscita = DBUtil.stringToDate(uscita.getData(), YYYY_MM_DD);

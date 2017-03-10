@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.molinari.gestionespese.business.Controllore;
-import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.IEntrate;
+import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
@@ -56,7 +56,7 @@ public class CacheEntrate extends AbstractCacheBase<IEntrate> {
 	private Predicate<? super IEntrate> getFilterForUser(final Utenti utente) {
 		return entrata ->
 		{
-			final Utenti utenti = entrata.getUtenti();
+			final IUtenti utenti = entrata.getUtenti();
 			final int idUtente = utenti.getidUtente();
 			return entrata != null && utenti != null && idUtente != 0 && idUtente == utente.getidUtente();
 		};

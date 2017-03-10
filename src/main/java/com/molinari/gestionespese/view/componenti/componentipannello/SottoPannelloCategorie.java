@@ -15,6 +15,7 @@ import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.domain.CatSpese;
+import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.view.font.LabelTestoPiccolo;
 import com.molinari.gestionespese.view.font.TextFieldF;
 
@@ -22,7 +23,7 @@ import controller.ControlloreBase;
 
 public class SottoPannelloCategorie {
 
-	private static JComboBox<CatSpese> categorieCombo;
+	private static JComboBox<ICatSpese> categorieCombo;
 	private static JTextField totaleMeseCategoria;
 	private static JTextField totaleAnnualeCateg;
 
@@ -67,7 +68,7 @@ public class SottoPannelloCategorie {
 			componenti[2] = totaleMeseCategoria;
 
 			// CategoriaSpese
-			final List<CatSpese> listCategoriePerCombo = CacheCategorie.getSingleton().getListCategoriePerCombo();
+			final List<ICatSpese> listCategoriePerCombo = CacheCategorie.getSingleton().getListCategoriePerCombo();
 			categorieCombo = new JComboBox<>(new Vector<>(listCategoriePerCombo));
 
 			categorieCombo.setBounds(16, 85, 106, 27);
@@ -96,11 +97,11 @@ public class SottoPannelloCategorie {
 		}
 	}
 
-	public static JComboBox<CatSpese> getCategorieCombo() {
+	public static JComboBox<ICatSpese> getCategorieCombo() {
 		return categorieCombo;
 	}
 
-	public static void setCategorieCombo(final JComboBox<CatSpese> categorieCombo) {
+	public static void setCategorieCombo(final JComboBox<ICatSpese> categorieCombo) {
 		SottoPannelloCategorie.categorieCombo = categorieCombo;
 	}
 

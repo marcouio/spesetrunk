@@ -15,6 +15,7 @@ import com.molinari.gestionespese.business.aggiornatori.AggiornatoreManager;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.Entrate;
+import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.ISingleSpesa;
 import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.wrapper.Model;
@@ -26,8 +27,8 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 		private static final long serialVersionUID = 1L;
 
 		private FiltraDialogExtension(){
-			final List<CatSpese> listCategoriePerCombo = CacheCategorie.getSingleton().getListCategoriePerCombo();
-			comboBoxCat = new JComboBox<CatSpese>(new Vector<>(listCategoriePerCombo));
+			final List<ICatSpese> listCategoriePerCombo = CacheCategorie.getSingleton().getListCategoriePerCombo();
+			comboBoxCat = new JComboBox<ICatSpese>(new Vector<>(listCategoriePerCombo));
 			comboBoxCat.setBounds(512, 26, 89, 25);
 			getContentPane().add(comboBoxCat);
 		}

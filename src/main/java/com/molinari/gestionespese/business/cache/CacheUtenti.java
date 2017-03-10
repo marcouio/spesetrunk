@@ -5,16 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.molinari.gestionespese.domain.Utenti;
+import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.wrapper.WrapUtenti;
 
-public class CacheUtenti extends AbstractCacheBase<Utenti> {
+public class CacheUtenti extends AbstractCacheBase<IUtenti> {
 
 	private static CacheUtenti singleton;
 	private final WrapUtenti utentiDAO = new WrapUtenti();
 
 	private CacheUtenti() {
-		setCache(new HashMap<String, Utenti>());
+		setCache(new HashMap<String, IUtenti>());
 	}
 
 	public static CacheUtenti getSingleton() {
@@ -30,7 +30,7 @@ public class CacheUtenti extends AbstractCacheBase<Utenti> {
 		boolean ok = false;
 		final Object[] utenti = getArrayUtenti();
 		for (final Object element : utenti) {
-			final Utenti utente = (Utenti) element;
+			final IUtenti utente = (IUtenti) element;
 			if (utente.getusername().equals(username)) {
 				ok = true;
 			}
@@ -38,26 +38,26 @@ public class CacheUtenti extends AbstractCacheBase<Utenti> {
 		return ok;
 	}
 
-	public Utenti getUtente(String id) {
+	public IUtenti getUtente(String id) {
 		return getObjectById(utentiDAO, id);
 	}
 
-	public Map<String, Utenti> getAllUtenti() {
+	public Map<String, IUtenti> getAllUtenti() {
 		return getAll(utentiDAO);
 	}
 
-	public List<Utenti> getVettoreUtenti() {
-		final List<Utenti> utenti = new ArrayList<>();
-		final Map<String, Utenti> mappa = this.getAllUtenti();
-		final Utenti[] lista = mappa.values().toArray(new Utenti[0]);
-		for (final Utenti element : lista) {
+	public List<IUtenti> getVettoreUtenti() {
+		final List<IUtenti> utenti = new ArrayList<>();
+		final Map<String, IUtenti> mappa = this.getAllUtenti();
+		final IUtenti[] lista = mappa.values().toArray(new IUtenti[0]);
+		for (final IUtenti element : lista) {
 			utenti.add(element);
 		}
 		return utenti;
 	}
 
 	public Object[] getArrayUtenti() {
-		final Map<String, Utenti> mappa = this.getAllUtenti();
+		final Map<String, IUtenti> mappa = this.getAllUtenti();
 		return mappa.values().toArray();
 	}
 }

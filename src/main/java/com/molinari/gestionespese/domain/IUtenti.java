@@ -2,8 +2,10 @@ package com.molinari.gestionespese.domain;
 
 import java.util.Set;
 
+import command.javabeancommand.AbstractOggettoEntita;
 
-public interface IUtenti {
+
+public interface IUtenti extends AbstractOggettoEntita{
 
 	public int getidUtente();
 

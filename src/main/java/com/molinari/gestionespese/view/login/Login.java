@@ -10,7 +10,7 @@ import javax.swing.WindowConstants;
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.aggiornatori.AggiornatoreManager;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreNiente;
-import com.molinari.gestionespese.domain.Utenti;
+import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.wrapper.WrapUtenti;
 import com.molinari.gestionespese.view.font.ButtonF;
 import com.molinari.gestionespese.view.font.LabelListaGruppi;
@@ -69,7 +69,7 @@ public class Login {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
 				final WrapUtenti utentiwrap = new WrapUtenti();
-				final Utenti utente = utentiwrap.selectByUserAndPass(user.getText(), pass.getText());
+				final IUtenti utente = utentiwrap.selectByUserAndPass(user.getText(), pass.getText());
 				if (utente != null) {
 					login(utente);
 				} else {
@@ -80,7 +80,7 @@ public class Login {
 		};
 	}
 
-	private void login(final Utenti utente) {
+	private void login(final IUtenti utente) {
 		final Impostazioni impostazioni = Impostazioni.getSingleton();
 		try {
 			Controllore.getSingleton().setUtenteLogin(utente);

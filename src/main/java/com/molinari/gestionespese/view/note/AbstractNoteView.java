@@ -2,7 +2,7 @@ package com.molinari.gestionespese.view.note;
 
 import javax.swing.JDialog;
 
-import com.molinari.gestionespese.domain.Utenti;
+import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.wrapper.WrapNote;
 
 public class AbstractNoteView {
@@ -46,11 +46,11 @@ public class AbstractNoteView {
 		return wrapNote.getDataIns();
 	}
 
-	public Utenti getUtenti() {
+	public IUtenti getUtenti() {
 		return wrapNote.getUtenti();
 	}
 
-	public void setUtenti(Utenti utente) {
+	public void setUtenti(IUtenti utente) {
 		wrapNote.setUtenti(utente);
 	}
 

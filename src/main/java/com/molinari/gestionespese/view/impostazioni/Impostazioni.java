@@ -28,6 +28,7 @@ import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreTu
 import com.molinari.gestionespese.business.cache.CacheLookAndFeel;
 import com.molinari.gestionespese.business.config.ConfiguratoreXml;
 import com.molinari.gestionespese.domain.Entrate;
+import com.molinari.gestionespese.domain.ILookandfeel;
 import com.molinari.gestionespese.domain.Lookandfeel;
 import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.Utenti;
@@ -50,7 +51,7 @@ public class Impostazioni extends JDialog {
 	private JTextField dataOdierna;
 	private JTextField utente;
 	private ArrayList<String> listaLook;
-	private JComboBox<Lookandfeel> comboLook;
+	private JComboBox<ILookandfeel> comboLook;
 	private TextFieldF annotextField;
 	private static int anno = new GregorianCalendar().get(Calendar.YEAR);
 	private static JTextField caricaDatabase;
@@ -148,9 +149,9 @@ public class Impostazioni extends JDialog {
 			getContentPane().add(annotextField);
 
 			final CacheLookAndFeel cacheLook = CacheLookAndFeel.getSingleton();
-			final List<Lookandfeel> vettore = cacheLook.getVettoreLooksPerCombo();
+			final List<ILookandfeel> vettore = cacheLook.getVettoreLooksPerCombo();
 
-			Lookandfeel look;
+			ILookandfeel look;
 			comboLook = new JComboBox<>(new Vector<>(vettore));
 			final Lookandfeel system = new Lookandfeel();
 			system.setnome("System");
@@ -332,7 +333,7 @@ public class Impostazioni extends JDialog {
 	/**
 	 * @return the comboLook
 	 */
-	public JComboBox<Lookandfeel> getComboLook() {
+	public JComboBox<ILookandfeel> getComboLook() {
 		return comboLook;
 	}
 
@@ -340,7 +341,7 @@ public class Impostazioni extends JDialog {
 	 * @param comboLook
 	 *            the comboLook to set
 	 */
-	public void setComboLook(final JComboBox<Lookandfeel> comboLook) {
+	public void setComboLook(final JComboBox<ILookandfeel> comboLook) {
 		this.comboLook = comboLook;
 	}
 

@@ -13,7 +13,6 @@ import javax.swing.JTable;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Controllore;
-import com.molinari.gestionespese.business.DBUtil;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.GestioneSpeseException;
 import com.molinari.gestionespese.business.InizializzatoreFinestre;
@@ -24,6 +23,7 @@ import com.molinari.gestionespese.business.generatori.TableModelUscite;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.Gruppi;
+import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.wrapper.Model;
@@ -48,7 +48,6 @@ import com.molinari.gestionespese.view.tabelleMesi.TabellaUscitaGruppi;
 
 import controller.ControlloreBase;
 import db.ConnectionPool;
-import grafica.componenti.contenitori.FrameBase;
 
 public class AggiornatoreManager {
 
@@ -345,7 +344,7 @@ public class AggiornatoreManager {
 	 *
 	 * @param CatSpese
 	 */
-	public static void aggiornaCategorie(final CatSpese categoria, final JComboBox<CatSpese> comboCategorie) {
+	public static void aggiornaCategorie(final ICatSpese categoria, final JComboBox<ICatSpese> comboCategorie) {
 		int max = 0;
 		final String sql = "SELECT MAX(" + CatSpese.ID + ") FROM " + CatSpese.NOME_TABELLA;
 
@@ -360,18 +359,18 @@ public class AggiornatoreManager {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 
-		final JComboBox<CatSpese> categorie1 = comboCategorie;
+		final JComboBox<ICatSpese> categorie1 = comboCategorie;
 
 		for (int i = 1; i <= max; i++) {
 
-			CatSpese catspese1 = (CatSpese) categorie1.getItemAt(i);
+			ICatSpese catspese1 = (ICatSpese) categorie1.getItemAt(i);
 			if (catspese1 == null) {
 				catspese1 = new CatSpese();
 				catspese1.setidCategoria(-1);
 			}
 			if (categoria.getidCategoria() == catspese1.getidCategoria()) {
 				categorie1.removeItemAt(i);
-				final CatSpese categoriaPresa = CacheCategorie.getSingleton().getCatSpese(Integer.toString(categoria.getidCategoria()));
+				final ICatSpese categoriaPresa = CacheCategorie.getSingleton().getCatSpese(Integer.toString(categoria.getidCategoria()));
 				// non è possibile sostituirlo la categoria presa dal database
 				// con quella passata nel parametro
 				// perché il parametro mantiene i vecchi settaggi e non si
@@ -455,9 +454,9 @@ public class AggiornatoreManager {
 		}
 	}
 
-	public static void aggiornamentoComboBox(final List<CatSpese> categorie) {
-		CatSpese[] v = categorie.toArray(new CatSpese[categorie.size()]);
-		final DefaultComboBoxModel<CatSpese> model = new DefaultComboBoxModel<>(v);
+	public static void aggiornamentoComboBox(final List<ICatSpese> categorie) {
+		ICatSpese[] v = categorie.toArray(new ICatSpese[categorie.size()]);
+		final DefaultComboBoxModel<ICatSpese> model = new DefaultComboBoxModel<>(v);
 		if (SottoPannelloCategorie.getCategorieCombo() != null) {
 			SottoPannelloCategorie.getCategorieCombo().setModel(model);
 			SottoPannelloCategorie.getCategorieCombo().validate();

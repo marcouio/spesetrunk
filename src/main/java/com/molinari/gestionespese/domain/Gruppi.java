@@ -32,7 +32,7 @@ public class Gruppi implements AbstractOggettoEntita, Serializable, IGruppi {
 
 	// bi-directional many-to-one association to CatSpese
 	@OneToMany(mappedBy = "gruppi")
-	private Set<CatSpese> catSpeses;
+	private Set<ICatSpese> catSpeses;
 
 	public static final String NOME_TABELLA = "gruppi";
 	public static final String ID = "idGruppo";
@@ -70,12 +70,12 @@ public class Gruppi implements AbstractOggettoEntita, Serializable, IGruppi {
 	}
 
 	@Override
-	public Set<CatSpese> getCatSpeses() {
+	public Set<ICatSpese> getCatSpeses() {
 		return this.catSpeses;
 	}
 
 	@Override
-	public void setCatSpeses(final Set<CatSpese> catSpeses) {
+	public void setCatSpeses(final Set<ICatSpese> catSpeses) {
 		this.catSpeses = catSpeses;
 	}
 

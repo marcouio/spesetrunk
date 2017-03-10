@@ -21,29 +21,29 @@ import db.ExecutePreparedStatement;
 import db.ExecuteResultSet;
 import db.dao.IDAO;
 
-public class WrapUtenti extends Observable implements IDAO<Utenti>, IUtenti {
+public class WrapUtenti extends Observable implements IDAO<IUtenti>, IUtenti {
 
 	private static final String WHERE = " WHERE ";
 	private static final String SELECT_FROM = "SELECT * FROM ";
-	private final Utenti utente;
+	private final IUtenti utente;
 
 	public WrapUtenti() {
 		utente = new Utenti();
 	}
 
 	@Override
-	public Utenti selectById(int id) {
+	public IUtenti selectById(int id) {
 
 		final String sql = SELECT_FROM + Utenti.NOME_TABELLA + WHERE + Utenti.ID + "=" + id;
 		try {
 
-			return new ExecuteResultSet<Utenti>() {
+			return new ExecuteResultSet<IUtenti>() {
 
 				@Override
-				protected Utenti doWithResultSet(ResultSet rs) throws SQLException {
+				protected IUtenti doWithResultSet(ResultSet rs) throws SQLException {
 
 					if (rs.next()) {
-						final Utenti utenteLoc = new Utenti();
+						final IUtenti utenteLoc = new Utenti();
 						utenteLoc.setidUtente(rs.getInt(1));
 						utenteLoc.setNome(rs.getString(2));
 						utenteLoc.setCognome(rs.getString(3));
@@ -63,20 +63,20 @@ public class WrapUtenti extends Observable implements IDAO<Utenti>, IUtenti {
 	}
 
 	@Override
-	public List<Utenti> selectAll() {
+	public List<IUtenti> selectAll() {
 
 		final String sql = SELECT_FROM + Utenti.NOME_TABELLA;
 
 		try {
 
-			return new ExecuteResultSet<List<Utenti>>() {
+			return new ExecuteResultSet<List<IUtenti>>() {
 
 				@Override
-				protected List<Utenti> doWithResultSet(ResultSet rs) throws SQLException {
-					final List<Utenti> utenti = new ArrayList<>();
+				protected List<IUtenti> doWithResultSet(ResultSet rs) throws SQLException {
+					final List<IUtenti> utenti = new ArrayList<>();
 
 					while(rs != null && rs.next()) {
-						final Utenti utenteLoc = new Utenti();
+						final IUtenti utenteLoc = new Utenti();
 						utenteLoc.setidUtente(rs.getInt(1));
 						utenteLoc.setNome(rs.getString(2));
 						utenteLoc.setCognome(rs.getString(3));
@@ -97,18 +97,18 @@ public class WrapUtenti extends Observable implements IDAO<Utenti>, IUtenti {
 
 	}
 
-	public Utenti utenteLogin(String username, String password) {
+	public IUtenti utenteLogin(String username, String password) {
 		final String sql = SELECT_FROM + Utenti.NOME_TABELLA + WHERE + Utenti.COL_USERNAME + " = '" + username + "' AND " + Utenti.COL_PASSWOR
 				+ "='" + password + "'";
 
-		final Utenti utenteLoc = new Utenti();
+		final IUtenti utenteLoc = new Utenti();
 
 		try {
 
-			return new ExecuteResultSet<Utenti>() {
+			return new ExecuteResultSet<IUtenti>() {
 
 				@Override
-				protected Utenti doWithResultSet(ResultSet rs) throws SQLException {
+				protected IUtenti doWithResultSet(ResultSet rs) throws SQLException {
 
 					if (rs.next()) {
 						utenteLoc.setidUtente(rs.getInt(1));
@@ -129,17 +129,17 @@ public class WrapUtenti extends Observable implements IDAO<Utenti>, IUtenti {
 	}
 
 	@Override
-	public boolean insert(Utenti oggettoEntita) {
+	public boolean insert(IUtenti oggettoEntita) {
 
-		final Utenti utenteLoc = (Utenti) oggettoEntita;
+		final IUtenti utenteLoc = (IUtenti) oggettoEntita;
 
 		final String sql = "INSERT INTO " + Utenti.NOME_TABELLA + " (" + Utenti.COL_USERNAME + ", " + Utenti.COL_PASSWOR + ", " +  Utenti.COL_NOME
 				+ ", " + Utenti.COL_COGNOME + ") VALUES (?,?,?,?)";
 
-		return new ExecutePreparedStatement<Utenti>() {
+		return new ExecutePreparedStatement<IUtenti>() {
 
 			@Override
-			protected void doWithPreparedStatement(PreparedStatement ps, Utenti obj) throws SQLException {
+			protected void doWithPreparedStatement(PreparedStatement ps, IUtenti obj) throws SQLException {
 				ps.setString(1, obj.getusername());
 				ps.setString(2, obj.getpassword());
 				ps.setString(3, obj.getnome());
@@ -168,10 +168,10 @@ public class WrapUtenti extends Observable implements IDAO<Utenti>, IUtenti {
 	}
 
 	@Override
-	public boolean update(Utenti oggettoEntita) {
+	public boolean update(IUtenti oggettoEntita) {
 		boolean ok = false;
 
-		final Utenti utenteLoc = (Utenti) oggettoEntita;
+		final IUtenti utenteLoc = (IUtenti) oggettoEntita;
 		final String sql = "UPDATE " + Utenti.NOME_TABELLA + " SET " + Utenti.COL_USERNAME + " = " + utenteLoc.getusername() + ", "
 				+ Utenti.COL_PASSWOR + " = " + utenteLoc.getpassword() + ", " + Utenti.COL_NOME + " = " + utenteLoc.getnome() + ", "
 				+ Utenti.COL_COGNOME + " = " + utenteLoc.getCognome() + WHERE + Utenti.ID + " = " + utenteLoc.getidUtente();
@@ -207,7 +207,7 @@ public class WrapUtenti extends Observable implements IDAO<Utenti>, IUtenti {
 		return ok;
 	}
 
-	public Utenti selectByUserAndPass(String user, String pass) {
+	public IUtenti selectByUserAndPass(String user, String pass) {
 		final String sql = SELECT_FROM + Utenti.NOME_TABELLA + WHERE + Utenti.COL_USERNAME + " = '" + user + "' AND " + Utenti.COL_PASSWOR
 				+ "='" + pass + "'";
 
@@ -215,11 +215,11 @@ public class WrapUtenti extends Observable implements IDAO<Utenti>, IUtenti {
 
 		try {
 
-			return new ExecuteResultSet<Utenti>() {
+			return new ExecuteResultSet<IUtenti>() {
 
 				@Override
-				protected Utenti doWithResultSet(ResultSet rs) throws SQLException {
-					Utenti utenteLoc = null;
+				protected IUtenti doWithResultSet(ResultSet rs) throws SQLException {
+					IUtenti utenteLoc = null;
 					if (rs.next()) {
 						utenteLoc = new Utenti();
 						utenteLoc.setidUtente(rs.getInt(1));
@@ -312,15 +312,30 @@ public class WrapUtenti extends Observable implements IDAO<Utenti>, IUtenti {
 	}
 
 	@Override
-	public Utenti getEntitaPadre() {
+	public IUtenti getEntitaPadre() {
 		return utente;
 	}
 
 
 	@Override
-	public List<Utenti> selectWhere(List<Clausola> clausole,
+	public List<IUtenti> selectWhere(List<Clausola> clausole,
 			String appentoToQuery){
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public String getIdEntita() {
+		return Integer.toString(getidUtente());
+	}
+
+	@Override
+	public void setIdEntita(String idEntita) {
+		setidUtente(Integer.parseInt(idEntita));
+	}
+
+	@Override
+	public String getNome() {
+		return getnome();
 	}
 
 }

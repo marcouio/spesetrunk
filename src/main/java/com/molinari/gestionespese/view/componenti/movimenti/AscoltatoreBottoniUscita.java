@@ -9,7 +9,7 @@ import javax.swing.JTable;
 
 import com.molinari.gestionespese.business.aggiornatori.AggiornatoreManager;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
-import com.molinari.gestionespese.domain.CatSpese;
+import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.wrapper.WrapSingleSpesa;
 
@@ -70,7 +70,7 @@ public class AscoltatoreBottoniUscita extends MouseAdapter {
 		dialogNew.getTfDataIns().setText((String) arrayUtil[INDEX_DATAINS]);
 		dialogNew.getEuro().setText((String) arrayUtil[INDEX_EURO]);
 
-		final List<CatSpese> cate = CacheCategorie.getSingleton().getVettoreCategorie();
+		final List<ICatSpese> cate = CacheCategorie.getSingleton().getVettoreCategorie();
 		for (int i = 0; i < cate.size(); i++) {
 			if (cate.get(i).getnome().equals(arrayUtil[INDEX_CATEGORIA])) {
 				dialogNew.getComboCategoria().setSelectedIndex(i);

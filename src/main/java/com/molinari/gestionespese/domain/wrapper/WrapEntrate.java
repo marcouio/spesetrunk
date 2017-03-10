@@ -14,6 +14,7 @@ import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.cache.CacheUtenti;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.IEntrate;
+import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 
@@ -37,7 +38,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 	}
 
 	@Override
-	public Entrate selectById(final int id) {
+	public IEntrate selectById(final int id) {
 
 		final String sql = SELECT_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.ID + " = " + id;
 
@@ -54,12 +55,12 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 
 	}
 
-	private Entrate getEntrata(final String sql) throws SQLException {
-		final Entrate entrata = new Entrate();
-		return new ExecuteResultSet<Entrate>() {
+	private IEntrate getEntrata(final String sql) throws SQLException {
+		final IEntrate entrata = new Entrate();
+		return new ExecuteResultSet<IEntrate>() {
 
 			@Override
-			protected Entrate doWithResultSet(ResultSet rs) throws SQLException {
+			protected IEntrate doWithResultSet(ResultSet rs) throws SQLException {
 
 				if (rs.next()) {
 					riempiEntrataFromResultSet(entrata, rs);
@@ -72,21 +73,21 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 		}.execute(sql);
 	}
 
-	public List<Entrate> selectAllForUtente() {
+	public List<IEntrate> selectAllForUtente() {
 		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
 
 		final String sql = SELECT_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.COL_IDUTENTE + " = " + utente.getidUtente();
 		try {
 
-			return new ExecuteResultSet<List<Entrate>>() {
+			return new ExecuteResultSet<List<IEntrate>>() {
 
 				@Override
-				protected List<Entrate> doWithResultSet(ResultSet rs) throws SQLException {
+				protected List<IEntrate> doWithResultSet(ResultSet rs) throws SQLException {
 
-					final List<Entrate> entrateLoc = new ArrayList<>();
+					final List<IEntrate> entrateLoc = new ArrayList<>();
 					while (rs != null && rs.next()) {
 
-						final Entrate entrata = riempiEntrataWithResultSet(utente, rs);
+						final IEntrate entrata = riempiEntrataWithResultSet(utente, rs);
 						entrateLoc.add(entrata);
 					}
 					return entrateLoc;
@@ -120,8 +121,8 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 					final List<IEntrate> entrateLoc = new ArrayList<>();
 
 					while (rs != null && rs.next()) {
-						final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
-						final Entrate entrata = riempiEntrataWithResultSet(utente, rs);
+						final IUtenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
+						final IEntrate entrata = riempiEntrataWithResultSet(utente, rs);
 						entrateLoc.add(entrata);
 					}
 					return entrateLoc;
@@ -506,12 +507,12 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 	}
 
 	@Override
-	public Utenti getUtenti() {
+	public IUtenti getUtenti() {
 		return entrate.getUtenti();
 	}
 
 	@Override
-	public void setUtenti(final Utenti utenti) {
+	public void setUtenti(final IUtenti utenti) {
 		entrate.setUtenti(utenti);
 	}
 
@@ -536,8 +537,8 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 		throw new UnsupportedOperationException();
 	}
 
-	private void riempiEntrataFromResultSet(final Entrate entrata, ResultSet rs) throws SQLException {
-		final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
+	private void riempiEntrataFromResultSet(final IEntrate entrata, ResultSet rs) throws SQLException {
+		final IUtenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
 		entrata.setidEntrate(rs.getInt(1));
 		entrata.setdescrizione(rs.getString(2));
 		entrata.setFisseoVar(rs.getString(3));
@@ -548,7 +549,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 		entrata.setDataIns(rs.getString(8));
 	}
 
-	private Entrate riempiEntrataWithResultSet(final Utenti utente, ResultSet rs) throws SQLException {
+	private IEntrate riempiEntrataWithResultSet(final IUtenti utente, ResultSet rs) throws SQLException {
 		final Entrate entrata = new Entrate();
 		entrata.setidEntrate(rs.getInt(1));
 		entrata.setdescrizione(rs.getString(2));

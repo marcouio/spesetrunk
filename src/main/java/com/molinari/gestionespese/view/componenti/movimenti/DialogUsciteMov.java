@@ -20,6 +20,7 @@ import com.molinari.gestionespese.business.comandi.singlespese.CommandDeleteSpes
 import com.molinari.gestionespese.business.comandi.singlespese.CommandUpdateSpesa;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.domain.CatSpese;
+import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.ISingleSpesa;
 import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.Utenti;
@@ -45,7 +46,7 @@ public class DialogUsciteMov extends AbstractUsciteView {
 
 	private JTextField tfEuro = new TextFieldF();
 	private JTextField tfData = new TextFieldF();
-	private JComboBox<CatSpese> cbCategorie;
+	private JComboBox<ICatSpese> cbCategorie;
 	private JTextField taDescrizione = new TextFieldF();
 	private JTextField tfNome = new TextFieldF();
 	private final JTextField tfDataIns = new TextFieldF();
@@ -151,11 +152,11 @@ public class DialogUsciteMov extends AbstractUsciteView {
 		return taDescrizione;
 	}
 
-	public void setCategoria(final JComboBox<CatSpese> categoria) {
+	public void setCategoria(final JComboBox<ICatSpese> categoria) {
 		this.cbCategorie = categoria;
 	}
 
-	public JComboBox<CatSpese> getComboCategoria() {
+	public JComboBox<ICatSpese> getComboCategoria() {
 		return cbCategorie;
 	}
 

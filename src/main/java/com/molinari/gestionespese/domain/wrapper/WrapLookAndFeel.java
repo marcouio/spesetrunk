@@ -17,9 +17,9 @@ import db.ExecutePreparedStatement;
 import db.ExecuteResultSet;
 import db.dao.IDAO;
 
-public class WrapLookAndFeel extends Observable implements IDAO<Lookandfeel>, ILookandfeel {
+public class WrapLookAndFeel extends Observable implements IDAO<ILookandfeel>, ILookandfeel {
 
-	private final Lookandfeel lookandfeel;
+	private final ILookandfeel lookandfeel;
 	private WrapBase base = new WrapBase();
 
 	public WrapLookAndFeel() {
@@ -27,18 +27,18 @@ public class WrapLookAndFeel extends Observable implements IDAO<Lookandfeel>, IL
 	}
 
 	@Override
-	public Lookandfeel selectById(int id) {
+	public ILookandfeel selectById(int id) {
 
 		final String sql = "SELECT * FROM " + Lookandfeel.NOME_TABELLA + " WHERE " + Lookandfeel.ID + " = " + id;
 
-		final Lookandfeel look = new Lookandfeel();
+		final ILookandfeel look = new Lookandfeel();
 
 		try {
 
-			new ExecuteResultSet<Lookandfeel>() {
+			new ExecuteResultSet<ILookandfeel>() {
 
 				@Override
-				protected Lookandfeel doWithResultSet(ResultSet rs) throws SQLException {
+				protected ILookandfeel doWithResultSet(ResultSet rs) throws SQLException {
 
 					if (rs.next()) {
 						look.setidLook(rs.getInt(1));
@@ -61,18 +61,18 @@ public class WrapLookAndFeel extends Observable implements IDAO<Lookandfeel>, IL
 	}
 
 	@Override
-	public List<Lookandfeel> selectAll() {
-		final List<Lookandfeel> looks = new ArrayList<>();
+	public List<ILookandfeel> selectAll() {
+		final List<ILookandfeel> looks = new ArrayList<>();
 
 		final String sql = "SELECT * FROM " + Lookandfeel.NOME_TABELLA;
 		try {
 
-			new ExecuteResultSet<List<Lookandfeel>>() {
+			new ExecuteResultSet<List<ILookandfeel>>() {
 
 				@Override
-				protected List<Lookandfeel> doWithResultSet(ResultSet rs) throws SQLException {
+				protected List<ILookandfeel> doWithResultSet(ResultSet rs) throws SQLException {
 					while (rs != null && rs.next()) {
-						final Lookandfeel look = new Lookandfeel();
+						final ILookandfeel look = new Lookandfeel();
 						look.setidLook(rs.getInt(1));
 						look.setnome(rs.getString(2));
 						look.setvalore(rs.getString(3));
@@ -91,13 +91,13 @@ public class WrapLookAndFeel extends Observable implements IDAO<Lookandfeel>, IL
 	}
 
 	@Override
-	public boolean insert(Lookandfeel oggettoEntita) {
+	public boolean insert(ILookandfeel oggettoEntita) {
 		String sql = getQueryInsert();
 
-		return new ExecutePreparedStatement<Lookandfeel>(){
+		return new ExecutePreparedStatement<ILookandfeel>(){
 
 			@Override
-			protected void doWithPreparedStatement(PreparedStatement ps, Lookandfeel obj) throws SQLException {
+			protected void doWithPreparedStatement(PreparedStatement ps, ILookandfeel obj) throws SQLException {
 				// nome
 				ps.setString(1, oggettoEntita.getnome());
 				// valore
@@ -131,16 +131,16 @@ public class WrapLookAndFeel extends Observable implements IDAO<Lookandfeel>, IL
 	}
 
 	@Override
-	public boolean update(Lookandfeel oggettoEntita) {
+	public boolean update(ILookandfeel oggettoEntita) {
 
-		final Lookandfeel look = (Lookandfeel) oggettoEntita;
+		final ILookandfeel look = (ILookandfeel) oggettoEntita;
 		final String sql = getQueryUpdate(look);
 		return base .executeUpdate(sql);
 
 
 	}
 
-	private String getQueryUpdate(final Lookandfeel look) {
+	private String getQueryUpdate(final ILookandfeel look) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("UPDATE ");
 		sb.append(Lookandfeel.NOME_TABELLA);
@@ -213,13 +213,28 @@ public class WrapLookAndFeel extends Observable implements IDAO<Lookandfeel>, IL
 	}
 
 	@Override
-	public Lookandfeel getEntitaPadre()  {
+	public ILookandfeel getEntitaPadre()  {
 		return lookandfeel;
 	}
 
 	@Override
-	public List<Lookandfeel> selectWhere(List<Clausola> clausole, String appentoToQuery)  {
+	public List<ILookandfeel> selectWhere(List<Clausola> clausole, String appentoToQuery)  {
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public String getIdEntita() {
+		return Integer.toString(getidLook());
+	}
+
+	@Override
+	public void setIdEntita(String idEntita) {
+		setidLook(Integer.parseInt(idEntita));
+	}
+
+	@Override
+	public String getNome() {
+		return getnome();
 	}
 
 }

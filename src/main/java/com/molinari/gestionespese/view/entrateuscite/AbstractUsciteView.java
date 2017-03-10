@@ -7,7 +7,8 @@ import javax.swing.JDialog;
 import org.apache.commons.math3.util.MathUtils;
 
 import com.molinari.gestionespese.business.CorreggiTesto;
-import com.molinari.gestionespese.domain.CatSpese;
+import com.molinari.gestionespese.domain.ICatSpese;
+import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapSingleSpesa;
 
@@ -70,7 +71,7 @@ public abstract class AbstractUsciteView implements Observer {
 		modelUscita.setdescrizione(correttoreTesto.getTesto());
 	}
 
-	public Utenti getUtenti() {
+	public IUtenti getUtenti() {
 		return modelUscita.getUtenti();
 	}
 
@@ -78,11 +79,11 @@ public abstract class AbstractUsciteView implements Observer {
 		modelUscita.setUtenti(utente);
 	}
 
-	public CatSpese getCategoria() {
+	public ICatSpese getCategoria() {
 		return modelUscita.getCatSpese();
 	}
 
-	public void setCategoria(final CatSpese catSpese) {
+	public void setCategoria(final ICatSpese catSpese) {
 		modelUscita.setCatSpese(catSpese);
 	}
 

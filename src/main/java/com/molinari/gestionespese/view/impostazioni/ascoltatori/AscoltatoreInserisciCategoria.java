@@ -6,7 +6,7 @@ import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreTutto;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.comandi.categorie.CommandInserisciCategoria;
-import com.molinari.gestionespese.domain.CatSpese;
+import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.view.impostazioni.CategorieView;
 
 import grafica.componenti.alert.Alert;
@@ -26,7 +26,7 @@ public class AscoltatoreInserisciCategoria extends AscoltatoreAggiornatoreTutto 
 		if (categorieView.nonEsistonoCampiNonValorizzati()) {
 
 			if (Controllore.invocaComando(new CommandInserisciCategoria(categorieView.getModelCatSpese()))) {
-				CatSpese categoria1 = CacheCategorie.getSingleton().getCatSpese(Integer.toString(categorieView.getModelCatSpese().getidCategoria()));
+				ICatSpese categoria1 = CacheCategorie.getSingleton().getCatSpese(Integer.toString(categorieView.getModelCatSpese().getidCategoria()));
 				if (categoria1 != null) {
 					categorieView.getComboCategorie().addItem(categoria1);
 				}

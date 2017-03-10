@@ -1,39 +1,17 @@
 package com.molinari.gestionespese.business.comandi.categorie;
 
 import com.molinari.gestionespese.business.cache.CacheCategorie;
-import com.molinari.gestionespese.domain.CatSpese;
+import com.molinari.gestionespese.business.comandi.CommandInserisci;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.wrapper.WrapCatSpese;
 
 import command.ICommand;
-import command.javabeancommand.AbstractCommandForJavaBean;
 import grafica.componenti.alert.Alert;
 
-public class CommandInserisciCategoria extends AbstractCommandForJavaBean<CatSpese> implements ICommand {
+public class CommandInserisciCategoria extends CommandInserisci<ICatSpese> implements ICommand {
 
 	public CommandInserisciCategoria(final ICatSpese entita) {
-		final CacheCategorie cache = CacheCategorie.getSingleton();
-		mappaCache = cache.getCache();
-		this.wrap = new WrapCatSpese();
-		this.entita = (CatSpese) ((WrapCatSpese) entita).getEntitaPadre();
-	}
-
-	@Override
-	public boolean execute() throws Exception {
-		if (wrap.insert(entita)) {
-			mappaCache.put(entita.getIdEntita(), entita);
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public boolean unExecute() throws Exception {
-		if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
-			mappaCache.remove(entita.getIdEntita());
-			return true;
-		}
-		return false;
+		super(entita, new WrapCatSpese(), CacheCategorie.getSingleton());
 	}
 
 	@Override

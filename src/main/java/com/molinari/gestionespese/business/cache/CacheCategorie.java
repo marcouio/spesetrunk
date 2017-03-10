@@ -7,15 +7,16 @@ import java.util.List;
 import java.util.Map;
 
 import com.molinari.gestionespese.domain.CatSpese;
+import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.wrapper.WrapCatSpese;
 
-public class CacheCategorie extends AbstractCacheBase<CatSpese> {
+public class CacheCategorie extends AbstractCacheBase<ICatSpese> {
 
 	private static CacheCategorie singleton;
 	private final WrapCatSpese catSpeseDAO = new WrapCatSpese();
 
 	private CacheCategorie() {
-		setCache(new HashMap<String, CatSpese>());
+		setCache(new HashMap<String, ICatSpese>());
 	}
 
 	public static synchronized CacheCategorie getSingleton() {
@@ -26,44 +27,44 @@ public class CacheCategorie extends AbstractCacheBase<CatSpese> {
 		return singleton;
 	}
 
-	public CatSpese getCatSpese(final String id) {
+	public ICatSpese getCatSpese(final String id) {
 		return getObjectById(catSpeseDAO, id);
 	}
 
-	public Map<String, CatSpese> getAllCategorie() {
+	public Map<String, ICatSpese> getAllCategorie() {
 		return getAll(catSpeseDAO);
 	}
 
-	public List<CatSpese> getListCategoriePerCombo(final Map<String, CatSpese> mappa) {
-		final List<CatSpese> categorie = new ArrayList<>();
+	public List<ICatSpese> getListCategoriePerCombo(final Map<String, ICatSpese> mappa) {
+		final List<ICatSpese> categorie = new ArrayList<>();
 		final Object[] lista = mappa.values().toArray();
-		final CatSpese categoria = new CatSpese();
+		final ICatSpese categoria = new CatSpese();
 		categoria.setnome("");
 		for (final Object element : lista) {
-			categorie.add((CatSpese) element);
+			categorie.add((ICatSpese) element);
 		}
 		categorie.add(0, categoria);
 		return categorie;
 	}
 
-	public List<CatSpese> getListCategoriePerCombo() {
-		final List<CatSpese> categorie = new ArrayList<>();
-		final Map<String, CatSpese> mappa = this.getAllCategorie();
+	public List<ICatSpese> getListCategoriePerCombo() {
+		final List<ICatSpese> categorie = new ArrayList<>();
+		final Map<String, ICatSpese> mappa = this.getAllCategorie();
 		final Object[] lista = mappa.values().toArray();
-		final CatSpese categoria = new CatSpese();
+		final ICatSpese categoria = new CatSpese();
 		categoria.setnome("");
 		for (final Object element : lista) {
-			categorie.add((CatSpese) element);
+			categorie.add((ICatSpese) element);
 		}
 		categorie.add(0, categoria);
 		return categorie;
 	}
 
-	public List<CatSpese> getCategorieSenzaGruppo() {
-		final List<CatSpese> allCategorie = getVettoreCategorie();
-		final List<CatSpese> catSenzaGruppo = new ArrayList<>();
+	public List<ICatSpese> getCategorieSenzaGruppo() {
+		final List<ICatSpese> allCategorie = getVettoreCategorie();
+		final List<ICatSpese> catSenzaGruppo = new ArrayList<>();
 		for (int i = 0; i < allCategorie.size(); i++) {
-			final CatSpese categoria = allCategorie.get(i);
+			final ICatSpese categoria = allCategorie.get(i);
 			if (categoria.getGruppi() == null ) {
 				catSenzaGruppo.add(categoria);
 			}
@@ -71,46 +72,46 @@ public class CacheCategorie extends AbstractCacheBase<CatSpese> {
 		return catSenzaGruppo;
 	}
 
-	public List<CatSpese> getVettoreCategorie(final Map<String, CatSpese> mappa) {
-		final List<CatSpese> categorie = new ArrayList<>();
+	public List<ICatSpese> getVettoreCategorie(final Map<String, ICatSpese> mappa) {
+		final List<ICatSpese> categorie = new ArrayList<>();
 		final Object[] lista = mappa.values().toArray();
 		for (final Object element : lista) {
-			categorie.add((CatSpese) element);
+			categorie.add((ICatSpese) element);
 		}
 		return categorie;
 	}
 
 	public String[] getArrayCategorie(){
 		final ArrayList<String> nomiCategorie = new ArrayList<>();
-		final Map<String, CatSpese> mappa = this.getAllCategorie();
+		final Map<String, ICatSpese> mappa = this.getAllCategorie();
 		final Object[] lista = mappa.values().toArray();
 		for (final Object element : lista) {
-			nomiCategorie.add(((CatSpese) element).getnome());
+			nomiCategorie.add(((ICatSpese) element).getnome());
 		}
 		return nomiCategorie.toArray(new String[nomiCategorie.size()]);
 	}
 
-	public List<CatSpese> getVettoreCategorie() {
-		final List<CatSpese> categorie = new ArrayList<>();
-		final Map<String, CatSpese> mappa = this.getAllCategorie();
+	public List<ICatSpese> getVettoreCategorie() {
+		final List<ICatSpese> categorie = new ArrayList<>();
+		final Map<String, ICatSpese> mappa = this.getAllCategorie();
 		final Object[] lista = mappa.values().toArray();
 		for (final Object element : lista) {
-			categorie.add((CatSpese) element);
+			categorie.add((ICatSpese) element);
 		}
 		return categorie;
 	}
 
 	public Object[] arrayCategorie() {
-		final Map<String, CatSpese> mappa = this.getAllCategorie();
+		final Map<String, ICatSpese> mappa = this.getAllCategorie();
 		return mappa.values().toArray();
 	}
 
 	public int getMaxId() {
 		int maxId = 0;
-		final Map<String, CatSpese> mappa = getAllCategorie();
+		final Map<String, ICatSpese> mappa = getAllCategorie();
 		final Iterator<String> chiavi = mappa.keySet().iterator();
 		while (chiavi.hasNext()) {
-			final CatSpese categoria = mappa.get(chiavi.next());
+			final ICatSpese categoria = mappa.get(chiavi.next());
 			if (categoria != null) {
 				final int idCategorie = categoria.getidCategoria();
 				if (idCategorie > maxId) {

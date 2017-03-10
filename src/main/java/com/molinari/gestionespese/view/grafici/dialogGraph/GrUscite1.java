@@ -21,7 +21,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
-import com.molinari.gestionespese.domain.CatSpese;
+import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.view.componenti.movimenti.DialogHandler;
 import com.molinari.gestionespese.view.font.ButtonF;
 
@@ -38,13 +38,13 @@ public class GrUscite1 extends JDialog implements ActionListener {
 	public GrUscite1() throws SQLException, IOException {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(null);
-		final List<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
+		final List<ICatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
 
 		// Grafico a barre
 		final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
 		for (int i = 0; i < categorie.size(); i++) {
-			final CatSpese categoria = categorie.get(i);
+			final ICatSpese categoria = categorie.get(i);
 			final double uscita = Database.totaleUscitaAnnoCategoria(categoria.getidCategoria());
 			dataset.setValue(uscita, "Euro", categoria.getnome());
 		}

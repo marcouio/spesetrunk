@@ -7,7 +7,7 @@ import java.util.Map;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
-import com.molinari.gestionespese.domain.CatSpese;
+import com.molinari.gestionespese.domain.ICatSpese;
 
 import grafica.componenti.table.TableModel;
 
@@ -33,7 +33,7 @@ public class TableModelUscite extends TableModel{
 		mapMesi.put(12, I18NManager.getSingleton().getMessaggio("december"));
 	}
 
-	private List<CatSpese> categorie;
+	private List<ICatSpese> categorie;
 
 	public TableModelUscite(Object parametro) {
 		super(parametro);
@@ -63,7 +63,7 @@ public class TableModelUscite extends TableModel{
 		}
 	}
 
-	public List<CatSpese> getCategorie() {
+	public List<ICatSpese> getCategorie() {
 		if(categorie == null){
 			categorie = CacheCategorie.getSingleton().getVettoreCategorie();
 		}

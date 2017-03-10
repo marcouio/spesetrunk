@@ -5,6 +5,7 @@ import java.util.Observer;
 import javax.swing.JDialog;
 
 import com.molinari.gestionespese.business.CorreggiTesto;
+import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
 
@@ -59,7 +60,7 @@ public abstract class AbstractEntrateView implements Observer {
 		modelEntrate.setdescrizione(correttoreTesto.getTesto());
 	}
 
-	public Utenti getUtenti() {
+	public IUtenti getUtenti() {
 		return modelEntrate.getUtenti();
 	}
 

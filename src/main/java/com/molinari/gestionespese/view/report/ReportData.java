@@ -12,13 +12,14 @@ import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.domain.CatSpese;
+import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.view.entrateuscite.EntrateView;
 
 import controller.ControlloreBase;
 
 public class ReportData {
 
-	List<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
+	List<ICatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
 
 	ArrayList<OggettoReport> datiReport = new ArrayList<>();
 
@@ -64,7 +65,7 @@ public class ReportData {
 	public Map<String, Double> generaUsciteCatAnnuali() {
 		final HashMap<String, Double> usciteCatAnnuali = new HashMap<>();
 		for (int i = 0; i < categorie.size(); i++) {
-			final CatSpese categoria = categorie.get(i);
+			final ICatSpese categoria = categorie.get(i);
 			final String nome = categoria.getnome();
 			usciteCatAnnuali.put(nome, Database.totaleUscitaAnnoCategoria(categoria.getidCategoria()));
 		}

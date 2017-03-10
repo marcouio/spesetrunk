@@ -10,6 +10,7 @@ import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.cache.CacheGruppi;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.Entrate;
+import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.ISingleSpesa;
 
@@ -32,7 +33,7 @@ public class Model {
 	private static String[][] movimentiEntrate;
 	private static String[][] movimentiUscite;
 
-	private static List<CatSpese> catSpese = CacheCategorie.getSingleton().getVettoreCategorie();
+	private static List<ICatSpese> catSpese = CacheCategorie.getSingleton().getVettoreCategorie();
 
 	private Model() {
 		modelCategorie = new WrapCatSpese();
@@ -185,14 +186,14 @@ public class Model {
 
 	// *************************************CATEGORIE-PERCOMBOBOX***********************************
 
-	private Map<String, CatSpese> getCatPerCombo(final boolean ricarica) {
+	private Map<String, ICatSpese> getCatPerCombo(final boolean ricarica) {
 		final CacheCategorie cache = CacheCategorie.getSingleton();
 		cache.setCaricata(!ricarica);
 		return cache.getAllCategorie();
 	}
 
 	public CatSpese[] getCategorieCombo(final boolean ricarica) {
-		final Map<String, CatSpese> cat = getCatPerCombo(ricarica);
+		final Map<String, ICatSpese> cat = getCatPerCombo(ricarica);
 		return cat.values().toArray(new CatSpese[cat.values().size()]);
 	}
 

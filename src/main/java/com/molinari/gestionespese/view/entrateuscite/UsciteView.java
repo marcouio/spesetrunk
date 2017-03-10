@@ -21,6 +21,7 @@ import com.molinari.gestionespese.business.cache.CacheUscite;
 import com.molinari.gestionespese.business.comandi.singlespese.CommandDeleteSpesa;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.domain.CatSpese;
+import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapSingleSpesa;
 import com.molinari.gestionespese.view.font.ButtonF;
@@ -36,7 +37,7 @@ public class UsciteView extends AbstractUsciteView {
 	private final TextFieldF  tfData;
 	private final TextFieldF  tfEuro;
 	private final TextAreaF   taDescrizione;
-	private static JComboBox<CatSpese>  cCategorie;
+	private static JComboBox<ICatSpese>  cCategorie;
 
 	/**
 	 * Create the panel.
@@ -72,7 +73,7 @@ public class UsciteView extends AbstractUsciteView {
 		getDialog().getContentPane().add(tfNome);
 		tfNome.setColumns(10);
 
-		final List<CatSpese> listCategoriePerCombo = CacheCategorie.getSingleton().getListCategoriePerCombo();
+		final List<ICatSpese> listCategoriePerCombo = CacheCategorie.getSingleton().getListCategoriePerCombo();
 		cCategorie = new JComboBox<>(new Vector<>(listCategoriePerCombo));
 		cCategorie.setBounds(181, 38, 150, 27);
 		getDialog().getContentPane().add(cCategorie);
@@ -190,7 +191,7 @@ public class UsciteView extends AbstractUsciteView {
 	/**
 	 * @return the categorie
 	 */
-	public static JComboBox<CatSpese> getComboCategorie() {
+	public static JComboBox<ICatSpese> getComboCategorie() {
 		return cCategorie;
 	}
 
@@ -198,7 +199,7 @@ public class UsciteView extends AbstractUsciteView {
 	 * @param categorie
 	 *            the categorie to set
 	 */
-	public static void setComboCategorie(final JComboBox<CatSpese> categorie) {
+	public static void setComboCategorie(final JComboBox<ICatSpese> categorie) {
 		UsciteView.cCategorie = categorie;
 	}
 

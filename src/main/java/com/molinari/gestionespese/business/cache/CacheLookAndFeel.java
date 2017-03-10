@@ -5,16 +5,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.molinari.gestionespese.domain.ILookandfeel;
 import com.molinari.gestionespese.domain.Lookandfeel;
 import com.molinari.gestionespese.domain.wrapper.WrapLookAndFeel;
 
-public class CacheLookAndFeel extends AbstractCacheBase<Lookandfeel> {
+public class CacheLookAndFeel extends AbstractCacheBase<ILookandfeel> {
 
 	private static CacheLookAndFeel singleton;
 	private final WrapLookAndFeel lookDAO = new WrapLookAndFeel();
 
 	private CacheLookAndFeel() {
-		setCache(new HashMap<String, Lookandfeel>());
+		setCache(new HashMap<String, ILookandfeel>());
 	}
 
 	public static CacheLookAndFeel getSingleton() {
@@ -25,19 +26,19 @@ public class CacheLookAndFeel extends AbstractCacheBase<Lookandfeel> {
 		return singleton;
 	}
 
-	public Map<String, Lookandfeel> getAllLooks() {
+	public Map<String, ILookandfeel> getAllLooks() {
 		return getAll(lookDAO);
 	}
 
-	public List<Lookandfeel> getVettoreLooksPerCombo() {
-		final List<Lookandfeel> looks = new ArrayList<>();
-		final Map<String, Lookandfeel> mappa = this.getAllLooks();
+	public List<ILookandfeel> getVettoreLooksPerCombo() {
+		final List<ILookandfeel> looks = new ArrayList<>();
+		final Map<String, ILookandfeel> mappa = this.getAllLooks();
 		final Object[] lista = mappa.values().toArray();
 		final Lookandfeel look = new Lookandfeel();
 		look.setnome("");
 		looks.add(look);
 		for (final Object element : lista) {
-			looks.add((Lookandfeel) element);
+			looks.add((ILookandfeel) element);
 		}
 		return looks;
 	}

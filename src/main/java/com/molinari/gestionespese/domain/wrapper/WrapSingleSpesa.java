@@ -15,9 +15,10 @@ import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.cache.CacheUscite;
 import com.molinari.gestionespese.business.cache.CacheUtenti;
-import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.Entrate;
+import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.ISingleSpesa;
+import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
@@ -58,8 +59,8 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 					final SingleSpesa uscitaLoc = new SingleSpesa();
 
 					if (rs.next()) {
-						final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(5)));
-						final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
+						final ICatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(5)));
+						final IUtenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(7)));
 						uscitaLoc.setidSpesa(rs.getInt(1));
 						uscitaLoc.setData(rs.getString(2));
 						uscitaLoc.setinEuro(rs.getDouble(3));
@@ -83,8 +84,8 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 
 	public List<SingleSpesa> selectAllForUtente() {
 		final List<SingleSpesa> uscite = new ArrayList<>();
-		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
-		final Map<String, CatSpese> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
+		final IUtenti utente = (IUtenti) Controllore.getSingleton().getUtenteLogin();
+		final Map<String, ICatSpese> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
 
 		final String sql = SELECT_FROM + SingleSpesa.NOME_TABELLA + WHERE + SingleSpesa.COL_IDUTENTE + " = " + utente.getidUtente();
 		try {
@@ -96,7 +97,7 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 					final List<SingleSpesa> uscite = new ArrayList<>();
 
 					while (rs != null && rs.next()) {
-						final CatSpese categoria = mappaCategorie.get(Integer.toString(rs.getInt(5)));
+						final ICatSpese categoria = mappaCategorie.get(Integer.toString(rs.getInt(5)));
 
 						final SingleSpesa uscitaLoc = new SingleSpesa();
 						uscitaLoc.setidSpesa(rs.getInt(1));
@@ -130,8 +131,8 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 	@Override
 	public List<ISingleSpesa> selectAll() {
 		final List<ISingleSpesa> uscite = new ArrayList<>();
-		final Map<String, Utenti> mappaUtenti = CacheUtenti.getSingleton().getAllUtenti();
-		final Map<String, CatSpese> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
+		final Map<String, IUtenti> mappaUtenti = CacheUtenti.getSingleton().getAllUtenti();
+		final Map<String, ICatSpese> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
 
 		final String sql = SELECT_FROM + SingleSpesa.NOME_TABELLA;
 		try {
@@ -360,7 +361,7 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 					final List<ISingleSpesa> sSpesa = new ArrayList<>();
 					while (rs != null && rs.next()) {
 						final ISingleSpesa ss = new SingleSpesa();
-						final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(rs.getString(5));
+						final ICatSpese categoria = CacheCategorie.getSingleton().getCatSpese(rs.getString(5));
 						ss.setidSpesa(rs.getInt(1));
 						ss.setData(rs.getString(2));
 						ss.setinEuro(rs.getDouble(3));
@@ -480,22 +481,22 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 	}
 
 	@Override
-	public CatSpese getCatSpese() {
+	public ICatSpese getCatSpese() {
 		return uscita.getCatSpese();
 	}
 
 	@Override
-	public void setCatSpese(final CatSpese catSpese) {
+	public void setCatSpese(final ICatSpese catSpese) {
 		uscita.setCatSpese(catSpese);
 	}
 
 	@Override
-	public Utenti getUtenti() {
+	public IUtenti getUtenti() {
 		return uscita.getUtenti();
 	}
 
 	@Override
-	public void setUtenti(final Utenti utenti) {
+	public void setUtenti(final IUtenti utenti) {
 		uscita.setUtenti(utenti);
 	}
 
@@ -521,7 +522,7 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 	}
 
 	private SingleSpesa fillSpesa(final Utenti utente, ResultSet rs) throws SQLException {
-		final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(rs.getString(5));
+		final ICatSpese categoria = CacheCategorie.getSingleton().getCatSpese(rs.getString(5));
 		final SingleSpesa ss = new SingleSpesa();
 		ss.setidSpesa(rs.getInt(1));
 		ss.setData(rs.getString(2));
@@ -534,10 +535,10 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 		return ss;
 	}
 
-	private SingleSpesa fillSpesa(final Map<String, Utenti> mappaUtenti, final Map<String, CatSpese> mappaCategorie,
+	private SingleSpesa fillSpesa(final Map<String, IUtenti> mappaUtenti, final Map<String, ICatSpese> mappaCategorie,
 			ResultSet rs) throws SQLException {
-		final Utenti utente = mappaUtenti.get(Integer.toString(rs.getInt(7)));
-		final CatSpese categoria = mappaCategorie.get(Integer.toString(rs.getInt(5)));
+		final IUtenti utente = mappaUtenti.get(Integer.toString(rs.getInt(7)));
+		final ICatSpese categoria = mappaCategorie.get(Integer.toString(rs.getInt(5)));
 
 		final SingleSpesa uscitaLoc = new SingleSpesa();
 		uscitaLoc.setidSpesa(rs.getInt(1));

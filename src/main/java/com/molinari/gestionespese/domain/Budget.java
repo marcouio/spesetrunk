@@ -9,8 +9,6 @@ import javax.persistence.JoinColumns;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import command.javabeancommand.AbstractOggettoEntita;
-
 /**
  * The persistent class for the BUDGET database table.
  *
@@ -18,14 +16,14 @@ import command.javabeancommand.AbstractOggettoEntita;
 
 @Entity
 @Table(name = "budget")
-public class Budget implements AbstractOggettoEntita, Serializable {
+public class Budget implements IBudget, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public static final String NOME_TABELLA = "budget";
 	public static final String ID = "idBudget";
-	public static final String IDCATEGORIE = "idCategorie";
-	public static final String PERCSULTOT = "percSulTot";
+	public static final String COL_IDCATEGORIE = "idCategorie";
+	public static final String COL_PERCSULTOT = "percSulTot";
 
 	@Id
 	@Column(name = "\"idBudget\"", nullable = false)
@@ -40,9 +38,10 @@ public class Budget implements AbstractOggettoEntita, Serializable {
 	// bi-directional one-to-one association to CatSpese
 	@OneToOne
 	@JoinColumns({})
-	private CatSpese catSpese;
+	private ICatSpese catSpese;
 
 	public Budget() {
+		//do nothing
 	}
 
 	public int getidBudget() {
@@ -69,11 +68,11 @@ public class Budget implements AbstractOggettoEntita, Serializable {
 		this.percSulTot = percSulTot;
 	}
 
-	public CatSpese getCatSpese() {
+	public ICatSpese getCatSpese() {
 		return this.catSpese;
 	}
 
-	public void setCatSpese(final CatSpese catSpese) {
+	public void setCatSpese(final ICatSpese catSpese) {
 		this.catSpese = catSpese;
 	}
 
@@ -89,7 +88,11 @@ public class Budget implements AbstractOggettoEntita, Serializable {
 
 	@Override
 	public String getNome() {
-		// TODO Auto-generated method stub
+		return getnome();
+	}
+
+	@Override
+	public String getnome() {
 		return null;
 	}
 

@@ -12,6 +12,7 @@ import com.molinari.gestionespese.business.aggiornatori.AggiornatoreManager;
 import com.molinari.gestionespese.business.cache.CacheLookAndFeel;
 import com.molinari.gestionespese.business.cache.CacheUtenti;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
+import com.molinari.gestionespese.domain.ILookandfeel;
 import com.molinari.gestionespese.domain.Lookandfeel;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapUtenti;
@@ -39,9 +40,9 @@ public class Controllore extends ControlloreBase{
 	private void settaLookFeel() {
 		try {
 			final CacheLookAndFeel cacheLook = CacheLookAndFeel.getSingleton();
-			final java.util.List<Lookandfeel> vettore = cacheLook.getVettoreLooksPerCombo();
-			Lookandfeel look;
-			Lookandfeel lookDaUsare = null;
+			final java.util.List<ILookandfeel> vettore = cacheLook.getVettoreLooksPerCombo();
+			ILookandfeel look;
+			ILookandfeel lookDaUsare = null;
 			for (int i = 0; i < vettore.size(); i++) {
 				look = vettore.get(i);
 				//verifico se sul database quale look era scelto

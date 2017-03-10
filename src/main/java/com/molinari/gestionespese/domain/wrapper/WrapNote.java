@@ -14,6 +14,7 @@ import com.molinari.gestionespese.business.DBUtil;
 import com.molinari.gestionespese.business.cache.CacheUtenti;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.INote;
+import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.Note;
 import com.molinari.gestionespese.domain.Utenti;
 
@@ -101,12 +102,12 @@ public class WrapNote extends Observable implements IDAO<INote>, INote {
 	}
 
 	@Override
-	public void setUtenti(final Utenti utenti) {
+	public void setUtenti(final IUtenti utenti) {
 		note.setUtenti(utenti);
 	}
 
 	@Override
-	public Utenti getUtenti() {
+	public IUtenti getUtenti() {
 		return note.getUtenti();
 	}
 
@@ -158,7 +159,7 @@ public class WrapNote extends Observable implements IDAO<INote>, INote {
 					final List<INote> noteList = new ArrayList<>();
 
 					while (rs != null && rs.next()) {
-						final Utenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(4)));
+						final IUtenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(4)));
 						final INote nota = new Note();
 						nota.setIdNote(rs.getInt(1));
 						nota.setDescrizione(rs.getString(3));

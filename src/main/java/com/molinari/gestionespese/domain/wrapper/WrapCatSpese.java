@@ -23,10 +23,10 @@ import db.ExecutePreparedStatement;
 import db.ExecuteResultSet;
 import db.dao.IDAO;
 
-public class WrapCatSpese extends Observable implements ICatSpese, IDAO<CatSpese> {
+public class WrapCatSpese extends Observable implements ICatSpese, IDAO<ICatSpese> {
 
 	private static final String WHERE = " WHERE ";
-	private final CatSpese categoria;
+	private final ICatSpese categoria;
 	private WrapBase base = new WrapBase();
 
 	public WrapCatSpese() {
@@ -34,18 +34,18 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO<CatSpese
 	}
 
 	@Override
-	public CatSpese selectById(int id) {
+	public ICatSpese selectById(int id) {
 
 		final String sql = "SELECT * FROM " + CatSpese.NOME_TABELLA + WHERE + CatSpese.ID + " = " + id;
 
-		final CatSpese categorie = new CatSpese();
+		final ICatSpese categorie = new CatSpese();
 
 		try {
 
-			new ExecuteResultSet<CatSpese>() {
+			new ExecuteResultSet<ICatSpese>() {
 
 				@Override
-				protected CatSpese doWithResultSet(ResultSet rs) throws SQLException {
+				protected ICatSpese doWithResultSet(ResultSet rs) throws SQLException {
 
 					if (rs.next()) {
 						final String idGruppo = Integer.toString(rs.getInt(5));
@@ -70,25 +70,25 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO<CatSpese
 	}
 
 	@Override
-	public List<CatSpese> selectAll() {
+	public List<ICatSpese> selectAll() {
 
 		final String sql = "SELECT * FROM " + CatSpese.NOME_TABELLA;
 		try {
 			CacheGruppi.getSingleton().getAllGruppi();
 
-			return new ExecuteResultSet<List<CatSpese>>() {
+			return new ExecuteResultSet<List<ICatSpese>>() {
 
 
 				@Override
-				protected List<CatSpese> doWithResultSet(ResultSet rs) throws SQLException {
+				protected List<ICatSpese> doWithResultSet(ResultSet rs) throws SQLException {
 
-					final List<CatSpese> categorie = new ArrayList<>();
+					final List<ICatSpese> categorie = new ArrayList<>();
 
 
 					while (rs != null && rs.next()) {
 
 						final String idGruppo = Integer.toString(rs.getInt(5));
-						final CatSpese categoriaLoc = new CatSpese();
+						final ICatSpese categoriaLoc = new CatSpese();
 						categoriaLoc.setidCategoria(rs.getInt(1));
 						categoriaLoc.setdescrizione(rs.getString(2));
 						categoriaLoc.setimportanza(rs.getString(3));
@@ -111,13 +111,13 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO<CatSpese
 	}
 
 	@Override
-	public boolean insert(CatSpese oggettoEntita) {
+	public boolean insert(ICatSpese oggettoEntita) {
 		String sql = "INSERT INTO " + CatSpese.NOME_TABELLA + " (" + CatSpese.COL_DESCRIZIONE + ", " + CatSpese.COL_IMPORTANZA + ", " + CatSpese.COL_NOME + ", " + CatSpese.IDGRUPPO + ") VALUES(?,?,?,?)";
 
-		return new ExecutePreparedStatement<CatSpese>() {
+		return new ExecutePreparedStatement<ICatSpese>() {
 
 			@Override
-			protected void doWithPreparedStatement(PreparedStatement ps, CatSpese obj) throws SQLException {
+			protected void doWithPreparedStatement(PreparedStatement ps, ICatSpese obj) throws SQLException {
 				ps.setString(1, obj.getdescrizione());
 				ps.setString(2, obj.getimportanza());
 				ps.setString(3, obj.getnome());
@@ -137,10 +137,10 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO<CatSpese
 	}
 
 	@Override
-	public boolean update(CatSpese oggettoEntita) {
+	public boolean update(ICatSpese oggettoEntita) {
 
 
-		final CatSpese categoriaLoc = (CatSpese) oggettoEntita;
+		final ICatSpese categoriaLoc = (ICatSpese) oggettoEntita;
 		final String sql = "UPDATE " + CatSpese.NOME_TABELLA + " SET " + CatSpese.COL_DESCRIZIONE + " = '" + categoriaLoc.getdescrizione() + "', " + CatSpese.COL_IMPORTANZA + " = '"
 				+ categoriaLoc.getimportanza() + "', " + CatSpese.COL_NOME + " = '" + categoriaLoc.getnome() + "', " + CatSpese.IDGRUPPO + " = " + categoriaLoc.getGruppi().getidGruppo()
 				+ WHERE + CatSpese.ID + " = " + categoriaLoc.getidCategoria();
@@ -237,7 +237,7 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO<CatSpese
 	}
 
 	@Override
-	public CatSpese getEntitaPadre()  {
+	public ICatSpese getEntitaPadre()  {
 		return categoria;
 	}
 	
@@ -247,8 +247,23 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO<CatSpese
 	}
 
 	@Override
-	public List<CatSpese> selectWhere(List<Clausola> clausole, String appentoToQuery)  {
+	public List<ICatSpese> selectWhere(List<Clausola> clausole, String appentoToQuery)  {
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public String getIdEntita() {
+		return Integer.toString(getidCategoria());
+	}
+
+	@Override
+	public void setIdEntita(String idEntita) {
+		setidCategoria(Integer.parseInt(idEntita));
+	}
+
+	@Override
+	public String getNome() {
+		return getnome();
 	}
 
 }

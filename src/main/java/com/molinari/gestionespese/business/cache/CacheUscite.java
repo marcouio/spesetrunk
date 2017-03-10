@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.domain.ISingleSpesa;
-import com.molinari.gestionespese.domain.SingleSpesa;
+import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapSingleSpesa;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
@@ -47,7 +47,7 @@ public class CacheUscite extends AbstractCacheBase<ISingleSpesa> {
 
 		final Stream<ISingleSpesa> filter = mappa.values().stream().filter(ss ->
 		{
-			final Utenti utenti = ss.getUtenti();
+			final IUtenti utenti = ss.getUtenti();
 			return ss != null && utenti != null && utenti.getidUtente() == utente.getidUtente();
 		});
 

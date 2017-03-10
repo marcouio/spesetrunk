@@ -29,7 +29,7 @@ import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.DBUtil;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
-import com.molinari.gestionespese.domain.CatSpese;
+import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.view.componenti.movimenti.DialogHandler;
 import com.molinari.gestionespese.view.font.ButtonF;
 
@@ -50,7 +50,7 @@ public class GrGenerale extends JDialog implements ActionListener {
 	private static Map<Integer, List<Double>> mappaOttobre;
 	private static Map<Integer, List<Double>> mappaNovembre;
 	private static Map<Integer, List<Double>> mappaDicembre;
-	private List<CatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
+	private List<ICatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
 
 	/**
 	 * Uscite mensili per categoria Launch the application.
@@ -152,7 +152,7 @@ public class GrGenerale extends JDialog implements ActionListener {
 
 		final ArrayList<Double> listaSpeseMeseCategoria = new ArrayList<>();
 		for (int i = 0; i < categorie.size(); i++) {
-			final CatSpese cat = categorie.get(i);
+			final ICatSpese cat = categorie.get(i);
 			double speseMeseCategoria;
 			try {
 				speseMeseCategoria = AltreUtil.arrotondaDecimaliDouble(Database.speseMeseCategoria(mese, cat.getidCategoria()));

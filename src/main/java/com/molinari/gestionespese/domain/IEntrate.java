@@ -28,9 +28,9 @@ public interface IEntrate extends AbstractOggettoEntita{
 
 	public void setnome(String nome);
 
-	public Utenti getUtenti();
+	public IUtenti getUtenti();
 
-	public void setUtenti(Utenti utenti);
+	public void setUtenti(IUtenti utenti);
 
 	public void setDataIns(String date);
 

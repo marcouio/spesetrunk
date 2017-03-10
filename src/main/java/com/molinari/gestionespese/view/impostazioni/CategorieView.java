@@ -20,6 +20,7 @@ import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.cache.CacheGruppi;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.Gruppi;
+import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapCatSpese;
 import com.molinari.gestionespese.view.font.ButtonF;
@@ -34,12 +35,12 @@ import controller.ControlloreBase;
 
 public class CategorieView extends AbstractCategorieView {
 
-	private CatSpese categoria = null;
+	private ICatSpese categoria = null;
 	private JTextArea taDescrizione;
 	private JComboBox<String> cbImportanza;
 	private JTextField tfNome;
-	private JComboBox<CatSpese> cbCategorie;
-	private List<CatSpese> categorieSpesa;
+	private JComboBox<ICatSpese> cbCategorie;
+	private List<ICatSpese> categorieSpesa;
 	private JComboBox<IGruppi> cbGruppi;
 
 	public CategorieView(final WrapCatSpese cat) {
@@ -184,18 +185,18 @@ public class CategorieView extends AbstractCategorieView {
 
 	}
 
-	public List<CatSpese> getCategorieSpesa() {
+	public List<ICatSpese> getCategorieSpesa() {
 		return categorieSpesa;
 	}
 
-	public void setCategorieSpesa(final List<CatSpese> categorieSpesa) {
+	public void setCategorieSpesa(final List<ICatSpese> categorieSpesa) {
 		this.categorieSpesa = categorieSpesa;
 	}
 
 	/**
 	 * @return the comboCategorie
 	 */
-	public JComboBox<CatSpese> getComboCategorie() {
+	public JComboBox<ICatSpese> getComboCategorie() {
 		return cbCategorie;
 	}
 
@@ -203,7 +204,7 @@ public class CategorieView extends AbstractCategorieView {
 	 * @param comboCategorie
 	 *            the comboCategorie to set
 	 */
-	public void setComboCategorie(final JComboBox<CatSpese> comboCategorie) {
+	public void setComboCategorie(final JComboBox<ICatSpese> comboCategorie) {
 		this.cbCategorie = comboCategorie;
 	}
 
@@ -215,7 +216,7 @@ public class CategorieView extends AbstractCategorieView {
 		this.cbGruppi = comboGruppi;
 	}
 
-	public CatSpese getCategoria() {
+	public ICatSpese getCategoria() {
 		return categoria;
 	}
 

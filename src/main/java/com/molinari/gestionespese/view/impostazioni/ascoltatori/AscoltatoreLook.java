@@ -12,6 +12,7 @@ import javax.swing.UIManager;
 
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.Database;
+import com.molinari.gestionespese.domain.ILookandfeel;
 import com.molinari.gestionespese.domain.Lookandfeel;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 
@@ -19,10 +20,10 @@ import controller.ControlloreBase;
 
 public class AscoltatoreLook implements ActionListener {
 
-	JComboBox<Lookandfeel> comboLook;
-	List<Lookandfeel> vettore;
+	JComboBox<ILookandfeel> comboLook;
+	List<ILookandfeel> vettore;
 
-	public AscoltatoreLook(final JComboBox<Lookandfeel> comboLook, final List<Lookandfeel> vettore) {
+	public AscoltatoreLook(final JComboBox<ILookandfeel> comboLook, final List<ILookandfeel> vettore) {
 		this.comboLook = comboLook;
 		this.vettore = vettore;
 	}
@@ -34,7 +35,7 @@ public class AscoltatoreLook implements ActionListener {
 		if (valoreLook != null && !"".equals(valoreLook.getnome())) {
 			look = valoreLook.getvalore();
 			for (int i = 0; i < vettore.size(); i++) {
-				final Lookandfeel lookAnd = vettore.get(i);
+				final ILookandfeel lookAnd = vettore.get(i);
 				lookAnd.setusato(0);
 				final HashMap<String, String> campi = new HashMap<>();
 				final HashMap<String, String> clausole = new HashMap<>();

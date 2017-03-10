@@ -9,8 +9,8 @@ import java.util.Observable;
 import java.util.Set;
 import java.util.logging.Level;
 
-import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.Gruppi;
+import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.IGruppi;
 
 import controller.ControlloreBase;
@@ -21,6 +21,7 @@ import db.dao.IDAO;
 
 public class WrapGruppi extends Observable implements IDAO<IGruppi>, IGruppi {
 
+	private static final long serialVersionUID = 1L;
 	private static final String WHERE = " WHERE ";
 	private static final String SELECT_FROM = "SELECT * FROM ";
 	private final Gruppi gruppo;
@@ -258,12 +259,12 @@ public class WrapGruppi extends Observable implements IDAO<IGruppi>, IGruppi {
 	}
 
 	@Override
-	public Set<CatSpese> getCatSpeses() {
+	public Set<ICatSpese> getCatSpeses() {
 		return gruppo.getCatSpeses();
 	}
 
 	@Override
-	public void setCatSpeses(final Set<CatSpese> catSpeses) {
+	public void setCatSpeses(final Set<ICatSpese> catSpeses) {
 		gruppo.setCatSpeses(catSpeses);
 	}
 

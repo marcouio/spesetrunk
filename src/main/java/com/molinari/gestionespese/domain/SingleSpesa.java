@@ -52,12 +52,12 @@ public class SingleSpesa implements AbstractOggettoEntita, Serializable, ISingle
 	// bi-directional many-to-one association to CatSpese
 	@ManyToOne
 	@JoinColumns({})
-	private CatSpese catSpese;
+	private ICatSpese catSpese;
 
 	// bi-directional many-to-one association to Utenti
 	@ManyToOne
 	@JoinColumns({})
-	private Utenti utenti;
+	private IUtenti utenti;
 
 	@Override
 	public String getData() {
@@ -110,22 +110,22 @@ public class SingleSpesa implements AbstractOggettoEntita, Serializable, ISingle
 	}
 
 	@Override
-	public CatSpese getCatSpese() {
+	public ICatSpese getCatSpese() {
 		return this.catSpese;
 	}
 
 	@Override
-	public void setCatSpese(final CatSpese catSpese) {
+	public void setCatSpese(final ICatSpese catSpese) {
 		this.catSpese = catSpese;
 	}
 
 	@Override
-	public Utenti getUtenti() {
+	public IUtenti getUtenti() {
 		return this.utenti;
 	}
 
 	@Override
-	public void setUtenti(final Utenti utenti) {
+	public void setUtenti(final IUtenti utenti) {
 		this.utenti = utenti;
 	}
 

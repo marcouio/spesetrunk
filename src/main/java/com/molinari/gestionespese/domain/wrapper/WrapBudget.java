@@ -10,8 +10,8 @@ import java.util.logging.Level;
 
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.domain.Budget;
-import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.IBudget;
+import com.molinari.gestionespese.domain.ICatSpese;
 
 import controller.ControlloreBase;
 import db.Clausola;
@@ -19,31 +19,31 @@ import db.ExecutePreparedStatement;
 import db.ExecuteResultSet;
 import db.dao.IDAO;
 
-public class WrapBudget extends Observable implements IDAO<Budget>, IBudget{
+public class WrapBudget extends Observable implements IDAO<IBudget>, IBudget{
 
 	private static final String WHERE = " WHERE ";
 	private WrapBase base = new WrapBase();
-	private Budget budget;
+	private IBudget budget;
 
 	public WrapBudget() {
 		budget = new Budget();
 	}
 
 	@Override
-	public Budget selectById(int id) {
+	public IBudget selectById(int id) {
 		final String sql = getQuerySelectById(id);
 
 		try {
 
-			return new ExecuteResultSet<Budget>() {
+			return new ExecuteResultSet<IBudget>() {
 
 				@Override
-				protected Budget doWithResultSet(ResultSet rs) throws SQLException {
+				protected IBudget doWithResultSet(ResultSet rs) throws SQLException {
 
 					if (rs.next()) {
-						final Budget budgetLoc = new Budget();
+						final IBudget budgetLoc = new Budget();
 						budgetLoc.setidBudget(rs.getInt(1));
-						final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(2)));
+						final ICatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(2)));
 						budgetLoc.setCatSpese(categoria);
 						budgetLoc.setpercSulTot(rs.getDouble(3));
 					}
@@ -71,20 +71,20 @@ public class WrapBudget extends Observable implements IDAO<Budget>, IBudget{
 	}
 
 	@Override
-	public List<Budget> selectAll() {
+	public List<IBudget> selectAll() {
 		final String sql = "SELECT * FROM " + Budget.NOME_TABELLA ;
 		try{
 
-			return new ExecuteResultSet<List<Budget>>() {
+			return new ExecuteResultSet<List<IBudget>>() {
 
 				@Override
-				protected List<Budget> doWithResultSet(ResultSet rs) throws SQLException {
-					final List<Budget> budgets = new ArrayList<>();
+				protected List<IBudget> doWithResultSet(ResultSet rs) throws SQLException {
+					final List<IBudget> budgets = new ArrayList<>();
 
 					while(rs.next()){
-						final Budget budgetLoc = new Budget();
+						final IBudget budgetLoc = new Budget();
 						budgetLoc.setidBudget(rs.getInt(1));
-						final CatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(2)));
+						final ICatSpese categoria = CacheCategorie.getSingleton().getCatSpese(Integer.toString(rs.getInt(2)));
 						budgetLoc.setCatSpese(categoria);
 						budgetLoc.setpercSulTot(rs.getDouble(3));
 						budgets.add(budgetLoc);
@@ -101,16 +101,16 @@ public class WrapBudget extends Observable implements IDAO<Budget>, IBudget{
 	}
 
 	@Override
-	public boolean insert(Budget oggettoEntita) {
+	public boolean insert(IBudget oggettoEntita) {
 
-		final Budget budgetLoc = (Budget)oggettoEntita;
+		final IBudget budgetLoc = (IBudget)oggettoEntita;
 
-		String sql = "INSERT INTO " + Budget.NOME_TABELLA + " (" + Budget.IDCATEGORIE+", "+Budget.PERCSULTOT+") VALUES(?,?)";
+		String sql = "INSERT INTO " + Budget.NOME_TABELLA + " (" + Budget.COL_IDCATEGORIE+", "+Budget.COL_PERCSULTOT+") VALUES(?,?)";
 
-		return new ExecutePreparedStatement<Budget>() {
+		return new ExecutePreparedStatement<IBudget>() {
 
 			@Override
-			protected void doWithPreparedStatement(PreparedStatement ps, Budget obj) throws SQLException {
+			protected void doWithPreparedStatement(PreparedStatement ps, IBudget obj) throws SQLException {
 				if (obj.getCatSpese() != null) {
 					ps.setInt(1, obj.getCatSpese().getidCategoria());
 				}
@@ -130,25 +130,25 @@ public class WrapBudget extends Observable implements IDAO<Budget>, IBudget{
 	}
 
 	@Override
-	public boolean update(Budget oggettoEntita) {
+	public boolean update(IBudget oggettoEntita) {
 
-		final Budget budgetLoc = (Budget) oggettoEntita;
+		final IBudget budgetLoc = (IBudget) oggettoEntita;
 		final String sql = getQueryUpdate(budgetLoc);
 		
 		return base.executeUpdate(sql);
 		
 	}
 
-	private String getQueryUpdate(final Budget budgetLoc) {
+	private String getQueryUpdate(final IBudget budgetLoc) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("UPDATE ");
 		sb.append(Budget.NOME_TABELLA);
 		sb.append(" SET ");
-		sb.append(Budget.IDCATEGORIE);
+		sb.append(Budget.COL_IDCATEGORIE);
 		sb.append(" = ");
 		sb.append(budgetLoc.getidCategorie());
 		sb.append(", ");
-		sb.append(Budget.PERCSULTOT);
+		sb.append(Budget.COL_PERCSULTOT);
 		sb.append(" = ");
 		sb.append(budgetLoc.getpercSulTot());
 		sb.append(WHERE);
@@ -165,7 +165,7 @@ public class WrapBudget extends Observable implements IDAO<Budget>, IBudget{
 	}
 
 	@Override
-	public Budget getEntitaPadre() {
+	public IBudget getEntitaPadre() {
 		return budget;
 	}
 
@@ -201,17 +201,17 @@ public class WrapBudget extends Observable implements IDAO<Budget>, IBudget{
 	}
 
 	@Override
-	public CatSpese getCatSpese() {
+	public ICatSpese getCatSpese() {
 		return budget.getCatSpese();
 	}
 
 	@Override
-	public void setCatSpese(CatSpese catSpese) {
+	public void setCatSpese(ICatSpese catSpese) {
 		budget.setCatSpese(catSpese);
 	}
 
 	@Override
-	public List<Budget> selectWhere(List<Clausola> clausole,
+	public List<IBudget> selectWhere(List<Clausola> clausole,
 			String appentoToQuery) {
 		throw new UnsupportedOperationException();
 	}
@@ -219,6 +219,21 @@ public class WrapBudget extends Observable implements IDAO<Budget>, IBudget{
 	@Override
 	public String getnome() {
 		return null;
+	}
+
+	@Override
+	public String getIdEntita() {
+		return Integer.toString(getidBudget());
+	}
+
+	@Override
+	public void setIdEntita(String idEntita) {
+		setidBudget(Integer.parseInt(idEntita));
+	}
+
+	@Override
+	public String getNome() {
+		return getnome();
 	}
 
 }

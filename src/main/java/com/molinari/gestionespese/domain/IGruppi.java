@@ -19,9 +19,9 @@ public interface IGruppi extends AbstractOggettoEntita, Serializable{
 
 	public void setnome(String nome);
 
-	public Set<CatSpese> getCatSpeses();
+	public Set<ICatSpese> getCatSpeses();
 
-	public void setCatSpeses(Set<CatSpese> catSpeses);
+	public void setCatSpeses(Set<ICatSpese> catSpeses);
 
 	@Override
 	public String toString();

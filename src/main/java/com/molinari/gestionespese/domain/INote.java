@@ -28,7 +28,7 @@ public interface INote extends AbstractOggettoEntita{
 
 	public void setNome(String nome);
 
-	public void setUtenti(Utenti utenti);
+	public void setUtenti(IUtenti utenti);
 
-	public Utenti getUtenti();
+	public IUtenti getUtenti();
 }

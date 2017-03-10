@@ -50,7 +50,7 @@ public class Note implements AbstractOggettoEntita, Serializable, INote {
 	// bi-directional many-to-one association to Utenti
 	@ManyToOne
 	@JoinColumns({})
-	private Utenti utenti;
+	private IUtenti utenti;
 
 	@Override
 	public String getData() {
@@ -113,12 +113,12 @@ public class Note implements AbstractOggettoEntita, Serializable, INote {
 	}
 
 	@Override
-	public void setUtenti(final Utenti utenti) {
+	public void setUtenti(final IUtenti utenti) {
 		this.utenti = utenti;
 	}
 
 	@Override
-	public Utenti getUtenti() {
+	public IUtenti getUtenti() {
 		return utenti;
 	}
 

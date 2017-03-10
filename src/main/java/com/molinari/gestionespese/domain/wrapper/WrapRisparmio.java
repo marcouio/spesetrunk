@@ -18,10 +18,10 @@ import db.ExecutePreparedStatement;
 import db.ExecuteResultSet;
 import db.dao.IDAO;
 
-public class WrapRisparmio extends Observable implements IDAO<Risparmio>,IRisparmio{
+public class WrapRisparmio extends Observable implements IDAO<IRisparmio>,IRisparmio{
 
 	private static final String WHERE = " WHERE ";
-	private final Risparmio risparmio;
+	private final IRisparmio risparmio;
 	private WrapBase base = new WrapBase();
 
 	public WrapRisparmio() {
@@ -29,16 +29,16 @@ public class WrapRisparmio extends Observable implements IDAO<Risparmio>,IRispar
 	}
 
 	@Override
-	public Risparmio selectById(int id) {
-		final Risparmio risparmioLoc = new Risparmio();
+	public IRisparmio selectById(int id) {
+		final IRisparmio risparmioLoc = new Risparmio();
 
 		final String sql = "SELECT * FROM " + Risparmio.NOME_TABELLA + WHERE + Risparmio.ID + "=" +id;
 		try{
 
-			new ExecuteResultSet<Risparmio>() {
+			new ExecuteResultSet<IRisparmio>() {
 
 				@Override
-				protected Risparmio doWithResultSet(ResultSet rs) throws SQLException {
+				protected IRisparmio doWithResultSet(ResultSet rs) throws SQLException {
 
 					if(rs != null && rs.next()){
 						risparmioLoc.setidRisparmio(rs.getInt(1));
@@ -61,20 +61,20 @@ public class WrapRisparmio extends Observable implements IDAO<Risparmio>,IRispar
 	}
 
 	@Override
-	public List<Risparmio> selectAll() {
-		final List<Risparmio> risparmi = new ArrayList<>();
+	public List<IRisparmio> selectAll() {
+		final List<IRisparmio> risparmi = new ArrayList<>();
 
 		final String sql = "SELECT * FROM " + Risparmio.NOME_TABELLA ;
 		try{
 
-			return new ExecuteResultSet<List<Risparmio>>() {
+			return new ExecuteResultSet<List<IRisparmio>>() {
 
 				@Override
-				protected List<Risparmio> doWithResultSet(ResultSet rs) throws SQLException {
-					final List<Risparmio> risparmi = new ArrayList<>();
+				protected List<IRisparmio> doWithResultSet(ResultSet rs) throws SQLException {
+					final List<IRisparmio> risparmi = new ArrayList<>();
 
 					while(rs.next()){
-						final Risparmio risparmioLoc = new Risparmio();
+						final IRisparmio risparmioLoc = new Risparmio();
 						risparmioLoc.setidRisparmio(rs.getInt(1));
 						risparmioLoc.setPerSulTotale(rs.getDouble(2));
 						risparmi.add(risparmioLoc);
@@ -93,13 +93,13 @@ public class WrapRisparmio extends Observable implements IDAO<Risparmio>,IRispar
 	}
 
 	@Override
-	public boolean insert(Risparmio oggettoEntita) {
+	public boolean insert(IRisparmio oggettoEntita) {
 		String sql = "INSERT INTO " + Risparmio.NOME_TABELLA + " (" +Risparmio.COL_PERCSULTOT+") VALUES(?)";
 
-		return new ExecutePreparedStatement<Risparmio>() {
+		return new ExecutePreparedStatement<IRisparmio>() {
 
 			@Override
-			protected void doWithPreparedStatement(PreparedStatement ps, Risparmio obj) throws SQLException {
+			protected void doWithPreparedStatement(PreparedStatement ps, IRisparmio obj) throws SQLException {
 				ps.setDouble(1, risparmio.getPerSulTotale());
 			}
 		}.executeUpdate(sql, oggettoEntita);
@@ -112,9 +112,9 @@ public class WrapRisparmio extends Observable implements IDAO<Risparmio>,IRispar
 	}
 
 	@Override
-	public boolean update(Risparmio oggettoEntita) {
+	public boolean update(IRisparmio oggettoEntita) {
 
-		final Risparmio risparmioLoc = (Risparmio) oggettoEntita;
+		final IRisparmio risparmioLoc = (IRisparmio) oggettoEntita;
 		final String sql = "UPDATE "+Risparmio.NOME_TABELLA+ " SET " +Risparmio.COL_PERCSULTOT+ " = " +risparmioLoc.getPerSulTotale()
 		+WHERE+ Risparmio.ID +" = "+risparmioLoc.getidRisparmio();
 		
@@ -129,7 +129,7 @@ public class WrapRisparmio extends Observable implements IDAO<Risparmio>,IRispar
 	}
 
 	@Override
-	public Risparmio getEntitaPadre() {
+	public IRisparmio getEntitaPadre() {
 		return risparmio;
 	}
 
@@ -159,7 +159,7 @@ public class WrapRisparmio extends Observable implements IDAO<Risparmio>,IRispar
 	}
 
 	@Override
-	public List<Risparmio> selectWhere(List<Clausola> clausole,
+	public List<IRisparmio> selectWhere(List<Clausola> clausole,
 			String appentoToQuery) {
 		throw new UnsupportedOperationException();
 	}

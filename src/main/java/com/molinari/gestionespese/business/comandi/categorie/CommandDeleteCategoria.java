@@ -1,6 +1,7 @@
 package com.molinari.gestionespese.business.comandi.categorie;
 
 import com.molinari.gestionespese.business.cache.CacheCategorie;
+import com.molinari.gestionespese.business.comandi.CommandDelete;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.wrapper.WrapCatSpese;
@@ -9,13 +10,10 @@ import command.ICommand;
 import command.javabeancommand.AbstractCommandForJavaBean;
 import grafica.componenti.alert.Alert;
 
-public class CommandDeleteCategoria extends AbstractCommandForJavaBean<CatSpese> implements ICommand {
+public class CommandDeleteCategoria extends CommandDelete<ICatSpese> implements ICommand {
 
 	public CommandDeleteCategoria(ICatSpese entita) {
-		final CacheCategorie cache = CacheCategorie.getSingleton();
-		mappaCache = cache.getCache();
-		this.wrap = new WrapCatSpese();
-		this.entita =  ((WrapCatSpese)entita).getEntitaPadre();
+		super(entita, new WrapCatSpese(), CacheCategorie.getSingleton());
 	}
 
 	@Override
