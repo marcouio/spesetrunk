@@ -35,7 +35,7 @@ public class ReportView extends AbstractReportView implements Finestra {
 		setReportData(new ReportData());
 		PannelloBase padre = (PannelloBase) ((PannelloBase)getContainer()).getContenitorePadre();
 		getContainer().setLayout(null);
-		getContainer().setSize(padre.getWidth(), padre.getHeight());;
+		getContainer().setSize(padre.getWidth(), padre.getHeight());
 		final JLabel istruzioni = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("selectreport"));
 		istruzioni.setText(I18NManager.getSingleton().getMessaggio("select") + ":");
 		istruzioni.setBounds(12, 12, 207, 20);
