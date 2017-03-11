@@ -4,10 +4,8 @@ import java.util.logging.Level;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.WindowConstants;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Database;
@@ -18,21 +16,8 @@ import controller.ControlloreBase;
 
 public class SottoPannelloMesi {
 
-	/**
-	 * Auto-generated main method to display this JPanel inside a new JFrame.
-	 */
-	public static void main(String[] args) {
-		final JFrame frame = new JFrame();
-		// frame.getContentPane().add(new SottoPannelloMesi());
-		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		frame.pack();
-		frame.setVisible(true);
-	}
-
-	private JLabel            jLabel9;
 	private static JTextField totaleMeseUscite;
-	private JLabel            jLabel12;
-	private static JComboBox  ComboMese;
+	private static JComboBox<String>  comboMese;
 	private static JTextField totaleMeseEntrate;
 
 	JComponent[]              componenti = new JComponent[3];
@@ -48,7 +33,7 @@ public class SottoPannelloMesi {
 	private void initGUI() {
 		try {
 
-			jLabel9 = new LabelTestoPiccolo();
+			LabelTestoPiccolo jLabel9 = new LabelTestoPiccolo();
 			labels[0] = jLabel9;
 			jLabel9.setText("Mese");
 			jLabel9.setBounds(16, 67, 67, 14);
@@ -65,7 +50,7 @@ public class SottoPannelloMesi {
 			totaleMeseEntrate.setText("0.0");
 			totaleMeseEntrate.setBounds(317, 85, 106, 27);
 
-			jLabel12 = new LabelTestoPiccolo();
+			LabelTestoPiccolo jLabel12 = new LabelTestoPiccolo();
 			labels[1] = jLabel12;
 			jLabel12.setText("Uscite per mese");
 			jLabel12.setBounds(164, 66, 114, 14);
@@ -76,18 +61,18 @@ public class SottoPannelloMesi {
 			jLabel12.setBounds(317, 67, 123, 14);
 
 			// Combo Mesi
-			ComboMese = new JComboBox();
-			componenti[0] = ComboMese;
-			ComboMese.setBounds(16, 85, 106, 27);
-			ComboMese.addItem("");
-			for (int i = 0; i < 12; i++) {
-				ComboMese.addItem(i + 1);
+			comboMese = new JComboBox<>();
+			componenti[0] = comboMese;
+			comboMese.setBounds(16, 85, 106, 27);
+			comboMese.addItem("");
+			for (int i = 1; i <= 12; i++) {
+				comboMese.addItem(Integer.toString(i));
 			}
-			ComboMese.setSelectedIndex(0);
-			ComboMese.addItemListener(e -> {
-				final Object mounth = ComboMese.getSelectedItem();
+			comboMese.setSelectedIndex(0);
+			comboMese.addItemListener(e -> {
+				final Object mounth = comboMese.getSelectedItem();
 
-				if (!mounth.equals("")) {
+				if (!"".equals(mounth)) {
 					final int mese = Integer.parseInt(mounth.toString());
 					final double totaleMese = AltreUtil.arrotondaDecimaliDouble(Database.getSingleton().totaleUsciteMese(mese));
 					final double totaleMeseE = AltreUtil.arrotondaDecimaliDouble(Database.getSingleton().totaleEntrateMese(mese));
@@ -102,17 +87,17 @@ public class SottoPannelloMesi {
 	}
 
 	public static void azzeraCampi() {
-		ComboMese.setSelectedIndex(0);
+		comboMese.setSelectedIndex(0);
 		totaleMeseUscite.setText("0.0");
 		totaleMeseEntrate.setText("0.0");
 	}
 
-	public static JComboBox getComboMese() {
-		return ComboMese;
+	public static JComboBox<String> getComboMese() {
+		return comboMese;
 	}
 
-	public static void setComboMese(JComboBox comboMese) {
-		ComboMese = comboMese;
+	public static void setComboMese(JComboBox<String> comboMese) {
+		SottoPannelloMesi.comboMese = comboMese;
 	}
 
 	protected JComponent[] getComponenti() {

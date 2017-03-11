@@ -273,7 +273,7 @@ public class Model {
 		movimentiEntrate = new String[numEntry][nomi.size()];
 		for (int x = 0; x < entry1.size(); x++) {
 			final Entrate entrate = entry1.get(x);
-			movimentiEntrate[x][0] = entrate.getdata().toString();
+			movimentiEntrate[x][0] = entrate.getdata();
 			movimentiEntrate[x][1] = entrate.getnome();
 			movimentiEntrate[x][2] = entrate.getdescrizione();
 			movimentiEntrate[x][3] = Double.toString(entrate.getinEuro());

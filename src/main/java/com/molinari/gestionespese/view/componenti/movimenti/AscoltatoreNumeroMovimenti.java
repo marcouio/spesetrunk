@@ -2,6 +2,7 @@ package com.molinari.gestionespese.view.componenti.movimenti;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
 
 import javax.swing.JTextField;
 
@@ -10,6 +11,7 @@ import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.SingleSpesa;
 
+import controller.ControlloreBase;
 import grafica.componenti.alert.Alert;
 
 public class AscoltatoreNumeroMovimenti implements ActionListener {
@@ -30,12 +32,14 @@ public class AscoltatoreNumeroMovimenti implements ActionListener {
 			try {
 				AggiornatoreManager.aggiornaMovimentiEntrateDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
 			} catch (final Exception e1) {
+				ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				Alert.segnalazioneErroreGrave(I18NManager.getSingleton().getMessaggio("insertnumber")+": "+e1.getMessage());
 			}
 		} else if (tipo.equals(SingleSpesa.NOME_TABELLA)) {
 			try {
 				AggiornatoreManager.aggiornaMovimentiUsciteDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
 			} catch (final Exception e1) {
+				ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				Alert.segnalazioneErroreGrave(I18NManager.getSingleton().getMessaggio("insertnumber")+": "+e1.getMessage());
 			}
 		}

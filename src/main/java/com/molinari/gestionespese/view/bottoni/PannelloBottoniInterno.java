@@ -22,7 +22,7 @@ public class PannelloBottoniInterno extends PannelloBottoni {
 
 	@Override
 	public void addBottone(Bottone bottone) {
-		if (listaBottoni.size() == 0) {
+		if (listaBottoni.isEmpty()) {
 			this.add(bottone, BorderLayout.NORTH);
 		} else {
 			this.add(bottone, BorderLayout.CENTER);
