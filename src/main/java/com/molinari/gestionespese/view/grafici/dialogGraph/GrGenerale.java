@@ -15,7 +15,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.WindowConstants;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
@@ -51,20 +50,6 @@ public class GrGenerale extends JDialog implements ActionListener {
 	private static Map<Integer, List<Double>> mappaNovembre;
 	private static Map<Integer, List<Double>> mappaDicembre;
 	private List<ICatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
-
-	/**
-	 * Uscite mensili per categoria Launch the application.
-	 */
-	public static void main(final String[] args) {
-		try {
-
-			final GrGenerale dialog = new GrGenerale();
-			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (final Exception e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
 
 	/**
 	 * Create the dialog.
@@ -120,7 +105,7 @@ public class GrGenerale extends JDialog implements ActionListener {
 		}
 
 		final GregorianCalendar data = new GregorianCalendar();
-		final String dataMinuti = "" + data.get(Calendar.HOUR_OF_DAY) + data.get(Calendar.MINUTE);
+		final String dataMinuti = Integer.toString(data.get(Calendar.HOUR_OF_DAY)) + data.get(Calendar.MINUTE);
 
 		try {
 			ChartUtilities.saveChartAsPNG(new java.io.File("immagini/LineChartGen1" + dataMinuti + ".png"), chart, 550, 510);

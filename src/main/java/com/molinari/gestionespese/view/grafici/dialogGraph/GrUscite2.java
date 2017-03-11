@@ -45,7 +45,7 @@ public class GrUscite2 extends JDialog implements ActionListener {
 
 		final GregorianCalendar data = new GregorianCalendar();
 
-		final String dataMinuti = "" + data.get(Calendar.HOUR_OF_DAY)
+		final String dataMinuti = Integer.toString(data.get(Calendar.HOUR_OF_DAY))
 		+ data.get(Calendar.MINUTE);
 
 		try {
@@ -82,7 +82,7 @@ public class GrUscite2 extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(final ActionEvent e) {
-		if (e.getActionCommand().equals("chiudi")) {
+		if ("chiudi".equals(e.getActionCommand())) {
 			setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 			this.dispose();
 		}
