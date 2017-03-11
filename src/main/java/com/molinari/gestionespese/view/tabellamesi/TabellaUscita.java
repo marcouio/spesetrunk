@@ -1,6 +1,6 @@
 
 
-package com.molinari.gestionespese.view.tabelleMesi;
+package com.molinari.gestionespese.view.tabellamesi;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;

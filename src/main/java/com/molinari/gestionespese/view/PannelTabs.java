@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import com.molinari.gestionespese.view.componenti.movimenti.AbstractListaMov;
 import com.molinari.gestionespese.view.componenti.movimenti.ListaMovimentiEntrate;
 import com.molinari.gestionespese.view.componenti.movimenti.ListaMovimentiUscite;
-import com.molinari.gestionespese.view.tabelleMesi.PerMesiF;
+import com.molinari.gestionespese.view.tabellamesi.PerMesiF;
 
 import grafica.componenti.contenitori.PannelloBase;
 

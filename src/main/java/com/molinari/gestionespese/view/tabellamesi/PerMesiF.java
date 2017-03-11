@@ -1,4 +1,4 @@
-package com.molinari.gestionespese.view.tabelleMesi;
+package com.molinari.gestionespese.view.tabellamesi;
 
 import java.awt.Container;
 import java.awt.Dimension;
