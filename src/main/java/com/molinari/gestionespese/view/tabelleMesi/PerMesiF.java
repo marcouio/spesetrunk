@@ -35,22 +35,22 @@ public class PerMesiF extends PannelloBase {
 				final int selectedIndex = source.getSelectedIndex();
 				if(selectedIndex == 0){
 					tabEntrate = new TabellaEntrata();
-					tabEntrate.setBounds(0, 0, getContenitorePadre().getWidth(), getContenitorePadre().getHeight());
-					source.setComponentAt(selectedIndex, tabEntrate);
+					tabEntrate.getPanel().setBounds(0, 0, getContenitorePadre().getWidth(), getContenitorePadre().getHeight());
+					source.setComponentAt(selectedIndex, tabEntrate.getPanel());
 				}else if(selectedIndex == 1){
 					tabUscite = new TabellaUscita();
-					tabUscite.setBounds(0, 0, getContenitorePadre().getWidth(), getContenitorePadre().getHeight());
-					source.setComponentAt(selectedIndex, tabUscite);
+					tabUscite.getPanel().setBounds(0, 0, getContenitorePadre().getWidth(), getContenitorePadre().getHeight());
+					source.setComponentAt(selectedIndex, tabUscite.getPanel());
 				}else if(selectedIndex == 2){
 					tabUG = new TabellaUscitaGruppi();
-					tabUG.setBounds(0, 0, getContenitorePadre().getWidth(), getContenitorePadre().getHeight());
-					source.setComponentAt(selectedIndex, tabUG);
+					tabUG.getPanel().setBounds(0, 0, getContenitorePadre().getWidth(), getContenitorePadre().getHeight());
+					source.setComponentAt(selectedIndex, tabUG.getPanel());
 				}
 			});
 			tabGenerale.setBounds(0, 0, getContenitorePadre().getWidth(), getContenitorePadre().getHeight());
-			tabGenerale.addTab(I18NManager.getSingleton().getMessaggio("income"), tabEntrate);
-			tabGenerale.addTab(I18NManager.getSingleton().getMessaggio("withdrawal"), tabUscite);
-			tabGenerale.addTab(I18NManager.getSingleton().getMessaggio("groupscharge"), tabUG);
+			tabGenerale.addTab(I18NManager.getSingleton().getMessaggio("income"), tabEntrate.getPanel());
+			tabGenerale.addTab(I18NManager.getSingleton().getMessaggio("withdrawal"), tabUscite.getPanel());
+			tabGenerale.addTab(I18NManager.getSingleton().getMessaggio("groupscharge"), tabUG.getPanel());
 
 			this.add(tabGenerale);
 

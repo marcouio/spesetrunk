@@ -18,9 +18,9 @@ import com.molinari.gestionespese.view.font.TableF;
 import controller.ControlloreBase;
 import grafica.componenti.contenitori.PannelloBase;
 
-public class TabellaEntrata extends OggettoVistaBase {
+public class TabellaEntrata {
 
-	private static final long serialVersionUID = 1L;
+	private OggettoVistaBase panel;
 
 	private static String[][] primo;
 	private static String[] nomiColonne = {I18NManager.getSingleton().getMessaggio("fixity"),I18NManager.getSingleton().getMessaggio("variables")};
@@ -28,7 +28,7 @@ public class TabellaEntrata extends OggettoVistaBase {
 	private static JScrollPane scrollPane;
 
 	public TabellaEntrata() {
-		super(new GridLayout(1,0));
+		panel = new OggettoVistaBase(new GridLayout(1,0));
 		TableF table = null;
 		try{
 			final TableModelEntrate model = new TableModelEntrate(null);
@@ -41,7 +41,7 @@ public class TabellaEntrata extends OggettoVistaBase {
 		scrollPane = new JScrollPane(table);
 
 		//Add the scroll pane to this panel.
-		add(scrollPane);
+		getPanel().add(scrollPane);
 	}
 
 	/**
@@ -84,5 +84,13 @@ public class TabellaEntrata extends OggettoVistaBase {
 
 	public static void setNomiColonne(final String[] nomiColonne) {
 		TabellaEntrata.nomiColonne = nomiColonne;
+	}
+
+	public OggettoVistaBase getPanel() {
+		return panel;
+	}
+
+	public void setPanel(OggettoVistaBase panel) {
+		this.panel = panel;
 	}
 }

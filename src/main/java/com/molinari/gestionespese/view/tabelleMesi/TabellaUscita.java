@@ -7,7 +7,6 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
 import com.molinari.gestionespese.business.generatori.TableModelUscite;
@@ -17,9 +16,9 @@ import com.molinari.gestionespese.view.font.TableF;
 import controller.ControlloreBase;
 import grafica.componenti.table.TableModel;
 
-public class TabellaUscita extends OggettoVistaBase {
+public class TabellaUscita {
 
-	private static final long serialVersionUID = 1L;
+	OggettoVistaBase panel;
 
 	private static String[][] primo;
 	private static JScrollPane scrollPane;
@@ -27,7 +26,7 @@ public class TabellaUscita extends OggettoVistaBase {
 
 
 	public TabellaUscita() {
-		super(new GridLayout(1,0));
+		panel = new OggettoVistaBase(new GridLayout(1,0));
 
 		TableModelUscite model = null;
 		try {
@@ -40,24 +39,10 @@ public class TabellaUscita extends OggettoVistaBase {
 		scrollPane = new JScrollPane(table);
 
 		//Add the scroll pane to this panel.
-		add(scrollPane);
+		getPanel().add(scrollPane);
 
 	}
 
-	private static void createAndShowGUI() throws Exception {
-		//Create and set up the window.
-		final JFrame frame = new JFrame("TabellaUscita");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		//Create and set up the content pane.
-		final TabellaUscita newContentPane = new TabellaUscita();
-		newContentPane.setOpaque(true); //content panes must be opaque
-		frame.setContentPane(newContentPane);
-
-		//Display the window.
-		frame.pack();
-		frame.setVisible(true);
-	}
 	public static String[][] getPrimo() {
 		return primo;
 	}
@@ -84,20 +69,6 @@ public class TabellaUscita extends OggettoVistaBase {
 		return table;
 	}
 
-
-	public static void main(final String[] args) {
-		//Schedule a job for the event-dispatching thread:
-		//creating and showing this application's GUI.
-		javax.swing.SwingUtilities.invokeLater(() -> {
-			try {
-				createAndShowGUI();
-			} catch (final Exception e) {
-				ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-			}
-		});
-	}
-
-
 	public static JScrollPane getScrollPane() {
 		return scrollPane;
 	}
@@ -105,5 +76,13 @@ public class TabellaUscita extends OggettoVistaBase {
 
 	public void setScrollPane(final JScrollPane scrollPane) {
 		TabellaUscita.scrollPane = scrollPane;
+	}
+
+	public OggettoVistaBase getPanel() {
+		return panel;
+	}
+
+	public void setPanel(OggettoVistaBase panel) {
+		this.panel = panel;
 	}
 }
