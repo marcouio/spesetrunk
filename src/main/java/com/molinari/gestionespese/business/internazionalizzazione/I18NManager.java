@@ -2,20 +2,22 @@ package com.molinari.gestionespese.business.internazionalizzazione;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 
 import com.molinari.gestionespese.business.config.ConfiguratoreXml;
 
-public class I18NManager {
+import controller.ControlloreBase;
 
-	public static void main(final String[] args) {
-		final I18NManager i18n = new I18NManager();
-		System.out.println(i18n.getMessaggio("io"));
-	}
+public class I18NManager {
 
 	private static I18NManager singleton;
 	private Locale currentLocale;
 	private ResourceBundle messages;
 
+	private I18NManager() {
+		//do nothing
+	}
+	
 	/**
 	 * @return the singleton
 	 */
@@ -26,10 +28,6 @@ public class I18NManager {
 		return singleton;
 	}
 
-	private I18NManager() {
-
-	}
-
 	public String getMessaggio(final String key) {
 		try {
 			if(this.getMessages() == null){
@@ -37,26 +35,33 @@ public class I18NManager {
 			}
 			return this.getMessages().getString(key);
 		} catch (final Exception e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(),e);
 			return key;
 		}
 	}
 
 	public String getMessaggio(final String key, final String[] params) {
 		try {
-			String msgTot = "";
+			StringBuilder msgTot = new StringBuilder();
 			final String messaggio = getMessaggio(key);
 			final String[] msgSplit = messaggio.split("@");
-			if(msgSplit.length-1 == params.length){
-				for (int i = 0; i < params.length; i++) {
-					msgTot += msgSplit[i] + params[i];
-					if(i==params.length-1){
-						msgTot += msgSplit[msgSplit.length-1];
-					}
+			appendParams(params, msgTot, msgSplit);
+			return msgTot.toString();
+		} catch (final Exception e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(),e);
+			return key;
+		}
+	}
+
+	private void appendParams(final String[] params, StringBuilder msgTot, final String[] msgSplit) {
+		if(msgSplit.length-1 == params.length){
+			for (int i = 0; i < params.length; i++) {
+				msgTot.append(msgSplit[i]);
+				msgTot.append(params[i]);
+				if(i==params.length-1){
+					msgTot.append(msgSplit[msgSplit.length-1]);
 				}
 			}
-			return msgTot;
-		} catch (final Exception e) {
-			return key;
 		}
 	}
 
