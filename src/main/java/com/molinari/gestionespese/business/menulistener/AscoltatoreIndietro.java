@@ -1,4 +1,4 @@
-package com.molinari.gestionespese.business.ascoltatoriMenu;
+package com.molinari.gestionespese.business.menulistener;
 
 import java.awt.event.ActionEvent;
 

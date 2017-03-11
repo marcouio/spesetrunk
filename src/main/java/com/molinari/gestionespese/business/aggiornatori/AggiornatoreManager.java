@@ -41,10 +41,10 @@ import com.molinari.gestionespese.view.componenti.movimenti.ListaMovimentiEntrat
 import com.molinari.gestionespese.view.componenti.movimenti.ListaMovimentiUscite;
 import com.molinari.gestionespese.view.font.TableF;
 import com.molinari.gestionespese.view.impostazioni.CategorieView;
-import com.molinari.gestionespese.view.tabelleMesi.PerMesiF;
-import com.molinari.gestionespese.view.tabelleMesi.TabellaEntrata;
-import com.molinari.gestionespese.view.tabelleMesi.TabellaUscita;
-import com.molinari.gestionespese.view.tabelleMesi.TabellaUscitaGruppi;
+import com.molinari.gestionespese.view.tabellamesi.PerMesiF;
+import com.molinari.gestionespese.view.tabellamesi.TabellaEntrata;
+import com.molinari.gestionespese.view.tabellamesi.TabellaUscita;
+import com.molinari.gestionespese.view.tabellamesi.TabellaUscitaGruppi;
 
 import controller.ControlloreBase;
 import db.ConnectionPool;
