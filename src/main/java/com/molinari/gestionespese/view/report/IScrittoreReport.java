@@ -8,5 +8,5 @@ public interface IScrittoreReport {
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean generaReport() throws Exception;
+	public boolean generaReport();
 }

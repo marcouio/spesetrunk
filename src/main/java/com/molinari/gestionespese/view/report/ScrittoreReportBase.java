@@ -29,7 +29,7 @@ public abstract class ScrittoreReportBase implements IScrittoreReport{
 	}
 
 	@Override
-	public boolean generaReport() throws Exception{
+	public boolean generaReport(){
 		boolean ok = operazioniPreliminari();
 		final List<OggettoReport> listaOggetti = reportData.getListaOggetti();
 		for (OggettoReport oggettoReport : listaOggetti) {
@@ -37,10 +37,14 @@ public abstract class ScrittoreReportBase implements IScrittoreReport{
 				ok = false;
 			}
 		}
+		
+		terminate();
 		return ok;
 	}
 
-	protected abstract boolean operazioniPreliminari() throws Exception;
+	protected abstract void terminate();
+
+	protected abstract boolean operazioniPreliminari();
 
 
 	/**
