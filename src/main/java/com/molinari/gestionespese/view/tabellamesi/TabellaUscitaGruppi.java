@@ -40,7 +40,7 @@ public class TabellaUscitaGruppi {
 
 	}
 
-	public static JTable getDatiPerTabella() throws Exception {
+	public static JTable getDatiPerTabella() {
 
 		final TableModelUsciteGruppi model = new TableModelUsciteGruppi(null);
 
