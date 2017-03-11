@@ -102,9 +102,9 @@ public class ReportView extends AbstractReportView implements Finestra {
 			protected void actionPerformedOverride(ActionEvent e) {
 				super.actionPerformedOverride(e);
 
-				settaValoriReportDati(chckbxSpeseVariabili1, chckbxEntrateMensCategorie, chckbxSpeseMensCat,
-						chckbxEntratePerCategorie, chckbxSpesePerCategorie, chckbxUsciteMensili, chckbxEntrateMensili,
-						chckbxUsciteAnnuali, chckbxEntrateAnnuali, chckbxSpeseFutili1, chckbxAvanzo, chckbxMedie);
+				SpeseReportDatiParameter speseParameter = new SpeseReportDatiParameter(chckbxSpeseVariabili1, chckbxSpeseMensCat, chckbxSpesePerCategorie, chckbxUsciteMensili, chckbxUsciteAnnuali, chckbxSpeseFutili1);
+				EntrateReportDatiParameter entrateParameter = new EntrateReportDatiParameter(chckbxEntrateMensCategorie, chckbxEntratePerCategorie, chckbxEntrateMensili, chckbxEntrateAnnuali);
+				settaValoriReportDati(speseParameter, entrateParameter, chckbxAvanzo, chckbxMedie);
 
 				try {
 					final IScrittoreReport scrittoreReport = new ScrittoreReportTxt(reportData);
@@ -119,24 +119,21 @@ public class ReportView extends AbstractReportView implements Finestra {
 		ControlloreBase.getLog().info("Registrato Report: " + DBUtil.dataToString(new Date(), "dd/MM/yyyy HH:mm"));
 
 	}
-	
-	private void settaValoriReportDati(final JCheckBox chckbxSpeseVariabili1,
-			final JCheckBox chckbxEntrateMensCategorie, final JCheckBox chckbxSpeseMensCat,
-			final JCheckBox chckbxEntratePerCategorie, final JCheckBox chckbxSpesePerCategorie,
-			final JCheckBox chckbxUsciteMensili, final JCheckBox chckbxEntrateMensili,
-			final JCheckBox chckbxUsciteAnnuali, final JCheckBox chckbxEntrateAnnuali,
-			final JCheckBox chckbxSpeseFutili1, final JCheckBox chckbxAvanzo, final JCheckBox chckbxMedie) {
+
+	private void settaValoriReportDati(SpeseReportDatiParameter parameterObject,
+			EntrateReportDatiParameter speseParameter, final JCheckBox chckbxAvanzo,
+			final JCheckBox chckbxMedie) {
 		
-		inserisciUsciteVariabili(chckbxSpeseVariabili1.isSelected());
-		inserisciEntrateCatMensili(chckbxEntrateMensCategorie.isSelected());
-		inserisciUsciteCatMensili(chckbxSpeseMensCat.isSelected());
-		inserisciEntrateCatAnnuali(chckbxEntratePerCategorie.isSelected());
-		inserisciUsciteCatAnnuali(chckbxSpesePerCategorie.isSelected());
-		inserisciUsciteMensili(chckbxUsciteMensili.isSelected());
-		inserisciEntrateMensili(chckbxEntrateMensili.isSelected());
-		inserisciUsciteAnnuali(chckbxUsciteAnnuali.isSelected());
-		inserisciEntrateAnnuali(chckbxEntrateAnnuali.isSelected());
-		inserisciUsciteFutili(chckbxSpeseFutili1.isSelected());
+		inserisciUsciteVariabili(parameterObject.getChckbxSpeseVariabili1().isSelected());
+		inserisciEntrateCatMensili(speseParameter.getChckbxEntrateMensCategorie().isSelected());
+		inserisciUsciteCatMensili(parameterObject.getChckbxSpeseMensCat().isSelected());
+		inserisciEntrateCatAnnuali(speseParameter.getChckbxEntratePerCategorie().isSelected());
+		inserisciUsciteCatAnnuali(parameterObject.getChckbxSpesePerCategorie().isSelected());
+		inserisciUsciteMensili(parameterObject.getChckbxUsciteMensili().isSelected());
+		inserisciEntrateMensili(speseParameter.getChckbxEntrateMensili().isSelected());
+		inserisciUsciteAnnuali(parameterObject.getChckbxUsciteAnnuali().isSelected());
+		inserisciEntrateAnnuali(speseParameter.getChckbxEntrateAnnuali().isSelected());
+		inserisciUsciteFutili(parameterObject.getChckbxSpeseFutili1().isSelected());
 		inserisciAvanzo(chckbxAvanzo.isSelected());
 		inserisciMediaEntrate(chckbxMedie.isSelected());
 		inserisciMediaUscite(chckbxMedie.isSelected());
