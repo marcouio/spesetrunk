@@ -44,34 +44,42 @@ public class Budget implements IBudget, Serializable {
 		//do nothing
 	}
 
+	@Override
 	public int getidBudget() {
 		return this.idBudget;
 	}
 
+	@Override
 	public void setidBudget(final int idBudget) {
 		this.idBudget = idBudget;
 	}
 
+	@Override
 	public int getidCategorie() {
 		return this.idCategorie;
 	}
 
+	@Override
 	public void setidCategorie(final int idCategorie) {
 		this.idCategorie = idCategorie;
 	}
 
+	@Override
 	public double getpercSulTot() {
 		return this.percSulTot;
 	}
 
+	@Override
 	public void setpercSulTot(final double percSulTot) {
 		this.percSulTot = percSulTot;
 	}
 
+	@Override
 	public ICatSpese getCatSpese() {
 		return this.catSpese;
 	}
 
+	@Override
 	public void setCatSpese(final ICatSpese catSpese) {
 		this.catSpese = catSpese;
 	}
