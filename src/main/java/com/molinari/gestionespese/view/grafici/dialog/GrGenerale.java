@@ -1,4 +1,4 @@
-package com.molinari.gestionespese.view.grafici.dialogGraph;
+package com.molinari.gestionespese.view.grafici.dialog;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
