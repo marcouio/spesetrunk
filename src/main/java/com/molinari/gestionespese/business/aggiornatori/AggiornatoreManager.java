@@ -42,7 +42,6 @@ import com.molinari.gestionespese.view.componenti.movimenti.ListaMovimentiUscite
 import com.molinari.gestionespese.view.font.TableF;
 import com.molinari.gestionespese.view.impostazioni.CategorieView;
 import com.molinari.gestionespese.view.tabellamesi.PerMesiF;
-import com.molinari.gestionespese.view.tabellamesi.TabellaEntrata;
 import com.molinari.gestionespese.view.tabellamesi.TabellaUscita;
 import com.molinari.gestionespese.view.tabellamesi.TabellaUscitaGruppi;
 
@@ -363,7 +362,7 @@ public class AggiornatoreManager {
 
 		for (int i = 1; i <= max; i++) {
 
-			ICatSpese catspese1 = (ICatSpese) categorie1.getItemAt(i);
+			ICatSpese catspese1 = categorie1.getItemAt(i);
 			if (catspese1 == null) {
 				catspese1 = new CatSpese();
 				catspese1.setidCategoria(-1);
@@ -444,7 +443,7 @@ public class AggiornatoreManager {
 			final PerMesiF tabPermesi = generalFrame.getPannelTabs().getTabPermesi();
 			if(tabPermesi != null){
 				final TableF table = tabPermesi.getTabEntrate().createTable(model);
-				final JScrollPane pane = TabellaEntrata.getScrollPane();
+				final JScrollPane pane = tabPermesi.getTabEntrate().getScrollPane();
 				pane.setViewportView(table);
 			}
 			return true;

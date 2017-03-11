@@ -46,7 +46,7 @@ public class GrEntrate2 extends JDialog implements ActionListener {
 			dataset.setValue(Database.getSingleton().totaleEntrateMese(i), "Euro", Integer.toString(i));
 		}
 		final GregorianCalendar data = new GregorianCalendar();
-		final String dataMinuti = "" + data.get(Calendar.HOUR_OF_DAY) + data.get(Calendar.MINUTE);
+		final String dataMinuti = Integer.toString(data.get(Calendar.HOUR_OF_DAY)) + data.get(Calendar.MINUTE);
 		try {
 			ChartUtilities.saveChartAsPNG(new java.io.File("./immagini/Entrate2" + dataMinuti + ".png"), chart, 550, 550);
 		} catch (final IOException e) {

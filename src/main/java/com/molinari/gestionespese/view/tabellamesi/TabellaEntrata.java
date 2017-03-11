@@ -25,7 +25,7 @@ public class TabellaEntrata {
 	private static String[][] primo;
 	private static String[] nomiColonne = {I18NManager.getSingleton().getMessaggio("fixity"),I18NManager.getSingleton().getMessaggio("variables")};
 
-	private static JScrollPane scrollPane;
+	private JScrollPane scrollPane;
 
 	public TabellaEntrata() {
 		panel = new OggettoVistaBase(new GridLayout(1,0));
@@ -57,8 +57,8 @@ public class TabellaEntrata {
 		final TableF table = new TableF(model.getMatrice(), listaCelle.toArray(new String[listaCelle.size()]));
 
 		table.setFillsViewportHeight(true);
-		final PannelloBase panel = Controllore.getSingleton().getGeneralFrame().getPannelTabs().getPanel();
-		table.setRowHeight(panel.getHeight()/12);
+		final PannelloBase panelTabs = Controllore.getSingleton().getGeneralFrame().getPannelTabs().getPanel();
+		table.setRowHeight(panelTabs.getHeight()/12);
 		return table;
 	}
 
@@ -70,12 +70,12 @@ public class TabellaEntrata {
 		TabellaEntrata.primo = primo;
 	}
 
-	public static JScrollPane getScrollPane() {
+	public JScrollPane getScrollPane() {
 		return scrollPane;
 	}
 
 	protected void setScrollPane(final JScrollPane scrollPane) {
-		TabellaEntrata.scrollPane = scrollPane;
+		this.scrollPane = scrollPane;
 	}
 
 	public static String[] getNomiColonne() {

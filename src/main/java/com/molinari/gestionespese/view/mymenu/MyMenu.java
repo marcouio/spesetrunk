@@ -235,7 +235,7 @@ public class MyMenu extends JMenuBar {
 				final JFrame f = new JFrame();
 				try {
 					AltreUtil.deleteFileDaDirectory2("./immagini/");
-					final GrEntrate1 dialog = new GrEntrate1(true);
+					final GrEntrate1 dialog = new GrEntrate1();
 					dialog.setSize(700, 700);
 					dialog.setVisible(true);
 					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);

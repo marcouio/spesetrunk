@@ -31,7 +31,7 @@ public class GrEntrate1 extends JDialog implements ActionListener {
 	private final double entrateFisse = Database.totaleEntrateAnnoCategoria(Entrate.IMPORTANZA_FISSE);
 	private final double enrateVariabili = Database.totaleEntrateAnnoCategoria(Entrate.IMPORTANZA_VARIABILI);
 
-	public GrEntrate1(final boolean modal) throws SQLException, IOException {
+	public GrEntrate1() throws SQLException, IOException {
 		super();
 
 		dataset = new DefaultPieDataset();
