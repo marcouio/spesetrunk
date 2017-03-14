@@ -110,13 +110,13 @@ public class PannelloAScomparsa implements ItemListener, Finestra {
 		this.pannelloEntrate = pannelloEntrate;
 	}
 
+	@Override
 	public Container getContainer() {
 		return container;
 	}
 
+	@Override
 	public void setContainer(Container container) {
 		this.container = container;
 	}
-
-
 }

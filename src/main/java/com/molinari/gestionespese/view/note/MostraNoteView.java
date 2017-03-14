@@ -86,11 +86,14 @@ public class MostraNoteView implements Finestra {
 		this.getContainer().repaint();
 	}
 
+	@Override
 	public Container getContainer() {
 		return container;
 	}
 
+	@Override
 	public void setContainer(Container container) {
 		this.container = container;
 	}
+	
 }

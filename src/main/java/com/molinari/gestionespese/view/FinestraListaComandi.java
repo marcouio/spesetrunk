@@ -26,8 +26,6 @@ public class FinestraListaComandi implements Finestra {
 		scrollPane = new JScrollPane();
 		insertDati();
 
-
-
 	}
 
 	public void insertDati() {
@@ -64,10 +62,12 @@ public class FinestraListaComandi implements Finestra {
 		this.scrollPane = scrollPane;
 	}
 	
+	@Override
 	public Container getContainer() {
 		return container;
 	}
 
+	@Override
 	public void setContainer(Container container) {
 		this.container = container;
 	}

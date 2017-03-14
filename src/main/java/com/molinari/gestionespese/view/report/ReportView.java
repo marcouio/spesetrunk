@@ -24,7 +24,6 @@ import grafica.componenti.contenitori.PannelloBase;
 
 public class ReportView extends AbstractReportView implements Finestra {
 
-
 	/**
 	 * Create the panel
 	 *

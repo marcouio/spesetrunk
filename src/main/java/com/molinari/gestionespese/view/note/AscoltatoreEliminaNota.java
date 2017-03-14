@@ -8,7 +8,6 @@ import com.molinari.gestionespese.business.Finestra;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import com.molinari.gestionespese.business.comandi.note.CommandDeleteNota;
 import com.molinari.gestionespese.domain.INote;
-import com.molinari.gestionespese.domain.Note;
 import com.molinari.gestionespese.domain.wrapper.WrapNote;
 
 import controller.ControlloreBase;
