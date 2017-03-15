@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import javax.swing.JTabbedPane;
 
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
+import com.molinari.gestionespese.view.OggettoVistaBase;
 
 import controller.ControlloreBase;
 import grafica.componenti.contenitori.PannelloBase;
@@ -47,10 +48,13 @@ public class PerMesiF extends PannelloBase {
 					source.setComponentAt(selectedIndex, tabUG.getPanel());
 				}
 			});
+			OggettoVistaBase panelEntrate = tabEntrate != null ? tabEntrate.getPanel() : null;
+			OggettoVistaBase panelUscite = tabUscite != null ? tabUscite.getPanel() : null;
+			OggettoVistaBase panelGruppi = tabUG != null ? tabUG.getPanel() : null;
 			tabGenerale.setBounds(0, 0, getContenitorePadre().getWidth(), getContenitorePadre().getHeight());
-			tabGenerale.addTab(I18NManager.getSingleton().getMessaggio("income"), tabEntrate.getPanel());
-			tabGenerale.addTab(I18NManager.getSingleton().getMessaggio("withdrawal"), tabUscite.getPanel());
-			tabGenerale.addTab(I18NManager.getSingleton().getMessaggio("groupscharge"), tabUG.getPanel());
+			tabGenerale.addTab(I18NManager.getSingleton().getMessaggio("income"), panelEntrate);
+			tabGenerale.addTab(I18NManager.getSingleton().getMessaggio("withdrawal"), panelUscite);
+			tabGenerale.addTab(I18NManager.getSingleton().getMessaggio("groupscharge"), panelGruppi);
 
 			this.add(tabGenerale);
 
