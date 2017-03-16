@@ -18,11 +18,11 @@ public class PannelloAScomparsa implements ItemListener, Finestra {
 	private Container container;
 	private final ArrayList<JPanel>  pannelli = new ArrayList<>();
 	private JComboBox<String>                combo;
-	private transient SottoPannelloDatiSpese   pannelloSpese;
-	private transient SottoPannelloDatiEntrate pannelloEntrate;
-	private transient SottoPannelloMesi        pannelloMesi;
-	private transient SottoPannelloCategorie   pannelloCategorie;
-	private transient SottoPannelloTotali      pannelloTotali;
+	private SottoPannelloDatiSpese   pannelloSpese;
+	private SottoPannelloDatiEntrate pannelloEntrate;
+	private SottoPannelloMesi        pannelloMesi;
+	private SottoPannelloCategorie   pannelloCategorie;
+	private SottoPannelloTotali      pannelloTotali;
 	CostruttoreSottoPannello[] arrayPannelli;
 
 	public PannelloAScomparsa(Container cont) {
