@@ -103,7 +103,7 @@ public class WrapBudget extends Observable implements IDAO<IBudget>, IBudget{
 	@Override
 	public boolean insert(IBudget oggettoEntita) {
 
-		final IBudget budgetLoc = (IBudget)oggettoEntita;
+		final IBudget budgetLoc = oggettoEntita;
 
 		String sql = "INSERT INTO " + Budget.NOME_TABELLA + " (" + Budget.COL_IDCATEGORIE+", "+Budget.COL_PERCSULTOT+") VALUES(?,?)";
 
@@ -132,7 +132,7 @@ public class WrapBudget extends Observable implements IDAO<IBudget>, IBudget{
 	@Override
 	public boolean update(IBudget oggettoEntita) {
 
-		final IBudget budgetLoc = (IBudget) oggettoEntita;
+		final IBudget budgetLoc = oggettoEntita;
 		final String sql = getQueryUpdate(budgetLoc);
 		
 		return base.executeUpdate(sql);

@@ -23,6 +23,7 @@ import db.dao.IDAO;
 
 public class WrapUtenti extends Observable implements IDAO<IUtenti>, IUtenti {
 
+	private static final long serialVersionUID = 1L;
 	private static final String WHERE = " WHERE ";
 	private static final String SELECT_FROM = "SELECT * FROM ";
 	private final IUtenti utente;
@@ -131,7 +132,7 @@ public class WrapUtenti extends Observable implements IDAO<IUtenti>, IUtenti {
 	@Override
 	public boolean insert(IUtenti oggettoEntita) {
 
-		final IUtenti utenteLoc = (IUtenti) oggettoEntita;
+		final IUtenti utenteLoc = oggettoEntita;
 
 		final String sql = "INSERT INTO " + Utenti.NOME_TABELLA + " (" + Utenti.COL_USERNAME + ", " + Utenti.COL_PASSWOR + ", " +  Utenti.COL_NOME
 				+ ", " + Utenti.COL_COGNOME + ") VALUES (?,?,?,?)";
@@ -171,7 +172,7 @@ public class WrapUtenti extends Observable implements IDAO<IUtenti>, IUtenti {
 	public boolean update(IUtenti oggettoEntita) {
 		boolean ok = false;
 
-		final IUtenti utenteLoc = (IUtenti) oggettoEntita;
+		final IUtenti utenteLoc = oggettoEntita;
 		final String sql = "UPDATE " + Utenti.NOME_TABELLA + " SET " + Utenti.COL_USERNAME + " = " + utenteLoc.getusername() + ", "
 				+ Utenti.COL_PASSWOR + " = " + utenteLoc.getpassword() + ", " + Utenti.COL_NOME + " = " + utenteLoc.getnome() + ", "
 				+ Utenti.COL_COGNOME + " = " + utenteLoc.getCognome() + WHERE + Utenti.ID + " = " + utenteLoc.getidUtente();

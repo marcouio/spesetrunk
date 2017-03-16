@@ -20,6 +20,7 @@ import db.dao.IDAO;
 
 public class WrapRisparmio extends Observable implements IDAO<IRisparmio>,IRisparmio{
 
+	private static final long serialVersionUID = 1L;
 	private static final String WHERE = " WHERE ";
 	private final IRisparmio risparmio;
 	private WrapBase base = new WrapBase();
@@ -114,7 +115,7 @@ public class WrapRisparmio extends Observable implements IDAO<IRisparmio>,IRispa
 	@Override
 	public boolean update(IRisparmio oggettoEntita) {
 
-		final IRisparmio risparmioLoc = (IRisparmio) oggettoEntita;
+		final IRisparmio risparmioLoc = oggettoEntita;
 		final String sql = "UPDATE "+Risparmio.NOME_TABELLA+ " SET " +Risparmio.COL_PERCSULTOT+ " = " +risparmioLoc.getPerSulTotale()
 		+WHERE+ Risparmio.ID +" = "+risparmioLoc.getidRisparmio();
 		

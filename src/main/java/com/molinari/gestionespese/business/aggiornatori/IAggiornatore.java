@@ -1,5 +1,6 @@
 package com.molinari.gestionespese.business.aggiornatori;
 
+@FunctionalInterface
 public interface IAggiornatore {
 
 	/**

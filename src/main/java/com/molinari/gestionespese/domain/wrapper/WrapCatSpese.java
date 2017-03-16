@@ -25,6 +25,7 @@ import db.dao.IDAO;
 
 public class WrapCatSpese extends Observable implements ICatSpese, IDAO<ICatSpese> {
 
+	private static final long serialVersionUID = 1L;
 	private static final String WHERE = " WHERE ";
 	private final ICatSpese categoria;
 	private WrapBase base = new WrapBase();
@@ -139,8 +140,7 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO<ICatSpes
 	@Override
 	public boolean update(ICatSpese oggettoEntita) {
 
-
-		final ICatSpese categoriaLoc = (ICatSpese) oggettoEntita;
+		final ICatSpese categoriaLoc = oggettoEntita;
 		final String sql = "UPDATE " + CatSpese.NOME_TABELLA + " SET " + CatSpese.COL_DESCRIZIONE + " = '" + categoriaLoc.getdescrizione() + "', " + CatSpese.COL_IMPORTANZA + " = '"
 				+ categoriaLoc.getimportanza() + "', " + CatSpese.COL_NOME + " = '" + categoriaLoc.getnome() + "', " + CatSpese.IDGRUPPO + " = " + categoriaLoc.getGruppi().getidGruppo()
 				+ WHERE + CatSpese.ID + " = " + categoriaLoc.getidCategoria();

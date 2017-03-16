@@ -27,6 +27,7 @@ import db.dao.IDAO;
 
 public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> {
 
+	private static final long serialVersionUID = 1L;
 	private static final String AND = " AND ";
 	private static final String DELETE_FROM = "DELETE FROM ";
 	private static final String WHERE = " WHERE ";
@@ -199,8 +200,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 	@Override
 	public boolean update(final IEntrate oggettoEntita) {
 
-		final Entrate entrata = (Entrate) oggettoEntita;
-		final String sql = getQueryUpdate(entrata);
+		final String sql = getQueryUpdate(oggettoEntita);
 		
 		boolean ok = base.executeUpdate(sql);
 		
@@ -208,7 +208,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 		return ok;
 	}
 
-	private String getQueryUpdate(final Entrate entrata) {
+	private String getQueryUpdate(final IEntrate entrata) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("UPDATE ");
 		sb.append(Entrate.NOME_TABELLA);

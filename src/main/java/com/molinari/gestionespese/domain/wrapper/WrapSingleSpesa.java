@@ -33,6 +33,7 @@ import grafica.componenti.alert.Alert;
 
 public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, ISingleSpesa {
 
+	private static final long serialVersionUID = 1L;
 	private static final String AND = " AND ";
 	private static final String DELETE_FROM = "DELETE FROM ";
 	private static final String WHERE = " WHERE ";
@@ -164,7 +165,7 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 
 		final String sql = "INSERT INTO " + SingleSpesa.NOME_TABELLA + " (" + SingleSpesa.COL_DATA + ", " + SingleSpesa.COL_INEURO + ", " + SingleSpesa.COL_DESCRIZIONE + ", " + SingleSpesa.COL_IDCATEGORIE
 				+ ", " + SingleSpesa.COL_NOME + ", " + SingleSpesa.COL_IDUTENTE + ", " + SingleSpesa.COL_DATAINS + ") VALUES (?,?,?,?,?,?,?)";
-		final ISingleSpesa uscitaLoc = (ISingleSpesa) oggettoEntita;
+		final ISingleSpesa uscitaLoc = oggettoEntita;
 		final boolean inserted = new ExecutePreparedStatement<ISingleSpesa>() {
 
 			@Override
@@ -219,7 +220,7 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 	}
 
 	private String getUpdateQuery(final ISingleSpesa oggettoEntita) {
-		final ISingleSpesa uscitaLoc = (ISingleSpesa) oggettoEntita;
+		final ISingleSpesa uscitaLoc = oggettoEntita;
 		StringBuilder sb = new StringBuilder();
 		sb.append("UPDATE ");
 		sb.append(SingleSpesa.NOME_TABELLA);

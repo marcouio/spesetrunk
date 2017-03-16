@@ -5,6 +5,7 @@ public class CorreggiTesto {
 	private String testo;
 
 	public CorreggiTesto() {
+		//do nothing
 	}
 
 	public CorreggiTesto(final String testo) {

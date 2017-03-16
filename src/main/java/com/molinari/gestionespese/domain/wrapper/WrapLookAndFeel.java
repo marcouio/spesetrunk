@@ -19,6 +19,7 @@ import db.dao.IDAO;
 
 public class WrapLookAndFeel extends Observable implements IDAO<ILookandfeel>, ILookandfeel {
 
+	private static final long serialVersionUID = 1L;
 	private final ILookandfeel lookandfeel;
 	private WrapBase base = new WrapBase();
 
@@ -132,12 +133,9 @@ public class WrapLookAndFeel extends Observable implements IDAO<ILookandfeel>, I
 
 	@Override
 	public boolean update(ILookandfeel oggettoEntita) {
-
-		final ILookandfeel look = (ILookandfeel) oggettoEntita;
+		final ILookandfeel look = oggettoEntita;
 		final String sql = getQueryUpdate(look);
 		return base .executeUpdate(sql);
-
-
 	}
 
 	private String getQueryUpdate(final ILookandfeel look) {

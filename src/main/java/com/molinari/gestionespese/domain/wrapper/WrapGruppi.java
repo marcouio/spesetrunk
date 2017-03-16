@@ -154,7 +154,7 @@ public class WrapGruppi extends Observable implements IDAO<IGruppi>, IGruppi {
 	@Override
 	public boolean update(final IGruppi oggettoEntita) {
 
-		final IGruppi gruppoLoc = (IGruppi) oggettoEntita;
+		final IGruppi gruppoLoc = oggettoEntita;
 		final String sql = getQueryUpdate(gruppoLoc);
 		
 		return base.executeUpdate(sql);
