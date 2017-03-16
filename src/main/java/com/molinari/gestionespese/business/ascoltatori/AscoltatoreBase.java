@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.util.logging.Level;
 
 import com.molinari.gestionespese.business.Controllore;
-import com.molinari.gestionespese.business.GestioneSpeseException;
 import com.molinari.gestionespese.business.aggiornatori.IAggiornatore;
 
 import controller.ControlloreBase;
@@ -39,6 +38,6 @@ public abstract class AscoltatoreBase implements ActionListener {
 	 * @param e
 	 * @throws Exception
 	 */
-	protected abstract void actionPerformedOverride(final ActionEvent e) throws GestioneSpeseException;
+	protected abstract void actionPerformedOverride(final ActionEvent e);
 
 }
