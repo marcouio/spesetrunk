@@ -1,7 +1,6 @@
 package com.molinari.gestionespese.business.comandi;
 
 import com.molinari.gestionespese.business.cache.AbstractCacheBase;
-
 import com.molinari.utility.commands.beancommands.AbstractCommandForJavaBean;
 import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
 import com.molinari.utility.database.dao.IDAO;
@@ -15,7 +14,7 @@ public class CommandDelete<T extends AbstractOggettoEntita> extends AbstractComm
 	}
 
 	@Override
-	public boolean execute() throws Exception {
+	public boolean execute() {
 		if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
 			mappaCache.remove(entita.getIdEntita());
 			return true;
@@ -26,7 +25,7 @@ public class CommandDelete<T extends AbstractOggettoEntita> extends AbstractComm
 	}
 
 	@Override
-	public boolean unExecute() throws Exception {
+	public boolean unExecute() {
 		if (wrap.insert(entita)) {
 			mappaCache.put(entita.getIdEntita(), entita);
 			return true;

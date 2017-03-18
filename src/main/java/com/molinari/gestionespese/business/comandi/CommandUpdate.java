@@ -16,12 +16,12 @@ public class CommandUpdate<T extends AbstractOggettoEntita> extends AbstractComm
 	}
 
 	@Override
-	public boolean execute() throws Exception {
+	public boolean execute() {
 		return wrap.update(newEntita);
 	}
 
 	@Override
-	public boolean unExecute() throws Exception {
+	public boolean unExecute() {
 		return wrap.update(oldEntita);
 	}
 
