@@ -23,13 +23,13 @@ import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 
-import controller.ControlloreBase;
-import db.Clausola;
-import db.ConnectionPool;
-import db.ExecutePreparedStatement;
-import db.ExecuteResultSet;
-import db.dao.IDAO;
-import grafica.componenti.alert.Alert;
+import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.database.Clausola;
+import com.molinari.utility.database.ConnectionPool;
+import com.molinari.utility.database.ExecutePreparedStatement;
+import com.molinari.utility.database.ExecuteResultSet;
+import com.molinari.utility.database.dao.IDAO;
+import com.molinari.utility.graphic.component.alert.Alert;
 
 public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, ISingleSpesa {
 

@@ -2,7 +2,7 @@ package com.molinari.gestionespese.domain;
 
 import java.io.Serializable;
 
-import command.javabeancommand.AbstractOggettoEntita;
+import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
 
 public interface INote extends AbstractOggettoEntita, Serializable{
 

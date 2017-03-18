@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.swing.ButtonGroup;
 
-import grafica.componenti.contenitori.PannelloBase;
+import com.molinari.utility.graphic.component.container.PannelloBase;
 
 public class PannelloBottoni extends PannelloBase implements ActionListener {
 

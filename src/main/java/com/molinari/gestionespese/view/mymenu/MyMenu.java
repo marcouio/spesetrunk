@@ -42,7 +42,7 @@ import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 import com.molinari.gestionespese.view.login.Login;
 import com.molinari.gestionespese.view.login.Registrazione;
 
-import controller.ControlloreBase;
+import com.molinari.utility.controller.ControlloreBase;
 
 public class MyMenu extends JMenuBar {
 

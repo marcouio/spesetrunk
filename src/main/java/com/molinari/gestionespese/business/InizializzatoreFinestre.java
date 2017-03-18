@@ -15,10 +15,10 @@ import com.molinari.gestionespese.view.componenti.componentipannello.PannelloASc
 import com.molinari.gestionespese.view.note.MostraNoteView;
 import com.molinari.gestionespese.view.report.ReportView;
 
-import controller.ControlloreBase;
-import grafica.componenti.alert.Alert;
-import grafica.componenti.contenitori.PannelloBase;
-import math.UtilMath;
+import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.math.UtilMath;
 
 public class InizializzatoreFinestre {
 

@@ -9,7 +9,7 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import command.javabeancommand.AbstractOggettoEntita;
+import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
 
 /**
  * The persistent class for the NOTE database table.

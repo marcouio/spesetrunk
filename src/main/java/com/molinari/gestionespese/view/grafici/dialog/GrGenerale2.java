@@ -24,7 +24,7 @@ import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.view.componenti.movimenti.DialogHandler;
 import com.molinari.gestionespese.view.font.ButtonF;
 
-import controller.ControlloreBase;
+import com.molinari.utility.controller.ControlloreBase;
 
 public class GrGenerale2 extends JDialog implements ActionListener {
 

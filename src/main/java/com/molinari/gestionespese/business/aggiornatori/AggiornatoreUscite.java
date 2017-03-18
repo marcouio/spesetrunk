@@ -4,7 +4,7 @@ import java.util.logging.Level;
 
 import com.molinari.gestionespese.domain.SingleSpesa;
 
-import controller.ControlloreBase;
+import com.molinari.utility.controller.ControlloreBase;
 
 public class AggiornatoreUscite extends AggiornatoreBase implements IAggiornatore {
 

@@ -12,7 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import command.javabeancommand.AbstractOggettoEntita;
+import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
 
 /**
  * The persistent class for the CATSPESE database table.

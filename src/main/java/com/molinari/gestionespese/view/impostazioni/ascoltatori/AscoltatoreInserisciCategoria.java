@@ -9,7 +9,7 @@ import com.molinari.gestionespese.business.comandi.categorie.CommandInserisciCat
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.view.impostazioni.CategorieView;
 
-import grafica.componenti.alert.Alert;
+import com.molinari.utility.graphic.component.alert.Alert;
 
 public class AscoltatoreInserisciCategoria extends AscoltatoreAggiornatoreTutto {
 

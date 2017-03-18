@@ -10,8 +10,8 @@ import com.molinari.gestionespese.business.comandi.note.CommandDeleteNota;
 import com.molinari.gestionespese.domain.INote;
 import com.molinari.gestionespese.domain.wrapper.WrapNote;
 
-import controller.ControlloreBase;
-import grafica.componenti.alert.Alert;
+import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.alert.Alert;
 
 public class AscoltatoreEliminaNota extends AscoltatoreAggiornatoreNiente {
 

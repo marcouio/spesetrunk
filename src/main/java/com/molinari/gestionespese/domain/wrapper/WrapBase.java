@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
-import controller.ControlloreBase;
-import db.ConnectionPool;
+import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.database.ConnectionPool;
 
 public class WrapBase implements Serializable {
 

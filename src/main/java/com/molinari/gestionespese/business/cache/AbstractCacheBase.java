@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-import command.javabeancommand.AbstractOggettoEntita;
-import controller.ControlloreBase;
-import db.dao.IDAO;
+import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
+import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.database.dao.IDAO;
 
 public abstract class AbstractCacheBase<T extends AbstractOggettoEntita> {
 

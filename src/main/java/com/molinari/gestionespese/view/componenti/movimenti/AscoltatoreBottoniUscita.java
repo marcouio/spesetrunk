@@ -13,7 +13,7 @@ import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.wrapper.WrapSingleSpesa;
 
-import grafica.componenti.alert.Alert;
+import com.molinari.utility.graphic.component.alert.Alert;
 
 public class AscoltatoreBottoniUscita extends MouseAdapter {
 

@@ -6,7 +6,7 @@ import com.molinari.gestionespese.domain.INote;
 import com.molinari.gestionespese.domain.Note;
 import com.molinari.gestionespese.domain.wrapper.WrapNote;
 
-import grafica.componenti.alert.Alert;
+import com.molinari.utility.graphic.component.alert.Alert;
 
 public class CommandUpdateNota extends CommandUpdate<INote> {
 

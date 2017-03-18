@@ -32,7 +32,7 @@ import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.view.componenti.movimenti.DialogHandler;
 import com.molinari.gestionespese.view.font.ButtonF;
 
-import controller.ControlloreBase;
+import com.molinari.utility.controller.ControlloreBase;
 
 public class GrGenerale extends JDialog implements ActionListener {
 

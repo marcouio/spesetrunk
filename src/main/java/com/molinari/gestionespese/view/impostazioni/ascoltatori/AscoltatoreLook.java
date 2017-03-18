@@ -16,7 +16,7 @@ import com.molinari.gestionespese.domain.ILookandfeel;
 import com.molinari.gestionespese.domain.Lookandfeel;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 
-import controller.ControlloreBase;
+import com.molinari.utility.controller.ControlloreBase;
 
 public class AscoltatoreLook implements ActionListener {
 

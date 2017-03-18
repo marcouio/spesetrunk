@@ -6,7 +6,7 @@ import java.util.logging.Level;
 
 import com.molinari.gestionespese.business.config.ConfiguratoreXml;
 
-import controller.ControlloreBase;
+import com.molinari.utility.controller.ControlloreBase;
 
 public class I18NManager {
 

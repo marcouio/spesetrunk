@@ -13,8 +13,8 @@ import com.molinari.gestionespese.business.generatori.TableModelUscite;
 import com.molinari.gestionespese.view.OggettoVistaBase;
 import com.molinari.gestionespese.view.font.TableF;
 
-import controller.ControlloreBase;
-import grafica.componenti.table.TableModel;
+import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.table.TableModel;
 
 public class TabellaUscita {
 

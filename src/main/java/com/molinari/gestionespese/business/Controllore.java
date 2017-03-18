@@ -18,11 +18,11 @@ import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapUtenti;
 import com.molinari.gestionespese.view.GeneralFrame;
 
-import command.AbstractCommand;
-import command.CommandManager;
-import controller.ControlloreBase;
-import db.ExecuteResultSet;
-import grafica.componenti.contenitori.FrameBase;
+import com.molinari.utility.commands.AbstractCommand;
+import com.molinari.utility.commands.CommandManager;
+import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.database.ExecuteResultSet;
+import com.molinari.utility.graphic.component.container.FrameBase;
 
 public class Controllore extends ControlloreBase{
 

@@ -5,8 +5,8 @@ import com.molinari.gestionespese.business.comandi.CommandInserisci;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.wrapper.WrapCatSpese;
 
-import command.ICommand;
-import grafica.componenti.alert.Alert;
+import com.molinari.utility.commands.ICommand;
+import com.molinari.utility.graphic.component.alert.Alert;
 
 public class CommandInserisciCategoria extends CommandInserisci<ICatSpese> implements ICommand {
 

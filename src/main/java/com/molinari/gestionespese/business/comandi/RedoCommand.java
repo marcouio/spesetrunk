@@ -1,6 +1,6 @@
 package com.molinari.gestionespese.business.comandi;
 
-import command.AbstractCommand;
+import com.molinari.utility.commands.AbstractCommand;
 
 public class RedoCommand extends AbstractCommand {
 

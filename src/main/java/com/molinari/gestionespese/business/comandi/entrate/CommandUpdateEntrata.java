@@ -5,8 +5,8 @@ import com.molinari.gestionespese.business.comandi.CommandUpdate;
 import com.molinari.gestionespese.domain.IEntrate;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
 
-import command.ICommand;
-import grafica.componenti.alert.Alert;
+import com.molinari.utility.commands.ICommand;
+import com.molinari.utility.graphic.component.alert.Alert;
 
 public class CommandUpdateEntrata extends CommandUpdate<IEntrate> implements ICommand {
 

@@ -11,7 +11,7 @@ import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.view.impostazioni.CategorieView;
 
-import grafica.componenti.alert.Alert;
+import com.molinari.utility.graphic.component.alert.Alert;
 
 public class AscoltatoreAggiornaCategoria extends AscoltatoreAggiornatoreTutto {
 

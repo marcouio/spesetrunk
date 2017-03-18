@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.aggiornatori.IAggiornatore;
 
-import controller.ControlloreBase;
+import com.molinari.utility.controller.ControlloreBase;
 
 public abstract class AscoltatoreBase implements ActionListener {
 

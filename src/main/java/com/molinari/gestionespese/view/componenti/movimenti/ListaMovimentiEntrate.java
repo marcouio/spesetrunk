@@ -16,7 +16,7 @@ import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.wrapper.Model;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
 
-import controller.ControlloreBase;
+import com.molinari.utility.controller.ControlloreBase;
 
 public class ListaMovimentiEntrate extends AbstractListaMov {
 

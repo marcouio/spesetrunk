@@ -17,9 +17,9 @@ import com.molinari.gestionespese.view.font.LabelListaGruppi;
 import com.molinari.gestionespese.view.font.TableF;
 import com.molinari.gestionespese.view.font.TextFieldF;
 
-import controller.ControlloreBase;
-import grafica.componenti.contenitori.PannelloBase;
-import math.UtilMath;
+import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.math.UtilMath;
 
 public abstract class AbstractListaMov extends PannelloBase {
 	private static final long serialVersionUID = 1L;

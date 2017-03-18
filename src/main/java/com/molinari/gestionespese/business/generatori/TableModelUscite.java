@@ -9,7 +9,7 @@ import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.domain.ICatSpese;
 
-import grafica.componenti.table.TableModel;
+import com.molinari.utility.graphic.component.table.TableModel;
 
 public class TableModelUscite extends TableModel{
 	/**

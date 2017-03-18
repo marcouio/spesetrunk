@@ -1,6 +1,6 @@
 package com.molinari.gestionespese.business;
 
-import db.ConnectionPool;
+import com.molinari.utility.database.ConnectionPool;
 
 public class ConnectionPoolGGS extends ConnectionPool {
 

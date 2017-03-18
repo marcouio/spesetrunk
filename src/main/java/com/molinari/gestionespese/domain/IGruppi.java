@@ -3,7 +3,7 @@ package com.molinari.gestionespese.domain;
 import java.io.Serializable;
 import java.util.Set;
 
-import command.javabeancommand.AbstractOggettoEntita;
+import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
 
 public interface IGruppi extends AbstractOggettoEntita, Serializable{
 

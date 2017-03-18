@@ -10,7 +10,7 @@ import com.molinari.gestionespese.business.Finestra;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.view.font.TableF;
 
-import grafica.componenti.contenitori.PannelloBase;
+import com.molinari.utility.graphic.component.container.PannelloBase;
 
 public class FinestraListaComandi implements Finestra {
 

@@ -1,6 +1,6 @@
 package com.molinari.gestionespese.domain;
 
-import command.javabeancommand.AbstractOggettoEntita;
+import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
 
 public interface IBudget extends AbstractOggettoEntita{
 	public int getidBudget();

@@ -13,11 +13,11 @@ import com.molinari.gestionespese.domain.Budget;
 import com.molinari.gestionespese.domain.IBudget;
 import com.molinari.gestionespese.domain.ICatSpese;
 
-import controller.ControlloreBase;
-import db.Clausola;
-import db.ExecutePreparedStatement;
-import db.ExecuteResultSet;
-import db.dao.IDAO;
+import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.database.Clausola;
+import com.molinari.utility.database.ExecutePreparedStatement;
+import com.molinari.utility.database.ExecuteResultSet;
+import com.molinari.utility.database.dao.IDAO;
 
 public class WrapBudget extends Observable implements IDAO<IBudget>, IBudget{
 

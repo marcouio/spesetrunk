@@ -11,8 +11,8 @@ import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.SingleSpesa;
 
-import controller.ControlloreBase;
-import grafica.componenti.alert.Alert;
+import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.alert.Alert;
 
 public class AscoltatoreNumeroMovimenti implements ActionListener {
 

@@ -6,7 +6,7 @@ import java.util.Map;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 
-import grafica.componenti.table.TableModel;
+import com.molinari.utility.graphic.component.table.TableModel;
 
 public class TableModelEntrate extends TableModel{
 	protected static final Map<Integer, String> mapMesi = new HashMap<>();

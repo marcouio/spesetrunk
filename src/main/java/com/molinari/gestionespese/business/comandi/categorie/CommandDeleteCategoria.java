@@ -6,8 +6,8 @@ import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.wrapper.WrapCatSpese;
 
-import command.ICommand;
-import grafica.componenti.alert.Alert;
+import com.molinari.utility.commands.ICommand;
+import com.molinari.utility.graphic.component.alert.Alert;
 
 public class CommandDeleteCategoria extends CommandDelete<ICatSpese> implements ICommand {
 

@@ -18,12 +18,12 @@ import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.Note;
 import com.molinari.gestionespese.domain.Utenti;
 
-import controller.ControlloreBase;
-import db.Clausola;
-import db.ConnectionPool;
-import db.ExecutePreparedStatement;
-import db.ExecuteResultSet;
-import db.dao.IDAO;
+import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.database.Clausola;
+import com.molinari.utility.database.ConnectionPool;
+import com.molinari.utility.database.ExecutePreparedStatement;
+import com.molinari.utility.database.ExecuteResultSet;
+import com.molinari.utility.database.dao.IDAO;
 
 public class WrapNote extends Observable implements IDAO<INote>, INote {
 

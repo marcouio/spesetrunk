@@ -45,8 +45,8 @@ import com.molinari.gestionespese.view.tabellamesi.PerMesiF;
 import com.molinari.gestionespese.view.tabellamesi.TabellaUscita;
 import com.molinari.gestionespese.view.tabellamesi.TabellaUscitaGruppi;
 
-import controller.ControlloreBase;
-import db.ConnectionPool;
+import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.database.ConnectionPool;
 
 public class AggiornatoreManager {
 

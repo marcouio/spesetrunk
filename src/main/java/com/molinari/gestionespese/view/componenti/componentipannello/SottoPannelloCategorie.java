@@ -19,7 +19,7 @@ import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.view.font.LabelTestoPiccolo;
 import com.molinari.gestionespese.view.font.TextFieldF;
 
-import controller.ControlloreBase;
+import com.molinari.utility.controller.ControlloreBase;
 
 public class SottoPannelloCategorie {
 

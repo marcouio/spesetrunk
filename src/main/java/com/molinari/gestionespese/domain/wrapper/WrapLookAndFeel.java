@@ -11,11 +11,11 @@ import java.util.logging.Level;
 import com.molinari.gestionespese.domain.ILookandfeel;
 import com.molinari.gestionespese.domain.Lookandfeel;
 
-import controller.ControlloreBase;
-import db.Clausola;
-import db.ExecutePreparedStatement;
-import db.ExecuteResultSet;
-import db.dao.IDAO;
+import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.database.Clausola;
+import com.molinari.utility.database.ExecutePreparedStatement;
+import com.molinari.utility.database.ExecuteResultSet;
+import com.molinari.utility.database.dao.IDAO;
 
 public class WrapLookAndFeel extends Observable implements IDAO<ILookandfeel>, ILookandfeel {
 

@@ -5,8 +5,8 @@ import com.molinari.gestionespese.business.comandi.CommandDelete;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapGruppi;
 
-import command.ICommand;
-import grafica.componenti.alert.Alert;
+import com.molinari.utility.commands.ICommand;
+import com.molinari.utility.graphic.component.alert.Alert;
 
 public class CommandDeleteGruppo extends CommandDelete<IGruppi> implements ICommand{
 

@@ -23,7 +23,7 @@ import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.view.componenti.movimenti.DialogHandler;
 import com.molinari.gestionespese.view.font.ButtonF;
 
-import controller.ControlloreBase;
+import com.molinari.utility.controller.ControlloreBase;
 
 public class GrEntrate2 extends JDialog implements ActionListener {
 

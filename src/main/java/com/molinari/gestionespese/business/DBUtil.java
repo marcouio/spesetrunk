@@ -15,7 +15,7 @@ import org.sqlite.JDBC;
 
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 
-import controller.ControlloreBase;
+import com.molinari.utility.controller.ControlloreBase;
 
 public class DBUtil {
 

@@ -11,8 +11,8 @@ import com.molinari.gestionespese.business.generatori.TableModelUsciteGruppi;
 import com.molinari.gestionespese.view.OggettoVistaBase;
 import com.molinari.gestionespese.view.font.TableF;
 
-import controller.ControlloreBase;
-import grafica.componenti.table.TableModel.Riga;
+import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.table.TableModel.Riga;
 
 public class TabellaUscitaGruppi {
 

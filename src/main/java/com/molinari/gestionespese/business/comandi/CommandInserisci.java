@@ -2,9 +2,9 @@ package com.molinari.gestionespese.business.comandi;
 
 import com.molinari.gestionespese.business.cache.AbstractCacheBase;
 
-import command.javabeancommand.AbstractCommandForJavaBean;
-import command.javabeancommand.AbstractOggettoEntita;
-import db.dao.IDAO;
+import com.molinari.utility.commands.beancommands.AbstractCommandForJavaBean;
+import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
+import com.molinari.utility.database.dao.IDAO;
 
 public class CommandInserisci<T extends AbstractOggettoEntita> extends AbstractCommandForJavaBean<T> {
 

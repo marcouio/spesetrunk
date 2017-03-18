@@ -10,7 +10,7 @@ import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.IGruppi;
 
-import grafica.componenti.table.TableModel;
+import com.molinari.utility.graphic.component.table.TableModel;
 
 public class TableModelUsciteGruppi extends TableModel{
 

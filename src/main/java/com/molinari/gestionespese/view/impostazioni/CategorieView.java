@@ -31,7 +31,7 @@ import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreAggio
 import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreCancellaCategoria;
 import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreInserisciCategoria;
 
-import controller.ControlloreBase;
+import com.molinari.utility.controller.ControlloreBase;
 
 public class CategorieView extends AbstractCategorieView {
 

@@ -7,8 +7,8 @@ import java.util.logging.Level;
 
 import org.apache.commons.math3.util.MathUtils;
 
-import controller.ControlloreBase;
-import grafica.componenti.alert.Alert;
+import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.alert.Alert;
 
 public class AltreUtil {
 

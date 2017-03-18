@@ -18,9 +18,9 @@ import com.molinari.gestionespese.view.font.ButtonF;
 import com.molinari.gestionespese.view.font.CheckBoxF;
 import com.molinari.gestionespese.view.font.LabelListaGruppi;
 
-import controller.ControlloreBase;
-import grafica.componenti.alert.Alert;
-import grafica.componenti.contenitori.PannelloBase;
+import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.graphic.component.container.PannelloBase;
 
 public class ReportView extends AbstractReportView implements Finestra {
 

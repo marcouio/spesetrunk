@@ -5,7 +5,7 @@ import com.molinari.gestionespese.business.comandi.CommandUpdate;
 import com.molinari.gestionespese.domain.ISingleSpesa;
 import com.molinari.gestionespese.domain.wrapper.WrapSingleSpesa;
 
-import grafica.componenti.alert.Alert;
+import com.molinari.utility.graphic.component.alert.Alert;
 
 public class CommandUpdateSpesa extends CommandUpdate<ISingleSpesa> {
 

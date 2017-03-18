@@ -9,8 +9,8 @@ import javax.swing.JTabbedPane;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.view.OggettoVistaBase;
 
-import controller.ControlloreBase;
-import grafica.componenti.contenitori.PannelloBase;
+import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.container.PannelloBase;
 
 public class PerMesiF extends PannelloBase {
 

@@ -7,7 +7,7 @@ import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreTu
 import com.molinari.gestionespese.business.comandi.categorie.CommandDeleteCategoria;
 import com.molinari.gestionespese.view.impostazioni.CategorieView;
 
-import grafica.componenti.alert.Alert;
+import com.molinari.utility.graphic.component.alert.Alert;
 
 public class AscoltatoreCancellaCategoria extends AscoltatoreAggiornatoreTutto {
 

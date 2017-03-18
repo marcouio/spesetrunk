@@ -16,12 +16,12 @@ import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.SingleSpesa;
 
-import controller.ControlloreBase;
-import db.Clausola;
-import db.ConnectionPool;
-import db.ExecutePreparedStatement;
-import db.ExecuteResultSet;
-import db.dao.IDAO;
+import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.database.Clausola;
+import com.molinari.utility.database.ConnectionPool;
+import com.molinari.utility.database.ExecutePreparedStatement;
+import com.molinari.utility.database.ExecuteResultSet;
+import com.molinari.utility.database.dao.IDAO;
 
 public class WrapCatSpese extends Observable implements ICatSpese, IDAO<ICatSpese> {
 

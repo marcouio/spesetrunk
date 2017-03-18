@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.DBUtil;
 
-import controller.ControlloreBase;
+import com.molinari.utility.controller.ControlloreBase;
 
 public class ScrittoreReportTxt extends ScrittoreReportBase implements IScrittoreReport {
 

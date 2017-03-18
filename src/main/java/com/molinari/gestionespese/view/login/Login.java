@@ -18,8 +18,8 @@ import com.molinari.gestionespese.view.font.LabelTitolo;
 import com.molinari.gestionespese.view.font.TextFieldF;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 
-import controller.ControlloreBase;
-import grafica.componenti.alert.Alert;
+import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.alert.Alert;
 
 public class Login {
 

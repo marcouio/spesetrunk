@@ -5,7 +5,7 @@ import com.molinari.gestionespese.business.comandi.CommandDelete;
 import com.molinari.gestionespese.domain.INote;
 import com.molinari.gestionespese.domain.wrapper.WrapNote;
 
-import grafica.componenti.alert.Alert;
+import com.molinari.utility.graphic.component.alert.Alert;
 
 public class CommandDeleteNota extends CommandDelete<INote> {
 

@@ -25,8 +25,8 @@ import com.molinari.gestionespese.view.entrateuscite.EntrateView;
 import com.molinari.gestionespese.view.entrateuscite.UsciteView;
 import com.molinari.gestionespese.view.mymenu.MyMenu;
 
-import grafica.componenti.alert.Alert;
-import grafica.componenti.contenitori.PannelloBase;
+import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.graphic.component.container.PannelloBase;
 
 public class GeneralFrame extends PannelloBase {
 

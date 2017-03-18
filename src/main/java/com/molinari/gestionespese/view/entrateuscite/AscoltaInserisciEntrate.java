@@ -7,7 +7,7 @@ import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreEn
 import com.molinari.gestionespese.business.comandi.entrate.CommandInserisciEntrata;
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 
-import grafica.componenti.alert.Alert;
+import com.molinari.utility.graphic.component.alert.Alert;
 
 public class AscoltaInserisciEntrate extends AscoltatoreAggiornatoreEntrate {
 

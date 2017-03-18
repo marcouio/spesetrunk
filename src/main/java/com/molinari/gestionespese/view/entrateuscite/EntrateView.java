@@ -29,8 +29,8 @@ import com.molinari.gestionespese.view.font.LabelListaGruppi;
 import com.molinari.gestionespese.view.font.TextAreaF;
 import com.molinari.gestionespese.view.font.TextFieldF;
 
-import controller.ControlloreBase;
-import grafica.componenti.alert.Alert;
+import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.alert.Alert;
 
 public class EntrateView extends AbstractEntrateView {
 
