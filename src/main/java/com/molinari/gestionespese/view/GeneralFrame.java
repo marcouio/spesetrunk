@@ -11,7 +11,7 @@ import javax.swing.WindowConstants;
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.InizializzatoreFinestre;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreNiente;
-import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
+import com.molinari.utility.messages.I18NManager;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
 import com.molinari.gestionespese.domain.wrapper.WrapSingleSpesa;
 import com.molinari.gestionespese.view.componenti.movimenti.AbstractListaMov;

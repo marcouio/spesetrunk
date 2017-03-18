@@ -17,7 +17,7 @@ import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.Finestra;
 import com.molinari.gestionespese.business.InizializzatoreFinestre;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreNiente;
-import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
+import com.molinari.utility.messages.I18NManager;
 import com.molinari.gestionespese.business.menulistener.AscoltatoreAvanti;
 import com.molinari.gestionespese.business.menulistener.AscoltatoreCaricaDatabase;
 import com.molinari.gestionespese.business.menulistener.AscoltatoreCreaDialog;

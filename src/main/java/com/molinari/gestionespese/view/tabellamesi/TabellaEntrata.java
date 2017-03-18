@@ -11,7 +11,7 @@ import javax.swing.JScrollPane;
 
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.generatori.TableModelEntrate;
-import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
+import com.molinari.utility.messages.I18NManager;
 import com.molinari.gestionespese.view.OggettoVistaBase;
 import com.molinari.gestionespese.view.font.TableF;
 

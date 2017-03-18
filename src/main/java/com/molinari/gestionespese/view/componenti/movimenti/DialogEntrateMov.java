@@ -21,7 +21,7 @@ import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreNi
 import com.molinari.gestionespese.business.cache.CacheEntrate;
 import com.molinari.gestionespese.business.comandi.entrate.CommandDeleteEntrata;
 import com.molinari.gestionespese.business.comandi.entrate.CommandUpdateEntrata;
-import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
+import com.molinari.utility.messages.I18NManager;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.IEntrate;
 import com.molinari.gestionespese.domain.Utenti;

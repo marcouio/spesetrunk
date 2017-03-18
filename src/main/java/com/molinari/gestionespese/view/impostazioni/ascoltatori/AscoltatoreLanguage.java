@@ -10,7 +10,7 @@ import org.w3c.dom.Node;
 
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreTutto;
 import com.molinari.gestionespese.business.config.ConfiguratoreXml;
-import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
+import com.molinari.utility.messages.I18NManager;
 
 public class AscoltatoreLanguage extends AscoltatoreAggiornatoreTutto {
 

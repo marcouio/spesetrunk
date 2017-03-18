@@ -20,7 +20,7 @@ import com.molinari.gestionespese.business.DBUtil;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreEntrate;
 import com.molinari.gestionespese.business.cache.CacheEntrate;
 import com.molinari.gestionespese.business.comandi.entrate.CommandDeleteEntrata;
-import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
+import com.molinari.utility.messages.I18NManager;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
 import com.molinari.gestionespese.view.font.ButtonF;

@@ -7,7 +7,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.Finestra;
-import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
+import com.molinari.utility.messages.I18NManager;
 import com.molinari.gestionespese.view.font.TableF;
 
 import com.molinari.utility.graphic.component.container.PannelloBase;

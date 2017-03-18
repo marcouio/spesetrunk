@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreUscite;
 import com.molinari.gestionespese.business.comandi.singlespese.CommandInserisciSpesa;
-import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
+import com.molinari.utility.messages.I18NManager;
 
 import com.molinari.utility.graphic.component.alert.Alert;
 

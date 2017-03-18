@@ -18,7 +18,7 @@ import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreUs
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.cache.CacheUscite;
 import com.molinari.gestionespese.business.comandi.singlespese.CommandDeleteSpesa;
-import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
+import com.molinari.utility.messages.I18NManager;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.Utenti;
