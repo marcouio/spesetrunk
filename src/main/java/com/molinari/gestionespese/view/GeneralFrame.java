@@ -14,9 +14,6 @@ import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreNi
 import com.molinari.gestionespese.business.internazionalizzazione.I18NManager;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
 import com.molinari.gestionespese.domain.wrapper.WrapSingleSpesa;
-import com.molinari.gestionespese.view.bottoni.Bottone;
-import com.molinari.gestionespese.view.bottoni.PannelloBottoni;
-import com.molinari.gestionespese.view.bottoni.PannelloBottoniInterno;
 import com.molinari.gestionespese.view.componenti.movimenti.AbstractListaMov;
 import com.molinari.gestionespese.view.componenti.movimenti.ListaMovimentiEntrate;
 import com.molinari.gestionespese.view.componenti.movimenti.ListaMovimentiUscite;
@@ -25,6 +22,9 @@ import com.molinari.gestionespese.view.entrateuscite.UsciteView;
 import com.molinari.gestionespese.view.mymenu.MyMenu;
 import com.molinari.utility.graphic.component.alert.Alert;
 import com.molinari.utility.graphic.component.button.ToggleBtn;
+import com.molinari.utility.graphic.component.buttonpanel.Bottone;
+import com.molinari.utility.graphic.component.buttonpanel.PannelloBottoni;
+import com.molinari.utility.graphic.component.buttonpanel.PannelloBottoniInterno;
 import com.molinari.utility.graphic.component.container.PannelloBase;
 
 public class GeneralFrame extends PannelloBase {
