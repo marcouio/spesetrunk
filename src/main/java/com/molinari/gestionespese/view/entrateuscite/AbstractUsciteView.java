@@ -6,11 +6,11 @@ import javax.swing.JDialog;
 
 import org.apache.commons.math3.util.MathUtils;
 
-import com.molinari.gestionespese.business.CorreggiTesto;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapSingleSpesa;
+import com.molinari.utility.text.CorreggiTesto;
 
 public abstract class AbstractUsciteView implements Observer {
 

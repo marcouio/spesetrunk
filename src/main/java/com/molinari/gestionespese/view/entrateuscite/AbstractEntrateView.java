@@ -4,10 +4,10 @@ import java.util.Observer;
 
 import javax.swing.JDialog;
 
-import com.molinari.gestionespese.business.CorreggiTesto;
 import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
+import com.molinari.utility.text.CorreggiTesto;
 
 public abstract class AbstractEntrateView implements Observer {
 

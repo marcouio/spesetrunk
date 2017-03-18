@@ -16,7 +16,6 @@ import org.apache.commons.math3.util.MathUtils;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Controllore;
-import com.molinari.gestionespese.business.CorreggiTesto;
 import com.molinari.gestionespese.business.DBUtil;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreEntrate;
 import com.molinari.gestionespese.business.cache.CacheEntrate;
@@ -28,9 +27,9 @@ import com.molinari.gestionespese.view.font.ButtonF;
 import com.molinari.gestionespese.view.font.LabelListaGruppi;
 import com.molinari.gestionespese.view.font.TextAreaF;
 import com.molinari.gestionespese.view.font.TextFieldF;
-
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.text.CorreggiTesto;
 
 public class EntrateView extends AbstractEntrateView {
 
