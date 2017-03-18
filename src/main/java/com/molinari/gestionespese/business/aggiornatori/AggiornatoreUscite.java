@@ -3,7 +3,8 @@ package com.molinari.gestionespese.business.aggiornatori;
 import java.util.logging.Level;
 
 import com.molinari.gestionespese.domain.SingleSpesa;
-
+import com.molinari.utility.aggiornatori.AggiornatoreBase;
+import com.molinari.utility.aggiornatori.IAggiornatore;
 import com.molinari.utility.controller.ControlloreBase;
 
 public class AggiornatoreUscite extends AggiornatoreBase implements IAggiornatore {

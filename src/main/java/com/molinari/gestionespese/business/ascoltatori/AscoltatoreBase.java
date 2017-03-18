@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.logging.Level;
 
 import com.molinari.gestionespese.business.Controllore;
-import com.molinari.gestionespese.business.aggiornatori.IAggiornatore;
+import com.molinari.utility.aggiornatori.IAggiornatore;
 
 import com.molinari.utility.controller.ControlloreBase;
 
