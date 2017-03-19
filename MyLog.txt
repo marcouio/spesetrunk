@@ -1,414 +1,110 @@
-mar 18, 2017 7:11:45 PM com.molinari.utility.log.LoggerOggetto creaLog
+mar 18, 2017 7:35:18 PM com.molinari.utility.log.LoggerOggetto creaLog
 INFORMAZIONI: Start programma!
-mar 18, 2017 7:11:45 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 7:35:18 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:11:45 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 7:35:18 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 1 connections
-mar 18, 2017 7:11:45 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 7:35:18 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:11:45 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 7:35:18 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 2 connections
-mar 18, 2017 7:11:45 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 7:35:18 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:11:45 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 7:35:18 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 3 connections
-mar 18, 2017 7:11:45 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 7:35:18 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:11:45 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 7:35:18 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 4 connections
-mar 18, 2017 7:11:45 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 7:35:18 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:11:45 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 7:35:18 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:11:45 PM com.molinari.utility.database.ConnectionPool getConnection
+mar 18, 2017 7:35:18 PM com.molinari.utility.database.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:11:45 PM com.molinari.utility.database.ExecuteResultSet execute
+mar 18, 2017 7:35:18 PM com.molinari.utility.database.ExecuteResultSet execute
 INFORMAZIONI: Query in esecuzione: SELECT * FROM lookAndFeel
-mar 18, 2017 7:11:45 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 7:35:18 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:11:45 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 7:35:18 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:11:45 PM com.molinari.utility.database.ConnectionPool getConnection
+mar 18, 2017 7:36:05 PM com.molinari.utility.database.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:11:45 PM com.molinari.utility.database.ExecuteResultSet execute
+mar 18, 2017 7:36:05 PM com.molinari.utility.database.ExecuteResultSet execute
 INFORMAZIONI: Query in esecuzione: SELECT * FROM utenti
-mar 18, 2017 7:11:45 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 7:36:05 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:11:45 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 7:36:05 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:11:45 PM com.molinari.utility.database.ConnectionPool getConnection
+mar 18, 2017 7:36:05 PM com.molinari.utility.database.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:11:45 PM com.molinari.utility.database.ExecuteResultSet execute
+mar 18, 2017 7:36:05 PM com.molinari.utility.database.ExecuteResultSet execute
 INFORMAZIONI: Query in esecuzione: SELECT * FROM lookAndFeel
-mar 18, 2017 7:11:45 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 7:36:05 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:11:45 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 7:36:05 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:11:49 PM com.molinari.utility.database.ConnectionPool getConnection
+mar 18, 2017 9:04:12 PM com.molinari.utility.database.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:11:49 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM entrate
-mar 18, 2017 7:11:49 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 9:04:12 PM com.molinari.utility.database.ExecuteResultSet execute
+INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria and single_spesa.idUtente = utenti.idUtente order by idSpesa desc
+mar 18, 2017 9:04:12 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:11:49 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 9:04:12 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:00 PM com.molinari.utility.database.ConnectionPool getConnection
+mar 18, 2017 9:04:13 PM com.molinari.utility.database.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:00 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
-mar 18, 2017 7:12:00 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:00 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:00 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:00 PM com.molinari.utility.database.ExecuteResultSet execute
+mar 18, 2017 9:04:13 PM com.molinari.utility.database.ExecuteResultSet execute
 INFORMAZIONI: Query in esecuzione: SELECT * FROM gruppi ORDER BY idGruppo asc
-mar 18, 2017 7:12:00 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 9:04:13 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:00 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 9:04:13 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:00 PM com.molinari.utility.database.ConnectionPool getConnection
+mar 18, 2017 9:04:13 PM com.molinari.utility.database.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:00 PM com.molinari.utility.database.ExecuteResultSet execute
+mar 18, 2017 9:04:13 PM com.molinari.utility.database.ExecuteResultSet execute
 INFORMAZIONI: Query in esecuzione: SELECT * FROM cat_spese
-mar 18, 2017 7:12:00 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 9:04:13 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:00 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 9:04:13 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:00 PM com.molinari.utility.database.ConnectionPool getConnection
+mar 18, 2017 9:04:13 PM com.molinari.utility.database.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:00 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM entrate WHERE data BETWEEN '2017/01/01' AND '2017/12/31' AND idUtente = 1 ORDER BY idEntrate desc limit 0,25
-mar 18, 2017 7:12:00 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 9:04:13 PM com.molinari.utility.database.ExecuteResultSet execute
+INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria and single_spesa.idUtente = utenti.idUtente order by idSpesa desc
+mar 18, 2017 9:04:13 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:00 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 9:04:13 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:00 PM com.molinari.utility.database.ConnectionPool getConnection
+mar 18, 2017 9:04:13 PM com.molinari.utility.database.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:00 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
-mar 18, 2017 7:12:00 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 9:04:13 PM com.molinari.utility.database.ExecuteResultSet execute
+INFORMAZIONI: Query in esecuzione: select * from single_spesa where Data BETWEEN '2017/01/01' AND '2017/12/31' AND idUtente = 1 ORDER BY idSpesa desc limit 0,20
+mar 18, 2017 9:04:13 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:00 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 9:04:13 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:00 PM com.molinari.utility.database.ConnectionPool getConnection
+mar 18, 2017 9:04:14 PM com.molinari.utility.database.ConnectionPool getConnection
 INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:00 PM com.molinari.utility.database.ExecuteResultSet execute
+mar 18, 2017 9:04:14 PM com.molinari.utility.database.ExecuteResultSet execute
+INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria and single_spesa.idUtente = utenti.idUtente order by idSpesa desc
+mar 18, 2017 9:04:14 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+mar 18, 2017 9:04:14 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+mar 18, 2017 9:04:16 PM com.molinari.utility.database.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+mar 18, 2017 9:04:16 PM com.molinari.utility.database.ExecuteResultSet execute
+INFORMAZIONI: Query in esecuzione: SELECT * FROM entrate
+mar 18, 2017 9:04:16 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+INFORMAZIONI: add a new connection to pool for closed previous connection.
+mar 18, 2017 9:04:16 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+INFORMAZIONI: Now are available 5 connections
+mar 18, 2017 9:04:20 PM com.molinari.utility.database.ConnectionPool getConnection
+INFORMAZIONI: Connection removed. Connections available: 4
+mar 18, 2017 9:04:20 PM com.molinari.utility.database.ExecuteResultSet execute
 INFORMAZIONI: Query in esecuzione: SELECT * FROM single_spesa
-mar 18, 2017 7:12:00 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 9:04:20 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:00 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:01 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:01 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria and single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-mar 18, 2017 7:12:01 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:01 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:01 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:01 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria and single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-mar 18, 2017 7:12:01 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:01 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:01 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:01 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: select * from single_spesa where Data BETWEEN '2017/01/01' AND '2017/12/31' AND idUtente = 1 ORDER BY idSpesa desc limit 0,25
-mar 18, 2017 7:12:01 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:01 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:04 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:04 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
-mar 18, 2017 7:12:04 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:04 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:04 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:04 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM entrate WHERE data BETWEEN '2017/01/01' AND '2017/12/31' AND idUtente = 1 ORDER BY idEntrate desc limit 0,25
-mar 18, 2017 7:12:04 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:04 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:04 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:04 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
-mar 18, 2017 7:12:04 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:04 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:04 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:04 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria and single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-mar 18, 2017 7:12:04 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:04 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:04 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:04 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria and single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-mar 18, 2017 7:12:04 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:04 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:04 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:04 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: select * from single_spesa where Data BETWEEN '2017/01/01' AND '2017/12/31' AND idUtente = 1 ORDER BY idSpesa desc limit 0,25
-mar 18, 2017 7:12:04 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:04 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:17 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:17 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
-mar 18, 2017 7:12:17 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:17 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:17 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:17 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM entrate WHERE data BETWEEN '2017/01/01' AND '2017/12/31' AND idUtente = 1 ORDER BY idEntrate desc limit 0,25
-mar 18, 2017 7:12:17 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:17 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:17 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:17 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
-mar 18, 2017 7:12:17 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:17 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:17 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:17 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria and single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-mar 18, 2017 7:12:17 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:17 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:17 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:17 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria and single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-mar 18, 2017 7:12:17 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:17 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:17 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:17 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: select * from single_spesa where Data BETWEEN '2017/01/01' AND '2017/12/31' AND idUtente = 1 ORDER BY idSpesa desc limit 0,25
-mar 18, 2017 7:12:17 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:17 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:20 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:20 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
-mar 18, 2017 7:12:20 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:20 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:20 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:20 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM entrate WHERE data BETWEEN '2017/01/01' AND '2017/12/31' AND idUtente = 1 ORDER BY idEntrate desc limit 0,25
-mar 18, 2017 7:12:20 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:20 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:20 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:20 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
-mar 18, 2017 7:12:20 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:20 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:20 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:20 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria and single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-mar 18, 2017 7:12:20 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:20 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:20 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:20 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria and single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-mar 18, 2017 7:12:20 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:20 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:20 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:20 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: select * from single_spesa where Data BETWEEN '2017/01/01' AND '2017/12/31' AND idUtente = 1 ORDER BY idSpesa desc limit 0,25
-mar 18, 2017 7:12:20 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:20 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:51 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:51 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
-mar 18, 2017 7:12:51 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:51 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:51 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:51 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM entrate WHERE data BETWEEN '2017/01/01' AND '2017/12/31' AND idUtente = 1 ORDER BY idEntrate desc limit 0,25
-mar 18, 2017 7:12:51 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:51 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:51 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:51 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
-mar 18, 2017 7:12:51 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:51 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:51 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:51 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria and single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-mar 18, 2017 7:12:51 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:51 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:51 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:51 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria and single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-mar 18, 2017 7:12:51 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:51 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:51 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:51 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: select * from single_spesa where Data BETWEEN '2017/01/01' AND '2017/12/31' AND idUtente = 1 ORDER BY idSpesa desc limit 0,25
-mar 18, 2017 7:12:51 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:51 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:54 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:54 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
-mar 18, 2017 7:12:54 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:54 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:54 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:54 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM entrate WHERE data BETWEEN '2017/01/01' AND '2017/12/31' AND idUtente = 1 ORDER BY idEntrate desc limit 0,25
-mar 18, 2017 7:12:54 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:54 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:54 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:54 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
-mar 18, 2017 7:12:54 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:54 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:54 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:54 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria and single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-mar 18, 2017 7:12:54 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:54 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:54 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:54 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria and single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-mar 18, 2017 7:12:54 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:54 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:54 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:54 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: select * from single_spesa where Data BETWEEN '2017/01/01' AND '2017/12/31' AND idUtente = 1 ORDER BY idSpesa desc limit 0,25
-mar 18, 2017 7:12:54 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:54 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:59 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:59 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
-mar 18, 2017 7:12:59 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:59 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:59 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:59 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM entrate WHERE data BETWEEN '2017/01/01' AND '2017/12/31' AND idUtente = 1 ORDER BY idEntrate desc limit 0,25
-mar 18, 2017 7:12:59 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:59 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:59 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:59 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
-mar 18, 2017 7:12:59 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:59 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:59 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:59 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria and single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-mar 18, 2017 7:12:59 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:59 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:59 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:59 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria and single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-mar 18, 2017 7:12:59 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:59 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: Now are available 5 connections
-mar 18, 2017 7:12:59 PM com.molinari.utility.database.ConnectionPool getConnection
-INFORMAZIONI: Connection removed. Connections available: 4
-mar 18, 2017 7:12:59 PM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: select * from single_spesa where Data BETWEEN '2017/01/01' AND '2017/12/31' AND idUtente = 1 ORDER BY idSpesa desc limit 0,25
-mar 18, 2017 7:12:59 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
-INFORMAZIONI: add a new connection to pool for closed previous connection.
-mar 18, 2017 7:12:59 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
+mar 18, 2017 9:04:20 PM com.molinari.utility.database.ConnectionPool releaseNewConnection
 INFORMAZIONI: Now are available 5 connections

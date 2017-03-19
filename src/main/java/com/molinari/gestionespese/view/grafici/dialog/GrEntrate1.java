@@ -17,7 +17,6 @@ import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 
-import com.molinari.gestionespese.business.DBUtil;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.view.componenti.movimenti.DialogHandler;
@@ -46,7 +45,6 @@ public class GrEntrate1 extends JDialog implements ActionListener {
 		ChartUtilities.saveChartAsPNG(new java.io.File("./immagini/torta" + dataMinuti + ".png"), chart, 560, 530);
 		getContentPane().setLayout(null);
 
-		DBUtil.closeConnection();
 		final ImageIcon image = new ImageIcon("./immagini/torta" + dataMinuti + ".png");
 		final JLabel immagine = new JLabel();
 		immagine.setIcon(image);

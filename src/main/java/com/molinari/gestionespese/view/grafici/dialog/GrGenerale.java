@@ -25,13 +25,11 @@ import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import com.molinari.gestionespese.business.AltreUtil;
-import com.molinari.gestionespese.business.DBUtil;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.view.componenti.movimenti.DialogHandler;
 import com.molinari.gestionespese.view.font.ButtonF;
-
 import com.molinari.utility.controller.ControlloreBase;
 
 public class GrGenerale extends JDialog implements ActionListener {
@@ -112,7 +110,6 @@ public class GrGenerale extends JDialog implements ActionListener {
 		} catch (final IOException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
-		DBUtil.closeConnection();
 		final ImageIcon image = new ImageIcon("immagini/LineChartGen1" + dataMinuti + ".png");
 		getContentPane().setLayout(null);
 		final JLabel label = new JLabel(image);

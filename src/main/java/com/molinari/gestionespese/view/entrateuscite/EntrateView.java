@@ -20,7 +20,6 @@ import com.molinari.gestionespese.business.DBUtil;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreEntrate;
 import com.molinari.gestionespese.business.cache.CacheEntrate;
 import com.molinari.gestionespese.business.comandi.entrate.CommandDeleteEntrata;
-import com.molinari.utility.messages.I18NManager;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
 import com.molinari.gestionespese.view.font.ButtonF;
@@ -29,6 +28,7 @@ import com.molinari.gestionespese.view.font.TextAreaF;
 import com.molinari.gestionespese.view.font.TextFieldF;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.messages.I18NManager;
 import com.molinari.utility.text.CorreggiTesto;
 
 public class EntrateView extends AbstractEntrateView {
@@ -121,7 +121,6 @@ public class EntrateView extends AbstractEntrateView {
 				} catch (final Exception e2) {
 					ControlloreBase.getLog().log(Level.SEVERE, e2.getMessage(), e2);
 					Alert.segnalazioneErroreGrave(e2.getMessage());
-					DBUtil.closeConnection();
 				}
 			}
 

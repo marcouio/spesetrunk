@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-import com.molinari.gestionespese.business.DBUtil;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.cache.CacheGruppi;
@@ -13,7 +12,6 @@ import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.ISingleSpesa;
-
 import com.molinari.utility.controller.ControlloreBase;
 
 public class Model {
@@ -258,7 +256,6 @@ public class Model {
 				riempiArrayMovEntrateConZeri(nomi, x);
 			}
 		}
-		DBUtil.closeConnection();
 		return movimentiEntrate;
 	}
 
@@ -315,7 +312,6 @@ public class Model {
 			}
 
 		}
-		DBUtil.closeConnection();
 		return movimentiUscite;
 
 	}
@@ -368,7 +364,6 @@ public class Model {
 			}
 
 		}
-		DBUtil.closeConnection();
 		return movimentiUscite;
 
 	}

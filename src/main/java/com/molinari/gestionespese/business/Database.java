@@ -9,7 +9,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -32,10 +31,10 @@ import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapLookAndFeel;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
-
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.database.ConnectionPool;
 import com.molinari.utility.database.ExecuteResultSet;
+import com.molinari.utility.database.UtilDb;
 import com.molinari.utility.graphic.component.alert.Alert;
 
 public class Database {
@@ -146,157 +145,7 @@ public class Database {
 	 */
 	public boolean eseguiIstruzioneSql(final String comando, final String tabella, final Map<String, String> campi,
 			final Map<String, String> clausole) {
-		boolean ok = false;
-		try {
-			ok = false;
-			final StringBuilder sql = new StringBuilder();
-			final String command = comando.toUpperCase();
-
-			if (tabella != null) {
-				// comando
-				if ("INSERT".equals(command)) {
-					ok = gestioneIstruzioneInsert(tabella, campi, sql, command);
-				} else if ("UPDATE".equals(command)) {
-					ok = gestioneIstruzioneUpdate(tabella, campi, clausole, sql, command);
-				} else if ("DELETE".equals(command)) {
-					ok = gestioneIstruzioneDelete(tabella, clausole, ok, sql, command);
-				} else if ("SELECT".equals(command)) {
-					gestioneIstruzioneSelect(campi, clausole, sql, command);
-				}
-			}
-
-		} catch (final Exception e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-		} finally {
-			DBUtil.closeConnection();
-		}
-		return ok;
-	}
-
-	private void gestioneIstruzioneSelect(final Map<String, String> campi, final Map<String, String> clausole,
-			final StringBuilder sql, final String command) {
-		sql.append(command);
-		if (campi == null) {
-			sql.append(" * ");
-		} else {
-			final Iterator<String> iterSelect = clausole.keySet().iterator();
-			while (iterSelect.hasNext()) {
-				final String prossimo = iterSelect.next();
-				sql.append(" " + prossimo);
-			}
-			if (iterSelect.hasNext()) {
-				sql.append(", ");
-			}
-
-		}
-		if (!clausole.isEmpty()) {
-			elaborateClause(clausole, sql);
-		}
-	}
-
-	private boolean gestioneIstruzioneUpdate(final String tabella, final Map<String, String> campi,
-			final Map<String, String> clausole, final StringBuilder sql, final String command)
-					throws SQLException {
-		final Iterator<String> iterUpdate = campi.keySet().iterator();
-		sql.append(command).append(" " + tabella).append(" SET ");
-		while (iterUpdate.hasNext()) {
-			final String prossimo = iterUpdate.next();
-			sql.append(prossimo).append(" = ");
-			try {
-				if (campi.get(prossimo).contains(".")) {
-					sql.append(Double.parseDouble(campi.get(prossimo)));
-				} else {
-					sql.append(Integer.parseInt(campi.get(prossimo)));
-				}
-			} catch (final NumberFormatException e) {
-				sql.append("'" + campi.get(prossimo) + "'");
-			}
-			if (iterUpdate.hasNext()) {
-				sql.append(", ");
-			}
-		}
-		if (!clausole.isEmpty()) {
-			elaborateClause(clausole, sql);
-		}
-
-
-		if (ConnectionPool.getSingleton().executeUpdate(sql.toString()) != 0) {
-			return true;
-		}
-		return false;
-	}
-	
-	private boolean gestioneIstruzioneDelete(final String tabella, final Map<String, String> clausole, boolean ok,
-			final StringBuilder sql, final String command) throws SQLException {
-		
-		boolean ret = ok;
-		
-		sql.append(command).append(FROM).append(tabella);
-		if (!clausole.isEmpty()) {
-			elaborateClause(clausole, sql);
-
-			if (ConnectionPool.getSingleton().executeUpdate(sql.toString()) != 0) {
-				ret = true;
-			}
-		}
-		return ret;
-	}
-
-	private void elaborateClause(final Map<String, String> clausole, final StringBuilder sql) {
-		sql.append(" WHERE 1=1");
-		final Iterator<String> where = clausole.keySet().iterator();
-
-		while (where.hasNext()) {
-			sql.append(AND);
-			final String prossimo = where.next();
-			sql.append(prossimo).append(" = ");
-			try {
-				sql.append(Integer.parseInt(clausole.get(prossimo)));
-			} catch (final NumberFormatException e) {
-				sql.append("'" + clausole.get(prossimo) + "'");
-			}
-			if (where.hasNext()) {
-				sql.append(", ");
-			}
-		}
-	}
-
-	private boolean gestioneIstruzioneInsert(final String tabella, final Map<String, String> campi,
-			final StringBuilder sql, final String command) throws SQLException {
-		sql.append(command).append(" INTO ").append(tabella);
-		sql.append("(");
-		final Iterator<String> iterInsert = campi.keySet().iterator();
-
-		while (iterInsert.hasNext()) {
-			final String prossimo = iterInsert.next();
-			// aggiunge nome colonna
-			sql.append(prossimo);
-			if (iterInsert.hasNext()) {
-				sql.append(", ");
-			}
-		}
-		sql.append(") ").append(" VALUES (");
-		final Iterator<String> iterInsert2 = campi.keySet().iterator();
-		while (iterInsert2.hasNext()) {
-			final String prossimo = iterInsert2.next();
-			try {
-				sql.append(Integer.parseInt(campi.get(prossimo)));
-			} catch (final NumberFormatException e) {
-				sql.append("'" + campi.get(prossimo) + "'");
-			}
-			if (iterInsert2.hasNext()) {
-				sql.append(", ");
-			}
-		}
-
-		sql.append(")");
-
-
-		if (ConnectionPool.getSingleton().executeUpdate(sql.toString()) != 0) {
-			return true;
-		}
-		ControlloreBase.getLog().info("Record inserito correttamente ("+sql.toString()+")");
-		return false;
+		return UtilDb.eseguiIstruzioneSql(comando, tabella, campi, clausole);
 	}
 
 	/**

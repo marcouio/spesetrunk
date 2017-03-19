@@ -10,14 +10,12 @@ import java.util.Observable;
 import java.util.logging.Level;
 
 import com.molinari.gestionespese.business.Controllore;
-import com.molinari.gestionespese.business.DBUtil;
 import com.molinari.gestionespese.business.cache.CacheUtenti;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.INote;
 import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.Note;
 import com.molinari.gestionespese.domain.Utenti;
-
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.database.Clausola;
 import com.molinari.utility.database.ConnectionPool;
@@ -27,6 +25,7 @@ import com.molinari.utility.database.dao.IDAO;
 
 public class WrapNote extends Observable implements IDAO<INote>, INote {
 
+	private static final long serialVersionUID = 1L;
 	private static final String DELETE_FROM = "DELETE FROM ";
 	private static final String WHERE = " WHERE ";
 	private static final String SELECT_FROM = "SELECT * FROM ";
@@ -303,7 +302,6 @@ public class WrapNote extends Observable implements IDAO<INote>, INote {
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
-		DBUtil.closeConnection();
 		return ok;
 	}
 

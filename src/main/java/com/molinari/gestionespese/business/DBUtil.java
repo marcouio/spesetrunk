@@ -1,30 +1,21 @@
 package com.molinari.gestionespese.business;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 
 import org.sqlite.JDBC;
 
-import com.molinari.gestionespese.view.impostazioni.Impostazioni;
-
 import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.database.UtilDb;
 
 public class DBUtil {
 
 	private static String url = "jdbc:sqlite:" + Database.getDburl();
 	public static final String USR = "root";
 	public static final String DRIVERCLASSNAME = JDBC.class.getName();
-	private static Connection connection = null;
-	private static String mese;
-	private static String mesi;
 
 	private DBUtil(){
 
@@ -69,54 +60,24 @@ public class DBUtil {
 	 * @throws Exception
 	 */
 	public static String convertiMese2(final int corrente) {
-		if (corrente < 10) {
-			mesi = "0" + corrente;
-		} else if (corrente > 12) {
-			throw new IllegalArgumentException("Mese non esistente");
-
-		} else {
-			mesi = Integer.toString(corrente);
-		}
-		return mesi;
+		return UtilDb.convertiMeseWithTwoDigit(corrente);
 	}
 
 	public static String convertiGiorno(final int corrente) {
-		if (corrente < 10) {
-			mesi = "0" + corrente;
-		} else {
-			mesi = Integer.toString(corrente);
-		}
-		return mesi;
+		return UtilDb.convertiGiorno(corrente);
 	}
 
 	// questo metodo serve per aggiungere uno zero a Calendar.MONTH se
 	// necessario
 	/**
 	 * Aggiunge uno zero davanti a Calendar.MONTH se necessario. Se il parametro
-	 * � 1 restituisce il mese corrente, se � 0 restituisce il mese precedente
+	 * vale 1 restituisce il mese corrente, se vale 0 restituisce il mese precedente
 	 *
 	 * @param corrente
 	 * @return String
 	 */
 	public static String convertiMese(final int corrente) {
-
-		if (corrente == 1) {
-			final int month = new GregorianCalendar().get(Calendar.MONTH) + 1;
-			if (new GregorianCalendar().get(Calendar.MONTH) + 1 < 10) {
-				mese = "0" + month;
-			} else {
-				mese = Integer.toString(month);
-			}
-		} else if (corrente == 0) {
-			final int month = new GregorianCalendar().get(Calendar.MONTH);
-			if (new GregorianCalendar().get(Calendar.MONTH) < 10) {
-				mese = "0" + month;
-			} else {
-				mese = Integer.toString(month);
-			}
-		}
-		return mese;
-
+		return UtilDb.convertiMese(corrente);
 	}
 
 	/**
@@ -168,8 +129,7 @@ public class DBUtil {
 	 * @return String
 	 */
 	public static String dataToString(final Date date, final String format) {
-		final SimpleDateFormat formatter = new SimpleDateFormat(format);
-		return formatter.format(date);
+		return UtilDb.dataToString(date, format);
 	}
 
 	/**
@@ -180,9 +140,8 @@ public class DBUtil {
 	 * @return Date
 	 * @throws ParseException
 	 */
-	public static Date formatDate(final String data) throws ParseException {
-		final DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-		return format.parse(data);
+	public static Date formatDate(final String date) throws ParseException {
+		return UtilDb.stringToDate(date, "dd-MM-yyyy");
 	}
 
 	/**
@@ -193,49 +152,8 @@ public class DBUtil {
 	 * @return Date
 	 * @throws ParseException
 	 */
-	public static Date formatDateTime(final String data) throws ParseException {
-		final DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-		return format.parse(data);
-	}
-
-	public static Connection getConnection() {
-		try {
-			if (Impostazioni.getCaricaDatabase() != null) {
-				final String posDb = Impostazioni.getCaricaDatabase().getText();
-				if (posDb != null && !"".equals(posDb)) {
-					DBUtil.url = "jdbc:sqlite:" + Impostazioni.getCaricaDatabase().getText();
-				}
-			}
-			connection = DriverManager.getConnection(DBUtil.url);
-		} catch (final SQLException e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-		}
-		return connection;
-	}
-
-	/**
-	 * Metodo per chiudere una connessione al database
-	 */
-	public static void closeConnection() {
-
-		if (connection != null) {
-			try {
-				connection.close();
-			} catch (final SQLException e) {
-				ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-			}
-		}
-
-	}
-
-	/**
-	 * Il metodo fornisce l'ultimo giorno del mese.
-	 */
-	public static final int getLastDayMonth(final int mese, final int anno) {
-
-		final MONTH month = MONTH.getMonth(mese, anno);
-		return month.days();
-
+	public static Date formatDateTime(final String date) throws ParseException {
+		return UtilDb.stringToDate(date, "dd-MM-yyyy HH:mm");
 	}
 
 	public static String getUrl() {
