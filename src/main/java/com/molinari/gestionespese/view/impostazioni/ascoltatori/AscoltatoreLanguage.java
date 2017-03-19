@@ -9,25 +9,26 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreTutto;
-import com.molinari.gestionespese.business.config.ConfiguratoreXml;
 import com.molinari.utility.messages.I18NManager;
+import com.molinari.utility.xml.CoreXMLManager;
 
 public class AscoltatoreLanguage extends AscoltatoreAggiornatoreTutto {
 
-	private final JComboBox comboLanguage;
+	private final JComboBox<String> comboLanguage;
 
-	public AscoltatoreLanguage(final JComboBox comboLanguage) {
+	public AscoltatoreLanguage(final JComboBox<String> comboLanguage) {
 		this.comboLanguage = comboLanguage;
 	}
 
 	@Override
 	public void actionPerformedOverride(ActionEvent e) {
-		final Node nodoLang = ConfiguratoreXml.getSingleton().getNodo("lang");
-		final Element elementoLang = ConfiguratoreXml.getElement(nodoLang);
+		CoreXMLManager corexml = CoreXMLManager.getSingleton();
+		final Node nodoLang = corexml.getNode("lang");
+		final Element elementoLang = corexml.getElement(nodoLang);
 		if (elementoLang != null) {
 			elementoLang.setAttribute("locale", (String) comboLanguage.getSelectedItem());
-			final Document doc = ConfiguratoreXml.getSingleton().getDocument();
-			ConfiguratoreXml.writeXmlFile2(doc, ConfiguratoreXml.XMLPOSITION);
+			final Document doc = corexml.getDoc();
+			CoreXMLManager.writeXmlFile2(doc,CoreXMLManager.XMLCOREPATH);
 			I18NManager.getSingleton().caricaMessaggi((String) comboLanguage.getSelectedItem(), null);
 		}
 	}

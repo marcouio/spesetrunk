@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<configs>
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?><configs>
     <style>
         <file url="./config-style.xml"/>
     </style>
-    <lang locale="it"/>
+    <lang locale="en"/>
     <messaggi>
         <file nome="messaggi"/>
     </messaggi>

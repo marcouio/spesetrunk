@@ -26,7 +26,6 @@ import com.molinari.gestionespese.business.aggiornatori.AggiornatoreManager;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreTutto;
 import com.molinari.gestionespese.business.cache.CacheLookAndFeel;
-import com.molinari.gestionespese.business.config.ConfiguratoreXml;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.ILookandfeel;
 import com.molinari.gestionespese.domain.Lookandfeel;
@@ -38,9 +37,9 @@ import com.molinari.gestionespese.view.font.LabelListaGruppi;
 import com.molinari.gestionespese.view.font.TextFieldF;
 import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreLanguage;
 import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreLook;
-
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.xml.CoreXMLManager;
 
 public class Impostazioni extends JDialog {
 
@@ -186,7 +185,7 @@ public class Impostazioni extends JDialog {
 			comboLanguage.setBounds(396, 24, 115, 24);
 
 			for (int i = 0; i < languages.length; i++) {
-				final String lingua = ConfiguratoreXml.getSingleton().getLanguage();
+				final String lingua = CoreXMLManager.getSingleton().getLanguage();
 				if (languages[i].equals(lingua)) {
 					comboLanguage.setSelectedIndex(i);
 				}
