@@ -11,18 +11,17 @@ import javax.swing.UIManager;
 import com.molinari.gestionespese.business.aggiornatori.AggiornatoreManager;
 import com.molinari.gestionespese.business.cache.CacheLookAndFeel;
 import com.molinari.gestionespese.business.cache.CacheUtenti;
-import com.molinari.utility.messages.I18NManager;
 import com.molinari.gestionespese.domain.ILookandfeel;
 import com.molinari.gestionespese.domain.Lookandfeel;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapUtenti;
 import com.molinari.gestionespese.view.GeneralFrame;
-
 import com.molinari.utility.commands.AbstractCommand;
 import com.molinari.utility.commands.CommandManager;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.database.ExecuteResultSet;
 import com.molinari.utility.graphic.component.container.FrameBase;
+import com.molinari.utility.messages.I18NManager;
 
 public class Controllore extends ControlloreBase{
 
@@ -155,7 +154,7 @@ public class Controllore extends ControlloreBase{
 	}
 
 	@Override
-	public void mainOverridato(FrameBase frame) throws Exception {
+	public void mainOverridato(FrameBase frame) {
 
 		Database.setDburl(Database.DB_URL_WORKSPACE);
 		verificaPresenzaDb();
