@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.logging.Level;
@@ -18,7 +19,6 @@ import javax.swing.JScrollPane;
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreNiente;
-import com.molinari.utility.messages.I18NManager;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.Gruppi;
@@ -28,7 +28,6 @@ import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.view.font.ButtonF;
 import com.molinari.gestionespese.view.font.TableF;
 import com.molinari.gestionespese.view.font.TextAreaF;
-
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.alert.Alert;
 import com.molinari.utility.graphic.component.button.ButtonBase;
@@ -37,14 +36,14 @@ import com.molinari.utility.graphic.component.container.ScrollPaneBase;
 import com.molinari.utility.graphic.component.table.TableModel;
 import com.molinari.utility.graphic.component.textarea.TextAreaBase;
 import com.molinari.utility.math.UtilMath;
+import com.molinari.utility.messages.I18NManager;
 
 public class NewSql extends PannelloBase {
-
-
 
 	private static final long serialVersionUID = 1L;
 	private TextAreaBase         areaSql;
 	private ScrollPaneBase       result;
+	private PannelloBase headerPane;
 
 	public NewSql(Container contenitore) {
 		super(contenitore);
@@ -78,13 +77,19 @@ public class NewSql extends PannelloBase {
 		scroll.setBounds(result.getBounds());
 		contentPane.add(scroll);
 	}
+	
 
 	private PannelloBase createHeaderPanel() {
-		final int widthButton = (int) UtilMath.getPercentage(getContenitorePadre().getWidth(), 10);
-		final int widthInfoButton = (int) UtilMath.getPercentage(getContenitorePadre().getWidth(), 5);
-		final PannelloBase headerPane = new PannelloBase(this);
+		headerPane = new PannelloBase(this);
 		headerPane.setSize(getContenitorePadre().getWidth(), (int) UtilMath.getPercentage(getContenitorePadre().getHeight(), 20));
 
+		addComponentToHeader(headerPane);
+		return headerPane;
+	}
+
+	public void addComponentToHeader(final PannelloBase headerPane) {
+		final int widthInfoButton = (int) UtilMath.getPercentage(getContenitorePadre().getWidth(), 5);
+		final int widthButton = (int) UtilMath.getPercentage(getContenitorePadre().getWidth(), 10);
 		final ButtonBase bottone = new ButtonBase(headerPane);
 		bottone.addActionListener(getRunListener());
 		final int heightButton = headerPane.getHeight() / 2;
@@ -119,7 +124,6 @@ public class NewSql extends PannelloBase {
 		headerPane.add(buttonF);
 		buttonF.addActionListener(new InfoListener());
 		bottoneSvuota.addActionListener(getCleanListener());
-		return headerPane;
 	}
 
 	private ActionListener getCleanListener() {
@@ -162,7 +166,7 @@ public class NewSql extends PannelloBase {
 					}
 				};
 				
-				final ArrayList<String> listaCelle = tableModel.getNomiColonne().getListaCelle();
+				final List<String> listaCelle = tableModel.getNomiColonne().getListaCelle();
 				final TableF table = new TableF(tableModel.getMatrice(), listaCelle.toArray(new String[listaCelle.size()]));
 				table.setFillsViewportHeight(true);
 				result.setViewportView(table);
@@ -206,5 +210,13 @@ public class NewSql extends PannelloBase {
 			b.addActionListener(e1 -> d.dispose());
 			d.setVisible(true);
 		}
+	}
+
+	public PannelloBase getHeaderPane() {
+		return headerPane;
+	}
+
+	public void setHeaderPane(PannelloBase headerPane) {
+		this.headerPane = headerPane;
 	}
 }

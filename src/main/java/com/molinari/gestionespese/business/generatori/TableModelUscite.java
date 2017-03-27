@@ -6,10 +6,9 @@ import java.util.Map;
 
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
-import com.molinari.utility.messages.I18NManager;
 import com.molinari.gestionespese.domain.ICatSpese;
-
 import com.molinari.utility.graphic.component.table.TableModel;
+import com.molinari.utility.messages.I18NManager;
 
 public class TableModelUscite extends TableModel{
 	/**
@@ -18,7 +17,17 @@ public class TableModelUscite extends TableModel{
 	private static final long serialVersionUID = 1L;
 	private static final Map<Integer, String> mapMesi = new HashMap<>();
 
-	static{
+	
+			private List<ICatSpese> categorie;
+
+	public TableModelUscite(Object parametro) {
+		super(parametro);
+	}
+
+
+	@Override
+	protected void preBuild(Object parametro) {
+		
 		mapMesi.put(1, I18NManager.getSingleton().getMessaggio("january"));
 		mapMesi.put(2, I18NManager.getSingleton().getMessaggio("february"));
 		mapMesi.put(3, I18NManager.getSingleton().getMessaggio("march"));
@@ -31,17 +40,7 @@ public class TableModelUscite extends TableModel{
 		mapMesi.put(10, I18NManager.getSingleton().getMessaggio("october"));
 		mapMesi.put(11, I18NManager.getSingleton().getMessaggio("november"));
 		mapMesi.put(12, I18NManager.getSingleton().getMessaggio("december"));
-	}
-
-	private List<ICatSpese> categorie;
-
-	public TableModelUscite(Object parametro) {
-		super(parametro);
-	}
-
-
-	@Override
-	protected void preBuild(Object parametro) {
+		
 		aggiungiNomiColonne();
 		for (int i = 1; i <= 12; i++) {
 			final Riga riga = new Riga();

@@ -4,19 +4,18 @@ package com.molinari.gestionespese.view.tabellamesi;
 
 
 import java.awt.GridLayout;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 import javax.swing.JScrollPane;
 
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.generatori.TableModelEntrate;
-import com.molinari.utility.messages.I18NManager;
 import com.molinari.gestionespese.view.OggettoVistaBase;
 import com.molinari.gestionespese.view.font.TableF;
-
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.messages.I18NManager;
 
 public class TabellaEntrata {
 
@@ -53,7 +52,7 @@ public class TabellaEntrata {
 	 * @return TableF
 	 */
 	public TableF createTable(TableModelEntrate model) {
-		final ArrayList<String> listaCelle = model.getNomiColonne().getListaCelle();
+		final List<String> listaCelle = model.getNomiColonne().getListaCelle();
 		final TableF table = new TableF(model.getMatrice(), listaCelle.toArray(new String[listaCelle.size()]));
 
 		table.setFillsViewportHeight(true);

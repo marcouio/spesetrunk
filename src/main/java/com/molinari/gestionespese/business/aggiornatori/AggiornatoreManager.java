@@ -29,6 +29,7 @@ import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.wrapper.Model;
 import com.molinari.gestionespese.view.FinestraListaComandi;
 import com.molinari.gestionespese.view.GeneralFrame;
+import com.molinari.gestionespese.view.NewSql;
 import com.molinari.gestionespese.view.componenti.componentipannello.PannelloAScomparsa;
 import com.molinari.gestionespese.view.componenti.componentipannello.SottoPannelloCategorie;
 import com.molinari.gestionespese.view.componenti.componentipannello.SottoPannelloDatiEntrate;
@@ -47,6 +48,7 @@ import com.molinari.gestionespese.view.tabellamesi.TabellaUscitaGruppi;
 import com.molinari.utility.aggiornatori.IAggiornatore;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.database.ConnectionPool;
+import com.molinari.utility.graphic.component.container.PannelloBase;
 
 public class AggiornatoreManager {
 
@@ -85,6 +87,9 @@ public class AggiornatoreManager {
 	// ***************************************** METODI AGGIORNAMENTO
 
 	public static boolean aggiornamentoPerImpostazioni() {
+		
+		aggiornaConsolleSql();
+		
 		try {
 			if (SottoPannelloMesi.getComboMese() != null) {
 				SottoPannelloMesi.azzeraCampi();
@@ -426,6 +431,15 @@ public class AggiornatoreManager {
 			return false;
 		}
 
+	}
+	
+	public static boolean aggiornaConsolleSql(){
+		final GeneralFrame generalFrame = Controllore.getSingleton().getGeneralFrame();
+		final NewSql consolle = generalFrame.getPannelTabs().getConsolle();
+		PannelloBase headerPane = consolle.getHeaderPane();
+		headerPane.removeAll();
+		consolle.addComponentToHeader(headerPane);
+		return true;
 	}
 
 	// aggiorno tabella entrate/mese in seguito a variazioni di altre tabelle

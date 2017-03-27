@@ -4,7 +4,7 @@ package com.molinari.gestionespese.view.tabellamesi;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 import javax.swing.JScrollPane;
@@ -12,7 +12,6 @@ import javax.swing.JScrollPane;
 import com.molinari.gestionespese.business.generatori.TableModelUscite;
 import com.molinari.gestionespese.view.OggettoVistaBase;
 import com.molinari.gestionespese.view.font.TableF;
-
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.table.TableModel;
 
@@ -60,7 +59,7 @@ public class TabellaUscita {
 	 * @return TableF
 	 */
 	public static TableF createTable(TableModel model) {
-		final ArrayList<String> nomiColonne = model.getNomiColonne().getListaCelle();
+		final List<String> nomiColonne = model.getNomiColonne().getListaCelle();
 		final TableF table = new TableF(model.getMatrice(), nomiColonne.toArray(new String[nomiColonne.size()]));
 
 		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
