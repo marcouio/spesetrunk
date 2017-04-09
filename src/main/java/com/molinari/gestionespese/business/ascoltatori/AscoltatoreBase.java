@@ -14,7 +14,7 @@ public abstract class AscoltatoreBase implements ActionListener {
 	protected IAggiornatore aggiornatore;
 
 	public AscoltatoreBase(final String cosaAggiornare) {
-		aggiornatore = Controllore.getSingleton().getAggiornatoreManager().creaAggiornatore(cosaAggiornare);
+		aggiornatore = Controllore.getAggiornatoreManager().creaAggiornatore(cosaAggiornare);
 	}
 
 	public AscoltatoreBase(final IAggiornatore aggiornatore) {

@@ -10,12 +10,10 @@ import javax.swing.JComboBox;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.domain.ILookandfeel;
 import com.molinari.gestionespese.domain.Lookandfeel;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
-
 import com.molinari.utility.controller.ControlloreBase;
 
 public class AscoltatoreLook implements ActionListener {
@@ -57,7 +55,7 @@ public class AscoltatoreLook implements ActionListener {
 		}
 		try {
 			UIManager.setLookAndFeel(look);
-			SwingUtilities.updateComponentTreeUI(Controllore.getSingleton().getView());
+			SwingUtilities.updateComponentTreeUI(ControlloreBase.getSingleton().getApplicationframe());
 			SwingUtilities.updateComponentTreeUI(Impostazioni.getSingleton());
 		} catch (final Exception e1) {
 			comboLook.setSelectedIndex(0);

@@ -322,7 +322,7 @@ public class Database {
 			final Date dataEntrata = DBUtil.stringToDate(entrata.getdata(), YYYY_MM_DD);
 			final int mesee = Integer.parseInt(DBUtil.dataToString(dataEntrata, "MM"));
 
-			if (mesee == mese && cat.equals(tipoEntrata)) {
+			if (mesee == mese && cat.equalsIgnoreCase(tipoEntrata)) {
 				entrateMeseTipo += entrata.getinEuro();
 			}
 		}

@@ -21,7 +21,7 @@ public class TableModelEntrate extends TableModel{
 		
 		final Map<Integer, String> mapMesi = TableModelUscite.getMapmesi();
 		
-		final String[] listaColonneloc = getListaColonne();
+		final String[] listaColonneloc = getListaColonneDb();
 		aggiungiNomiColonne();
 		for (int i = 1; i <= 12; i++) {
 			final Riga riga = new Riga();
@@ -46,6 +46,14 @@ public class TableModelEntrate extends TableModel{
 		if(listaColonne == null){
 			final String fisse = I18NManager.getSingleton().getMessaggio("fixity");
 			final String variabili = I18NManager.getSingleton().getMessaggio("variables");
+			listaColonne = new String[]{fisse, variabili};
+		}
+		return listaColonne;
+	}
+	public String[] getListaColonneDb() {
+		if(listaColonne == null){
+			final String fisse = "fisse";
+			final String variabili = "variabili";
 			listaColonne = new String[]{fisse, variabili};
 		}
 		return listaColonne;

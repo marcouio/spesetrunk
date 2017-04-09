@@ -5,12 +5,11 @@ import java.awt.Container;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
-import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.Finestra;
-import com.molinari.utility.messages.I18NManager;
 import com.molinari.gestionespese.view.font.TableF;
-
+import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.messages.I18NManager;
 
 public class FinestraListaComandi implements Finestra {
 
@@ -43,7 +42,7 @@ public class FinestraListaComandi implements Finestra {
 	}
 
 	public Object[][] generaDati() {
-		return Controllore.getSingleton().getCommandManager().generaDati();
+		return ControlloreBase.getSingleton().getCommandManager().generaDati();
 	}
 
 	public TableF getTable() {

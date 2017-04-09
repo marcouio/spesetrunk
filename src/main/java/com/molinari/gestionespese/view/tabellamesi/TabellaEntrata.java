@@ -56,7 +56,7 @@ public class TabellaEntrata {
 		final TableF table = new TableF(model.getMatrice(), listaCelle.toArray(new String[listaCelle.size()]));
 
 		table.setFillsViewportHeight(true);
-		final PannelloBase panelTabs = Controllore.getSingleton().getGeneralFrame().getPannelTabs().getPanel();
+		final PannelloBase panelTabs = Controllore.getGeneralFrame().getPannelTabs().getPanel();
 		table.setRowHeight(panelTabs.getHeight()/12);
 		return table;
 	}

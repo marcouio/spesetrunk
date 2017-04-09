@@ -4,6 +4,7 @@ import java.awt.Frame;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -17,22 +18,21 @@ import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapUtenti;
 import com.molinari.gestionespese.view.GeneralFrame;
 import com.molinari.utility.commands.AbstractCommand;
-import com.molinari.utility.commands.CommandManager;
 import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.controller.StarterBase;
 import com.molinari.utility.database.ExecuteResultSet;
 import com.molinari.utility.graphic.component.container.FrameBase;
 import com.molinari.utility.messages.I18NManager;
 
-public class Controllore extends ControlloreBase{
+public class Controllore extends StarterBase{
 
 	private static final String GUEST = "guest";
 	private FrameBase view;
 	private AggiornatoreManager aggiornatoreManager;
 	private GeneralFrame genPan;
-	private static Controllore singleton;
 	private String lookUsato;
 
-	private Controllore() {
+	public Controllore() {
 		//do nothing
 	}
 
@@ -87,8 +87,12 @@ public class Controllore extends ControlloreBase{
 	}
 
 
+	public static Logger getLog() {
+		return ControlloreBase.getLog();
+	}
+
 	public static boolean invocaComando(final AbstractCommand comando) {
-		return Controllore.getSingleton().getCommandManager().invocaComando(comando);
+		return ControlloreBase.getSingleton().getCommandManager().invocaComando(comando);
 	}
 
 	/**
@@ -106,37 +110,19 @@ public class Controllore extends ControlloreBase{
 			final WrapUtenti wrap = new WrapUtenti();
 			wrap.insert(utente);
 		}
-
-		utenteLogin = CacheUtenti.getSingleton().getUtente("1");
+		getControllore().setUtenteLogin(CacheUtenti.getSingleton().getUtente("1"));
 	}
 
-	public static Controllore getSingleton() {
-		synchronized (Controllore.class) {
-			if (singleton == null) {
-				singleton = new Controllore();
-			}
-		} // if
-		return singleton;
-	}
-
-	@Override
-	public Object getUtenteLogin() {
-		return utenteLogin;
-	}
-
-	public AggiornatoreManager getAggiornatoreManager() {
+	public AggiornatoreManager getAggiornatoreManagerInner() {
 		if (aggiornatoreManager == null) {
 			aggiornatoreManager = AggiornatoreManager.getSingleton();
 		}
 		return aggiornatoreManager;
 	}
-
-	@Override
-	public CommandManager getCommandManager() {
-		if (commandManager == null) {
-			commandManager = CommandManager.getIstance();
-		}
-		return commandManager;
+	
+	public static AggiornatoreManager getAggiornatoreManager(){
+		Controllore starter = (Controllore) ControlloreBase.getSingleton().getStarter();
+		return starter.getAggiornatoreManagerInner();
 	}
 
 	public FrameBase getView() {
@@ -144,18 +130,10 @@ public class Controllore extends ControlloreBase{
 	}
 
 	@Override
-	public void quit() {
-		view.setVisible(false);
-		view.dispose();
-	}
-
-	public static void main(final String[] args) {
-		Controllore.getSingleton().myMain(Controllore.getSingleton(), false, "myApplication");
-	}
-
-	@Override
-	public void mainOverridato(FrameBase frame) {
-
+	public void start(FrameBase frame) {
+		
+		setConnectionClassName();
+		
 		Database.setDburl(Database.DB_URL_WORKSPACE);
 		verificaPresenzaDb();
 		frame.setExtendedState(Frame.MAXIMIZED_BOTH);
@@ -167,23 +145,31 @@ public class Controllore extends ControlloreBase{
 
 		settaLookFeel();
 
-		Controllore.getSingleton();
-
 		view.setTitle(I18NManager.getSingleton().getMessaggio("title"));
 
 	}
+
+
 
 	public FrameBase getGenView(){
 		return view;
 	}
 
-	public GeneralFrame getGeneralFrame(){
+	public GeneralFrame getGeneralFrameInner(){
 		return this.genPan;
 	}
+	
+	public static GeneralFrame getGeneralFrame(){
+		Controllore starter = (Controllore) ControlloreBase.getSingleton().getStarter();
+		return starter.getGeneralFrameInner();
+	}
+	
+	public static Object getUtenteLogin(){
+		return ControlloreBase.getSingleton().getUtenteLogin();
+	}
 
-	@Override
-	public String getConnectionClassName() {
-		return ConnectionPoolGGS.class.getName();
+	public void setConnectionClassName() {
+		getControllore().setConnectionClassName(ConnectionPoolGGS.class.getName());
 	}
 
 	public String getLookUsato() {

@@ -14,7 +14,6 @@ import com.molinari.gestionespese.view.GeneralFrame;
 import com.molinari.gestionespese.view.componenti.componentipannello.PannelloAScomparsa;
 import com.molinari.gestionespese.view.note.MostraNoteView;
 import com.molinari.gestionespese.view.report.ReportView;
-
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.alert.Alert;
 import com.molinari.utility.graphic.component.container.PannelloBase;
@@ -40,7 +39,7 @@ public class InizializzatoreFinestre {
 
 	public InizializzatoreFinestre() {
 		
-		GeneralFrame generalFrame = Controllore.getSingleton().getGeneralFrame();
+		GeneralFrame generalFrame = Controllore.getGeneralFrame();
 		pannello = new PannelloBase(generalFrame);
 		pannello.setSize((int) UtilMath.getPercentage(generalFrame.getWidth(), 17), generalFrame.getHeight());
 		// inizializzo l'array list con le class per evitare di caricare tutto
@@ -76,7 +75,7 @@ public class InizializzatoreFinestre {
 				}
 			}
 
-			UIManager.setLookAndFeel(Controllore.getSingleton().getLookUsato());
+			UIManager.setLookAndFeel(((Controllore) ControlloreBase.getSingleton().getStarter()).getLookUsato());
 
 			
 		} catch (final Exception e) {

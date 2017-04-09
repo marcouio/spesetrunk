@@ -75,7 +75,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 	}
 
 	public List<IEntrate> selectAllForUtente() {
-		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
+		final Utenti utente = (Utenti) Controllore.getUtenteLogin();
 
 		final String sql = SELECT_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.COL_IDUTENTE + " = " + utente.getidUtente();
 		try {
@@ -262,7 +262,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 	 * @return List<Entrate>
 	 */
 	public List<Entrate> movimentiEntrateFiltrati(final String dataDa, final String dataA, final String nome, final Double euro, final String categoria) {
-		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
+		final Utenti utente = (Utenti) Controllore.getUtenteLogin();
 		int idUtente = 0;
 		if (utente != null) {
 			idUtente = utente.getidUtente();
@@ -326,7 +326,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 	 * @return List<Entrate>
 	 */
 	public List<Entrate> dieciEntrate(final int numEntry) {
-		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
+		final Utenti utente = (Utenti) Controllore.getUtenteLogin();
 		int idUtente = 0;
 		if (utente != null) {
 			idUtente = utente.getidUtente();
@@ -439,7 +439,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 		stringBuilder.append(WHERE);
 		stringBuilder.append(Entrate.COL_IDUTENTE);
 		stringBuilder.append(" = ");
-		stringBuilder.append(((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente());
+		stringBuilder.append(((Utenti) Controllore.getUtenteLogin()).getidUtente());
 		stringBuilder.append(" ORDER BY ");
 		stringBuilder.append(Entrate.COL_DATAINS);
 		stringBuilder.append(" DESC");

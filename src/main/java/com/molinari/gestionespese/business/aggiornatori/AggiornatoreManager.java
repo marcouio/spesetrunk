@@ -85,7 +85,6 @@ public class AggiornatoreManager {
 	}
 
 	// ***************************************** METODI AGGIORNAMENTO
-
 	public static boolean aggiornamentoPerImpostazioni() {
 		
 		aggiornaConsolleSql();
@@ -129,7 +128,7 @@ public class AggiornatoreManager {
 	 */
 	public static boolean aggiornaMovimentiUsciteDaFiltro(final Object[] nomiColonne, final String[][] movimenti) {
 		try {
-			final ListaMovimentiUscite tabMovimenti = Controllore.getSingleton().getGeneralFrame().getPannelTabs().getTabMovUscite();
+			final ListaMovimentiUscite tabMovimenti = Controllore.getGeneralFrame().getPannelTabs().getTabMovUscite();
 			if(tabMovimenti != null){
 				final TableF table1 = new TableF(movimenti, nomiColonne);
 				final JScrollPane scrollPane = tabMovimenti.getScrollPane();
@@ -155,7 +154,7 @@ public class AggiornatoreManager {
 	public static boolean aggiornaMovimentiUsciteDaEsterno(final Object[] nomiColonne, final int numUscite) {
 		try {
 			final String[][] movimenti = Model.movimentiUscite(numUscite, SingleSpesa.NOME_TABELLA);
-			final ListaMovimentiUscite tabMovimenti = Controllore.getSingleton().getGeneralFrame().getPannelTabs().getTabMovUscite();
+			final ListaMovimentiUscite tabMovimenti = Controllore.getGeneralFrame().getPannelTabs().getTabMovUscite();
 			if(tabMovimenti != null){
 				final TableF table1 = new TableF(movimenti, nomiColonne);
 				final JScrollPane scrollPane = tabMovimenti.getScrollPane();
@@ -179,7 +178,7 @@ public class AggiornatoreManager {
 	 */
 	public static boolean aggiornaMovimentiEntrateDaFiltro(final Object[] nomiColonne, final String[][] movimenti) {
 		try {
-			final ListaMovimentiEntrate tabMovimenti = Controllore.getSingleton().getGeneralFrame().getPannelTabs().getTabMovEntrate();
+			final ListaMovimentiEntrate tabMovimenti = Controllore.getGeneralFrame().getPannelTabs().getTabMovEntrate();
 			if(tabMovimenti != null){
 				final TableF table1 = new TableF(movimenti, nomiColonne);
 				final JScrollPane scrollPane = tabMovimenti.getScrollPane();
@@ -204,9 +203,9 @@ public class AggiornatoreManager {
 	public static boolean aggiornaMovimentiEntrateDaEsterno(final Object[] nomiColonne, final int numEntry) {
 		try {
 			final String[][] movimenti = Model.movimentiEntrate(numEntry, Entrate.NOME_TABELLA);
-			if(Controllore.getSingleton().getGeneralFrame()!=null){
+			if(Controllore.getGeneralFrame()!=null){
 				final TableF table1 = new TableF(movimenti, nomiColonne);
-				final ListaMovimentiEntrate tabMovimenti = Controllore.getSingleton().getGeneralFrame().getPannelTabs().getTabMovEntrate();
+				final ListaMovimentiEntrate tabMovimenti = Controllore.getGeneralFrame().getPannelTabs().getTabMovEntrate();
 				if(tabMovimenti != null){
 					final JScrollPane scrollPane = tabMovimenti.getScrollPane();
 					scrollPane.setViewportView(table1);
@@ -221,7 +220,7 @@ public class AggiornatoreManager {
 	}
 
 	public static boolean aggiornaListaComandi(){
-		GeneralFrame generalFrame = Controllore.getSingleton().getGeneralFrame();
+		GeneralFrame generalFrame = Controllore.getGeneralFrame();
 		final InizializzatoreFinestre initFinestre = generalFrame.getInitFinestre();
 		final FinestraListaComandi finestra = (FinestraListaComandi) initFinestre.getFinestra(InizializzatoreFinestre.INDEX_HISTORY, initFinestre.getPannello());
 		finestra.insertDati();
@@ -258,7 +257,7 @@ public class AggiornatoreManager {
 
 	public static boolean aggiornaPannelloDatiEntrate() {
 		try {
-			GeneralFrame generalFram = Controllore.getSingleton().getGeneralFrame();
+			GeneralFrame generalFram = Controllore.getGeneralFrame();
 			final InizializzatoreFinestre initFinestre = generalFram.getInitFinestre();
 			final PannelloAScomparsa finestra = (PannelloAScomparsa) initFinestre.getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, initFinestre.getPannello());
 
@@ -434,7 +433,7 @@ public class AggiornatoreManager {
 	}
 	
 	public static boolean aggiornaConsolleSql(){
-		final GeneralFrame generalFrame = Controllore.getSingleton().getGeneralFrame();
+		final GeneralFrame generalFrame = Controllore.getGeneralFrame();
 		final NewSql consolle = generalFrame.getPannelTabs().getConsolle();
 		PannelloBase headerPane = consolle.getHeaderPane();
 		headerPane.removeAll();
@@ -453,7 +452,7 @@ public class AggiornatoreManager {
 		try {
 
 			final TableModelEntrate model = new TableModelEntrate(null);
-			final GeneralFrame generalFrame = Controllore.getSingleton().getGeneralFrame();
+			final GeneralFrame generalFrame = Controllore.getGeneralFrame();
 			final PerMesiF tabPermesi = generalFrame.getPannelTabs().getTabPermesi();
 			if(tabPermesi != null){
 				final TableF table = tabPermesi.getTabEntrate().createTable(model);

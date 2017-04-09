@@ -85,7 +85,7 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 
 	public List<SingleSpesa> selectAllForUtente() {
 		final List<SingleSpesa> uscite = new ArrayList<>();
-		final IUtenti utente = (IUtenti) Controllore.getSingleton().getUtenteLogin();
+		final IUtenti utente = (IUtenti) Controllore.getUtenteLogin();
 		final Map<String, ICatSpese> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
 
 		final String sql = SELECT_FROM + SingleSpesa.NOME_TABELLA + WHERE + SingleSpesa.COL_IDUTENTE + " = " + utente.getidUtente();
@@ -274,7 +274,7 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 	 */
 	public List<ISingleSpesa> movimentiUsciteFiltrate(final String dataDa, final String dataA, final String nome, final Double euro, final String catSpese) {
 
-		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
+		final Utenti utente = (Utenti) Controllore.getUtenteLogin();
 		int idUtente = 0;
 		if (utente != null) {
 			idUtente = utente.getidUtente();
@@ -341,7 +341,7 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 	 */
 	public List<ISingleSpesa> dieciUscite(final int dieci) {
 
-		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
+		final Utenti utente = (Utenti) Controllore.getUtenteLogin();
 		int idUtente = 0;
 		if (utente != null) {
 			idUtente = utente.getidUtente();
@@ -392,7 +392,7 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 	public boolean deleteLastSpesa() {
 		boolean ok = false;
 
-		final String sql = SELECT_FROM + SingleSpesa.NOME_TABELLA + WHERE + Entrate.COL_IDUTENTE + " = " + ((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente()
+		final String sql = SELECT_FROM + SingleSpesa.NOME_TABELLA + WHERE + Entrate.COL_IDUTENTE + " = " + ((Utenti) Controllore.getUtenteLogin()).getidUtente()
 				+ " ORDER BY " + SingleSpesa.COL_DATAINS + " DESC";
 
 		try {

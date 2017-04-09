@@ -175,7 +175,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 			final String messaggio = I18NManager.getSingleton().getMessaggio("valorenotcorrect");
 			Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore(messaggio));
 		}
-		setUtenti((Utenti) Controllore.getSingleton().getUtenteLogin());
+		setUtenti((Utenti) Controllore.getUtenteLogin());
 	}
 
 	protected JTextField getTfDataIns() {
@@ -212,7 +212,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 
 		private void delete() {
 			final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
-			final JTextField campo = Controllore.getSingleton().getGeneralFrame().getPannelTabs().getTabMovEntrate().getCampo();
+			final JTextField campo = Controllore.getGeneralFrame().getPannelTabs().getTabMovEntrate().getCampo();
 			aggiornaModelDaVista();
 			if (idEntrate.getText() != null && !Controllore.invocaComando(new CommandDeleteEntrata(getModelEntrate()))) {
 				Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore(I18NManager.getSingleton().getMessaggio("insertcorrect")));
@@ -230,7 +230,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 		private void update()  {
 			aggiornaModelDaVista();
 			final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(Entrate.NOME_TABELLA);
-			final PannelTabs pannelTabs = Controllore.getSingleton().getGeneralFrame().getPannelTabs();
+			final PannelTabs pannelTabs = Controllore.getGeneralFrame().getPannelTabs();
 			final JTextField campo = pannelTabs.getTabMovEntrate().getCampo();
 
 			final IEntrate oldEntrata = CacheEntrate.getSingleton().getEntrate(idEntrate.getText());

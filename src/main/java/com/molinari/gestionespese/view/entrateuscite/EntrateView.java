@@ -197,7 +197,7 @@ public class EntrateView extends AbstractEntrateView {
 			final String messaggio = I18NManager.getSingleton().getMessaggio("valorenotcorrect");
 			Alert.segnalazioneErroreGrave(messaggio);
 		}
-		setUtenti((Utenti) Controllore.getSingleton().getUtenteLogin());
+		setUtenti((Utenti) Controllore.getUtenteLogin());
 		setDataIns(DBUtil.dataToString(new Date(), "yyyy/MM/dd"));
 	}
 

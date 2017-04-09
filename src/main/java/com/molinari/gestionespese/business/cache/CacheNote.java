@@ -40,7 +40,7 @@ public class CacheNote extends AbstractCacheBase<INote> {
 	public List<INote> getAllNoteForUtente() {
 		final ArrayList<INote> listaNote = new ArrayList<>();
 		final Map<String, INote> mappa = getAllNote();
-		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
+		final Utenti utente = (Utenti) Controllore.getUtenteLogin();
 		if (mappa != null && utente != null) {
 			final Iterator<String> chiavi = mappa.keySet().iterator();
 
@@ -65,7 +65,7 @@ public class CacheNote extends AbstractCacheBase<INote> {
 	public List<INote> getAllNoteForUtenteEAnno() {
 		final ArrayList<INote> listaNote = new ArrayList<>();
 		final Map<String, INote> mappa = getAllNote();
-		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
+		final Utenti utente = (Utenti) Controllore.getUtenteLogin();
 		final String annoDaText = Integer.toString(Impostazioni.getAnno());
 
 		if (mappa != null && utente != null) {

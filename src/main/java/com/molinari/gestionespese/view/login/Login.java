@@ -7,7 +7,6 @@ import java.util.logging.Level;
 import javax.swing.JDialog;
 import javax.swing.WindowConstants;
 
-import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.aggiornatori.AggiornatoreManager;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import com.molinari.gestionespese.domain.IUtenti;
@@ -17,7 +16,6 @@ import com.molinari.gestionespese.view.font.LabelListaGruppi;
 import com.molinari.gestionespese.view.font.LabelTitolo;
 import com.molinari.gestionespese.view.font.TextFieldF;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
-
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.alert.Alert;
 
@@ -83,7 +81,7 @@ public class Login {
 	private void login(final IUtenti utente) {
 		final Impostazioni impostazioni = Impostazioni.getSingleton();
 		try {
-			Controllore.getSingleton().setUtenteLogin(utente);
+			ControlloreBase.getSingleton().setUtenteLogin(utente);
 			impostazioni.getUtente().setText(utente.getusername());
 			//  creare comando per sostituire tutto con nuova  gestione
 			AggiornatoreManager.aggiornamentoPerImpostazioni();

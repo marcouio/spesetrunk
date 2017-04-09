@@ -127,7 +127,7 @@ public class WrapNote extends Observable implements IDAO<INote>, INote {
 						noteLoc.setIdNote(rs.getInt(1));
 						noteLoc.setNome(rs.getString(2));
 						noteLoc.setDescrizione(rs.getString(3));
-						noteLoc.setUtenti((Utenti) Controllore.getSingleton().getUtenteLogin());
+						noteLoc.setUtenti((Utenti) Controllore.getUtenteLogin());
 						noteLoc.setData(rs.getString(5));
 						noteLoc.setDataIns(rs.getString(6));
 
@@ -264,7 +264,7 @@ public class WrapNote extends Observable implements IDAO<INote>, INote {
 	public boolean DeleteLastNote() {
 		boolean ok = false;
 
-		final String sql = SELECT_FROM + Note.NOME_TABELLA + WHERE + Note.COL_IDUTENTE + " = " + ((Utenti) Controllore.getSingleton().getUtenteLogin()).getidUtente() + " ORDER BY "
+		final String sql = SELECT_FROM + Note.NOME_TABELLA + WHERE + Note.COL_IDUTENTE + " = " + ((Utenti) Controllore.getUtenteLogin()).getidUtente() + " ORDER BY "
 				+ Note.COL_DATAINS + " DESC";
 		final Connection cn = ConnectionPool.getSingleton().getConnection();
 

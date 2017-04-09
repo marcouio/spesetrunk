@@ -86,7 +86,7 @@ public class Impostazioni extends JDialog {
 			getContentPane().add(calendario);
 
 			utente = new TextFieldF();
-			final Utenti utenteLogin = (Utenti) Controllore.getSingleton().getUtenteLogin();
+			final Utenti utenteLogin = (Utenti) Controllore.getUtenteLogin();
 			utente.setText(utenteLogin != null ? utenteLogin.getusername() : null);
 			utente.setBounds(140, 126, 113, 27);
 			getContentPane().add(utente);

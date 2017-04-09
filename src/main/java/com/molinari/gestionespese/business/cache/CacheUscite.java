@@ -41,7 +41,7 @@ public class CacheUscite extends AbstractCacheBase<ISingleSpesa> {
 	}
 
 	public List<ISingleSpesa> getAllUsciteForUtente() {
-		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
+		final Utenti utente = (Utenti) Controllore.getUtenteLogin();
 
 		final Map<String, ISingleSpesa> mappa = getAllUscite();
 
@@ -57,7 +57,7 @@ public class CacheUscite extends AbstractCacheBase<ISingleSpesa> {
 
 	public List<ISingleSpesa> getAllUsciteForUtenteEAnno() {
 		final Map<String, ISingleSpesa> mappa = getAllUscite();
-		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
+		final Utenti utente = (Utenti) Controllore.getUtenteLogin();
 		final String annoDaText = Integer.toString(Impostazioni.getAnno());
 		if (utente != null) {
 			return mappa.values().stream().filter(ss -> {

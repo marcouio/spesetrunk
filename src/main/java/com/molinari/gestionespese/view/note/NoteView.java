@@ -125,7 +125,7 @@ public class NoteView extends AbstractNoteView {
 		}
 
 		setDescrizione(descrizione.getText());
-		setUtenti((Utenti) Controllore.getSingleton().getUtenteLogin());
+		setUtenti((Utenti) Controllore.getUtenteLogin());
 		setDataIns(DBUtil.dataToString(new Date(), "yyyy/MM/dd"));
 	}
 

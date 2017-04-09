@@ -44,7 +44,7 @@ public class CacheEntrate extends AbstractCacheBase<IEntrate> {
 
 	public List<IEntrate> getAllEntrateForUtente() {
 		final Map<String, IEntrate> mappa = getAllEntrate();
-		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
+		final Utenti utente = (Utenti) Controllore.getUtenteLogin();
 		if (mappa != null && utente != null) {
 
 			return mappa.values().stream().filter(getFilterForUser(utente)).collect(Collectors.toList());
@@ -66,7 +66,7 @@ public class CacheEntrate extends AbstractCacheBase<IEntrate> {
 
 		final ArrayList<IEntrate> listaEntrate = new ArrayList<>();
 		final Map<String, IEntrate> mappa = getAllEntrate();
-		final Utenti utente = (Utenti) Controllore.getSingleton().getUtenteLogin();
+		final Utenti utente = (Utenti) Controllore.getUtenteLogin();
 		final String annoDaText = Integer.toString(Impostazioni.getAnno());
 
 		if (mappa != null && utente != null) {

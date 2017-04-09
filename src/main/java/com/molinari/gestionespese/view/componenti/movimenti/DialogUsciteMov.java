@@ -124,7 +124,7 @@ public class DialogUsciteMov extends AbstractUsciteView {
 			final String messaggio = I18NManager.getSingleton().getMessaggio("valorenotcorrect");
 			Alert.errore(messaggio, Alert.TITLE_ERROR);
 		}
-		setUtenti((Utenti) Controllore.getSingleton().getUtenteLogin());
+		setUtenti((Utenti) Controllore.getUtenteLogin());
 		setDataIns(tfDataIns.getText());
 	}
 
@@ -220,7 +220,7 @@ public class DialogUsciteMov extends AbstractUsciteView {
 		private void update() {
 			aggiornaModelDaVista();
 			final String[] nomiColonne = (String[]) AltreUtil.generaNomiColonne(SingleSpesa.NOME_TABELLA);
-			final JTextField campo = Controllore.getSingleton().getGeneralFrame().getPannelTabs().getTabMovUscite().getCampo();
+			final JTextField campo = Controllore.getGeneralFrame().getPannelTabs().getTabMovUscite().getCampo();
 			final ISingleSpesa oldSpesa = CacheUscite.getSingleton().getSingleSpesa(idSpesa.getText());
 
 			if (dialog.nonEsistonoCampiNonValorizzati()) {
