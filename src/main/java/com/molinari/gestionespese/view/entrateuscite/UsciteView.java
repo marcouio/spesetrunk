@@ -78,9 +78,9 @@ public class UsciteView extends AbstractUsciteView {
 		getDialog().getContentPane().add(cCategorie);
 
 		cCategorie.addItemListener(e -> {
-			CatSpese spese = null;
+			ICatSpese spese = null;
 			if (cCategorie.getSelectedIndex() != 0) {
-				spese = (CatSpese) cCategorie.getSelectedItem();
+				spese = (ICatSpese) cCategorie.getSelectedItem();
 				// il campo sotto serve per inserire la descrizione nel
 				// caso
 				// si selezioni

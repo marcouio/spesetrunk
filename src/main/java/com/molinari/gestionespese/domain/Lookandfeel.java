@@ -14,7 +14,7 @@ import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
  *
  */
 @Entity
-@Table(name = "LOOKANDFEEL")
+@Table(name = "\"lookAndFeel\"", schema="DEFAULT")
 public class Lookandfeel implements AbstractOggettoEntita, Serializable, ILookandfeel {
 	private static final long serialVersionUID = 1L;
 

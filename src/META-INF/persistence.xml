@@ -1,1 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="GestioneSpese">
+		<class>com.molinari.gestionespese.domain.Budget</class>
+		<class>com.molinari.gestionespese.domain.CatSpese</class>
+		<class>com.molinari.gestionespese.domain.Entrate</class>
+		<class>com.molinari.gestionespese.domain.Gruppi</class>
+		<class>com.molinari.gestionespese.domain.Risparmio</class>
+		<class>com.molinari.gestionespese.domain.SingleSpesa</class>
+		<class>com.molinari.gestionespese.domain.Utenti</class>
+		<class>com.molinari.gestionespese.domain.Lookandfeel</class>
+		<class>com.molinari.gestionespese.domain.Note</class>
+		
+		<properties>
+       		<property name="eclipselink.target-database" value="DEFAULT"/>
+<!--           	<property name="eclipselink.jdbc.url" value="jdbc:sqlite:/home/kiwi/Documenti/Workspace/GestioneSpese.sqlite"/> -->
+          	<property name="eclipselink.jdbc.url" value="jdbc:sqlite:F:/workspace/GestioneSpese.sqlite"/>
+          	<property name="eclipselink.jdbc.driver" value="org.sqlite.JDBC"/>
+	        <!-- 	<property name="eclipselink.ddl-generation" value="drop-and-create-tables"/> -->
+	    		<property name="eclipselink.ddl-generation" value="create-tables"/>
+           	<property name="eclipselink.logging.level" value="FINE"/>
+        </properties>
+	        
+	</persistence-unit>
+</persistence>

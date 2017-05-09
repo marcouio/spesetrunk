@@ -17,7 +17,7 @@ import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
  */
 
 @Entity
-@Table(name = "NOTE")
+@Table(name = "\"note\"", schema="DEFAULT")
 public class Note implements AbstractOggettoEntita, Serializable, INote {
 	private static final long serialVersionUID = 1L;
 	public static final String NOME_TABELLA = "note";

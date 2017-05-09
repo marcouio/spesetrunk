@@ -16,7 +16,7 @@ import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
  *
  */
 @Entity
-@Table(name = "GRUPPI")
+@Table(name = "\"gruppi\"", schema="DEFAULT")
 public class Gruppi implements AbstractOggettoEntita, Serializable, IGruppi {
 	private static final long serialVersionUID = 1L;
 

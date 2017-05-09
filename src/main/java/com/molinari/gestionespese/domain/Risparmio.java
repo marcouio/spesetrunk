@@ -14,7 +14,7 @@ import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
  *
  */
 @Entity
-@Table(name = "RISPARMIO")
+@Table(name = "\"risparmio\"", schema="DEFAULT")
 public class Risparmio implements AbstractOggettoEntita, Serializable, IRisparmio {
 	private static final long serialVersionUID = 1L;
 

@@ -3,6 +3,7 @@ package com.molinari.gestionespese.business.generatori;
 import java.util.Map;
 
 import com.molinari.gestionespese.business.Database;
+import com.molinari.gestionespese.view.entrateuscite.EntrateView.INCOMETYPE;
 import com.molinari.utility.graphic.component.table.TableModel;
 import com.molinari.utility.messages.I18NManager;
 
@@ -21,13 +22,14 @@ public class TableModelEntrate extends TableModel{
 		
 		final Map<Integer, String> mapMesi = TableModelUscite.getMapmesi();
 		
-		final String[] listaColonneloc = getListaColonneDb();
+		INCOMETYPE[] values = INCOMETYPE.values();
+		
 		aggiungiNomiColonne();
 		for (int i = 1; i <= 12; i++) {
 			final Riga riga = new Riga();
 			riga.add(mapMesi.get(i));
-			for (final String element : listaColonneloc) {
-				final String entrataMeseTipo = Double.toString(Database.getSingleton().entrateMeseTipo(i, element));
+			for (final INCOMETYPE element : values) {
+				final String entrataMeseTipo = Double.toString(Database.getSingleton().entrateMeseTipo(i, Integer.toString(element.ordinal())));
 				riga.add(entrataMeseTipo);
 			}
 			addRiga(riga);

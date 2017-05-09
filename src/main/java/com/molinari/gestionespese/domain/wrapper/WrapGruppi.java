@@ -114,12 +114,17 @@ public class WrapGruppi extends Observable implements IDAO<IGruppi>, IGruppi {
 
 			@Override
 			protected void doWithPreparedStatement(PreparedStatement ps, IGruppi obj) throws SQLException {
-				ps.setString(1, gruppo.getnome());
-				ps.setString(2, gruppo.getdescrizione());
+				ps.setString(1, obj.getnome());
+				ps.setString(2, obj.getdescrizione());
 
 			}
 		};
 		return eps.executeUpdate(sql, oggettoEntita);
+	}
+	
+	@Override
+	public String toString() {
+		return getnome();
 	}
 
 	private String getQueryInsert() {

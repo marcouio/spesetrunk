@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -19,7 +20,7 @@ import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
  *
  */
 @Entity
-@Table(name = "cat_spese", schema = "DEFAULT")
+@Table(name = "\"cat_spese\"", schema = "DEFAULT")
 public class CatSpese implements AbstractOggettoEntita,Serializable, ICatSpese {
 	private static final long serialVersionUID = 1L;
 
@@ -42,7 +43,7 @@ public class CatSpese implements AbstractOggettoEntita,Serializable, ICatSpese {
 
 	// bi-directional many-to-one association to Gruppi
 	@ManyToOne
-	@JoinColumns({})
+	@JoinColumns({@JoinColumn(name="\"idGruppo\"")})
 	private IGruppi gruppi;
 
 	// bi-directional many-to-one association to SingleSpesa

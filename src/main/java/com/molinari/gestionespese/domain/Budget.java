@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -15,7 +16,7 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "budget")
+@Table(name = "\"budget\"", schema="DEFAULT")
 public class Budget implements IBudget, Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -37,7 +38,7 @@ public class Budget implements IBudget, Serializable {
 
 	// bi-directional one-to-one association to CatSpese
 	@OneToOne
-	@JoinColumns({})
+	@JoinColumns({@JoinColumn(name="\"idCategorie\"")})
 	private ICatSpese catSpese;
 
 	public Budget() {
@@ -81,7 +82,7 @@ public class Budget implements IBudget, Serializable {
 
 	@Override
 	public void setCatSpese(final ICatSpese catSpese) {
-		this.catSpese = catSpese;
+		this.catSpese = (CatSpese) catSpese;
 	}
 
 	@Override

@@ -16,7 +16,7 @@ import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
  *
  */
 @Entity
-@Table(name = "ENTRATE")
+@Table(name = "\"entrate\"", schema="DEFAULT")
 public class Entrate implements AbstractOggettoEntita, Serializable, IEntrate {
 	private static final long serialVersionUID = 1L;
 

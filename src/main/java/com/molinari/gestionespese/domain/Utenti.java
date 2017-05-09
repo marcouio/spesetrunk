@@ -16,7 +16,7 @@ import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
  *
  */
 @Entity
-@Table(name = "UTENTI")
+@Table(name = "\"utenti\"", schema="DEFAULT")
 public class Utenti implements AbstractOggettoEntita, Serializable, IUtenti {
 	private static final long serialVersionUID = 1L;
 

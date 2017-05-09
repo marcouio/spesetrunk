@@ -29,6 +29,7 @@ import com.molinari.gestionespese.domain.wrapper.Model;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
 import com.molinari.gestionespese.view.PannelTabs;
 import com.molinari.gestionespese.view.entrateuscite.AbstractEntrateView;
+import com.molinari.gestionespese.view.entrateuscite.EntrateView.INCOMETYPE;
 import com.molinari.gestionespese.view.font.ButtonF;
 import com.molinari.gestionespese.view.font.LabelListaGruppi;
 import com.molinari.gestionespese.view.font.TextFieldF;
@@ -161,7 +162,10 @@ public class DialogEntrateMov extends AbstractEntrateView {
 		setnEntrate(idEntrate.getText());
 		setcNome(tfNome.getText());
 		setcDescrizione(taDescrizione.getText());
-		setFisseOVar((String) cbTipoEntrata.getSelectedItem());
+		
+		int ordinal = ((INCOMETYPE) cbTipoEntrata.getSelectedItem()).ordinal();
+		setFisseOVar(Integer.toString(ordinal));
+		
 		if (AltreUtil.checkData(tfData.getText())) {
 			setcData(tfData.getText());
 		} else {

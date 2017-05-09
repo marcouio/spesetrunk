@@ -69,6 +69,11 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO<ICatSpes
 		}
 		return categorie;
 	}
+	
+	@Override
+	public String toString() {
+		return getnome();
+	}
 
 	@Override
 	public List<ICatSpese> selectAll() {

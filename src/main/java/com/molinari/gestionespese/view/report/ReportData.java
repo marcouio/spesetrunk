@@ -14,7 +14,7 @@ import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.view.entrateuscite.EntrateView;
-
+import com.molinari.gestionespese.view.entrateuscite.EntrateView.INCOMETYPE;
 import com.molinari.utility.controller.ControlloreBase;
 
 public class ReportData {
@@ -74,9 +74,10 @@ public class ReportData {
 
 	public Map<String, Double> generaEntrateCatAnnuali() {
 		final HashMap<String, Double> entrateCatAnnuali = new HashMap<>();
-		final List<String> nomiColonne = EntrateView.getLista();
+		final List<INCOMETYPE> nomiColonne = EntrateView.getLista();
 		for (int i = 0; i < nomiColonne.size(); i++) {
-			entrateCatAnnuali.put(nomiColonne.get(i), Database.totaleEntrateAnnoCategoria(nomiColonne.get(i)));
+			int ordinal = nomiColonne.get(i).ordinal();
+			entrateCatAnnuali.put(nomiColonne.get(i).toString(), Database.totaleEntrateAnnoCategoria(Integer.toString(ordinal)));
 		}
 		return entrateCatAnnuali;
 	}
@@ -107,13 +108,13 @@ public class ReportData {
 	}
 
 	public String[][] generaEntrateCatMensili() {
-		final List<String> nomiColonne = EntrateView.getLista();
+		final List<INCOMETYPE> nomiColonne = EntrateView.getLista();
 		final String [][] entrateCatMensili = new String[12][2];
 		for (int i = 0; i < 12; i++) {
 			for (int x = 0; x < 2; x++) {
 				try {
-					final Double entrataMeseTipo = Database.getSingleton().entrateMeseTipo(i + 1,
-							nomiColonne.get(x));
+					int ordinal = nomiColonne.get(x).ordinal();
+					final Double entrataMeseTipo = Database.getSingleton().entrateMeseTipo(i + 1, Integer.toString(ordinal));
 					entrateCatMensili[i][x] = entrataMeseTipo.toString();
 				} catch (final Exception e2) {
 					ControlloreBase.getLog().log(Level.SEVERE, e2.getMessage(), e2);

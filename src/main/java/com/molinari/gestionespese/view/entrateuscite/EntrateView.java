@@ -3,9 +3,9 @@ package com.molinari.gestionespese.view.entrateuscite;
 import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.Observable;
 import java.util.logging.Level;
 
@@ -33,16 +33,19 @@ import com.molinari.utility.text.CorreggiTesto;
 
 public class EntrateView extends AbstractEntrateView {
 
-	private static List<String> lista = new ArrayList<>();
-	
-	static{
-		lista.add(I18NManager.getSingleton().getMessaggio("variables"));
-		lista.add(I18NManager.getSingleton().getMessaggio("fixity"));
-	}
+	public enum INCOMETYPE{
+		VARIABLES, FIXITY;
 
+		@Override
+		public String toString() {
+			return I18NManager.getSingleton().getMessaggio(super.toString().toLowerCase());
+		}
+		
+	}
+	
 	private final TextFieldF         tfNome;
 	private final TextAreaF          taDescrizione;
-	private final JComboBox<String>          cbTipo;
+	private final JComboBox<INCOMETYPE>          cbTipo;
 	private final TextFieldF         tfData;
 	private final TextFieldF         tfEuro;
 
@@ -75,13 +78,14 @@ public class EntrateView extends AbstractEntrateView {
 		tfNome.setColumns(10);
 
 		// array per Categoria
-		final ArrayList<String> listaCombo = new ArrayList<>();
-		listaCombo.add("");
-		for(int i = 0; i<lista.size(); i++){
-			listaCombo.add(lista.get(i));
+		final ArrayList<INCOMETYPE> listaCombo = new ArrayList<>();
+		listaCombo.add(null);
+		INCOMETYPE[] values = INCOMETYPE.values();
+		for(int i = 0; i<INCOMETYPE.values().length; i++){
+			listaCombo.add(INCOMETYPE.values()[i]);;
 		}
 
-		cbTipo = new JComboBox<>(lista.toArray(new String[lista.size()]));
+		cbTipo = new JComboBox<>(INCOMETYPE.values());
 		cbTipo.setBounds(181, 38, 150, 27);
 		getDialog().getContentPane().add(cbTipo);
 
@@ -166,8 +170,8 @@ public class EntrateView extends AbstractEntrateView {
 	/**
 	 * @return the lista
 	 */
-	public static List<String> getLista() {
-		return EntrateView.lista;
+	public static ArrayList<INCOMETYPE> getLista() {
+		return new ArrayList<INCOMETYPE>(Arrays.asList(INCOMETYPE.values()));
 	}
 
 	public void aggiornaModelDaVista() {
@@ -183,7 +187,8 @@ public class EntrateView extends AbstractEntrateView {
 		final String descri = checkTesto.getTesto();
 		setcDescrizione(descri);
 
-		setFisseOVar((String) cbTipo.getSelectedItem());
+		int ordinal = ((INCOMETYPE) cbTipo.getSelectedItem()).ordinal();
+		setFisseOVar(Integer.toString(ordinal));
 		if (AltreUtil.checkData(tfData.getText())) {
 			setcData(tfData.getText());
 		} else {
@@ -199,14 +204,6 @@ public class EntrateView extends AbstractEntrateView {
 		}
 		setUtenti((Utenti) Controllore.getUtenteLogin());
 		setDataIns(DBUtil.dataToString(new Date(), "yyyy/MM/dd"));
-	}
-
-	/**
-	 * @param lista
-	 *            the lista to set
-	 */
-	public static void setLista(final List<String> lista) {
-		EntrateView.lista = lista;
 	}
 
 	@Override

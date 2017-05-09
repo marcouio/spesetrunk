@@ -16,7 +16,7 @@ import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
  *
  */
 @Entity
-@Table(name = "SINGLE_SPESA")
+@Table(name = "\"single_spesa\"", schema="DEFAULT")
 public class SingleSpesa implements AbstractOggettoEntita, Serializable, ISingleSpesa {
 	private static final long serialVersionUID = 1L;
 
