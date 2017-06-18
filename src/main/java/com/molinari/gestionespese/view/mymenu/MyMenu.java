@@ -46,6 +46,34 @@ import com.molinari.utility.messages.I18NManager;
 public class MyMenu extends JMenuBar {
 
 	private static final long serialVersionUID = 1L;
+	private JMenuItem itemOtherDb;
+	private JMenuItem itemRegistra;
+	private JMenuItem itemChiudi;
+	private JMenu menuModifica;
+	private JMenuItem itemIndietro;
+	private JMenuItem itemAvanti;
+	private JMenu menuFinestre;
+	private JCheckBoxMenuItem mntmNote;
+	private JMenu menuStrumenti;
+	private JMenu menuImpostazioni;
+	private JMenuItem itemConfigurazione;
+	private JMenuItem itemCategorie;
+	private JMenuItem itemGrs;
+	private JMenu menuGrafici;
+	private JMenu menuEntrate;
+	private JMenuItem itemEntratePerTipo;
+	private JMenuItem itemEntrateMensili;
+	private JMenu menuUscite;
+	private JMenuItem itemMensiliPerCategoria;
+	private JMenuItem itemPerCategorie;
+	private JMenuItem itemManuale;
+	private JMenuItem itemInfo;
+	private JMenuItem itemUscite;
+	private JMenuItem itemEntrate;
+	private JMenu menuDati;
+	private JMenuItem itemSaldo;
+	private JMenu menuTotali;
+	private JMenuItem itemPerMesi;
 
 	public MyMenu() {
 		init();
@@ -57,95 +85,103 @@ public class MyMenu extends JMenuBar {
 		this.add(file);
 
 		// item di un menu
-		final JMenuItem menuItem = new JMenuItem(I18NManager.getSingleton().getMessaggio("otherdatabase"));
+		itemOtherDb = new JMenuItem();
 		final ActionListener ascolto = new AscoltatoreCaricaDatabase();
-		menuItem.addActionListener(ascolto);
-		file.add(menuItem);
+		itemOtherDb.addActionListener(ascolto);
+		
+		file.add(itemOtherDb);
+		
 
 		// item Login
-		final JMenuItem menuItem2 = new JMenuItem("Login");
+		final JMenuItem itemLogin = new JMenuItem("Login");
 		final ActionListener login = new AscoltatoreCreaDialog(new Login().getDialog(), 380, 260);
-		menuItem2.addActionListener(login);
-		file.add(menuItem2);
+		itemLogin.addActionListener(login);
+		file.add(itemLogin);
 
 		// item Login
-		final JMenuItem registra = new JMenuItem(I18NManager.getSingleton().getMessaggio("register"));
+		itemRegistra = new JMenuItem();
 		final ActionListener registrazione = new AscoltatoreCreaDialog(new Registrazione());
-		registra.addActionListener(registrazione);
-		file.add(registra);
+		itemRegistra.addActionListener(registrazione);
+		file.add(itemRegistra);
 
-		final JMenuItem chiudi = new JMenuItem(I18NManager.getSingleton().getMessaggio("close"));
-		chiudi.addActionListener(getAscoltatoreClose());
-		file.add(chiudi);
+		itemChiudi = new JMenuItem();
+		itemChiudi.addActionListener(getAscoltatoreClose());
+		file.add(itemChiudi);
 
-		final JMenu modifica = new JMenu(I18NManager.getSingleton().getMessaggio("edit"));
-		add(modifica);
 
-		final JMenuItem indietro = new JMenuItem(I18NManager.getSingleton().getMessaggio("undo"));
-		indietro.addActionListener(new AscoltatoreIndietro());
-		modifica.add(indietro);
+		menuModifica = new JMenu();
+		add(menuModifica);
 
-		final JMenuItem avanti = new JMenuItem(I18NManager.getSingleton().getMessaggio("redo"));
-		avanti.addActionListener(new AscoltatoreAvanti());
-		modifica.add(avanti);
 
-		final JMenu finestre = new JMenu(I18NManager.getSingleton().getMessaggio("windows"));
-		add(finestre);
+		itemIndietro = new JMenuItem();
+		itemIndietro.addActionListener(new AscoltatoreIndietro());
+		menuModifica.add(itemIndietro);
+
+
+		itemAvanti = new JMenuItem();
+		itemAvanti.addActionListener(new AscoltatoreAvanti());
+		menuModifica.add(itemAvanti);
+
+		
+
+		menuFinestre = new JMenu();
+		add(menuFinestre);
 
 		final JCheckBoxMenuItem listaComandi = new JCheckBoxMenuItem(I18NManager.getSingleton().getMessaggio("commands"));
-		finestre.add(listaComandi);
+		menuFinestre.add(listaComandi);
 
 		final JCheckBoxMenuItem mntmReport = new JCheckBoxMenuItem(I18NManager.getSingleton().getMessaggio("report"));
-		finestre.add(mntmReport);
+		menuFinestre.add(mntmReport);
 
 		final JCheckBoxMenuItem chckbxmntmDati = new JCheckBoxMenuItem(I18NManager.getSingleton().getMessaggio("summarydata"));
-		chckbxmntmDati.addActionListener(getAscoltatoreSummary(finestre, chckbxmntmDati));
-		finestre.add(chckbxmntmDati);
+		chckbxmntmDati.addActionListener(getAscoltatoreSummary(menuFinestre, chckbxmntmDati));
+		menuFinestre.add(chckbxmntmDati);
 
-		final JCheckBoxMenuItem mntmNote = new JCheckBoxMenuItem(I18NManager.getSingleton().getMessaggio("notes"));
-		finestre.add(mntmNote);
-		mntmNote.addActionListener(getListenerNote(finestre, mntmNote));
-		mntmReport.addActionListener(getListenerReport(finestre, mntmReport));
-		listaComandi.addActionListener(getListenerComandi(finestre, listaComandi));
+		mntmNote = new JCheckBoxMenuItem();
+		menuFinestre.add(mntmNote);
+		mntmNote.addActionListener(getListenerNote(menuFinestre, mntmNote));
+		mntmReport.addActionListener(getListenerReport(menuFinestre, mntmReport));
+		listaComandi.addActionListener(getListenerComandi(menuFinestre, listaComandi));
 
-		final JMenu mnStrumenti = new JMenu(I18NManager.getSingleton().getMessaggio("tools"));
-		add(mnStrumenti);
+		menuStrumenti = new JMenu();
+		add(menuStrumenti);
+		
+		menuImpostazioni = new JMenu();
+		menuStrumenti.add(menuImpostazioni);
 
-		final JMenu mnImpostazioni = new JMenu(I18NManager.getSingleton().getMessaggio("options"));
-		mnStrumenti.add(mnImpostazioni);
+		itemConfigurazione = new JMenuItem();
+		itemConfigurazione.addActionListener(getListenerConfig());
+		menuImpostazioni.add(itemConfigurazione);
 
-		final JMenuItem mntmConfigurazione = new JMenuItem(I18NManager.getSingleton().getMessaggio("config"));
-		mntmConfigurazione.addActionListener(getListenerConfig());
-		mnImpostazioni.add(mntmConfigurazione);
+		itemCategorie = new JMenuItem();
+		itemCategorie.addActionListener(getListenerCategories());
+		menuImpostazioni.add(itemCategorie);
 
-		final JMenuItem mntmCategorie = new JMenuItem(I18NManager.getSingleton().getMessaggio("categories"));
-		mntmCategorie.addActionListener(getListenerCategories());
-		mnImpostazioni.add(mntmCategorie);
+		itemGrs = new JMenuItem();
+		itemGrs.addActionListener(getListenerGroups());
+		menuImpostazioni.add(itemGrs);
 
-		final JMenuItem mntmGr = new JMenuItem(I18NManager.getSingleton().getMessaggio("groups"));
-		mntmGr.addActionListener(getListenerGroups());
-		mnImpostazioni.add(mntmGr);
+		menuGrafici = new JMenu();
+		menuStrumenti.add(menuGrafici);
 
-		final JMenu mnGrafici = new JMenu(I18NManager.getSingleton().getMessaggio("charts"));
-		mnStrumenti.add(mnGrafici);
+		menuEntrate = new JMenu();
+		menuGrafici.add(menuEntrate);
 
-		final JMenu mnEntrate = new JMenu(I18NManager.getSingleton().getMessaggio("entries"));
-		mnGrafici.add(mnEntrate);
+		itemEntratePerTipo = new JMenuItem();
+		menuEntrate.add(itemEntratePerTipo);
 
-		final JMenuItem mntmEntratePerTipo = new JMenuItem(I18NManager.getSingleton().getMessaggio("fortype"));
-		mnEntrate.add(mntmEntratePerTipo);
+		itemEntrateMensili = new JMenuItem();
+		menuEntrate.add(itemEntrateMensili);
 
-		final JMenuItem mntmEntrateMensili = new JMenuItem(I18NManager.getSingleton().getMessaggio("monthly"));
-		mnEntrate.add(mntmEntrateMensili);
 
-		final JMenu mnUscite = new JMenu(I18NManager.getSingleton().getMessaggio("charge"));
-		mnGrafici.add(mnUscite);
+		menuUscite = new JMenu();
+		menuGrafici.add(menuUscite);
 
-		final JMenuItem mntmMensiliPerCategoria = new JMenuItem(I18NManager.getSingleton().getMessaggio("monthlycat"));
-		mnUscite.add(mntmMensiliPerCategoria);
-
-		final JMenuItem mntmPerCategorie = new JMenuItem(I18NManager.getSingleton().getMessaggio("forcategories"));
-		mntmPerCategorie.addActionListener(new AscoltatoreAggiornatoreNiente() {
+		itemMensiliPerCategoria = new JMenuItem();
+		menuUscite.add(itemMensiliPerCategoria);
+		
+		itemPerCategorie = new JMenuItem();
+		itemPerCategorie.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
 				try {
@@ -157,10 +193,10 @@ public class MyMenu extends JMenuBar {
 				}
 			}
 		});
-		mnUscite.add(mntmPerCategorie);
+		menuUscite.add(itemPerCategorie);
 
-		final JMenuItem mntmPerMesi = new JMenuItem(I18NManager.getSingleton().getMessaggio("formonthly"));
-		mntmPerMesi.addActionListener(new AscoltatoreAggiornatoreNiente() {
+		itemPerMesi = new JMenuItem();
+		itemPerMesi.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
 				try {
@@ -172,8 +208,8 @@ public class MyMenu extends JMenuBar {
 				}
 			}
 		});
-		mnUscite.add(mntmPerMesi);
-		mntmMensiliPerCategoria.addActionListener(new AscoltatoreAggiornatoreNiente() {
+		menuUscite.add(itemPerMesi);
+		itemMensiliPerCategoria.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
@@ -185,22 +221,22 @@ public class MyMenu extends JMenuBar {
 			}
 		});
 
-		final JMenu mnTotali = new JMenu(I18NManager.getSingleton().getMessaggio("totals"));
-		mnGrafici.add(mnTotali);
+		menuTotali = new JMenu();
+		menuGrafici.add(menuTotali);
 
-		final JMenuItem mntmSaldo = new JMenuItem(I18NManager.getSingleton().getMessaggio("balance"));
-		mntmSaldo.addActionListener(getListenerBalance());
-		mnTotali.add(mntmSaldo);
+		itemSaldo = new JMenuItem();
+		itemSaldo.addActionListener(getListenerBalance());
+		menuTotali.add(itemSaldo);
 
-		final JMenu mnDati = new JMenu(I18NManager.getSingleton().getMessaggio("dataentry"));
-		mnStrumenti.add(mnDati);
+		menuDati = new JMenu();
+		menuStrumenti.add(menuDati);
 
-		final JMenuItem mntmEntrate = new JMenuItem(I18NManager.getSingleton().getMessaggio("entries"));
-		mntmEntrate.addActionListener(getListenerEntries());
-		mnDati.add(mntmEntrate);
-
-		final JMenuItem mntmUscite = new JMenuItem(I18NManager.getSingleton().getMessaggio("charge"));
-		mntmUscite.addActionListener(new AscoltatoreAggiornatoreNiente() {
+		itemEntrate = new JMenuItem();
+		itemEntrate.addActionListener(getListenerEntries());
+		menuDati.add(itemEntrate);
+		
+		itemUscite = new JMenuItem();
+		itemUscite.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
 				try {
@@ -213,8 +249,8 @@ public class MyMenu extends JMenuBar {
 				}
 			}
 		});
-		mnDati.add(mntmUscite);
-		mntmEntrateMensili.addActionListener(new AscoltatoreAggiornatoreNiente() {
+		menuDati.add(itemUscite);
+		itemEntrateMensili.addActionListener(new AscoltatoreAggiornatoreNiente() {
 
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
@@ -228,7 +264,7 @@ public class MyMenu extends JMenuBar {
 
 			}
 		});
-		mntmEntratePerTipo.addActionListener(new AscoltatoreAggiornatoreNiente() {
+		itemEntratePerTipo.addActionListener(new AscoltatoreAggiornatoreNiente() {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
 				final JFrame f = new JFrame();
@@ -250,12 +286,45 @@ public class MyMenu extends JMenuBar {
 		final JMenu help = new JMenu("Help");
 		add(help);
 
-		final JMenuItem info = new JMenuItem("Info");
-		info.addActionListener(new AscoltatoreInfo());
-		help.add(info);
+		itemInfo = new JMenuItem("Info");
+		itemInfo.addActionListener(new AscoltatoreInfo());
+		help.add(itemInfo);
 
-		final JMenuItem manuale = new JMenuItem(I18NManager.getSingleton().getMessaggio("userguide"));
-		help.add(manuale);
+		itemManuale = new JMenuItem();
+		help.add(itemManuale);
+
+		addVoices();
+		
+	}
+
+	public void addVoices() {
+		itemEntrate.setText(I18NManager.getSingleton().getMessaggio("entries"));
+		menuDati.setText(I18NManager.getSingleton().getMessaggio("dataentry"));
+		itemSaldo.setText(I18NManager.getSingleton().getMessaggio("balance"));
+		itemPerMesi.setText(I18NManager.getSingleton().getMessaggio("formonthly"));
+		menuTotali.setText(I18NManager.getSingleton().getMessaggio("totals"));
+		itemUscite.setText(I18NManager.getSingleton().getMessaggio("charge"));
+		itemManuale.setText(I18NManager.getSingleton().getMessaggio("userguide"));
+		itemMensiliPerCategoria.setText(I18NManager.getSingleton().getMessaggio("monthlycat"));
+		itemPerCategorie.setText(I18NManager.getSingleton().getMessaggio("forcategories"));
+		itemOtherDb.setText(I18NManager.getSingleton().getMessaggio("otherdatabase"));
+		itemRegistra.setText(I18NManager.getSingleton().getMessaggio("register"));
+		itemChiudi.setText(I18NManager.getSingleton().getMessaggio("close"));
+		menuModifica.setText(I18NManager.getSingleton().getMessaggio("edit"));
+		itemIndietro.setText(I18NManager.getSingleton().getMessaggio("undo"));
+		itemAvanti.setText(I18NManager.getSingleton().getMessaggio("redo"));
+		menuFinestre.setText(I18NManager.getSingleton().getMessaggio("windows"));
+		menuStrumenti.setText(I18NManager.getSingleton().getMessaggio("tools"));
+		mntmNote.setText(I18NManager.getSingleton().getMessaggio("notes"));
+		menuImpostazioni.setText(I18NManager.getSingleton().getMessaggio("options"));
+		itemConfigurazione.setText(I18NManager.getSingleton().getMessaggio("config"));
+		itemCategorie.setText(I18NManager.getSingleton().getMessaggio("categories"));
+		itemGrs.setText(I18NManager.getSingleton().getMessaggio("groups"));
+		menuGrafici.setText(I18NManager.getSingleton().getMessaggio("charts"));
+		menuEntrate.setText(I18NManager.getSingleton().getMessaggio("entries"));
+		itemEntratePerTipo.setText(I18NManager.getSingleton().getMessaggio("fortype"));
+		itemEntrateMensili.setText(I18NManager.getSingleton().getMessaggio("monthly"));
+		menuUscite.setText(I18NManager.getSingleton().getMessaggio("charge"));
 
 	}
 
