@@ -2,7 +2,7 @@
     <style>
         <file url="./config-style.xml"/>
     </style>
-    <lang locale="en"/>
+    <lang locale="it"/>
     <messaggi>
         <file nome="messaggi"/>
     </messaggi>

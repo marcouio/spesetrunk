@@ -8,6 +8,7 @@ import com.molinari.gestionespese.view.componenti.PannelloBottoniSpese;
 import com.molinari.gestionespese.view.mymenu.MyMenu;
 import com.molinari.utility.graphic.component.buttonpanel.PannelloBottoni;
 import com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.math.UtilMath;
 
 public class GeneralFrame extends PannelloBase {
 
@@ -31,6 +32,8 @@ public class GeneralFrame extends PannelloBase {
 		
 		getPannelTabs().initConsollle();
 		getPannelTabs().getConsolle().setVisible(true);
+		
+		getInitFinestre();
 		repaint();
 	}
 
@@ -38,7 +41,7 @@ public class GeneralFrame extends PannelloBase {
 		pannelTabs = new PannelTabs(contenitore);
 		final PannelloBase tabPanel = pannelTabs.getPanel();
 		tabPanel.posizionaSottoA(pannelloBottoni, 0, 0);
-		tabPanel.setSize(getContenitorePadre().getWidth(), getHeightSottoPannelli());
+		tabPanel.setSize((int) UtilMath.getPercentage(this.getWidth(), 83), getHeightSottoPannelli());
 	}
 
 	private int getHeightSottoPannelli() {
@@ -46,7 +49,7 @@ public class GeneralFrame extends PannelloBase {
 	}
 	
 	private int getHeightBtnPanel() {
-		return getContenitorePadre().getHeight() / 100 * 16;
+		return getContenitorePadre().getHeight() / 100 * 13;
 	}
 
 	public MyMenu createMenu(Container contenitore) {
@@ -68,7 +71,7 @@ public class GeneralFrame extends PannelloBase {
 		final PannelloBottoniSpese pannelloBottoniLoc = new PannelloBottoniSpese(this);
 		final int heightBtnPanel = getHeightBtnPanel();
 		pannelloBottoniLoc.posizionaSottoA(menu, 0, 3);
-		pannelloBottoniLoc.setSize(getContenitorePadre().getWidth(), heightBtnPanel);
+		pannelloBottoniLoc.setSize((int) UtilMath.getPercentage(this.getWidth(), 83), heightBtnPanel);
 		pannelloBottoniLoc.setBackground(Color.RED);
 		pannelloBottoniLoc.setVisible(true);
 		add(pannelloBottoniLoc);
@@ -89,7 +92,7 @@ public class GeneralFrame extends PannelloBase {
 
 	public InizializzatoreFinestre getInitFinestre() {
 		if (initFinestre == null) {
-			initFinestre = new InizializzatoreFinestre();
+			initFinestre = new InizializzatoreFinestre(this);
 			initFinestre.getPannello().posizionaADestraDi(pannelloBottoni, 0, 0);
 			initFinestre.getPannello().setBackground(Color.RED);
 		}

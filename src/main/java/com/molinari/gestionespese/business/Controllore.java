@@ -1,6 +1,7 @@
 package com.molinari.gestionespese.business;
 
-import java.awt.Frame;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -136,8 +137,9 @@ public class Controllore extends StarterBase{
 		
 		Database.setDburl(Database.DB_URL_WORKSPACE);
 		verificaPresenzaDb();
-		frame.setExtendedState(Frame.MAXIMIZED_BOTH);
-		frame.setBounds(10, 20, 1024, 648);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		
+		frame.setBounds(10, 20, (int)screenSize.getWidth(), (int)screenSize.getHeight());
 		genPan = new GeneralFrame(frame);
 		view = frame;
 		view.setVisible(true);

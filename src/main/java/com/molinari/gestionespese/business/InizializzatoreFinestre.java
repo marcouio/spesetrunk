@@ -37,9 +37,8 @@ public class InizializzatoreFinestre {
 
 	Finestra finestraVisibile;
 
-	public InizializzatoreFinestre() {
+	public InizializzatoreFinestre(GeneralFrame generalFrame) {
 		
-		GeneralFrame generalFrame = Controllore.getGeneralFrame();
 		pannello = new PannelloBase(generalFrame);
 		pannello.setSize((int) UtilMath.getPercentage(generalFrame.getWidth(), 17), generalFrame.getHeight());
 		// inizializzo l'array list con le class per evitare di caricare tutto
