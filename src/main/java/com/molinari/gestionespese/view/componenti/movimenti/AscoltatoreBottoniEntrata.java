@@ -10,7 +10,7 @@ import com.molinari.gestionespese.business.aggiornatori.AggiornatoreManager;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.wrapper.Model;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
-
+import com.molinari.gestionespese.view.entrateuscite.EntrateView.INCOMETYPE;
 import com.molinari.utility.graphic.component.alert.Alert;
 
 public class AscoltatoreBottoniEntrata extends MouseAdapter {
@@ -76,7 +76,7 @@ public class AscoltatoreBottoniEntrata extends MouseAdapter {
 		dialogNew.getTfDataIns().setText((String) arrayUtil[INDEX_DATAINS]);
 		dialogNew.getEuro().setText((String) arrayUtil[INDEX_EURO]);
 		final String tipoEntry = (String) arrayUtil[INDEX_TIPO];
-		final String[] listaEntr = Model.getNomiColonneEntrate();
+		final INCOMETYPE[] listaEntr = Model.getNomiColonneEntrate();
 		for (int i = 0; i < listaEntr.length; i++) {
 			if (listaEntr[i].equals(tipoEntry)) {
 				dialogNew.getTipoEntrata().setSelectedIndex(i);

@@ -89,6 +89,11 @@ public class AggiornatoreManager {
 		
 		aggiornaConsolleSql();
 		
+		final GeneralFrame generalFrame = Controllore.getGeneralFrame();
+		generalFrame.getMenu().addVoices();
+		
+		generalFrame.getPannelloBottoni().initTexts();
+		
 		try {
 			if (SottoPannelloMesi.getComboMese() != null) {
 				SottoPannelloMesi.azzeraCampi();

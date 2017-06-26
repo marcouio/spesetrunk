@@ -21,7 +21,6 @@ import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreNi
 import com.molinari.gestionespese.business.cache.CacheEntrate;
 import com.molinari.gestionespese.business.comandi.entrate.CommandDeleteEntrata;
 import com.molinari.gestionespese.business.comandi.entrate.CommandUpdateEntrata;
-import com.molinari.utility.messages.I18NManager;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.IEntrate;
 import com.molinari.gestionespese.domain.Utenti;
@@ -33,9 +32,9 @@ import com.molinari.gestionespese.view.entrateuscite.EntrateView.INCOMETYPE;
 import com.molinari.gestionespese.view.font.ButtonF;
 import com.molinari.gestionespese.view.font.LabelListaGruppi;
 import com.molinari.gestionespese.view.font.TextFieldF;
-
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.messages.I18NManager;
 
 public class DialogEntrateMov extends AbstractEntrateView {
 
@@ -50,7 +49,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 	private JTextField tfEuro = new TextFieldF();
 	private JTextField tfDataIns = new TextFieldF();
 	private JTextField tfData = new TextFieldF();
-	private JComboBox<String> cbTipoEntrata = new JComboBox<>(Model.getNomiColonneEntrate());
+	private JComboBox<INCOMETYPE> cbTipoEntrata = new JComboBox<>(Model.getNomiColonneEntrate());
 	private JTextField taDescrizione = new TextFieldF();
 	private JTextField tfNome = new TextFieldF();
 	private JTextField idEntrate = new TextFieldF();
@@ -127,11 +126,11 @@ public class DialogEntrateMov extends AbstractEntrateView {
 		return taDescrizione;
 	}
 
-	public void setTipoEntrata(final JComboBox<String> tipoEntrata) {
+	public void setTipoEntrata(final JComboBox<INCOMETYPE> tipoEntrata) {
 		this.cbTipoEntrata = tipoEntrata;
 	}
 
-	public JComboBox<String> getTipoEntrata() {
+	public JComboBox<INCOMETYPE> getTipoEntrata() {
 		return cbTipoEntrata;
 	}
 
@@ -240,7 +239,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 			final IEntrate oldEntrata = CacheEntrate.getSingleton().getEntrate(idEntrate.getText());
 
 			if (nonEsistonoCampiNonValorizzati()) {
-				if (Controllore.invocaComando(new CommandUpdateEntrata(oldEntrata, (IEntrate) getModelEntrate().getEntitaPadre()))) {
+				if (Controllore.invocaComando(new CommandUpdateEntrata(oldEntrata, getModelEntrate().getEntitaPadre()))) {
 					try {
 						AggiornatoreManager.aggiornaMovimentiEntrateDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
 					} catch (final Exception e22) {

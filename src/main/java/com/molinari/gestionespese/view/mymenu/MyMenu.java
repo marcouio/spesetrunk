@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.util.logging.Level;
 
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -74,6 +75,9 @@ public class MyMenu extends JMenuBar {
 	private JMenuItem itemSaldo;
 	private JMenu menuTotali;
 	private JMenuItem itemPerMesi;
+	private JCheckBoxMenuItem itemlistaComandi;
+	private JCheckBoxMenuItem itemReport;
+	private JCheckBoxMenuItem itemDati;
 
 	public MyMenu() {
 		init();
@@ -127,21 +131,21 @@ public class MyMenu extends JMenuBar {
 		menuFinestre = new JMenu();
 		add(menuFinestre);
 
-		final JCheckBoxMenuItem listaComandi = new JCheckBoxMenuItem(I18NManager.getSingleton().getMessaggio("commands"));
-		menuFinestre.add(listaComandi);
+		itemlistaComandi = new JCheckBoxMenuItem();
+		menuFinestre.add(itemlistaComandi);
 
-		final JCheckBoxMenuItem mntmReport = new JCheckBoxMenuItem(I18NManager.getSingleton().getMessaggio("report"));
-		menuFinestre.add(mntmReport);
+		itemReport = new JCheckBoxMenuItem();
+		menuFinestre.add(itemReport);
 
-		final JCheckBoxMenuItem chckbxmntmDati = new JCheckBoxMenuItem(I18NManager.getSingleton().getMessaggio("summarydata"));
-		chckbxmntmDati.addActionListener(getAscoltatoreSummary(menuFinestre, chckbxmntmDati));
-		menuFinestre.add(chckbxmntmDati);
+		itemDati = new JCheckBoxMenuItem();
+		itemDati.addActionListener(getAscoltatoreSummary(menuFinestre, itemDati));
+		menuFinestre.add(itemDati);
 
 		mntmNote = new JCheckBoxMenuItem();
 		menuFinestre.add(mntmNote);
 		mntmNote.addActionListener(getListenerNote(menuFinestre, mntmNote));
-		mntmReport.addActionListener(getListenerReport(menuFinestre, mntmReport));
-		listaComandi.addActionListener(getListenerComandi(menuFinestre, listaComandi));
+		itemReport.addActionListener(getListenerReport(menuFinestre, itemReport));
+		itemlistaComandi.addActionListener(getListenerComandi(menuFinestre, itemlistaComandi));
 
 		menuStrumenti = new JMenu();
 		add(menuStrumenti);
@@ -270,7 +274,9 @@ public class MyMenu extends JMenuBar {
 				final JFrame f = new JFrame();
 				try {
 					AltreUtil.deleteFileDaDirectory2("./immagini/");
-					final GrEntrate1 dialog = new GrEntrate1();
+					final GrEntrate1 contdialog = new GrEntrate1();
+					JDialog dialog = contdialog.getDialog();
+					
 					dialog.setSize(700, 700);
 					dialog.setVisible(true);
 					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -298,6 +304,10 @@ public class MyMenu extends JMenuBar {
 	}
 
 	public void addVoices() {
+		itemReport.setText(I18NManager.getSingleton().getMessaggio("report"));
+		itemlistaComandi.setText(I18NManager.getSingleton().getMessaggio("commands"));
+		itemDati.setText(I18NManager.getSingleton().getMessaggio("summarydata"));
+
 		itemEntrate.setText(I18NManager.getSingleton().getMessaggio("entries"));
 		menuDati.setText(I18NManager.getSingleton().getMessaggio("dataentry"));
 		itemSaldo.setText(I18NManager.getSingleton().getMessaggio("balance"));

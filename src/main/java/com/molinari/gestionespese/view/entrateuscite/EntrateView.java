@@ -81,8 +81,8 @@ public class EntrateView extends AbstractEntrateView {
 		final ArrayList<INCOMETYPE> listaCombo = new ArrayList<>();
 		listaCombo.add(null);
 		INCOMETYPE[] values = INCOMETYPE.values();
-		for(int i = 0; i<INCOMETYPE.values().length; i++){
-			listaCombo.add(INCOMETYPE.values()[i]);;
+		for(int i = 0; i<values.length; i++){
+			listaCombo.add(values[i]);;
 		}
 
 		cbTipo = new JComboBox<>(INCOMETYPE.values());

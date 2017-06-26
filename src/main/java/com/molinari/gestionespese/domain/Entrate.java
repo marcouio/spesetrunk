@@ -31,9 +31,6 @@ public class Entrate implements AbstractOggettoEntita, Serializable, IEntrate {
 	public static final String COL_IDUTENTE = "idUtente";
 	public static final String COL_IDENTRATE = "idEntrate";
 
-	public static final String IMPORTANZA_FISSE = "Fisse";
-	public static final String IMPORTANZA_VARIABILI = "Variabili";
-
 	@Column(name = "\"data\"", nullable = false, length = 2000000000)
 	private String data;
 

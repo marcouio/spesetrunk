@@ -12,6 +12,7 @@ import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.ISingleSpesa;
+import com.molinari.gestionespese.view.entrateuscite.EntrateView.INCOMETYPE;
 import com.molinari.utility.controller.ControlloreBase;
 
 public class Model {
@@ -27,7 +28,7 @@ public class Model {
 	private static Model singleton;
 	private static String[][] primoUscite;
 	private static String[] nomiColonneUscite;
-	private static String[] nomiColonneEntrate;
+	private static INCOMETYPE[] nomiColonneEntrate;
 	private static String[][] movimentiEntrate;
 	private static String[][] movimentiUscite;
 
@@ -161,24 +162,19 @@ public class Model {
 
 	// *************************************TABELLA-ENTRATE******************************************
 	
-	private static String[] nomiColonneEntrate() {
-
-		nomiColonneEntrate = new String[2];
-		nomiColonneEntrate[0] = "Fisse";
-		nomiColonneEntrate[1] = "Variabili";
-
-		return nomiColonneEntrate;
+	private static INCOMETYPE[] nomiColonneEntrate() {
+		return INCOMETYPE.values();
 	}
 
 	public static void setPrimoEntrate(final String[][] primo) {
 		Model.primoUscite = primo;
 	}
 
-	public static void setNomiColonneEntrate(final String[] nomiColonneEntrate) {
+	public static void setNomiColonneEntrate(final INCOMETYPE[] nomiColonneEntrate) {
 		Model.nomiColonneEntrate = nomiColonneEntrate;
 	}
 
-	public static String[] getNomiColonneEntrate() {
+	public static INCOMETYPE[] getNomiColonneEntrate() {
 		return nomiColonneEntrate();
 	}
 
@@ -274,7 +270,9 @@ public class Model {
 			movimentiEntrate[x][1] = entrate.getnome();
 			movimentiEntrate[x][2] = entrate.getdescrizione();
 			movimentiEntrate[x][3] = Double.toString(entrate.getinEuro());
-			movimentiEntrate[x][4] = entrate.getFisseoVar();
+			int fisseoVar = Integer.parseInt(entrate.getFisseoVar());
+			INCOMETYPE[] values = INCOMETYPE.values();
+			movimentiEntrate[x][4] = values[fisseoVar].toString();
 			movimentiEntrate[x][5] = Integer.toString(entrate.getidEntrate());
 			movimentiEntrate[x][6] = entrate.getDataIns();
 
