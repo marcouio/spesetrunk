@@ -1,6 +1,5 @@
 package com.molinari.gestionespese.view;
 
-import java.awt.Color;
 import java.awt.Container;
 
 import com.molinari.gestionespese.business.InizializzatoreFinestre;
@@ -72,7 +71,6 @@ public class GeneralFrame extends PannelloBase {
 		final int heightBtnPanel = getHeightBtnPanel();
 		pannelloBottoniLoc.posizionaSottoA(menu, 0, 3);
 		pannelloBottoniLoc.setSize((int) UtilMath.getPercentage(this.getWidth(), 83), heightBtnPanel);
-		pannelloBottoniLoc.setBackground(Color.RED);
 		pannelloBottoniLoc.setVisible(true);
 		add(pannelloBottoniLoc);
 		return pannelloBottoniLoc;
@@ -94,7 +92,6 @@ public class GeneralFrame extends PannelloBase {
 		if (initFinestre == null) {
 			initFinestre = new InizializzatoreFinestre(this);
 			initFinestre.getPannello().posizionaADestraDi(pannelloBottoni, 0, 0);
-			initFinestre.getPannello().setBackground(Color.RED);
 		}
 		return initFinestre;
 	}
