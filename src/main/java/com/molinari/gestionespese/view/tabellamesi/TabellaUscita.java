@@ -20,7 +20,7 @@ public class TabellaUscita {
 	OggettoVistaBase panel;
 
 	private static String[][] primo;
-	private static JScrollPane scrollPane;
+	private JScrollPane scrollPane;
 
 
 
@@ -68,13 +68,13 @@ public class TabellaUscita {
 		return table;
 	}
 
-	public static JScrollPane getScrollPane() {
+	public JScrollPane getScrollPane() {
 		return scrollPane;
 	}
 
 
 	public void setScrollPane(final JScrollPane scrollPane) {
-		TabellaUscita.scrollPane = scrollPane;
+		this.scrollPane = scrollPane;
 	}
 
 	public OggettoVistaBase getPanel() {

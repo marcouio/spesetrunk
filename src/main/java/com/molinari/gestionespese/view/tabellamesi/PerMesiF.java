@@ -6,11 +6,10 @@ import java.util.logging.Level;
 
 import javax.swing.JTabbedPane;
 
-import com.molinari.utility.messages.I18NManager;
 import com.molinari.gestionespese.view.OggettoVistaBase;
-
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.messages.I18NManager;
 
 public class PerMesiF extends PannelloBase {
 
@@ -91,6 +90,14 @@ public class PerMesiF extends PannelloBase {
 	 */
 	public void setTabUscite(final TabellaUscita tabUscite) {
 		this.tabUscite = tabUscite;
+	}
+
+	public TabellaUscitaGruppi getTabUG() {
+		return tabUG;
+	}
+
+	public void setTabUG(TabellaUscitaGruppi tabUG) {
+		this.tabUG = tabUG;
 	}
 
 }

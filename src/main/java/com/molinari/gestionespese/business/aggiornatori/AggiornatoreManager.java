@@ -399,9 +399,13 @@ public class AggiornatoreManager {
 	public static boolean aggiornaTabellaGruppi() {
 		try {
 			final JTable table = TabellaUscitaGruppi.getDatiPerTabella();
-			final JScrollPane pane = TabellaUscitaGruppi.getScrollPane();
-			if(pane != null){
-				pane.setViewportView(table);
+			final GeneralFrame generalFrame = Controllore.getGeneralFrame();
+			final PerMesiF tabPermesi = generalFrame.getPannelTabs().getTabPermesi();
+			if(tabPermesi != null){
+				final JScrollPane pane = tabPermesi.getTabUG().getScrollPane();
+				if(pane != null){
+					pane.setViewportView(table);
+				}
 			}
 			return true;
 		} catch (final Exception e) {
@@ -425,9 +429,13 @@ public class AggiornatoreManager {
 			final TableModelUscite model = new TableModelUscite(null);
 
 			final TableF table = TabellaUscita.createTable(model);
-			final JScrollPane pane = TabellaUscita.getScrollPane();
-			if(pane != null){
-				pane.setViewportView(table);
+			final GeneralFrame generalFrame = Controllore.getGeneralFrame();
+			final PerMesiF tabPermesi = generalFrame.getPannelTabs().getTabPermesi();
+			if(tabPermesi != null){
+				final JScrollPane pane = tabPermesi.getTabUscite().getScrollPane();
+				if(pane != null){
+					pane.setViewportView(table);
+				}
 			}
 			return true;
 		} catch (final Exception e) {

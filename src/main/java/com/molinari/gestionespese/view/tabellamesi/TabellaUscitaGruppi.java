@@ -10,7 +10,6 @@ import javax.swing.JTable;
 import com.molinari.gestionespese.business.generatori.TableModelUsciteGruppi;
 import com.molinari.gestionespese.view.OggettoVistaBase;
 import com.molinari.gestionespese.view.font.TableF;
-
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.table.TableModel.Riga;
 
@@ -21,7 +20,7 @@ public class TabellaUscitaGruppi {
 	private static JTable table;
 
 	private static String[][] primo;
-	private static JScrollPane scrollPane;
+	private JScrollPane scrollPane;
 
 	public TabellaUscitaGruppi() {
 		panel = new OggettoVistaBase(new GridLayout(1, 0));
@@ -68,12 +67,12 @@ public class TabellaUscitaGruppi {
 		TabellaUscitaGruppi.table = table;
 	}
 
-	public static JScrollPane getScrollPane() {
+	public JScrollPane getScrollPane() {
 		return scrollPane;
 	}
 
-	public static void setScrollPane(final JScrollPane scrollPane) {
-		TabellaUscitaGruppi.scrollPane = scrollPane;
+	public void setScrollPane(final JScrollPane scrollPane) {
+		this.scrollPane = scrollPane;
 	}
 
 	public OggettoVistaBase getPanel() {

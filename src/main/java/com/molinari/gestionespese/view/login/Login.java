@@ -80,7 +80,9 @@ public class Login {
 		};
 	}
 
+	
 	private void login(final IUtenti utente) {
+		
 		final Impostazioni impostazioni = Impostazioni.getSingleton();
 		try {
 			ControlloreBase.getSingleton().setUtenteLogin(utente);

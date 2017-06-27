@@ -42,7 +42,8 @@ public class AscoltatoreBottoniEntrata extends MouseAdapter {
 			arrayUtil[INDEX_NOME] = tabella.getValueAt(row, 1);
 			arrayUtil[INDEX_DESCRIZIONE] = tabella.getValueAt(row, 2);
 			arrayUtil[INDEX_EURO] = tabella.getValueAt(row, 3);
-			arrayUtil[INDEX_TIPO] = tabella.getValueAt(row, 4);
+			Object valueAt = tabella.getValueAt(row, 4);
+			arrayUtil[INDEX_TIPO] = valueAt;
 			arrayUtil[INDEX_IDENTRATA] = tabella.getValueAt(row, 5);
 			arrayUtil[INDEX_DATAINS] = tabella.getValueAt(row, 6);
 
@@ -78,7 +79,7 @@ public class AscoltatoreBottoniEntrata extends MouseAdapter {
 		final String tipoEntry = (String) arrayUtil[INDEX_TIPO];
 		final INCOMETYPE[] listaEntr = Model.getNomiColonneEntrate();
 		for (int i = 0; i < listaEntr.length; i++) {
-			if (listaEntr[i].equals(tipoEntry)) {
+			if (listaEntr[i].toString().equals(tipoEntry)) {
 				dialogNew.getTipoEntrata().setSelectedIndex(i);
 			}
 		}

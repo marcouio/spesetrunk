@@ -35,7 +35,7 @@ public class UsciteView extends AbstractUsciteView {
 	private final TextFieldF  tfData;
 	private final TextFieldF  tfEuro;
 	private final TextAreaF   taDescrizione;
-	private static JComboBox<ICatSpese>  cCategorie;
+	private JComboBox<ICatSpese>  cCategorie;
 
 	/**
 	 * Create the panel.
@@ -189,7 +189,7 @@ public class UsciteView extends AbstractUsciteView {
 	/**
 	 * @return the categorie
 	 */
-	public static JComboBox<ICatSpese> getComboCategorie() {
+	public JComboBox<ICatSpese> getComboCategorie() {
 		return cCategorie;
 	}
 
@@ -197,8 +197,8 @@ public class UsciteView extends AbstractUsciteView {
 	 * @param categorie
 	 *            the categorie to set
 	 */
-	public static void setComboCategorie(final JComboBox<ICatSpese> categorie) {
-		UsciteView.cCategorie = categorie;
+	public void setComboCategorie(final JComboBox<ICatSpese> categorie) {
+		cCategorie = categorie;
 	}
 
 	@Override
