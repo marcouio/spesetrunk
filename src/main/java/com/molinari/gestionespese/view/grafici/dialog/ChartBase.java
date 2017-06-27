@@ -27,24 +27,22 @@ public abstract class ChartBase implements ActionListener{
 	public ChartBase(String name, Rectangle rectangle) {
 		this.name = name;
 		dialog.setBounds(rectangle);
-		
+		dialog.getContentPane().setLayout(null);
 		dataset = createDataset();
 		
-		final byte[] imageByte = exportFromPieChart(dataset, "Entrate", (int)rectangle.getWidth()-15, (int)rectangle.getHeight()-75);
+		final byte[] imageByte = exportFromPieChart(dataset, name, (int)rectangle.getWidth()-15, (int)rectangle.getHeight()-75);
 		final ImageIcon image = new ImageIcon(imageByte);
 		final JLabel immagine = new JLabel();
 		immagine.setIcon(image);
 		dialog.getContentPane().add(immagine);
-		immagine.setBounds(15, 15, (int)rectangle.getWidth()-15, (int)rectangle.getHeight()-75);
+		immagine.setBounds(15, 15, (int)rectangle.getWidth()-60, (int)rectangle.getHeight()-75);
 		createButton("Chiudi", CHIUDI2, 15, (int)rectangle.getHeight()-50);
 		createButton("Salva", SAVE, 110 , (int)rectangle.getHeight()-50);
 		
 	}
 
-	private byte[] exportFromPieChart(Dataset dataset, String name, int width, int height) {
-		
-		dialog.getContentPane().setLayout(null);
-		return UtilChart.exportFromChart(dataset, name, width, height);
+	protected byte[] exportFromPieChart(Dataset dataset, String name, int width, int height) {
+		return UtilChart.exportFromChart(dataset, name, null, null, width, height);
 	}
 
 	private void createButton(String name, String actionCommand, int x, int y) {
@@ -68,9 +66,9 @@ public abstract class ChartBase implements ActionListener{
 		}
 	}
 	
-	private void saveChart(String name) {
+	protected void saveChart(String name) {
 		
-		boolean savePieChart = UtilChart.saveChart("./immagini/", name, dataset, 550, 550);
+		boolean savePieChart = UtilChart.saveChart("./immagini/", name, null, null, dataset, 550, 550);
 		if(!savePieChart){
 			Alert.segnalazioneErroreWarning("Salvataggio grafico non riuscito: guardare i log");
 		}
@@ -83,6 +81,14 @@ public abstract class ChartBase implements ActionListener{
 
 	public void setDialog(JDialog dialog) {
 		this.dialog = dialog;
+	}
+
+	public Dataset getDataset() {
+		return dataset;
+	}
+
+	public void setDataset(Dataset dataset) {
+		this.dataset = dataset;
 	}
 	
 }

@@ -14,7 +14,7 @@ import com.molinari.gestionespese.view.entrateuscite.EntrateView.INCOMETYPE;
 public class GrEntrate1 extends ChartBase implements ActionListener {
 
 	public GrEntrate1() throws SQLException, IOException {
-		super("Entrate1", new Rectangle(100, 100, 650, 650));
+		super("Entrate1", new Rectangle(100, 100, 700, 700));
 	}
 
 	@Override
