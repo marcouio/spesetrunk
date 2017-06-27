@@ -218,8 +218,7 @@ public class MyMenu extends JMenuBar {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
 				AltreUtil.deleteFileDaDirectory2("./immagini/");
-				final GrGenerale dialog = new GrGenerale();
-				dialog.setSize(700, 700);
+				final JDialog dialog = new GrGenerale().getDialog();
 				dialog.setVisible(true);
 				dialog.setModalityType(ModalityType.APPLICATION_MODAL);
 			}
@@ -259,7 +258,7 @@ public class MyMenu extends JMenuBar {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
 				try {
-					final GrEntrate2 dialog = new GrEntrate2();
+					final JDialog dialog = new GrEntrate2().getDialog();
 					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (final Exception e1) {
@@ -277,7 +276,6 @@ public class MyMenu extends JMenuBar {
 					final GrEntrate1 contdialog = new GrEntrate1();
 					JDialog dialog = contdialog.getDialog();
 					
-					dialog.setSize(700, 700);
 					dialog.setVisible(true);
 					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 					dialog.setModalityType(ModalityType.APPLICATION_MODAL);
@@ -343,9 +341,8 @@ public class MyMenu extends JMenuBar {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
 				try {
-					final GrGenerale2 dialog = new GrGenerale2();
+					final JDialog dialog = new GrGenerale2().getDialog();
 					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-					dialog.setSize(700, 700);
 					dialog.setVisible(true);
 				} catch (final Exception e1) {
 					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
@@ -475,7 +472,7 @@ public class MyMenu extends JMenuBar {
 
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				ControlloreBase.getSingleton().getApplicationframe().dispose();
+				ControlloreBase.getApplicationframe().dispose();
 
 			}
 		};

@@ -18,8 +18,6 @@ import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreUs
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.cache.CacheUscite;
 import com.molinari.gestionespese.business.comandi.singlespese.CommandDeleteSpesa;
-import com.molinari.utility.messages.I18NManager;
-import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapSingleSpesa;
@@ -28,6 +26,7 @@ import com.molinari.gestionespese.view.font.LabelListaGruppi;
 import com.molinari.gestionespese.view.font.TextAreaF;
 import com.molinari.gestionespese.view.font.TextFieldF;
 import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.messages.I18NManager;
 import com.molinari.utility.text.CorreggiTesto;
 
 public class UsciteView extends AbstractUsciteView {
@@ -169,7 +168,7 @@ public class UsciteView extends AbstractUsciteView {
 		final String descrizioneCheckato = checkTesto.getTesto();
 		setcDescrizione(descrizioneCheckato);
 
-		setCategoria((CatSpese) cCategorie.getSelectedItem());
+		setCategoria((ICatSpese) cCategorie.getSelectedItem());
 		if (AltreUtil.checkData(tfData.getText())) {
 			setcData(tfData.getText());
 		} else {
