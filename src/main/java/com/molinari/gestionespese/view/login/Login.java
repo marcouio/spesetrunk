@@ -18,6 +18,7 @@ import com.molinari.gestionespese.view.font.TextFieldF;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.messages.I18NManager;
 
 public class Login {
 
@@ -71,7 +72,8 @@ public class Login {
 				if (utente != null) {
 					login(utente);
 				} else {
-					Alert.segnalazioneErroreGrave("Login non effettuato: username o password non corretti");
+					String messaggio = I18NManager.getSingleton().getMessaggio("LoginFailed");
+					Alert.segnalazioneErroreGrave(messaggio);
 				}
 
 			}
@@ -85,7 +87,8 @@ public class Login {
 			impostazioni.getUtente().setText(utente.getusername());
 			//  creare comando per sostituire tutto con nuova  gestione
 			AggiornatoreManager.aggiornamentoPerImpostazioni();
-			Alert.info("Benvenuto, " + utente.getnome(), Alert.TITLE_OK);
+			String messaggio = I18NManager.getSingleton().getMessaggio("welcome");
+			Alert.info(messaggio + ", " + utente.getnome(), Alert.TITLE_OK);
 		} catch (final Exception e1) {
 			ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 		}
