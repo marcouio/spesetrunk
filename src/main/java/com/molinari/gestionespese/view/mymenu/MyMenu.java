@@ -189,7 +189,7 @@ public class MyMenu extends JMenuBar {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
 				try {
-					final GrUscite1 dialog = new GrUscite1();
+					final JDialog dialog = new GrUscite1().getDialog();
 					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (final Exception e1) {
@@ -204,7 +204,7 @@ public class MyMenu extends JMenuBar {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
 				try {
-					final GrUscite2 dialog = new GrUscite2();
+					final JDialog dialog = new GrUscite2().getDialog();
 					dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (final Exception ex) {

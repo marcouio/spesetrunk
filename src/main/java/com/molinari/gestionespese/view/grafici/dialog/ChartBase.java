@@ -5,22 +5,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
+import javax.swing.border.BevelBorder;
 
 import org.jfree.data.general.Dataset;
 
 import com.molinari.gestionespese.view.componenti.movimenti.DialogHandler;
-import com.molinari.gestionespese.view.font.ButtonF;
 import com.molinari.utility.graphic.chart.UtilChart;
 import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.graphic.component.alert.DialogoBase;
+import com.molinari.utility.graphic.component.button.ButtonBase;
+import com.molinari.utility.graphic.component.label.LabelBase;
 
 public abstract class ChartBase implements ActionListener{
 
 	private static final String CHIUDI2 = "chiudi";
 	private static final String SAVE = "salva";
-	private JDialog dialog = new JDialog();
+	private DialogoBase dialog = new DialogoBase();
 	private Dataset dataset;
 	private String name;
 	
@@ -30,28 +31,29 @@ public abstract class ChartBase implements ActionListener{
 		dialog.getContentPane().setLayout(null);
 		dataset = createDataset();
 		
-		final byte[] imageByte = exportFromPieChart(dataset, name, (int)rectangle.getWidth()-15, (int)rectangle.getHeight()-75);
+		final LabelBase containerImage = new LabelBase(dialog);
+		containerImage.setBorder(new BevelBorder(BevelBorder.LOWERED));
+		containerImage.setSize((int)rectangle.getWidth()-20, (int)rectangle.getHeight()-100);
+		final byte[] imageByte = exportFromPieChart(dataset, name, containerImage.getWidth(), containerImage.getHeight());
 		final ImageIcon image = new ImageIcon(imageByte);
-		final JLabel immagine = new JLabel();
-		immagine.setIcon(image);
-		dialog.getContentPane().add(immagine);
-		immagine.setBounds(15, 15, (int)rectangle.getWidth()-60, (int)rectangle.getHeight()-75);
-		createButton("Chiudi", CHIUDI2, 15, (int)rectangle.getHeight()-50);
-		createButton("Salva", SAVE, 110 , (int)rectangle.getHeight()-50);
-		
+		containerImage.setIcon(image);
+		ButtonBase chiudi = createButton("Chiudi", CHIUDI2);
+		chiudi.posizionaSottoA(containerImage, 0, 0);
+		ButtonBase salva = createButton("Salva", SAVE);
+		salva.posizionaADestraDi(chiudi, 10, 0);
 	}
 
 	protected byte[] exportFromPieChart(Dataset dataset, String name, int width, int height) {
 		return UtilChart.exportFromChart(dataset, name, null, null, width, height);
 	}
 
-	private void createButton(String name, String actionCommand, int x, int y) {
-		final JButton chiudi = new ButtonF(name);
+	private ButtonBase createButton(String name, String actionCommand) {
+		final ButtonBase chiudi = new ButtonBase(name, dialog);
 		chiudi.setActionCommand(actionCommand);
-		chiudi.setBounds(x, y, 97, 30);
-		dialog.getContentPane().add(chiudi);
+		chiudi.setSize(97, 30);
 		chiudi.addActionListener(new DialogHandler(this.dialog));
 		chiudi.addActionListener(this);
+		return chiudi;
 	}
 	
 	protected abstract Dataset createDataset();
@@ -79,7 +81,7 @@ public abstract class ChartBase implements ActionListener{
 		return dialog;
 	}
 
-	public void setDialog(JDialog dialog) {
+	public void setDialog(DialogoBase dialog) {
 		this.dialog = dialog;
 	}
 

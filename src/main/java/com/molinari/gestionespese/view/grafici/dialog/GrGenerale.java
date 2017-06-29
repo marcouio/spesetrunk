@@ -35,7 +35,7 @@ public class GrGenerale extends ChartCategory {
 	 * Create the dialog.
 	 */
 	public GrGenerale() {
-		super("Uscite Mensili per categoria", "Categorie", "Euro", new Rectangle(100, 100, 700, 700));
+		super("Uscite Mensili per categoria", "Categorie", "Euro", new Rectangle(100, 100, 900, 900));
 
 	}
 
@@ -93,18 +93,18 @@ public class GrGenerale extends ChartCategory {
 		List<ICatSpese> categorie = CacheCategorie.getSingleton().getVettoreCategorie();
 
 		for (int i = 0; i < listaValori1.size(); i++) {
-			dataset.addValue(listaValori1.get(i), "Gennaio", categorie.get(i).getnome());
-			dataset.addValue(listaValori2.get(i), "Febbraio", categorie.get(i).getnome());
-			dataset.addValue(listaValori3.get(i), "Marzo", categorie.get(i).getnome());
-			dataset.addValue(listaValori4.get(i), "Aprile", categorie.get(i).getnome());
-			dataset.addValue(listaValori5.get(i), "Maggio", categorie.get(i).getnome());
-			dataset.addValue(listaValori6.get(i), "Giugno", categorie.get(i).getnome());
-			dataset.addValue(listaValori7.get(i), "Luglio", categorie.get(i).getnome());
-			dataset.addValue(listaValori8.get(i), "Agosto", categorie.get(i).getnome());
-			dataset.addValue(listaValori9.get(i), "Settembre", categorie.get(i).getnome());
-			dataset.addValue(listaValori10.get(i), "Ottobre", categorie.get(i).getnome());
-			dataset.addValue(listaValori11.get(i), "Novembre", categorie.get(i).getnome());
-			dataset.addValue(listaValori12.get(i), "Dicembre", categorie.get(i).getnome());
+			dataset.addValue(listaValori1.get(i), categorie.get(i).getnome(), "Gennaio" );
+			dataset.addValue(listaValori2.get(i), categorie.get(i).getnome(), "Febbraio");
+			dataset.addValue(listaValori3.get(i), categorie.get(i).getnome(), "Marzo"    );
+			dataset.addValue(listaValori4.get(i), categorie.get(i).getnome(), "Aprile"   );
+			dataset.addValue(listaValori5.get(i), categorie.get(i).getnome(), "Maggio"   );
+			dataset.addValue(listaValori6.get(i), categorie.get(i).getnome(), "Giugno"   );
+			dataset.addValue(listaValori7.get(i), categorie.get(i).getnome(), "Luglio"   );
+			dataset.addValue(listaValori8.get(i), categorie.get(i).getnome(), "Agosto"   );
+			dataset.addValue(listaValori9.get(i), categorie.get(i).getnome(), "Settembre");
+			dataset.addValue(listaValori10.get(i),categorie.get(i).getnome(), "Ottobre"  );
+			dataset.addValue(listaValori11.get(i),categorie.get(i).getnome(), "Novembre" );
+			dataset.addValue(listaValori12.get(i),categorie.get(i).getnome(), "Dicembre" );
 		}
 
 		return dataset;

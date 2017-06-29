@@ -21,7 +21,7 @@ public abstract class ChartCategory extends ChartBase {
 	@Override
 	protected void saveChart(String name) {
 		
-		boolean savePieChart = UtilChart.saveChart("./immagini/", name, catAxisLabel, valAxisLabel, getDataset(), 550, 550);
+		boolean savePieChart = UtilChart.saveChart("./immagini/", name, catAxisLabel, valAxisLabel, getDataset(), getDialog().getWidth(), getDialog().getHeight());
 		if(!savePieChart){
 			Alert.segnalazioneErroreWarning("Salvataggio grafico non riuscito: guardare i log");
 		}

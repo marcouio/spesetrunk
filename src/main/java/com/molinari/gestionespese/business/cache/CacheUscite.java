@@ -62,7 +62,7 @@ public class CacheUscite extends AbstractCacheBase<ISingleSpesa> {
 		if (utente != null) {
 			return mappa.values().stream().filter(ss -> {
 				final String annoUscita = ss.getData().substring(0, 4);
-				return ss != null && ss.getUtenti() != null && annoUscita.equals(annoDaText);
+				return ss != null && ss.getUtenti() != null && annoUscita.equals(annoDaText) && ss.getUtenti().getidUtente() == utente.getidUtente();
 			}).collect(Collectors.toList());
 		}
 
