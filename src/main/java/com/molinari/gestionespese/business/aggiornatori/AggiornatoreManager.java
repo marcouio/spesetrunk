@@ -432,7 +432,7 @@ public class AggiornatoreManager {
 			final TableF table = TabellaUscita.createTable(model);
 			final GeneralFrame generalFrame = Controllore.getGeneralFrame();
 			final PerMesiF tabPermesi = generalFrame.getPannelTabs().getTabPermesi();
-			if(tabPermesi != null){
+			if(tabPermesi != null && tabPermesi.getTabUscite() != null){
 				final JScrollPane pane = tabPermesi.getTabUscite().getScrollPane();
 				if(pane != null){
 					pane.setViewportView(table);
