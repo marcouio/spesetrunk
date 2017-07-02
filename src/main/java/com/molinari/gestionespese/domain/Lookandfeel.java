@@ -38,6 +38,7 @@ public class Lookandfeel implements AbstractOggettoEntita, Serializable, ILookan
 	private String valore;
 
 	public Lookandfeel() {
+		//do nothing
 	}
 
 	@Override

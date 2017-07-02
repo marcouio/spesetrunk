@@ -13,8 +13,8 @@ public class GeneralFrame extends PannelloBase {
 
 	private static final int MENU_HEIGHT = 18;
 	private static final long serialVersionUID = 1L;
-	private PannelTabs pannelTabs;
-	private InizializzatoreFinestre initFinestre;
+	private transient PannelTabs pannelTabs;
+	private transient InizializzatoreFinestre initFinestre;
 	private PannelloBottoniSpese pannelloBottoni;
 	private MyMenu menu;
 
@@ -23,9 +23,9 @@ public class GeneralFrame extends PannelloBase {
 		super(contenitore);
 		setBounds(10, 10, contenitore.getWidth(), contenitore.getHeight());
 
-		final MyMenu menu = createMenu(this);
+		final MyMenu menuLoc = createMenu();
 
-		pannelloBottoni = createPannelloBottoni(menu);
+		pannelloBottoni = createPannelloBottoni(menuLoc);
 
 		createTabsPanel(this, pannelloBottoni);
 		
@@ -51,7 +51,7 @@ public class GeneralFrame extends PannelloBase {
 		return getContenitorePadre().getHeight() / 100 * 13;
 	}
 
-	public MyMenu createMenu(Container contenitore) {
+	public MyMenu createMenu() {
 		setMenu(new MyMenu());
 		getMenu().setBounds(0, 0, this.getWidth(), MENU_HEIGHT);
 		add(getMenu());

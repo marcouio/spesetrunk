@@ -39,6 +39,7 @@ import com.molinari.utility.graphic.component.alert.Alert;
 
 public class Database {
 
+	private static final String WHERE = " where ";
 	private static final String ROW_S = " row/s";
 	private static final String AND = " AND ";
 	private static final String FROM = " FROM ";
@@ -428,8 +429,8 @@ public class Database {
 					+ " as euro, " + CatSpese.NOME_TABELLA + "." + CatSpese.COL_NOME + " as categoria, "
 					+ SingleSpesa.NOME_TABELLA + "." + SingleSpesa.ID + ", " + SingleSpesa.NOME_TABELLA + "."
 					+ SingleSpesa.COL_DATAINS + " as inserimento" + FROM + tabella + ", " + CatSpese.NOME_TABELLA
-					+ ", " + Utenti.NOME_TABELLA + " where " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.COL_IDCATEGORIE
-					+ " = " + CatSpese.NOME_TABELLA + "." + CatSpese.ID + " and " + SingleSpesa.NOME_TABELLA + "."
+					+ ", " + Utenti.NOME_TABELLA + WHERE + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.COL_IDCATEGORIE
+					+ " = " + CatSpese.NOME_TABELLA + "." + CatSpese.ID + AND + SingleSpesa.NOME_TABELLA + "."
 					+ SingleSpesa.COL_IDUTENTE + " = " + Utenti.NOME_TABELLA + "." + Utenti.ID + " order by "
 					+ SingleSpesa.ID + " desc";
 		}

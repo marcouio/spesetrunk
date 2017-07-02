@@ -31,7 +31,6 @@ import com.molinari.gestionespese.view.FinestraListaComandi;
 import com.molinari.gestionespese.view.GeneralFrame;
 import com.molinari.gestionespese.view.NewSql;
 import com.molinari.gestionespese.view.componenti.componentipannello.PannelloAScomparsa;
-import com.molinari.gestionespese.view.componenti.componentipannello.SottoPannelloCategorie;
 import com.molinari.gestionespese.view.componenti.componentipannello.SottoPannelloDatiEntrate;
 import com.molinari.gestionespese.view.componenti.componentipannello.SottoPannelloDatiSpese;
 import com.molinari.gestionespese.view.componenti.componentipannello.SottoPannelloMesi;
@@ -98,7 +97,8 @@ public class AggiornatoreManager {
 			if (SottoPannelloMesi.getComboMese() != null) {
 				SottoPannelloMesi.azzeraCampi();
 			}
-			SottoPannelloCategorie.azzeraCampi();
+			PannelloAScomparsa pas = (PannelloAScomparsa) generalFrame.getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, generalFrame);
+			pas.getPannelloCategorie().azzeraCampi();
 			if (aggiornamentoGenerale(Entrate.NOME_TABELLA) && aggiornamentoGenerale(SingleSpesa.NOME_TABELLA) && aggiornaPannelloTotali()) {
 				return true;
 			}
@@ -483,10 +483,13 @@ public class AggiornatoreManager {
 	public static void aggiornamentoComboBox(final List<ICatSpese> categorie) {
 		ICatSpese[] v = categorie.toArray(new ICatSpese[categorie.size()]);
 		final DefaultComboBoxModel<ICatSpese> model = new DefaultComboBoxModel<>(v);
-		if (SottoPannelloCategorie.getCategorieCombo() != null) {
-			SottoPannelloCategorie.getCategorieCombo().setModel(model);
-			SottoPannelloCategorie.getCategorieCombo().validate();
-			SottoPannelloCategorie.getCategorieCombo().repaint();
+		final GeneralFrame generalFrame = Controllore.getGeneralFrame();
+		PannelloAScomparsa pas = (PannelloAScomparsa) generalFrame.getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_PANNELLODATI, generalFrame);
+		JComboBox<ICatSpese> categorieCombo = pas.getPannelloCategorie().getCategorieCombo();
+		if(categorieCombo != null){
+			categorieCombo.setModel(model);
+			categorieCombo.validate();
+			categorieCombo.repaint();
 		}
 	}
 }

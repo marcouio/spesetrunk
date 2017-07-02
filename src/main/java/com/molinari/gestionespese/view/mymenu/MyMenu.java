@@ -68,7 +68,6 @@ public class MyMenu extends JMenuBar {
 	private JMenuItem itemMensiliPerCategoria;
 	private JMenuItem itemPerCategorie;
 	private JMenuItem itemManuale;
-	private JMenuItem itemInfo;
 	private JMenuItem itemUscite;
 	private JMenuItem itemEntrate;
 	private JMenu menuDati;
@@ -290,7 +289,7 @@ public class MyMenu extends JMenuBar {
 		final JMenu help = new JMenu("Help");
 		add(help);
 
-		itemInfo = new JMenuItem("Info");
+		JMenuItem itemInfo = new JMenuItem("Info");
 		itemInfo.addActionListener(new AscoltatoreInfo());
 		help.add(itemInfo);
 

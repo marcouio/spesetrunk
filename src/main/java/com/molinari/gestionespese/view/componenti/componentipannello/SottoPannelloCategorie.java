@@ -13,19 +13,18 @@ import javax.swing.JTextField;
 
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
-import com.molinari.utility.messages.I18NManager;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.view.font.LabelTestoPiccolo;
 import com.molinari.gestionespese.view.font.TextFieldF;
-
 import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.messages.I18NManager;
 
 public class SottoPannelloCategorie {
 
-	private static JComboBox<ICatSpese> categorieCombo;
-	private static JTextField totaleMeseCategoria;
-	private static JTextField totaleAnnualeCateg;
+	private JComboBox<ICatSpese> categorieCombo;
+	private JTextField totaleMeseCategoria;
+	private JTextField totaleAnnualeCateg;
 
 	JComponent[] componenti = new JComponent[3];
 	JLabel[] labels = new JLabel[3];
@@ -79,12 +78,7 @@ public class SottoPannelloCategorie {
 				if (categorieCombo.getSelectedIndex() != 0) {
 					spese = (CatSpese) categorieCombo.getSelectedItem();
 					final int mese = new GregorianCalendar().get(Calendar.MONTH) + 1;
-					double spesa = 0;
-					try {
-						spesa = Database.speseMeseCategoria(mese, spese.getidCategoria());
-					} catch (final Exception e1) {
-						ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
-					}
+					double spesa = getSpeseMeseCategorie(spese, mese);
 
 					totaleAnnualeCateg.setText(Double.toString(Database.totaleUscitaAnnoCategoria(spese.getidCategoria())));
 					totaleMeseCategoria.setText(Double.toString(spesa));
@@ -97,31 +91,40 @@ public class SottoPannelloCategorie {
 		}
 	}
 
-	public static JComboBox<ICatSpese> getCategorieCombo() {
+	private double getSpeseMeseCategorie(CatSpese spese, final int mese) {
+		try {
+			return Database.speseMeseCategoria(mese, spese.getidCategoria());
+		} catch (final Exception e1) {
+			ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
+		}
+		return 0;
+	}
+
+	public JComboBox<ICatSpese> getCategorieCombo() {
 		return categorieCombo;
 	}
 
-	public static void setCategorieCombo(final JComboBox<ICatSpese> categorieCombo) {
-		SottoPannelloCategorie.categorieCombo = categorieCombo;
+	public void setCategorieCombo(final JComboBox<ICatSpese> categorieCombo) {
+		this.categorieCombo = categorieCombo;
 	}
 
-	public static JTextField getTotaleMeseCategoria() {
+	public JTextField getTotaleMeseCategoria() {
 		return totaleMeseCategoria;
 	}
 
-	public static void setTotaleMeseCategoria(final JTextField totaleMeseCategoria) {
-		SottoPannelloCategorie.totaleMeseCategoria = totaleMeseCategoria;
+	public void setTotaleMeseCategoria(final JTextField totaleMeseCategoria) {
+		this.totaleMeseCategoria = totaleMeseCategoria;
 	}
 
-	public static JTextField getTotaleAnnualeCateg() {
+	public JTextField getTotaleAnnualeCateg() {
 		return totaleAnnualeCateg;
 	}
 
-	public static void setTotaleAnnualeCateg(final JTextField totaleAnnualeCateg) {
-		SottoPannelloCategorie.totaleAnnualeCateg = totaleAnnualeCateg;
+	public void setTotaleAnnualeCateg(final JTextField totaleAnnualeCateg) {
+		this.totaleAnnualeCateg = totaleAnnualeCateg;
 	}
 
-	public static void azzeraCampi() {
+	public void azzeraCampi() {
 		if (categorieCombo != null && totaleAnnualeCateg != null && totaleMeseCategoria != null) {
 			categorieCombo.setSelectedIndex(0);
 			totaleAnnualeCateg.setText("0.0");

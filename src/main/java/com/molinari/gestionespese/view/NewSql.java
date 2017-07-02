@@ -56,9 +56,9 @@ public class NewSql extends PannelloBase {
 			setPreferredSize(new Dimension(getContenitorePadre().getWidth(), getContenitorePadre().getHeight()));
 			setLayout(null);
 
-			final PannelloBase headerPane = createHeaderPanel();
+			final PannelloBase headerPaneLoc = createHeaderPanel();
 
-			createContentPane(headerPane);
+			createContentPane(headerPaneLoc);
 
 		} catch (final Exception e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);

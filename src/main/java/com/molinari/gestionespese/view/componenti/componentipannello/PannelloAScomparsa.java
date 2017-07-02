@@ -9,9 +9,8 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 import com.molinari.gestionespese.business.Finestra;
-import com.molinari.utility.messages.I18NManager;
-
 import com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.messages.I18NManager;
 
 public class PannelloAScomparsa implements ItemListener, Finestra {
 
@@ -118,5 +117,13 @@ public class PannelloAScomparsa implements ItemListener, Finestra {
 	@Override
 	public void setContainer(Container container) {
 		this.container = container;
+	}
+
+	public SottoPannelloCategorie getPannelloCategorie() {
+		return pannelloCategorie;
+	}
+
+	public void setPannelloCategorie(SottoPannelloCategorie pannelloCategorie) {
+		this.pannelloCategorie = pannelloCategorie;
 	}
 }

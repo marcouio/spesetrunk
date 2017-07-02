@@ -183,5 +183,10 @@ public class Controllore extends StarterBase{
 	public void setLookUsato(String lookUsato) {
 		this.lookUsato = lookUsato;
 	}
+	
+	@Override
+	public int getLevel() {
+		return 1;
+	}
 
 }

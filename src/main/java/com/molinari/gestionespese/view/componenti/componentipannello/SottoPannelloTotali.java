@@ -10,12 +10,11 @@ import javax.swing.WindowConstants;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Database;
-import com.molinari.utility.messages.I18NManager;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.view.font.LabelTestoPiccolo;
 import com.molinari.gestionespese.view.font.TextFieldF;
-
 import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.messages.I18NManager;
 
 public class SottoPannelloTotali {
 
@@ -31,9 +30,6 @@ public class SottoPannelloTotali {
 		frame.setVisible(true);
 	}
 
-	private JLabel            jLabel2;
-	private JLabel            jLabel3;
-	private JLabel            jLabel4;
 	private static JTextField percentoVariabili;
 	private static JTextField percentoFutili;
 	private static JTextField avanzo;
@@ -51,18 +47,18 @@ public class SottoPannelloTotali {
 	private void initGUI() {
 		try {
 
-			jLabel2 = new LabelTestoPiccolo();
+			LabelTestoPiccolo jLabel2 = new LabelTestoPiccolo();
 			labels[0] = jLabel2;
 			jLabel2.setText("% " + I18NManager.getSingleton().getMessaggio("spesefut"));
 			jLabel2.setBounds(317, 67, 106, 14);
 			jLabel2.setOpaque(true);
 
-			jLabel3 = new LabelTestoPiccolo();
+			LabelTestoPiccolo jLabel3 = new LabelTestoPiccolo();
 			labels[1] = jLabel3;
 			jLabel3.setText("% " + I18NManager.getSingleton().getMessaggio("spesevar"));
 			jLabel3.setBounds(164, 66, 141, 15);
 
-			jLabel4 = new LabelTestoPiccolo();
+			LabelTestoPiccolo jLabel4 = new LabelTestoPiccolo();
 			labels[2] = jLabel4;
 			jLabel4.setText(I18NManager.getSingleton().getMessaggio("avanzo")+"/"+I18NManager.getSingleton().getMessaggio("disavanzo"));
 			jLabel4.setBounds(16, 67, 128, 14);

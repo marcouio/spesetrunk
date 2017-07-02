@@ -28,7 +28,6 @@ public class Model {
 	private static Model singleton;
 	private static String[][] primoUscite;
 	private static String[] nomiColonneUscite;
-	private static INCOMETYPE[] nomiColonneEntrate;
 	private static String[][] movimentiEntrate;
 	private static String[][] movimentiUscite;
 
@@ -168,10 +167,6 @@ public class Model {
 
 	public static void setPrimoEntrate(final String[][] primo) {
 		Model.primoUscite = primo;
-	}
-
-	public static void setNomiColonneEntrate(final INCOMETYPE[] nomiColonneEntrate) {
-		Model.nomiColonneEntrate = nomiColonneEntrate;
 	}
 
 	public static INCOMETYPE[] getNomiColonneEntrate() {

@@ -82,7 +82,7 @@ public class Budget implements IBudget, Serializable {
 
 	@Override
 	public void setCatSpese(final ICatSpese catSpese) {
-		this.catSpese = (CatSpese) catSpese;
+		this.catSpese = catSpese;
 	}
 
 	@Override
