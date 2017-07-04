@@ -160,7 +160,7 @@ public class Model {
 	}
 
 	// *************************************TABELLA-ENTRATE******************************************
-	
+
 	private static INCOMETYPE[] nomiColonneEntrate() {
 		return INCOMETYPE.values();
 	}
@@ -216,7 +216,7 @@ public class Model {
 		final List<Entrate> entry1 = Model.getSingleton().modelEntrate.dieciEntrate(numEntry);
 		return movimentiFiltratiEntratePerNumero(tabella, entry1, numEntry);
 	}
-	
+
 	/**
 	 * Valorizza una matrice utile per i pannelli movimenti in entrata. crea il
 	 * numero di righe specificato in parametro con le entita' della tabella
@@ -226,20 +226,21 @@ public class Model {
 	 *
 	 * @param numEntry
 	 * @param tabella
-	 * @param numMovimenti 
+	 * @param numMovimenti
 	 * @return String[][]
 	 */
-	public static String[][] movimentiFiltratiEntratePerNumero(final String tabella, final List<Entrate> entry1, int numMovimenti) {
+	public static String[][] movimentiFiltratiEntratePerNumero(final String tabella, final List<Entrate> entry1,
+			int numMovimenti) {
 		final List<String> nomi = Database.getSingleton().nomiColonne(tabella);
 
 		final int numEntry = numMovimenti;
 
-		if (!entry1.isEmpty() && (entry1.size() == numEntry || entry1.size() >= numEntry)) {
+		if (!entry1.isEmpty()) {
 			popolaArrayMovimentiEntrata(entry1, nomi, numEntry);
-		} else if (!entry1.isEmpty() && entry1.size() < numEntry) {
-			popolaArrayMovimentiEntrata(entry1, nomi, numEntry);
-			for (int y = entry1.size(); y < numEntry; y++) {
-				riempiArrayMovEntrateConZeri(nomi, y);
+			if (entry1.size() < numEntry) {
+				for (int y = entry1.size(); y < numEntry; y++) {
+					riempiArrayMovEntrateConZeri(nomi, y);
+				}
 			}
 		} else {
 			movimentiEntrate = new String[numEntry][nomi.size()];
@@ -333,18 +334,13 @@ public class Model {
 		final List<String> nomi = Database.getSingleton().nomiColonne(tabella);
 		final List<ISingleSpesa> uscite = Model.getSingleton().modelUscita.dieciUscite(numUscite);
 
-		if (!uscite.isEmpty() && (uscite.size() == numUscite || uscite.size() >= numUscite)) {
+		if (!uscite.isEmpty()) {
 			movimentiUscite = new String[numUscite][nomi.size()];
-			for (int x = 0; x < numUscite; x++) {
+			for (int x = 0; x < uscite.size(); x++) {
 				popolaArrayMovUsciteConSingleSpesa(uscite, x);
 
 			}
-		} else if (!uscite.isEmpty() && uscite.size() < numUscite) {
-
-			movimentiUscite = new String[numUscite][nomi.size()];
-			for (int x = 0; x < uscite.size(); x++) {
-
-				popolaArrayMovUsciteConSingleSpesa(uscite, x);
+			if (uscite.size() < numUscite) {
 
 				for (int y = uscite.size(); y < numUscite; y++) {
 					riempiArrayMovUsciteConZeri(nomi, y);
