@@ -17,7 +17,6 @@ import com.molinari.gestionespese.domain.IEntrate;
 import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
-
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.database.Clausola;
 import com.molinari.utility.database.ConnectionPool;
@@ -260,8 +259,9 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 	 *
 	 * @param numEntry
 	 * @return List<Entrate>
+	 * @throws SQLException 
 	 */
-	public List<Entrate> movimentiEntrateFiltrati(final String dataDa, final String dataA, final String nome, final Double euro, final String categoria) {
+	public List<Entrate> movimentiEntrateFiltrati(final String dataDa, final String dataA, final String nome, final Double euro, final String categoria) throws SQLException {
 		final Utenti utente = (Utenti) Controllore.getUtenteLogin();
 		int idUtente = 0;
 		if (utente != null) {
@@ -285,35 +285,8 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 			sql.append(AND + Entrate.COL_FISSEOVAR + " = '" + categoria + "'");
 		}
 
-		try {
-
-			return new ExecuteResultSet<List<Entrate>>() {
-
-				@Override
-				protected List<Entrate> doWithResultSet(ResultSet rs) throws SQLException {
-
-					final List<Entrate> entrateLoc = new ArrayList<>();
-					while (rs != null && rs.next()) {
-						final Entrate e = new Entrate();
-						e.setdata(rs.getString(5));
-						e.setdescrizione(rs.getString(2));
-						e.setFisseoVar(rs.getString(3));
-						e.setidEntrate(rs.getInt(1));
-						e.setinEuro(rs.getDouble(4));
-						e.setnome(rs.getString(6));
-						e.setUtenti(utente);
-						e.setDataIns(rs.getString(8));
-						entrateLoc.add(e);
-					}
-					return entrateLoc;
-				}
-
-			}.execute(sql.toString());
-
-		} catch (final SQLException e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-		}
-		return new ArrayList<>();
+		ExecuteResultSet<List<Entrate>> execRsDieciEntrate = getExecRsEntrate(utente);
+		return execRsDieciEntrate != null ? execRsDieciEntrate.execute(sql.toString()) :  new ArrayList<>();
 
 	}
 
@@ -335,7 +308,8 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 		final String sql = getQueryDieciEntrate(numEntry, idUtente);
 
 		try {
-			return getExecRsDieciEntrate(utente).execute(sql);
+			ExecuteResultSet<List<Entrate>> execRsEntrate = getExecRsEntrate(utente);
+			return execRsEntrate != null ? execRsEntrate.execute(sql) : new ArrayList<>();
 
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
@@ -369,37 +343,42 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 		return stringBuilder.toString();
 	}
 
-	private ExecuteResultSet<List<Entrate>> getExecRsDieciEntrate(final Utenti utente) {
-		return new ExecuteResultSet<List<Entrate>>() {
+	private ExecuteResultSet<List<Entrate>> getExecRsEntrate(final Utenti utente) {
+		try {
+			return new ExecuteResultSet<List<Entrate>>() {
 
-			@Override
-			protected List<Entrate> doWithResultSet(ResultSet rs) throws SQLException {
+				@Override
+				protected List<Entrate> doWithResultSet(ResultSet rs) throws SQLException {
 
-				final List<Entrate> entrateLoc = new ArrayList<>();
+					final List<Entrate> entrateLoc = new ArrayList<>();
 
-				while (rs != null && rs.next()) {
-					final Entrate e = new Entrate();
-					e.setdata(rs.getString(5));
-					e.setdescrizione(rs.getString(2));
-					e.setFisseoVar(rs.getString(3));
-					e.setidEntrate(rs.getInt(1));
-					e.setinEuro(rs.getDouble(4));
-					e.setnome(rs.getString(6));
-					e.setUtenti(utente);
-					e.setDataIns(rs.getString(8));
-					entrateLoc.add(e);
+					while (rs != null && rs.next()) {
+						final Entrate e = new Entrate();
+						e.setdata(rs.getString(5));
+						e.setdescrizione(rs.getString(2));
+						e.setFisseoVar(rs.getString(3));
+						e.setidEntrate(rs.getInt(1));
+						e.setinEuro(rs.getDouble(4));
+						e.setnome(rs.getString(6));
+						e.setUtenti(utente);
+						e.setDataIns(rs.getString(8));
+						entrateLoc.add(e);
+					}
+
+					return entrateLoc;
 				}
 
-				return entrateLoc;
-			}
-
-		};
+			};
+		} catch (Exception e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+		}
+		return null;
 	}
 
 	/**
 	 * Cancella l'ultima entita' "Entrate" inserita
 	 */
-	public boolean DeleteLastEntrate() {
+	public boolean deleteLastEntrate() {
 		boolean ok = false;
 
 		final String sql = getQueryDeleteLastEntrate();

@@ -157,20 +157,8 @@ public class AggiornatoreManager {
 	 * @param numUscite
 	 */
 	public static boolean aggiornaMovimentiUsciteDaEsterno(final Object[] nomiColonne, final int numUscite) {
-		try {
-			final String[][] movimenti = Model.movimentiUscite(numUscite, SingleSpesa.NOME_TABELLA);
-			final ListaMovimentiUscite tabMovimenti = Controllore.getGeneralFrame().getPannelTabs().getTabMovUscite();
-			if(tabMovimenti != null){
-				final TableF table1 = new TableF(movimenti, nomiColonne);
-				final JScrollPane scrollPane = tabMovimenti.getScrollPane();
-				scrollPane.setViewportView(table1);
-				table1.addMouseListener(new AscoltatoreBottoniUscita(table1));
-			}
-			return true;
-		} catch (final Exception e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-			return false;
-		}
+		final String[][] movimenti = Model.movimentiUscite(numUscite, SingleSpesa.NOME_TABELLA);
+		return aggiornaMovimentiUsciteDaFiltro(nomiColonne, movimenti);
 	}
 
 	/**

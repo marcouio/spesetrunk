@@ -12,7 +12,6 @@ import java.util.logging.Level;
 import com.molinari.gestionespese.domain.Gruppi;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.IGruppi;
-
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.database.Clausola;
 import com.molinari.utility.database.ExecutePreparedStatement;
@@ -36,6 +35,11 @@ public class WrapGruppi extends Observable implements IDAO<IGruppi>, IGruppi {
 
 		final String sql = getQuerySelectById(id);
 
+		return selectGruppiSingleReturn(sql);
+
+	}
+
+	private IGruppi selectGruppiSingleReturn(final String sql) {
 		final IGruppi gruppoLoc = new Gruppi();
 
 		try {
@@ -60,7 +64,6 @@ public class WrapGruppi extends Observable implements IDAO<IGruppi>, IGruppi {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		return gruppoLoc;
-
 	}
 
 	private String getQuerySelectById(final int id) {
@@ -195,30 +198,7 @@ public class WrapGruppi extends Observable implements IDAO<IGruppi>, IGruppi {
 
 		final String sql = getQuerySelectByName(nome);
 
-		final IGruppi gruppoLoc = new Gruppi();
-
-		try {
-
-			return new ExecuteResultSet<IGruppi>() {
-
-				@Override
-				protected IGruppi doWithResultSet(ResultSet rs) throws SQLException {
-
-					if (rs.next()) {
-						gruppoLoc.setidGruppo(rs.getInt(1));
-						gruppoLoc.setnome(rs.getString(2));
-						gruppoLoc.setdescrizione(rs.getString(3));
-					}
-
-					return gruppoLoc;
-				}
-
-			}.execute(sql);
-
-		} catch (final SQLException e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-		}
-		return gruppoLoc;
+		return selectGruppiSingleReturn(sql);
 	}
 
 	private String getQuerySelectByName(final String nome) {

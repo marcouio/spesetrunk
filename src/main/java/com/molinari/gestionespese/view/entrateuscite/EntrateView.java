@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Observable;
 import java.util.logging.Level;
 
@@ -82,7 +83,7 @@ public class EntrateView extends AbstractEntrateView {
 		listaCombo.add(null);
 		INCOMETYPE[] values = INCOMETYPE.values();
 		for(int i = 0; i<values.length; i++){
-			listaCombo.add(values[i]);;
+			listaCombo.add(values[i]);
 		}
 
 		cbTipo = new JComboBox<>(INCOMETYPE.values());
@@ -170,8 +171,8 @@ public class EntrateView extends AbstractEntrateView {
 	/**
 	 * @return the lista
 	 */
-	public static ArrayList<INCOMETYPE> getLista() {
-		return new ArrayList<INCOMETYPE>(Arrays.asList(INCOMETYPE.values()));
+	public static List<INCOMETYPE> getLista() {
+		return new ArrayList<>(Arrays.asList(INCOMETYPE.values()));
 	}
 
 	public void aggiornaModelDaVista() {

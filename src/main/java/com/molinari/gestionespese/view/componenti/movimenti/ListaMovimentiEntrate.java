@@ -2,6 +2,7 @@ package com.molinari.gestionespese.view.componenti.movimenti;
 
 import java.awt.Container;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -11,12 +12,11 @@ import javax.swing.WindowConstants;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.aggiornatori.AggiornatoreManager;
-import com.molinari.utility.messages.I18NManager;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.wrapper.Model;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
-
 import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.messages.I18NManager;
 
 public class ListaMovimentiEntrate extends AbstractListaMov {
 
@@ -52,11 +52,16 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 
 					@Override
 					public String[][] getMovimenti() {
-						final WrapEntrate modelEntrate = Model.getSingleton().getModelEntrate();
-						final List<Entrate> entrate = modelEntrate.movimentiEntrateFiltrati(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
-						final String[][] mov = Model.movimentiFiltratiEntratePerNumero(Entrate.NOME_TABELLA, entrate, numMovimenti);
-						AggiornatoreManager.aggiornaMovimentiEntrateDaFiltro(createNomiColonne(), mov);
-						return mov;
+						try {
+							final WrapEntrate modelEntrate = Model.getSingleton().getModelEntrate();
+							final List<Entrate> entrate = modelEntrate.movimentiEntrateFiltrati(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
+							final String[][] mov = Model.movimentiFiltratiEntratePerNumero(Entrate.NOME_TABELLA, entrate, numMovimenti);
+							AggiornatoreManager.aggiornaMovimentiEntrateDaFiltro(createNomiColonne(), mov);
+							return mov;
+						} catch (SQLException e) {
+							ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+						}
+						return new String[][]{};
 					}
 
 					{
