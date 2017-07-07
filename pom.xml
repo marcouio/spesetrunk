@@ -106,5 +106,10 @@
 			<scope>test</scope>
 			<type>pom</type>
 		</dependency>
+		<dependency>
+			<groupId>com.molinari</groupId>
+			<artifactId>utility</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>
