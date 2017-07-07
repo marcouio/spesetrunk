@@ -27,18 +27,17 @@ public class TabellaUscita {
 	public TabellaUscita() {
 		panel = new OggettoVistaBase(new GridLayout(1,0));
 
-		TableModelUscite model = null;
 		try {
-			model = new TableModelUscite(null);
+			TableModelUscite model = new TableModelUscite(null);
+			final TableF table = createTable(model);
+			//Create the scroll pane and add the table to it.
+			scrollPane = new JScrollPane(table);
+
+			//Add the scroll pane to this panel.
+			getPanel().add(scrollPane);
 		} catch (final Exception e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
-		final TableF table = createTable(model);
-		//Create the scroll pane and add the table to it.
-		scrollPane = new JScrollPane(table);
-
-		//Add the scroll pane to this panel.
-		getPanel().add(scrollPane);
 
 	}
 

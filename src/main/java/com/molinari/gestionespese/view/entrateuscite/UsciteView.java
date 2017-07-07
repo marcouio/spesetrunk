@@ -31,12 +31,16 @@ import com.molinari.utility.text.CorreggiTesto;
 
 public class UsciteView extends AbstractUsciteView {
 
-	private final TextFieldF  tfNome;
-	private final TextFieldF  tfData;
-	private final TextFieldF  tfEuro;
-	private final TextAreaF   taDescrizione;
+	private TextFieldF  tfNome;
+	private TextFieldF  tfData;
+	private TextFieldF  tfEuro;
+	private TextAreaF   taDescrizione;
 	private JComboBox<ICatSpese>  cCategorie;
 
+	public UsciteView(){
+		super(new WrapSingleSpesa());
+	}
+	
 	/**
 	 * Create the panel.
 	 */

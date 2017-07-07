@@ -6,17 +6,16 @@ import java.util.Map;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.cache.CacheGruppi;
-import com.molinari.utility.messages.I18NManager;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.IGruppi;
-
 import com.molinari.utility.graphic.component.table.TableModel;
+import com.molinari.utility.messages.I18NManager;
 
 public class TableModelUsciteGruppi extends TableModel{
 
 	private static final long serialVersionUID = 1L;
-	List<IGruppi> gruppi = null;
-	List<ICatSpese> catSpese = null;
+	private List<IGruppi> gruppi = null;
+	private List<ICatSpese> catSpese = null;
 
 	public TableModelUsciteGruppi(Object parametro) {
 		super(parametro);

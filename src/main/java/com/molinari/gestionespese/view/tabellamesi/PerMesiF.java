@@ -15,9 +15,9 @@ public class PerMesiF extends PannelloBase {
 
 
 	private static final long serialVersionUID = 1L;
-	private TabellaEntrata      tabEntrate;
-	private TabellaUscita       tabUscite;
-	private TabellaUscitaGruppi tabUG;
+	private transient TabellaEntrata      tabEntrate;
+	private transient TabellaUscita       tabUscite;
+	private transient TabellaUscitaGruppi tabUG;
 
 	public PerMesiF(Container contenitore) {
 		super(contenitore);
