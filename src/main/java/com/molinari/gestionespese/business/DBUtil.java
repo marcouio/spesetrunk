@@ -140,7 +140,7 @@ public class DBUtil {
 	 * @return Date
 	 * @throws ParseException
 	 */
-	public static Date formatDate(final String date) throws ParseException {
+	public static Date formatDate(final String date) {
 		return UtilDb.stringToDate(date, "dd-MM-yyyy");
 	}
 
@@ -152,7 +152,7 @@ public class DBUtil {
 	 * @return Date
 	 * @throws ParseException
 	 */
-	public static Date formatDateTime(final String date) throws ParseException {
+	public static Date formatDateTime(final String date) {
 		return UtilDb.stringToDate(date, "dd-MM-yyyy HH:mm");
 	}
 

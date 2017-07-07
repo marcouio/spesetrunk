@@ -48,7 +48,7 @@ public abstract class AbstractCacheBase<T extends AbstractOggettoEntita> {
 
 	public Map<String, T> chargeAllObject(IDAO<T> dao) {
 		try {
-			final List<T> objs = (List<T>) dao.selectAll();
+			final List<T> objs = dao.selectAll();
 			if (objs != null && !objs.isEmpty()) {
 				for (int i = 0; i < objs.size(); i++) {
 					final T object = objs.get(i);
@@ -79,7 +79,7 @@ public abstract class AbstractCacheBase<T extends AbstractOggettoEntita> {
 
 	private T caricaObj(IDAO<T> dao, String id) {
 		try {
-			return (T) dao.selectById(Integer.parseInt(id));
+			return dao.selectById(Integer.parseInt(id));
 		} catch (final Exception e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}

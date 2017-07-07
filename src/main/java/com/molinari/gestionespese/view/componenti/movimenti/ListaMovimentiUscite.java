@@ -23,46 +23,13 @@ import com.molinari.utility.math.UtilMath;
 
 public class ListaMovimentiUscite extends AbstractListaMov {
 
-	private final class FiltraDialogExtension extends FiltraDialog {
-		
-		private static final long serialVersionUID = 1L;
-
-		private FiltraDialogExtension(){
-			final List<ICatSpese> listCategoriePerCombo = CacheCategorie.getSingleton().getListCategoriePerCombo();
-			comboBoxCat = new JComboBox<ICatSpese>(new Vector<>(listCategoriePerCombo));
-			comboBoxCat.setBounds(512, 26, 89, 25);
-			getContentPane().add(comboBoxCat);
-			if(getCampo().getText() != null && UtilMath.isNumber(getCampo().getText())){
-				setNumEntry(Integer.parseInt(getCampo().getText()));
-			}
-		}
-
-		@Override
-		public String[][] getMovimenti() {
-			
-			final List<ISingleSpesa> uscite = Model.getSingleton().getModelUscita().movimentiUsciteFiltrate(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
-			final String[][] mov = Model.movimentiFiltratiUscitePerNumero(Entrate.NOME_TABELLA, uscite, getNumEntry());
-			AggiornatoreManager.aggiornaMovimentiUsciteDaFiltro(createNomiColonne(), mov);
-			return mov;
-		}
-
-		@Override
-		protected String getCategoria() {
-			if (comboBoxCat.getSelectedItem() != null) {
-				final int idCat = ((CatSpese) comboBoxCat.getSelectedItem()).getidCategoria();
-				categoria = Integer.toString(idCat);
-			}
-			return categoria;
-		}
-	}
-
 	private static final long serialVersionUID = 1L;
 
 	public ListaMovimentiUscite(Container contenitore) {
 		super(contenitore);
 		pulsanteNMovimenti.addActionListener(new AscoltatoreNumeroMovimenti(SingleSpesa.NOME_TABELLA, createNomiColonne(), campo));
 	}
-
+	
 	@Override
 	public String[][] createMovimenti() {
 		return Model.movimentiUscite(numMovimenti, SingleSpesa.NOME_TABELLA);
@@ -95,5 +62,38 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 	@Override
 	protected String getTipo() {
 		return SingleSpesa.NOME_TABELLA;
+	}
+	
+private final class FiltraDialogExtension extends FiltraDialog {
+		
+		private static final long serialVersionUID = 1L;
+
+		private FiltraDialogExtension(){
+			final List<ICatSpese> listCategoriePerCombo = CacheCategorie.getSingleton().getListCategoriePerCombo();
+			comboBoxCat = new JComboBox<ICatSpese>(new Vector<>(listCategoriePerCombo));
+			comboBoxCat.setBounds(512, 26, 89, 25);
+			getContentPane().add(comboBoxCat);
+			if(getCampo().getText() != null && UtilMath.isNumber(getCampo().getText())){
+				setNumEntry(Integer.parseInt(getCampo().getText()));
+			}
+		}
+
+		@Override
+		public String[][] getMovimenti() {
+			
+			final List<ISingleSpesa> uscite = Model.getSingleton().getModelUscita().movimentiUsciteFiltrate(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
+			final String[][] mov = Model.movimentiFiltratiUscitePerNumero(Entrate.NOME_TABELLA, uscite, getNumEntry());
+			AggiornatoreManager.aggiornaMovimentiUsciteDaFiltro(createNomiColonne(), mov);
+			return mov;
+		}
+
+		@Override
+		protected String getCategoria() {
+			if (comboBoxCat.getSelectedItem() != null) {
+				final int idCat = ((CatSpese) comboBoxCat.getSelectedItem()).getidCategoria();
+				categoria = Integer.toString(idCat);
+			}
+			return categoria;
+		}
 	}
 }
