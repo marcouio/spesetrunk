@@ -14,8 +14,8 @@ import com.molinari.utility.messages.I18NManager;
 public class TableModelUsciteGruppi extends TableModel{
 
 	private static final long serialVersionUID = 1L;
-	private List<IGruppi> gruppi = null;
-	private List<ICatSpese> catSpese = null;
+	private transient List<IGruppi> gruppi = null;
+	private transient List<ICatSpese> catSpese = null;
 
 	public TableModelUsciteGruppi(Object parametro) {
 		super(parametro);
