@@ -19,6 +19,7 @@ import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.ISingleSpesa;
 import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.wrapper.Model;
+import com.molinari.utility.math.UtilMath;
 
 public class ListaMovimentiUscite extends AbstractListaMov {
 
@@ -31,13 +32,16 @@ public class ListaMovimentiUscite extends AbstractListaMov {
 			comboBoxCat = new JComboBox<ICatSpese>(new Vector<>(listCategoriePerCombo));
 			comboBoxCat.setBounds(512, 26, 89, 25);
 			getContentPane().add(comboBoxCat);
+			if(getCampo().getText() != null && UtilMath.isNumber(getCampo().getText())){
+				setNumEntry(Integer.parseInt(getCampo().getText()));
+			}
 		}
 
 		@Override
 		public String[][] getMovimenti() {
-			final List<ISingleSpesa> uscite = Model.getSingleton().getModelUscita()
-					.movimentiUsciteFiltrate(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
-			final String[][] mov = Model.movimentiFiltratiUscitePerNumero(Entrate.NOME_TABELLA, uscite);
+			
+			final List<ISingleSpesa> uscite = Model.getSingleton().getModelUscita().movimentiUsciteFiltrate(getDataDa(), getDataA(), getNome(), getEuro(), getCategoria());
+			final String[][] mov = Model.movimentiFiltratiUscitePerNumero(Entrate.NOME_TABELLA, uscite, getNumEntry());
 			AggiornatoreManager.aggiornaMovimentiUsciteDaFiltro(createNomiColonne(), mov);
 			return mov;
 		}

@@ -277,27 +277,23 @@ public class Model {
 
 	// *************************************MOVIMENTI-USCITE***********************************
 
-	public static String[][] movimentiFiltratiUscitePerNumero(final String tabella, final List<ISingleSpesa> uscite) {
+	public static String[][] movimentiFiltratiUscitePerNumero(final String tabella, final List<ISingleSpesa> uscite, int nUscite) {
 		final List<String> nomi = Database.getSingleton().nomiColonne(tabella);
 
-		final int numUscite = uscite.size();
+		final int numUscite = nUscite;
 
-		if (!uscite.isEmpty() && (uscite.size() == numUscite || uscite.size() >= numUscite)) {
+		if (!uscite.isEmpty()) {
 			movimentiUscite = new String[numUscite][nomi.size()];
 			for (int x = 0; x < numUscite; x++) {
 				popolaArrayMovUsciteConSingleSpesa(uscite, x);
+				
+				if (uscite.size() < numUscite) {
 
-			}
-		} else if (!uscite.isEmpty() && uscite.size() < numUscite) {
-
-			movimentiUscite = new String[numUscite][nomi.size()];
-			for (int x = 0; x < uscite.size(); x++) {
-
-				popolaArrayMovUsciteConSingleSpesa(uscite, x);
-
-				for (int y = uscite.size(); y < numUscite; y++) {
-					riempiArrayMovUsciteConZeri(nomi, y);
-				}
+						for (int y = uscite.size(); y < numUscite; y++) {
+							riempiArrayMovUsciteConZeri(nomi, y);
+						}
+					}
+				
 			}
 		} else {
 			movimentiUscite = new String[numUscite][nomi.size()];
