@@ -3,7 +3,6 @@ package com.molinari.gestionespese.view.componenti.movimenti;
 import java.awt.Container;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -15,8 +14,8 @@ import com.molinari.gestionespese.business.aggiornatori.AggiornatoreManager;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.wrapper.Model;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
+import com.molinari.gestionespese.view.entrateuscite.EntrateView.INCOMETYPE;
 import com.molinari.utility.controller.ControlloreBase;
-import com.molinari.utility.messages.I18NManager;
 
 public class ListaMovimentiEntrate extends AbstractListaMov {
 
@@ -67,11 +66,7 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 					{
 						// array per Categori
 
-						final ArrayList<String> lista = new ArrayList<>();
-						lista.add("");
-						lista.add(I18NManager.getSingleton().getMessaggio("variables"));
-						lista.add(I18NManager.getSingleton().getMessaggio("fixity"));
-						comboBoxCat = new JComboBox(lista.toArray());
+						comboBoxCat = new JComboBox<>(INCOMETYPE.values());
 
 						comboBoxCat.setBounds(512, 26, 89, 25);
 						getContentPane().add(comboBoxCat);

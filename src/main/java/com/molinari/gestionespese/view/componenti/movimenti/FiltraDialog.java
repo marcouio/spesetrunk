@@ -7,11 +7,10 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import com.molinari.gestionespese.business.AltreUtil;
-import com.molinari.utility.messages.I18NManager;
-import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.view.font.ButtonF;
 import com.molinari.gestionespese.view.font.LabelListaGruppi;
 import com.molinari.gestionespese.view.font.TextFieldF;
+import com.molinari.utility.messages.I18NManager;
 
 public abstract class FiltraDialog extends JDialog {
 
@@ -20,7 +19,7 @@ public abstract class FiltraDialog extends JDialog {
 	private final TextFieldF tfA;
 	private final TextFieldF tfNome;
 	private final TextFieldF tfEuro;
-	protected JComboBox<ICatSpese> comboBoxCat;
+	protected JComboBox<?> comboBoxCat;
 
 	private String dataDa;
 	private String dataA;
