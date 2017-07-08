@@ -1,14 +1,13 @@
 package com.molinari.gestionespese.business;
 
-import java.io.File;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.apache.commons.math3.util.MathUtils;
-
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.io.UtilIo;
+import com.molinari.utility.math.UtilMath;
 
 public class AltreUtil {
 
@@ -43,14 +42,7 @@ public class AltreUtil {
 	}
 
 	public static boolean checkDouble(final String number) {
-		boolean ok = true;
-		try {
-			AltreUtil.arrotondaDecimaliDouble(Double.parseDouble(number));
-		} catch (final Exception e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-			ok = false;
-		}
-		return ok;
+		return UtilMath.checkDouble(number);
 	}
 
 	public static boolean checkData(final String data) {
@@ -92,18 +84,7 @@ public class AltreUtil {
 	 * @return un double arrotondato a due cifre
 	 */
 	public static double arrotondaDecimaliDouble(final double d) {
-		double decimaleArrotondato = 0;
-		final String stringaDouble = Double.toString(d);
-		final String interi = stringaDouble.substring(0, stringaDouble.indexOf('.'));
-		final double parteIntera = Double.parseDouble(interi);
-		final double parteDecimali = d - parteIntera;
-		boolean equalzero = MathUtils.equals(parteDecimali * 100, 0);
-		if (!equalzero) {
-			final double decimaliDaArrotondare = parteDecimali * 100;
-			final String arrotondato = Long.toString(Math.round(decimaliDaArrotondare));
-			decimaleArrotondato = Double.parseDouble(arrotondato) / 100;
-		}
-		return parteIntera + decimaleArrotondato;
+		return UtilMath.arrotondaDecimaliDouble(d);
 	}
 
 	/**
@@ -113,34 +94,13 @@ public class AltreUtil {
 	 * @return
 	 */
 	public static boolean deleteFileDaDirectory2(final String directory) {
-		final File dir = new File(directory);
-		final String[] files = dir.list();
-		boolean deleted = true;
-		if(files != null){
-			for (final String file : files) {
-				final File f = new File(dir, file);
-				if(!f.delete()){
-					deleted = false;
-				}
-			}
-		}
-		return deleted;
+		UtilIo.deleteFileDaDirectory(directory);
+		return true;
 	}
 
 	public static boolean deleteFileDaDirectory(final String directory, final String treCharIniziali) {
-		final File dir = new File(directory);
-		final String[] files = dir.list();
-		boolean deleted = true;
-		if(files != null){
-			for (final String file : files) {
-				final File f = new File(dir, file);
-				final boolean equalPrefix = f.getName().substring(0, 3).equals(treCharIniziali);
-				if (!f.isDirectory() && equalPrefix && !f.delete()) {
-					deleted = false;
-				}
-			}
-		}
-		return deleted;
+		UtilIo.deleteFileDaDirectory(directory, treCharIniziali);
+		return true;
 	}
 
 	/**
