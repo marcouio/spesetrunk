@@ -12,7 +12,6 @@ import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.wrapper.WrapSingleSpesa;
-
 import com.molinari.utility.graphic.component.alert.Alert;
 
 public class AscoltatoreBottoniUscita extends MouseAdapter {
@@ -74,6 +73,7 @@ public class AscoltatoreBottoniUscita extends MouseAdapter {
 		for (int i = 0; i < cate.size(); i++) {
 			if (cate.get(i).getnome().equals(arrayUtil[INDEX_CATEGORIA])) {
 				dialogNew.getComboCategoria().setSelectedIndex(i);
+				break;
 			}
 		}
 

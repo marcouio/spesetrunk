@@ -200,7 +200,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 		private boolean nonEsistonoCampiNonValorizzati() {
 			final boolean nomeDescrDataOk = getcNome() != null && getcDescrizione() != null && getcData() != null;
 			boolean eurozero = MathUtils.equals(getdEuro(), 0);
-			return nomeDescrDataOk && getFisseOVar() != null && eurozero && getUtenti() != null;
+			return nomeDescrDataOk && getFisseOVar() != null && !eurozero && getUtenti() != null;
 		}
 
 		@Override

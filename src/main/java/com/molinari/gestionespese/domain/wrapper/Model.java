@@ -175,15 +175,11 @@ public class Model {
 
 	// *************************************CATEGORIE-PERCOMBOBOX***********************************
 
-	private Map<String, ICatSpese> getCatPerCombo(final boolean ricarica) {
+	public CatSpese[] getCategorieCombo(final boolean ricarica) {
 		final CacheCategorie cache = CacheCategorie.getSingleton();
 		cache.setCaricata(!ricarica);
-		return cache.getAllCategorie();
-	}
-
-	public CatSpese[] getCategorieCombo(final boolean ricarica) {
-		final Map<String, ICatSpese> cat = getCatPerCombo(ricarica);
-		return cat.values().toArray(new CatSpese[cat.values().size()]);
+		List<ICatSpese> listCategoriePerCombo = cache.getVettoreCategorie();
+		return listCategoriePerCombo.toArray(new CatSpese[listCategoriePerCombo.size()]);
 	}
 
 	// *************************************GRUPPI-PERCOMBOBOX***********************************
