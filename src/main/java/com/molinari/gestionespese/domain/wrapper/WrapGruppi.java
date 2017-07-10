@@ -5,13 +5,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Set;
 import java.util.logging.Level;
 
+import com.molinari.gestionespese.business.cache.CacheUtenti;
 import com.molinari.gestionespese.domain.Gruppi;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.IGruppi;
+import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.database.Clausola;
 import com.molinari.utility.database.ExecutePreparedStatement;
@@ -24,6 +27,7 @@ public class WrapGruppi extends Observable implements IDAO<IGruppi>, IGruppi {
 	private static final String WHERE = " WHERE ";
 	private static final String SELECT_FROM = "SELECT * FROM ";
 	private final Gruppi gruppo;
+	
 	private WrapBase base = new WrapBase();
 
 	public WrapGruppi() {
@@ -40,19 +44,19 @@ public class WrapGruppi extends Observable implements IDAO<IGruppi>, IGruppi {
 	}
 
 	private IGruppi selectGruppiSingleReturn(final String sql) {
-		final IGruppi gruppoLoc = new Gruppi();
 
+		final Map<String, IUtenti> mappaUtenti = CacheUtenti.getSingleton().getAllUtenti();
+		
 		try {
 
 			return new ExecuteResultSet<IGruppi>() {
 
 				@Override
 				protected IGruppi doWithResultSet(ResultSet rs) throws SQLException {
+					IGruppi gruppoLoc = new Gruppi();
 
 					if (rs.next()) {
-						gruppoLoc.setidGruppo(rs.getInt(1));
-						gruppoLoc.setnome(rs.getString(2));
-						gruppoLoc.setdescrizione(rs.getString(3));
+						gruppoLoc = fillSingleGroup(mappaUtenti, rs);
 					}
 
 					return gruppoLoc;
@@ -63,7 +67,7 @@ public class WrapGruppi extends Observable implements IDAO<IGruppi>, IGruppi {
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
-		return gruppoLoc;
+		return new Gruppi();
 	}
 
 	private String getQuerySelectById(final int id) {
@@ -80,6 +84,8 @@ public class WrapGruppi extends Observable implements IDAO<IGruppi>, IGruppi {
 	@Override
 	public List<IGruppi> selectAll() {
 
+		final Map<String, IUtenti> mappaUtenti = CacheUtenti.getSingleton().getAllUtenti();
+		
 		final String sql = SELECT_FROM + Gruppi.NOME_TABELLA + " ORDER BY " + Gruppi.ID + " asc";
 		try {
 
@@ -91,10 +97,7 @@ public class WrapGruppi extends Observable implements IDAO<IGruppi>, IGruppi {
 
 					while (rs != null && rs.next()) {
 
-						final IGruppi gruppoLoc = new Gruppi();
-						gruppoLoc.setidGruppo(rs.getInt(1));
-						gruppoLoc.setnome(rs.getString(2));
-						gruppoLoc.setdescrizione(rs.getString(3));
+						final IGruppi gruppoLoc = fillSingleGroup(mappaUtenti, rs);
 						gruppi.add(gruppoLoc);
 					}
 					return gruppi;
@@ -108,6 +111,17 @@ public class WrapGruppi extends Observable implements IDAO<IGruppi>, IGruppi {
 		return new ArrayList<>();
 
 	}
+	
+	private IGruppi fillSingleGroup(final Map<String, IUtenti> mappaUtenti, ResultSet rs)
+			throws SQLException {
+		final IGruppi gruppoLoc = new Gruppi();
+		gruppoLoc.setidGruppo(rs.getInt(1));
+		gruppoLoc.setnome(rs.getString(2));
+		gruppoLoc.setdescrizione(rs.getString(3));
+		IUtenti utenti = mappaUtenti.get(Integer.toString(rs.getInt(4)));
+		gruppoLoc.setUtenti(utenti);
+		return gruppoLoc;
+	}
 
 	@Override
 	public boolean insert(final IGruppi oggettoEntita) {
@@ -119,6 +133,10 @@ public class WrapGruppi extends Observable implements IDAO<IGruppi>, IGruppi {
 			protected void doWithPreparedStatement(PreparedStatement ps, IGruppi obj) throws SQLException {
 				ps.setString(1, obj.getnome());
 				ps.setString(2, obj.getdescrizione());
+				
+				if (obj.getUtenti() != null) {
+					ps.setInt(3, obj.getUtenti().getidUtente());
+				}
 
 			}
 		};
@@ -138,7 +156,9 @@ public class WrapGruppi extends Observable implements IDAO<IGruppi>, IGruppi {
 		sb.append(Gruppi.COL_NOME);
 		sb.append(", ");
 		sb.append(Gruppi.COL_DESCRIZIONE);
-		sb.append(") VALUES(?,?)");
+		sb.append(", ");
+		sb.append(Gruppi.COL_IDUTENTE);
+		sb.append(") VALUES(?,?,?)");
 		return sb.toString();
 	}
 
@@ -180,6 +200,14 @@ public class WrapGruppi extends Observable implements IDAO<IGruppi>, IGruppi {
 		sb.append(Gruppi.COL_DESCRIZIONE);
 		sb.append(" = '");
 		sb.append(gruppoLoc.getdescrizione());
+		IUtenti utenti = gruppoLoc.getUtenti();
+		if(utenti != null){
+			int idUtente = utenti.getidUtente();
+			sb.append("', ");
+			sb.append(Gruppi.COL_IDUTENTE);
+			sb.append(" = '");
+			sb.append(idUtente);
+		}
 		sb.append("' WHERE ");
 		sb.append(Gruppi.ID);
 		sb.append(" = ");
@@ -282,6 +310,16 @@ public class WrapGruppi extends Observable implements IDAO<IGruppi>, IGruppi {
 	@Override
 	public String getNome() {
 		return getnome();
+	}
+
+	@Override
+	public IUtenti getUtenti() {
+		return gruppo.getUtenti();
+	}
+
+	@Override
+	public void setUtenti(IUtenti utenti) {
+		gruppo.setUtenti(utenti);
 	}
 
 }

@@ -1,21 +1,21 @@
 package com.molinari.gestionespese.business.generatori;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.Database;
-import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.cache.CacheGruppi;
-import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.IGruppi;
+import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.utility.graphic.component.table.TableModel;
 import com.molinari.utility.messages.I18NManager;
 
 public class TableModelUsciteGruppi extends TableModel{
 
 	private static final long serialVersionUID = 1L;
-	private transient List<IGruppi> gruppi = null;
-	private transient List<ICatSpese> catSpese = null;
+	private transient Map<Integer, List<IGruppi>> mapGprs;
 
 	public TableModelUsciteGruppi(Object parametro) {
 		super(parametro);
@@ -29,14 +29,10 @@ public class TableModelUsciteGruppi extends TableModel{
 			final Riga riga = new Riga();
 			riga.add(mapMesi.get(i));
 			for (int x = 0; x < getGruppi().size(); x++) {
-				final int idGruppo = Integer.parseInt(gruppi.get(x).getIdEntita());
+				List<IGruppi> listGrps = getMapGprs().get(((IUtenti)Controllore.getUtenteLogin()).getidUtente());
+				final int idGruppo = Integer.parseInt(listGrps.get(x).getIdEntita());
 				final String spesaMeseGruppo = Double.toString(Database.speseMeseGruppo(i, idGruppo));
 				riga.add(spesaMeseGruppo);
-			}
-			for (int x = 0; x < getCategorie().size(); x++) {
-				final int idCategoria = Integer.parseInt(catSpese.get(x).getIdEntita());
-				final String spesaMeseCat = Double.toString(Database.speseMeseCategoria(i, idCategoria));
-				riga.add(spesaMeseCat);
 			}
 
 			addRiga(riga);
@@ -50,23 +46,27 @@ public class TableModelUsciteGruppi extends TableModel{
 		for (int i = 0; i < getGruppi().size(); i++) {
 			addColumn(getGruppi().get(i).getnome());
 		}
-		for (int i = 0; i < getCategorie().size(); i++) {
-			addColumn(getCategorie().get(i).getnome());
-		}
 	}
 
 	public List<IGruppi> getGruppi() {
-		if(gruppi == null){
-			gruppi = CacheGruppi.getSingleton().getVettoreGruppiSenzaZero();
+		Integer idUte = ((IUtenti)Controllore.getUtenteLogin()).getidUtente();
+		if(!getMapGprs().containsKey(idUte)){
+			List<IGruppi> vettoreGruppiSenzaZero = CacheGruppi.getSingleton().getVettoreGruppiSenzaZero();
+			getMapGprs().put(idUte, vettoreGruppiSenzaZero);
+			
+			return vettoreGruppiSenzaZero;
 		}
-		return gruppi;
+		return getMapGprs().get(idUte);
 	}
 
-	public List<ICatSpese> getCategorie() {
-		if(catSpese == null){
-			catSpese = CacheCategorie.getSingleton().getCategorieSenzaGruppo();
+	public Map<Integer, List<IGruppi>> getMapGprs() {
+		if (mapGprs == null) {
+			mapGprs = new HashMap<>();
 		}
-		return catSpese;
+		return mapGprs;
 	}
 
+	public void setMapGprs(Map<Integer, List<IGruppi>> mapGprs) {
+		this.mapGprs = mapGprs;
+	}
 }

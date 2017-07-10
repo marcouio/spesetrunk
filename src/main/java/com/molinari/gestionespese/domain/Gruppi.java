@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -30,6 +32,10 @@ public class Gruppi implements AbstractOggettoEntita, Serializable, IGruppi {
 	@Column(name = "\"nome\"", nullable = false, length = 2000000000)
 	private String nome;
 
+	@ManyToOne
+	@JoinColumns({})
+	private IUtenti utenti;
+	
 	// bi-directional many-to-one association to CatSpese
 	@OneToMany(mappedBy = "gruppi")
 	private Set<ICatSpese> catSpeses;
@@ -38,6 +44,7 @@ public class Gruppi implements AbstractOggettoEntita, Serializable, IGruppi {
 	public static final String ID = "idGruppo";
 	public static final String COL_DESCRIZIONE = "descrizione";
 	public static final String COL_NOME = "nome";
+	public static final String COL_IDUTENTE = "idUtente";
 	
 	@Override
 	public String getdescrizione() {
@@ -98,5 +105,15 @@ public class Gruppi implements AbstractOggettoEntita, Serializable, IGruppi {
 	@Override
 	public String getNome() {
 		return nome;
+	}
+
+	@Override
+	public IUtenti getUtenti() {
+		return utenti;
+	}
+
+	@Override
+	public void setUtenti(IUtenti utenti) {
+		this.utenti = utenti;
 	}
 }

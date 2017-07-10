@@ -22,7 +22,6 @@ import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
-
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.database.Clausola;
 import com.molinari.utility.database.ConnectionPool;
@@ -98,17 +97,8 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 					final List<SingleSpesa> uscite = new ArrayList<>();
 
 					while (rs != null && rs.next()) {
-						final ICatSpese categoria = mappaCategorie.get(Integer.toString(rs.getInt(5)));
-
-						final SingleSpesa uscitaLoc = new SingleSpesa();
-						uscitaLoc.setidSpesa(rs.getInt(1));
-						uscitaLoc.setData(rs.getString(2));
-						uscitaLoc.setinEuro(rs.getDouble(3));
-						uscitaLoc.setdescrizione(rs.getString(4));
-						uscitaLoc.setCatSpese(categoria);
-						uscitaLoc.setNome(rs.getString(6));
-						uscitaLoc.setUtenti(utente);
-						uscitaLoc.setDataIns(rs.getString(8));
+						
+						final SingleSpesa uscitaLoc = fillSpesa(mappaCategorie, utente, rs);
 						uscite.add(uscitaLoc);
 					}
 
@@ -281,7 +271,7 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 		}
 
 		final StringBuilder sql = getQueryMovUsciteFiltrate(dataDa, dataA, nome, euro, catSpese, idUtente);
-
+		final Map<String, ICatSpese> mappaCategorie = CacheCategorie.getSingleton().getAllCategorie();
 
 		try {
 
@@ -293,7 +283,7 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 
 					final List<ISingleSpesa> sSpesa = new ArrayList<>();
 					while (rs != null && rs.next()) {
-						final ISingleSpesa ss = fillSpesa(utente, rs);
+						final ISingleSpesa ss = fillSpesa(mappaCategorie, utente, rs);
 						sSpesa.add(ss);
 					}
 
@@ -522,8 +512,8 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 		throw new UnsupportedOperationException();
 	}
 
-	private SingleSpesa fillSpesa(final Utenti utente, ResultSet rs) throws SQLException {
-		final ICatSpese categoria = CacheCategorie.getSingleton().getCatSpese(rs.getString(5));
+	private SingleSpesa fillSpesa(Map<String, ICatSpese> mappaCategorie, final IUtenti utente, ResultSet rs) throws SQLException {
+		ICatSpese categoria = mappaCategorie.get(rs.getString(5));
 		final SingleSpesa ss = new SingleSpesa();
 		ss.setidSpesa(rs.getInt(1));
 		ss.setData(rs.getString(2));

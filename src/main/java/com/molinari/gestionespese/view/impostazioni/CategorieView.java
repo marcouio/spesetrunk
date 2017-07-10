@@ -17,8 +17,6 @@ import javax.swing.WindowConstants;
 
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.cache.CacheGruppi;
-import com.molinari.gestionespese.domain.CatSpese;
-import com.molinari.gestionespese.domain.Gruppi;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapCatSpese;
@@ -30,6 +28,7 @@ import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreAggio
 import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreCancellaCategoria;
 import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreInserisciCategoria;
 import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.messages.I18NManager;
 import com.molinari.utility.text.CorreggiTesto;
 
 public class CategorieView extends AbstractCategorieView {
@@ -81,7 +80,8 @@ public class CategorieView extends AbstractCategorieView {
 			// bottone invia
 			final ButtonF inserisci = new ButtonF();
 			inserisci.setBounds(26, 305, 206, 25);
-			inserisci.setText("Inserisci Categoria");
+			inserisci.setText(I18NManager.getSingleton().getMessaggio("inscat"));
+			inserisci.setActionCommand("Inserisci Categoria");
 
 			final List<IGruppi> vettoreGruppi = CacheGruppi.getSingleton().getListCategoriePerCombo(CacheGruppi.getSingleton().getAllGruppi());
 			// combo gruppi
@@ -92,7 +92,7 @@ public class CategorieView extends AbstractCategorieView {
 			cbGruppi.setBounds(26, 265, 206, 25);
 			getDialog().getContentPane().add(cbGruppi);
 
-			categorieSpesa = CacheCategorie.getSingleton().getListCategoriePerCombo(CacheCategorie.getSingleton().getAllCategorie());
+			categorieSpesa = CacheCategorie.getSingleton().getListCategoriePerCombo();
 			cbCategorie = new JComboBox<>(new Vector<>(categorieSpesa));
 			cbCategorie.setBounds(26, 380, 206, 25);
 			cbCategorie.addItemListener(getListener());
@@ -100,7 +100,8 @@ public class CategorieView extends AbstractCategorieView {
 			// bottone Update
 			final ButtonF aggiorna = new ButtonF();
 			aggiorna.setBounds(26, 421, 100, 25);
-			aggiorna.setText("Aggiorna");
+			aggiorna.setText(I18NManager.getSingleton().getMessaggio("update"));
+			aggiorna.setActionCommand("Aggiorna");
 			aggiorna.addActionListener(new AscoltatoreAggiornaCategoria(this));
 
 			// bottone insert
@@ -108,7 +109,8 @@ public class CategorieView extends AbstractCategorieView {
 
 			// bottone cancella
 			final ButtonF cancella = new ButtonF();
-			cancella.setText("Cancella");
+			cancella.setActionCommand("Cancella");
+			cancella.setText(I18NManager.getSingleton().getMessaggio("delete"));
 			cancella.setBounds(132, 421, 100, 25);
 			cancella.addActionListener(new AscoltatoreCancellaCategoria(this));
 
@@ -136,7 +138,7 @@ public class CategorieView extends AbstractCategorieView {
 	}
 
 	private void setFields() {
-		categoria = (CatSpese) cbCategorie.getSelectedItem();
+		categoria = (ICatSpese) cbCategorie.getSelectedItem();
 		tfNome.setText(categoria.getnome());
 		taDescrizione.setText(categoria.getdescrizione());
 		cbImportanza.setSelectedItem(categoria.getimportanza());
@@ -180,7 +182,7 @@ public class CategorieView extends AbstractCategorieView {
 		final CorreggiTesto checkTestoDescrizione = new CorreggiTesto(taDescrizione.getText());
 		setcDescrizione(checkTestoDescrizione.getTesto());
 		setcImportanza((String) cbImportanza.getSelectedItem());
-		setGruppo((Gruppi) cbGruppi.getSelectedItem());
+		setGruppo((IGruppi) cbGruppi.getSelectedItem());
 
 	}
 
@@ -233,25 +235,25 @@ public class CategorieView extends AbstractCategorieView {
 		// Label nome
 		final JLabel labelNome = new LabelListaGruppi();
 		labelNome.setBounds(26, 12, 100, 25);
-		labelNome.setText("Categoria");
+		labelNome.setText(I18NManager.getSingleton().getMessaggio("category"));
 
 		// Label descrizione
 		final JLabel labelDescrizione = new LabelListaGruppi();
 		labelDescrizione.setBounds(26, 65, 90, 25);
-		labelDescrizione.setText("Descrizione");
+		labelDescrizione.setText(I18NManager.getSingleton().getMessaggio("descr"));
 
 		// Label Importanza
 		final JLabel labelCategorie = new LabelListaGruppi();
 		labelCategorie.setBounds(26, 184, 100, 25);
-		labelCategorie.setText("Importanza");
+		labelCategorie.setText(I18NManager.getSingleton().getMessaggio("tipology"));
 
 		// Label Combo Categorie
 		final JLabel labelComboCategorie = new LabelListaGruppi();
 		labelComboCategorie.setBounds(26, 352, 100, 25);
-		labelComboCategorie.setText("Lista Categorie");
+		labelComboCategorie.setText(I18NManager.getSingleton().getMessaggio("catlist"));
 
 		final LabelListaGruppi lbltstGruppo = new LabelListaGruppi();
-		lbltstGruppo.setText("Gruppo");
+		lbltstGruppo.setText(I18NManager.getSingleton().getMessaggio("group"));
 		lbltstGruppo.setBounds(26, 239, 100, 25);
 		getDialog().getContentPane().add(lbltstGruppo);
 		getDialog().getContentPane().add(labelDescrizione);

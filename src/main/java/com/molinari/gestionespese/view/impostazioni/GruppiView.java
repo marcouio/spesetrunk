@@ -8,9 +8,11 @@ import java.util.Observable;
 import javax.swing.JComboBox;
 import javax.swing.WindowConstants;
 
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.cache.CacheGruppi;
 import com.molinari.gestionespese.domain.Gruppi;
 import com.molinari.gestionespese.domain.IGruppi;
+import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.wrapper.WrapGruppi;
 import com.molinari.gestionespese.view.font.ButtonF;
 import com.molinari.gestionespese.view.font.LabelListaGruppi;
@@ -19,6 +21,7 @@ import com.molinari.gestionespese.view.font.TextFieldF;
 import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreAggiornaGruppo;
 import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreEliminaGruppo;
 import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreInserisciGruppo;
+import com.molinari.utility.messages.I18NManager;
 
 public class GruppiView extends AbstractGruppiView {
 
@@ -39,7 +42,7 @@ public class GruppiView extends AbstractGruppiView {
 	private void initGUI() {
 
 		getDialog().setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		getDialog().setTitle("Gruppi");
+		getDialog().setTitle(I18NManager.getSingleton().getMessaggio("groups"));
 		getDialog().getContentPane().setLayout(null);
 
 		initLabel();
@@ -50,7 +53,7 @@ public class GruppiView extends AbstractGruppiView {
 		nome.setBounds(25, 49, 206, 26);
 		getDialog().getContentPane().add(nome);
 
-		descrizione = new TextAreaF("Inserisci la descrizione della spesa", 50, 25);
+		descrizione = new TextAreaF(I18NManager.getSingleton().getMessaggio("grpdesc"), 50, 25);
 		descrizione.setWrapStyleWord(true);
 		descrizione.setLineWrap(true);
 		descrizione.setAutoscrolls(true);
@@ -58,7 +61,8 @@ public class GruppiView extends AbstractGruppiView {
 		getDialog().getContentPane().add(descrizione);
 
 		final ButtonF inserisci = new ButtonF();
-		inserisci.setText("Inserisci");
+		inserisci.setText(I18NManager.getSingleton().getMessaggio("insert"));
+		inserisci.setActionCommand("Inserisci");
 		inserisci.setBounds(26, 214, 206, 25);
 		getDialog().getContentPane().add(inserisci);
 
@@ -83,12 +87,14 @@ public class GruppiView extends AbstractGruppiView {
 		});
 
 		final ButtonF aggiorna = new ButtonF();
-		aggiorna.setText("Aggiorna");
+		aggiorna.setText(I18NManager.getSingleton().getMessaggio("update"));
+		aggiorna.setActionCommand("Aggiorna");
 		aggiorna.setBounds(25, 320, 100, 25);
 		getDialog().getContentPane().add(aggiorna);
 
 		final ButtonF cancella = new ButtonF();
-		cancella.setText("Cancella");
+		cancella.setText(I18NManager.getSingleton().getMessaggio("delete"));
+		cancella.setActionCommand("Cancella");
 		cancella.setBounds(131, 320, 100, 25);
 		getDialog().getContentPane().add(cancella);
 
@@ -102,7 +108,7 @@ public class GruppiView extends AbstractGruppiView {
 	public void update(final Observable o, final Object arg) {
 		nome.setText(getNome());
 		descrizione.setText(getDescrizione());
-
+		
 	}
 
 	public boolean nonEsistonoCampiNonValorizzati() {
@@ -111,17 +117,17 @@ public class GruppiView extends AbstractGruppiView {
 
 	private void initLabel() {
 		final LabelListaGruppi lbltstGruppo = new LabelListaGruppi();
-		lbltstGruppo.setText("Gruppo");
+		lbltstGruppo.setText(I18NManager.getSingleton().getMessaggio("groups"));
 		lbltstGruppo.setBounds(25, 24, 100, 25);
 		getDialog().getContentPane().add(lbltstGruppo);
 
 		final LabelListaGruppi lbltstListaGruppi = new LabelListaGruppi();
-		lbltstListaGruppi.setText("Lista Gruppi");
+		lbltstListaGruppi.setText(I18NManager.getSingleton().getMessaggio("grpslist"));
 		lbltstListaGruppi.setBounds(25, 251, 100, 25);
 		getDialog().getContentPane().add(lbltstListaGruppi);
 
 		final LabelListaGruppi labelDescrizione = new LabelListaGruppi();
-		labelDescrizione.setText("Descrizione");
+		labelDescrizione.setText(I18NManager.getSingleton().getMessaggio("descr"));
 		labelDescrizione.setBounds(25, 77, 90, 25);
 		getDialog().getContentPane().add(labelDescrizione);
 
@@ -151,7 +157,7 @@ public class GruppiView extends AbstractGruppiView {
 
 		setNome(nome.getText());
 		setDescrizione(descrizione.getText());
-
+		getModelGruppi().setUtenti((IUtenti) Controllore.getUtenteLogin());
 	}
 
 	public JComboBox<IGruppi> getComboGruppi() {

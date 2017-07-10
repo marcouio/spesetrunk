@@ -5,9 +5,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.ICatSpese;
+import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.wrapper.WrapCatSpese;
 
 public class CacheCategorie extends AbstractCacheBase<ICatSpese> {
@@ -35,63 +39,42 @@ public class CacheCategorie extends AbstractCacheBase<ICatSpese> {
 		return getAll(catSpeseDAO);
 	}
 
-	public List<ICatSpese> getListCategoriePerCombo(final Map<String, ICatSpese> mappa) {
-		final List<ICatSpese> categorie = new ArrayList<>();
-		final Object[] lista = mappa.values().toArray();
-		final ICatSpese categoria = new CatSpese();
-		categoria.setnome("");
-		for (final Object element : lista) {
-			categorie.add((ICatSpese) element);
-		}
-		categorie.add(0, categoria);
-		return categorie;
-	}
-
 	public List<ICatSpese> getListCategoriePerCombo() {
 		final List<ICatSpese> categorie = new ArrayList<>();
-		final Map<String, ICatSpese> mappa = this.getAllCategorie();
-		final Object[] lista = mappa.values().toArray();
 		final ICatSpese categoria = new CatSpese();
 		categoria.setnome("");
-		for (final Object element : lista) {
-			categorie.add((ICatSpese) element);
-		}
 		categorie.add(0, categoria);
-		return categorie;
-	}
-
-	public List<ICatSpese> getCategorieSenzaGruppo() {
-		final List<ICatSpese> allCategorie = getVettoreCategorie();
-		final List<ICatSpese> catSenzaGruppo = new ArrayList<>();
-		for (int i = 0; i < allCategorie.size(); i++) {
-			final ICatSpese categoria = allCategorie.get(i);
-			if (categoria.getGruppi() == null ) {
-				catSenzaGruppo.add(categoria);
-			}
-		}
-		return catSenzaGruppo;
-	}
-
-	public List<ICatSpese> getVettoreCategorie(final Map<String, ICatSpese> mappa) {
-		final List<ICatSpese> categorie = new ArrayList<>();
-		final Object[] lista = mappa.values().toArray();
-		for (final Object element : lista) {
-			categorie.add((ICatSpese) element);
-		}
+		
+		categorie.addAll(getVettoreCategorie());
 		return categorie;
 	}
 
 	public String[] getArrayCategorie(){
 		final ArrayList<String> nomiCategorie = new ArrayList<>();
-		final Map<String, ICatSpese> mappa = this.getAllCategorie();
-		final Object[] lista = mappa.values().toArray();
-		for (final Object element : lista) {
-			nomiCategorie.add(((ICatSpese) element).getnome());
+		
+		List<ICatSpese> vettoreCategorie = getVettoreCategorie();
+		for (ICatSpese catSpese : vettoreCategorie) {
+			nomiCategorie.add(catSpese.getnome());
 		}
+		
 		return nomiCategorie.toArray(new String[nomiCategorie.size()]);
 	}
 
 	public List<ICatSpese> getVettoreCategorie() {
+		final Map<String, ICatSpese> mappa = this.getAllCategorie();
+		Predicate<? super ICatSpese> predicate = getPredicateUtente();
+		return mappa.values().stream().filter(predicate).collect(Collectors.toList());
+	}
+
+	private Predicate<? super ICatSpese> getPredicateUtente() {
+		return c -> {
+			int idUtenteGprs = c.getGruppi().getUtenti().getidUtente();
+			int idUteLogin = ((IUtenti)Controllore.getUtenteLogin()).getidUtente();
+			return idUtenteGprs == idUteLogin;
+		};
+	}
+	
+	public List<ICatSpese> getVettoreCategorieOld() {
 		final List<ICatSpese> categorie = new ArrayList<>();
 		final Map<String, ICatSpese> mappa = this.getAllCategorie();
 		final Object[] lista = mappa.values().toArray();
@@ -99,11 +82,6 @@ public class CacheCategorie extends AbstractCacheBase<ICatSpese> {
 			categorie.add((ICatSpese) element);
 		}
 		return categorie;
-	}
-
-	public Object[] arrayCategorie() {
-		final Map<String, ICatSpese> mappa = this.getAllCategorie();
-		return mappa.values().toArray();
 	}
 
 	public int getMaxId() {

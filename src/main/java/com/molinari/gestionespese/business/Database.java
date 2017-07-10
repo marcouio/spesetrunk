@@ -39,6 +39,9 @@ import com.molinari.utility.graphic.component.alert.Alert;
 
 public class Database {
 
+	private static final String ID_UTENTE_INTEGER_NOT_NULL = " \"idUtente\"	INTEGER NOT NULL, ";
+	private static final String NOME_TEXT_NOT_NULL = " \"nome\"	TEXT NOT NULL, ";
+	private static final String FOREIGN_KEY_ID_UTENTE_REFERENCES_UTENTI_ID_UTENTE = " FOREIGN KEY(\"idUtente\") REFERENCES \"utenti\"(\"idUtente\") ";
 	private static final String WHERE = " where ";
 	private static final String ROW_S = " row/s";
 	private static final String AND = " AND ";
@@ -108,7 +111,7 @@ public class Database {
 		String sql = "CREATE TABLE \"utenti\" (\"idUtente\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , \"nome\" TEXT NOT NULL , \"cognome\" TEXT NOT NULL , \"username\" TEXT NOT NULL  UNIQUE , \"password\" TEXT NOT NULL );";
 		final ConnectionPool cp = ConnectionPool.getSingleton();
 		executeUpdate(sql, cp);
-		sql = "CREATE TABLE \"gruppi\" (\"idGruppo\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , \"nome\" TEXT NOT NULL , \"descrizione\" TEXT);";
+		sql = queryCreateGruppo();
 		executeUpdate(sql, cp);
 		sql = "CREATE TABLE \"lookAndFeel\" (\"idLook\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , \"nome\" TEXT NOT NULL , \"valore\" TEXT NOT NULL , \"usato\" INTEGER NOT NULL );";
 		executeUpdate(sql, cp);
@@ -118,14 +121,74 @@ public class Database {
 		executeUpdate(sql, cp);
 		sql = "CREATE TABLE \"budget\" (\"idBudget\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\"idCategorie\"  INTEGER NOT NULL UNIQUE,\"percSulTot\"  DOUBLE NOT NULL,CONSTRAINT \"keyspesa\" FOREIGN KEY (\"idCategorie\") REFERENCES \"cat_spese\" (\"idCategoria\"));";
 		executeUpdate(sql, cp);
-		sql = "CREATE TABLE \"entrate\" (\"idEntrate\" INTEGER PRIMARY KEY  NOT NULL ,\"descrizione\" TEXT NOT NULL ,\"Fisse_o_Var\" TEXT NOT NULL ,\"inEuro\" INTEGER NOT NULL ,\"data\" TEXT NOT NULL ,\"nome\" TEXT NOT NULL ,\"idUtente\" INTEGER NOT NULL ,\"dataIns\" TEXT);";
+		sql = queryCreateEntrate();
 		executeUpdate(sql, cp);
-		sql = "CREATE TABLE \"single_spesa\" (\"idSpesa\" INTEGER PRIMARY KEY  NOT NULL ,\"Data\" TEXT NOT NULL ,\"inEuro\" INTEGER NOT NULL ,\"descrizione\" TEXT NOT NULL ,\"idCategorie\" INTEGER NOT NULL ,\"nome\" TEXT NOT NULL ,\"idUtente\" INTEGER NOT NULL ,\"dataIns\" TEXT);";
+		sql = queryCreateUscite();
 		executeUpdate(sql, cp);
-		sql = "CREATE TABLE \"note\" (\"idNote\" INTEGER PRIMARY KEY  NOT NULL ,\"nome\" TEXT NOT NULL ,\"descrizione\" TEXT NOT NULL ,\"idUtente\" INTEGER NOT NULL ,\"data\" TEXT NOT NULL ,\"dataIns\" TEXT NOT NULL );";
+		sql = queryCreateNote();
 		executeUpdate(sql, cp);
 
 		generaDatiTabellaLook();
+	}
+
+	private String queryCreateEntrate() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(" CREATE TABLE \"entrate\" ( ");
+		sb.append(" \"idEntrate\"	INTEGER NOT NULL, ");
+		sb.append(" \"descrizione\"	TEXT NOT NULL, ");
+		sb.append(" \"Fisse_o_Var\"	TEXT NOT NULL, ");
+		sb.append(" \"inEuro\"	INTEGER NOT NULL, ");
+		sb.append(" \"data\"	TEXT NOT NULL, ");
+		sb.append(NOME_TEXT_NOT_NULL);
+		sb.append(ID_UTENTE_INTEGER_NOT_NULL);
+		sb.append(" \"dataIns\"	TEXT, ");
+		sb.append(" PRIMARY KEY(\"idEntrate\"), ");
+		sb.append(FOREIGN_KEY_ID_UTENTE_REFERENCES_UTENTI_ID_UTENTE);
+		sb.append(" ); ");
+		return sb.toString();
+	}
+
+	private String queryCreateUscite() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(" CREATE TABLE \"single_spesa\" ( ");
+		sb.append(" \"idSpesa\"	INTEGER NOT NULL,  ");
+		sb.append(" \"Data\"	TEXT NOT NULL, ");
+		sb.append(" \"inEuro\"	INTEGER NOT NULL, ");
+		sb.append(" \"descrizione\"	TEXT NOT NULL, ");
+		sb.append(" \"idCategorie\"	INTEGER NOT NULL, ");
+		sb.append(NOME_TEXT_NOT_NULL);
+		sb.append(ID_UTENTE_INTEGER_NOT_NULL);
+		sb.append(" \"dataIns\"	TEXT, ");
+		sb.append(" PRIMARY KEY(\"idSpesa\") ");
+		sb.append(FOREIGN_KEY_ID_UTENTE_REFERENCES_UTENTI_ID_UTENTE);
+		sb.append(" ); ");
+		return sb.toString();
+	}
+
+	private String queryCreateGruppo() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(" CREATE TABLE \"gruppi\" ( ");
+		sb.append(" \"idGruppo\"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,  ");
+		sb.append(NOME_TEXT_NOT_NULL);
+		sb.append(" \"descrizione\"	TEXT, ");
+		sb.append(ID_UTENTE_INTEGER_NOT_NULL);
+		sb.append(FOREIGN_KEY_ID_UTENTE_REFERENCES_UTENTI_ID_UTENTE);
+		sb.append(" ); ");
+		return sb.toString();
+	}
+	private String queryCreateNote() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(" CREATE TABLE \"note\" ( ");
+		sb.append(" \"idNote\"	INTEGER NOT NULL, ");
+		sb.append(" \"nome\"	TEXT NOT NULL, ");
+		sb.append(" \"descrizione\"	TEXT NOT NULL, ");
+		sb.append(ID_UTENTE_INTEGER_NOT_NULL);
+		sb.append(" \"data\"	TEXT NOT NULL, ");
+		sb.append(" \"dataIns\"	TEXT NOT NULL, ");
+		sb.append(" PRIMARY KEY(\"idNote\"), ");
+		sb.append(FOREIGN_KEY_ID_UTENTE_REFERENCES_UTENTI_ID_UTENTE);
+		sb.append(" ); ");
+		return sb.toString();
 	}
 
 	private void executeUpdate(String sql, final ConnectionPool cp) throws SQLException {
@@ -185,17 +248,15 @@ public class Database {
 	}
 
 	private void sendAlert(String sql, long executeUpdate) {
-		if(startWith(sql, "I")){
+		if (startWith(sql, "I")) {
 			Alert.segnalazioneInfo("Insert " + executeUpdate + ROW_S);
-		}else if(startWith(sql, "U")){
+		} else if (startWith(sql, "U")) {
 			Alert.segnalazioneInfo("Update " + executeUpdate + ROW_S);
-		}else if(startWith(sql, "D")) {
+		} else if (startWith(sql, "D")) {
 			Alert.segnalazioneInfo("Delete " + executeUpdate + ROW_S);
 		}
-		
+
 	}
-	
-	
 
 	private Map<String, ArrayList<String>> execute(final String sql, final HashMap<String, ArrayList<String>> nomi)
 			throws SQLException {
@@ -219,10 +280,9 @@ public class Database {
 				return nomi;
 			}
 
-
 		}.execute(sql);
 	}
-	
+
 	private void riempiLista(ResultSet rs, final ResultSetMetaData rsmd, final ArrayList<String> lista2)
 			throws SQLException {
 		for (int i = 1; i <= rsmd.getColumnCount(); i++) {
@@ -240,8 +300,8 @@ public class Database {
 
 	// questo metodo riempie tabella uscite
 	/**
-	 * Restuisce un double che rappresenta la somma delle uscite per tipologia
-	 * e mese di appartenenza
+	 * Restuisce un double che rappresenta la somma delle uscite per tipologia e
+	 * mese di appartenenza
 	 *
 	 * @param mese
 	 * @param categoria
@@ -428,23 +488,21 @@ public class Database {
 					+ SingleSpesa.COL_DESCRIZIONE + ", " + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.COL_INEURO
 					+ " as euro, " + CatSpese.NOME_TABELLA + "." + CatSpese.COL_NOME + " as categoria, "
 					+ SingleSpesa.NOME_TABELLA + "." + SingleSpesa.ID + ", " + SingleSpesa.NOME_TABELLA + "."
-					+ SingleSpesa.COL_DATAINS + " as inserimento" + FROM + tabella + ", " + CatSpese.NOME_TABELLA
-					+ ", " + Utenti.NOME_TABELLA + WHERE + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.COL_IDCATEGORIE
-					+ " = " + CatSpese.NOME_TABELLA + "." + CatSpese.ID + AND + SingleSpesa.NOME_TABELLA + "."
+					+ SingleSpesa.COL_DATAINS + " as inserimento" + FROM + tabella + ", " + CatSpese.NOME_TABELLA + ", "
+					+ Utenti.NOME_TABELLA + WHERE + SingleSpesa.NOME_TABELLA + "." + SingleSpesa.COL_IDCATEGORIE + " = "
+					+ CatSpese.NOME_TABELLA + "." + CatSpese.ID + AND + SingleSpesa.NOME_TABELLA + "."
 					+ SingleSpesa.COL_IDUTENTE + " = " + Utenti.NOME_TABELLA + "." + Utenti.ID + " order by "
 					+ SingleSpesa.ID + " desc";
 		}
-
 
 		try {
 			return new ExecuteResultSet<List<String>>() {
 
 				@Override
-				protected List<String> doWithResultSet(ResultSet rs)
-						throws SQLException {
+				protected List<String> doWithResultSet(ResultSet rs) throws SQLException {
 					final List<String> colonne = new ArrayList<>();
 
-					if(rs != null && rs.next()){
+					if (rs != null && rs.next()) {
 						final ResultSetMetaData rsm = rs.getMetaData();
 						final int columnCount = rsm.getColumnCount();
 
@@ -607,13 +665,14 @@ public class Database {
 		if (!spesezero && !totannozero) {
 			percentualeTipo = speseTipo / totaleAnnuo * 100;
 		}
-		
+
 		return AltreUtil.arrotondaDecimaliDouble(percentualeTipo);
 
 	}
 
 	private static Predicate<? super ISingleSpesa> getPredicatePercentoUscite(final String importanza) {
-		return ss -> importanza != null && ss.getCatSpese() != null && importanza.equals(ss.getCatSpese().getimportanza());
+		return ss -> importanza != null && ss.getCatSpese() != null
+				&& importanza.equals(ss.getCatSpese().getimportanza());
 	}
 
 	private static ToDoubleFunction<? super ISingleSpesa> getFilter() {

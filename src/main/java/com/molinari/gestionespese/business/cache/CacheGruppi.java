@@ -5,9 +5,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.domain.Gruppi;
 import com.molinari.gestionespese.domain.IGruppi;
+import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.wrapper.WrapGruppi;
 
 public class CacheGruppi extends AbstractCacheBase<IGruppi> {
@@ -48,8 +52,17 @@ public class CacheGruppi extends AbstractCacheBase<IGruppi> {
 	public Map<String, IGruppi> getAllGruppi() {
 		return getAll(gruppiDAO);
 	}
-
+	
 	public List<IGruppi> getVettoreGruppiSenzaZero() {
+		Predicate<? super IGruppi> predicate = g -> {
+			int idUtenteLogin = Controllore.getUtenteLogin() != null ? ((IUtenti)Controllore.getUtenteLogin()).getidUtente() : -1;
+			return g.getUtenti() != null ? g.getUtenti().getidUtente() == idUtenteLogin : false;
+		};
+		final Map<String, IGruppi> mappa = this.getAllGruppi();
+		return mappa.values().stream().filter(predicate).collect(Collectors.toList());
+	}
+
+	public List<IGruppi> getVettoreGruppiSenzaZeroOld() {
 		final List<IGruppi> gruppi = new ArrayList<>();
 		final Map<String, IGruppi> mappa = this.getAllGruppi();
 		final Object[] lista = mappa.values().toArray();
@@ -63,6 +76,9 @@ public class CacheGruppi extends AbstractCacheBase<IGruppi> {
 	}
 
 	public List<IGruppi> getVettoreGruppi() {
+		return getVettoreGruppiSenzaZero();
+	}
+	public List<IGruppi> getVettoreGruppiOld() {
 		final List<IGruppi> gruppi = new ArrayList<>();
 		final Map<String, IGruppi> mappa = this.getAllGruppi();
 		final Object[] lista = mappa.values().toArray();
@@ -71,8 +87,23 @@ public class CacheGruppi extends AbstractCacheBase<IGruppi> {
 		}
 		return gruppi;
 	}
-
+	
 	public List<IGruppi> getListCategoriePerCombo(final Map<String, IGruppi> mappa) {
+		final List<IGruppi> gruppi = new ArrayList<>();
+		final IGruppi gruppo = new Gruppi();
+		gruppo.setnome("");
+		gruppi.add(0, gruppo);
+		
+		Predicate<? super IGruppi> predicate = g -> {
+			int idUtenteLogin = Controllore.getUtenteLogin() != null ? ((IUtenti)Controllore.getUtenteLogin()).getidUtente() : -1;
+			return g.getUtenti() != null ? g.getUtenti().getidUtente() == idUtenteLogin : false;
+		};
+		List<IGruppi> lista = mappa.values().stream().filter(predicate).collect(Collectors.toList()); 
+		gruppi.addAll(lista);
+		return gruppi;
+	}
+
+	public List<IGruppi> getListCategoriePerComboOld(final Map<String, IGruppi> mappa) {
 		final List<IGruppi> gruppi = new ArrayList<>();
 		final Object[] lista = mappa.values().toArray();
 		final IGruppi gruppo = new Gruppi();

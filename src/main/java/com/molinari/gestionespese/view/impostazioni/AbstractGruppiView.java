@@ -30,7 +30,7 @@ public abstract class AbstractGruppiView implements Observer {
 	public void setDescrizione(final String descrizione) {
 		modelGruppi.setdescrizione(descrizione);
 	}
-
+	
 	public WrapGruppi getModelGruppi() {
 		return modelGruppi;
 	}

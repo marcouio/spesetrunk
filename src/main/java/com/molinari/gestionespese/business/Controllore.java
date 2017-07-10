@@ -3,6 +3,7 @@ package com.molinari.gestionespese.business;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Toolkit;
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -83,6 +84,9 @@ public class Controllore extends StarterBase{
 				Database.getSingleton().generaDB();
 			} catch (final SQLException e1) {
 				getLog().log(Level.SEVERE, "Error on Db creation: " + e1.getMessage(), e1);
+				File file = new File(Database.getDburl());
+				System.out.println(file.getAbsolutePath());
+				file.deleteOnExit();
 			}
 			getLog().severe(e.getMessage());
 		}
@@ -111,6 +115,8 @@ public class Controllore extends StarterBase{
 			utente.setCognome(GUEST);
 			final WrapUtenti wrap = new WrapUtenti();
 			wrap.insert(utente);
+			
+			CacheUtenti.getSingleton().getCache().put("1", utente);
 		}
 		getControllore().setUtenteLogin(CacheUtenti.getSingleton().getUtente("1"));
 	}

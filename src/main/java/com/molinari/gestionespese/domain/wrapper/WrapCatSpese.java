@@ -15,7 +15,6 @@ import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.SingleSpesa;
-
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.database.Clausola;
 import com.molinari.utility.database.ConnectionPool;
@@ -55,7 +54,6 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO<ICatSpes
 						categorie.setdescrizione(rs.getString(2));
 						categorie.setimportanza(rs.getString(3));
 						categorie.setnome(rs.getString(4));
-						ConnectionPool.getSingleton().chiudiOggettiDb(null);
 						final IGruppi gruppo = CacheGruppi.getSingleton().getGruppo(idGruppo);
 						categorie.setGruppi(gruppo);
 					}
