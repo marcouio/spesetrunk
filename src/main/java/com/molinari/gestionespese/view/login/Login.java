@@ -83,9 +83,9 @@ public class Login {
 	
 	private void login(final IUtenti utente) {
 		
+		ControlloreBase.getSingleton().setUtenteLogin(utente);
 		final Impostazioni impostazioni = Impostazioni.getSingleton();
 		try {
-			ControlloreBase.getSingleton().setUtenteLogin(utente);
 			impostazioni.getUtente().setText(utente.getusername());
 			//  creare comando per sostituire tutto con nuova  gestione
 			AggiornatoreManager.aggiornamentoPerImpostazioni();
