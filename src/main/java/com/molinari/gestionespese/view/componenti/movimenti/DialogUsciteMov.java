@@ -18,7 +18,6 @@ import com.molinari.gestionespese.business.aggiornatori.AggiornatoreManager;
 import com.molinari.gestionespese.business.cache.CacheUscite;
 import com.molinari.gestionespese.business.comandi.singlespese.CommandDeleteSpesa;
 import com.molinari.gestionespese.business.comandi.singlespese.CommandUpdateSpesa;
-import com.molinari.utility.messages.I18NManager;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.ISingleSpesa;
@@ -30,9 +29,9 @@ import com.molinari.gestionespese.view.entrateuscite.AbstractUsciteView;
 import com.molinari.gestionespese.view.font.ButtonF;
 import com.molinari.gestionespese.view.font.LabelListaGruppi;
 import com.molinari.gestionespese.view.font.TextFieldF;
-
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.messages.I18NManager;
 
 public class DialogUsciteMov extends AbstractUsciteView {
 

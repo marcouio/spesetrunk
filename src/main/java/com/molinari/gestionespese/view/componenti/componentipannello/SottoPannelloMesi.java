@@ -11,7 +11,6 @@ import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.view.font.LabelTestoPiccolo;
 import com.molinari.gestionespese.view.font.TextFieldF;
-
 import com.molinari.utility.controller.ControlloreBase;
 
 public class SottoPannelloMesi {

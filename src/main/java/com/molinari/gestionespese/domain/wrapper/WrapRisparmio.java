@@ -10,7 +10,6 @@ import java.util.logging.Level;
 
 import com.molinari.gestionespese.domain.IRisparmio;
 import com.molinari.gestionespese.domain.Risparmio;
-
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.database.Clausola;
 import com.molinari.utility.database.ConnectionPool;

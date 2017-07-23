@@ -4,13 +4,26 @@ import java.util.Observer;
 
 import javax.swing.JDialog;
 
+import org.apache.commons.math3.util.MathUtils;
+
 import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
+import com.molinari.utility.messages.I18NManager;
 import com.molinari.utility.text.CorreggiTesto;
 
 public abstract class AbstractEntrateView implements Observer {
 
+	public enum INCOMETYPE{
+		VARIABLES, FIXITY;
+
+		@Override
+		public String toString() {
+			return I18NManager.getSingleton().getMessaggio(super.toString().toLowerCase());
+		}
+		
+	}
+	
 	private JDialog dialog = new JDialog() ;
 	private WrapEntrate modelEntrate = null;
 
@@ -99,5 +112,11 @@ public abstract class AbstractEntrateView implements Observer {
 
 	public abstract void aggiornaModelDaVista();
 
-	public abstract boolean nonEsistonoCampiNonValorizzati();
+	public boolean nonEsistonoCampiNonValorizzati() {
+		boolean dateNotNull = getcData() != null && getDataIns() != null;
+		boolean descrizioneNotNull = getcNome() != null && getcDescrizione() != null;
+		boolean euroNotNull = MathUtils.equals(getdEuro(), 0.0);
+		boolean sameFieldNotNull = getFisseOVar() != null && !euroNotNull;
+		return descrizioneNotNull && dateNotNull && sameFieldNotNull && getUtenti() != null;
+	}
 }

@@ -13,8 +13,8 @@ import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.ICatSpese;
+import com.molinari.gestionespese.view.entrateuscite.AbstractEntrateView.INCOMETYPE;
 import com.molinari.gestionespese.view.entrateuscite.EntrateView;
-import com.molinari.gestionespese.view.entrateuscite.EntrateView.INCOMETYPE;
 import com.molinari.utility.controller.ControlloreBase;
 
 public class ReportData {

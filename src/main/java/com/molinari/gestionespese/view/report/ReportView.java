@@ -13,14 +13,13 @@ import javax.swing.JLabel;
 import com.molinari.gestionespese.business.DBUtil;
 import com.molinari.gestionespese.business.Finestra;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreNiente;
-import com.molinari.utility.messages.I18NManager;
 import com.molinari.gestionespese.view.font.ButtonF;
 import com.molinari.gestionespese.view.font.CheckBoxF;
 import com.molinari.gestionespese.view.font.LabelListaGruppi;
-
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.alert.Alert;
 import com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.messages.I18NManager;
 
 public class ReportView extends AbstractReportView implements Finestra {
 

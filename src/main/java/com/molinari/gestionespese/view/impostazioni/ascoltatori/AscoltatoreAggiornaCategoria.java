@@ -9,15 +9,14 @@ import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.comandi.categorie.CommandUpdateCategoria;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.ICatSpese;
-import com.molinari.gestionespese.view.impostazioni.CategorieView;
-
+import com.molinari.gestionespese.view.impostazioni.AbstractCategorieView;
 import com.molinari.utility.graphic.component.alert.Alert;
 
 public class AscoltatoreAggiornaCategoria extends AscoltatoreAggiornatoreTutto {
 
-	CategorieView categorieView;
+	AbstractCategorieView categorieView;
 
-	public AscoltatoreAggiornaCategoria(final CategorieView categorieView) {
+	public AscoltatoreAggiornaCategoria(final AbstractCategorieView categorieView) {
 		this.categorieView = categorieView;
 	}
 
@@ -32,7 +31,7 @@ public class AscoltatoreAggiornaCategoria extends AscoltatoreAggiornatoreTutto {
 				categorieView.getModelCatSpese().setidCategoria(categorieView.getCategoria().getidCategoria());
 			}
 			try {
-				if (Controllore.invocaComando(new CommandUpdateCategoria(oldCategoria, (ICatSpese) categorieView.getModelCatSpese().getEntitaPadre()))) {
+				if (Controllore.invocaComando(new CommandUpdateCategoria(oldCategoria, categorieView.getModelCatSpese().getEntitaPadre()))) {
 					AggiornatoreManager.aggiornaCategorie((CatSpese) categorieView.getModelCatSpese().getEntitaPadre(), categorieView.getComboCategorie());
 					categorieView.getModelCatSpese().setChanged();
 					categorieView.getModelCatSpese().notifyObservers();

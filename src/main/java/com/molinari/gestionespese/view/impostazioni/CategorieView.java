@@ -64,7 +64,7 @@ public class CategorieView extends AbstractCategorieView {
 			tfNome.setBounds(26, 37, 206, 26);
 
 			// Descrizione
-			taDescrizione = new TextAreaF("Inserisci la descrizione della categoria", 50, 25);
+			taDescrizione = new TextAreaF(I18NManager.getSingleton().getMessaggio("insertherecatdescr"), 50, 25);
 			taDescrizione.setLineWrap(true);
 			taDescrizione.setWrapStyleWord(true);
 			taDescrizione.setBounds(26, 91, 206, 88);
@@ -141,7 +141,8 @@ public class CategorieView extends AbstractCategorieView {
 		categoria = (ICatSpese) cbCategorie.getSelectedItem();
 		tfNome.setText(categoria.getnome());
 		taDescrizione.setText(categoria.getdescrizione());
-		cbImportanza.setSelectedItem(categoria.getimportanza());
+		CATEGORYTYPE[] values = CATEGORYTYPE.values();
+		cbImportanza.setSelectedItem(values[Integer.parseInt(categoria.getimportanza())]);
 		final int numeroGruppi = cbGruppi.getModel().getSize();
 		boolean trovato = false;
 		
@@ -158,10 +159,7 @@ public class CategorieView extends AbstractCategorieView {
 		}
 	}
 
-	public boolean nonEsistonoCampiNonValorizzati() {
-		return getcDescrizione() != null && getcImportanza() != null && getcNome() != null;
-	}
-
+	@Override
 	public void aggiornaModelDaVista(final String actionCommand) {
 
 		if ("Inserisci".equals(actionCommand)) {
@@ -197,6 +195,7 @@ public class CategorieView extends AbstractCategorieView {
 	/**
 	 * @return the comboCategorie
 	 */
+	@Override
 	public JComboBox<ICatSpese> getComboCategorie() {
 		return cbCategorie;
 	}
@@ -217,6 +216,7 @@ public class CategorieView extends AbstractCategorieView {
 		this.cbGruppi = comboGruppi;
 	}
 
+	@Override
 	public ICatSpese getCategoria() {
 		return categoria;
 	}

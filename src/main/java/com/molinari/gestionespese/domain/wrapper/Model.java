@@ -12,7 +12,7 @@ import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.ISingleSpesa;
-import com.molinari.gestionespese.view.entrateuscite.EntrateView.INCOMETYPE;
+import com.molinari.gestionespese.view.entrateuscite.AbstractEntrateView.INCOMETYPE;
 import com.molinari.utility.controller.ControlloreBase;
 
 public class Model {

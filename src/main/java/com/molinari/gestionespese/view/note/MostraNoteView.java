@@ -12,7 +12,6 @@ import com.molinari.gestionespese.business.Finestra;
 import com.molinari.gestionespese.business.cache.CacheNote;
 import com.molinari.gestionespese.domain.INote;
 import com.molinari.gestionespese.view.font.ButtonF;
-
 import com.molinari.utility.graphic.component.container.PannelloBase;
 
 public class MostraNoteView implements Finestra {

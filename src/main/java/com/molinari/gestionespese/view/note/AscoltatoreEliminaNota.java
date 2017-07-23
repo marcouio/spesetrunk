@@ -9,7 +9,6 @@ import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreNi
 import com.molinari.gestionespese.business.comandi.note.CommandDeleteNota;
 import com.molinari.gestionespese.domain.INote;
 import com.molinari.gestionespese.domain.wrapper.WrapNote;
-
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.alert.Alert;
 

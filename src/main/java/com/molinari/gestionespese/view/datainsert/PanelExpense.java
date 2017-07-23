@@ -1,17 +1,23 @@
 package com.molinari.gestionespese.view.datainsert;
 
-import java.awt.Color;
 import java.awt.Container;
+import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Vector;
 
+import com.molinari.gestionespese.business.AltreUtil;
+import com.molinari.gestionespese.business.Controllore;
+import com.molinari.gestionespese.business.DBUtil;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
+import com.molinari.gestionespese.business.cache.CacheUscite;
 import com.molinari.gestionespese.domain.ICatSpese;
+import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapSingleSpesa;
 import com.molinari.gestionespese.view.entrateuscite.AbstractUsciteView;
 import com.molinari.gestionespese.view.entrateuscite.AscoltaEliminaUltimaSpesa;
 import com.molinari.gestionespese.view.entrateuscite.AscoltaInserisciUscite;
+import com.molinari.utility.graphic.component.alert.Alert;
 import com.molinari.utility.graphic.component.button.ButtonBase;
 import com.molinari.utility.graphic.component.combo.ComboBoxBase;
 import com.molinari.utility.graphic.component.container.PannelloBase;
@@ -19,6 +25,7 @@ import com.molinari.utility.graphic.component.label.LabelBase;
 import com.molinari.utility.graphic.component.textarea.TextAreaBase;
 import com.molinari.utility.graphic.component.textfield.text.TextFieldTesto;
 import com.molinari.utility.messages.I18NManager;
+import com.molinari.utility.text.CorreggiTesto;
 
 public class PanelExpense extends AbstractUsciteView {
 	
@@ -41,52 +48,51 @@ public class PanelExpense extends AbstractUsciteView {
 		getModelUscita().addObserver(this);
 		
 		this.pan = new PannelloBase(container);
-		this.pan.setBackground(Color.ORANGE);
 		this.pan.setSize(container.getWidth(), container.getHeight());
 		int width = pan.getWidth() - 20;
 		
 		labName = new LabelBase(pan);
 		labName.setBounds(10, 0, width, HEIGHT_LABEL);
 		
-		fieldsExpense.setTfNome(new TextFieldTesto(pan));
-		fieldsExpense.getTfNome().setSize(width, HEIGHT_FIELD);
-		fieldsExpense.getTfNome().posizionaSottoA(labName, 0, 10);
+		getFieldsExpense().setTfNome(new TextFieldTesto(pan));
+		getFieldsExpense().getTfNome().setSize(width, HEIGHT_FIELD);
+		getFieldsExpense().getTfNome().posizionaSottoA(labName, 0, 10);
 		
 		labDesc = new LabelBase(pan);
 		labDesc.setSize(width, HEIGHT_LABEL);
-		labDesc.posizionaSottoA(fieldsExpense.getTfNome(), 0, 15);
+		labDesc.posizionaSottoA(getFieldsExpense().getTfNome(), 0, 15);
 		
-		fieldsExpense.setTaDescrizione(new TextAreaBase(pan));
-		fieldsExpense.getTaDescrizione().posizionaSottoA(labDesc, 0, 10);
-		fieldsExpense.getTaDescrizione().setSize(width, 100);
+		getFieldsExpense().setTaDescrizione(new TextAreaBase(pan));
+		getFieldsExpense().getTaDescrizione().posizionaSottoA(labDesc, 0, 10);
+		getFieldsExpense().getTaDescrizione().setSize(width, 100);
 		
 		labCat = new LabelBase(pan);
 		labCat.setSize(width, HEIGHT_LABEL);
-		labCat.posizionaSottoA(fieldsExpense.getTaDescrizione(), 0, 15);
+		labCat.posizionaSottoA(getFieldsExpense().getTaDescrizione(), 0, 15);
 		
 		final List<ICatSpese> listCategoriePerCombo = CacheCategorie.getSingleton().getListCategoriePerCombo();
-		fieldsExpense.setcCategorie(new ComboBoxBase<>(pan, new Vector<>(listCategoriePerCombo)));
-		fieldsExpense.getcCategorie().setSize(width, HEIGHT_FIELD);
-		fieldsExpense.getcCategorie().posizionaSottoA(labCat, 0, 10);
+		getFieldsExpense().setcCategorie(new ComboBoxBase<>(pan, new Vector<>(listCategoriePerCombo)));
+		getFieldsExpense().getcCategorie().setSize(width, HEIGHT_FIELD);
+		getFieldsExpense().getcCategorie().posizionaSottoA(labCat, 0, 10);
 
 		labEuro = new LabelBase(pan);
 		labEuro.setSize(width, HEIGHT_LABEL);
-		labEuro.posizionaSottoA(fieldsExpense.getcCategorie(), 0, 15);
+		labEuro.posizionaSottoA(getFieldsExpense().getcCategorie(), 0, 15);
 		
-		fieldsExpense.setTfEuro(new TextFieldTesto(pan));
-		fieldsExpense.getTfEuro().posizionaSottoA(labEuro, 0, 10);
-		fieldsExpense.getTfEuro().setSize(width, HEIGHT_FIELD);
+		getFieldsExpense().setTfEuro(new TextFieldTesto(pan));
+		getFieldsExpense().getTfEuro().posizionaSottoA(labEuro, 0, 10);
+		getFieldsExpense().getTfEuro().setSize(width, HEIGHT_FIELD);
 		
 		labData = new LabelBase(pan);
 		labData.setSize(width, HEIGHT_LABEL);
-		labData.posizionaSottoA(fieldsExpense.getTfEuro(), 0, 15);
+		labData.posizionaSottoA(getFieldsExpense().getTfEuro(), 0, 15);
 		
-		fieldsExpense.setTfData(new TextFieldTesto(pan));
-		fieldsExpense.getTfData().setSize(width, HEIGHT_FIELD);
-		fieldsExpense.getTfData().posizionaSottoA(labData, 0, 10);
+		getFieldsExpense().setTfData(new TextFieldTesto(pan));
+		getFieldsExpense().getTfData().setSize(width, HEIGHT_FIELD);
+		getFieldsExpense().getTfData().posizionaSottoA(labData, 0, 10);
 		
 		inserisci = new ButtonBase(pan);
-		inserisci.posizionaSottoA(fieldsExpense.getTfData(), 0, 10);
+		inserisci.posizionaSottoA(getFieldsExpense().getTfData(), 0, 10);
 		inserisci.setSize(width / 2, 27);
 
 		eliminaUltima = new ButtonBase(pan);
@@ -108,12 +114,16 @@ public class PanelExpense extends AbstractUsciteView {
 		labData.setText(I18NManager.getSingleton().getMessaggio("date"));
 		inserisci.setText(I18NManager.getSingleton().getMessaggio("insert"));
 		eliminaUltima.setText(I18NManager.getSingleton().getMessaggio("deletelast"));
-		fieldsExpense.getTaDescrizione().setText(I18NManager.getSingleton().getMessaggio("insertheredescr"));
+		getFieldsExpense().getTaDescrizione().setText(I18NManager.getSingleton().getMessaggio("insertheredescr"));
 	}
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
+		getFieldsExpense().getTfNome().setText(getcNome());
+		getFieldsExpense().getTaDescrizione().setText(getcDescrizione());
+		getFieldsExpense().getcCategorie().setSelectedItem(getCategoria());
+		getFieldsExpense().getTfData().setText(getcData());
+		getFieldsExpense().getTfEuro().setText(getdEuro().toString());
 
 	}
 
@@ -127,8 +137,41 @@ public class PanelExpense extends AbstractUsciteView {
 
 	@Override
 	public void aggiornaModelDaVista() {
-		// TODO Auto-generated method stub
-		
+		final int idSpesa = CacheUscite.getSingleton().getMaxId() + 1;
+		getModelUscita().setidSpesa(idSpesa);
+
+		final CorreggiTesto checkTesto = new CorreggiTesto(getFieldsExpense().getTfNome().getText());
+		final String nomeCheckato = checkTesto.getTesto();
+		setcNome(nomeCheckato);
+
+		checkTesto.setTesto(getFieldsExpense().getTaDescrizione().getText());
+		final String descrizioneCheckato = checkTesto.getTesto();
+		setcDescrizione(descrizioneCheckato);
+
+		setCategoria((ICatSpese) getFieldsExpense().getcCategorie().getSelectedItem());
+		if (AltreUtil.checkData(getFieldsExpense().getTfData().getText())) {
+			setcData(getFieldsExpense().getTfData().getText());
+		} else {
+			final String messaggio = I18NManager.getSingleton().getMessaggio("datainformat");
+			Alert.segnalazioneErroreGrave(messaggio);
+		}
+		if (AltreUtil.checkDouble(getFieldsExpense().getTfEuro().getText())) {
+			final Double euro = Double.parseDouble(getFieldsExpense().getTfEuro().getText());
+			setdEuro(AltreUtil.arrotondaDecimaliDouble(euro));
+		} else {
+			final String messaggio = I18NManager.getSingleton().getMessaggio("valorenotcorrect");
+			Alert.segnalazioneErroreGrave(messaggio);
+		}
+		setUtenti((Utenti) Controllore.getUtenteLogin());
+		setDataIns(DBUtil.dataToString(new Date(), "yyyy/MM/dd"));
+	}
+
+	public FieldsExpense getFieldsExpense() {
+		return fieldsExpense;
+	}
+
+	public void setFieldsExpense(FieldsExpense fieldsExpense) {
+		this.fieldsExpense = fieldsExpense;
 	}
 
 }

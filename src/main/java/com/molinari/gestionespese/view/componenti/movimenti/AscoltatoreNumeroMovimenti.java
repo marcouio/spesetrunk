@@ -7,12 +7,11 @@ import java.util.logging.Level;
 import javax.swing.JTextField;
 
 import com.molinari.gestionespese.business.aggiornatori.AggiornatoreManager;
-import com.molinari.utility.messages.I18NManager;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.SingleSpesa;
-
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.messages.I18NManager;
 
 public class AscoltatoreNumeroMovimenti implements ActionListener {
 

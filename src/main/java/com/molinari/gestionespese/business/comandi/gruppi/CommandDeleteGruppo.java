@@ -4,7 +4,6 @@ import com.molinari.gestionespese.business.cache.CacheGruppi;
 import com.molinari.gestionespese.business.comandi.CommandDelete;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapGruppi;
-
 import com.molinari.utility.commands.ICommand;
 import com.molinari.utility.graphic.component.alert.Alert;
 

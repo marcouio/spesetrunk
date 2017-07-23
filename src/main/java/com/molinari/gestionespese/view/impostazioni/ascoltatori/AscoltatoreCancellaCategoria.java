@@ -5,15 +5,14 @@ import java.awt.event.ActionEvent;
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreTutto;
 import com.molinari.gestionespese.business.comandi.categorie.CommandDeleteCategoria;
-import com.molinari.gestionespese.view.impostazioni.CategorieView;
-
+import com.molinari.gestionespese.view.impostazioni.AbstractCategorieView;
 import com.molinari.utility.graphic.component.alert.Alert;
 
 public class AscoltatoreCancellaCategoria extends AscoltatoreAggiornatoreTutto {
 
-	CategorieView categorieView;
+	AbstractCategorieView categorieView;
 
-	public AscoltatoreCancellaCategoria(final CategorieView categorieView) {
+	public AscoltatoreCancellaCategoria(final AbstractCategorieView categorieView) {
 		this.categorieView = categorieView;
 	}
 

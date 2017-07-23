@@ -13,8 +13,6 @@ import java.util.logging.Level;
 import javax.swing.JComboBox;
 import javax.swing.WindowConstants;
 
-import org.apache.commons.math3.util.MathUtils;
-
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.DBUtil;
@@ -34,16 +32,6 @@ import com.molinari.utility.text.CorreggiTesto;
 
 public class EntrateView extends AbstractEntrateView {
 
-	public enum INCOMETYPE{
-		VARIABLES, FIXITY;
-
-		@Override
-		public String toString() {
-			return I18NManager.getSingleton().getMessaggio(super.toString().toLowerCase());
-		}
-		
-	}
-	
 	private final TextFieldF         tfNome;
 	private final TextAreaF          taDescrizione;
 	private final JComboBox<INCOMETYPE>          cbTipo;
@@ -135,14 +123,6 @@ public class EntrateView extends AbstractEntrateView {
 
 	}
 
-	public boolean nonEsistonoCampiNonValorizzati() {
-		boolean dateNotNull = getcData() != null && getDataIns() != null;
-		boolean descrizioneNotNull = getcNome() != null && getcDescrizione() != null;
-		boolean euroNotNull = MathUtils.equals(getdEuro(), 0.0);
-		boolean sameFieldNotNull = getFisseOVar() != null && !euroNotNull;
-		return descrizioneNotNull && dateNotNull && sameFieldNotNull && getUtenti() != null;
-	}
-
 	private void initLabel() {
 		final LabelListaGruppi lblNomeEntrata = new LabelListaGruppi("Nome Entrata");
 		lblNomeEntrata.setText(I18NManager.getSingleton().getMessaggio("name"));
@@ -175,6 +155,7 @@ public class EntrateView extends AbstractEntrateView {
 		return new ArrayList<>(Arrays.asList(INCOMETYPE.values()));
 	}
 
+	@Override
 	public void aggiornaModelDaVista() {
 		final int idEntrate = CacheEntrate.getSingleton().getMaxId() + 1;
 		getModelEntrate().setidEntrate(idEntrate);

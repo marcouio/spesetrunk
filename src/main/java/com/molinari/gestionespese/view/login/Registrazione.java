@@ -10,7 +10,6 @@ import com.molinari.gestionespese.view.font.ButtonF;
 import com.molinari.gestionespese.view.font.LabelListaGruppi;
 import com.molinari.gestionespese.view.font.LabelTitolo;
 import com.molinari.gestionespese.view.font.TextFieldF;
-
 import com.molinari.utility.graphic.component.alert.Alert;
 
 public class Registrazione extends JDialog {

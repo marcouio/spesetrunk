@@ -12,14 +12,14 @@ import com.molinari.gestionespese.domain.Gruppi;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.IUtenti;
-import com.molinari.gestionespese.view.impostazioni.CategorieView;
+import com.molinari.gestionespese.view.impostazioni.AbstractCategorieView;
 import com.molinari.utility.graphic.component.alert.Alert;
 
 public class AscoltatoreInserisciCategoria extends AscoltatoreAggiornatoreTutto {
 
-	private final CategorieView categorieView;
+	private final AbstractCategorieView categorieView;
 
-	public AscoltatoreInserisciCategoria(final CategorieView categorieView) {
+	public AscoltatoreInserisciCategoria(final AbstractCategorieView categorieView) {
 		this.categorieView = categorieView;
 	}
 

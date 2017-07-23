@@ -24,18 +24,17 @@ public class DataInsertView implements Finestra, ItemListener {
 	}
 	
 	private List<PannelloBase> panelsList = new ArrayList<>();
-	private ComboBoxBase combo;
+	private ComboBoxBase<TOOL_PANEL> combo;
 	
 	public DataInsertView(Container padre) {
 		super();
 		
 		this.container = new PannelloBase(padre);
 		
-		
 		combo = new ComboBoxBase<>(getContainer());
 		final DefaultComboBoxModel<TOOL_PANEL> model = new DefaultComboBoxModel<>(TOOL_PANEL.values());
 		combo.setModel(model);
-		combo.setSize(padre.getWidth()-30, 40);
+		combo.setSize(padre.getWidth(), 40);
 		
 		combo.addItemListener(this);
 		
@@ -53,6 +52,10 @@ public class DataInsertView implements Finestra, ItemListener {
 		PanelExpense panelExpense = new PanelExpense(pans);
 		panelExpense.getPan().setVisible(false);
 		getPanelsList().add(panelExpense.getPan());
+		
+		PanelCategories panelCategories = new PanelCategories(pans);
+		panelCategories.getPan().setVisible(false);
+		getPanelsList().add(panelCategories.getPan());
 		
 		
 	}

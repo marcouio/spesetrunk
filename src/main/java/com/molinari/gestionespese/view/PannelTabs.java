@@ -10,7 +10,6 @@ import com.molinari.gestionespese.view.componenti.movimenti.AbstractListaMov;
 import com.molinari.gestionespese.view.componenti.movimenti.ListaMovimentiEntrate;
 import com.molinari.gestionespese.view.componenti.movimenti.ListaMovimentiUscite;
 import com.molinari.gestionespese.view.tabellamesi.PerMesiF;
-
 import com.molinari.utility.graphic.component.container.PannelloBase;
 
 public class PannelTabs {

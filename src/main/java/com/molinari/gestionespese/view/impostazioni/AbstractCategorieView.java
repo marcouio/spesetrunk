@@ -2,15 +2,23 @@ package com.molinari.gestionespese.view.impostazioni;
 
 import java.util.Observer;
 
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 
+import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapCatSpese;
+import com.molinari.utility.messages.I18NManager;
 
 public abstract class AbstractCategorieView implements Observer {
 
 	public enum CATEGORYTYPE{
-		STEADY, VARIABLE, TRIVIAL
+		STEADY, VARIABLE, TRIVIAL;
+		
+		@Override
+		public String toString() {
+			return I18NManager.getSingleton().getMessaggio(super.toString().toLowerCase());
+		}
 	}
 	
 	private JDialog dialog = new JDialog();
@@ -67,5 +75,15 @@ public abstract class AbstractCategorieView implements Observer {
 	public void setDialog(JDialog dialog) {
 		this.dialog = dialog;
 	}
+
+	public boolean nonEsistonoCampiNonValorizzati() {
+		return getcDescrizione() != null && getcImportanza() != null && getcNome() != null;
+	}
+	
+	public abstract JComboBox<ICatSpese> getComboCategorie();
+
+	public abstract void aggiornaModelDaVista(String string);
+
+	public abstract ICatSpese getCategoria();
 
 }

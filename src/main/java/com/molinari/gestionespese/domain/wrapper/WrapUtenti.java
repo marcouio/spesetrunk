@@ -13,7 +13,6 @@ import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.Utenti;
-
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.database.Clausola;
 import com.molinari.utility.database.ConnectionPool;

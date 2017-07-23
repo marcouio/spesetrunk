@@ -1,13 +1,18 @@
 package com.molinari.gestionespese.view.datainsert;
 
-import java.awt.Color;
 import java.awt.Container;
+import java.util.Date;
 import java.util.Observable;
 
+import com.molinari.gestionespese.business.AltreUtil;
+import com.molinari.gestionespese.business.Controllore;
+import com.molinari.gestionespese.business.DBUtil;
+import com.molinari.gestionespese.business.cache.CacheEntrate;
+import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
 import com.molinari.gestionespese.view.entrateuscite.AbstractEntrateView;
 import com.molinari.gestionespese.view.entrateuscite.AscoltaInserisciEntrate;
-import com.molinari.gestionespese.view.entrateuscite.EntrateView.INCOMETYPE;
+import com.molinari.utility.graphic.component.alert.Alert;
 import com.molinari.utility.graphic.component.button.ButtonBase;
 import com.molinari.utility.graphic.component.combo.ComboBoxBase;
 import com.molinari.utility.graphic.component.container.PannelloBase;
@@ -15,6 +20,7 @@ import com.molinari.utility.graphic.component.label.LabelBase;
 import com.molinari.utility.graphic.component.textarea.TextAreaBase;
 import com.molinari.utility.graphic.component.textfield.text.TextFieldTesto;
 import com.molinari.utility.messages.I18NManager;
+import com.molinari.utility.text.CorreggiTesto;
 
 public class PanelIncomes extends AbstractEntrateView {
 
@@ -38,51 +44,50 @@ public class PanelIncomes extends AbstractEntrateView {
 		getModelEntrate().addObserver(this);
 		
 		this.pan = new PannelloBase(container);
-		this.pan.setBackground(Color.ORANGE);
 		this.pan.setSize(container.getWidth(), container.getHeight());
 		
 		labName = new LabelBase(pan);
 		int width = pan.getWidth() - 20;
 		labName.setBounds(10, 0, width, HEIGHT_LABEL);
 	
-		fieldsIncome.setTfNome(new TextFieldTesto(pan));
-		fieldsIncome.getTfNome().setSize(width, HEIGHT_FIELD);
-		fieldsIncome.getTfNome().posizionaSottoA(labName, 0, 15);
+		getFieldsIncome().setTfNome(new TextFieldTesto(pan));
+		getFieldsIncome().getTfNome().setSize(width, HEIGHT_FIELD);
+		getFieldsIncome().getTfNome().posizionaSottoA(labName, 0, 15);
 		
 		labDesc = new LabelBase(pan);
 		labDesc.setSize(width, HEIGHT_LABEL);
-		labDesc.posizionaSottoA(fieldsIncome.getTfNome(), 0, 15);
+		labDesc.posizionaSottoA(getFieldsIncome().getTfNome(), 0, 15);
 		
-		fieldsIncome.setTaDescrizione(new TextAreaBase(pan));
-		fieldsIncome.getTaDescrizione().posizionaSottoA(labDesc, 0, 15);
-		fieldsIncome.getTaDescrizione().setSize(width, 100);
+		getFieldsIncome().setTaDescrizione(new TextAreaBase(pan));
+		getFieldsIncome().getTaDescrizione().posizionaSottoA(labDesc, 0, 15);
+		getFieldsIncome().getTaDescrizione().setSize(width, 100);
 		
 		labTipo = new LabelBase(pan);
-		labTipo.posizionaSottoA(fieldsIncome.getTaDescrizione(), 0, 15);
+		labTipo.posizionaSottoA(getFieldsIncome().getTaDescrizione(), 0, 15);
 		labTipo.setSize(width, HEIGHT_LABEL);
 		
-		fieldsIncome.setCbTipo(new ComboBoxBase<>(pan, INCOMETYPE.values()));
-		fieldsIncome.getCbTipo().posizionaSottoA(labTipo, 0, 10);
-		fieldsIncome.getCbTipo().setSize(width, HEIGHT_FIELD);
+		getFieldsIncome().setCbTipo(new ComboBoxBase<>(pan, INCOMETYPE.values()));
+		getFieldsIncome().getCbTipo().posizionaSottoA(labTipo, 0, 10);
+		getFieldsIncome().getCbTipo().setSize(width, HEIGHT_FIELD);
 		
 		labData = new LabelBase(pan);
-		labData.posizionaSottoA(fieldsIncome.getCbTipo(), 0, 15);
+		labData.posizionaSottoA(getFieldsIncome().getCbTipo(), 0, 15);
 		labData.setSize(width, HEIGHT_LABEL);
 		
-		fieldsIncome.setTfData(new TextFieldTesto(pan));
-		fieldsIncome.getTfData().posizionaSottoA(labData, 0, 10);
-		fieldsIncome.getTfData().setSize(width, HEIGHT_FIELD);
+		getFieldsIncome().setTfData(new TextFieldTesto(pan));
+		getFieldsIncome().getTfData().posizionaSottoA(labData, 0, 10);
+		getFieldsIncome().getTfData().setSize(width, HEIGHT_FIELD);
 		
 		labEuro = new LabelBase(pan);
-		labEuro.posizionaSottoA(fieldsIncome.getTfData(), 0, 15);
+		labEuro.posizionaSottoA(getFieldsIncome().getTfData(), 0, 15);
 		labEuro.setSize(width, HEIGHT_LABEL);
 		
-		fieldsIncome.setTfEuro(new TextFieldTesto(pan));
-		fieldsIncome.getTfEuro().posizionaSottoA(labEuro, 0, 10);
-		fieldsIncome.getTfEuro().setSize(width, HEIGHT_FIELD);
+		getFieldsIncome().setTfEuro(new TextFieldTesto(pan));
+		getFieldsIncome().getTfEuro().posizionaSottoA(labEuro, 0, 10);
+		getFieldsIncome().getTfEuro().setSize(width, HEIGHT_FIELD);
 		
 		inserisci = new ButtonBase(pan);
-		inserisci.posizionaSottoA(fieldsIncome.getTfEuro(), 0, 10);
+		inserisci.posizionaSottoA(getFieldsIncome().getTfEuro(), 0, 10);
 		inserisci.setSize(width / 2, 27);
 
 		eliminaUltima = new ButtonBase(pan);
@@ -104,7 +109,7 @@ public class PanelIncomes extends AbstractEntrateView {
 		labEuro.setText(I18NManager.getSingleton().getMessaggio("eur"));
 		inserisci.setText(I18NManager.getSingleton().getMessaggio("insert"));
 		eliminaUltima.setText(I18NManager.getSingleton().getMessaggio("deletelast"));
-		fieldsIncome.getTaDescrizione().setText(I18NManager.getSingleton().getMessaggio("insertheredescrentry"));
+		getFieldsIncome().getTaDescrizione().setText(I18NManager.getSingleton().getMessaggio("insertheredescrentry"));
 	}
 
 	public PannelloBase getPan() {
@@ -117,24 +122,53 @@ public class PanelIncomes extends AbstractEntrateView {
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		fieldsIncome.getTfNome().setText(getcNome());
-		fieldsIncome.getTaDescrizione().setText(getcDescrizione());
-		fieldsIncome.getCbTipo().setSelectedItem(getFisseOVar());
-		fieldsIncome.getTfData().setText(getcData());
-		fieldsIncome.getTfEuro().setText(getdEuro().toString());
+		getFieldsIncome().getTfNome().setText(getcNome());
+		getFieldsIncome().getTaDescrizione().setText(getcDescrizione());
+		getFieldsIncome().getCbTipo().setSelectedItem(getFisseOVar());
+		getFieldsIncome().getTfData().setText(getcData());
+		getFieldsIncome().getTfEuro().setText(getdEuro().toString());
 
 	}
 
 	@Override
 	public void aggiornaModelDaVista() {
-		// TODO Auto-generated method stub
-		
+		final int idEntrate = CacheEntrate.getSingleton().getMaxId() + 1;
+		getModelEntrate().setidEntrate(idEntrate);
+
+		final CorreggiTesto checkTesto = new CorreggiTesto(getFieldsIncome().getTfNome().getText());
+
+		final String nome = checkTesto.getTesto();
+		setcNome(nome);
+
+		checkTesto.setTesto(getFieldsIncome().getTaDescrizione().getText());
+		final String descri = checkTesto.getTesto();
+		setcDescrizione(descri);
+
+		int ordinal = ((INCOMETYPE) getFieldsIncome().getCbTipo().getSelectedItem()).ordinal();
+		setFisseOVar(Integer.toString(ordinal));
+		if (AltreUtil.checkData(getFieldsIncome().getTfData().getText())) {
+			setcData(getFieldsIncome().getTfData().getText());
+		} else {
+			final String messaggio = I18NManager.getSingleton().getMessaggio("datainformat");
+			Alert.segnalazioneErroreGrave(messaggio);
+		}
+		if (AltreUtil.checkDouble(getFieldsIncome().getTfEuro().getText())) {
+			final Double euro = Double.parseDouble(getFieldsIncome().getTfEuro().getText());
+			setdEuro(AltreUtil.arrotondaDecimaliDouble(euro));
+		} else {
+			final String messaggio = I18NManager.getSingleton().getMessaggio("valorenotcorrect");
+			Alert.segnalazioneErroreGrave(messaggio);
+		}
+		setUtenti((Utenti) Controllore.getUtenteLogin());
+		setDataIns(DBUtil.dataToString(new Date(), "yyyy/MM/dd"));
 	}
 
-	@Override
-	public boolean nonEsistonoCampiNonValorizzati() {
-		// TODO Auto-generated method stub
-		return false;
+	public FieldsIncome getFieldsIncome() {
+		return fieldsIncome;
+	}
+
+	public void setFieldsIncome(FieldsIncome fieldsIncome) {
+		this.fieldsIncome = fieldsIncome;
 	}
 
 }

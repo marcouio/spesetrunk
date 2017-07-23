@@ -9,11 +9,10 @@ import javax.swing.JTextField;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Database;
-import com.molinari.utility.messages.I18NManager;
 import com.molinari.gestionespese.view.font.LabelTestoPiccolo;
 import com.molinari.gestionespese.view.font.TextFieldF;
-
 import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.messages.I18NManager;
 
 public class SottoPannelloDatiSpese {
 

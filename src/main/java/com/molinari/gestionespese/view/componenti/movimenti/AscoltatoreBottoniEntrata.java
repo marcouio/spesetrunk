@@ -10,7 +10,7 @@ import com.molinari.gestionespese.business.aggiornatori.AggiornatoreManager;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.wrapper.Model;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
-import com.molinari.gestionespese.view.entrateuscite.EntrateView.INCOMETYPE;
+import com.molinari.gestionespese.view.entrateuscite.AbstractEntrateView.INCOMETYPE;
 import com.molinari.utility.graphic.component.alert.Alert;
 
 public class AscoltatoreBottoniEntrata extends MouseAdapter {

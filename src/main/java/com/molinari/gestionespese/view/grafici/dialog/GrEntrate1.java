@@ -9,7 +9,7 @@ import org.jfree.data.general.Dataset;
 import org.jfree.data.general.DefaultPieDataset;
 
 import com.molinari.gestionespese.business.Database;
-import com.molinari.gestionespese.view.entrateuscite.EntrateView.INCOMETYPE;
+import com.molinari.gestionespese.view.entrateuscite.AbstractEntrateView.INCOMETYPE;
 
 public class GrEntrate1 extends ChartBase implements ActionListener {
 

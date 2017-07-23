@@ -3,7 +3,7 @@ package com.molinari.gestionespese.business.generatori;
 import java.util.Map;
 
 import com.molinari.gestionespese.business.Database;
-import com.molinari.gestionespese.view.entrateuscite.EntrateView.INCOMETYPE;
+import com.molinari.gestionespese.view.entrateuscite.AbstractEntrateView.INCOMETYPE;
 import com.molinari.utility.graphic.component.table.TableModel;
 import com.molinari.utility.messages.I18NManager;
 

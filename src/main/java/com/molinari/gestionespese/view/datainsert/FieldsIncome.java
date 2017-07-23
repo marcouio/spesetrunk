@@ -1,6 +1,6 @@
 package com.molinari.gestionespese.view.datainsert;
 
-import com.molinari.gestionespese.view.entrateuscite.EntrateView.INCOMETYPE;
+import com.molinari.gestionespese.view.entrateuscite.AbstractEntrateView.INCOMETYPE;
 import com.molinari.utility.graphic.component.combo.ComboBoxBase;
 import com.molinari.utility.graphic.component.textarea.TextAreaBase;
 import com.molinari.utility.graphic.component.textfield.text.TextFieldTesto;

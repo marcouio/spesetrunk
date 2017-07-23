@@ -16,7 +16,6 @@ import com.molinari.gestionespese.domain.Gruppi;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapGruppi;
 import com.molinari.gestionespese.view.impostazioni.GruppiView;
-
 import com.molinari.utility.graphic.component.alert.Alert;
 
 public class AscoltatoreAggiornaGruppo extends AscoltatoreAggiornatoreTutto {

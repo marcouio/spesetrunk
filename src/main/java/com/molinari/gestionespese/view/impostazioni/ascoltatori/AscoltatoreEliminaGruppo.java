@@ -11,7 +11,6 @@ import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.comandi.gruppi.CommandDeleteGruppo;
 import com.molinari.gestionespese.domain.Gruppi;
 import com.molinari.gestionespese.view.impostazioni.GruppiView;
-
 import com.molinari.utility.graphic.component.alert.Alert;
 
 public class AscoltatoreEliminaGruppo extends AscoltatoreAggiornatoreTutto {

@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.swing.JPanel;
 
 import com.molinari.gestionespese.business.cache.CacheCategorie;
-
 import com.molinari.utility.graphic.component.container.PannelloBase;
 
 public abstract class AbstractReportView  {
