@@ -20,7 +20,7 @@ public class DataInsertView implements Finestra, ItemListener {
 	
 	
 	public enum TOOL_PANEL{
-		INCOMES, CHARGES, CATEGORIES, GROUPS, CONFIGS 
+		LOGIN, REGISTER, INCOMES, CHARGES, CATEGORIES, GROUPS, CONFIGS 
 	}
 	
 	private List<PannelloBase> panelsList = new ArrayList<>();
@@ -30,6 +30,7 @@ public class DataInsertView implements Finestra, ItemListener {
 		super();
 		
 		this.container = new PannelloBase(padre);
+		container.setSize(padre.getWidth(), padre.getHeight());
 		
 		combo = new ComboBoxBase<>(getContainer());
 		final DefaultComboBoxModel<TOOL_PANEL> model = new DefaultComboBoxModel<>(TOOL_PANEL.values());
@@ -38,15 +39,19 @@ public class DataInsertView implements Finestra, ItemListener {
 		
 		combo.addItemListener(this);
 		
-		this.pans = new PannelloBase(padre);
+		this.pans = new PannelloBase(container);
 		this.pans.posizionaSottoA(combo, 0, 50);
-		this.pans.setSize(padre.getWidth(), padre.getHeight() - 50);
+		this.pans.setSize(container.getWidth(), container.getHeight() - 50);
 		createContent();
 	}
 
 	private void createContent() {
 
+		PanelLogin panelLogin = new PanelLogin(pans);
+		getPanelsList().add(panelLogin.getPan());
+		
 		PanelIncomes panelIncomes = new PanelIncomes(this.pans);
+		panelIncomes.getPan().setVisible(false);
 		getPanelsList().add(panelIncomes.getPan());
 		
 		PanelExpense panelExpense = new PanelExpense(pans);

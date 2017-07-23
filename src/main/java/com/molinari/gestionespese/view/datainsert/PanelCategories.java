@@ -35,14 +35,6 @@ public class PanelCategories extends AbstractCategorieView {
 
 	FieldsCategories fields = new FieldsCategories();
 	
-	public FieldsCategories getFields() {
-		return fields;
-	}
-
-	public void setFields(FieldsCategories fields) {
-		this.fields = fields;
-	}
-
 	private PannelloBase pan;
 	private LabelBase labName;
 	private LabelBase labDescr;
@@ -224,6 +216,14 @@ public class PanelCategories extends AbstractCategorieView {
 	@Override
 	public ICatSpese getCategoria() {
 		return getFields().getCategoria();
+	}
+	
+	public FieldsCategories getFields() {
+		return fields;
+	}
+
+	public void setFields(FieldsCategories fields) {
+		this.fields = fields;
 	}
 
 	public PannelloBase getPan() {

@@ -1,7 +1,6 @@
 package com.molinari.gestionespese.view.login;
 
 import java.awt.Dialog.ModalityType;
-import java.awt.event.ActionEvent;
 import java.util.logging.Level;
 
 import javax.swing.JDialog;
@@ -10,7 +9,6 @@ import javax.swing.WindowConstants;
 import com.molinari.gestionespese.business.aggiornatori.AggiornatoreManager;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import com.molinari.gestionespese.domain.IUtenti;
-import com.molinari.gestionespese.domain.wrapper.WrapUtenti;
 import com.molinari.gestionespese.view.font.ButtonF;
 import com.molinari.gestionespese.view.font.LabelListaGruppi;
 import com.molinari.gestionespese.view.font.LabelTitolo;
@@ -22,8 +20,8 @@ import com.molinari.utility.messages.I18NManager;
 
 public class Login {
 
-	private final TextFieldF user;
-	private final TextFieldF pass;
+	final TextFieldF user;
+	final TextFieldF pass;
 	private JDialog dialog = new JDialog();
 	
 	public Login() {
@@ -63,25 +61,16 @@ public class Login {
 	}
 
 	private AscoltatoreAggiornatoreNiente getListenerLogin() {
-		return new AscoltatoreAggiornatoreNiente() {
-
+		return new ListenerLogin(this.user, this.pass){
 			@Override
-			public void actionPerformedOverride(final ActionEvent e) {
-				final WrapUtenti utentiwrap = new WrapUtenti();
-				final IUtenti utente = utentiwrap.selectByUserAndPass(user.getText(), pass.getText());
-				if (utente != null) {
-					login(utente);
-				} else {
-					String messaggio = I18NManager.getSingleton().getMessaggio("LoginFailed");
-					Alert.segnalazioneErroreGrave(messaggio);
-				}
-
+			protected void endOperation() {
+				getDialog().dispose();
 			}
 		};
 	}
 
 	
-	private void login(final IUtenti utente) {
+	void login(final IUtenti utente) {
 		
 		ControlloreBase.getSingleton().setUtenteLogin(utente);
 		final Impostazioni impostazioni = Impostazioni.getSingleton();

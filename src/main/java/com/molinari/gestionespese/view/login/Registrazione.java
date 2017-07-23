@@ -3,14 +3,10 @@ package com.molinari.gestionespese.view.login;
 import javax.swing.JDialog;
 import javax.swing.WindowConstants;
 
-import com.molinari.gestionespese.business.cache.CacheUtenti;
-import com.molinari.gestionespese.domain.Utenti;
-import com.molinari.gestionespese.domain.wrapper.WrapUtenti;
 import com.molinari.gestionespese.view.font.ButtonF;
 import com.molinari.gestionespese.view.font.LabelListaGruppi;
 import com.molinari.gestionespese.view.font.LabelTitolo;
 import com.molinari.gestionespese.view.font.TextFieldF;
-import com.molinari.utility.graphic.component.alert.Alert;
 
 public class Registrazione extends JDialog {
 
@@ -74,37 +70,11 @@ public class Registrazione extends JDialog {
 		lbltstNome.setText("Nome");
 		getContentPane().add(lbltstNome);
 
-		btnEntra.addActionListener(e -> {
-
-			final String sNome = nome.getText();
-			final String sCognome = cognome.getText();
-			final String sPass = password.getText();
-			final String sUser = username.getText();
-			final WrapUtenti utentiwrap = new WrapUtenti();
-			if (!"".equals(sNome) && !"".equals(sCognome) && !"".equals(sPass) && !"".equals(sUser)) {
-				final Utenti utente = fillUtente(sNome, sCognome, sPass, sUser);
-				final boolean ok = CacheUtenti.getSingleton().checkUtentePerUsername(sUser);
-				// TODO creare i comandi anche per gli utenti registrati:
-				// cancella, inserisci, aggiorna.
-				if (!ok) {
-					utentiwrap.insert(utente);
-					dispose();
-				} else {
-					Alert.segnalazioneErroreGrave("Username già presente, sceglierne un altro");
-				}
-			} else {
-				Alert.segnalazioneErroreGrave("Utente non creato: Tutti i campi devono essere valorizzati");
-			}
-
-		});
-	}
-
-	private Utenti fillUtente(final String sNome, final String sCognome, final String sPass, final String sUser) {
-		final Utenti utente = new Utenti();
-		utente.setNome(sNome);
-		utente.setCognome(sCognome);
-		utente.setpassword(sPass);
-		utente.setusername(sUser);
-		return utente;
+		btnEntra.addActionListener(new RegisterListener(nome, cognome, username, password){
+		
+		@Override
+		protected void endOperation() {
+			dispose();
+		}});
 	}
 }
