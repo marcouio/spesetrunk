@@ -77,6 +77,7 @@ public class MyMenu extends JMenuBar {
 	private JCheckBoxMenuItem itemlistaComandi;
 	private JCheckBoxMenuItem itemReport;
 	private JCheckBoxMenuItem itemDati;
+	private JCheckBoxMenuItem mntmDataInsert;
 
 	public MyMenu() {
 		init();
@@ -146,6 +147,10 @@ public class MyMenu extends JMenuBar {
 		itemReport.addActionListener(getListenerReport(menuFinestre, itemReport));
 		itemlistaComandi.addActionListener(getListenerComandi(menuFinestre, itemlistaComandi));
 
+		mntmDataInsert = new JCheckBoxMenuItem();
+		menuFinestre.add(mntmDataInsert);
+		mntmDataInsert.addActionListener(getListenerDataInsert(menuFinestre, mntmDataInsert));
+		
 		menuStrumenti = new JMenu();
 		add(menuStrumenti);
 		
@@ -323,6 +328,7 @@ public class MyMenu extends JMenuBar {
 		menuFinestre.setText(I18NManager.getSingleton().getMessaggio("windows"));
 		menuStrumenti.setText(I18NManager.getSingleton().getMessaggio("tools"));
 		mntmNote.setText(I18NManager.getSingleton().getMessaggio("notes"));
+		mntmDataInsert.setText(I18NManager.getSingleton().getMessaggio("datainsert"));
 		menuImpostazioni.setText(I18NManager.getSingleton().getMessaggio("options"));
 		itemConfigurazione.setText(I18NManager.getSingleton().getMessaggio("config"));
 		itemCategorie.setText(I18NManager.getSingleton().getMessaggio("categories"));
@@ -432,6 +438,22 @@ public class MyMenu extends JMenuBar {
 		};
 	}
 
+	private AscoltatoreAggiornatoreNiente getListenerDataInsert(final JMenu finestre, final JCheckBoxMenuItem mntmDataInsert) {
+		return new AscoltatoreAggiornatoreNiente() {
+			
+			@Override
+			public void actionPerformedOverride(final ActionEvent e) {
+				Finestra note;
+				try {
+					GeneralFrame generalFrame = Controllore.getGeneralFrame();
+					note = generalFrame.getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_DATAINSERT, generalFrame.getInitFinestre().getPannello());
+					generalFrame.getInitFinestre().setVisibilitaFinestre(note, finestre, mntmDataInsert);
+				} catch (final Exception e1) {
+					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
+				}
+			}
+		};
+	}
 	private AscoltatoreAggiornatoreNiente getListenerNote(final JMenu finestre, final JCheckBoxMenuItem mntmNote) {
 		return new AscoltatoreAggiornatoreNiente() {
 

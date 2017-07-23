@@ -156,6 +156,7 @@ public class DialogEntrateMov extends AbstractEntrateView {
 
 	}
 
+	@Override
 	public void aggiornaModelDaVista() {
 		setDataIns(tfDataIns.getText());
 		setnEntrate(idEntrate.getText());
@@ -197,12 +198,6 @@ public class DialogEntrateMov extends AbstractEntrateView {
 			this.dialog = dialog;
 		}
 		
-		private boolean nonEsistonoCampiNonValorizzati() {
-			final boolean nomeDescrDataOk = getcNome() != null && getcDescrizione() != null && getcData() != null;
-			boolean eurozero = MathUtils.equals(getdEuro(), 0);
-			return nomeDescrDataOk && getFisseOVar() != null && !eurozero && getUtenti() != null;
-		}
-
 		@Override
 		protected void actionPerformedOverride(final ActionEvent e) {
 			super.actionPerformedOverride(e);
@@ -255,5 +250,11 @@ public class DialogEntrateMov extends AbstractEntrateView {
 			dialog.dispose();
 		}
 	}
-
+	
+	@Override
+	public boolean nonEsistonoCampiNonValorizzati() {
+		final boolean nomeDescrDataOk = getcNome() != null && getcDescrizione() != null && getcData() != null;
+		boolean eurozero = MathUtils.equals(getdEuro(), 0);
+		return nomeDescrDataOk && getFisseOVar() != null && !eurozero && getUtenti() != null;
+	}
 }

@@ -1,7 +1,6 @@
 package com.molinari.gestionespese.view.entrateuscite;
 
 import java.awt.Dialog.ModalityType;
-import java.awt.event.ActionEvent;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -14,10 +13,8 @@ import javax.swing.WindowConstants;
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.DBUtil;
-import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreUscite;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.cache.CacheUscite;
-import com.molinari.gestionespese.business.comandi.singlespese.CommandDeleteSpesa;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapSingleSpesa;
@@ -108,18 +105,7 @@ public class UsciteView extends AbstractUsciteView {
 
 		// Bottone Elimina
 		final ButtonF eliminaUltima = new ButtonF();
-		eliminaUltima.addActionListener(new AscoltatoreAggiornatoreUscite() {
-
-			@Override
-			protected void actionPerformedOverride(final ActionEvent e) {
-				super.actionPerformedOverride(e);
-				try {
-					Controllore.invocaComando(new CommandDeleteSpesa(getModelUscita()));
-				} catch (final Exception e1) {
-					Alert.segnalazioneEccezione(e1,"Cancellazione della spesa " + getModelUscita().getNome() + " non riuscita: " + e1.getMessage());
-				}
-			}
-		});
+		eliminaUltima.addActionListener(new AscoltaEliminaUltimaSpesa(this));
 
 		eliminaUltima.setText("Elimina Ultima");
 		eliminaUltima.setBounds(184, 325, 147, 27);

@@ -9,6 +9,10 @@ import com.molinari.gestionespese.domain.wrapper.WrapCatSpese;
 
 public abstract class AbstractCategorieView implements Observer {
 
+	public enum CATEGORYTYPE{
+		STEADY, VARIABLE, TRIVIAL
+	}
+	
 	private JDialog dialog = new JDialog();
 	private WrapCatSpese modelCatSpese = null;
 

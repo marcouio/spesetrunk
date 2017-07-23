@@ -11,6 +11,7 @@ import com.molinari.utility.math.UtilMath;
 
 public class GeneralFrame extends PannelloBase {
 
+	private static final int WIDTH_CONTENT = 80;
 	private static final int MENU_HEIGHT = 18;
 	private static final long serialVersionUID = 1L;
 	private transient PannelTabs pannelTabs;
@@ -40,7 +41,7 @@ public class GeneralFrame extends PannelloBase {
 		pannelTabs = new PannelTabs(contenitore);
 		final PannelloBase tabPanel = pannelTabs.getPanel();
 		tabPanel.posizionaSottoA(pannelloBottoni, 0, 0);
-		tabPanel.setSize((int) UtilMath.getPercentage(this.getWidth(), 83), getHeightSottoPannelli());
+		tabPanel.setSize((int) UtilMath.getPercentage(this.getWidth(), WIDTH_CONTENT), getHeightSottoPannelli());
 	}
 
 	private int getHeightSottoPannelli() {
@@ -70,7 +71,7 @@ public class GeneralFrame extends PannelloBase {
 		final PannelloBottoniSpese pannelloBottoniLoc = new PannelloBottoniSpese(this);
 		final int heightBtnPanel = getHeightBtnPanel();
 		pannelloBottoniLoc.posizionaSottoA(menu, 0, 3);
-		pannelloBottoniLoc.setSize((int) UtilMath.getPercentage(this.getWidth(), 83), heightBtnPanel);
+		pannelloBottoniLoc.setSize((int) UtilMath.getPercentage(this.getWidth(), WIDTH_CONTENT), heightBtnPanel);
 		pannelloBottoniLoc.setVisible(true);
 		add(pannelloBottoniLoc);
 		return pannelloBottoniLoc;

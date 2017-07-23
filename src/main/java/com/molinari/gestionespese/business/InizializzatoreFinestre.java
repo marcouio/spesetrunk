@@ -12,6 +12,7 @@ import javax.swing.UIManager;
 import com.molinari.gestionespese.view.FinestraListaComandi;
 import com.molinari.gestionespese.view.GeneralFrame;
 import com.molinari.gestionespese.view.componenti.componentipannello.PannelloAScomparsa;
+import com.molinari.gestionespese.view.datainsert.DataInsertView;
 import com.molinari.gestionespese.view.note.MostraNoteView;
 import com.molinari.gestionespese.view.report.ReportView;
 import com.molinari.utility.controller.ControlloreBase;
@@ -25,11 +26,13 @@ public class InizializzatoreFinestre {
 	public static final int INDEX_HISTORY = 1;
 	public static final int INDEX_NOTE = 2;
 	public static final int INDEX_REPORT = 3;
+	public static final int INDEX_DATAINSERT = 4;
 
 	protected static Finestra pannelloDati;
 	protected static Finestra historyCommands;
 	protected static Finestra pannelloNote;
 	protected static Finestra report;
+	protected static Finestra dataInsert;
 
 	Finestra[] finestre;
 	ArrayList<Class<? extends Finestra>> finestreClass;
@@ -40,14 +43,14 @@ public class InizializzatoreFinestre {
 	public InizializzatoreFinestre(GeneralFrame generalFrame) {
 		
 		pannello = new PannelloBase(generalFrame);
-		pannello.setSize((int) UtilMath.getPercentage(generalFrame.getWidth(), 17), generalFrame.getHeight());
-		// inizializzo l'array list con le class per evitare di caricare tutto
-		// all'avvio del programma
+		pannello.setSize((int) UtilMath.getPercentage(generalFrame.getWidth(), 19.5), generalFrame.getHeight());
+		// inizializzo l'array list con le class per evitare di caricare tutto all'avvio del programma
 		this.finestreClass = new ArrayList<>();
 		finestreClass.add(PannelloAScomparsa.class);
 		finestreClass.add(FinestraListaComandi.class);
 		finestreClass.add(MostraNoteView.class);
 		finestreClass.add(ReportView.class);
+		finestreClass.add(DataInsertView.class);
 		this.finestre = new Finestra[finestreClass.size()];
 
 	}

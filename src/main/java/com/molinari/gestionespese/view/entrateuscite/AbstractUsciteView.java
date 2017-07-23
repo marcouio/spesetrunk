@@ -103,4 +103,6 @@ public abstract class AbstractUsciteView implements Observer {
 		this.dialog = dialog;
 	}
 
+	public abstract void aggiornaModelDaVista();
+
 }

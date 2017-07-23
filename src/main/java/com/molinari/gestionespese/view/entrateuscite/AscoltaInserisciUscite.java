@@ -5,15 +5,14 @@ import java.awt.event.ActionEvent;
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreUscite;
 import com.molinari.gestionespese.business.comandi.singlespese.CommandInserisciSpesa;
-import com.molinari.utility.messages.I18NManager;
-
 import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.messages.I18NManager;
 
 public class AscoltaInserisciUscite extends AscoltatoreAggiornatoreUscite {
 
-	private final UsciteView view;
+	private final AbstractUsciteView view;
 
-	public AscoltaInserisciUscite(final UsciteView view) {
+	public AscoltaInserisciUscite(final AbstractUsciteView view) {
 		this.view = view;
 	}
 

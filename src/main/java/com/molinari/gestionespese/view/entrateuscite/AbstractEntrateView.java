@@ -96,4 +96,8 @@ public abstract class AbstractEntrateView implements Observer {
 	public void setDialog(JDialog dialog) {
 		this.dialog = dialog;
 	}
+
+	public abstract void aggiornaModelDaVista();
+
+	public abstract boolean nonEsistonoCampiNonValorizzati();
 }

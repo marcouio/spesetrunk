@@ -5,15 +5,14 @@ import java.awt.event.ActionEvent;
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreEntrate;
 import com.molinari.gestionespese.business.comandi.entrate.CommandInserisciEntrata;
-import com.molinari.utility.messages.I18NManager;
-
 import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.messages.I18NManager;
 
 public class AscoltaInserisciEntrate extends AscoltatoreAggiornatoreEntrate {
 
-	private final EntrateView view;
+	private final AbstractEntrateView view;
 
-	public AscoltaInserisciEntrate(final EntrateView view) {
+	public AscoltaInserisciEntrate(final AbstractEntrateView view) {
 		this.view = view;
 	}
 
