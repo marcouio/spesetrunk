@@ -119,7 +119,8 @@ public class InizializzatoreFinestre {
 	 * @param menuItem
 	 */
 	public void setVisibilitaFinestre(final Finestra finestraVisibile, final JMenu menu, final JCheckBoxMenuItem menuItem) {
-		final boolean visibile = finestraVisibile.getContainer().isVisible();
+		
+		final boolean visibile = finestraVisibile != null ? finestraVisibile.getContainer().isVisible() : false;
 		// oscura tutte le finestre
 		for (final Finestra finestra : finestre) {
 			if (finestra != null) {

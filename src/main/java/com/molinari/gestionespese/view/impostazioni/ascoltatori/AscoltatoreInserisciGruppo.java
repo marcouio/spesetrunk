@@ -8,14 +8,14 @@ import com.molinari.gestionespese.business.cache.CacheGruppi;
 import com.molinari.gestionespese.business.comandi.gruppi.CommandInserisciGruppo;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapGruppi;
-import com.molinari.gestionespese.view.impostazioni.GruppiView;
+import com.molinari.gestionespese.view.impostazioni.AbstractGruppiView;
 import com.molinari.utility.graphic.component.alert.Alert;
 
 public class AscoltatoreInserisciGruppo extends AscoltatoreAggiornatoreTutto {
 
-	private final GruppiView gruppiView;
+	private final AbstractGruppiView gruppiView;
 
-	public AscoltatoreInserisciGruppo(final GruppiView gruppiView) {
+	public AscoltatoreInserisciGruppo(final AbstractGruppiView gruppiView) {
 		this.gruppiView = gruppiView;
 	}
 

@@ -22,6 +22,7 @@ public class PanelRegister {
 	private TextFieldBase tfSurname;
 	private TextFieldBase tfPass;
 	private TextFieldBase tfUser;
+	private ButtonBase button;
 	
 	public PanelRegister(Container padre) {
 		
@@ -61,9 +62,9 @@ public class PanelRegister {
 		tfSurname.setSize(width, HEIGHT_FIELD);
 		tfSurname.posizionaSottoA(labSurname, 0, 10);
 		
-		ButtonBase button = new ButtonBase(pan);
+		button = new ButtonBase(pan);
 		button.setSize(width, HEIGHT_FIELD);
-		button.posizionaSottoA(labSurname, 0, 15);
+		button.posizionaSottoA(tfSurname, 0, 15);
 		
 		button.addActionListener(new RegisterListener(tfName, tfSurname, tfUser, tfPass));
 		
@@ -71,6 +72,7 @@ public class PanelRegister {
 		labPass.setText("Password");
 		labSurname.setText(I18NManager.getSingleton().getMessaggio("surname"));
 		labUser.setText("Username");
+		button.setText(I18NManager.getSingleton().getMessaggio("register"));
 	}
 
 	public PannelloBase getPan() {

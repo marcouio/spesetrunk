@@ -15,14 +15,14 @@ import com.molinari.gestionespese.business.comandi.gruppi.CommandUpdateGruppo;
 import com.molinari.gestionespese.domain.Gruppi;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapGruppi;
-import com.molinari.gestionespese.view.impostazioni.GruppiView;
+import com.molinari.gestionespese.view.impostazioni.AbstractGruppiView;
 import com.molinari.utility.graphic.component.alert.Alert;
 
 public class AscoltatoreAggiornaGruppo extends AscoltatoreAggiornatoreTutto {
 
-	private final GruppiView gruppiView;
+	private final AbstractGruppiView gruppiView;
 
-	public AscoltatoreAggiornaGruppo(final GruppiView gruppiView) {
+	public AscoltatoreAggiornaGruppo(final AbstractGruppiView gruppiView) {
 		this.gruppiView = gruppiView;
 	}
 
@@ -40,7 +40,7 @@ public class AscoltatoreAggiornaGruppo extends AscoltatoreAggiornatoreTutto {
 			modelGruppi.setidGruppo(gruppi.getidGruppo());
 			
 			try {
-				if (Controllore.invocaComando(new CommandUpdateGruppo(oldGruppo, (IGruppi) modelGruppi.getEntitaPadre()))) {
+				if (Controllore.invocaComando(new CommandUpdateGruppo(oldGruppo, modelGruppi.getEntitaPadre()))) {
 
 					final List<IGruppi> vectorGruppi = CacheGruppi.getSingleton().getListCategoriePerCombo(CacheGruppi.getSingleton().getAllGruppi());
 					final DefaultComboBoxModel<IGruppi> model = new DefaultComboBoxModel<>(new Vector<>(vectorGruppi));

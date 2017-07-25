@@ -2,8 +2,10 @@ package com.molinari.gestionespese.view.impostazioni;
 
 import java.util.Observer;
 
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 
+import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapGruppi;
 
 public abstract class AbstractGruppiView implements Observer {
@@ -46,5 +48,13 @@ public abstract class AbstractGruppiView implements Observer {
 	public void setDialog(JDialog dialog) {
 		this.dialog = dialog;
 	}
+
+	public boolean nonEsistonoCampiNonValorizzati() {
+		return getDescrizione() != null && getNome() != null;
+	}
+
+	public abstract JComboBox<IGruppi> getComboGruppi();
+
+	public abstract void setGruppo(String string);
 
 }

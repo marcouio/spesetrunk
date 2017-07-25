@@ -48,7 +48,12 @@ public class DataInsertView implements Finestra, ItemListener {
 	private void createContent() {
 
 		PanelLogin panelLogin = new PanelLogin(pans);
+		panelLogin.getPan().setVisible(true);
 		getPanelsList().add(panelLogin.getPan());
+		
+		PanelRegister panelRegister = new PanelRegister(pans);
+		panelRegister.getPan().setVisible(false);
+		getPanelsList().add(panelRegister.getPan());
 		
 		PanelIncomes panelIncomes = new PanelIncomes(this.pans);
 		panelIncomes.getPan().setVisible(false);
@@ -62,7 +67,10 @@ public class DataInsertView implements Finestra, ItemListener {
 		panelCategories.getPan().setVisible(false);
 		getPanelsList().add(panelCategories.getPan());
 		
-		
+		PanelGroups panelGroups = new PanelGroups(pans);
+		panelGroups.getPan().setVisible(false);
+		getPanelsList().add(panelGroups.getPan());
+
 	}
 
 	@Override
@@ -84,9 +92,8 @@ public class DataInsertView implements Finestra, ItemListener {
 		for (final JPanel pannello : getPanelsList()) {
 			pannello.setVisible(false);
 		}
-		
-		int selectedIndex = combo.getSelectedIndex();
 		if(e.getStateChange() == ItemEvent.SELECTED){
+			int selectedIndex = combo.getSelectedIndex();
 			PannelloBase pannelloBase = panelsList.get(selectedIndex);
 			pannelloBase.setVisible(true);
 		}

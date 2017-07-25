@@ -10,14 +10,14 @@ import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreTu
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.comandi.gruppi.CommandDeleteGruppo;
 import com.molinari.gestionespese.domain.Gruppi;
-import com.molinari.gestionespese.view.impostazioni.GruppiView;
+import com.molinari.gestionespese.view.impostazioni.AbstractGruppiView;
 import com.molinari.utility.graphic.component.alert.Alert;
 
 public class AscoltatoreEliminaGruppo extends AscoltatoreAggiornatoreTutto {
 
-	private final GruppiView gruppiView;
+	private final AbstractGruppiView gruppiView;
 
-	public AscoltatoreEliminaGruppo(final GruppiView gruppiView) {
+	public AscoltatoreEliminaGruppo(final AbstractGruppiView gruppiView) {
 		this.gruppiView = gruppiView;
 	}
 

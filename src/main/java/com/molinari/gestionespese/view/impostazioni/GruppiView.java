@@ -111,10 +111,6 @@ public class GruppiView extends AbstractGruppiView {
 		
 	}
 
-	public boolean nonEsistonoCampiNonValorizzati() {
-		return getDescrizione() != null && getNome() != null;
-	}
-
 	private void initLabel() {
 		final LabelListaGruppi lbltstGruppo = new LabelListaGruppi();
 		lbltstGruppo.setText(I18NManager.getSingleton().getMessaggio("groups"));
@@ -133,6 +129,7 @@ public class GruppiView extends AbstractGruppiView {
 
 	}
 
+	@Override
 	public void setGruppo(final String actionCommand) {
 		if ("Inserisci".equals(actionCommand)) {
 			final int idGruppo = CacheGruppi.getSingleton().getMaxId() + 1;
@@ -160,6 +157,7 @@ public class GruppiView extends AbstractGruppiView {
 		getModelGruppi().setUtenti((IUtenti) Controllore.getUtenteLogin());
 	}
 
+	@Override
 	public JComboBox<IGruppi> getComboGruppi() {
 		return comboGruppi;
 	}

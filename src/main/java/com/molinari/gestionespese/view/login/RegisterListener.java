@@ -9,6 +9,7 @@ import com.molinari.gestionespese.business.cache.CacheUtenti;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapUtenti;
 import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.messages.I18NManager;
 
 public class RegisterListener implements ActionListener {
 	/**
@@ -49,11 +50,11 @@ public class RegisterListener implements ActionListener {
 			if (!ok) {
 				utentiwrap.insert(utente);
 			} else {
-				Alert.segnalazioneErroreGrave("Username già presente, sceglierne un altro");
+				Alert.segnalazioneErroreGrave(I18NManager.getSingleton().getMessaggio("userpresente"));
 			}
 			endOperation();
 		} else {
-			Alert.segnalazioneErroreGrave("Utente non creato: Tutti i campi devono essere valorizzati");
+			Alert.segnalazioneErroreGrave(I18NManager.getSingleton().getMessaggio("userfieldnotvalued"));
 		}
 
 	}
