@@ -28,7 +28,7 @@ import com.molinari.utility.graphic.component.textfield.TextFieldBase;
 import com.molinari.utility.messages.I18NManager;
 import com.molinari.utility.text.CorreggiTesto;
 
-public class PanelCategories extends AbstractCategorieView {
+public class PanelCategories extends AbstractCategorieView implements DataPanelView {
 	
 	private static final int HEIGHT_FIELD = 30;
 	private static final int HEIGHT_LABEL = 15;
@@ -226,8 +226,15 @@ public class PanelCategories extends AbstractCategorieView {
 		this.fields = fields;
 	}
 
+	@Override
 	public PannelloBase getPan() {
 		return pan;
+	}
+
+	@Override
+	public boolean aggiorna() {
+		initLabel();
+		return true;
 	}
 
 }

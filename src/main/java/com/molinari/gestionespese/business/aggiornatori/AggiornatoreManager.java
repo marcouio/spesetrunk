@@ -39,6 +39,7 @@ import com.molinari.gestionespese.view.componenti.movimenti.AscoltatoreBottoniEn
 import com.molinari.gestionespese.view.componenti.movimenti.AscoltatoreBottoniUscita;
 import com.molinari.gestionespese.view.componenti.movimenti.ListaMovimentiEntrate;
 import com.molinari.gestionespese.view.componenti.movimenti.ListaMovimentiUscite;
+import com.molinari.gestionespese.view.datainsert.DataInsertView;
 import com.molinari.gestionespese.view.font.TableF;
 import com.molinari.gestionespese.view.impostazioni.CategorieView;
 import com.molinari.gestionespese.view.tabellamesi.PerMesiF;
@@ -92,6 +93,9 @@ public class AggiornatoreManager {
 		generalFrame.getMenu().addVoices();
 		
 		generalFrame.getPannelloBottoni().initTexts();
+		
+		DataInsertView div = (DataInsertView) generalFrame.getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_DATAINSERT, generalFrame);
+		div.update();
 		
 		try {
 			if (SottoPannelloMesi.getComboMese() != null) {

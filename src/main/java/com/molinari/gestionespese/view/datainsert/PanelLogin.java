@@ -8,7 +8,7 @@ import com.molinari.utility.graphic.component.container.PannelloBase;
 import com.molinari.utility.graphic.component.label.LabelBase;
 import com.molinari.utility.graphic.component.textfield.TextFieldBase;
 
-public class PanelLogin {
+public class PanelLogin implements DataPanelView {
 
 	private static final int HEIGHT_FIELD = 30;
 	private static final int HEIGHT_LABEL = 15;
@@ -55,8 +55,15 @@ public class PanelLogin {
 		button.setText("Login");
 	}
 
+	@Override
 	public PannelloBase getPan() {
 		return pan;
+	}
+
+	@Override
+	public boolean aggiorna() {
+		initLabel();
+		return true;
 	}
 	
 }

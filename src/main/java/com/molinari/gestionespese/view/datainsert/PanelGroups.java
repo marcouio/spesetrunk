@@ -22,7 +22,7 @@ import com.molinari.utility.graphic.component.textarea.TextAreaBase;
 import com.molinari.utility.graphic.component.textfield.text.TextFieldTesto;
 import com.molinari.utility.messages.I18NManager;
 
-public class PanelGroups extends AbstractGruppiView{
+public class PanelGroups extends AbstractGruppiView implements DataPanelView{
 
 	private static final int HEIGHT_FIELD = 30;
 	private static final int HEIGHT_LABEL = 15;
@@ -114,6 +114,7 @@ public class PanelGroups extends AbstractGruppiView{
 		cancella.setText(I18NManager.getSingleton().getMessaggio("delete"));
 	}
 
+	@Override
 	public PannelloBase getPan() {
 		return pan;
 	}
@@ -156,5 +157,11 @@ public class PanelGroups extends AbstractGruppiView{
 				getModelGruppi().setidGruppo(idGruppoDaCombo);
 			}
 		}
+	}
+
+	@Override
+	public boolean aggiorna() {
+		initLabel();
+		return true;
 	}
 }

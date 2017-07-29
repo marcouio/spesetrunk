@@ -9,7 +9,7 @@ import com.molinari.utility.graphic.component.label.LabelBase;
 import com.molinari.utility.graphic.component.textfield.TextFieldBase;
 import com.molinari.utility.messages.I18NManager;
 
-public class PanelRegister {
+public class PanelRegister implements DataPanelView {
 
 	private static final int HEIGHT_FIELD = 30;
 	private static final int HEIGHT_LABEL = 15;
@@ -68,6 +68,10 @@ public class PanelRegister {
 		
 		button.addActionListener(new RegisterListener(tfName, tfSurname, tfUser, tfPass));
 		
+		updateLabel();
+	}
+
+	public void updateLabel() {
 		labName.setText(I18NManager.getSingleton().getMessaggio("name"));
 		labPass.setText("Password");
 		labSurname.setText(I18NManager.getSingleton().getMessaggio("surname"));
@@ -75,11 +79,18 @@ public class PanelRegister {
 		button.setText(I18NManager.getSingleton().getMessaggio("register"));
 	}
 
+	@Override
 	public PannelloBase getPan() {
 		return pan;
 	}
 
 	public void setPan(PannelloBase pan) {
 		this.pan = pan;
+	}
+
+	@Override
+	public boolean aggiorna() {
+		updateLabel();
+		return true;
 	}
 }

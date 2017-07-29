@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JPanel;
 
 import com.molinari.gestionespese.business.Finestra;
 import com.molinari.utility.graphic.component.combo.ComboBoxBase;
@@ -20,10 +19,10 @@ public class DataInsertView implements Finestra, ItemListener {
 	
 	
 	public enum TOOL_PANEL{
-		LOGIN, REGISTER, INCOMES, CHARGES, CATEGORIES, GROUPS, CONFIGS 
+		LOGIN, REGISTER, INCOMES, CHARGES, CATEGORIES, GROUPS 
 	}
 	
-	private List<PannelloBase> panelsList = new ArrayList<>();
+	private List<DataPanelView> panelsList = new ArrayList<>();
 	private ComboBoxBase<TOOL_PANEL> combo;
 	
 	public DataInsertView(Container padre) {
@@ -44,32 +43,38 @@ public class DataInsertView implements Finestra, ItemListener {
 		this.pans.setSize(container.getWidth(), container.getHeight() - 50);
 		createContent();
 	}
-
+	
+	public void update(){
+		for (DataPanelView pannelloBase : panelsList) {
+			pannelloBase.aggiorna();
+		}
+	}
+	
 	private void createContent() {
 
 		PanelLogin panelLogin = new PanelLogin(pans);
 		panelLogin.getPan().setVisible(true);
-		getPanelsList().add(panelLogin.getPan());
+		getPanelsList().add(panelLogin);
 		
 		PanelRegister panelRegister = new PanelRegister(pans);
 		panelRegister.getPan().setVisible(false);
-		getPanelsList().add(panelRegister.getPan());
+		getPanelsList().add(panelRegister);
 		
 		PanelIncomes panelIncomes = new PanelIncomes(this.pans);
 		panelIncomes.getPan().setVisible(false);
-		getPanelsList().add(panelIncomes.getPan());
+		getPanelsList().add(panelIncomes);
 		
 		PanelExpense panelExpense = new PanelExpense(pans);
 		panelExpense.getPan().setVisible(false);
-		getPanelsList().add(panelExpense.getPan());
+		getPanelsList().add(panelExpense);
 		
 		PanelCategories panelCategories = new PanelCategories(pans);
 		panelCategories.getPan().setVisible(false);
-		getPanelsList().add(panelCategories.getPan());
+		getPanelsList().add(panelCategories);
 		
 		PanelGroups panelGroups = new PanelGroups(pans);
 		panelGroups.getPan().setVisible(false);
-		getPanelsList().add(panelGroups.getPan());
+		getPanelsList().add(panelGroups);
 
 	}
 
@@ -83,18 +88,18 @@ public class DataInsertView implements Finestra, ItemListener {
 		this.container = container;
 	}
 
-	public List<PannelloBase> getPanelsList() {
+	public List<DataPanelView> getPanelsList() {
 		return panelsList;
 	}
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		for (final JPanel pannello : getPanelsList()) {
-			pannello.setVisible(false);
+		for (final DataPanelView pannello : getPanelsList()) {
+			pannello.getPan().setVisible(false);
 		}
 		if(e.getStateChange() == ItemEvent.SELECTED){
 			int selectedIndex = combo.getSelectedIndex();
-			PannelloBase pannelloBase = panelsList.get(selectedIndex);
+			PannelloBase pannelloBase = panelsList.get(selectedIndex).getPan();
 			pannelloBase.setVisible(true);
 		}
 	}

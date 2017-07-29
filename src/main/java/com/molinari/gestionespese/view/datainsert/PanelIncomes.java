@@ -22,7 +22,7 @@ import com.molinari.utility.graphic.component.textfield.text.TextFieldTesto;
 import com.molinari.utility.messages.I18NManager;
 import com.molinari.utility.text.CorreggiTesto;
 
-public class PanelIncomes extends AbstractEntrateView {
+public class PanelIncomes extends AbstractEntrateView implements DataPanelView{
 
 	private static final int HEIGHT_FIELD = 30;
 	private static final int HEIGHT_LABEL = 15;
@@ -112,6 +112,7 @@ public class PanelIncomes extends AbstractEntrateView {
 		getFieldsIncome().getTaDescrizione().setText(I18NManager.getSingleton().getMessaggio("insertheredescrentry"));
 	}
 
+	@Override
 	public PannelloBase getPan() {
 		return pan;
 	}
@@ -169,6 +170,12 @@ public class PanelIncomes extends AbstractEntrateView {
 
 	public void setFieldsIncome(FieldsIncome fieldsIncome) {
 		this.fieldsIncome = fieldsIncome;
+	}
+
+	@Override
+	public boolean aggiorna() {
+		initLabes();
+		return true;
 	}
 
 }

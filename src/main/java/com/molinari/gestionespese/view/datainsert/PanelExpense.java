@@ -27,7 +27,7 @@ import com.molinari.utility.graphic.component.textfield.text.TextFieldTesto;
 import com.molinari.utility.messages.I18NManager;
 import com.molinari.utility.text.CorreggiTesto;
 
-public class PanelExpense extends AbstractUsciteView {
+public class PanelExpense extends AbstractUsciteView implements DataPanelView  {
 	
 	private FieldsExpense fieldsExpense = new FieldsExpense();
 	private PannelloBase pan;
@@ -127,6 +127,7 @@ public class PanelExpense extends AbstractUsciteView {
 
 	}
 
+	@Override
 	public PannelloBase getPan() {
 		return pan;
 	}
@@ -172,6 +173,12 @@ public class PanelExpense extends AbstractUsciteView {
 
 	public void setFieldsExpense(FieldsExpense fieldsExpense) {
 		this.fieldsExpense = fieldsExpense;
+	}
+
+	@Override
+	public boolean aggiorna() {
+		initLabel();
+		return true;
 	}
 
 }
