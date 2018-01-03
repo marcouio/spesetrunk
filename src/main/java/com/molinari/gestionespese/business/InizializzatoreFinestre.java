@@ -135,11 +135,15 @@ public class InizializzatoreFinestre {
 		// se già visibile oscura la finestra passata come parametro, altrimenti la visualizza
 		if (visibile) {
 			menuItem.setSelected(false);
-			finestraVisibile.getContainer().setVisible(false);
+			if(finestraVisibile != null) {
+				finestraVisibile.getContainer().setVisible(false);
+			}
 			getPannello().setVisible(false);
 		} else {
 			menuItem.setSelected(true);
-			finestraVisibile.getContainer().setVisible(true);
+			if(finestraVisibile != null) {
+				finestraVisibile.getContainer().setVisible(true);
+			}
 			setFinestraVisibile(finestraVisibile);
 			getPannello().setVisible(true);
 		}

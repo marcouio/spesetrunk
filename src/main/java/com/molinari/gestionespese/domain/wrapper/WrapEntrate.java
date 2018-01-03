@@ -166,7 +166,6 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 			
 			
 		} catch (final Exception e) {
-			ok = false;
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} finally {
 			ConnectionPool.getSingleton().chiudiOggettiDb(cn);
@@ -190,7 +189,6 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-			ok = false;
 		}
 
 		return ok;
