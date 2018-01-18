@@ -26,6 +26,7 @@ import com.molinari.utility.controller.StarterBase;
 import com.molinari.utility.database.ExecuteResultSet;
 import com.molinari.utility.graphic.component.container.FrameBase;
 import com.molinari.utility.messages.I18NManager;
+import com.molinari.utility.servicesloader.LoaderLevel;
 
 public class Controllore extends StarterBase{
 
@@ -191,8 +192,8 @@ public class Controllore extends StarterBase{
 	}
 	
 	@Override
-	public int getLevel() {
-		return 1;
+	public LoaderLevel getLevel() {
+		return LoaderLevel.IMPLEMENTED;
 	}
 
 }
