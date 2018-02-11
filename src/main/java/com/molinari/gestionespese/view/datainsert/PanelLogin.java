@@ -50,8 +50,8 @@ public class PanelLogin implements DataPanelView {
 	}
 
 	public void initLabel() {
-		labPass.setText("Username");
-		labUser.setText("Password");
+		labPass.setText("Password");
+		labUser.setText("Username");
 		button.setText("Login");
 	}
 
