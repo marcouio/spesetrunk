@@ -263,4 +263,10 @@ public class CategorieView extends AbstractCategorieView {
 
 	}
 
+	@Override
+	public boolean updateGui() {
+		getDialog().dispose();
+		return true;
+	}
+
 }

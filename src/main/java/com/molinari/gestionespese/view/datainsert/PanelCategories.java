@@ -44,7 +44,8 @@ public class PanelCategories extends AbstractCategorieView implements DataPanelV
 	private ButtonBase inserisci;
 	private ButtonBase aggiorna;
 	private ButtonBase cancella;
-	private ComboBoxBase comboGroup;
+	private ComboBoxBase<IGruppi> comboGroup;
+	private ComboBoxBase<ICatSpese> cbCategorie;
 	
 	public PanelCategories(Container padre) {
 		super(new WrapCatSpese());
@@ -95,8 +96,9 @@ public class PanelCategories extends AbstractCategorieView implements DataPanelV
 		labCategorie.setSize(width, HEIGHT_LABEL);
 		labCategorie.posizionaSottoA(getFields().getCbGruppi(), 0, 15);
 		
-		getFields().setCategorieSpesa(CacheCategorie.getSingleton().getListCategoriePerCombo());
-		getFields().setCbCategorie(new ComboBoxBase<>(pan, new Vector<>(getFields().getCategorieSpesa())));
+		cbCategorie = new ComboBoxBase<>(pan);
+		getFields().setCbCategorie(cbCategorie);
+		initCatSpese();
 		getFields().getCbCategorie().posizionaSottoA(labCategorie, 0, 10);
 		getFields().getCbCategorie().setSize(width, HEIGHT_FIELD);
 		getFields().getCbCategorie().addItemListener(getListener());
@@ -125,10 +127,24 @@ public class PanelCategories extends AbstractCategorieView implements DataPanelV
 		initLabel();
 	}
 
+	public void initCatSpese() {
+		getFields().setCategorieSpesa(CacheCategorie.getSingleton().getListCategoriePerCombo());
+		ComboBoxModel<ICatSpese> modelGroup = new DefaultComboBoxModel<>(new Vector<>(getFields().getCategorieSpesa()));
+		ComboBoxBase<ICatSpese> cbCategorieLoc = getFields().getCbCategorie();
+		cbCategorieLoc.setModel(modelGroup);
+		cbCategorieLoc.setSelectedItem(getCategoria());
+		
+	}
+
 	public void initComboGroups() {
 		final List<IGruppi> vettoreGruppi = CacheGruppi.getSingleton().getListCategoriePerCombo(CacheGruppi.getSingleton().getAllGruppi());
 		ComboBoxModel<IGruppi> modelGroup = new DefaultComboBoxModel<>(new Vector<>(vettoreGruppi));
 		comboGroup.setModel(modelGroup);
+		
+		IGruppi gruppoLoc = getGruppo();
+		if(gruppoLoc != null) {
+			comboGroup.setSelectedItem(gruppoLoc);
+		}
 	}
 	
 	private ItemListener getListener() {
@@ -240,7 +256,13 @@ public class PanelCategories extends AbstractCategorieView implements DataPanelV
 	public boolean aggiorna() {
 		initLabel();
 		initComboGroups();
+		initCatSpese();
 		return true;
+	}
+
+	@Override
+	public boolean updateGui() {
+		return aggiorna();
 	}
 
 }

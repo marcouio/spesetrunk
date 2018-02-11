@@ -7,7 +7,6 @@ import com.molinari.gestionespese.business.aggiornatori.AggiornatoreManager;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreTutto;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.comandi.categorie.CommandUpdateCategoria;
-import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.view.impostazioni.AbstractCategorieView;
 import com.molinari.utility.graphic.component.alert.Alert;
@@ -32,10 +31,10 @@ public class AscoltatoreAggiornaCategoria extends AscoltatoreAggiornatoreTutto {
 			}
 			try {
 				if (Controllore.invocaComando(new CommandUpdateCategoria(oldCategoria, categorieView.getModelCatSpese().getEntitaPadre()))) {
-					AggiornatoreManager.aggiornaCategorie((CatSpese) categorieView.getModelCatSpese().getEntitaPadre(), categorieView.getComboCategorie());
+					AggiornatoreManager.aggiornaCategorie(categorieView.getModelCatSpese().getEntitaPadre(), categorieView.getComboCategorie());
 					categorieView.getModelCatSpese().setChanged();
 					categorieView.getModelCatSpese().notifyObservers();
-					categorieView.getDialog().dispose();
+					categorieView.updateGui();
 				}
 			} catch (final Exception e22) {
 				Alert.segnalazioneEccezione(e22, "Inserisci i dati correttamente: " + e22.getMessage());

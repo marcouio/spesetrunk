@@ -17,12 +17,20 @@ public class CommandUpdate<T extends AbstractOggettoEntita> extends AbstractComm
 
 	@Override
 	public boolean execute() {
-		return wrap.update(newEntita);
+		boolean update = wrap.update(newEntita);
+		if(update) {
+			mappaCache.put(newEntita.getIdEntita(), newEntita);
+		}
+		return update;
 	}
 
 	@Override
 	public boolean unExecute() {
-		return wrap.update(oldEntita);
+		boolean update = wrap.update(oldEntita);
+		if(update) {
+			mappaCache.put(oldEntita.getIdEntita(), oldEntita);
+		}
+		return update;
 	}
 
 	@Override

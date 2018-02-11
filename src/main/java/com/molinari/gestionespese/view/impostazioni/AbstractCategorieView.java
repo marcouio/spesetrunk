@@ -85,5 +85,7 @@ public abstract class AbstractCategorieView implements Observer {
 	public abstract void aggiornaModelDaVista(String string);
 
 	public abstract ICatSpese getCategoria();
+	
+	public abstract boolean updateGui();
 
 }
