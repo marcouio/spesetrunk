@@ -99,7 +99,9 @@ public class DataInsertView implements Finestra, ItemListener {
 		}
 		if(e.getStateChange() == ItemEvent.SELECTED){
 			int selectedIndex = combo.getSelectedIndex();
-			PannelloBase pannelloBase = panelsList.get(selectedIndex).getPan();
+			DataPanelView dataPanelView = panelsList.get(selectedIndex);
+			PannelloBase pannelloBase = dataPanelView.getPan();
+			dataPanelView.aggiorna();
 			pannelloBase.setVisible(true);
 		}
 	}

@@ -44,6 +44,7 @@ public class PanelCategories extends AbstractCategorieView implements DataPanelV
 	private ButtonBase inserisci;
 	private ButtonBase aggiorna;
 	private ButtonBase cancella;
+	private ComboBoxBase comboGroup;
 	
 	public PanelCategories(Container padre) {
 		super(new WrapCatSpese());
@@ -84,10 +85,8 @@ public class PanelCategories extends AbstractCategorieView implements DataPanelV
 		labGroup.setSize(width, HEIGHT_LABEL);
 		labGroup.posizionaSottoA(getFields().getCbImportanza(), 0, 15);
 		
-		final List<IGruppi> vettoreGruppi = CacheGruppi.getSingleton().getListCategoriePerCombo(CacheGruppi.getSingleton().getAllGruppi());
-		ComboBoxModel<IGruppi> modelGroup = new DefaultComboBoxModel<>(new Vector<>(vettoreGruppi));
-		ComboBoxBase<IGruppi> comboGroup = new ComboBoxBase<>(pan);
-		comboGroup.setModel(modelGroup);
+		comboGroup = new ComboBoxBase<>(pan);
+		initComboGroups();
 		getFields().setCbGruppi(comboGroup);
 		comboGroup.setSize(width, HEIGHT_FIELD);
 		comboGroup.posizionaSottoA(labGroup, 0, 10);
@@ -124,6 +123,12 @@ public class PanelCategories extends AbstractCategorieView implements DataPanelV
 		cancella.addActionListener(new AscoltatoreCancellaCategoria(this));
 		
 		initLabel();
+	}
+
+	public void initComboGroups() {
+		final List<IGruppi> vettoreGruppi = CacheGruppi.getSingleton().getListCategoriePerCombo(CacheGruppi.getSingleton().getAllGruppi());
+		ComboBoxModel<IGruppi> modelGroup = new DefaultComboBoxModel<>(new Vector<>(vettoreGruppi));
+		comboGroup.setModel(modelGroup);
 	}
 	
 	private ItemListener getListener() {
@@ -234,6 +239,7 @@ public class PanelCategories extends AbstractCategorieView implements DataPanelV
 	@Override
 	public boolean aggiorna() {
 		initLabel();
+		initComboGroups();
 		return true;
 	}
 

@@ -3,12 +3,17 @@ package com.molinari.gestionespese.view.datainsert;
 import java.awt.Container;
 import java.util.List;
 import java.util.Observable;
+import java.util.Vector;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.cache.CacheGruppi;
 import com.molinari.gestionespese.domain.Gruppi;
 import com.molinari.gestionespese.domain.IGruppi;
+import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.wrapper.WrapGruppi;
 import com.molinari.gestionespese.view.impostazioni.AbstractGruppiView;
 import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreAggiornaGruppo;
@@ -73,11 +78,11 @@ public class PanelGroups extends AbstractGruppiView implements DataPanelView{
 		lbltstListaGruppi.setSize(width, HEIGHT_LABEL);
 		lbltstListaGruppi.posizionaSottoA(inserisci, 0, 15);
 		
-		final List<IGruppi> vettoreGruppi = CacheGruppi.getSingleton().getVettoreGruppi();
-		vettoreGruppi.add(0, new Gruppi());
-		cbGruppi = new ComboBoxBase<>(pan, vettoreGruppi);
+		cbGruppi = new ComboBoxBase<>(pan);
 		cbGruppi.setSize(width, HEIGHT_FIELD);
 		cbGruppi.posizionaSottoA(lbltstListaGruppi, 0, 10);
+
+		initGroupsCombo();
 		
 		cbGruppi.addItemListener(e -> {
 			if (cbGruppi.getSelectedIndex() != 0 && cbGruppi.getSelectedItem() != null) {
@@ -103,6 +108,13 @@ public class PanelGroups extends AbstractGruppiView implements DataPanelView{
 		
 		initLabel();
 		
+	}
+
+	public void initGroupsCombo() {
+		final List<IGruppi> vettoreGruppi = CacheGruppi.getSingleton().getVettoreGruppi();
+		vettoreGruppi.add(0, new Gruppi());
+		ComboBoxModel<IGruppi> modelGroup = new DefaultComboBoxModel<>(new Vector<>(vettoreGruppi));
+		cbGruppi.setModel(modelGroup);
 	}
 
 	public void initLabel() {
@@ -157,11 +169,16 @@ public class PanelGroups extends AbstractGruppiView implements DataPanelView{
 				getModelGruppi().setidGruppo(idGruppoDaCombo);
 			}
 		}
+		
+		setNome(tfNome.getText());
+		setDescrizione(tfDescr.getText());
+		getModelGruppi().setUtenti((IUtenti) Controllore.getUtenteLogin());
 	}
 
 	@Override
 	public boolean aggiorna() {
 		initLabel();
+		initGroupsCombo();
 		return true;
 	}
 }
