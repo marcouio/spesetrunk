@@ -2,9 +2,12 @@ package com.molinari.gestionespese.view.datainsert;
 
 import java.awt.Container;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Observable;
 import java.util.Vector;
+
+import javax.swing.DefaultComboBoxModel;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Controllore;
@@ -38,6 +41,7 @@ public class PanelExpense extends AbstractUsciteView implements DataPanelView  {
 	private LabelBase labData;
 	private ButtonBase inserisci;
 	private ButtonBase eliminaUltima;
+	private ComboBoxBase<ICatSpese>  cCategorie;
 	
 	private static final int HEIGHT_FIELD = 30;
 	private static final int HEIGHT_LABEL = 15;
@@ -70,8 +74,9 @@ public class PanelExpense extends AbstractUsciteView implements DataPanelView  {
 		labCat.setSize(width, HEIGHT_LABEL);
 		labCat.posizionaSottoA(getFieldsExpense().getTaDescrizione(), 0, 15);
 		
-		final List<ICatSpese> listCategoriePerCombo = CacheCategorie.getSingleton().getListCategoriePerCombo();
-		getFieldsExpense().setcCategorie(new ComboBoxBase<>(pan, new Vector<>(listCategoriePerCombo)));
+		cCategorie = new ComboBoxBase<>(pan);
+		initCategories();
+		getFieldsExpense().setcCategorie(cCategorie);
 		getFieldsExpense().getcCategorie().setSize(width, HEIGHT_FIELD);
 		getFieldsExpense().getcCategorie().posizionaSottoA(labCat, 0, 10);
 
@@ -87,7 +92,10 @@ public class PanelExpense extends AbstractUsciteView implements DataPanelView  {
 		labData.setSize(width, HEIGHT_LABEL);
 		labData.posizionaSottoA(getFieldsExpense().getTfEuro(), 0, 15);
 		
-		getFieldsExpense().setTfData(new TextFieldTesto(pan));
+		TextFieldTesto tfData = new TextFieldTesto(pan);
+		final GregorianCalendar gc = new GregorianCalendar();
+		tfData.setText(DBUtil.dataToString(gc.getTime(), "yyyy/MM/dd"));
+		getFieldsExpense().setTfData(tfData);
 		getFieldsExpense().getTfData().setSize(width, HEIGHT_FIELD);
 		getFieldsExpense().getTfData().posizionaSottoA(labData, 0, 10);
 		
@@ -104,6 +112,12 @@ public class PanelExpense extends AbstractUsciteView implements DataPanelView  {
 		
 		initLabel();
 		
+	}
+
+	public void initCategories() {
+		final List<ICatSpese> listCategoriePerCombo = CacheCategorie.getSingleton().getListCategoriePerCombo();
+		DefaultComboBoxModel<ICatSpese> model = new DefaultComboBoxModel<>(new Vector<>(listCategoriePerCombo));
+		cCategorie.setModel(model);
 	}
 
 	public void initLabel() {
@@ -178,6 +192,7 @@ public class PanelExpense extends AbstractUsciteView implements DataPanelView  {
 	@Override
 	public boolean aggiorna() {
 		initLabel();
+		initCategories();
 		return true;
 	}
 

@@ -2,6 +2,7 @@ package com.molinari.gestionespese.view.datainsert;
 
 import java.awt.Container;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Observable;
 
 import com.molinari.gestionespese.business.AltreUtil;
@@ -74,7 +75,9 @@ public class PanelIncomes extends AbstractEntrateView implements DataPanelView{
 		labData.posizionaSottoA(getFieldsIncome().getCbTipo(), 0, 15);
 		labData.setSize(width, HEIGHT_LABEL);
 		
-		getFieldsIncome().setTfData(new TextFieldTesto(pan));
+		TextFieldTesto tfData = new TextFieldTesto(pan);
+		tfData.setText(DBUtil.dataToString(new GregorianCalendar().getTime(), "yyyy/MM/dd"));
+		getFieldsIncome().setTfData(tfData);
 		getFieldsIncome().getTfData().posizionaSottoA(labData, 0, 10);
 		getFieldsIncome().getTfData().setSize(width, HEIGHT_FIELD);
 		
