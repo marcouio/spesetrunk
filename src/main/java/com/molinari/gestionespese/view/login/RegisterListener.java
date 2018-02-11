@@ -12,9 +12,7 @@ import com.molinari.utility.graphic.component.alert.Alert;
 import com.molinari.utility.messages.I18NManager;
 
 public class RegisterListener implements ActionListener {
-	/**
-	 * 
-	 */
+	
 	private final JTextField nome;
 	private final JTextField cognome;
 	private final JTextField user;
@@ -29,6 +27,8 @@ public class RegisterListener implements ActionListener {
 	
 	private Utenti fillUtente(final String sNome, final String sCognome, final String sPass, final String sUser) {
 		final Utenti utente = new Utenti();
+		final int idUtente = CacheUtenti.getSingleton().getMaxId() + 1;
+		utente.setidUtente(idUtente);
 		utente.setNome(sNome);
 		utente.setCognome(sCognome);
 		utente.setpassword(sPass);
@@ -48,7 +48,9 @@ public class RegisterListener implements ActionListener {
 			final Utenti utente = fillUtente(sNome, sCognome, sPass, sUser);
 			final boolean ok = CacheUtenti.getSingleton().checkUtentePerUsername(sUser);
 			if (!ok) {
-				utentiwrap.insert(utente);
+				if(utentiwrap.insert(utente)) {
+					CacheUtenti.getSingleton().getCache().put(utente.getIdEntita(), utente);
+				}
 			} else {
 				Alert.segnalazioneErroreGrave(I18NManager.getSingleton().getMessaggio("userpresente"));
 			}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.wrapper.WrapUtenti;
@@ -59,5 +60,11 @@ public class CacheUtenti extends AbstractCacheBase<IUtenti> {
 	public Object[] getArrayUtenti() {
 		final Map<String, IUtenti> mappa = this.getAllUtenti();
 		return mappa.values().toArray();
+	}
+
+	public int getMaxId() {
+		final Map<String, IUtenti> mappa = getAllUtenti();
+		final Optional<IUtenti> max = mappa.values().stream().max((s1, s2) -> Integer.compare(s1.getidUtente(), s2.getidUtente()));
+		return max.isPresent() ? max.get().getidUtente() : 0;
 	}
 }
