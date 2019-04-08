@@ -301,11 +301,13 @@ public class AggiornatoreManager {
 		final String sql = "SELECT MAX(" + Gruppi.ID + ") FROM " + Gruppi.NOME_TABELLA;
 
 
-		try {
-			final Connection cn = ConnectionPool.getSingleton().getConnection();
-			final ResultSet rs = ConnectionPool.getSingleton().getResulSet(cn, sql);
+		try (
+				final Connection cn = ConnectionPool.getSingleton().getConnection();
+				final ResultSet rs = ConnectionPool.getSingleton().getResulSet(cn, sql);
+			){
+			
 			max = rs.getInt(1);
-			ConnectionPool.getSingleton().chiudiOggettiDb(cn);
+			
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
@@ -348,13 +350,13 @@ public class AggiornatoreManager {
 		int max = 0;
 		final String sql = "SELECT MAX(" + CatSpese.ID + ") FROM " + CatSpese.NOME_TABELLA;
 
-		try {
-
-			final Connection cn = ConnectionPool.getSingleton().getConnection();
-			final ResultSet rs = ConnectionPool.getSingleton().getResulSet(cn, sql);
+		try (
+				final Connection cn = ConnectionPool.getSingleton().getConnection();
+				final ResultSet rs = ConnectionPool.getSingleton().getResulSet(cn, sql);
+			){
 
 			max = rs.getInt(1);
-			ConnectionPool.getSingleton().chiudiOggettiDb(cn);
+			
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}

@@ -12,7 +12,6 @@ import com.molinari.gestionespese.domain.IRisparmio;
 import com.molinari.gestionespese.domain.Risparmio;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.database.Clausola;
-import com.molinari.utility.database.ConnectionPool;
 import com.molinari.utility.database.ExecutePreparedStatement;
 import com.molinari.utility.database.ExecuteResultSet;
 import com.molinari.utility.database.dao.IDAO;
@@ -54,8 +53,6 @@ public class WrapRisparmio extends Observable implements IDAO<IRisparmio>,IRispa
 		}catch (final Exception e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
-
-		ConnectionPool.getSingleton().chiudiOggettiDb(null);
 
 		return risparmioLoc;
 	}

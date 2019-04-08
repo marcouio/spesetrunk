@@ -49,19 +49,17 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} finally {
-			ConnectionPool.getSingleton().chiudiOggettiDb(null);
 		}
 		return null;
 
 	}
 
 	private IEntrate getEntrata(final String sql) throws SQLException {
-		final IEntrate entrata = new Entrate();
 		return new ExecuteResultSet<IEntrate>() {
 
 			@Override
 			protected IEntrate doWithResultSet(ResultSet rs) throws SQLException {
-
+				final IEntrate entrata = new Entrate();
 				if (rs.next()) {
 					riempiEntrataFromResultSet(entrata, rs);
 				}
@@ -135,14 +133,12 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 
-		ConnectionPool.getSingleton().chiudiOggettiDb(null);
 		return new ArrayList<>();
 	}
 
 	@Override
 	public boolean insert(final IEntrate oggettoEntita) {
 		boolean ok = false;
-		final Connection cn = ConnectionPool.getSingleton().getConnection();
 		String sql = "";
 		try {
 
@@ -167,8 +163,6 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 			
 		} catch (final Exception e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-		} finally {
-			ConnectionPool.getSingleton().chiudiOggettiDb(cn);
 		}
 		return ok;
 	}
@@ -196,13 +190,8 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 
 	@Override
 	public boolean update(final IEntrate oggettoEntita) {
-
 		final String sql = getQueryUpdate(oggettoEntita);
-		
-		boolean ok = base.executeUpdate(sql);
-		
-		ConnectionPool.getSingleton().chiudiOggettiDb(null);
-		return ok;
+		return base.executeUpdate(sql);
 	}
 
 	private String getQueryUpdate(final IEntrate entrata) {

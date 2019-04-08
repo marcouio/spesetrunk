@@ -165,7 +165,6 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO<ICatSpes
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
 		}
-		ConnectionPool.getSingleton().chiudiOggettiDb(null);
 		return ok;
 	}
 

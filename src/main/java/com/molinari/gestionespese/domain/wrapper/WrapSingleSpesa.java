@@ -49,7 +49,6 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 
 		final String sql = SELECT_FROM + SingleSpesa.NOME_TABELLA + WHERE + SingleSpesa.ID + " = " + id;
 
-
 		try {
 
 			return new ExecuteResultSet<SingleSpesa>() {
@@ -394,11 +393,13 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 
 					if (rs.next()) {
 						final String sql2 = DELETE_FROM + SingleSpesa.NOME_TABELLA + WHERE + SingleSpesa.ID + "= ?";
-						final Connection cn = ConnectionPool.getSingleton().getConnection();
-						final PreparedStatement ps = createPreparedStatement(sql2, cn);
-						ps.setInt(1, rs.getInt(1));
-						ps.executeUpdate();
-						ConnectionPool.getSingleton().chiudiOggettiDb(cn);
+						try (
+								final Connection cn = ConnectionPool.getSingleton().getConnection();
+								final PreparedStatement ps = createPreparedStatement(sql2, cn);
+							){
+							ps.setInt(1, rs.getInt(1));
+							ps.executeUpdate();
+						}
 						return true;
 					} else {
 						Alert.segnalazioneErroreWarning("Non ci sono uscite per l'utente loggato");
