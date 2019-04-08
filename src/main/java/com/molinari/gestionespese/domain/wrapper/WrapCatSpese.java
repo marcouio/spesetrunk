@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.logging.Level;
 
 import com.molinari.gestionespese.business.cache.CacheGruppi;
+import com.molinari.gestionespese.business.cache.CacheUscite;
 import com.molinari.gestionespese.domain.Budget;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.ICatSpese;
@@ -154,13 +155,13 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO<ICatSpes
 	public boolean deleteAll() {
 		boolean ok = false;
 		final String sql = "DELETE FROM " + CatSpese.NOME_TABELLA;
-
-
 		try {
 
 			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
-
+			
+			CacheUscite.getSingleton().getCache().clear();
+			
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;

@@ -9,6 +9,7 @@ import java.util.Observable;
 import java.util.Set;
 import java.util.logging.Level;
 
+import com.molinari.gestionespese.business.cache.CacheUtenti;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.SingleSpesa;
@@ -159,6 +160,8 @@ public class WrapUtenti extends Observable implements IDAO<IUtenti>, IUtenti {
 			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 
+			CacheUtenti.getSingleton().getCache().remove(Integer.toString(id));
+			
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;
@@ -198,7 +201,7 @@ public class WrapUtenti extends Observable implements IDAO<IUtenti>, IUtenti {
 
 			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
-
+			CacheUtenti.getSingleton().getCache().clear();
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ok = false;

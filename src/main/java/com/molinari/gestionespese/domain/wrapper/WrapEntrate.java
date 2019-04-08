@@ -5,12 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 import java.util.logging.Level;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Controllore;
+import com.molinari.gestionespese.business.cache.CacheEntrate;
 import com.molinari.gestionespese.business.cache.CacheUtenti;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.IEntrate;
@@ -20,8 +22,11 @@ import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.database.Clausola;
 import com.molinari.utility.database.ConnectionPool;
+import com.molinari.utility.database.DeleteBase;
 import com.molinari.utility.database.ExecutePreparedStatement;
 import com.molinari.utility.database.ExecuteResultSet;
+import com.molinari.utility.database.OggettoSQL;
+import com.molinari.utility.database.Query;
 import com.molinari.utility.database.dao.IDAO;
 
 public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> {
@@ -174,13 +179,15 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 	@Override
 	public boolean delete(final int id) {
 		boolean ok = false;
-		final String sql = DELETE_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.ID + " = " + id;
 
 		try {
-
-			ConnectionPool.getSingleton().executeUpdate(sql);
+			DeleteBase deleteBase = new DeleteBase();
+			deleteBase.setTabella(Entrate.NOME_TABELLA);
+			deleteBase.setClausole(Arrays.asList(new Clausola(null, Entrate.ID, "=", Integer.toString(id))));
+			new Query().delete(deleteBase);
+		
 			ok = true;
-
+			CacheEntrate.getSingleton().getCache().remove(Integer.toString(id));
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
@@ -368,28 +375,10 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 	public boolean deleteLastEntrate() {
 		boolean ok = false;
 
-		final String sql = getQueryDeleteLastEntrate();
-
-		final Connection cn = ConnectionPool.getSingleton().getConnection();
 
 		try {
-
-			ok = new ExecuteResultSet<Boolean>() {
-
-				@Override
-				protected Boolean doWithResultSet(ResultSet rs) throws SQLException {
-
-					if (rs.next()) {
-						final String sql2 = DELETE_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.ID + "=?";
-						
-						final PreparedStatement ps = createPreparedStatement(cn, sql2);
-						ps.setInt(1, rs.getInt(1));
-						ps.executeUpdate();
-					}
-					return true;
-				}
-
-			}.execute(sql);
+			final String sql = DELETE_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.ID + "=(" + getQueryDeleteLastEntrate() + ")";
+			ConnectionPool.getSingleton().executeUpdate(sql);
 
 		} catch (final Exception e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
@@ -400,7 +389,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 
 	private String getQueryDeleteLastEntrate() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(SELECT_FROM);
+		stringBuilder.append("SELECT " + Entrate.ID + " FROM ");
 		stringBuilder.append(Entrate.NOME_TABELLA);
 		stringBuilder.append(WHERE);
 		stringBuilder.append(Entrate.COL_IDUTENTE);
@@ -408,7 +397,7 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 		stringBuilder.append(((Utenti) Controllore.getUtenteLogin()).getidUtente());
 		stringBuilder.append(" ORDER BY ");
 		stringBuilder.append(Entrate.COL_DATAINS);
-		stringBuilder.append(" DESC");
+		stringBuilder.append(" DESC LIMIT 1");
 		return stringBuilder.toString();
 	}
 

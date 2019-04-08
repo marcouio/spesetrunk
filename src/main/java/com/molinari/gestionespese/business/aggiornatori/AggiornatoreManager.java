@@ -1,6 +1,5 @@
 package com.molinari.gestionespese.business.aggiornatori;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -297,20 +296,26 @@ public class AggiornatoreManager {
 	 * @param gruppo
 	 */
 	public static void aggiornaGruppi(final Gruppi gruppo, final CategorieView categoria) {
-		int max = 0;
 		final String sql = "SELECT MAX(" + Gruppi.ID + ") FROM " + Gruppi.NOME_TABELLA;
 
 
-		try (
-				final Connection cn = ConnectionPool.getSingleton().getConnection();
-				final ResultSet rs = ConnectionPool.getSingleton().getResulSet(cn, sql);
-			){
-			
-			max = rs.getInt(1);
-			
-		} catch (final SQLException e) {
+		Integer max = 0;
+		try {
+			max = ConnectionPool.getSingleton().useConnection(cn -> {
+				try (final ResultSet rs = ConnectionPool.getSingleton().getResulSet(cn, sql);) {
+					return rs.getInt(1);
+				} catch (SQLException e) {
+					ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+				}
+				return 0;
+			});
+		} catch (SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
+		
+		
+		
+		
 		final JComboBox<IGruppi> gruppi = categoria.getComboGruppi();
 
 		gruppi.setSelectedIndex(0);
@@ -347,19 +352,26 @@ public class AggiornatoreManager {
 	 * @param CatSpese
 	 */
 	public static void aggiornaCategorie(final ICatSpese categoria, final JComboBox<ICatSpese> comboCategorie) {
-		int max = 0;
 		final String sql = "SELECT MAX(" + CatSpese.ID + ") FROM " + CatSpese.NOME_TABELLA;
 
-		try (
-				final Connection cn = ConnectionPool.getSingleton().getConnection();
-				final ResultSet rs = ConnectionPool.getSingleton().getResulSet(cn, sql);
-			){
+		int max = 0;
+		try {
+			max = ConnectionPool.getSingleton().useConnection(cn -> {
+					try (
+						final ResultSet rs = ConnectionPool.getSingleton().getResulSet(cn, sql);
+					){
 
-			max = rs.getInt(1);
-			
-		} catch (final SQLException e) {
+					return rs.getInt(1);
+				} catch (final SQLException e) {
+					ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+				}
+					return 0;
+			});
+		} catch (SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
+		
+		
 
 		final JComboBox<ICatSpese> categorie1 = comboCategorie;
 

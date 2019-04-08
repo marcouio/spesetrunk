@@ -264,44 +264,18 @@ public class WrapNote extends Observable implements IDAO<INote>, INote {
 	public boolean DeleteLastNote() {
 		boolean ok = false;
 
-		final String sql = SELECT_FROM + Note.NOME_TABELLA + WHERE + Note.COL_IDUTENTE + " = " + ((Utenti) Controllore.getUtenteLogin()).getidUtente() + " ORDER BY "
-				+ Note.COL_DATAINS + " DESC";
-		final Connection cn = ConnectionPool.getSingleton().getConnection();
-
+		final String sql = "SELECT " + Note.ID + " FROM " + Note.NOME_TABELLA + WHERE + Note.COL_IDUTENTE + " = " + ((Utenti) Controllore.getUtenteLogin()).getidUtente() + " ORDER BY "
+				+ Note.COL_DATAINS + " DESC LIMIT 1";
+		
 		try {
-
-			ok = new ExecuteResultSet<Boolean>() {
-
-				@Override
-				protected Boolean doWithResultSet(ResultSet rs) throws SQLException {
-
-					if (rs.next()) {
-						final String sql2 = DELETE_FROM + Note.NOME_TABELLA + WHERE + Note.ID + "=?";
-						final PreparedStatement ps = createPreparedStatement(cn, sql2);
-						ps.setInt(1, rs.getInt(1));
-						ps.executeUpdate();
-						return true;
-
-					}
-					return false;
-				}
-
-				private PreparedStatement createPreparedStatement(final Connection cn, final String sql2)
-						throws SQLException {
-					return cn.prepareStatement(sql2);
-				}
-
-			}.execute(sql);
+				
+			ConnectionPool.getSingleton().executeUpdate(DELETE_FROM + Note.NOME_TABELLA + WHERE + Note.ID + "("+ sql +")");
 
 		} catch (final Exception e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ControlloreBase.getLog().severe("Operazione non eseguita: " + e.getMessage());
 		}
-		try {
-			cn.close();
-		} catch (final SQLException e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-		}
+		
 		return ok;
 	}
 
