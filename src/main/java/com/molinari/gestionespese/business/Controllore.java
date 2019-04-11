@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Toolkit;
 import java.io.File;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -26,7 +27,9 @@ import com.molinari.utility.controller.StarterBase;
 import com.molinari.utility.database.ExecuteResultSet;
 import com.molinari.utility.graphic.component.container.FrameBase;
 import com.molinari.utility.messages.I18NManager;
+import com.molinari.utility.net.HttpDownloadUtility;
 import com.molinari.utility.servicesloader.LoaderLevel;
+import com.molinari.utility.xml.CoreXMLManager;
 
 public class Controllore extends StarterBase{
 
@@ -142,8 +145,8 @@ public class Controllore extends StarterBase{
 	public void start(FrameBase frame) {
 		
 		setConnectionClassName();
-		ControlloreBase.getLog().setLevel(Level.SEVERE);
-		Database.setDburl(Database.DB_URL_WORKSPACE);
+//		ControlloreBase.getLog().setLevel(Level.SEVERE);
+		Database.setDburl(getDatabaseUrl());
 		verificaPresenzaDb();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		
@@ -160,7 +163,20 @@ public class Controllore extends StarterBase{
 
 	}
 
-
+	public String getDatabaseUrl() {
+		String databaseUrl = CoreXMLManager.getSingleton().getDatabaseUrl();
+		try {
+			if(databaseUrl.startsWith("http")) {
+				String absolutePath = new File("database.sqlite").getAbsolutePath();
+				HttpDownloadUtility.downloadFile(databaseUrl, absolutePath);
+				databaseUrl = absolutePath;
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return databaseUrl;
+	}
 
 	public FrameBase getGenView(){
 		return view;
