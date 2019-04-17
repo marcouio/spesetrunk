@@ -145,7 +145,7 @@ public class Controllore extends StarterBase{
 	public void start(FrameBase frame) {
 		
 		setConnectionClassName();
-//		ControlloreBase.getLog().setLevel(Level.SEVERE);
+		ControlloreBase.getLog().setLevel(CoreXMLManager.getSingleton().getLogLevel());
 		Database.setDburl(getDatabaseUrl());
 		verificaPresenzaDb();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
