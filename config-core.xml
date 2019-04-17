@@ -8,5 +8,5 @@
     </messaggi>
     <auto-config value="true"/>
     <!-- <databaseurl value="https://drive.google.com/open?id=11UFiDjwwK2GBvvtVoD2kqYYzaN_65kLF"></databaseurl> -->
-    <databaseurl value="C:/Users/marco.molinari/Downloads/database.sqlite"></databaseurl>
+    <databaseurl value="C:/Users/marco.molinari/Downloads/database.sqlite"/>
 </configs>

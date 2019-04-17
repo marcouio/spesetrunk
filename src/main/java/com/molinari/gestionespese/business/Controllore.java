@@ -122,7 +122,7 @@ public class Controllore extends StarterBase{
 			
 			CacheUtenti.getSingleton().getCache().put("1", utente);
 		}
-		getControllore().setUtenteLogin(CacheUtenti.getSingleton().getUtente("1"));
+		ControlloreBase.getSingleton().setUtenteLogin(CacheUtenti.getSingleton().getUtente("1"));
 	}
 
 	public AggiornatoreManager getAggiornatoreManagerInner() {
@@ -196,7 +196,7 @@ public class Controllore extends StarterBase{
 	}
 
 	public void setConnectionClassName() {
-		getControllore().setConnectionClassName(ConnectionPoolGGS.class.getName());
+		ControlloreBase.getSingleton().setConnectionClassName(ConnectionPoolGGS.class.getName());
 	}
 
 	public String getLookUsato() {

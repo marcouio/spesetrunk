@@ -50,6 +50,8 @@ public class RegisterListener implements ActionListener {
 			if (!ok) {
 				if(utentiwrap.insert(utente)) {
 					CacheUtenti.getSingleton().getCache().put(utente.getIdEntita(), utente);
+					String msgReg = I18NManager.getSingleton().getMessaggio("userregistered", new String[] {utente.getNome(), utente.getCognome()});
+					Alert.info(msgReg, Alert.TITLE_OK);
 				}
 			} else {
 				Alert.segnalazioneErroreGrave(I18NManager.getSingleton().getMessaggio("userpresente"));

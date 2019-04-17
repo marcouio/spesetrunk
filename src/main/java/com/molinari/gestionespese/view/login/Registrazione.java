@@ -1,6 +1,10 @@
 package com.molinari.gestionespese.view.login;
 
+import java.awt.Color;
+import java.awt.Font;
+
 import javax.swing.JDialog;
+import javax.swing.JPasswordField;
 import javax.swing.WindowConstants;
 
 import com.molinari.gestionespese.view.font.ButtonF;
@@ -15,7 +19,7 @@ public class Registrazione extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final TextFieldF username;
-	private final TextFieldF password;
+	private final JPasswordField password;
 
 	public Registrazione() {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -35,7 +39,10 @@ public class Registrazione extends JDialog {
 		getContentPane().add(username);
 		username.setColumns(10);
 
-		password = new TextFieldF();
+		password = new JPasswordField();
+		password.setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
+		password.setBackground(Color.GRAY);
+		password.setForeground(Color.white);
 		password.setBounds(228, 151, 100, 25);
 		password.setColumns(10);
 		getContentPane().add(password);

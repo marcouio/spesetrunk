@@ -1,9 +1,12 @@
 package com.molinari.gestionespese.view.login;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Dialog.ModalityType;
 import java.util.logging.Level;
 
 import javax.swing.JDialog;
+import javax.swing.JPasswordField;
 import javax.swing.WindowConstants;
 
 import com.molinari.gestionespese.business.aggiornatori.AggiornatoreManager;
@@ -21,7 +24,7 @@ import com.molinari.utility.messages.I18NManager;
 public class Login {
 
 	final TextFieldF user;
-	final TextFieldF pass;
+	final JPasswordField pass;
 	private JDialog dialog = new JDialog();
 	
 	public Login() {
@@ -43,7 +46,10 @@ public class Login {
 		getDialog().getContentPane().add(user);
 		user.setColumns(10);
 
-		pass = new TextFieldF();
+		pass = new JPasswordField();
+		pass.setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
+		pass.setBackground(Color.GRAY);
+		pass.setForeground(Color.white);
 		pass.setColumns(10);
 		pass.setBounds(221, 94, 86, 25);
 		getDialog().getContentPane().add(pass);
@@ -52,7 +58,7 @@ public class Login {
 		lblLogin.setBounds(171, 25, 57, 32);
 		getDialog().getContentPane().add(lblLogin);
 
-		final ButtonF btnEntra = new ButtonF("Entra");
+		final ButtonF btnEntra = new ButtonF(I18NManager.getSingleton().getMessaggio("enter"));
 		btnEntra.setBounds(148, 148, 91, 23);
 		getDialog().getContentPane().add(btnEntra);
 
