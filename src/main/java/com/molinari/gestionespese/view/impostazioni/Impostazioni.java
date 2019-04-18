@@ -83,7 +83,7 @@ public class Impostazioni extends DialogoBase {
 		try {
 			this.setModalityType(ModalityType.APPLICATION_MODAL);
 			this.setTitle("Setting");
-			this.setPreferredSize(new Dimension(626, 250));
+			this.setPreferredSize(new Dimension(626, 280));
 			getContentPane().setLayout(null);
 
 			calendario = new LabelListaGruppi();

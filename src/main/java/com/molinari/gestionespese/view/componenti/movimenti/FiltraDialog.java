@@ -32,11 +32,11 @@ public abstract class FiltraDialog extends JDialog {
 	 */
 	public FiltraDialog() {
 		setTitle(I18NManager.getSingleton().getMessaggio("filtertrans"));
-		setBounds(100, 100, 663, 148);
+		setBounds(100, 100, 663, 168);
 		getContentPane().setLayout(null);
 
 		final JPanel buttonPane = new JPanel();
-		buttonPane.setBounds(0, 83, 661, 35);
+		buttonPane.setBounds(0, 83, 631, 35);
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane);
 
@@ -64,9 +64,7 @@ public abstract class FiltraDialog extends JDialog {
 		label.setBounds(17, 28, 43, 15);
 		getContentPane().add(label);
 
-		label = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio(
-				"to")
-				+ ":");
+		label = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("to")+ ":");
 		label.setBounds(18, 59, 43, 15);
 		getContentPane().add(label);
 
@@ -80,15 +78,11 @@ public abstract class FiltraDialog extends JDialog {
 		tfNome.setBounds(209, 26, 89, 25);
 		getContentPane().add(tfNome);
 
-		label = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio(
-				"name")
-				+ ":");
+		label = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("name")+ ":");
 		label.setBounds(163, 26, 55, 15);
 		getContentPane().add(label);
 
-		label = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio(
-				"eur")
-				+ ":");
+		label = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("eur")+ ":");
 		label.setBounds(307, 27, 55, 15);
 		getContentPane().add(label);
 
@@ -96,9 +90,7 @@ public abstract class FiltraDialog extends JDialog {
 		tfEuro.setColumns(10);
 		tfEuro.setBounds(341, 26, 89, 25);
 		getContentPane().add(tfEuro);
-		label = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio(
-				"category")
-				+ ":");
+		label = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("category")+ ":");
 		label.setBounds(443, 27, 82, 15);
 		getContentPane().add(label);
 
