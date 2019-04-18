@@ -44,7 +44,7 @@ import com.molinari.gestionespese.view.login.Registrazione;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.messages.I18NManager;
 
-public class MyMenu extends JMenuBar {
+public class ApplicationMenu extends JMenuBar {
 
 	private static final long serialVersionUID = 1L;
 	private JMenuItem itemOtherDb;
@@ -79,7 +79,7 @@ public class MyMenu extends JMenuBar {
 	private JCheckBoxMenuItem itemDati;
 	private JCheckBoxMenuItem mntmDataInsert;
 
-	public MyMenu() {
+	public ApplicationMenu() {
 		init();
 	}
 
@@ -396,7 +396,7 @@ public class MyMenu extends JMenuBar {
 		return new AscoltatoreAggiornatoreNiente() {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				final Impostazioni dialog = new Impostazioni();
+				final Impostazioni dialog = Impostazioni.getSingleton();
 				dialog.pack();
 				dialog.setVisible(true);
 				dialog.setModalityType(ModalityType.APPLICATION_MODAL);
@@ -410,11 +410,8 @@ public class MyMenu extends JMenuBar {
 
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				Finestra history;
 				try {
-					GeneralFrame generalFrame = Controllore.getGeneralFrame();
-					history = generalFrame.getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_HISTORY, generalFrame);
-					generalFrame.getInitFinestre().setVisibilitaFinestre(history, finestre, listaComandi);
+					setSelectedWindow(Controllore.getGeneralFrame(), InizializzatoreFinestre.INDEX_HISTORY);
 				} catch (final Exception e1) {
 					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}
@@ -428,30 +425,27 @@ public class MyMenu extends JMenuBar {
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
 				try {
-					GeneralFrame generalFrame = Controllore.getGeneralFrame();
-					Finestra report = generalFrame.getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_REPORT, generalFrame);
-					generalFrame.getInitFinestre().setVisibilitaFinestre(report, finestre, mntmReport);
+					setSelectedWindow(Controllore.getGeneralFrame(), InizializzatoreFinestre.INDEX_REPORT);
 				} catch (final Exception e1) {
 					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}
 			}
 		};
 	}
-
+	
 	private AscoltatoreAggiornatoreNiente getListenerDataInsert(final JMenu finestre, final JCheckBoxMenuItem mntmDataInsert) {
 		return new AscoltatoreAggiornatoreNiente() {
 			
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				Finestra note;
 				try {
-					GeneralFrame generalFrame = Controllore.getGeneralFrame();
-					note = generalFrame.getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_DATAINSERT, generalFrame.getInitFinestre().getPannello());
-					generalFrame.getInitFinestre().setVisibilitaFinestre(note, finestre, mntmDataInsert);
+					setSelectedWindow(Controllore.getGeneralFrame(), InizializzatoreFinestre.INDEX_DATAINSERT);
 				} catch (final Exception e1) {
 					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}
 			}
+
+			
 		};
 	}
 	private AscoltatoreAggiornatoreNiente getListenerNote(final JMenu finestre, final JCheckBoxMenuItem mntmNote) {
@@ -459,16 +453,34 @@ public class MyMenu extends JMenuBar {
 
 			@Override
 			public void actionPerformedOverride(final ActionEvent e) {
-				Finestra note;
 				try {
-					GeneralFrame generalFrame = Controllore.getGeneralFrame();
-					note = generalFrame.getInitFinestre().getFinestra(InizializzatoreFinestre.INDEX_NOTE, generalFrame);
-					generalFrame.getInitFinestre().setVisibilitaFinestre(note, finestre, mntmNote);
+					setSelectedWindow(Controllore.getGeneralFrame(), InizializzatoreFinestre.INDEX_NOTE);
 				} catch (final Exception e1) {
 					ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 				}
 			}
 		};
+	}
+	
+	private JCheckBoxMenuItem getCheckBoxMenuItem(int selectedIndex){
+		if(selectedIndex == InizializzatoreFinestre.INDEX_DATAINSERT) {
+			return mntmDataInsert;
+		}else if(selectedIndex == InizializzatoreFinestre.INDEX_HISTORY) {
+			return itemlistaComandi;
+		}else if(selectedIndex == InizializzatoreFinestre.INDEX_NOTE) {
+			return mntmNote;
+		}else if(selectedIndex == InizializzatoreFinestre.INDEX_PANNELLODATI) {
+			return itemDati;
+		}else if(selectedIndex == InizializzatoreFinestre.INDEX_REPORT) {
+			return itemReport;
+		}
+		return null;
+	}
+	
+	public void setSelectedWindow(GeneralFrame generalFrame, int selectedIndex) {
+
+		Finestra note = generalFrame.getInitFinestre().getFinestra(selectedIndex,generalFrame.getInitFinestre().getPannello());
+		generalFrame.getInitFinestre().setVisibilitaFinestre(note, menuFinestre, getCheckBoxMenuItem(selectedIndex));
 	}
 
 	private AscoltatoreAggiornatoreNiente getAscoltatoreSummary(final JMenu finestre,
@@ -497,6 +509,14 @@ public class MyMenu extends JMenuBar {
 
 			}
 		};
+	}
+
+	public JMenu getMenuFinestre() {
+		return menuFinestre;
+	}
+
+	public JCheckBoxMenuItem getMntmDataInsert() {
+		return mntmDataInsert;
 	}
 
 }

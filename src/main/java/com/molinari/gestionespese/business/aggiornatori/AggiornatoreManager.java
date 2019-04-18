@@ -41,6 +41,7 @@ import com.molinari.gestionespese.view.componenti.movimenti.ListaMovimentiUscite
 import com.molinari.gestionespese.view.datainsert.DataInsertView;
 import com.molinari.gestionespese.view.font.TableF;
 import com.molinari.gestionespese.view.impostazioni.CategorieView;
+import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 import com.molinari.gestionespese.view.tabellamesi.PerMesiF;
 import com.molinari.gestionespese.view.tabellamesi.TabellaUscita;
 import com.molinari.gestionespese.view.tabellamesi.TabellaUscitaGruppi;
@@ -85,6 +86,8 @@ public class AggiornatoreManager {
 
 	// ***************************************** METODI AGGIORNAMENTO
 	public static boolean aggiornamentoPerImpostazioni() {
+		
+		Impostazioni.getSingleton().updateText();
 		
 		aggiornaConsolleSql();
 		

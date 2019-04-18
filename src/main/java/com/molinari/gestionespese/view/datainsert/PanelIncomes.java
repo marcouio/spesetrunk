@@ -38,6 +38,7 @@ public class PanelIncomes extends AbstractEntrateView implements DataPanelView{
 	private LabelBase labEuro;
 	private ButtonBase inserisci;
 	private ButtonBase eliminaUltima;
+	private TextFieldTesto tfData;
 
 	public PanelIncomes(Container container) {
 		super(new WrapEntrate());
@@ -75,8 +76,8 @@ public class PanelIncomes extends AbstractEntrateView implements DataPanelView{
 		labData.posizionaSottoA(getFieldsIncome().getCbTipo(), 0, 15);
 		labData.setSize(width, HEIGHT_LABEL);
 		
-		TextFieldTesto tfData = new TextFieldTesto(pan);
-		tfData.setText(DBUtil.dataToString(new GregorianCalendar().getTime(), "yyyy/MM/dd"));
+		tfData = new TextFieldTesto(pan);
+		
 		getFieldsIncome().setTfData(tfData);
 		getFieldsIncome().getTfData().posizionaSottoA(labData, 0, 10);
 		getFieldsIncome().getTfData().setSize(width, HEIGHT_FIELD);
@@ -112,6 +113,7 @@ public class PanelIncomes extends AbstractEntrateView implements DataPanelView{
 		labEuro.setText(I18NManager.getSingleton().getMessaggio("eur"));
 		inserisci.setText(I18NManager.getSingleton().getMessaggio("insert"));
 		eliminaUltima.setText(I18NManager.getSingleton().getMessaggio("deletelast"));
+		tfData.setText(DBUtil.dataToString(new GregorianCalendar().getTime(), "yyyy/MM/dd"));
 		getFieldsIncome().getTaDescrizione().setText(I18NManager.getSingleton().getMessaggio("insertheredescrentry"));
 	}
 

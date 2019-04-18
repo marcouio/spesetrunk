@@ -6,6 +6,7 @@ import com.molinari.gestionespese.view.login.ListenerLogin;
 import com.molinari.utility.graphic.component.button.ButtonBase;
 import com.molinari.utility.graphic.component.container.PannelloBase;
 import com.molinari.utility.graphic.component.label.LabelBase;
+import com.molinari.utility.graphic.component.passwordfield.PasswordFieldBase;
 import com.molinari.utility.graphic.component.textfield.TextFieldBase;
 
 public class PanelLogin implements DataPanelView {
@@ -35,7 +36,7 @@ public class PanelLogin implements DataPanelView {
 		labPass.setSize(width, HEIGHT_LABEL);
 		labPass.posizionaSottoA(tfUser, 0, 15);
 		
-		TextFieldBase tfPass = new TextFieldBase(pan);
+		PasswordFieldBase tfPass = new PasswordFieldBase(pan);
 		tfPass.setSize(width, HEIGHT_FIELD);
 		tfPass.posizionaSottoA(labPass, 0, 10);
 		

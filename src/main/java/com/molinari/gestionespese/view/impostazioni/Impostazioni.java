@@ -12,8 +12,8 @@ import java.util.logging.Level;
 
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -39,9 +39,11 @@ import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreLangu
 import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreLook;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.graphic.component.alert.DialogoBase;
+import com.molinari.utility.messages.I18NManager;
 import com.molinari.utility.xml.CoreXMLManager;
 
-public class Impostazioni extends JDialog {
+public class Impostazioni extends DialogoBase {
 
 	private static final long serialVersionUID = 1L;
 	private static Impostazioni singleton;
@@ -52,17 +54,26 @@ public class Impostazioni extends JDialog {
 	private ArrayList<String> listaLook;
 	private JComboBox<ILookandfeel> comboLook;
 	private TextFieldF annotextField;
+	private LabelListaGruppi calendario;
+	private LabelListaGruppi lblImpostaAnno;
+	private LabelListaGruppi lblCaricaDatabase;
+	private ButtonF btnCarica;
+	private ButtonF btnChange;
+	private ButtonF elimina;
+	private LabelListaGruppi lbltstEliminaTuttiLe;
+	private LabelListaGruppi lbltstUtente;
+	private JLabel lblLang;
 	private static int anno = new GregorianCalendar().get(Calendar.YEAR);
 	private static JTextField caricaDatabase;
 
-	public Impostazioni() {
-		super();
+	public Impostazioni(JFrame container) {
+		super(container);
 		initGUI();
 	}
 
 	public static final synchronized Impostazioni getSingleton() {
 		if (singleton == null) {
-			singleton = new Impostazioni();
+			singleton = new Impostazioni(ControlloreBase.getApplicationframe());
 		}
 		return singleton;
 	} // getSingleton()
@@ -75,7 +86,7 @@ public class Impostazioni extends JDialog {
 			this.setPreferredSize(new Dimension(626, 250));
 			getContentPane().setLayout(null);
 
-			final JLabel calendario = new LabelListaGruppi("Data Odierna");
+			calendario = new LabelListaGruppi();
 			calendario.setBounds(22, 86, 87, 14);
 			dataOdierna = new TextFieldF();
 			dataOdierna.setBounds(140, 82, 113, 27);
@@ -86,34 +97,29 @@ public class Impostazioni extends JDialog {
 			getContentPane().add(calendario);
 
 			utente = new TextFieldF();
-			final Utenti utenteLogin = (Utenti) Controllore.getUtenteLogin();
-			utente.setText(utenteLogin != null ? utenteLogin.getusername() : null);
 			utente.setBounds(140, 126, 113, 27);
 			getContentPane().add(utente);
 
-			final JLabel lblImpostaAnno = new LabelListaGruppi("Imposta anno");
+			lblImpostaAnno = new LabelListaGruppi();
 			lblImpostaAnno.setBounds(278, 79, 97, 27);
 			getContentPane().add(lblImpostaAnno);
 
-			final ButtonF btnChange = new ButtonF();
-			btnChange.setText("Cambia");
+			btnChange = new ButtonF();
 			btnChange.setBounds(504, 78, 91, 27);
 			btnChange.addActionListener(getListenerChange());
 			getContentPane().add(btnChange);
 
-			final JLabel lblCaricaDatabase = new LabelListaGruppi("Carica Database");
+			lblCaricaDatabase = new LabelListaGruppi();
 			lblCaricaDatabase.setBounds(22, 183, 113, 14);
 			getContentPane().add(lblCaricaDatabase);
 
-			final ButtonF btnCarica = new ButtonF();
-			btnCarica.setText("Carica");
+			btnCarica = new ButtonF();
 			btnCarica.setBounds(333, 179, 91, 27);
 			getContentPane().add(btnCarica);
 			btnCarica.addActionListener(getListenerCharge());
 
 			caricaDatabase = new TextFieldF();
 			caricaDatabase.setBounds(140, 179, 149, 27);
-			caricaDatabase.setText(posDatabase);
 			getContentPane().add(caricaDatabase);
 
 			final ButtonF button = new ButtonF();
@@ -121,8 +127,7 @@ public class Impostazioni extends JDialog {
 			button.setBounds(287, 179, 29, 27);
 			getContentPane().add(button);
 
-			final ButtonF elimina = new ButtonF();
-			elimina.setText("Elimina");
+			elimina = new ButtonF();
 			elimina.addActionListener(getListenerDelete());
 
 			elimina.setBounds(504, 125, 91, 27);
@@ -132,13 +137,11 @@ public class Impostazioni extends JDialog {
 			desktopPane.setBounds(94, 138, 1, 1);
 			getContentPane().add(desktopPane);
 
-			final LabelListaGruppi lbltstEliminaTuttiLe = new LabelListaGruppi("Carica Database");
-			lbltstEliminaTuttiLe.setText("Elimina dati per entrate e uscite");
+			lbltstEliminaTuttiLe = new LabelListaGruppi();
 			lbltstEliminaTuttiLe.setBounds(278, 126, 232, 27);
 			getContentPane().add(lbltstEliminaTuttiLe);
 
-			final LabelListaGruppi lbltstUtente = new LabelListaGruppi("Data Odierna");
-			lbltstUtente.setText("Utente");
+			lbltstUtente = new LabelListaGruppi();
 			lbltstUtente.setBounds(22, 130, 87, 14);
 			getContentPane().add(lbltstUtente);
 
@@ -174,7 +177,7 @@ public class Impostazioni extends JDialog {
 			labelLook.setBounds(22, 29, 70, 15);
 			getContentPane().add(labelLook);
 
-			final JLabel lblLang = new JLabel("Language");
+			lblLang = new JLabel();
 			lblLang.setBounds(278, 29, 113, 15);
 			getContentPane().add(lblLang);
 
@@ -212,9 +215,26 @@ public class Impostazioni extends JDialog {
 				}
 			});
 
+			updateText();
+			
 		} catch (final Exception e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
+	}
+
+	public void updateText() {
+		final Utenti utenteLogin = (Utenti) Controllore.getUtenteLogin();
+		lblLang.setText(I18NManager.getSingleton().getMessaggio("lang"));
+		calendario.setText(I18NManager.getSingleton().getMessaggio("todaydate"));
+		utente.setText(utenteLogin != null ? utenteLogin.getusername() : null);
+		lblImpostaAnno.setText(I18NManager.getSingleton().getMessaggio("setyear"));
+		btnChange.setText(I18NManager.getSingleton().getMessaggio("change"));
+		lblCaricaDatabase.setText(I18NManager.getSingleton().getMessaggio("loaddb"));
+		btnCarica.setText(I18NManager.getSingleton().getMessaggio("load"));
+		elimina.setText(I18NManager.getSingleton().getMessaggio("delete"));
+		lbltstEliminaTuttiLe.setText(I18NManager.getSingleton().getMessaggio("deleteAll"));
+		lbltstUtente.setText(I18NManager.getSingleton().getMessaggio("user"));
+		update(getGraphics());
 	}
 
 	private AscoltatoreAggiornatoreTutto getListenerDelete() {
@@ -224,7 +244,7 @@ public class Impostazioni extends JDialog {
 				if (Model.getSingleton().getModelEntrate().deleteAll()
 						&& Model.getSingleton().getModelUscita().deleteAll()) {
 					// creare comando per eliminare tutto
-					Alert.segnalazioneInfo("Ok, tutti i dati sono stati cancellati: puoi ripartire!");
+					Alert.segnalazioneInfo(I18NManager.getSingleton().getMessaggio("okdeleteall"));
 					try {
 						AggiornatoreManager.aggiornamentoGenerale(Entrate.NOME_TABELLA);
 						AggiornatoreManager.aggiornamentoGenerale(SingleSpesa.NOME_TABELLA);

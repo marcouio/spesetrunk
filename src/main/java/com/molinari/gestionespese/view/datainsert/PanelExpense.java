@@ -42,6 +42,7 @@ public class PanelExpense extends AbstractUsciteView implements DataPanelView  {
 	private ButtonBase inserisci;
 	private ButtonBase eliminaUltima;
 	private ComboBoxBase<ICatSpese>  cCategorie;
+	private TextFieldTesto tfData;
 	
 	private static final int HEIGHT_FIELD = 30;
 	private static final int HEIGHT_LABEL = 15;
@@ -92,9 +93,8 @@ public class PanelExpense extends AbstractUsciteView implements DataPanelView  {
 		labData.setSize(width, HEIGHT_LABEL);
 		labData.posizionaSottoA(getFieldsExpense().getTfEuro(), 0, 15);
 		
-		TextFieldTesto tfData = new TextFieldTesto(pan);
-		final GregorianCalendar gc = new GregorianCalendar();
-		tfData.setText(DBUtil.dataToString(gc.getTime(), "yyyy/MM/dd"));
+		tfData = new TextFieldTesto(pan);
+		
 		getFieldsExpense().setTfData(tfData);
 		getFieldsExpense().getTfData().setSize(width, HEIGHT_FIELD);
 		getFieldsExpense().getTfData().posizionaSottoA(labData, 0, 10);
@@ -129,6 +129,8 @@ public class PanelExpense extends AbstractUsciteView implements DataPanelView  {
 		inserisci.setText(I18NManager.getSingleton().getMessaggio("insert"));
 		eliminaUltima.setText(I18NManager.getSingleton().getMessaggio("deletelast"));
 		getFieldsExpense().getTaDescrizione().setText(I18NManager.getSingleton().getMessaggio("insertheredescr"));
+		final GregorianCalendar gc = new GregorianCalendar();
+		tfData.setText(DBUtil.dataToString(gc.getTime(), "yyyy/MM/dd"));
 	}
 
 	@Override

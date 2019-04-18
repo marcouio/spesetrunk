@@ -4,7 +4,7 @@ import java.awt.Container;
 
 import com.molinari.gestionespese.business.InizializzatoreFinestre;
 import com.molinari.gestionespese.view.componenti.PannelloBottoniSpese;
-import com.molinari.gestionespese.view.mymenu.MyMenu;
+import com.molinari.gestionespese.view.mymenu.ApplicationMenu;
 import com.molinari.utility.graphic.component.buttonpanel.PannelloBottoni;
 import com.molinari.utility.graphic.component.container.PannelloBase;
 import com.molinari.utility.math.UtilMath;
@@ -17,15 +17,14 @@ public class GeneralFrame extends PannelloBase {
 	private transient PannelTabs pannelTabs;
 	private transient InizializzatoreFinestre initFinestre;
 	private PannelloBottoniSpese pannelloBottoni;
-	private MyMenu menu;
+	private ApplicationMenu menu;
 
 
 	public GeneralFrame(Container contenitore) {
 		super(contenitore);
 		setBounds(10, 10, contenitore.getWidth(), contenitore.getHeight());
 
-		final MyMenu menuLoc = createMenu();
-
+		final ApplicationMenu menuLoc = createMenu();
 		pannelloBottoni = createPannelloBottoni(menuLoc);
 
 		createTabsPanel(this, pannelloBottoni);
@@ -34,7 +33,13 @@ public class GeneralFrame extends PannelloBase {
 		getPannelTabs().getConsolle().setVisible(true);
 		
 		getInitFinestre();
+		
 		repaint();
+		
+	}
+	
+	public void setSelectedWindow(int index) {
+		getMenu().setSelectedWindow(this, index);	
 	}
 
 	public void createTabsPanel(Container contenitore, PannelloBottoni pannelloBottoni) {
@@ -52,22 +57,22 @@ public class GeneralFrame extends PannelloBase {
 		return getContenitorePadre().getHeight() / 100 * 13;
 	}
 
-	public MyMenu createMenu() {
-		setMenu(new MyMenu());
+	public ApplicationMenu createMenu() {
+		setMenu(new ApplicationMenu());
 		getMenu().setBounds(0, 0, this.getWidth(), MENU_HEIGHT);
 		add(getMenu());
 		getMenu().setVisible(true);
 		return getMenu();
 	}
 
-	private PannelloBottoniSpese createPannelloBottoni(MyMenu menu) {
+	private PannelloBottoniSpese createPannelloBottoni(ApplicationMenu menu) {
 		
 		final PannelloBottoniSpese pannelloBottoniLoc = initPannelloBottoni(menu);
 		add(pannelloBottoniLoc);		
 		return pannelloBottoniLoc;
 	}
 	
-	private PannelloBottoniSpese initPannelloBottoni(MyMenu menu) {
+	private PannelloBottoniSpese initPannelloBottoni(ApplicationMenu menu) {
 		final PannelloBottoniSpese pannelloBottoniLoc = new PannelloBottoniSpese(this);
 		final int heightBtnPanel = getHeightBtnPanel();
 		pannelloBottoniLoc.posizionaSottoA(menu, 0, 3);
@@ -97,11 +102,11 @@ public class GeneralFrame extends PannelloBase {
 		return initFinestre;
 	}
 
-	public MyMenu getMenu() {
+	public ApplicationMenu getMenu() {
 		return menu;
 	}
 
-	public void setMenu(MyMenu menu) {
+	public void setMenu(ApplicationMenu menu) {
 		this.menu = menu;
 	}
 

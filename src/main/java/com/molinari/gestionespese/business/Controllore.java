@@ -156,11 +156,12 @@ public class Controllore extends StarterBase{
 		view = frame;
 		view.setVisible(true);
 		setStartUtenteLogin();
-
+		
 		settaLookFeel();
 
 		view.setTitle(I18NManager.getSingleton().getMessaggio("title"));
 
+		genPan.setSelectedWindow(InizializzatoreFinestre.INDEX_DATAINSERT);
 	}
 
 	public String getDatabaseUrl() {
