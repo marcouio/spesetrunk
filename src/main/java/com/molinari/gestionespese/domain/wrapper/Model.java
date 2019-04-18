@@ -175,11 +175,11 @@ public class Model {
 
 	// *************************************CATEGORIE-PERCOMBOBOX***********************************
 
-	public CatSpese[] getCategorieCombo(final boolean ricarica) {
+	public ICatSpese[] getCategorieCombo(final boolean ricarica) {
 		final CacheCategorie cache = CacheCategorie.getSingleton();
 		cache.setCaricata(!ricarica);
 		List<ICatSpese> listCategoriePerCombo = cache.getVettoreCategorie();
-		return listCategoriePerCombo.toArray(new CatSpese[listCategoriePerCombo.size()]);
+		return listCategoriePerCombo.toArray(new ICatSpese[listCategoriePerCombo.size()]);
 	}
 
 	// *************************************GRUPPI-PERCOMBOBOX***********************************

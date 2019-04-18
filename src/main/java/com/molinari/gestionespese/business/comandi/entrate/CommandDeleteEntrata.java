@@ -17,6 +17,11 @@ public class CommandDeleteEntrata extends CommandDelete<IEntrate> implements ICo
 	public String toString() {
 		return "Eliminata Entrata " + entita.getNome();
 	}
+	
+	@Override
+	protected boolean isValidEntity(IEntrate entita) {
+		return !"0".equals(entita.getIdEntita());
+	}
 
 	@Override
 	public void scriviLogExecute(final boolean isComandoEseguito) {

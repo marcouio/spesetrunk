@@ -15,13 +15,18 @@ public class CommandDelete<T extends AbstractOggettoEntita> extends AbstractComm
 
 	@Override
 	public boolean execute() {
-		if (wrap.delete(Integer.parseInt(entita.getIdEntita()))) {
+		int idEntity = Integer.parseInt(entita.getIdEntita());
+		if (isValidEntity(entita) && wrap.delete(idEntity)) {
 			mappaCache.remove(entita.getIdEntita());
 			return true;
 		} else {
 			return false;
 		}
 
+	}
+
+	protected boolean isValidEntity(T entita) {
+		return true;
 	}
 
 	@Override

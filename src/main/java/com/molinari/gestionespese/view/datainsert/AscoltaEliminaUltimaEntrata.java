@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreEntrate;
 import com.molinari.gestionespese.business.comandi.entrate.CommandDeleteEntrata;
+import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.alert.Alert;
 import com.molinari.utility.messages.I18NManager;
@@ -28,9 +29,9 @@ final class AscoltaEliminaUltimaEntrata extends AscoltatoreAggiornatoreEntrate {
 		super.actionPerformedOverride(e);
 
 		try {
-			this.panelIncomes.aggiornaModelDaVista();
 			if (Controllore.invocaComando(new CommandDeleteEntrata(this.panelIncomes.getModelEntrate()))) {
 				final String msg = I18NManager.getSingleton().getMessaggio("okentrata")+" " + this.panelIncomes.getModelEntrate().getnome() + " "+ I18NManager.getSingleton().getMessaggio("correctlydeleted");
+				this.panelIncomes.setModelEntrate(new WrapEntrate());
 				Alert.segnalazioneInfo(msg);
 			}
 		} catch (final Exception e2) {

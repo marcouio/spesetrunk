@@ -23,6 +23,11 @@ public class CommandDeleteSpesa extends CommandDelete<ISingleSpesa> {
 		}
 
 	}
+	
+	@Override
+	protected boolean isValidEntity(ISingleSpesa entita) {
+		return !"0".equals(entita.getIdEntita());
+	}
 
 	@Override
 	public void scriviLogUnExecute(boolean isComandoEseguito) {

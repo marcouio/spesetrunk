@@ -109,7 +109,7 @@ public class DialogUsciteMov extends AbstractUsciteView {
 		}
 		setcNome(tfNome.getText());
 		setcDescrizione(taDescrizione.getText());
-		setCategoria((CatSpese) cbCategorie.getSelectedItem());
+		setCategoria((ICatSpese) cbCategorie.getSelectedItem());
 		if (AltreUtil.checkData(tfData.getText())) {
 			setcData(tfData.getText());
 		} else {
@@ -194,10 +194,12 @@ public class DialogUsciteMov extends AbstractUsciteView {
 
 		@Override
 		public void actionPerformed(final ActionEvent e) {
-			if (e.getActionCommand().equals(I18NManager.getSingleton().getMessaggio("update"))) {
+			String deleteStr = I18NManager.getSingleton().getMessaggio("delete");
+			String updateStr = I18NManager.getSingleton().getMessaggio("update");
+			if (e.getActionCommand().equals(updateStr)) {
 				update();
 
-			} else if ("Cancella".equals(e.getActionCommand())) {
+			} else if (deleteStr.equals(e.getActionCommand())) {
 				cancella();
 			}
 		}

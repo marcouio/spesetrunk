@@ -48,7 +48,7 @@ public class TableModelEntrate extends TableModel{
 		if(listaColonne == null){
 			final String fisse = I18NManager.getSingleton().getMessaggio("fixity");
 			final String variabili = I18NManager.getSingleton().getMessaggio("variables");
-			listaColonne = new String[]{fisse, variabili};
+			listaColonne = new String[]{variabili, fisse};
 		}
 		return listaColonne;
 	}
@@ -56,7 +56,7 @@ public class TableModelEntrate extends TableModel{
 		if(listaColonne == null){
 			final String fisse = "fisse";
 			final String variabili = "variabili";
-			listaColonne = new String[]{fisse, variabili};
+			listaColonne = new String[]{variabili, fisse};
 		}
 		return listaColonne;
 	}
