@@ -25,14 +25,12 @@ import com.molinari.gestionespese.domain.Gruppi;
 import com.molinari.gestionespese.domain.Note;
 import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.Utenti;
-import com.molinari.gestionespese.view.font.ButtonF;
-import com.molinari.gestionespese.view.font.TableF;
-import com.molinari.gestionespese.view.font.TextAreaF;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.alert.Alert;
 import com.molinari.utility.graphic.component.button.ButtonBase;
 import com.molinari.utility.graphic.component.container.PannelloBase;
 import com.molinari.utility.graphic.component.container.ScrollPaneBase;
+import com.molinari.utility.graphic.component.table.TableBase;
 import com.molinari.utility.graphic.component.table.TableModel;
 import com.molinari.utility.graphic.component.textarea.TextAreaBase;
 import com.molinari.utility.math.UtilMath;
@@ -91,7 +89,7 @@ public class NewSql extends PannelloBase {
 		final int widthInfoButton = (int) UtilMath.getPercentage(getContenitorePadre().getWidth(), 5);
 		final int widthButton = (int) UtilMath.getPercentage(getContenitorePadre().getWidth(), 10);
 		final ButtonBase bottone = new ButtonBase(headerPane);
-		bottone.addActionListener(getRunListener());
+		bottone.addActionListener(getRunListener(headerPane));
 		final int heightButton = headerPane.getHeight() / 2;
 		bottone.setSize(widthButton, heightButton);
 		headerPane.add(bottone);
@@ -115,14 +113,14 @@ public class NewSql extends PannelloBase {
 		headerPane.add(jsp);
 
 
-		final ButtonBase buttonF = new ButtonBase(this);
-		buttonF.posizionaADestraDi(areaSql, 0, 0);
-		buttonF.setBackground(Color.WHITE);
+		final ButtonBase ButtonBase = new ButtonBase(this);
+		ButtonBase.posizionaADestraDi(areaSql, 0, 0);
+		ButtonBase.setBackground(Color.WHITE);
 		final ImageIcon image = new ImageIcon(AltreUtil.IMGUTILPATH+"info.gif");
-		buttonF.setIcon(image);
-		buttonF.setSize(widthInfoButton, headerPane.getHeight());
-		headerPane.add(buttonF);
-		buttonF.addActionListener(new InfoListener());
+		ButtonBase.setIcon(image);
+		ButtonBase.setSize(widthInfoButton, headerPane.getHeight());
+		headerPane.add(ButtonBase);
+		ButtonBase.addActionListener(new InfoListener());
 		bottoneSvuota.addActionListener(getCleanListener());
 	}
 
@@ -132,7 +130,7 @@ public class NewSql extends PannelloBase {
 		};
 	}
 
-	private ActionListener getRunListener() {
+	private ActionListener getRunListener(PannelloBase headerPane2) {
 		return new ActionListener() {
 
 			@Override
@@ -141,7 +139,7 @@ public class NewSql extends PannelloBase {
 				try {
 					final Map<String, ArrayList<String>> nomi = Database.getSingleton().terminaleSql(sql);
 					if(!nomi.isEmpty()){
-						addTable(nomi);
+						addTable(nomi, headerPane2);
 					}
 
 				} catch (final Exception e1) {
@@ -150,7 +148,7 @@ public class NewSql extends PannelloBase {
 				}
 			}
 
-			private void addTable(final Map<String, ArrayList<String>> nomi) {
+			private void addTable(final Map<String, ArrayList<String>> nomi, Container container) {
 				TableModel tableModel = new TableModel(nomi) {
 					
 					private static final long serialVersionUID = 1L;
@@ -167,7 +165,9 @@ public class NewSql extends PannelloBase {
 				};
 				
 				final List<String> listaCelle = tableModel.getNomiColonne().getListaCelle();
-				final TableF table = new TableF(tableModel.getMatrice(), listaCelle.toArray(new String[listaCelle.size()]));
+				String[][] dati = (String[][]) tableModel.getMatrice();
+				String[] colonne = listaCelle.toArray(new String[listaCelle.size()]);
+				final TableBase table = new TableBase(dati, colonne, container);
 				table.setFillsViewportHeight(true);
 				result.setViewportView(table);
 			}
@@ -190,7 +190,7 @@ public class NewSql extends PannelloBase {
 			final JDialog d = new JDialog();
 			d.setLayout(new BorderLayout());
 			d.setSize(400, 180);
-			final TextAreaF lt = new TextAreaF();
+			final TextAreaBase lt = new TextAreaBase(d);
 
 			// specifica se �true� di andare a capo automaticamente a
 			// fine riga
@@ -203,7 +203,7 @@ public class NewSql extends PannelloBase {
 			lt.setText(sb.toString());
 			lt.setEditable(false);
 			d.add(lt, BorderLayout.NORTH);
-			final ButtonF b = new ButtonF();
+			final ButtonBase b = new ButtonBase(d);
 			d.add(b, BorderLayout.CENTER);
 			b.setText(I18NManager.getSingleton().getMessaggio("close"));
 			b.setBounds(0, 150, d.getWidth(), 30);

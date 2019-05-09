@@ -11,7 +11,6 @@ import javax.swing.JComboBox;
 
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.cache.CacheGruppi;
-import com.molinari.gestionespese.domain.Gruppi;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.wrapper.WrapGruppi;
@@ -41,7 +40,7 @@ public class PanelGroups extends AbstractGruppiView implements DataPanelView{
 	private ButtonBase inserisci;
 	private LabelBase lbltstListaGruppi;
 	
-	private Gruppi gruppi = null;
+	private IGruppi gruppi = null;
 	private ButtonBase aggiorna;
 	private ButtonBase cancella;
 	
@@ -86,7 +85,7 @@ public class PanelGroups extends AbstractGruppiView implements DataPanelView{
 		
 		cbGruppi.addItemListener(e -> {
 			if (cbGruppi.getSelectedIndex() != 0 && cbGruppi.getSelectedItem() != null) {
-				gruppi = (Gruppi) cbGruppi.getSelectedItem();
+				gruppi = (IGruppi) cbGruppi.getSelectedItem();
 				tfNome.setText(gruppi.getnome());
 				tfDescr.setText(gruppi.getdescrizione());
 			}
@@ -112,7 +111,7 @@ public class PanelGroups extends AbstractGruppiView implements DataPanelView{
 
 	public void initGroupsCombo() {
 		final List<IGruppi> vettoreGruppi = CacheGruppi.getSingleton().getVettoreGruppi();
-		vettoreGruppi.add(0, new Gruppi());
+		vettoreGruppi.add(0, new WrapGruppi());
 		ComboBoxModel<IGruppi> modelGroup = new DefaultComboBoxModel<>(new Vector<>(vettoreGruppi));
 		cbGruppi.setModel(modelGroup);
 	}

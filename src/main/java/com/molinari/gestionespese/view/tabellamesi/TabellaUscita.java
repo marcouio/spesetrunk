@@ -2,6 +2,7 @@
 
 package com.molinari.gestionespese.view.tabellamesi;
 
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.List;
@@ -11,8 +12,8 @@ import javax.swing.JScrollPane;
 
 import com.molinari.gestionespese.business.generatori.TableModelUscite;
 import com.molinari.gestionespese.view.OggettoVistaBase;
-import com.molinari.gestionespese.view.font.TableF;
 import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.table.TableBase;
 import com.molinari.utility.graphic.component.table.TableModel;
 
 public class TabellaUscita {
@@ -24,12 +25,12 @@ public class TabellaUscita {
 
 
 
-	public TabellaUscita() {
+	public TabellaUscita(Container container) {
 		panel = new OggettoVistaBase(new GridLayout(1,0));
 
 		try {
 			TableModelUscite model = new TableModelUscite(null);
-			final TableF table = createTable(model);
+			final TableBase table = createTable(model, container);
 			//Create the scroll pane and add the table to it.
 			scrollPane = new JScrollPane(table);
 
@@ -52,14 +53,17 @@ public class TabellaUscita {
 	/**
 	 *
 	 * Permette di generare una tabella
+	 * @param container 
 	 *
 	 * @param primo
 	 * @param nomiColonne
-	 * @return TableF
+	 * @return TableBase
 	 */
-	public static TableF createTable(TableModel model) {
+	public static TableBase createTable(TableModel model, Container container) {
 		final List<String> nomiColonne = model.getNomiColonne().getListaCelle();
-		final TableF table = new TableF(model.getMatrice(), nomiColonne.toArray(new String[nomiColonne.size()]));
+		String[][] dati = (String[][]) model.getMatrice();
+		String[] colonne = nomiColonne.toArray(new String[nomiColonne.size()]);
+		final TableBase table = new TableBase(dati, colonne, container);
 
 		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
 		table.setFillsViewportHeight(true);

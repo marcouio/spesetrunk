@@ -36,14 +36,19 @@ public abstract class AbstractCacheBase<T extends AbstractOggettoEntita> {
 	}
 
 	public T getObjectById(IDAO<T> dao, String id){
-		T obj = cache.get(id);
-		if (obj == null) {
-			obj = caricaObj(dao, id);
-			if (obj != null) {
-				cache.put(id, obj);
+		if(caricata) {
+			T obj = cache.get(id);
+			if (obj == null) {
+				obj = caricaObj(dao, id);
+				if (obj != null) {
+					cache.put(id, obj);
+				}
 			}
+			return cache.get(id);
+		}else {
+			Map<String, T> all = getAll(dao);
+			return all.get(id);
 		}
-		return cache.get(id);
 	}
 
 	public Map<String, T> chargeAllObject(IDAO<T> dao) {
@@ -64,15 +69,14 @@ public abstract class AbstractCacheBase<T extends AbstractOggettoEntita> {
 	}
 
 	private void putInCache(final T object, final String id) {
-		if (cache.get(id) == null) {
-			cache.put(id, object);
-		}
+		cache.put(id, object);
 	}
 
 	public Map<String, T> getAll(IDAO<T> dao) {
 		if (caricata) {
 			return cache;
 		} else {
+			cache.clear();
 			return chargeAllObject(dao);
 		}
 	}

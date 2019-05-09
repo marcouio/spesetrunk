@@ -6,33 +6,34 @@ import java.awt.event.ActionListener;
 import java.util.logging.Level;
 
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import com.molinari.gestionespese.view.font.ButtonF;
-import com.molinari.gestionespese.view.font.LabelListaGruppi;
-import com.molinari.gestionespese.view.font.TableF;
-import com.molinari.gestionespese.view.font.TextFieldF;
 import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.button.ButtonBase;
 import com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.graphic.component.label.LabelTestoPiccolo;
+import com.molinari.utility.graphic.component.table.TableBase;
+import com.molinari.utility.graphic.component.textfield.TextFieldBase;
 import com.molinari.utility.math.UtilMath;
 import com.molinari.utility.messages.I18NManager;
 
 public abstract class AbstractListaMov extends PannelloBase {
 	private static final long serialVersionUID = 1L;
 	int numMovimenti = 10;
-	TableF table;
+	TableBase table;
 	private JScrollPane scrollPane;
 	protected JTextField campo;
 	String[][] movimenti;
-	protected ButtonF pulsanteNMovimenti;
+	protected ButtonBase pulsanteNMovimenti;
 	protected JDialog dialog;
-	protected ButtonF updateButton;
-	protected ButtonF deleteButton;
+	protected ButtonBase updateButton;
+	protected ButtonBase deleteButton;
 
 	private transient AscoltatoreBottoniEntrata ascoltatore;
+	private LabelTestoPiccolo movim;
+	private ButtonBase btnFiltraMovimenti;
 
 	public AbstractListaMov(Container contenitore) {
 		super(contenitore);
@@ -54,7 +55,7 @@ public abstract class AbstractListaMov extends PannelloBase {
 
 			movimenti = createMovimenti();
 
-			table = new TableF(movimenti, nomiColonne);
+			table = new TableBase(movimenti, nomiColonne, this);
 			impostaTable(table);
 			if (this instanceof ListaMovimentiEntrate) {
 				table.addMouseListener(new AscoltatoreBottoniEntrata(this.getTable()));
@@ -71,6 +72,8 @@ public abstract class AbstractListaMov extends PannelloBase {
 			contentPanel.posizionaSottoA(filterPanel, 0, 0);
 			contentPanel.add(scrollPane);
 			scrollPane.setBounds(0, 0, getContenitorePadre().getWidth(), getContenitorePadre().getHeight()- filterPanel.getHeight());
+			
+			updateText();
 
 
 		} catch (final Exception e) {
@@ -79,25 +82,30 @@ public abstract class AbstractListaMov extends PannelloBase {
 
 	}
 
+	public void updateText() {
+		pulsanteNMovimenti.setText(I18NManager.getSingleton().getMessaggio("change"));
+		movim.setText(I18NManager.getSingleton().getMessaggio("transactions")+":");
+		btnFiltraMovimenti.setText(I18NManager.getSingleton().getMessaggio("filtertrans"));
+	}
+
 	private PannelloBase createFilterPanel() {
 		final PannelloBase filterPan = new PannelloBase(this);
 		final double height = UtilMath.getPercentage(getContenitorePadre().getHeight(), 10);
 		filterPan.setSize(getContenitorePadre().getWidth(), (int) height);
-		final JLabel movim = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("transactions")+":");
+		movim = new LabelTestoPiccolo(filterPan);
+		
 		movim.setBounds(24, 5, 89, 30);
 		filterPan.add(movim);
-		campo = new TextFieldF();
+		campo = new TextFieldBase(filterPan);
 		campo.setBounds(116, 7, 43, 25);
 		campo.setText("20");
 		numMovimenti = Integer.parseInt(campo.getText());
 		filterPan.add(campo);
-		pulsanteNMovimenti = new ButtonF();
-		pulsanteNMovimenti.setText(I18NManager.getSingleton().getMessaggio("change"));
+		pulsanteNMovimenti = new ButtonBase(filterPan);
 		pulsanteNMovimenti.setBounds(178, 7, 89, 25);
 		filterPan.add(pulsanteNMovimenti);
 
-		final ButtonF btnFiltraMovimenti = new ButtonF();
-		btnFiltraMovimenti.setText(I18NManager.getSingleton().getMessaggio("filtertrans"));
+		btnFiltraMovimenti = new ButtonBase(filterPan);
 		btnFiltraMovimenti.setBounds(292, 6, 179, 25);
 		btnFiltraMovimenti.addActionListener(getListener());
 		filterPan.add(btnFiltraMovimenti);
@@ -151,11 +159,11 @@ public abstract class AbstractListaMov extends PannelloBase {
 		this.scrollPane = scrollPane;
 	}
 
-	public TableF getTable() {
+	public TableBase getTable() {
 		return table;
 	}
 
-	public void setTable(final TableF table) {
+	public void setTable(final TableBase table) {
 		this.table = table;
 	}
 

@@ -11,10 +11,10 @@ import javax.swing.JLabel;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreNiente;
-import com.molinari.gestionespese.view.font.ButtonF;
-import com.molinari.gestionespese.view.font.LabelListaGruppi;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.graphic.component.button.ButtonBase;
+import com.molinari.utility.graphic.component.label.LabelTestoPiccolo;
 import com.molinari.utility.messages.I18NManager;
 
 public class Help extends JDialog {
@@ -29,29 +29,29 @@ public class Help extends JDialog {
 		label.setBounds(36, 55, 138, 297);
 		add(label);
 
-		final JLabel lblGestionespese = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("description"));
+		final JLabel lblGestionespese = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("description"), this);
 		lblGestionespese.setBounds(184, 45, 391, 28);
 		add(lblGestionespese);
 
-		final JLabel lblVersione = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("version"));
+		final JLabel lblVersione = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("version"), this);
 		lblVersione.setBounds(184, 85, 240, 28);
 		add(lblVersione);
 
-		final JLabel lblVersione2 = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("version"));
+		final JLabel lblVersione2 = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("version"), this);
 		lblVersione2.setBounds(184, 85, 240, 28);
 		add(lblVersione2);
 
-		final JLabel lblMarcoMolinari = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("copyright"));
+		final JLabel lblMarcoMolinari = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("copyright"), this);
 		lblMarcoMolinari.setBounds(184, 124, 327, 28);
 		add(lblMarcoMolinari);
 
-		final JLabel help = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("clickherehelp"));
+		final JLabel help = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("clickherehelp"), this);
 		help.setText(I18NManager.getSingleton().getMessaggio("cliccahelp"));
 		help.setBounds(184, 163, 215, 28);
 
 		add(help);
 
-		final ButtonF btnHelp = new ButtonF();
+		final ButtonBase btnHelp = new ButtonBase(this);
 		btnHelp.setText(I18NManager.getSingleton().getMessaggio("help"));
 		btnHelp.setBounds(389, 166, 91, 23);
 		btnHelp.addActionListener(new AscoltatoreAggiornatoreNiente() {

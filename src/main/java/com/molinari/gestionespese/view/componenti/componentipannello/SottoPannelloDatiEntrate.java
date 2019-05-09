@@ -1,5 +1,6 @@
 package com.molinari.gestionespese.view.componenti.componentipannello;
 
+import java.awt.Container;
 import java.util.logging.Level;
 
 import javax.swing.JComponent;
@@ -8,9 +9,10 @@ import javax.swing.JTextField;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Database;
-import com.molinari.gestionespese.view.font.LabelTestoPiccolo;
-import com.molinari.gestionespese.view.font.TextFieldF;
 import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.graphic.component.label.LabelTestoPiccolo;
+import com.molinari.utility.graphic.component.textfield.TextFieldBase;
 import com.molinari.utility.messages.I18NManager;
 
 public class SottoPannelloDatiEntrate {
@@ -23,34 +25,35 @@ public class SottoPannelloDatiEntrate {
 	private JLabel[]                  labels     = new JLabel[3];
 	private CostruttoreSottoPannello  pannello;
 
-	public SottoPannelloDatiEntrate() {
+	public SottoPannelloDatiEntrate(Container container) {
 		super();
+		pannello = new CostruttoreSottoPannello(new PannelloBase(container), componenti, labels);
 		initGUI();
-		pannello = new CostruttoreSottoPannello(componenti, labels, CostruttoreSottoPannello.VERTICAL);
+		pannello.initGUI(componenti, labels);
 	}
 
 	private void initGUI() {
 		try {
-			final JLabel label1 = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("thisyear"));
+			final JLabel label1 = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("thisyear"), pannello.getPannello());
 			label1.setBounds(164, 66, 141, 14);
 			labels[2] = label1;
 
-			final JLabel label2 = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("lastmonth"));
+			final JLabel label2 = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("lastmonth"), pannello.getPannello());
 			label2.setBounds(16, 67, 136, 14);
 			labels[1] = label2;
 
-			final JLabel label3 = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("thismonth"));
+			final JLabel label3 = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("thismonth"), pannello.getPannello());
 			label3.setBounds(317, 67, 113, 14);
 			labels[0] = label3;
 
-			entrateMesePrec = new TextFieldF();
+			entrateMesePrec = new TextFieldBase(pannello.getPannello());
 			final double emensile = Database.eMensile();
 			entrateMesePrec.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(emensile)));
 			entrateMesePrec.setBounds(16, 85, 106, 27);
 			componenti[1] = entrateMesePrec;
 			entrateMesePrec.setColumns(10);
 
-			enAnCorso = new TextFieldF();
+			enAnCorso = new TextFieldBase(pannello.getPannello());
 
 			final double eAnnuale = Database.eAnnuale();
 			enAnCorso.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(eAnnuale)));
@@ -58,7 +61,7 @@ public class SottoPannelloDatiEntrate {
 			componenti[2] = enAnCorso;
 			enAnCorso.setColumns(10);
 
-			enMeCorso = new TextFieldF();
+			enMeCorso = new TextFieldBase(pannello.getPannello());
 			final double eMensile = Database.eMensileInCorso();
 			enMeCorso.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(eMensile)));
 			enMeCorso.setBounds(317, 85, 106, 27);

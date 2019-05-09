@@ -14,24 +14,25 @@ import com.molinari.gestionespese.domain.Gruppi;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.wrapper.WrapGruppi;
-import com.molinari.gestionespese.view.font.ButtonF;
-import com.molinari.gestionespese.view.font.LabelListaGruppi;
-import com.molinari.gestionespese.view.font.TextAreaF;
-import com.molinari.gestionespese.view.font.TextFieldF;
 import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreAggiornaGruppo;
 import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreEliminaGruppo;
 import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreInserisciGruppo;
+import com.molinari.utility.graphic.component.button.ButtonBase;
+import com.molinari.utility.graphic.component.label.LabelTestoPiccolo;
+import com.molinari.utility.graphic.component.textarea.TextAreaBase;
+import com.molinari.utility.graphic.component.textfield.TextFieldBase;
 import com.molinari.utility.messages.I18NManager;
+import com.molinari.utility.text.CorreggiTesto;
 
 public class GruppiView extends AbstractGruppiView {
 
 	/**
 	 * 
 	 */
-	private Gruppi gruppi = null;
+	private IGruppi gruppi = null;
 	private JComboBox<IGruppi> comboGruppi;
-	private TextFieldF nome;
-	private TextAreaF descrizione;
+	private TextFieldBase nome;
+	private TextAreaBase descrizione;
 
 	public GruppiView(final WrapGruppi gruppo) {
 		super(gruppo);
@@ -49,18 +50,18 @@ public class GruppiView extends AbstractGruppiView {
 		getDialog().setPreferredSize(new Dimension(260, 405));
 		getDialog().setModalityType(ModalityType.APPLICATION_MODAL);
 
-		nome = new TextFieldF();
+		nome = new TextFieldBase(getDialog().getContentPane());
 		nome.setBounds(25, 49, 206, 26);
 		getDialog().getContentPane().add(nome);
 
-		descrizione = new TextAreaF(I18NManager.getSingleton().getMessaggio("grpdesc"), 50, 25);
+		descrizione = new TextAreaBase(I18NManager.getSingleton().getMessaggio("grpdesc"), 50, 25, getDialog().getContentPane());
 		descrizione.setWrapStyleWord(true);
 		descrizione.setLineWrap(true);
 		descrizione.setAutoscrolls(true);
 		descrizione.setBounds(25, 103, 206, 88);
 		getDialog().getContentPane().add(descrizione);
 
-		final ButtonF inserisci = new ButtonF();
+		final ButtonBase inserisci = new ButtonBase(getDialog().getContentPane());
 		inserisci.setText(I18NManager.getSingleton().getMessaggio("insert"));
 		inserisci.setActionCommand("Inserisci");
 		inserisci.setBounds(26, 214, 206, 25);
@@ -80,19 +81,19 @@ public class GruppiView extends AbstractGruppiView {
 		getDialog().getContentPane().add(comboGruppi);
 		comboGruppi.addItemListener(e -> {
 			if (comboGruppi.getSelectedIndex() != 0 && comboGruppi.getSelectedItem() != null) {
-				gruppi = (Gruppi) comboGruppi.getSelectedItem();
-				nome.setText(gruppi.getnome());
-				descrizione.setText(gruppi.getdescrizione());
+				setGruppi((Gruppi) comboGruppi.getSelectedItem());
+				nome.setText(getGruppi().getnome());
+				descrizione.setText(getGruppi().getdescrizione());
 			}
 		});
 
-		final ButtonF aggiorna = new ButtonF();
+		final ButtonBase aggiorna = new ButtonBase(getDialog().getContentPane());
 		aggiorna.setText(I18NManager.getSingleton().getMessaggio("update"));
 		aggiorna.setActionCommand("Aggiorna");
 		aggiorna.setBounds(25, 320, 100, 25);
 		getDialog().getContentPane().add(aggiorna);
 
-		final ButtonF cancella = new ButtonF();
+		final ButtonBase cancella = new ButtonBase(getDialog().getContentPane());
 		cancella.setText(I18NManager.getSingleton().getMessaggio("delete"));
 		cancella.setActionCommand("Cancella");
 		cancella.setBounds(131, 320, 100, 25);
@@ -112,17 +113,17 @@ public class GruppiView extends AbstractGruppiView {
 	}
 
 	private void initLabel() {
-		final LabelListaGruppi lbltstGruppo = new LabelListaGruppi();
+		final LabelTestoPiccolo lbltstGruppo = new LabelTestoPiccolo(getDialog().getContentPane());
 		lbltstGruppo.setText(I18NManager.getSingleton().getMessaggio("groups"));
 		lbltstGruppo.setBounds(25, 24, 100, 25);
 		getDialog().getContentPane().add(lbltstGruppo);
 
-		final LabelListaGruppi lbltstListaGruppi = new LabelListaGruppi();
+		final LabelTestoPiccolo lbltstListaGruppi = new LabelTestoPiccolo(getDialog().getContentPane());
 		lbltstListaGruppi.setText(I18NManager.getSingleton().getMessaggio("grpslist"));
 		lbltstListaGruppi.setBounds(25, 251, 100, 25);
 		getDialog().getContentPane().add(lbltstListaGruppi);
 
-		final LabelListaGruppi labelDescrizione = new LabelListaGruppi();
+		final LabelTestoPiccolo labelDescrizione = new LabelTestoPiccolo(getDialog().getContentPane());
 		labelDescrizione.setText(I18NManager.getSingleton().getMessaggio("descr"));
 		labelDescrizione.setBounds(25, 77, 90, 25);
 		getDialog().getContentPane().add(labelDescrizione);
@@ -136,9 +137,9 @@ public class GruppiView extends AbstractGruppiView {
 			getModelGruppi().setidGruppo(idGruppo);
 		} else {
 			int idGruppoDaCombo = 0;
-			if (gruppi != null) {
+			if (getGruppi() != null) {
 				// prendo l'id del gruppo selezionato dalla combo
-				idGruppoDaCombo = gruppi.getidGruppo();
+				idGruppoDaCombo = getGruppi().getidGruppo();
 			}
 			// se non ha un id gli assegno prendendo il massimo degli id
 			// presenti
@@ -164,5 +165,13 @@ public class GruppiView extends AbstractGruppiView {
 
 	public void setComboGruppi(final JComboBox<IGruppi> comboGruppi) {
 		this.comboGruppi = comboGruppi;
+	}
+
+	public IGruppi getGruppi() {
+		return gruppi;
+	}
+
+	public void setGruppi(IGruppi gruppi) {
+		this.gruppi = gruppi;
 	}
 }

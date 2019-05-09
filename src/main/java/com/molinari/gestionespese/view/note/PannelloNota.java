@@ -8,8 +8,8 @@ import javax.swing.JTextArea;
 import com.molinari.gestionespese.business.Finestra;
 import com.molinari.gestionespese.domain.INote;
 import com.molinari.gestionespese.domain.wrapper.WrapNote;
-import com.molinari.gestionespese.view.font.ButtonF;
-import com.molinari.gestionespese.view.font.TextAreaF;
+import com.molinari.utility.graphic.component.button.ButtonBase;
+import com.molinari.utility.graphic.component.textarea.TextAreaBase;
 
 /**
  * Questa classe è il pannello per rappresentare una singola nota
@@ -32,7 +32,7 @@ public class PannelloNota extends JPanel {
 		lNome.setBounds(4, 16, 150, 15);
 		add(lNome);
 
-		final JTextArea taDescrizione = new TextAreaF();
+		final JTextArea taDescrizione = new TextAreaBase(this);
 		taDescrizione.setText(this.nota.getDescrizione());
 		taDescrizione.setBounds(6, 63, 190, 85);
 		add(taDescrizione);
@@ -49,14 +49,14 @@ public class PannelloNota extends JPanel {
 		lData.setBounds(6, 36, 148, 15);
 		add(lData);
 
-		final JButton eliminaNota = new ButtonF();
+		final JButton eliminaNota = new ButtonBase(this);
 		eliminaNota.setText("-");
 		eliminaNota.addActionListener(new AscoltatoreEliminaNota(this, nota));
 
 		eliminaNota.setBounds(149, 17, 44, 15);
 		add(eliminaNota);
 
-		final ButtonF btnfAggiorna = new ButtonF();
+		final ButtonBase btnfAggiorna = new ButtonBase(this);
 		btnfAggiorna.addActionListener(new AscoltatoreApriPannelloUpdateNote(this.padre, new WrapNote(nota)));
 
 		btnfAggiorna.setText("!=");

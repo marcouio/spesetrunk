@@ -1,5 +1,6 @@
 package com.molinari.gestionespese.business;
 
+import java.time.format.DateTimeParseException;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
@@ -8,6 +9,7 @@ import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.alert.Alert;
 import com.molinari.utility.io.UtilIo;
 import com.molinari.utility.math.UtilMath;
+import com.molinari.utility.text.UtilText;
 
 public class AltreUtil {
 
@@ -31,45 +33,23 @@ public class AltreUtil {
 	}
 
 	public static boolean checkInteger(final String integer) {
-		boolean ok = true;
-		try {
-			new Integer(integer);
-		} catch (final Exception e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-			ok = false;
-		}
-		return ok;
+		return UtilMath.isInteger(integer);
 	}
 
 	public static boolean checkDouble(final String number) {
-		return UtilMath.checkDouble(number);
+		return UtilMath.isDouble(number);
 	}
 
 	public static boolean checkData(final String data) {
-		boolean ok = true;
-		if (data != null) {
-			try {
-				final int anno = Integer.parseInt(data.substring(0, 4));
-				final int mese = Integer.parseInt(data.substring(5, 7));
-				final int giorno = Integer.parseInt(data.substring(8, 10));
-				new GregorianCalendar(anno, mese, giorno);
-
-			} catch (final NumberFormatException e2) {
-				ok = false;
-				Alert.segnalazioneErroreGrave("Inserire la data con valori numerici e con il formato suggerito: AAAA/MM/GG");
-			} catch (final IllegalArgumentException e1) {
-				ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
-				ok = false;
-				Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore("Non hai inserito una data, " + e1.getMessage()));
-			} catch (final StringIndexOutOfBoundsException e3) {
-				ControlloreBase.getLog().log(Level.SEVERE, e3.getMessage(), e3);
-				ok = false;
-				Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore("Numero di caratteri errato per una data, " + e3.getMessage()));
-			}
-		} else {
-			ok = false;
+		try {
+			
+			return data != null && UtilText.checkDate(data, "yyyy/MM/dd");
+			
+		} catch (final DateTimeParseException e2) {
+			Alert.segnalazioneErroreGrave("Inserire la data con valori numerici e con il formato suggerito: AAAA/MM/GG");
+			return false;
 		}
-		return ok;
+		
 	}
 
 	/**

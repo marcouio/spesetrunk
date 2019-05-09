@@ -11,7 +11,7 @@ import javax.swing.JScrollPane;
 import com.molinari.gestionespese.business.Finestra;
 import com.molinari.gestionespese.business.cache.CacheNote;
 import com.molinari.gestionespese.domain.INote;
-import com.molinari.gestionespese.view.font.ButtonF;
+import com.molinari.utility.graphic.component.button.ButtonBase;
 import com.molinari.utility.graphic.component.container.PannelloBase;
 
 public class MostraNoteView implements Finestra {
@@ -36,7 +36,7 @@ public class MostraNoteView implements Finestra {
 		pannello.setLayout(null);
 		scrollPane.setBounds(10, 40, padre.getWidth(), padre.getHeight());
 
-		final JButton inserisci = new ButtonF();
+		final JButton inserisci = new ButtonBase(getContainer());
 		inserisci.setText("+");
 		getContainer().add(inserisci);
 

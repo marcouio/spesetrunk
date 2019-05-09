@@ -1,21 +1,16 @@
 package com.molinari.gestionespese.business;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
 
-import org.sqlite.JDBC;
+import org.h2.Driver;
 
-import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.database.UtilDb;
 
 public class DBUtil {
 
-	private static String url = "jdbc:sqlite:" + Database.getDburl();
-	public static final String USR = "root";
-	public static final String DRIVERCLASSNAME = JDBC.class.getName();
+	private static String url = "jdbc:h2:" + Database.getDburl() + ";MODE=ORACLE";
+	public static final String USR = "sa";
+	public static final String DRIVERCLASSNAME = Driver.class.getName();
 
 	private DBUtil(){
 
@@ -80,24 +75,6 @@ public class DBUtil {
 		return UtilDb.convertiMese(corrente);
 	}
 
-	/**
-	 * Data uno stringa contenente una formato Date restituisce ancora un Date
-	 * ma nel formato: dd-MMM-YYYY
-	 *
-	 * @param data
-	 * @return Date
-	 * @throws ParseException
-	 */
-	public static Date formatDate2(final String data) throws ParseException {
-		final DateFormat format = new SimpleDateFormat("dd-MMM-yyyy");
-		return format.parse(data);
-	}
-
-	public static Date formatDate3(final String data) throws ParseException {
-		final DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-		return format.parse(data);
-	}
-
 	// CONVERSIONE FORMATO STRINGA --> DATA
 
 	/**
@@ -109,14 +86,7 @@ public class DBUtil {
 	 * @return Date
 	 */
 	public static Date stringToDate(final String date, final String format) {
-		final SimpleDateFormat formatter = new SimpleDateFormat(format);
-		Date dataConvertita = null;
-		try {
-			dataConvertita = formatter.parse(date);
-		} catch (final ParseException e) {
-			ControlloreBase.getLog().log(Level.SEVERE, "ERRORE del metodo stringToDate su DBUtil", e);
-		}
-		return dataConvertita;
+		return UtilDb.stringToDate(date, format);
 	}
 
 	// CONVERSIONE FORMATO DATA --> STRINGA
@@ -130,30 +100,6 @@ public class DBUtil {
 	 */
 	public static String dataToString(final Date date, final String format) {
 		return UtilDb.dataToString(date, format);
-	}
-
-	/**
-	 * Data uno stringa contenente una formato Date restituisce ancora un Date
-	 * ma nel formato: dd-MM-YYYY
-	 *
-	 * @param data
-	 * @return Date
-	 * @throws ParseException
-	 */
-	public static Date formatDate(final String date) {
-		return UtilDb.stringToDate(date, "dd-MM-yyyy");
-	}
-
-	/**
-	 * Data uno stringa contenente una formato Date restituisce ancora un Date
-	 * ma nel formato: dd-MM-YYYY
-	 *
-	 * @param data
-	 * @return Date
-	 * @throws ParseException
-	 */
-	public static Date formatDateTime(final String date) {
-		return UtilDb.stringToDate(date, "dd-MM-yyyy HH:mm");
 	}
 
 	public static String getUrl() {

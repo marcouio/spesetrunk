@@ -11,9 +11,9 @@ import com.molinari.utility.controller.ControlloreBase;
 public abstract class AscoltatoreBase implements ActionListener {
 
 	protected IAggiornatore aggiornatore;
-
+	private String cosaAggiornare;
 	public AscoltatoreBase(final String cosaAggiornare) {
-		aggiornatore = Controllore.getAggiornatoreManager().creaAggiornatore(cosaAggiornare);
+		this.cosaAggiornare = cosaAggiornare;
 	}
 
 	public AscoltatoreBase(final IAggiornatore aggiornatore) {
@@ -22,6 +22,9 @@ public abstract class AscoltatoreBase implements ActionListener {
 
 	@Override
 	public void actionPerformed(final ActionEvent e) {
+		if(aggiornatore == null) {
+			aggiornatore = Controllore.getAggiornatoreManager().creaAggiornatore(cosaAggiornare);
+		}
 		try {
 			actionPerformedOverride(e);
 		} catch (final Exception e1) {

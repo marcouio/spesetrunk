@@ -18,20 +18,20 @@ import com.molinari.gestionespese.business.cache.CacheUscite;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapSingleSpesa;
-import com.molinari.gestionespese.view.font.ButtonF;
-import com.molinari.gestionespese.view.font.LabelListaGruppi;
-import com.molinari.gestionespese.view.font.TextAreaF;
-import com.molinari.gestionespese.view.font.TextFieldF;
 import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.graphic.component.button.ButtonBase;
+import com.molinari.utility.graphic.component.label.LabelTestoPiccolo;
+import com.molinari.utility.graphic.component.textarea.TextAreaBase;
+import com.molinari.utility.graphic.component.textfield.TextFieldBase;
 import com.molinari.utility.messages.I18NManager;
 import com.molinari.utility.text.CorreggiTesto;
 
 public class UsciteView extends AbstractUsciteView {
 
-	private TextFieldF  tfNome;
-	private TextFieldF  tfData;
-	private TextFieldF  tfEuro;
-	private TextAreaF   taDescrizione;
+	private TextFieldBase  tfNome;
+	private TextFieldBase  tfData;
+	private TextFieldBase  tfEuro;
+	private TextAreaBase   taDescrizione;
 	private JComboBox<ICatSpese>  cCategorie;
 
 	public UsciteView(){
@@ -51,7 +51,7 @@ public class UsciteView extends AbstractUsciteView {
 
 		initLabel();
 
-		taDescrizione = new TextAreaF();
+		taDescrizione = new TextAreaBase(getDialog().getContentPane());
 		taDescrizione.setText(I18NManager.getSingleton().getMessaggio("insertheredescr"));
 		taDescrizione.setBounds(13, 87, 318, 75);
 		taDescrizione.setLineWrap(true);
@@ -59,7 +59,7 @@ public class UsciteView extends AbstractUsciteView {
 		taDescrizione.setAutoscrolls(true);
 		getDialog().getContentPane().add(taDescrizione);
 
-		final TextAreaF descCateg = new TextAreaF();
+		final TextAreaBase descCateg = new TextAreaBase(getDialog().getContentPane());
 		descCateg.setText(I18NManager.getSingleton().getMessaggio("heredesc"));
 		descCateg.setBounds(13, 242, 318, 75);
 		descCateg.setLineWrap(true);
@@ -67,7 +67,7 @@ public class UsciteView extends AbstractUsciteView {
 		descCateg.setAutoscrolls(true);
 		getDialog().getContentPane().add(descCateg);
 
-		tfNome = new TextFieldF();
+		tfNome = new TextFieldBase(getDialog().getContentPane());
 		tfNome.setBounds(12, 38, 150, 27);
 		getDialog().getContentPane().add(tfNome);
 		tfNome.setColumns(10);
@@ -91,27 +91,27 @@ public class UsciteView extends AbstractUsciteView {
 
 		});
 
-		tfData = new TextFieldF("0.0");
+		tfData = new TextFieldBase("0.0", getDialog().getContentPane());
 		tfData.setColumns(10);
 		final GregorianCalendar gc = new GregorianCalendar();
 		tfData.setText(DBUtil.dataToString(gc.getTime(), "yyyy/MM/dd"));
 		tfData.setBounds(13, 189, 150, 27);
 		getDialog().getContentPane().add(tfData);
 
-		tfEuro = new TextFieldF();
+		tfEuro = new TextFieldBase(getDialog().getContentPane());
 		tfEuro.setColumns(10);
 		tfEuro.setBounds(184, 189, 150, 27);
 		getDialog().getContentPane().add(tfEuro);
 
 		// Bottone Elimina
-		final ButtonF eliminaUltima = new ButtonF();
+		final ButtonBase eliminaUltima = new ButtonBase(getDialog().getContentPane());
 		eliminaUltima.addActionListener(new AscoltaEliminaUltimaSpesa(this));
 
 		eliminaUltima.setText("Elimina Ultima");
 		eliminaUltima.setBounds(184, 325, 147, 27);
 		getDialog().getContentPane().add(eliminaUltima);
 
-		final ButtonF inserisci = new ButtonF();
+		final ButtonBase inserisci = new ButtonBase(getDialog().getContentPane());
 		inserisci.setText("Inserisci");
 		inserisci.setBounds(13, 325, 150, 27);
 		getDialog().getContentPane().add(inserisci);
@@ -121,27 +121,27 @@ public class UsciteView extends AbstractUsciteView {
 	}
 
 	private void initLabel() {
-		final LabelListaGruppi lblNomeSpesa = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("name"));
+		final LabelTestoPiccolo lblNomeSpesa = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("name"), getDialog().getContentPane());
 		lblNomeSpesa.setBounds(13, 12, 118, 27);
 		getDialog().getContentPane().add(lblNomeSpesa);
 
-		final LabelListaGruppi lblEuro = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("eur"));
+		final LabelTestoPiccolo lblEuro = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("eur"), getDialog().getContentPane());
 		lblEuro.setBounds(184, 163, 77, 27);
 		getDialog().getContentPane().add(lblEuro);
 
-		final LabelListaGruppi lblCategorie = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("categories"));
+		final LabelTestoPiccolo lblCategorie = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("categories"), getDialog().getContentPane());
 		lblCategorie.setBounds(181, 12, 125, 27);
 		getDialog().getContentPane().add(lblCategorie);
 
-		final LabelListaGruppi lblData = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("date"));
+		final LabelTestoPiccolo lblData = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("date"), getDialog().getContentPane());
 		lblData.setBounds(13, 163, 77, 27);
 		getDialog().getContentPane().add(lblData);
 
-		final LabelListaGruppi lblDescrizione = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("descr"));
+		final LabelTestoPiccolo lblDescrizione = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("descr"), getDialog().getContentPane());
 		lblDescrizione.setBounds(14, 62, 212, 25);
 		getDialog().getContentPane().add(lblDescrizione);
 
-		final LabelListaGruppi lblDescrizione1 = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("descr")+" "+I18NManager.getSingleton().getMessaggio("category"));
+		final LabelTestoPiccolo lblDescrizione1 = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("descr")+" "+I18NManager.getSingleton().getMessaggio("category"), getDialog().getContentPane());
 		lblDescrizione1.setBounds(13, 216, 232, 27);
 		getDialog().getContentPane().add(lblDescrizione1);
 	}

@@ -1,10 +1,12 @@
 package com.molinari.gestionespese.view.impostazioni;
 
+import java.util.List;
 import java.util.Observer;
 
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 
+import com.molinari.gestionespese.business.cache.CacheGruppi;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapGruppi;
 
@@ -49,12 +51,16 @@ public abstract class AbstractGruppiView implements Observer {
 		this.dialog = dialog;
 	}
 
-	public boolean nonEsistonoCampiNonValorizzati() {
-		return getDescrizione() != null && getNome() != null;
+	public boolean esistonoCampiNonValorizzati() {
+		return getDescrizione() == null || getNome() == null;
 	}
 
 	public abstract JComboBox<IGruppi> getComboGruppi();
 
 	public abstract void setGruppo(String string);
 
+	public boolean groupAlreadyExists() {
+		List<IGruppi> vettoreGruppi = CacheGruppi.getSingleton().getVettoreGruppi();
+		return vettoreGruppi.stream().filter(c -> c.getnome().equalsIgnoreCase(getNome())).findFirst().isPresent();
+	}
 }

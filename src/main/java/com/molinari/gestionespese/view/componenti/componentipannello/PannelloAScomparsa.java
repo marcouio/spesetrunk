@@ -15,7 +15,6 @@ import com.molinari.utility.messages.I18NManager;
 public class PannelloAScomparsa implements ItemListener, Finestra {
 
 	private Container container;
-	private final ArrayList<JPanel>  pannelli = new ArrayList<>();
 	private JComboBox<String>                combo;
 	private SottoPannelloDatiSpese   pannelloSpese;
 	private SottoPannelloDatiEntrate pannelloEntrate;
@@ -33,12 +32,19 @@ public class PannelloAScomparsa implements ItemListener, Finestra {
 		PannelloBase padre = (PannelloBase) ((PannelloBase)getContainer()).getContenitorePadre();
 		getContainer().setLayout(null);
 		getContainer().setSize(padre.getWidth(), padre.getHeight());
-		pannelloSpese = new SottoPannelloDatiSpese();
-		pannelloEntrate = new SottoPannelloDatiEntrate();
-		pannelloMesi = new SottoPannelloMesi();
-		pannelloCategorie = new SottoPannelloCategorie();
-		pannelloTotali = new SottoPannelloTotali();
+		pannelloSpese = new SottoPannelloDatiSpese(getContainer());
+		setSubPanelDimension(pannelloSpese.getPannello());
+		pannelloEntrate = new SottoPannelloDatiEntrate(getContainer());
+		setSubPanelDimension(pannelloEntrate.getPannello());
+		pannelloMesi = new SottoPannelloMesi(getContainer());
+		setSubPanelDimension(pannelloMesi.getPannello());
+		pannelloCategorie = new SottoPannelloCategorie(getContainer());
+		setSubPanelDimension(pannelloCategorie.getPannello());
+		pannelloTotali = new SottoPannelloTotali(getContainer());
+		setSubPanelDimension(pannelloTotali.getPannello());
 
+		hideAllPanel();
+		
 		initArrayPannello();
 
 		combo = new JComboBox<>();
@@ -57,34 +63,41 @@ public class PannelloAScomparsa implements ItemListener, Finestra {
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 
-		final JPanel p = new JPanel();
-
-		for (final JPanel pannello : pannelli) {
-			pannello.setVisible(false);
-			getContainer().remove(pannello);
-		}
-		pannelli.clear();
+		hideAllPanel();
+		
 		CostruttoreSottoPannello sottoPannello;
 		if(combo.getSelectedIndex() != 0 && e.getStateChange() == ItemEvent.SELECTED){
 			sottoPannello = arrayPannelli[combo.getSelectedIndex()];
-			mostra(p, sottoPannello);
+			mostra(sottoPannello);
 		}
 		getContainer().validate();
 		getContainer().repaint();
 
 	}
 
-	private void mostra(JPanel p, CostruttoreSottoPannello sottoPannello) {
-		getContainer().add(p);
-		pannelli.add(p);
-		p.add(sottoPannello);
-		p.setVisible(true);
-		p.setBounds(50, 90, sottoPannello.getPreferredSize().width, sottoPannello.getPreferredSize().height);
+	private void hideAllPanel() {
+		pannelloSpese.getPannello().getPannello().setVisible(false);
+		pannelloCategorie.getPannello().getPannello().setVisible(false);
+		pannelloEntrate.getPannello().getPannello().setVisible(false);
+		pannelloMesi.getPannello().getPannello().setVisible(false);
+		pannelloTotali.getPannello().getPannello().setVisible(false);
+	}
+
+	private void mostra(CostruttoreSottoPannello sottoPannello) {
+		
+		sottoPannello.getPannello().setVisible(true);
+	}
+
+	private void setSubPanelDimension(CostruttoreSottoPannello sottoPannello) {
+		int width = sottoPannello.getMaxWidth(sottoPannello.getCompontents()) + sottoPannello.distanzaDalBordoX * 2;
+		int height = sottoPannello.getMaxHeight(sottoPannello.getCompontents()) + sottoPannello.distanzaDalBordoY * 2 * sottoPannello.getCompontents().length;
+		sottoPannello.getPannello().setBounds(50, 100,width, height * 2);
 	}
 
 	private void initArrayPannello() {
+		CostruttoreSottoPannello costruttoreSottoPannello = new CostruttoreSottoPannello(new PannelloBase(getContainer()), null, null);
 		arrayPannelli = new CostruttoreSottoPannello[]{
-				new CostruttoreSottoPannello(),
+				costruttoreSottoPannello,
 				pannelloSpese.getPannello(),
 				pannelloCategorie.getPannello(),
 				pannelloEntrate.getPannello(),

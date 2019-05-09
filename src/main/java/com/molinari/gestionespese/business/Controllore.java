@@ -83,7 +83,7 @@ public class Controllore extends StarterBase{
 				}
 			}.execute(sql);
 		} catch (final SQLException e) {
-			getLog().log(Level.SEVERE, "Il database non c'è ancora, è da creare!", e);
+			getLog().log(Level.SEVERE, "Database doesn't exist. I'm going to create it", e);
 			try {
 				Database.getSingleton().generaDB();
 			} catch (final SQLException e1) {

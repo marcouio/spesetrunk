@@ -20,6 +20,7 @@ import com.molinari.gestionespese.view.entrateuscite.EntrateView;
 import com.molinari.gestionespese.view.entrateuscite.UsciteView;
 import com.molinari.utility.graphic.component.alert.Alert;
 import com.molinari.utility.graphic.component.button.ToggleBtn;
+import com.molinari.utility.graphic.component.button.ToggleBtnBase;
 import com.molinari.utility.graphic.component.buttonpanel.Bottone;
 import com.molinari.utility.graphic.component.buttonpanel.PannelloBottoni;
 import com.molinari.utility.graphic.component.buttonpanel.PannelloBottoniInterno;
@@ -28,30 +29,30 @@ import com.molinari.utility.messages.I18NManager;
 public class PannelloBottoniSpese extends PannelloBottoni{
 
 	private static final long serialVersionUID = 1L;
-	private ToggleBtn toggleMovimenti;
-	private ToggleBtn toggleMovimentiUscite;
-	private ToggleBtn toggleMovimentiEntrate;
-	private ToggleBtn toggleMesi;
-	private ToggleBtn toggleEntrateUscite;
-	private ToggleBtn toggleInsUscite;
-	private ToggleBtn toggleInsEntrate;
+	private ToggleBtnBase toggleMovimenti;
+	private ToggleBtnBase toggleMovimentiUscite;
+	private ToggleBtnBase toggleMovimentiEntrate;
+	private ToggleBtnBase toggleMesi;
+	private ToggleBtnBase toggleEntrateUscite;
+	private ToggleBtnBase toggleInsUscite;
+	private ToggleBtnBase toggleInsEntrate;
 
 	public PannelloBottoniSpese(Container contenitore) {
 		super(contenitore);
 	
 		final ImageIcon iconaMovimenti = new ImageIcon(AltreUtil.IMGUTILPATH+"controlli.gif");
 		final ImageIcon iconaMovimentiPic = new ImageIcon(AltreUtil.IMGUTILPATH+"controlli_pic.gif");
-		toggleMovimenti = new ToggleBtn(iconaMovimenti);
+		toggleMovimenti = new ToggleBtnBase(iconaMovimenti, contenitore);
 		toggleMovimenti.settaggioBottoneStandard();
 		final Bottone bottoneMovimenti = new Bottone(toggleMovimenti);
 		addListenerMovimenti(toggleMovimenti);
 
-		toggleMovimentiUscite = new ToggleBtn(iconaMovimentiPic, -1, 20);
+		toggleMovimentiUscite = new ToggleBtnBase(iconaMovimentiPic, -1, 20, contenitore);
 		toggleMovimentiUscite.settaggioBottoneStandard();
 		final Bottone bottoneMovimentiUscite = new Bottone(toggleMovimentiUscite);
 		addListenerMovimentiUscite(toggleMovimentiUscite);
 
-		toggleMovimentiEntrate = new ToggleBtn(iconaMovimentiPic, -1, 20);
+		toggleMovimentiEntrate = new ToggleBtnBase(iconaMovimentiPic, -1, 20, contenitore);
 		toggleMovimentiEntrate.settaggioBottoneStandard();
 		final Bottone bottoneMovimentiEntrate = new Bottone(toggleMovimentiEntrate);
 
@@ -67,14 +68,14 @@ public class PannelloBottoniSpese extends PannelloBottoni{
 
 		final ImageIcon iconaUscite = new ImageIcon(AltreUtil.IMGUTILPATH+"blocktable_32.png");
 
-		toggleMesi = new ToggleBtn(iconaUscite);
+		toggleMesi = new ToggleBtnBase(iconaUscite, contenitore);
 		toggleMesi.settaggioBottoneStandard();
 		final Bottone bottoneMesi = new Bottone(toggleMesi);
 		toggleMesi.setPadre(bottoneMesi);
 		addListenerMesi(toggleMesi);
 
 		final ImageIcon iconaSQL = new ImageIcon(AltreUtil.IMGUTILPATH+"sql.gif");
-		final ToggleBtn toggleSql = new ToggleBtn("ConsolleSQL", iconaSQL);
+		final ToggleBtnBase toggleSql = new ToggleBtnBase("ConsolleSQL", iconaSQL, contenitore);
 		toggleSql.settaggioBottoneStandard();
 		final Bottone bottoneSql = new Bottone(toggleSql);
 		toggleSql.setPadre(bottoneSql);
@@ -83,13 +84,13 @@ public class PannelloBottoniSpese extends PannelloBottoni{
 		final ImageIcon iconaSoldi = new ImageIcon(AltreUtil.IMGUTILPATH+"soldi.gif");
 		final ImageIcon iconaSoldiPic = new ImageIcon(AltreUtil.IMGUTILPATH+"soldi_pic.gif");
 
-		toggleEntrateUscite = new ToggleBtn(iconaSoldi);
+		toggleEntrateUscite = new ToggleBtnBase(iconaSoldi, contenitore);
 		
 		toggleEntrateUscite.settaggioBottoneStandard();
 		final Bottone bottoneEntrateUscite = new Bottone(toggleEntrateUscite);
 		toggleEntrateUscite.setPadre(bottoneEntrateUscite);
 
-		toggleInsUscite = new ToggleBtn(iconaSoldiPic, -1, 20);
+		toggleInsUscite = new ToggleBtnBase(iconaSoldiPic, -1, 20, contenitore);
 		
 		toggleInsUscite.settaggioBottoneStandard();
 		final Bottone bottoneInsUscite = new Bottone(toggleInsUscite);
@@ -110,7 +111,7 @@ public class PannelloBottoniSpese extends PannelloBottoni{
 			}
 		});
 
-		toggleInsEntrate = new ToggleBtn(iconaSoldiPic, -1, 20);
+		toggleInsEntrate = new ToggleBtnBase(iconaSoldiPic, -1, 20, contenitore);
 		
 		toggleInsEntrate.settaggioBottoneStandard();
 		final Bottone bottoneInsEntrate = new Bottone(toggleInsEntrate);

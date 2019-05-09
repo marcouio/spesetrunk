@@ -1,5 +1,6 @@
 package com.molinari.gestionespese.view.componenti.componentipannello;
 
+import java.awt.Container;
 import java.util.logging.Level;
 
 import javax.swing.JComboBox;
@@ -9,9 +10,10 @@ import javax.swing.JTextField;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Database;
-import com.molinari.gestionespese.view.font.LabelTestoPiccolo;
-import com.molinari.gestionespese.view.font.TextFieldF;
 import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.graphic.component.label.LabelTestoPiccolo;
+import com.molinari.utility.graphic.component.textfield.TextFieldBase;
 
 public class SottoPannelloMesi {
 
@@ -23,38 +25,39 @@ public class SottoPannelloMesi {
 	JLabel[]                  labels     = new JLabel[3];
 	CostruttoreSottoPannello  pannello;
 
-	public SottoPannelloMesi() {
+	public SottoPannelloMesi(Container container) {
 		super();
+		pannello = new CostruttoreSottoPannello(new PannelloBase(container), componenti, labels);
 		initGUI();
-		pannello = new CostruttoreSottoPannello(componenti, labels, CostruttoreSottoPannello.VERTICAL);
+		pannello.initGUI(componenti, labels);
 	}
 
 	private void initGUI() {
 		try {
 
-			LabelTestoPiccolo jLabel9 = new LabelTestoPiccolo();
+			LabelTestoPiccolo jLabel9 = new LabelTestoPiccolo(pannello.getPannello());
 			labels[0] = jLabel9;
 			jLabel9.setText("Mese");
 			jLabel9.setBounds(16, 67, 67, 14);
 
-			totaleMeseUscite = new TextFieldF();
+			totaleMeseUscite = new TextFieldBase(pannello.getPannello());
 			componenti[1] = totaleMeseUscite;
 			totaleMeseUscite.setColumns(10);
 			totaleMeseUscite.setText("0.0");
 			totaleMeseUscite.setBounds(164, 84, 106, 27);
 
-			totaleMeseEntrate = new TextFieldF();
+			totaleMeseEntrate = new TextFieldBase(pannello.getPannello());
 			componenti[2] = totaleMeseEntrate;
 			totaleMeseEntrate.setColumns(10);
 			totaleMeseEntrate.setText("0.0");
 			totaleMeseEntrate.setBounds(317, 85, 106, 27);
 
-			LabelTestoPiccolo jLabel12 = new LabelTestoPiccolo();
+			LabelTestoPiccolo jLabel12 = new LabelTestoPiccolo(pannello.getPannello());
 			labels[1] = jLabel12;
 			jLabel12.setText("Uscite per mese");
 			jLabel12.setBounds(164, 66, 114, 14);
 
-			jLabel12 = new LabelTestoPiccolo();
+			jLabel12 = new LabelTestoPiccolo(pannello.getPannello());
 			labels[2] = jLabel12;
 			jLabel12.setText("Entrate per mese");
 			jLabel12.setBounds(317, 67, 123, 14);

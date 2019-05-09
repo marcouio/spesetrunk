@@ -34,15 +34,15 @@ public class PerMesiF extends PannelloBase {
 				final JTabbedPane source = (JTabbedPane) e.getSource();
 				final int selectedIndex = source.getSelectedIndex();
 				if(selectedIndex == 0){
-					tabEntrate = new TabellaEntrata();
+					tabEntrate = new TabellaEntrata(this);
 					tabEntrate.getPanel().setBounds(0, 0, getContenitorePadre().getWidth(), getContenitorePadre().getHeight());
 					source.setComponentAt(selectedIndex, tabEntrate.getPanel());
 				}else if(selectedIndex == 1){
-					tabUscite = new TabellaUscita();
+					tabUscite = new TabellaUscita(this);
 					tabUscite.getPanel().setBounds(0, 0, getContenitorePadre().getWidth(), getContenitorePadre().getHeight());
 					source.setComponentAt(selectedIndex, tabUscite.getPanel());
 				}else if(selectedIndex == 2){
-					tabUG = new TabellaUscitaGruppi();
+					tabUG = new TabellaUscitaGruppi(this);
 					tabUG.getPanel().setBounds(0, 0, getContenitorePadre().getWidth(), getContenitorePadre().getHeight());
 					source.setComponentAt(selectedIndex, tabUG.getPanel());
 				}

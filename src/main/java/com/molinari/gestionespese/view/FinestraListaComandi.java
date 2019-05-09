@@ -6,15 +6,15 @@ import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
 import com.molinari.gestionespese.business.Finestra;
-import com.molinari.gestionespese.view.font.TableF;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.graphic.component.table.TableBase;
 import com.molinari.utility.messages.I18NManager;
 
 public class FinestraListaComandi implements Finestra {
 
 	private Container container;
-	private TableF            table;
+	private TableBase            table;
 	private JScrollPane       scrollPane;
 
 	public FinestraListaComandi(Container cont) {
@@ -29,7 +29,7 @@ public class FinestraListaComandi implements Finestra {
 
 	public void insertDati() {
 		final String lista = I18NManager.getSingleton().getMessaggio("lista");
-		table = new TableF();
+		table = new TableBase(container);
 		final Object[][] dati = generaDati();
 		table.setModel(new DefaultTableModel(dati, new String[] { lista }));
 
@@ -45,11 +45,11 @@ public class FinestraListaComandi implements Finestra {
 		return ControlloreBase.getSingleton().getCommandManager().generaDati();
 	}
 
-	public TableF getTable() {
+	public TableBase getTable() {
 		return table;
 	}
 
-	public void setTable(TableF table) {
+	public void setTable(TableBase table) {
 		this.table = table;
 	}
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <styles>
-    <style name="stylebase">
+    <!-- <style name="stylebase">
         <font font-family="Arial" size="15" type="0"/>
         <foreground>
             <color b="100" g="100" r="100"/>
@@ -20,7 +20,7 @@
             <color b="255" g="255" r="255"/>
         </background>
         <dimensionarea columns="60" rows="60"/>
-        <dimension height="131" width="101"/>
+        <dimension height="101" width="101"/>
         <foregroundNotSel>
             <color b="255" g="255" r="255"/>
         </foregroundNotSel>
@@ -33,5 +33,25 @@
         <backgroundSel>
             <color b="100" g="100" r="100"/>
         </backgroundSel>
+    </style> -->
+       <style name="TextAreaStyle">
+        <font font-family="Arial" size="16" type="0"/>
     </style>
+    <!-- 
+ 
+    <style name="StyleBaseToggle">
+        <font font-family="Arial" size="25" type="0"/>
+    </style>
+    <style name="StyleBaseL">
+        <font font-family="Arial" size="20" type="0"/>
+    </style>
+    <style name="StyleBaseLTP">
+        <font font-family="Arial" size="25" type="0"/>
+    </style>
+    <style name="StyleBaseB">
+        <font font-family="Arial" size="25" type="0"/>
+    </style>
+    <style name="StyleBaseTF">
+        <font font-family="Tahoma" size="25" type="0"/>
+    </style> -->
 </styles>

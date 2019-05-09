@@ -7,18 +7,18 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import com.molinari.gestionespese.business.AltreUtil;
-import com.molinari.gestionespese.view.font.ButtonF;
-import com.molinari.gestionespese.view.font.LabelListaGruppi;
-import com.molinari.gestionespese.view.font.TextFieldF;
+import com.molinari.utility.graphic.component.button.ButtonBase;
+import com.molinari.utility.graphic.component.label.LabelTestoPiccolo;
+import com.molinari.utility.graphic.component.textfield.TextFieldBase;
 import com.molinari.utility.messages.I18NManager;
 
 public abstract class FiltraDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-	private final TextFieldF tfDa;
-	private final TextFieldF tfA;
-	private final TextFieldF tfNome;
-	private final TextFieldF tfEuro;
+	private final TextFieldBase tfDa;
+	private final TextFieldBase tfA;
+	private final TextFieldBase tfNome;
+	private final TextFieldBase tfEuro;
 	protected JComboBox<?> comboBoxCat;
 
 	private String dataDa;
@@ -40,7 +40,7 @@ public abstract class FiltraDialog extends JDialog {
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane);
 
-		final ButtonF okButton = new ButtonF("OK");
+		final ButtonBase okButton = new ButtonBase("OK", getContentPane());
 		okButton.setActionCommand("OK");
 		buttonPane.add(okButton);
 		okButton.addActionListener(e -> {
@@ -50,47 +50,47 @@ public abstract class FiltraDialog extends JDialog {
 
 		getRootPane().setDefaultButton(okButton);
 
-		final ButtonF cancelButton = new ButtonF(I18NManager.getSingleton().getMessaggio("cancel"));
+		final ButtonBase cancelButton = new ButtonBase(I18NManager.getSingleton().getMessaggio("cancel"), getContentPane());
 		cancelButton.setActionCommand(I18NManager.getSingleton().getMessaggio("cancel"));
 		buttonPane.add(cancelButton);
 		cancelButton.addActionListener(e -> dispose());
 
-		tfDa = new TextFieldF();
+		tfDa = new TextFieldBase(getContentPane());
 		tfDa.setColumns(10);
 		tfDa.setBounds(62, 26, 89, 25);
 		getContentPane().add(tfDa);
 
-		LabelListaGruppi label = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("from") + ":");
+		LabelTestoPiccolo label = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("from") + ":", getContentPane());
 		label.setBounds(17, 28, 43, 15);
 		getContentPane().add(label);
 
-		label = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("to")+ ":");
+		label = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("to")+ ":", getContentPane());
 		label.setBounds(18, 59, 43, 15);
 		getContentPane().add(label);
 
-		tfA = new TextFieldF();
+		tfA = new TextFieldBase(getContentPane());
 		tfA.setColumns(10);
 		tfA.setBounds(62, 56, 89, 25);
 		getContentPane().add(tfA);
 
-		tfNome = new TextFieldF();
+		tfNome = new TextFieldBase(getContentPane());
 		tfNome.setColumns(10);
 		tfNome.setBounds(209, 26, 89, 25);
 		getContentPane().add(tfNome);
 
-		label = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("name")+ ":");
+		label = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("name")+ ":", getContentPane());
 		label.setBounds(163, 26, 55, 15);
 		getContentPane().add(label);
 
-		label = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("eur")+ ":");
+		label = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("eur")+ ":", getContentPane());
 		label.setBounds(307, 27, 55, 15);
 		getContentPane().add(label);
 
-		tfEuro = new TextFieldF();
+		tfEuro = new TextFieldBase(getContentPane());
 		tfEuro.setColumns(10);
 		tfEuro.setBounds(341, 26, 89, 25);
 		getContentPane().add(tfEuro);
-		label = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("category")+ ":");
+		label = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("category")+ ":", getContentPane());
 		label.setBounds(443, 27, 82, 15);
 		getContentPane().add(label);
 

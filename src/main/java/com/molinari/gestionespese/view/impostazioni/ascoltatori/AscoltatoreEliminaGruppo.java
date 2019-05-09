@@ -29,6 +29,9 @@ public class AscoltatoreEliminaGruppo extends AscoltatoreAggiornatoreTutto {
 
 		if (comboGruppi.getSelectedIndex() != 0 && gruppi != null) {
 			gruppiView.setGruppo("Cancella");
+			
+			
+			
 			if (Controllore.invocaComando(new CommandDeleteGruppo(gruppiView.getModelGruppi()))) {
 				comboGruppi.removeItem(gruppi);
 				gruppiView.getDialog().dispose();

@@ -28,32 +28,32 @@ import com.molinari.gestionespese.domain.wrapper.Model;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
 import com.molinari.gestionespese.view.PannelTabs;
 import com.molinari.gestionespese.view.entrateuscite.AbstractEntrateView;
-import com.molinari.gestionespese.view.font.ButtonF;
-import com.molinari.gestionespese.view.font.LabelListaGruppi;
-import com.molinari.gestionespese.view.font.TextFieldF;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.graphic.component.button.ButtonBase;
+import com.molinari.utility.graphic.component.label.LabelTestoPiccolo;
+import com.molinari.utility.graphic.component.textfield.TextFieldBase;
 import com.molinari.utility.messages.I18NManager;
 
 public class DialogEntrateMov extends AbstractEntrateView {
 
-	private final JLabel labelEuro = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("eur"));
-	private final JLabel labelData = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("date"));
-	private final JLabel labelTipoEntrate = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("incometype"));
-	private final JLabel labelDescrizione = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("descr"));
-	private final JLabel labelNome = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("name"));
-	private final JLabel labelDataIns = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("insertdate"));
-	private final JLabel labelIdEntrate = new LabelListaGruppi(I18NManager.getSingleton().getMessaggio("key"));
+	private final JLabel labelEuro = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("eur"), this.getDialog());
+	private final JLabel labelData = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("date"), this.getDialog());
+	private final JLabel labelTipoEntrate = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("incometype"), this.getDialog());
+	private final JLabel labelDescrizione = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("descr"), this.getDialog());
+	private final JLabel labelNome = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("name"), this.getDialog());
+	private final JLabel labelDataIns = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("insertdate"), this.getDialog());
+	private final JLabel labelIdEntrate = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("key"), this.getDialog());
 
-	private JTextField tfEuro = new TextFieldF();
-	private JTextField tfDataIns = new TextFieldF();
-	private JTextField tfData = new TextFieldF();
+	private JTextField tfEuro = new TextFieldBase(this.getDialog());
+	private JTextField tfDataIns = new TextFieldBase(this.getDialog());
+	private JTextField tfData = new TextFieldBase(this.getDialog());
 	private JComboBox<INCOMETYPE> cbTipoEntrata = new JComboBox<>(Model.getNomiColonneEntrate());
-	private JTextField taDescrizione = new TextFieldF();
-	private JTextField tfNome = new TextFieldF();
-	private JTextField idEntrate = new TextFieldF();
-	private final JButton update = new ButtonF(I18NManager.getSingleton().getMessaggio("update"));
-	private final JButton delete = new ButtonF(I18NManager.getSingleton().getMessaggio("delete"));
+	private JTextField taDescrizione = new TextFieldBase(this.getDialog());
+	private JTextField tfNome = new TextFieldBase(this.getDialog());
+	private JTextField idEntrate = new TextFieldBase(this.getDialog());
+	private final JButton update = new ButtonBase(I18NManager.getSingleton().getMessaggio("update"), this.getDialog());
+	private final JButton delete = new ButtonBase(I18NManager.getSingleton().getMessaggio("delete"), this.getDialog());
 
 	public DialogEntrateMov(final WrapEntrate entrate) {
 		super(entrate);

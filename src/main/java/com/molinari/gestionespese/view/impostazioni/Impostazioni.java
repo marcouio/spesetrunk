@@ -32,14 +32,14 @@ import com.molinari.gestionespese.domain.Lookandfeel;
 import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.Model;
-import com.molinari.gestionespese.view.font.ButtonF;
-import com.molinari.gestionespese.view.font.LabelListaGruppi;
-import com.molinari.gestionespese.view.font.TextFieldF;
 import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreLanguage;
 import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreLook;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.alert.Alert;
 import com.molinari.utility.graphic.component.alert.DialogoBase;
+import com.molinari.utility.graphic.component.button.ButtonBase;
+import com.molinari.utility.graphic.component.label.LabelTestoPiccolo;
+import com.molinari.utility.graphic.component.textfield.TextFieldBase;
 import com.molinari.utility.messages.I18NManager;
 import com.molinari.utility.xml.CoreXMLManager;
 
@@ -53,15 +53,15 @@ public class Impostazioni extends DialogoBase {
 	private JTextField utente;
 	private ArrayList<String> listaLook;
 	private JComboBox<ILookandfeel> comboLook;
-	private TextFieldF annotextField;
-	private LabelListaGruppi calendario;
-	private LabelListaGruppi lblImpostaAnno;
-	private LabelListaGruppi lblCaricaDatabase;
-	private ButtonF btnCarica;
-	private ButtonF btnChange;
-	private ButtonF elimina;
-	private LabelListaGruppi lbltstEliminaTuttiLe;
-	private LabelListaGruppi lbltstUtente;
+	private TextFieldBase annotextField;
+	private LabelTestoPiccolo calendario;
+	private LabelTestoPiccolo lblImpostaAnno;
+	private LabelTestoPiccolo lblCaricaDatabase;
+	private ButtonBase btnCarica;
+	private ButtonBase btnChange;
+	private ButtonBase elimina;
+	private LabelTestoPiccolo lbltstEliminaTuttiLe;
+	private LabelTestoPiccolo lbltstUtente;
 	private JLabel lblLang;
 	private static int anno = new GregorianCalendar().get(Calendar.YEAR);
 	private static JTextField caricaDatabase;
@@ -86,9 +86,9 @@ public class Impostazioni extends DialogoBase {
 			this.setPreferredSize(new Dimension(626, 280));
 			getContentPane().setLayout(null);
 
-			calendario = new LabelListaGruppi();
+			calendario = new LabelTestoPiccolo(getContentPane());
 			calendario.setBounds(22, 86, 87, 14);
-			dataOdierna = new TextFieldF();
+			dataOdierna = new TextFieldBase(getContentPane());
 			dataOdierna.setBounds(140, 82, 113, 27);
 			dataOdierna.setEditable(false);
 			final GregorianCalendar gc = new GregorianCalendar();
@@ -96,38 +96,38 @@ public class Impostazioni extends DialogoBase {
 			getContentPane().add(dataOdierna);
 			getContentPane().add(calendario);
 
-			utente = new TextFieldF();
+			utente = new TextFieldBase(getContentPane());
 			utente.setBounds(140, 126, 113, 27);
 			getContentPane().add(utente);
 
-			lblImpostaAnno = new LabelListaGruppi();
+			lblImpostaAnno = new LabelTestoPiccolo(getContentPane());
 			lblImpostaAnno.setBounds(278, 79, 97, 27);
 			getContentPane().add(lblImpostaAnno);
 
-			btnChange = new ButtonF();
+			btnChange = new ButtonBase(getContentPane());
 			btnChange.setBounds(504, 78, 91, 27);
 			btnChange.addActionListener(getListenerChange());
 			getContentPane().add(btnChange);
 
-			lblCaricaDatabase = new LabelListaGruppi();
+			lblCaricaDatabase = new LabelTestoPiccolo(getContentPane());
 			lblCaricaDatabase.setBounds(22, 183, 113, 14);
 			getContentPane().add(lblCaricaDatabase);
 
-			btnCarica = new ButtonF();
+			btnCarica = new ButtonBase(getContentPane());
 			btnCarica.setBounds(333, 179, 91, 27);
 			getContentPane().add(btnCarica);
 			btnCarica.addActionListener(getListenerCharge());
 
-			caricaDatabase = new TextFieldF();
+			caricaDatabase = new TextFieldBase(getContentPane());
 			caricaDatabase.setBounds(140, 179, 149, 27);
 			getContentPane().add(caricaDatabase);
 
-			final ButtonF button = new ButtonF();
+			final ButtonBase button = new ButtonBase(getContentPane());
 			button.setText("...");
 			button.setBounds(287, 179, 29, 27);
 			getContentPane().add(button);
 
-			elimina = new ButtonF();
+			elimina = new ButtonBase(getContentPane());
 			elimina.addActionListener(getListenerDelete());
 
 			elimina.setBounds(504, 125, 91, 27);
@@ -137,15 +137,15 @@ public class Impostazioni extends DialogoBase {
 			desktopPane.setBounds(94, 138, 1, 1);
 			getContentPane().add(desktopPane);
 
-			lbltstEliminaTuttiLe = new LabelListaGruppi();
+			lbltstEliminaTuttiLe = new LabelTestoPiccolo(getContentPane());
 			lbltstEliminaTuttiLe.setBounds(278, 126, 232, 27);
 			getContentPane().add(lbltstEliminaTuttiLe);
 
-			lbltstUtente = new LabelListaGruppi();
+			lbltstUtente = new LabelTestoPiccolo(getContentPane());
 			lbltstUtente.setBounds(22, 130, 87, 14);
 			getContentPane().add(lbltstUtente);
 
-			annotextField = new TextFieldF();
+			annotextField = new TextFieldBase(getContentPane());
 			annotextField.setText(Integer.toString(gc.get(Calendar.YEAR)));
 			annotextField.setBounds(375, 78, 113, 27);
 			getContentPane().add(annotextField);
@@ -280,11 +280,11 @@ public class Impostazioni extends DialogoBase {
 		};
 	}
 
-	public TextFieldF getAnnotextField() {
+	public TextFieldBase getAnnotextField() {
 		return annotextField;
 	}
 
-	public void setAnnotextField(final TextFieldF annotextField) {
+	public void setAnnotextField(final TextFieldBase annotextField) {
 		this.annotextField = annotextField;
 	}
 

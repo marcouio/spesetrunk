@@ -1,16 +1,21 @@
 package com.molinari.gestionespese.business.cache;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import com.google.api.client.util.Lists;
 import com.molinari.gestionespese.business.Controllore;
+import com.molinari.gestionespese.business.GestioneSpeseException;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.ICatSpese;
+import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.wrapper.WrapCatSpese;
 
@@ -63,25 +68,34 @@ public class CacheCategorie extends AbstractCacheBase<ICatSpese> {
 	public List<ICatSpese> getVettoreCategorie() {
 		final Map<String, ICatSpese> mappa = this.getAllCategorie();
 		Predicate<? super ICatSpese> predicate = getPredicateUtente();
-		return mappa.values().stream().filter(predicate).collect(Collectors.toList());
+		Optional<Collection<ICatSpese>> ofNullable = Optional.ofNullable(mappa.values());
+		boolean present = ofNullable.isPresent();
+		if(present) {
+			return ofNullable.get().stream().filter(predicate).collect(Collectors.toList());
+		}
+		
+		return new ArrayList<>();
 	}
+				
 
 	private Predicate<? super ICatSpese> getPredicateUtente() {
 		return c -> {
-			int idUtenteGprs = c.getGruppi().getUtenti().getidUtente();
+			IGruppi gruppi = c.getGruppi();
+			if(gruppi == null || gruppi.getUtenti() == null) {
+				throw new GestioneSpeseException("There are categories without linked group");
+			}
+			int idUtenteGprs = gruppi.getUtenti().getidUtente();
 			int idUteLogin = ((IUtenti)Controllore.getUtenteLogin()).getidUtente();
 			return idUtenteGprs == idUteLogin;
 		};
 	}
 	
 	public List<ICatSpese> getVettoreCategorieOld() {
-		final List<ICatSpese> categorie = new ArrayList<>();
-		final Map<String, ICatSpese> mappa = this.getAllCategorie();
-		final Object[] lista = mappa.values().toArray();
-		for (final Object element : lista) {
-			categorie.add((ICatSpese) element);
+		Collection<ICatSpese> values = this.getAllCategorie().values();
+		if(values != null && !values.isEmpty()) {
+			return new ArrayList<>(values);
 		}
-		return categorie;
+		return new ArrayList<>();
 	}
 
 	public int getMaxId() {

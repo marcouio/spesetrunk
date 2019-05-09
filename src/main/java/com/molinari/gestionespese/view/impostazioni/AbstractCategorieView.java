@@ -1,10 +1,12 @@
 package com.molinari.gestionespese.view.impostazioni;
 
+import java.util.List;
 import java.util.Observer;
 
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 
+import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapCatSpese;
@@ -76,8 +78,8 @@ public abstract class AbstractCategorieView implements Observer {
 		this.dialog = dialog;
 	}
 
-	public boolean nonEsistonoCampiNonValorizzati() {
-		return getcDescrizione() != null && getcImportanza() != null && getcNome() != null;
+	public boolean esistonoCampiNonValorizzati() {
+		return getcDescrizione() == null && getcImportanza() == null && getcNome() == null;
 	}
 	
 	public abstract JComboBox<ICatSpese> getComboCategorie();
@@ -87,5 +89,10 @@ public abstract class AbstractCategorieView implements Observer {
 	public abstract ICatSpese getCategoria();
 	
 	public abstract boolean updateGui();
+
+	public boolean categoryAlreadyExists() {
+		List<ICatSpese> vettoreCategorie = CacheCategorie.getSingleton().getVettoreCategorie();
+		return vettoreCategorie.stream().filter(c -> c.getnome().equalsIgnoreCase(getcNome())).findFirst().isPresent();
+	}
 
 }

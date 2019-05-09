@@ -20,14 +20,14 @@ import com.molinari.gestionespese.business.cache.CacheGruppi;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapCatSpese;
-import com.molinari.gestionespese.view.font.ButtonF;
-import com.molinari.gestionespese.view.font.LabelListaGruppi;
-import com.molinari.gestionespese.view.font.TextAreaF;
-import com.molinari.gestionespese.view.font.TextFieldF;
 import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreAggiornaCategoria;
 import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreCancellaCategoria;
 import com.molinari.gestionespese.view.impostazioni.ascoltatori.AscoltatoreInserisciCategoria;
 import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.button.ButtonBase;
+import com.molinari.utility.graphic.component.label.LabelTestoPiccolo;
+import com.molinari.utility.graphic.component.textarea.TextAreaBase;
+import com.molinari.utility.graphic.component.textfield.TextFieldBase;
 import com.molinari.utility.messages.I18NManager;
 import com.molinari.utility.text.CorreggiTesto;
 
@@ -60,11 +60,11 @@ public class CategorieView extends AbstractCategorieView {
 			initLabel();
 
 			// Nome Spesa
-			tfNome = new TextFieldF();
+			tfNome = new TextFieldBase(getDialog().getContentPane());
 			tfNome.setBounds(26, 37, 206, 26);
 
 			// Descrizione
-			taDescrizione = new TextAreaF(I18NManager.getSingleton().getMessaggio("insertherecatdescr"), 50, 25);
+			taDescrizione = new TextAreaBase(I18NManager.getSingleton().getMessaggio("insertherecatdescr"), 50, 25, getDialog().getContentPane());
 			taDescrizione.setLineWrap(true);
 			taDescrizione.setWrapStyleWord(true);
 			taDescrizione.setBounds(26, 91, 206, 88);
@@ -78,7 +78,7 @@ public class CategorieView extends AbstractCategorieView {
 			cbImportanza.setBounds(26, 210, 206, 25);
 
 			// bottone invia
-			final ButtonF inserisci = new ButtonF();
+			final ButtonBase inserisci = new ButtonBase(getDialog().getContentPane());
 			inserisci.setBounds(26, 305, 206, 25);
 			inserisci.setText(I18NManager.getSingleton().getMessaggio("inscat"));
 			inserisci.setActionCommand("Inserisci Categoria");
@@ -98,7 +98,7 @@ public class CategorieView extends AbstractCategorieView {
 			cbCategorie.addItemListener(getListener());
 
 			// bottone Update
-			final ButtonF aggiorna = new ButtonF();
+			final ButtonBase aggiorna = new ButtonBase(getDialog().getContentPane());
 			aggiorna.setBounds(26, 421, 100, 25);
 			aggiorna.setText(I18NManager.getSingleton().getMessaggio("update"));
 			aggiorna.setActionCommand("Aggiorna");
@@ -108,7 +108,7 @@ public class CategorieView extends AbstractCategorieView {
 			inserisci.addActionListener(new AscoltatoreInserisciCategoria(this));
 
 			// bottone cancella
-			final ButtonF cancella = new ButtonF();
+			final ButtonBase cancella = new ButtonBase(getDialog().getContentPane());
 			cancella.setActionCommand("Cancella");
 			cancella.setText(I18NManager.getSingleton().getMessaggio("delete"));
 			cancella.setBounds(132, 421, 100, 25);
@@ -233,26 +233,26 @@ public class CategorieView extends AbstractCategorieView {
 	private void initLabel() {
 
 		// Label nome
-		final JLabel labelNome = new LabelListaGruppi();
+		final JLabel labelNome = new LabelTestoPiccolo(getDialog().getContentPane());
 		labelNome.setBounds(26, 12, 100, 25);
 		labelNome.setText(I18NManager.getSingleton().getMessaggio("category"));
 
 		// Label descrizione
-		final JLabel labelDescrizione = new LabelListaGruppi();
+		final JLabel labelDescrizione = new LabelTestoPiccolo(getDialog().getContentPane());
 		labelDescrizione.setBounds(26, 65, 90, 25);
 		labelDescrizione.setText(I18NManager.getSingleton().getMessaggio("descr"));
 
 		// Label Importanza
-		final JLabel labelCategorie = new LabelListaGruppi();
+		final JLabel labelCategorie = new LabelTestoPiccolo(getDialog().getContentPane());
 		labelCategorie.setBounds(26, 184, 100, 25);
 		labelCategorie.setText(I18NManager.getSingleton().getMessaggio("tipology"));
 
 		// Label Combo Categorie
-		final JLabel labelComboCategorie = new LabelListaGruppi();
+		final JLabel labelComboCategorie = new LabelTestoPiccolo(getDialog().getContentPane());
 		labelComboCategorie.setBounds(26, 352, 100, 25);
 		labelComboCategorie.setText(I18NManager.getSingleton().getMessaggio("catlist"));
 
-		final LabelListaGruppi lbltstGruppo = new LabelListaGruppi();
+		final LabelTestoPiccolo lbltstGruppo = new LabelTestoPiccolo(getDialog().getContentPane());
 		lbltstGruppo.setText(I18NManager.getSingleton().getMessaggio("group"));
 		lbltstGruppo.setBounds(26, 239, 100, 25);
 		getDialog().getContentPane().add(lbltstGruppo);

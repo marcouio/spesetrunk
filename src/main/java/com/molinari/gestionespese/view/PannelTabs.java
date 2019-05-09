@@ -27,6 +27,11 @@ public class PannelTabs {
 	public PannelTabs(Container contenitore) {
 		this.contenitore = contenitore;
 	}
+	
+	public void updateText() {
+		((AbstractListaMov) tabMovEntrate).updateText();
+		((AbstractListaMov) tabMovUscite).updateText();
+	}
 
 	protected PannelloBase createPanelTabs() {
 		panel = new PannelloBase(contenitore);

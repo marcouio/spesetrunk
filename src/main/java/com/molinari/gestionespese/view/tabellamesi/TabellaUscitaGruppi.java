@@ -1,5 +1,6 @@
 package com.molinari.gestionespese.view.tabellamesi;
 
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.logging.Level;
@@ -9,8 +10,8 @@ import javax.swing.JTable;
 
 import com.molinari.gestionespese.business.generatori.TableModelUsciteGruppi;
 import com.molinari.gestionespese.view.OggettoVistaBase;
-import com.molinari.gestionespese.view.font.TableF;
 import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.table.TableBase;
 import com.molinari.utility.graphic.component.table.TableModel.Riga;
 
 public class TabellaUscitaGruppi {
@@ -22,11 +23,11 @@ public class TabellaUscitaGruppi {
 	private static String[][] primo;
 	private JScrollPane scrollPane;
 
-	public TabellaUscitaGruppi() {
+	public TabellaUscitaGruppi(Container container) {
 		panel = new OggettoVistaBase(new GridLayout(1, 0));
 
 		try {
-			getDatiPerTabella();
+			getDatiPerTabella(container);
 		} catch (final Exception e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
@@ -39,12 +40,14 @@ public class TabellaUscitaGruppi {
 
 	}
 
-	public static JTable getDatiPerTabella() {
+	public static JTable getDatiPerTabella(Container container) {
 
 		final TableModelUsciteGruppi model = new TableModelUsciteGruppi(null);
 
 		final Riga nomiColonne = model.getNomiColonne();
-		table = new TableF(model.getMatrice(), nomiColonne.getListaCelle().toArray());
+		String[][] dati = (String[][]) model.getMatrice();
+		String[] colonne = nomiColonne.getListaCelle().toArray(new String[nomiColonne.getListaCelle().size()]);
+		table = new TableBase(dati, colonne, container);
 		table.setRowHeight(27);
 		table.setPreferredScrollableViewportSize(new Dimension(700, 300));
 		table.setFillsViewportHeight(true);

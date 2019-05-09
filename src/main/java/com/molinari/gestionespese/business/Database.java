@@ -18,8 +18,14 @@ import java.util.stream.Stream;
 
 import org.apache.commons.math3.util.MathUtils;
 
+import com.molinari.gestionespese.business.cache.CacheBudget;
+import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.cache.CacheEntrate;
+import com.molinari.gestionespese.business.cache.CacheGruppi;
+import com.molinari.gestionespese.business.cache.CacheLookAndFeel;
+import com.molinari.gestionespese.business.cache.CacheNote;
 import com.molinari.gestionespese.business.cache.CacheUscite;
+import com.molinari.gestionespese.business.cache.CacheUtenti;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.ICatSpese;
@@ -39,9 +45,9 @@ import com.molinari.utility.graphic.component.alert.Alert;
 
 public class Database {
 
-	private static final String ID_UTENTE_INTEGER_NOT_NULL = " \"idUtente\"	INTEGER NOT NULL, ";
-	private static final String NOME_TEXT_NOT_NULL = " \"nome\"	TEXT NOT NULL, ";
-	private static final String FOREIGN_KEY_ID_UTENTE_REFERENCES_UTENTI_ID_UTENTE = " FOREIGN KEY(\"idUtente\") REFERENCES \"utenti\"(\"idUtente\") ";
+	private static final String ID_UTENTE_INTEGER_NOT_NULL = " idUtente	INTEGER NOT NULL, ";
+	private static final String NOME_TEXT_NOT_NULL = " nome	VARCHAR2 NOT NULL, ";
+	private static final String FOREIGN_KEY_ID_UTENTE_REFERENCES_UTENTI_ID_UTENTE = " FOREIGN KEY(idUtente) REFERENCES utenti(idUtente) ";
 	private static final String WHERE = " where ";
 	private static final String ROW_S = " row/s";
 	private static final String AND = " AND ";
@@ -108,18 +114,18 @@ public class Database {
 	public void generaDB() throws SQLException {
 		new File(Database.dburl);
 
-		String sql = "CREATE TABLE \"utenti\" (\"idUtente\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , \"nome\" TEXT NOT NULL , \"cognome\" TEXT NOT NULL , \"username\" TEXT NOT NULL  UNIQUE , \"password\" TEXT NOT NULL );";
+		String sql = "CREATE TABLE utenti (idUtente INTEGER PRIMARY KEY  auto_increment  NOT NULL , nome VARCHAR2 NOT NULL , cognome VARCHAR2 NOT NULL , username VARCHAR2 NOT NULL  UNIQUE , password VARCHAR2 NOT NULL );";
 		final ConnectionPool cp = ConnectionPool.getSingleton();
 		executeUpdate(sql, cp);
 		sql = queryCreateGruppo();
 		executeUpdate(sql, cp);
-		sql = "CREATE TABLE \"lookAndFeel\" (\"idLook\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , \"nome\" TEXT NOT NULL , \"valore\" TEXT NOT NULL , \"usato\" INTEGER NOT NULL );";
+		sql = "CREATE TABLE lookAndFeel (idLook INTEGER PRIMARY KEY  auto_increment  NOT NULL , nome VARCHAR2 NOT NULL , valore VARCHAR2 NOT NULL , usato INTEGER NOT NULL );";
 		executeUpdate(sql, cp);
-		sql = "CREATE TABLE \"risparmio\" (\"idRisparmio\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , \"PerSulTotale\" DOUBLE NOT NULL , \"nomeOggetto\" TEXT, \"costoOggetto\" DOUBLE);";
+		sql = "CREATE TABLE risparmio (idRisparmio INTEGER PRIMARY KEY  auto_increment  NOT NULL , PerSulTotale DOUBLE NOT NULL , nomeOggetto VARCHAR2, costoOggetto DOUBLE);";
 		executeUpdate(sql, cp);
-		sql = "CREATE TABLE \"cat_spese\" (\"idCategoria\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\"descrizione\"  TEXT NOT NULL,\"importanza\"  TEXT NOT NULL,\"nome\"  TEXT NOT NULL,\"idGruppo\" INTEGER NOT NULL,CONSTRAINT \"keygruppo\" FOREIGN KEY (\"idGruppo\") REFERENCES \"gruppi\" (\"idGruppo\"));";
+		sql = "CREATE TABLE cat_spese (idCategoria  INTEGER PRIMARY KEY auto_increment NOT NULL,descrizione  VARCHAR2 NOT NULL,importanza  VARCHAR2 NOT NULL,nome  VARCHAR2 NOT NULL,idGruppo INTEGER NOT NULL, FOREIGN KEY (idGruppo) REFERENCES gruppi (idGruppo));";
 		executeUpdate(sql, cp);
-		sql = "CREATE TABLE \"budget\" (\"idBudget\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\"idCategorie\"  INTEGER NOT NULL UNIQUE,\"percSulTot\"  DOUBLE NOT NULL,CONSTRAINT \"keyspesa\" FOREIGN KEY (\"idCategorie\") REFERENCES \"cat_spese\" (\"idCategoria\"));";
+		sql = "CREATE TABLE budget (idBudget  INTEGER PRIMARY KEY auto_increment NOT NULL,idCategorie  INTEGER NOT NULL UNIQUE,percSulTot  DOUBLE NOT NULL,FOREIGN KEY (idCategorie) REFERENCES cat_spese (idCategoria));";
 		executeUpdate(sql, cp);
 		sql = queryCreateEntrate();
 		executeUpdate(sql, cp);
@@ -133,16 +139,16 @@ public class Database {
 
 	private String queryCreateEntrate() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(" CREATE TABLE \"entrate\" ( ");
-		sb.append(" \"idEntrate\"	INTEGER NOT NULL, ");
-		sb.append(" \"descrizione\"	TEXT NOT NULL, ");
-		sb.append(" \"Fisse_o_Var\"	TEXT NOT NULL, ");
-		sb.append(" \"inEuro\"	INTEGER NOT NULL, ");
-		sb.append(" \"data\"	TEXT NOT NULL, ");
+		sb.append(" CREATE TABLE entrate ( ");
+		sb.append(" idEntrate	INTEGER NOT NULL, ");
+		sb.append(" descrizione	VARCHAR2 NOT NULL, ");
+		sb.append(" Fisse_o_Var	VARCHAR2 NOT NULL, ");
+		sb.append(" inEuro	INTEGER NOT NULL, ");
+		sb.append(" data	VARCHAR2 NOT NULL, ");
 		sb.append(NOME_TEXT_NOT_NULL);
 		sb.append(ID_UTENTE_INTEGER_NOT_NULL);
-		sb.append(" \"dataIns\"	TEXT, ");
-		sb.append(" PRIMARY KEY(\"idEntrate\"), ");
+		sb.append(" dataIns	VARCHAR2, ");
+		sb.append(" PRIMARY KEY(idEntrate), ");
 		sb.append(FOREIGN_KEY_ID_UTENTE_REFERENCES_UTENTI_ID_UTENTE);
 		sb.append(" ); ");
 		return sb.toString();
@@ -150,16 +156,15 @@ public class Database {
 
 	private String queryCreateUscite() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(" CREATE TABLE \"single_spesa\" ( ");
-		sb.append(" \"idSpesa\"	INTEGER NOT NULL,  ");
-		sb.append(" \"Data\"	TEXT NOT NULL, ");
-		sb.append(" \"inEuro\"	INTEGER NOT NULL, ");
-		sb.append(" \"descrizione\"	TEXT NOT NULL, ");
-		sb.append(" \"idCategorie\"	INTEGER NOT NULL, ");
+		sb.append(" CREATE TABLE single_spesa ( ");
+		sb.append(" idSpesa	INTEGER NOT NULL PRIMARY KEY auto_increment,  ");
+		sb.append(" Data	VARCHAR2 NOT NULL, ");
+		sb.append(" inEuro	INTEGER NOT NULL, ");
+		sb.append(" descrizione	VARCHAR2 NOT NULL, ");
+		sb.append(" idCategorie	INTEGER NOT NULL, ");
 		sb.append(NOME_TEXT_NOT_NULL);
+		sb.append(" dataIns	TEXT, ");
 		sb.append(ID_UTENTE_INTEGER_NOT_NULL);
-		sb.append(" \"dataIns\"	TEXT, ");
-		sb.append(" PRIMARY KEY(\"idSpesa\") ");
 		sb.append(FOREIGN_KEY_ID_UTENTE_REFERENCES_UTENTI_ID_UTENTE);
 		sb.append(" ); ");
 		return sb.toString();
@@ -167,10 +172,10 @@ public class Database {
 
 	private String queryCreateGruppo() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(" CREATE TABLE \"gruppi\" ( ");
-		sb.append(" \"idGruppo\"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,  ");
+		sb.append(" CREATE TABLE gruppi ( ");
+		sb.append(" idGruppo	INTEGER NOT NULL PRIMARY KEY auto_increment,  ");
 		sb.append(NOME_TEXT_NOT_NULL);
-		sb.append(" \"descrizione\"	TEXT, ");
+		sb.append(" descrizione	TEXT, ");
 		sb.append(ID_UTENTE_INTEGER_NOT_NULL);
 		sb.append(FOREIGN_KEY_ID_UTENTE_REFERENCES_UTENTI_ID_UTENTE);
 		sb.append(" ); ");
@@ -178,14 +183,14 @@ public class Database {
 	}
 	private String queryCreateNote() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(" CREATE TABLE \"note\" ( ");
-		sb.append(" \"idNote\"	INTEGER NOT NULL, ");
-		sb.append(" \"nome\"	TEXT NOT NULL, ");
-		sb.append(" \"descrizione\"	TEXT NOT NULL, ");
+		sb.append(" CREATE TABLE note ( ");
+		sb.append(" idNote	INTEGER NOT NULL, ");
+		sb.append(" nome	VARCHAR2 NOT NULL, ");
+		sb.append(" descrizione	TEXT NOT NULL, ");
 		sb.append(ID_UTENTE_INTEGER_NOT_NULL);
-		sb.append(" \"data\"	TEXT NOT NULL, ");
-		sb.append(" \"dataIns\"	TEXT NOT NULL, ");
-		sb.append(" PRIMARY KEY(\"idNote\"), ");
+		sb.append(" data	VARCHAR2 NOT NULL, ");
+		sb.append(" dataIns	VARCHAR2 NOT NULL, ");
+		sb.append(" PRIMARY KEY(idNote), ");
 		sb.append(FOREIGN_KEY_ID_UTENTE_REFERENCES_UTENTI_ID_UTENTE);
 		sb.append(" ); ");
 		return sb.toString();
@@ -235,12 +240,25 @@ public class Database {
 			try {
 				int executeUpdate = ConnectionPool.getSingleton().executeUpdate(sql);
 				sendAlert(sql, executeUpdate);
+				invalidateCache();
 			} catch (final SQLException e) {
 				ControlloreBase.getLog().log(Level.SEVERE, "Operazione SQL non eseguita: " + sql, e);
 				Alert.segnalazioneErroreGrave("Operazione SQL non eseguita:" + e.getMessage());
 			}
 		}
 		return nomi;
+	}
+
+	private void invalidateCache() {
+		CacheEntrate.getSingleton().setCaricata(false);
+		CacheUscite.getSingleton().setCaricata(false);
+		CacheCategorie.getSingleton().setCaricata(false);
+		CacheGruppi.getSingleton().setCaricata(false);
+		CacheBudget.getSingleton().setCaricata(false);
+		CacheUtenti.getSingleton().setCaricata(false);
+		CacheLookAndFeel.getSingleton().setCaricata(false);
+		CacheNote.getSingleton().setCaricata(false);
+		
 	}
 
 	private boolean startWith(final String sql, String starting) {

@@ -1,6 +1,7 @@
 
 package com.molinari.gestionespese.view.componenti.componentipannello;
 
+import java.awt.Container;
 import java.util.logging.Level;
 
 import javax.swing.JComponent;
@@ -9,9 +10,10 @@ import javax.swing.JTextField;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Database;
-import com.molinari.gestionespese.view.font.LabelTestoPiccolo;
-import com.molinari.gestionespese.view.font.TextFieldF;
 import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.graphic.component.label.LabelTestoPiccolo;
+import com.molinari.utility.graphic.component.textfield.TextFieldBase;
 import com.molinari.utility.messages.I18NManager;
 
 public class SottoPannelloDatiSpese {
@@ -27,42 +29,45 @@ public class SottoPannelloDatiSpese {
 	private JLabel[]                  labels     = new JLabel[3];
 	private CostruttoreSottoPannello  pannello;
 	
-	public SottoPannelloDatiSpese() {
+	public SottoPannelloDatiSpese(Container container) {
 		super();
+		pannello = new CostruttoreSottoPannello(new PannelloBase(container), componenti, labels);
+		
 		initGUI();
-		pannello = new CostruttoreSottoPannello(componenti, labels, CostruttoreSottoPannello.VERTICAL);
+		
+		pannello.initGUI(componenti, labels);
 	}
 	
 	private void initGUI() {
 		try {
 
-			final JLabel meseincorso = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("thisyear"));
+			final JLabel meseincorso = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("thisyear"), pannello.getPannello());
 			labels[2] = meseincorso;
 			meseincorso.setBounds(164, 66, 141, 14);
 
-			speseAnnuali = new TextFieldF();
+			speseAnnuali = new TextFieldBase(pannello.getPannello());
 			componenti[2] = speseAnnuali;
 			speseAnnuali.setBounds(164, 84, 106, 27);
 			speseAnnuali.setColumns(8);
 
-			final JLabel label = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("lastmonth"));
+			final JLabel label = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("lastmonth"), pannello.getPannello());
 			label.setBounds(317, 67, 123, 14);
 			labels[1] = label;
 
 			mensile = Database.uMensile();
-			mesePrecUsc = new TextFieldF();
+			mesePrecUsc = new TextFieldBase(pannello.getPannello());
 			mesePrecUsc.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(mensile)));
 			mesePrecUsc.setBounds(317, 85, 106, 27);
 			componenti[1] = mesePrecUsc;
 
-			final JLabel label2 = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("thismonth"));
+			final JLabel label2 = new LabelTestoPiccolo(I18NManager.getSingleton().getMessaggio("thismonth"), pannello.getPannello());
 			label2.setBounds(16, 67, 136, 13);
 			labels[0] = label2;
 
 			annuale = Database.uAnnuale();
 			speseAnnuali.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(annuale)));
 
-			meseInCors = new TextFieldF();
+			meseInCors = new TextFieldBase(pannello.getPannello());
 			double mensile2 = Database.uMensileInCorso();
 			meseInCors.setText(Double.toString(AltreUtil.arrotondaDecimaliDouble(mensile2)));
 			componenti[0] = meseInCors;

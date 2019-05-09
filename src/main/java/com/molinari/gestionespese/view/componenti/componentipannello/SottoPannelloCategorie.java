@@ -1,5 +1,6 @@
 package com.molinari.gestionespese.view.componenti.componentipannello;
 
+import java.awt.Container;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -15,9 +16,10 @@ import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.ICatSpese;
-import com.molinari.gestionespese.view.font.LabelTestoPiccolo;
-import com.molinari.gestionespese.view.font.TextFieldF;
 import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.graphic.component.label.LabelTestoPiccolo;
+import com.molinari.utility.graphic.component.textfield.TextFieldBase;
 import com.molinari.utility.messages.I18NManager;
 
 public class SottoPannelloCategorie {
@@ -30,37 +32,38 @@ public class SottoPannelloCategorie {
 	JLabel[] labels = new JLabel[3];
 	CostruttoreSottoPannello pannello;
 
-	public SottoPannelloCategorie() {
+	public SottoPannelloCategorie(Container container) {
 		super();
+		pannello = new CostruttoreSottoPannello(new PannelloBase(container), componenti, labels);
 		initGUI();
-		pannello = new CostruttoreSottoPannello(componenti, labels, CostruttoreSottoPannello.VERTICAL);
+		pannello.initGUI(componenti, labels);
 	}
 
 	private void initGUI() {
 		try {
 
-			LabelTestoPiccolo jLabel5 = new LabelTestoPiccolo();
+			LabelTestoPiccolo jLabel5 = new LabelTestoPiccolo(pannello.getPannello());
 			jLabel5.setText(I18NManager.getSingleton().getMessaggio("categories"));
 			jLabel5.setBounds(177, 25, 90, 19);
 			labels[0] = jLabel5;
 
-			LabelTestoPiccolo jLabel11 = new LabelTestoPiccolo();
+			LabelTestoPiccolo jLabel11 = new LabelTestoPiccolo(pannello.getPannello());
 			jLabel11.setText(I18NManager.getSingleton().getMessaggio("annualtotal"));
 			jLabel11.setBounds(135, 67, 78, 14);
 			labels[1] = jLabel11;
 
-			LabelTestoPiccolo jLabel6 = new LabelTestoPiccolo();
+			LabelTestoPiccolo jLabel6 = new LabelTestoPiccolo(pannello.getPannello());
 			jLabel6.setText(I18NManager.getSingleton().getMessaggio("monthlytotal"));
 			jLabel6.setBounds(253, 67, 106, 14);
 			labels[2] = jLabel6;
 
-			totaleAnnualeCateg = new TextFieldF();
+			totaleAnnualeCateg = new TextFieldBase(pannello.getPannello());
 			totaleAnnualeCateg.setColumns(10);
 			totaleAnnualeCateg.setText("0.0");
 			totaleAnnualeCateg.setBounds(135, 83, 106, 27);
 			componenti[1] = totaleAnnualeCateg;
 
-			totaleMeseCategoria = new TextFieldF();
+			totaleMeseCategoria = new TextFieldBase(pannello.getPannello());
 			totaleMeseCategoria.setColumns(10);
 			totaleMeseCategoria.setText("0.0");
 			totaleMeseCategoria.setBounds(253, 83, 106, 27);

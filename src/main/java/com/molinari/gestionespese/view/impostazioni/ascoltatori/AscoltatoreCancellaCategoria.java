@@ -7,6 +7,7 @@ import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreTu
 import com.molinari.gestionespese.business.comandi.categorie.CommandDeleteCategoria;
 import com.molinari.gestionespese.view.impostazioni.AbstractCategorieView;
 import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.messages.I18NManager;
 
 public class AscoltatoreCancellaCategoria extends AscoltatoreAggiornatoreTutto {
 
@@ -26,7 +27,8 @@ public class AscoltatoreCancellaCategoria extends AscoltatoreAggiornatoreTutto {
 				categorieView.getDialog().dispose();
 			}
 		} else {
-			Alert.segnalazioneErroreGrave("Impossibile cancellare una categoria inesistente!");
+			
+			Alert.segnalazioneErroreGrave(I18NManager.getSingleton().getMessaggio("anycatsel"));
 		}
 	}
 }

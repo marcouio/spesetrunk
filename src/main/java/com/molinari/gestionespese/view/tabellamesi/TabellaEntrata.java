@@ -3,6 +3,7 @@
 package com.molinari.gestionespese.view.tabellamesi;
 
 
+import java.awt.Container;
 import java.awt.GridLayout;
 import java.util.List;
 import java.util.logging.Level;
@@ -12,9 +13,9 @@ import javax.swing.JScrollPane;
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.generatori.TableModelEntrate;
 import com.molinari.gestionespese.view.OggettoVistaBase;
-import com.molinari.gestionespese.view.font.TableF;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.graphic.component.table.TableBase;
 import com.molinari.utility.messages.I18NManager;
 
 public class TabellaEntrata {
@@ -26,12 +27,12 @@ public class TabellaEntrata {
 
 	private JScrollPane scrollPane;
 
-	public TabellaEntrata() {
+	public TabellaEntrata(Container container) {
 		panel = new OggettoVistaBase(new GridLayout(1,0));
-		TableF table = null;
+		TableBase table = null;
 		try{
 			final TableModelEntrate model = new TableModelEntrate(null);
-			table = createTable(model);
+			table = createTable(model, container);
 		}catch (final Exception e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
@@ -46,14 +47,17 @@ public class TabellaEntrata {
 	/**
 	 *
 	 * Permette di generare una tabella
+	 * @param container 
 	 *
 	 * @param primo
 	 * @param nomiColonne
-	 * @return TableF
+	 * @return TableBase
 	 */
-	public TableF createTable(TableModelEntrate model) {
+	public TableBase createTable(TableModelEntrate model, Container container) {
 		final List<String> listaCelle = model.getNomiColonne().getListaCelle();
-		final TableF table = new TableF(model.getMatrice(), listaCelle.toArray(new String[listaCelle.size()]));
+		String[] colonne = listaCelle.toArray(new String[listaCelle.size()]);
+		String[][] dati = (String[][]) model.getMatrice();
+		final TableBase table = new TableBase(dati, colonne, container);
 
 		table.setFillsViewportHeight(true);
 		final PannelloBase panelTabs = Controllore.getGeneralFrame().getPannelTabs().getPanel();

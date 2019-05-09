@@ -15,41 +15,41 @@ import com.molinari.gestionespese.domain.INote;
 import com.molinari.gestionespese.domain.Note;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapNote;
-import com.molinari.gestionespese.view.font.ButtonF;
-import com.molinari.gestionespese.view.font.LabelListaGruppi;
-import com.molinari.gestionespese.view.font.TextAreaF;
-import com.molinari.gestionespese.view.font.TextFieldF;
 import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.graphic.component.button.ButtonBase;
+import com.molinari.utility.graphic.component.label.LabelTestoPiccolo;
+import com.molinari.utility.graphic.component.textarea.TextAreaBase;
+import com.molinari.utility.graphic.component.textfield.TextFieldBase;
 
 public class NoteView extends AbstractNoteView {
 
-	private final TextFieldF nota;
-	private final TextAreaF  descrizione;
-	private final TextFieldF data;
-	private ButtonF          btnInserisci;
+	private final TextFieldBase nota;
+	private final TextAreaBase  descrizione;
+	private final TextFieldBase data;
+	private ButtonBase          btnInserisci;
 
 	public NoteView(final WrapNote note, final Finestra padre) {
 		super(note);
 		getDialog().setTitle("Pannello Nota");
 		getDialog().getContentPane().setLayout(null);
 
-		final LabelListaGruppi lbltstNota = new LabelListaGruppi("Nome Spesa");
+		final LabelTestoPiccolo lbltstNota = new LabelTestoPiccolo("Nome Spesa", getDialog().getContentPane());
 		lbltstNota.setText("Nota");
 		lbltstNota.setBounds(13, 12, 97, 27);
 		getDialog().getContentPane().add(lbltstNota);
 
-		nota = new TextFieldF();
+		nota = new TextFieldBase(getDialog().getContentPane());
 		nota.setText("Nome della nota");
 		nota.setColumns(10);
 		nota.setBounds(12, 38, 150, 27);
 		getDialog().getContentPane().add(nota);
 
-		final LabelListaGruppi lbltstDa = new LabelListaGruppi("Categorie");
+		final LabelTestoPiccolo lbltstDa = new LabelTestoPiccolo("Categorie", getDialog().getContentPane());
 		lbltstDa.setText("Data");
 		lbltstDa.setBounds(181, 12, 77, 27);
 		getDialog().getContentPane().add(lbltstDa);
 
-		descrizione = new TextAreaF();
+		descrizione = new TextAreaBase(getDialog().getContentPane());
 		descrizione.setText("Inserisci qui la descrizione della nota");
 		descrizione.setWrapStyleWord(true);
 		descrizione.setLineWrap(true);
@@ -57,18 +57,18 @@ public class NoteView extends AbstractNoteView {
 		descrizione.setBounds(13, 89, 318, 75);
 		getDialog().getContentPane().add(descrizione);
 
-		final LabelListaGruppi lbltstDescrizioneNota = new LabelListaGruppi("Descrizione Spesa");
+		final LabelTestoPiccolo lbltstDescrizioneNota = new LabelTestoPiccolo("Descrizione Spesa", getDialog().getContentPane());
 		lbltstDescrizioneNota.setText("Descrizione Nota");
 		lbltstDescrizioneNota.setBounds(14, 64, 123, 25);
 		getDialog().getContentPane().add(lbltstDescrizioneNota);
 
-		data = new TextFieldF();
+		data = new TextFieldBase(getDialog().getContentPane());
 		data.setColumns(10);
 		data.setBounds(181, 38, 150, 27);
 		data.setText(DBUtil.dataToString(new Date(), "yyyy/MM/dd"));
 		getDialog().getContentPane().add(data);
 
-		btnInserisci = new ButtonF();
+		btnInserisci = new ButtonBase(getDialog().getContentPane());
 		btnInserisci.setText("Inserisci");
 		btnInserisci.setBounds(13, 175, 318, 25);
 		getDialog().getContentPane().add(btnInserisci);
@@ -140,23 +140,23 @@ public class NoteView extends AbstractNoteView {
 		data.setText(stringaData);
 	}
 
-	public TextFieldF getNota() {
+	public TextFieldBase getNota() {
 		return nota;
 	}
 
-	public TextAreaF gettaDescrizione() {
+	public TextAreaBase gettaDescrizione() {
 		return descrizione;
 	}
 
-	public TextFieldF getftData() {
+	public TextFieldBase getftData() {
 		return data;
 	}
 
-	public ButtonF getBtnInserisci() {
+	public ButtonBase getBtnInserisci() {
 		return btnInserisci;
 	}
 
-	public void setBtnInserisci(ButtonF btnInserisci) {
+	public void setBtnInserisci(ButtonBase btnInserisci) {
 		this.btnInserisci = btnInserisci;
 	}
 }

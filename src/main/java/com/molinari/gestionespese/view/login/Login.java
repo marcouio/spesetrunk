@@ -1,8 +1,8 @@
 package com.molinari.gestionespese.view.login;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Dialog.ModalityType;
+import java.awt.Font;
 import java.util.logging.Level;
 
 import javax.swing.JDialog;
@@ -12,18 +12,18 @@ import javax.swing.WindowConstants;
 import com.molinari.gestionespese.business.aggiornatori.AggiornatoreManager;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreNiente;
 import com.molinari.gestionespese.domain.IUtenti;
-import com.molinari.gestionespese.view.font.ButtonF;
-import com.molinari.gestionespese.view.font.LabelListaGruppi;
-import com.molinari.gestionespese.view.font.LabelTitolo;
-import com.molinari.gestionespese.view.font.TextFieldF;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.graphic.component.button.ButtonBase;
+import com.molinari.utility.graphic.component.label.Label;
+import com.molinari.utility.graphic.component.label.LabelTestoPiccolo;
+import com.molinari.utility.graphic.component.textfield.TextFieldBase;
 import com.molinari.utility.messages.I18NManager;
 
 public class Login {
 
-	final TextFieldF user;
+	final TextFieldBase user;
 	final JPasswordField pass;
 	private JDialog dialog = new JDialog();
 	
@@ -33,15 +33,15 @@ public class Login {
 		getDialog().setModalityType(ModalityType.APPLICATION_MODAL);
 		getDialog().setBounds(400, 300, 400, 220);
 		getDialog().setTitle("Login");
-		final LabelListaGruppi lblUsername = new LabelListaGruppi("Username");
+		final LabelTestoPiccolo lblUsername = new LabelTestoPiccolo("Username", getDialog().getContentPane());
 		lblUsername.setBounds(83, 69, 88, 25);
 		getDialog().getContentPane().add(lblUsername);
 
-		final LabelListaGruppi lblPassword = new LabelListaGruppi("Password");
+		final LabelTestoPiccolo lblPassword = new LabelTestoPiccolo("Password", getDialog().getContentPane());
 		lblPassword.setBounds(221, 68, 88, 25);
 		getDialog().getContentPane().add(lblPassword);
 
-		user = new TextFieldF();
+		user = new TextFieldBase(getDialog().getContentPane());
 		user.setBounds(83, 94, 86, 25);
 		getDialog().getContentPane().add(user);
 		user.setColumns(10);
@@ -54,11 +54,11 @@ public class Login {
 		pass.setBounds(221, 94, 86, 25);
 		getDialog().getContentPane().add(pass);
 
-		final LabelTitolo lblLogin = new LabelTitolo("LOGIN");
+		final Label lblLogin = new Label("LOGIN", getDialog().getContentPane());
 		lblLogin.setBounds(171, 25, 57, 32);
 		getDialog().getContentPane().add(lblLogin);
 
-		final ButtonF btnEntra = new ButtonF(I18NManager.getSingleton().getMessaggio("enter"));
+		final ButtonBase btnEntra = new ButtonBase(I18NManager.getSingleton().getMessaggio("enter"), getDialog().getContentPane());
 		btnEntra.setBounds(148, 148, 91, 23);
 		getDialog().getContentPane().add(btnEntra);
 

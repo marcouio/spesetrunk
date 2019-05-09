@@ -1,34 +1,22 @@
 package com.molinari.gestionespese.view.componenti.componentipannello;
 
+import java.awt.Container;
 import java.util.logging.Level;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.WindowConstants;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.domain.CatSpese;
-import com.molinari.gestionespese.view.font.LabelTestoPiccolo;
-import com.molinari.gestionespese.view.font.TextFieldF;
 import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.graphic.component.label.LabelTestoPiccolo;
+import com.molinari.utility.graphic.component.textfield.TextFieldBase;
 import com.molinari.utility.messages.I18NManager;
 
 public class SottoPannelloTotali {
-
-
-	/**
-	 * Auto-generated main method to display this JPanel inside a new JFrame.
-	 */
-	public static void main(String[] args) {
-		final JFrame frame = new JFrame();
-		frame.getContentPane().add(new SottoPannelloTotali().getPannello());
-		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		frame.pack();
-		frame.setVisible(true);
-	}
 
 	private static JTextField percentoVariabili;
 	private static JTextField percentoFutili;
@@ -38,32 +26,33 @@ public class SottoPannelloTotali {
 	JLabel[]                  labels     = new JLabel[3];
 	CostruttoreSottoPannello  pannello;
 
-	public SottoPannelloTotali() {
+	public SottoPannelloTotali(Container container) {
 		super();
+		pannello = new CostruttoreSottoPannello(new PannelloBase(container),componenti, labels);
 		initGUI();
-		pannello = new CostruttoreSottoPannello(componenti, labels, CostruttoreSottoPannello.VERTICAL);
+		pannello.initGUI(componenti, labels);
 	}
 
 	private void initGUI() {
 		try {
 
-			LabelTestoPiccolo jLabel2 = new LabelTestoPiccolo();
+			LabelTestoPiccolo jLabel2 = new LabelTestoPiccolo(pannello.getPannello());
 			labels[0] = jLabel2;
 			jLabel2.setText("% " + I18NManager.getSingleton().getMessaggio("spesefut"));
 			jLabel2.setBounds(317, 67, 106, 14);
 			jLabel2.setOpaque(true);
 
-			LabelTestoPiccolo jLabel3 = new LabelTestoPiccolo();
+			LabelTestoPiccolo jLabel3 = new LabelTestoPiccolo(pannello.getPannello());
 			labels[1] = jLabel3;
 			jLabel3.setText("% " + I18NManager.getSingleton().getMessaggio("spesevar"));
 			jLabel3.setBounds(164, 66, 141, 15);
 
-			LabelTestoPiccolo jLabel4 = new LabelTestoPiccolo();
+			LabelTestoPiccolo jLabel4 = new LabelTestoPiccolo(pannello.getPannello());
 			labels[2] = jLabel4;
 			jLabel4.setText(I18NManager.getSingleton().getMessaggio("avanzo")+"/"+I18NManager.getSingleton().getMessaggio("disavanzo"));
 			jLabel4.setBounds(16, 67, 128, 14);
 
-			avanzo = new TextFieldF();
+			avanzo = new TextFieldBase(pannello.getPannello());
 			componenti[2] = avanzo;
 			avanzo.setColumns(10);
 
@@ -76,14 +65,14 @@ public class SottoPannelloTotali {
 
 			final double percFutili = Database.percentoUscite(CatSpese.IMPORTANZA_FUTILE);
 
-			percentoVariabili = new TextFieldF();
+			percentoVariabili = new TextFieldBase(pannello.getPannello());
 			componenti[1] = percentoVariabili;
 			percentoVariabili.setColumns(10);
 			percentoVariabili.setText(Double.toString(percVariabili));
 			percentoVariabili.setBounds(164, 84, 106, 27);
 			percentoVariabili.setSize(92, 27);
 
-			percentoFutili = new TextFieldF();
+			percentoFutili = new TextFieldBase(pannello.getPannello());
 			componenti[0] = percentoFutili;
 			percentoFutili.setColumns(10);
 			percentoFutili.setText(Double.toString(percFutili));
