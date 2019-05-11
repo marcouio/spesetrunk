@@ -445,6 +445,8 @@ public class AggiornatoreManager {
 				final JScrollPane pane = tabPermesi.getTabUscite().getScrollPane();
 				if(pane != null){
 					pane.setViewportView(table);
+					tabPermesi.getTabUscite().setScrollPane(pane);
+					tabPermesi.setTabUscite(tabPermesi.getTabUscite());
 				}
 			}
 			return true;

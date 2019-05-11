@@ -147,20 +147,21 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 		String sql = "";
 		try {
 
-			sql = "INSERT INTO " + Entrate.NOME_TABELLA + " (" + Entrate.COL_DESCRIZIONE + ", " + Entrate.COL_FISSEOVAR + ", " + Entrate.COL_INEURO + ", " + Entrate.COL_DATA + ", " + Entrate.COL_NOME
-					+ ", " + Entrate.COL_IDUTENTE + ", " + Entrate.COL_DATAINS + ") VALUES (?,?,?,?,?,?,?)";
+			sql = "INSERT INTO " + Entrate.NOME_TABELLA + " (" + Entrate.COL_IDENTRATE + ", "+ Entrate.COL_DESCRIZIONE + ", " + Entrate.COL_FISSEOVAR + ", " + Entrate.COL_INEURO + ", " + Entrate.COL_DATA + ", " + Entrate.COL_NOME
+					+ ", " + Entrate.COL_IDUTENTE + ", " + Entrate.COL_DATAINS + ") VALUES (?,?,?,?,?,?,?,?)";
 			
 			return new ExecutePreparedStatement<IEntrate>() {
 
 				@Override
 				protected void doWithPreparedStatement(PreparedStatement ps, IEntrate obj) throws SQLException {
-					ps.setString(1, obj.getdescrizione());
-					ps.setString(2, obj.getFisseoVar());
-					ps.setDouble(3, obj.getinEuro());
-					ps.setString(4, obj.getdata());
-					ps.setString(5, obj.getnome());
-					ps.setInt(6, obj.getUtenti().getidUtente());
-					ps.setString(7, obj.getDataIns());
+					ps.setInt(1, obj.getidEntrate());
+					ps.setString(2, obj.getdescrizione());
+					ps.setString(3, obj.getFisseoVar());
+					ps.setDouble(4, obj.getinEuro());
+					ps.setString(5, obj.getdata());
+					ps.setString(6, obj.getnome());
+					ps.setInt(7, obj.getUtenti().getidUtente());
+					ps.setString(8, obj.getDataIns());
 					
 				}
 			}.executeUpdate(sql, oggettoEntita);

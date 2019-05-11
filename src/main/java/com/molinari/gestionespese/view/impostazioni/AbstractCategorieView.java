@@ -92,7 +92,9 @@ public abstract class AbstractCategorieView implements Observer {
 
 	public boolean categoryAlreadyExists() {
 		List<ICatSpese> vettoreCategorie = CacheCategorie.getSingleton().getVettoreCategorie();
-		return vettoreCategorie.stream().filter(c -> c.getnome().equalsIgnoreCase(getcNome())).findFirst().isPresent();
+		return vettoreCategorie.stream().filter(c -> 
+									c.getnome().equalsIgnoreCase(getcNome()))
+				.findFirst().isPresent();
 	}
 
 }

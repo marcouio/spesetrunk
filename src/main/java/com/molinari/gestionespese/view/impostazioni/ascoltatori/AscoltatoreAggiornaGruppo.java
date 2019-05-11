@@ -48,6 +48,7 @@ public class AscoltatoreAggiornaGruppo extends AscoltatoreAggiornatoreTutto {
 					AggiornatoreManager.aggiornamentoComboBox(CacheCategorie.getSingleton().getVettoreCategorie());
 					modelGruppi.setChanged();
 					modelGruppi.notifyObservers();
+					
 					gruppiView.getDialog().dispose();
 				}
 			} catch (final Exception e22) {

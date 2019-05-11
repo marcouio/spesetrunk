@@ -50,7 +50,7 @@ public class PerMesiF extends PannelloBase {
 			OggettoVistaBase panelEntrate = tabEntrate != null ? tabEntrate.getPanel() : null;
 			OggettoVistaBase panelUscite = tabUscite != null ? tabUscite.getPanel() : null;
 			OggettoVistaBase panelGruppi = tabUG != null ? tabUG.getPanel() : null;
-			tabGenerale.setBounds(0, 0, getContenitorePadre().getWidth(), getContenitorePadre().getHeight());
+			tabGenerale.setBounds(0, 200, getContenitorePadre().getWidth(), getContenitorePadre().getHeight());
 			tabGenerale.addTab(I18NManager.getSingleton().getMessaggio("income"), panelEntrate);
 			tabGenerale.addTab(I18NManager.getSingleton().getMessaggio("withdrawal"), panelUscite);
 			tabGenerale.addTab(I18NManager.getSingleton().getMessaggio("groupscharge"), panelGruppi);

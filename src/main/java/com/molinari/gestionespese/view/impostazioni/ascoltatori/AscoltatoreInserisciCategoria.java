@@ -12,6 +12,8 @@ import com.molinari.gestionespese.domain.Gruppi;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.IUtenti;
+import com.molinari.gestionespese.domain.wrapper.WrapCatSpese;
+import com.molinari.gestionespese.domain.wrapper.WrapGruppi;
 import com.molinari.gestionespese.view.AlertMaker;
 import com.molinari.gestionespese.view.impostazioni.AbstractCategorieView;
 import com.molinari.utility.messages.I18NManager;
@@ -61,6 +63,7 @@ public class AscoltatoreInserisciCategoria extends AscoltatoreAggiornatoreTutto 
 				}
 				getCategorieView().getModelCatSpese().setChanged();
 				getCategorieView().getModelCatSpese().notifyObservers();
+				getCategorieView().setModelCatSpese(new WrapCatSpese());
 				getCategorieView().getDialog().dispose();
 			}
 		} 

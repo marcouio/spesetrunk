@@ -305,7 +305,7 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 			final List<ISingleSpesa> sSpesa = new ArrayList<>();
 			try {
 					while (rs != null && rs.next()) {
-						IUtenti utenteToSet = CacheUtenti.getSingleton().getAllUtenti().get(Integer.toString(rs.getInt(7)));
+						IUtenti utenteToSet = CacheUtenti.getSingleton().getAllUtenti().get(Integer.toString(rs.getInt(8)));
 						sSpesa.add(fillSpesa(utenteToSet, rs));
 					}
 				} catch (SQLException e) {
@@ -457,7 +457,7 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 	private SingleSpesa fillSpesa(final IUtenti utente, ResultSet rs) throws SQLException {
 		Map<String, ICatSpese> mappaCategorie = CacheCategorie.getSingleton().getCache();
 		ICatSpese categoria = mappaCategorie.get(rs.getString(5));
-		IUtenti utentiToSet = utente != null ? utente : CacheUtenti.getSingleton().getUtente(rs.getString(7));  
+		IUtenti utentiToSet = utente != null ? utente : CacheUtenti.getSingleton().getUtente(rs.getString(8));  
 		final SingleSpesa ss = new SingleSpesa();
 		ss.setidSpesa(rs.getInt(1));
 		ss.setData(rs.getString(2));
@@ -465,7 +465,7 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 		ss.setdescrizione(rs.getString(4));
 		ss.setNome(rs.getString(6));
 		ss.setCatSpese(categoria);
-		ss.setDataIns(rs.getString(8));
+		ss.setDataIns(rs.getString(7));
 		ss.setUtenti(utentiToSet);
 		return ss;
 	}

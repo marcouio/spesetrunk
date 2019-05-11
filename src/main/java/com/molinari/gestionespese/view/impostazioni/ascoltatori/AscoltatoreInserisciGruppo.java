@@ -53,6 +53,7 @@ public class AscoltatoreInserisciGruppo extends AscoltatoreAggiornatoreTutto {
 
 		modelGruppi.setChanged();
 		modelGruppi.notifyObservers();
+		getGruppiView().setModelGruppi(new WrapGruppi());
 		getGruppiView().getDialog().dispose();
 	}
 

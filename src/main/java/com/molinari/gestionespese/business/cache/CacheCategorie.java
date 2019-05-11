@@ -10,7 +10,6 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import com.google.api.client.util.Lists;
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.GestioneSpeseException;
 import com.molinari.gestionespese.domain.CatSpese;
