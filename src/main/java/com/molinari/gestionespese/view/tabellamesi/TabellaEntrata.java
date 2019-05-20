@@ -61,7 +61,7 @@ public class TabellaEntrata {
 
 		table.setFillsViewportHeight(true);
 		final PannelloBase panelTabs = Controllore.getGeneralFrame().getPannelTabs().getPanel();
-		table.setRowHeight(panelTabs.getHeight()/12);
+		table.setRowHeight(panelTabs.getHeight()/17);
 		return table;
 	}
 

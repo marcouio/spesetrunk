@@ -166,6 +166,7 @@ public class Database {
 		sb.append(" dataIns	TEXT, ");
 		sb.append(ID_UTENTE_INTEGER_NOT_NULL);
 		sb.append(FOREIGN_KEY_ID_UTENTE_REFERENCES_UTENTI_ID_UTENTE);
+		sb.append(", FOREIGN KEY(idCategorie) REFERENCES cat_spese(idCategoria)");
 		sb.append(" ); ");
 		return sb.toString();
 	}
@@ -520,14 +521,13 @@ public class Database {
 				protected List<String> doWithResultSet(ResultSet rs) throws SQLException {
 					final List<String> colonne = new ArrayList<>();
 
-					if (rs != null && rs.next()) {
-						final ResultSetMetaData rsm = rs.getMetaData();
-						final int columnCount = rsm.getColumnCount();
+					final ResultSetMetaData rsm = rs.getMetaData();
+					final int columnCount = rsm.getColumnCount();
 
-						for (int i = 1; i <= columnCount; i++) {
-							colonne.add(rsm.getColumnName(i));
-						}
+					for (int i = 1; i <= columnCount; i++) {
+						colonne.add(rsm.getColumnName(i));
 					}
+					
 					return colonne;
 				}
 			}.execute(sql);

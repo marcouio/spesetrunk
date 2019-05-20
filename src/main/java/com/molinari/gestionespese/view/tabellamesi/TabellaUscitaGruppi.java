@@ -8,9 +8,11 @@ import java.util.logging.Level;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.generatori.TableModelUsciteGruppi;
 import com.molinari.gestionespese.view.OggettoVistaBase;
 import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.container.PannelloBase;
 import com.molinari.utility.graphic.component.table.TableBase;
 import com.molinari.utility.graphic.component.table.TableModel.Riga;
 
@@ -48,7 +50,8 @@ public class TabellaUscitaGruppi {
 		String[][] dati = (String[][]) model.getMatrice();
 		String[] colonne = nomiColonne.getListaCelle().toArray(new String[nomiColonne.getListaCelle().size()]);
 		table = new TableBase(dati, colonne, container);
-		table.setRowHeight(27);
+		final PannelloBase panelTabs = Controllore.getGeneralFrame().getPannelTabs().getPanel();
+		table.setRowHeight(panelTabs.getHeight()/17);
 		table.setPreferredScrollableViewportSize(new Dimension(700, 300));
 		table.setFillsViewportHeight(true);
 		return table;

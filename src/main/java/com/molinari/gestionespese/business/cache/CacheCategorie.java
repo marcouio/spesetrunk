@@ -112,5 +112,4 @@ public class CacheCategorie extends AbstractCacheBase<ICatSpese> {
 		}
 		return maxId;
 	}
-
 }

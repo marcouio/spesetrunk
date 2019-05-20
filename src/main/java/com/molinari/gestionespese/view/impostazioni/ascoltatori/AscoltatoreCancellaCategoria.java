@@ -25,10 +25,11 @@ public class AscoltatoreCancellaCategoria extends AscoltatoreAggiornatoreTutto {
 			if (Controllore.invocaComando(new CommandDeleteCategoria(categorieView.getModelCatSpese()))) {
 				categorieView.getComboCategorie().removeItem(categorieView.getCategoria());
 				categorieView.getDialog().dispose();
+				return;
 			}
-		} else {
+		} 
 			
-			Alert.segnalazioneErroreGrave(I18NManager.getSingleton().getMessaggio("anycatsel"));
-		}
+		Alert.segnalazioneErroreGrave(I18NManager.getSingleton().getMessaggio("anycatsel"));
+		
 	}
 }

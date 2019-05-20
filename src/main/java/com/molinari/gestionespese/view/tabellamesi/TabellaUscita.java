@@ -10,9 +10,11 @@ import java.util.logging.Level;
 
 import javax.swing.JScrollPane;
 
+import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.generatori.TableModelUscite;
 import com.molinari.gestionespese.view.OggettoVistaBase;
 import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.container.PannelloBase;
 import com.molinari.utility.graphic.component.table.TableBase;
 import com.molinari.utility.graphic.component.table.TableModel;
 
@@ -67,7 +69,8 @@ public class TabellaUscita {
 
 		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
 		table.setFillsViewportHeight(true);
-		table.setRowHeight(27);
+		final PannelloBase panelTabs = Controllore.getGeneralFrame().getPannelTabs().getPanel();
+		table.setRowHeight(panelTabs.getHeight()/17);
 		return table;
 	}
 

@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.utility.aggiornatori.IAggiornatore;
 import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.alert.Alert;
 
 public abstract class AscoltatoreBase implements ActionListener {
 
@@ -28,7 +29,7 @@ public abstract class AscoltatoreBase implements ActionListener {
 		try {
 			actionPerformedOverride(e);
 		} catch (final Exception e1) {
-			ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
+			Alert.segnalazioneErroreGrave(e1.getMessage());
 		}
 		aggiornatore.aggiorna();
 	}
