@@ -409,11 +409,12 @@ public class AggiornatoreManager {
 		try {
 			final GeneralFrame generalFrame = Controllore.getGeneralFrame();
 			final PerMesiF tabPermesi = generalFrame.getPannelTabs().getTabPermesi();
-			final JTable table = TabellaUscitaGruppi.getDatiPerTabella(tabPermesi);
+			
 			if(tabPermesi != null){
 				TabellaUscitaGruppi tabUG = tabPermesi.getTabUG();
 				final JScrollPane pane = tabUG != null ? tabUG.getScrollPane() : null;
 				if(pane != null){
+					final JTable table = TabellaUscitaGruppi.getDatiPerTabella(tabPermesi);
 					pane.setViewportView(table);
 				}
 			}
@@ -440,14 +441,16 @@ public class AggiornatoreManager {
 
 			final GeneralFrame generalFrame = Controllore.getGeneralFrame();
 			final PerMesiF tabPermesi = generalFrame.getPannelTabs().getTabPermesi();
-			final TableBase table = TabellaUscita.createTable(model, tabPermesi);
 			if(tabPermesi != null && tabPermesi.getTabUscite() != null){
+				
 				final JScrollPane pane = tabPermesi.getTabUscite().getScrollPane();
-				if(pane != null){
+				if(pane != null) {
+					final TableBase table = TabellaUscita.createTable(model, tabPermesi);
 					pane.setViewportView(table);
 					tabPermesi.getTabUscite().setScrollPane(pane);
 					tabPermesi.setTabUscite(tabPermesi.getTabUscite());
 				}
+
 			}
 			return true;
 		} catch (final Exception e) {
