@@ -18,6 +18,7 @@ import com.molinari.utility.graphic.component.alert.Alert;
 import com.molinari.utility.graphic.component.button.ButtonBase;
 import com.molinari.utility.graphic.component.label.Label;
 import com.molinari.utility.graphic.component.label.LabelTestoPiccolo;
+import com.molinari.utility.graphic.component.passwordfield.PasswordFieldBase;
 import com.molinari.utility.graphic.component.textfield.TextFieldBase;
 import com.molinari.utility.messages.I18NManager;
 
@@ -46,10 +47,7 @@ public class Login {
 		getDialog().getContentPane().add(user);
 		user.setColumns(10);
 
-		pass = new JPasswordField();
-		pass.setFont(new Font("Eras Light ITC", Font.PLAIN, 12));
-		pass.setBackground(Color.GRAY);
-		pass.setForeground(Color.white);
+		pass = new PasswordFieldBase(getDialog().getContentPane());
 		pass.setColumns(10);
 		pass.setBounds(221, 94, 86, 25);
 		getDialog().getContentPane().add(pass);

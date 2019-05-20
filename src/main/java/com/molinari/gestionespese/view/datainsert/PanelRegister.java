@@ -2,10 +2,13 @@ package com.molinari.gestionespese.view.datainsert;
 
 import java.awt.Container;
 
+import javax.swing.JPasswordField;
+
 import com.molinari.gestionespese.view.login.RegisterListener;
 import com.molinari.utility.graphic.component.button.ButtonBase;
 import com.molinari.utility.graphic.component.container.PannelloBase;
 import com.molinari.utility.graphic.component.label.LabelBase;
+import com.molinari.utility.graphic.component.passwordfield.PasswordFieldBase;
 import com.molinari.utility.graphic.component.textfield.TextFieldBase;
 import com.molinari.utility.messages.I18NManager;
 
@@ -20,7 +23,7 @@ public class PanelRegister implements DataPanelView {
 	private LabelBase labSurname;
 	private TextFieldBase tfName;
 	private TextFieldBase tfSurname;
-	private TextFieldBase tfPass;
+	final PasswordFieldBase tfPass;
 	private TextFieldBase tfUser;
 	private ButtonBase button;
 	
@@ -42,7 +45,7 @@ public class PanelRegister implements DataPanelView {
 		labPass.setSize(width, HEIGHT_LABEL);
 		labPass.posizionaSottoA(tfUser, 0, 15);
 		
-		tfPass = new TextFieldBase(pan);
+		tfPass = new PasswordFieldBase(pan);
 		tfPass.setSize(width, HEIGHT_FIELD);
 		tfPass.posizionaSottoA(labPass, 0, 10);
 		
