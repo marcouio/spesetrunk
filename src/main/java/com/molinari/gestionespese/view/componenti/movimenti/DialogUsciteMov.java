@@ -109,7 +109,7 @@ public class DialogUsciteMov extends AbstractUsciteView {
 		setcNome(tfNome.getText());
 		setcDescrizione(taDescrizione.getText());
 		setCategoria((ICatSpese) cbCategorie.getSelectedItem());
-		if (AltreUtil.checkData(tfData.getText())) {
+		if (AltreUtil.checkDate(tfData.getText())) {
 			setcData(tfData.getText());
 		} else {
 			final String messaggio = I18NManager.getSingleton().getMessaggio("datainformat");

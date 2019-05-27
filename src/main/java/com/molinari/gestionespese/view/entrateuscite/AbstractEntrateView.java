@@ -6,6 +6,7 @@ import javax.swing.JDialog;
 
 import org.apache.commons.math3.util.MathUtils;
 
+import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
@@ -111,12 +112,34 @@ public abstract class AbstractEntrateView implements Observer {
 	}
 
 	public abstract void aggiornaModelDaVista();
-
-	public boolean nonEsistonoCampiNonValorizzati() {
+	
+	private boolean checkFillField() {
 		boolean dateNotNull = getcData() != null && getDataIns() != null;
 		boolean descrizioneNotNull = getcNome() != null && getcDescrizione() != null;
 		boolean euroNotNull = MathUtils.equals(getdEuro(), 0.0);
 		boolean sameFieldNotNull = getFisseOVar() != null && !euroNotNull;
-		return descrizioneNotNull && dateNotNull && sameFieldNotNull && getUtenti() != null;
+		
+		return descrizioneNotNull && 
+				dateNotNull && 
+				sameFieldNotNull && 
+				getUtenti() != null;
 	}
+
+	public String nonEsistonoCampiNonValorizzati() {
+		
+		if(!checkFillField()) {
+			return I18NManager.getSingleton().getMessaggio("fillinall");
+		}
+		
+		boolean checkDate = AltreUtil.checkDate(getcData());
+		if(!checkDate) {
+			return I18NManager.getSingleton().getMessaggio("datainformat");
+		}
+		boolean checkEuro = AltreUtil.checkDouble(getdEuro().toString());
+		if(!checkEuro) {
+			I18NManager.getSingleton().getMessaggio("valorenotcorrect");
+		}
+		return null;
+	}
+
 }

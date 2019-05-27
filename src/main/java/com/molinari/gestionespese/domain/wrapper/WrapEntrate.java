@@ -265,9 +265,9 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 
 		final StringBuilder sql = new StringBuilder();
 		sql.append(SELECT_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.COL_IDUTENTE + " = " + idUtente);
-		if (AltreUtil.checkData(dataDa) && AltreUtil.checkData(dataA)) {
+		if (AltreUtil.checkDate(dataDa) && AltreUtil.checkDate(dataA)) {
 			sql.append(AND + Entrate.COL_DATA + " BETWEEN '" + dataDa + "'" + " AND '" + dataA + "'");
-		} else if (AltreUtil.checkData(dataDa)) {
+		} else if (AltreUtil.checkDate(dataDa)) {
 			sql.append(AND + Entrate.COL_DATA + " = '" + dataDa + "'");
 		}
 		if (nome != null) {

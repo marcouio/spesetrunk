@@ -152,19 +152,9 @@ public class PanelIncomes extends AbstractEntrateView implements DataPanelView{
 
 		int ordinal = ((INCOMETYPE) getFieldsIncome().getCbTipo().getSelectedItem()).ordinal();
 		setFisseOVar(Integer.toString(ordinal));
-		if (AltreUtil.checkData(getFieldsIncome().getTfData().getText())) {
-			setcData(getFieldsIncome().getTfData().getText());
-		} else {
-			final String messaggio = I18NManager.getSingleton().getMessaggio("datainformat");
-			Alert.segnalazioneErroreGrave(messaggio);
-		}
-		if (AltreUtil.checkDouble(getFieldsIncome().getTfEuro().getText())) {
-			final Double euro = Double.parseDouble(getFieldsIncome().getTfEuro().getText());
-			setdEuro(AltreUtil.arrotondaDecimaliDouble(euro));
-		} else {
-			final String messaggio = I18NManager.getSingleton().getMessaggio("valorenotcorrect");
-			Alert.segnalazioneErroreGrave(messaggio);
-		}
+		setcData(getFieldsIncome().getTfData().getText());
+		final Double euro = Double.parseDouble(getFieldsIncome().getTfEuro().getText());
+		setdEuro(AltreUtil.arrotondaDecimaliDouble(euro));
 		setUtenti((Utenti) Controllore.getUtenteLogin());
 		setDataIns(DBUtil.dataToString(new Date(), "yyyy/MM/dd"));
 	}

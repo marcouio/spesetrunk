@@ -166,7 +166,7 @@ public class PanelExpense extends AbstractUsciteView implements DataPanelView  {
 		setcDescrizione(descrizioneCheckato);
 
 		setCategoria((ICatSpese) getFieldsExpense().getcCategorie().getSelectedItem());
-		if (AltreUtil.checkData(getFieldsExpense().getTfData().getText())) {
+		if (AltreUtil.checkDate(getFieldsExpense().getTfData().getText())) {
 			setcData(getFieldsExpense().getTfData().getText());
 		} else {
 			final String messaggio = I18NManager.getSingleton().getMessaggio("datainformat");

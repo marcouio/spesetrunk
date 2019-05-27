@@ -254,9 +254,9 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 			final Double euro, final String catSpese, int idUtente) {
 		final StringBuilder sql = new StringBuilder();
 		sql.append(SELECT_FROM + SingleSpesa.NOME_TABELLA + WHERE + SingleSpesa.COL_IDUTENTE + " = " + idUtente);
-		if (AltreUtil.checkData(dataDa) && AltreUtil.checkData(dataA) && dataDa != null && dataA != null) {
+		if (AltreUtil.checkDate(dataDa) && AltreUtil.checkDate(dataA) && dataDa != null && dataA != null) {
 			sql.append(AND + SingleSpesa.COL_DATA + " BETWEEN '" + dataDa + "'" + " AND '" + dataA + "'");
-		} else if (AltreUtil.checkData(dataDa) && dataDa != null) {
+		} else if (AltreUtil.checkDate(dataDa) && dataDa != null) {
 			sql.append(AND + SingleSpesa.COL_DATA + " = '" + dataDa + "'");
 		}
 		if (nome != null) {

@@ -6,7 +6,6 @@ import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.ascoltatori.AscoltatoreAggiornatoreEntrate;
 import com.molinari.gestionespese.business.comandi.entrate.CommandInserisciEntrata;
 import com.molinari.utility.graphic.component.alert.Alert;
-import com.molinari.utility.messages.I18NManager;
 
 public class AscoltaInserisciEntrate extends AscoltatoreAggiornatoreEntrate {
 
@@ -20,12 +19,13 @@ public class AscoltaInserisciEntrate extends AscoltatoreAggiornatoreEntrate {
 	public void actionPerformedOverride(final ActionEvent e) {
 		view.aggiornaModelDaVista();
 
-		if (view.nonEsistonoCampiNonValorizzati()) {
+		String checkField = view.nonEsistonoCampiNonValorizzati();
+		if (checkField == null) {
 			if (Controllore.invocaComando(new CommandInserisciEntrata(view.getModelEntrate()))) {
 				view.getDialog().dispose();
 			}
 		} else {
-			Alert.segnalazioneErroreWarning(I18NManager.getSingleton().getMessaggio("fillinall"));
+			Alert.segnalazioneErroreWarning(checkField);
 		}
 
 	}

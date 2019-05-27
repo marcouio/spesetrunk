@@ -154,7 +154,7 @@ public class EntrateView extends AbstractEntrateView {
 	public static List<INCOMETYPE> getLista() {
 		return new ArrayList<>(Arrays.asList(INCOMETYPE.values()));
 	}
-
+	
 	@Override
 	public void aggiornaModelDaVista() {
 		final int idEntrate = CacheEntrate.getSingleton().getMaxId() + 1;
@@ -171,19 +171,12 @@ public class EntrateView extends AbstractEntrateView {
 
 		int ordinal = ((INCOMETYPE) cbTipo.getSelectedItem()).ordinal();
 		setFisseOVar(Integer.toString(ordinal));
-		if (AltreUtil.checkData(tfData.getText())) {
-			setcData(tfData.getText());
-		} else {
-			final String messaggio = I18NManager.getSingleton().getMessaggio("datainformat");
-			Alert.segnalazioneErroreGrave(messaggio);
-		}
-		if (AltreUtil.checkDouble(tfEuro.getText())) {
-			final Double euro = Double.parseDouble(tfEuro.getText());
-			setdEuro(AltreUtil.arrotondaDecimaliDouble(euro));
-		} else {
-			final String messaggio = I18NManager.getSingleton().getMessaggio("valorenotcorrect");
-			Alert.segnalazioneErroreGrave(messaggio);
-		}
+		
+		setcData(tfData.getText());
+		
+		final Double euro = Double.parseDouble(tfEuro.getText());
+		setdEuro(AltreUtil.arrotondaDecimaliDouble(euro));
+		
 		setUtenti((Utenti) Controllore.getUtenteLogin());
 		setDataIns(DBUtil.dataToString(new Date(), "yyyy/MM/dd"));
 	}

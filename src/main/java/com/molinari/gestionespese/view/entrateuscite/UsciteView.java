@@ -159,7 +159,7 @@ public class UsciteView extends AbstractUsciteView {
 		setcDescrizione(descrizioneCheckato);
 
 		setCategoria((ICatSpese) cCategorie.getSelectedItem());
-		if (AltreUtil.checkData(tfData.getText())) {
+		if (AltreUtil.checkDate(tfData.getText())) {
 			setcData(tfData.getText());
 		} else {
 			final String messaggio = I18NManager.getSingleton().getMessaggio("datainformat");

@@ -12,8 +12,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import org.apache.commons.math3.util.MathUtils;
-
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.aggiornatori.AggiornatoreManager;
@@ -165,19 +163,11 @@ public class DialogEntrateMov extends AbstractEntrateView {
 		int ordinal = ((INCOMETYPE) cbTipoEntrata.getSelectedItem()).ordinal();
 		setFisseOVar(Integer.toString(ordinal));
 		
-		if (AltreUtil.checkData(tfData.getText())) {
-			setcData(tfData.getText());
-		} else {
-			final String messaggio = I18NManager.getSingleton().getMessaggio("datainformat") ;
-			Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore(messaggio));
-		}
-		if (AltreUtil.checkDouble(tfEuro.getText())) {
-			final Double euro1 = Double.parseDouble(tfEuro.getText());
-			setdEuro(AltreUtil.arrotondaDecimaliDouble(euro1));
-		} else {
-			final String messaggio = I18NManager.getSingleton().getMessaggio("valorenotcorrect");
-			Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore(messaggio));
-		}
+		setcData(tfData.getText());
+		
+		final Double euro1 = Double.parseDouble(tfEuro.getText());
+		setdEuro(AltreUtil.arrotondaDecimaliDouble(euro1));
+		
 		setUtenti((Utenti) Controllore.getUtenteLogin());
 	}
 
@@ -232,7 +222,8 @@ public class DialogEntrateMov extends AbstractEntrateView {
 
 			final IEntrate oldEntrata = CacheEntrate.getSingleton().getEntrate(idEntrate.getText());
 
-			if (nonEsistonoCampiNonValorizzati()) {
+			String checkFields = nonEsistonoCampiNonValorizzati();
+			if (checkFields == null) {
 				if (Controllore.invocaComando(new CommandUpdateEntrata(oldEntrata, getModelEntrate().getEntitaPadre()))) {
 					try {
 						AggiornatoreManager.aggiornaMovimentiEntrateDaEsterno(nomiColonne, Integer.parseInt(campo.getText()));
@@ -244,16 +235,9 @@ public class DialogEntrateMov extends AbstractEntrateView {
 					getDialog().dispose();
 				}
 			} else {
-				Alert.segnalazioneErroreGrave(I18NManager.getSingleton().getMessaggio("fillinall"));
+				Alert.segnalazioneErroreGrave(checkFields);
 			}
 			dialog.dispose();
 		}
-	}
-	
-	@Override
-	public boolean nonEsistonoCampiNonValorizzati() {
-		final boolean nomeDescrDataOk = getcNome() != null && getcDescrizione() != null && getcData() != null;
-		boolean eurozero = MathUtils.equals(getdEuro(), 0);
-		return nomeDescrDataOk && getFisseOVar() != null && !eurozero && getUtenti() != null;
 	}
 }

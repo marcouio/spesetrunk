@@ -10,6 +10,7 @@ import com.molinari.utility.graphic.component.alert.Alert;
 import com.molinari.utility.io.UtilIo;
 import com.molinari.utility.math.UtilMath;
 import com.molinari.utility.text.UtilText;
+import com.molinari.utility.xml.CoreXMLManager;
 
 public class AltreUtil {
 
@@ -40,13 +41,10 @@ public class AltreUtil {
 		return UtilMath.isDouble(number);
 	}
 
-	public static boolean checkData(final String data) {
+	public static boolean checkDate(final String data) {
 		try {
-			
-			return data != null && UtilText.checkDate(data, "yyyy/MM/dd");
-			
+			return data != null && UtilText.checkDate(data, CoreXMLManager.getSingleton().getDateFormat());
 		} catch (final DateTimeParseException e2) {
-			Alert.segnalazioneErroreGrave("Inserire la data con valori numerici e con il formato suggerito: AAAA/MM/GG");
 			return false;
 		}
 		

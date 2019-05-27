@@ -116,7 +116,7 @@ public class NoteView extends AbstractNoteView {
 		}
 		setNome(nota.getText());
 
-		if (AltreUtil.checkData(data.getText())) {
+		if (AltreUtil.checkDate(data.getText())) {
 			setData(data.getText());
 		} else {
 			final String messaggio = "La data va inserita con il seguente formato: aaaa/mm/gg";
