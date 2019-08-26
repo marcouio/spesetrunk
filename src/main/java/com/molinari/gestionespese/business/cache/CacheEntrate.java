@@ -16,6 +16,7 @@ import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
+import com.molinari.utility.math.UtilMath;
 import com.molinari.utility.text.UtilText;
 
 public class CacheEntrate extends AbstractCacheBase<IEntrate> {
@@ -83,7 +84,7 @@ public class CacheEntrate extends AbstractCacheBase<IEntrate> {
 
 	private Predicate<? super IEntrate> getFilterUserAndYear(final Utenti utente, final String annoDaText) {
 		return e -> {
-			if(e != null && e.getUtenti() != null && e.getUtenti().getidUtente() != 0 && UtilText.checkDate(annoDaText, "yyyy/MM/dd")){
+			if(e != null && e.getUtenti() != null && e.getUtenti().getidUtente() != 0 && UtilMath.isInteger(annoDaText)){
 				final String annoEntrata = e.getdata().substring(0, 4);
 				return e.getUtenti().getidUtente() == utente.getidUtente() && annoEntrata.equals(annoDaText);
 			}
