@@ -20,10 +20,11 @@ public class WrapLookAndFeel extends Observable implements IDAO<ILookandfeel>, I
 
 	private static final long serialVersionUID = 1L;
 	private final ILookandfeel lookandfeel;
-	private WrapBase base = new WrapBase();
+	private WrapBase<Lookandfeel> base;
 
 	public WrapLookAndFeel() {
 		lookandfeel = new Lookandfeel();
+		base = new WrapBase<Lookandfeel>((Lookandfeel) lookandfeel);
 	}
 
 	@Override

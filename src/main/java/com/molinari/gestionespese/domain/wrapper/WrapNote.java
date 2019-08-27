@@ -30,10 +30,11 @@ public class WrapNote extends Observable implements IDAO<INote>, INote {
 	private static final String WHERE = " WHERE ";
 	private static final String SELECT_FROM = "SELECT * FROM ";
 	private final INote note;
-	private WrapBase base = new WrapBase();
+	private WrapBase<Note> base;
 
 	public WrapNote(final INote nota) {
 		this.note = nota;
+		base = new WrapBase<Note>((Note) note);
 	}
 
 	public WrapNote() {

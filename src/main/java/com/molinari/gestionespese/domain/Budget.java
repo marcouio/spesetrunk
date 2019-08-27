@@ -10,6 +10,8 @@ import javax.persistence.JoinColumns;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
+
 /**
  * The persistent class for the BUDGET database table.
  *
@@ -17,7 +19,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "\"budget\"", schema="DEFAULT")
-public class Budget implements IBudget, Serializable {
+public class Budget implements AbstractOggettoEntita, IBudget, Serializable {
 
 	private static final long serialVersionUID = 1L;
 

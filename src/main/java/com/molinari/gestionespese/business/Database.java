@@ -52,7 +52,7 @@ public class Database {
 	private static final String ROW_S = " row/s";
 	private static final String AND = " AND ";
 	private static final String FROM = " FROM ";
-	private static final String YYYY_MM_DD = "yyyy/MM/dd";
+	public static final String YYYY_MM_DD = "yyyy/MM/dd";
 	private static Database singleton;
 	public static final String DB_URL_WORKSPACE = "../GestioneSpese.sqlite";
 	public static final String DB_URL_JAR = "./GestioneSpese.sqlite";

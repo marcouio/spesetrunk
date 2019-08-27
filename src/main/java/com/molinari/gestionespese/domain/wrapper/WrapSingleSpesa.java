@@ -43,10 +43,11 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 	private static final String WHERE = " WHERE ";
 	private static final String SELECT_FROM = "SELECT * FROM ";
 	private final SingleSpesa uscita;
-	private final WrapBase base = new WrapBase();
+	private final WrapBase<SingleSpesa> base;
 
 	public WrapSingleSpesa() {
 		uscita = new SingleSpesa();
+		base = new WrapBase<SingleSpesa>(uscita);
 	}
 
 	@Override

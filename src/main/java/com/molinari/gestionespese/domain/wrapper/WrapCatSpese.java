@@ -28,10 +28,11 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO<ICatSpes
 	private static final long serialVersionUID = 1L;
 	private static final String WHERE = " WHERE ";
 	private final ICatSpese categoria;
-	private WrapBase base = new WrapBase();
+	private WrapBase<CatSpese> base;
 
 	public WrapCatSpese() {
 		categoria = new CatSpese();
+		base = new WrapBase<CatSpese>((CatSpese) categoria);
 	}
 
 	@Override

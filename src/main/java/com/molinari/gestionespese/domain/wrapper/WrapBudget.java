@@ -21,11 +21,12 @@ import com.molinari.utility.database.dao.IDAO;
 public class WrapBudget extends Observable implements IDAO<IBudget>, IBudget{
 
 	private static final String WHERE = " WHERE ";
-	private WrapBase base = new WrapBase();
+	private WrapBase<Budget> base;
 	private IBudget budget;
 
 	public WrapBudget() {
 		budget = new Budget();
+		base = new WrapBase<Budget>((Budget) budget);
 	}
 
 	@Override

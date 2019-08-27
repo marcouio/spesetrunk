@@ -21,10 +21,11 @@ public class WrapRisparmio extends Observable implements IDAO<IRisparmio>,IRispa
 	private static final long serialVersionUID = 1L;
 	private static final String WHERE = " WHERE ";
 	private final IRisparmio risparmio;
-	private WrapBase base = new WrapBase();
+	private WrapBase<Risparmio> base;
 
 	public WrapRisparmio() {
 		risparmio = new Risparmio();
+		base = new WrapBase<Risparmio>((Risparmio) risparmio);
 	}
 
 	@Override

@@ -28,10 +28,11 @@ public class WrapGruppi extends Observable implements IDAO<IGruppi>, IGruppi {
 	private static final String SELECT_FROM = "SELECT * FROM ";
 	private final Gruppi gruppo;
 	
-	private WrapBase base = new WrapBase();
+	private WrapBase<Gruppi> base;
 
 	public WrapGruppi() {
 		gruppo = new Gruppi();
+		base = new WrapBase<Gruppi>(gruppo);
 	}
 
 	@Override

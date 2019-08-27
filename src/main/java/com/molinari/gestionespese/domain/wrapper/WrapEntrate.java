@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Controllore;
@@ -25,7 +26,6 @@ import com.molinari.utility.database.ConnectionPool;
 import com.molinari.utility.database.DeleteBase;
 import com.molinari.utility.database.ExecutePreparedStatement;
 import com.molinari.utility.database.ExecuteResultSet;
-import com.molinari.utility.database.OggettoSQL;
 import com.molinari.utility.database.Query;
 import com.molinari.utility.database.dao.IDAO;
 
@@ -37,9 +37,10 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 	private static final String WHERE = " WHERE ";
 	private static final String SELECT_FROM = "SELECT * FROM ";
 	private final Entrate entrate;
-	private final WrapBase base = new WrapBase(); 
+	private final WrapBase<Entrate> base; 
 	public WrapEntrate() {
 		entrate = new Entrate();
+		base = new WrapBase<Entrate>(entrate);
 	}
 
 	@Override
@@ -488,9 +489,9 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 	}
 
 	@Override
-	public List<IEntrate> selectWhere(List<Clausola> clausole,
-			String appentoToQuery) {
-		throw new UnsupportedOperationException();
+	public List<IEntrate> selectWhere(List<Clausola> clausole, String appentoToQuery) {
+		List selectWhere = base.selectWhere(clausole, appentoToQuery);
+		return selectWhere;
 	}
 
 	private void riempiEntrataFromResultSet(final IEntrate entrata, ResultSet rs) throws SQLException {

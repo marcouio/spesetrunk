@@ -1,15 +1,18 @@
 package com.molinari.gestionespese.domain.wrapper;
 
-import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
+import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.database.ConnectionPool;
+import com.molinari.utility.database.dao.GenericDAO;
 
-public class WrapBase implements Serializable {
+public class WrapBase<T extends AbstractOggettoEntita> extends GenericDAO<T> {
 
-	private static final long serialVersionUID = 1L;
+	public WrapBase(T entita) {
+		super(entita);
+	}
 
 	public boolean executeUpdate(String sql){
 		boolean ok = true;

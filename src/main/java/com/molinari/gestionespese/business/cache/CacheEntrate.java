@@ -1,6 +1,8 @@
 package com.molinari.gestionespese.business.cache;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,11 +13,14 @@ import java.util.stream.Stream;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Controllore;
+import com.molinari.gestionespese.business.DBUtil;
+import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.domain.IEntrate;
 import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapEntrate;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
+import com.molinari.utility.database.UtilDb;
 import com.molinari.utility.math.UtilMath;
 import com.molinari.utility.text.UtilText;
 
@@ -68,13 +73,13 @@ public class CacheEntrate extends AbstractCacheBase<IEntrate> {
 	public List<IEntrate> getAllEntrateForUtenteEAnno() {
 
 		final ArrayList<IEntrate> listaEntrate = new ArrayList<>();
-		final Map<String, IEntrate> mappa = getAllEntrate();
+		List<IEntrate> incomeForUsers = getAllEntrateForUtente();
 		final Utenti utente = (Utenti) Controllore.getUtenteLogin();
 		final String annoDaText = Integer.toString(Impostazioni.getAnno());
 
-		if (mappa != null && utente != null) {
+		if (incomeForUsers != null && utente != null) {
 
-			final Stream<IEntrate> streamEntrate = mappa.values().stream().filter(getFilterUserAndYear(utente, annoDaText));
+			final Stream<IEntrate> streamEntrate = incomeForUsers.stream().filter(getFilterUserAndYear(utente, annoDaText));
 			return streamEntrate.collect(Collectors.toList());
 		}
 
@@ -84,9 +89,8 @@ public class CacheEntrate extends AbstractCacheBase<IEntrate> {
 
 	private Predicate<? super IEntrate> getFilterUserAndYear(final Utenti utente, final String annoDaText) {
 		return e -> {
-			if(e != null && e.getUtenti() != null && e.getUtenti().getidUtente() != 0 && UtilMath.isInteger(annoDaText)){
-				final String annoEntrata = e.getdata().substring(0, 4);
-				return e.getUtenti().getidUtente() == utente.getidUtente() && annoEntrata.equals(annoDaText);
+			if(UtilMath.isInteger(annoDaText)){
+				return annoDaText.equals(DBUtil.dataToString(UtilDb.stringToDate(e.getdata(), Database.YYYY_MM_DD), "YYYY"));
 			}
 			return false;
 		};
