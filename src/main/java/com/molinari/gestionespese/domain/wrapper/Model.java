@@ -7,9 +7,9 @@ import java.util.logging.Level;
 import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.cache.CacheGruppi;
-import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.ICatSpese;
+import com.molinari.gestionespese.domain.IEntrate;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.ISingleSpesa;
 import com.molinari.gestionespese.view.entrateuscite.AbstractEntrateView.INCOMETYPE;
@@ -257,7 +257,7 @@ public class Model {
 			final int numEntry) {
 		movimentiEntrate = new String[numEntry][nomi.size()];
 		for (int x = 0; x < entry1.size(); x++) {
-			final Entrate entrate = entry1.get(x);
+			final IEntrate entrate = entry1.get(x);
 			movimentiEntrate[x][0] = entrate.getdata();
 			movimentiEntrate[x][1] = entrate.getnome();
 			movimentiEntrate[x][2] = entrate.getdescrizione();

@@ -1,6 +1,5 @@
 package com.molinari.gestionespese.domain.wrapper;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,13 +10,14 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.function.Function;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Controllore;
+import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.cache.CacheUscite;
 import com.molinari.gestionespese.business.cache.CacheUtenti;
-import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.ISingleSpesa;
 import com.molinari.gestionespese.domain.IUtenti;
@@ -26,12 +26,12 @@ import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.database.Clausola;
-import com.molinari.utility.database.ConnectionPool;
 import com.molinari.utility.database.DeleteBase;
 import com.molinari.utility.database.ExecutePreparedStatement;
 import com.molinari.utility.database.ExecuteResultSet;
 import com.molinari.utility.database.ExecuteResultSet.ElaborateResultSet;
 import com.molinari.utility.database.Query;
+import com.molinari.utility.database.UtilDb;
 import com.molinari.utility.database.dao.IDAO;
 import com.molinari.utility.graphic.component.alert.Alert;
 
@@ -280,25 +280,10 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 	 * @return List<SingleSpesa>
 	 */
 	public List<ISingleSpesa> dieciUscite(final int dieci) {
-
-		final Utenti utente = (Utenti) Controllore.getUtenteLogin();
-		int idUtente = 0;
-		if (utente != null) {
-			idUtente = utente.getidUtente();
-		}
-
-		final String sql = "select * from " + SingleSpesa.NOME_TABELLA + " where " + SingleSpesa.COL_DATA + " BETWEEN '" + Impostazioni.getAnno() + "/01/01'" + " AND '"
-				+ Impostazioni.getAnno() + "/12/31'" + AND + SingleSpesa.COL_IDUTENTE + " = " + idUtente + " ORDER BY " + SingleSpesa.ID + " desc limit 0," + dieci;
-
-		try {
-
-			return new ExecuteResultSet<ISingleSpesa>(){}.executeList(getSpeseFromResultSet(), sql);
-
-		} catch (final SQLException e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-		}
-		return new ArrayList<>();
-
+		List<ISingleSpesa> yearCharges = CacheUscite.getSingleton().getAllUsciteForUtenteEAnno();
+		yearCharges.sort((e1, e2) -> UtilDb.sortStringData(Database.YYYY_MM_DD, e1.getData(), e2.getData()));
+		List collect = yearCharges.stream().limit(10).collect(Collectors.toList());
+		return collect;
 	}
 	
 	private ElaborateResultSet<ISingleSpesa> getSpeseFromResultSet(){

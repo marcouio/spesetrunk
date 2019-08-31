@@ -7,7 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -42,8 +41,8 @@ public class CatSpese implements AbstractOggettoEntita,Serializable, ICatSpese {
 	private Budget budget;
 
 	// bi-directional many-to-one association to Gruppi
-	@ManyToOne
-	@JoinColumns({@JoinColumn(name="\"idGruppo\"")})
+	@ManyToOne(targetEntity=Gruppi.class)
+	@JoinColumn(name="\"idGruppo\"")
 	private IGruppi gruppi;
 
 	// bi-directional many-to-one association to SingleSpesa

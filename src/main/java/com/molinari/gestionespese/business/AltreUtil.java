@@ -5,6 +5,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 
+import com.molinari.gestionespese.domain.Entrate;
+import com.molinari.gestionespese.domain.SingleSpesa;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.alert.Alert;
 import com.molinari.utility.io.UtilIo;
@@ -91,11 +93,11 @@ public class AltreUtil {
 	 */
 	public static Object[] generaNomiColonne(final String tabella) {
 		// nomi delle colonne
-		final List<String> nomi = Database.getSingleton().nomiColonne(tabella);
-		final String[] nomiColonne = new String[nomi.size()];
-		for (int i = 0; i < nomi.size(); i++) {
-			nomiColonne[i] = nomi.get(i);
+		if (Entrate.NOME_TABELLA.equals(tabella)) {
+			return new String[]{"DATA", "NOME", "DESCRIZIONE", "EURO", "CATEGORIA", "IDENTRATA", "INSERIMENTO"};
+		}else if (SingleSpesa.NOME_TABELLA.equals(tabella)) {
+			return new String[]{"DATA", "NOME", "DESCRIZIONE", "EURO", "CATEGORIA", "IDSPESA", "INSERIMENTO"};
 		}
-		return nomiColonne;
+		return new String[]{};
 	}
 }

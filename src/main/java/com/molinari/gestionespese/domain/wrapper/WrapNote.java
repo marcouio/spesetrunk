@@ -1,6 +1,5 @@
 package com.molinari.gestionespese.domain.wrapper;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -288,7 +287,8 @@ public class WrapNote extends Observable implements IDAO<INote>, INote {
 	@Override
 	public List<INote> selectWhere(List<Clausola> clausole,
 			String appentoToQuery) {
-		throw new UnsupportedOperationException();
+		List selectWhere = base.selectWhere(clausole, appentoToQuery);
+		return selectWhere;
 	}
 
 	@Override

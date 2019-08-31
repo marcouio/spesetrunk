@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.logging.Level;
@@ -13,6 +15,7 @@ import java.util.stream.Collectors;
 
 import com.molinari.gestionespese.business.AltreUtil;
 import com.molinari.gestionespese.business.Controllore;
+import com.molinari.gestionespese.business.Database;
 import com.molinari.gestionespese.business.cache.CacheEntrate;
 import com.molinari.gestionespese.business.cache.CacheUtenti;
 import com.molinari.gestionespese.domain.Entrate;
@@ -27,6 +30,7 @@ import com.molinari.utility.database.DeleteBase;
 import com.molinari.utility.database.ExecutePreparedStatement;
 import com.molinari.utility.database.ExecuteResultSet;
 import com.molinari.utility.database.Query;
+import com.molinari.utility.database.UtilDb;
 import com.molinari.utility.database.dao.IDAO;
 
 public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> {
@@ -295,48 +299,23 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 	 * @return List<Entrate>
 	 */
 	public List<Entrate> dieciEntrate(final int numEntry) {
-		final Utenti utente = (Utenti) Controllore.getUtenteLogin();
-		int idUtente = 0;
-		if (utente != null) {
-			idUtente = utente.getidUtente();
-		}
 
-		final String sql = getQueryDieciEntrate(numEntry, idUtente);
-
-		try {
-			ExecuteResultSet<List<Entrate>> execRsEntrate = getExecRsEntrate(utente);
-			return execRsEntrate != null ? execRsEntrate.execute(sql) : new ArrayList<>();
-
-		} catch (final SQLException e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-		}
-		return new ArrayList<>();
+		List<IEntrate> yearIncomes = CacheEntrate.getSingleton().getAllEntrateForUtenteEAnno();
+		yearIncomes.sort((e1, e2) -> sortEntrata(e1, e2));
+		List collect = yearIncomes.stream().limit(10).collect(Collectors.toList());
+		return collect;
 
 	}
 
-	private String getQueryDieciEntrate(final int numEntry, int idUtente) {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(SELECT_FROM);
-		stringBuilder.append(Entrate.NOME_TABELLA);
-		stringBuilder.append(" WHERE ");
-		stringBuilder.append(Entrate.COL_DATA);
-		stringBuilder.append(" BETWEEN '");
-		stringBuilder.append(Impostazioni.getAnno());
-		stringBuilder.append("/01/01");
-		stringBuilder.append("'");
-		stringBuilder.append(" AND '");
-		stringBuilder.append(Impostazioni.getAnno());
-		stringBuilder.append("/12/31");
-		stringBuilder.append("'");
-		stringBuilder.append(AND);
-		stringBuilder.append(Entrate.COL_IDUTENTE);
-		stringBuilder.append(" = ");
-		stringBuilder.append(idUtente);
-		stringBuilder.append(" ORDER BY ");
-		stringBuilder.append(Entrate.ID);
-		stringBuilder.append(" desc limit 0,");
-		stringBuilder.append(numEntry);
-		return stringBuilder.toString();
+	protected int sortEntrata(IEntrate e1, IEntrate e2) {
+		int sortStringData = UtilDb.sortStringData(Database.YYYY_MM_DD, e1.getdata(), e2.getdata());
+		if(sortStringData != 0) {
+			return sortStringData;
+		}
+		if(e1.getidEntrate() > e2.getidEntrate()) {
+			return -1;
+		}
+		return 1;
 	}
 
 	private ExecuteResultSet<List<Entrate>> getExecRsEntrate(final Utenti utente) {

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -48,8 +49,8 @@ public class Note implements AbstractOggettoEntita, Serializable, INote {
 	private String nome;
 
 	// bi-directional many-to-one association to Utenti
-	@ManyToOne
-	@JoinColumns({})
+	@ManyToOne(targetEntity=Utenti.class)
+	@JoinColumn(name="\"idUtente\"")
 	private IUtenti utenti;
 
 	@Override

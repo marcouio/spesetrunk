@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumns;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -50,13 +50,13 @@ public class SingleSpesa implements AbstractOggettoEntita, Serializable, ISingle
 	private String dataIns;
 
 	// bi-directional many-to-one association to CatSpese
-	@ManyToOne
-	@JoinColumns({})
+	@ManyToOne(targetEntity=CatSpese.class)
+	@JoinColumn(name="\"idCategorie\"")
 	private ICatSpese catSpese;
 
 	// bi-directional many-to-one association to Utenti
-	@ManyToOne
-	@JoinColumns({})
+	@ManyToOne(targetEntity=Utenti.class)
+	@JoinColumn(name="\"idUtente\"")
 	private IUtenti utenti;
 
 	@Override

@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -32,8 +33,8 @@ public class Gruppi implements AbstractOggettoEntita, Serializable, IGruppi {
 	@Column(name = "\"nome\"", nullable = false, length = 2000000000)
 	private String nome;
 
-	@ManyToOne
-	@JoinColumns({})
+	@ManyToOne(targetEntity=Utenti.class)
+	@JoinColumn(name="\"idUtente\"")
 	private IUtenti utenti;
 	
 	// bi-directional many-to-one association to CatSpese
