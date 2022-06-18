@@ -38,7 +38,15 @@ public class Controllore extends StarterBase{
 	private AggiornatoreManager aggiornatoreManager;
 	private GeneralFrame genPan;
 	private String lookUsato;
+	private static Controllore singleton;
 
+	public static Controllore getSingleton() {
+		if (singleton == null) {
+			singleton = new Controllore();
+		}
+		return singleton;
+	}
+	
 	public Controllore() {
 		//do nothing
 	}
@@ -82,11 +90,11 @@ public class Controllore extends StarterBase{
 					return resulSet.next();
 				}
 			}.execute(sql);
-		} catch (final SQLException e) {
+		} catch (final Exception e) {
 			getLog().log(Level.SEVERE, "Database doesn't exist. I'm going to create it", e);
 			try {
 				Database.getSingleton().generaDB();
-			} catch (final SQLException e1) {
+			} catch (final Exception e1) {
 				getLog().log(Level.SEVERE, "Error on Db creation: " + e1.getMessage(), e1);
 				File file = new File(Database.getDburl());
 				System.out.println(file.getAbsolutePath());
@@ -212,5 +220,9 @@ public class Controllore extends StarterBase{
 	public LoaderLevel getLevel() {
 		return LoaderLevel.IMPLEMENTED;
 	}
-
+	
+	public static void main(final String[] args) {
+		ControlloreBase.getLog().setLevel(Level.SEVERE);
+		ControlloreBase.getSingleton().myMain(ControlloreBase.getSingleton(), "myApplication");
+	}
 }

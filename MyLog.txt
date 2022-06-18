@@ -1,63 +1,32 @@
-mag 09, 2019 10:31:35 AM com.molinari.utility.log.LoggerOggetto creaLog
-INFORMAZIONI: Start programma!
-mag 09, 2019 10:31:56 AM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM lookAndFeel
-mag 09, 2019 10:31:57 AM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM utenti
-mag 09, 2019 10:31:57 AM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM lookAndFeel
-mag 09, 2019 10:31:58 AM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM gruppi ORDER BY idGruppo asc
-mag 09, 2019 10:31:58 AM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM cat_spese
-mag 09, 2019 10:36:21 AM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM utenti WHERE username = 'marco' AND password='marco'
-mag 09, 2019 10:36:21 AM com.molinari.utility.database.ExecuteResultSet executeList
-INFORMAZIONI: Query in esecuzione: SELECT * FROM single_spesa
-mag 09, 2019 10:36:21 AM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM entrate
-mag 09, 2019 10:36:21 AM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
-mag 09, 2019 10:36:21 AM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM entrate WHERE data BETWEEN '2019/01/01' AND '2019/12/31' AND idUtente = 2 ORDER BY idEntrate desc limit 0,25
-mag 09, 2019 10:36:21 AM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
-mag 09, 2019 10:36:21 AM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria AND single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-mag 09, 2019 10:36:21 AM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria AND single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-mag 09, 2019 10:36:22 AM com.molinari.utility.database.ExecuteResultSet executeList
-INFORMAZIONI: Query in esecuzione: select * from single_spesa where Data BETWEEN '2019/01/01' AND '2019/12/31' AND idUtente = 2 ORDER BY idSpesa desc limit 0,25
-mag 09, 2019 10:36:55 AM com.molinari.utility.graphic.component.alert.Alert segnalazioneErroreGrave
-GRAVE: E necessario riempire tutti i campi
-mag 09, 2019 10:36:55 AM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
-mag 09, 2019 10:36:55 AM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM entrate WHERE data BETWEEN '2019/01/01' AND '2019/12/31' AND idUtente = 2 ORDER BY idEntrate desc limit 0,25
-mag 09, 2019 10:36:55 AM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
-mag 09, 2019 10:36:55 AM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria AND single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-mag 09, 2019 10:36:56 AM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria AND single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-mag 09, 2019 10:36:56 AM com.molinari.utility.database.ExecuteResultSet executeList
-INFORMAZIONI: Query in esecuzione: select * from single_spesa where Data BETWEEN '2019/01/01' AND '2019/12/31' AND idUtente = 2 ORDER BY idSpesa desc limit 0,25
-mag 09, 2019 10:37:40 AM com.molinari.utility.graphic.component.alert.Alert segnalazioneErroreGrave
-GRAVE: E necessario riempire tutti i campi
-mag 09, 2019 10:37:40 AM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
-mag 09, 2019 10:37:40 AM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT * FROM entrate WHERE data BETWEEN '2019/01/01' AND '2019/12/31' AND idUtente = 2 ORDER BY idEntrate desc limit 0,25
-mag 09, 2019 10:37:40 AM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
-mag 09, 2019 10:37:40 AM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria AND single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-mag 09, 2019 10:37:40 AM com.molinari.utility.database.ExecuteResultSet execute
-INFORMAZIONI: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria AND single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-mag 09, 2019 10:37:40 AM com.molinari.utility.database.ExecuteResultSet executeList
-INFORMAZIONI: Query in esecuzione: select * from single_spesa where Data BETWEEN '2019/01/01' AND '2019/12/31' AND idUtente = 2 ORDER BY idSpesa desc limit 0,25
-mag 09, 2019 10:38:29 AM com.molinari.utility.database.ExecutePreparedStatement executeUpdate
-INFORMAZIONI: Query in esecuzione: INSERT INTO gruppi (nome, descrizione, idUtente) VALUES(?,?,?)
-mag 09, 2019 10:38:36 AM com.molinari.utility.graphic.component.alert.Alert segnalazioneInfo
-INFORMAZIONI: Inserito correttamente gruppo asdasda
-mag 09, 2019 10:38:44 AM com.molinari.utility.database.ExecuteResultSet
+giu 18, 2022 10:11:47 AM com.molinari.utility.log.LoggerOggetto creaLog
+INFO: Start programma!
+giu 18, 2022 10:12:02 AM com.molinari.utility.database.ExecuteResultSet execute
+INFO: Query in esecuzione: SELECT * FROM lookAndFeel
+giu 18, 2022 10:12:03 AM com.molinari.utility.database.ExecuteResultSet execute
+INFO: Query in esecuzione: SELECT * FROM utenti
+giu 18, 2022 10:12:03 AM com.molinari.utility.database.ExecuteResultSet execute
+INFO: Query in esecuzione: SELECT * FROM lookAndFeel
+giu 18, 2022 10:12:03 AM com.molinari.utility.database.ExecuteResultSet execute
+INFO: Query in esecuzione: SELECT * FROM gruppi ORDER BY idGruppo asc
+giu 18, 2022 10:12:03 AM com.molinari.utility.database.ExecuteResultSet execute
+INFO: Query in esecuzione: SELECT * FROM cat_spese
+giu 18, 2022 10:12:16 AM com.molinari.utility.database.ExecuteResultSet execute
+INFO: Query in esecuzione: SELECT * FROM utenti WHERE username = 'marco.molinari' AND password='marco123'
+giu 18, 2022 10:12:16 AM com.molinari.utility.database.ExecuteResultSet executeList
+INFO: Query in esecuzione: SELECT * FROM single_spesa
+giu 18, 2022 10:12:16 AM com.molinari.utility.database.ExecuteResultSet execute
+INFO: Query in esecuzione: SELECT * FROM entrate
+giu 18, 2022 10:12:16 AM com.molinari.utility.database.ExecuteResultSet execute
+INFO: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
+giu 18, 2022 10:12:16 AM com.molinari.utility.database.ExecuteResultSet execute
+INFO: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria AND single_spesa.idUtente = utenti.idUtente order by idSpesa desc
+giu 18, 2022 10:13:58 AM com.molinari.utility.database.ExecuteResultSet execute
+INFO: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria AND single_spesa.idUtente = utenti.idUtente order by idSpesa desc
+giu 18, 2022 10:15:02 AM com.molinari.utility.database.ExecutePreparedStatement executeUpdate
+INFO: Query in esecuzione: INSERT INTO single_spesa (Data, inEuro, descrizione, idCategorie, nome, idUtente, dataIns) VALUES (?,?,?,?,?,?,?)
+giu 18, 2022 10:15:05 AM com.molinari.utility.graphic.component.alert.Alert segnalazioneInfo
+INFO: Inserita correttamente spesa Mutuo
+giu 18, 2022 10:15:05 AM com.molinari.utility.database.ExecuteResultSet execute
+INFO: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria AND single_spesa.idUtente = utenti.idUtente order by idSpesa desc
+giu 18, 2022 10:15:22 AM com.molinari.gestionespese.view.report.ReportView <init>
+INFO: Registrato Report: 18/06/2022 10:15

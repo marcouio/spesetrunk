@@ -81,7 +81,7 @@ public class Database {
 
 		final Lookandfeel nimbus = new Lookandfeel();
 		nimbus.setnome("Nimbus");
-		nimbus.setvalore("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+		nimbus.setvalore("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 		nimbus.setusato(1);
 		wrap.insert(nimbus);
 
