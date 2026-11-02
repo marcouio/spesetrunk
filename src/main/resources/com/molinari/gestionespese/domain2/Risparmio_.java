@@ -1,8 +1,8 @@
 package com.molinari.gestionespese.domain2;
 
-import javax.annotation.Generated;
-import javax.persistence.metamodel.SingularAttribute;
-import javax.persistence.metamodel.StaticMetamodel;
+import jakarta.annotation.Generated;
+import jakarta.persistence.metamodel.SingularAttribute;
+import jakarta.persistence.metamodel.StaticMetamodel;
 
 @Generated(value="Dali", date="2017-05-09T21:52:42.947+0200")
 @StaticMetamodel(Risparmio.class)
