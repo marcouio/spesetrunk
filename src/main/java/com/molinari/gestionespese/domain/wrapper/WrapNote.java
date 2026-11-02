@@ -17,7 +17,6 @@ import com.molinari.gestionespese.domain.Note;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.database.Clausola;
-import com.molinari.utility.database.ConnectionPool;
 import com.molinari.utility.database.ExecutePreparedStatement;
 import com.molinari.utility.database.ExecuteResultSet;
 import com.molinari.utility.database.dao.IDAO;
@@ -38,6 +37,7 @@ public class WrapNote extends Observable implements IDAO<INote>, INote {
 
 	public WrapNote() {
 		note = new Note();
+		base = new WrapBase<Note>((Note) note);
 	}
 
 	@Override
@@ -262,21 +262,36 @@ public class WrapNote extends Observable implements IDAO<INote>, INote {
 	 * Cancella l'ultima entita' "Note" inserita
 	 */
 	public boolean DeleteLastNote() {
-		boolean ok = false;
-
-		final String sql = "SELECT " + Note.ID + " FROM " + Note.NOME_TABELLA + WHERE + Note.COL_IDUTENTE + " = " + ((Utenti) Controllore.getUtenteLogin()).getidUtente() + " ORDER BY "
+		final Object utenteLogin = Controllore.getUtenteLogin();
+		if (!(utenteLogin instanceof IUtenti)) {
+			return false;
+		}
+		final int idUtente = ((IUtenti) utenteLogin).getidUtente();
+		final String sql = "SELECT " + Note.ID + " FROM " + Note.NOME_TABELLA + WHERE + Note.COL_IDUTENTE + " = " + idUtente + " ORDER BY "
 				+ Note.COL_DATAINS + " DESC LIMIT 1";
-		
-		try {
-				
-			ConnectionPool.getSingleton().executeUpdate(DELETE_FROM + Note.NOME_TABELLA + WHERE + Note.ID + "("+ sql +")");
 
+		try {
+			final Integer idNote = new ExecuteResultSet<Integer>() {
+
+				@Override
+				protected Integer doWithResultSet(ResultSet rs) throws SQLException {
+					if (rs != null && rs.next()) {
+						return rs.getInt(1);
+					}
+					return null;
+				}
+
+			}.execute(sql);
+
+			if (idNote == null) {
+				return false;
+			}
+			return delete(idNote);
 		} catch (final Exception e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			ControlloreBase.getLog().severe("Operazione non eseguita: " + e.getMessage());
+			return false;
 		}
-		
-		return ok;
 	}
 
 	@Override
