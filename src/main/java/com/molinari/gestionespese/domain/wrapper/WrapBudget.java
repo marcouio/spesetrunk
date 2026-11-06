@@ -132,30 +132,18 @@ public class WrapBudget extends Observable implements IDAO<IBudget>, IBudget{
 	@Override
 	public boolean update(IBudget oggettoEntita) {
 
-		final IBudget budgetLoc = oggettoEntita;
-		final String sql = getQueryUpdate(budgetLoc);
-		
-		return base.executeUpdate(sql);
-		
-	}
+		final String sql = "UPDATE " + Budget.NOME_TABELLA + " SET " + Budget.COL_IDCATEGORIE + " = ?, "
+				+ Budget.COL_PERCSULTOT + " = ?" + WHERE + Budget.ID + " = ?";
 
-	private String getQueryUpdate(final IBudget budgetLoc) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("UPDATE ");
-		sb.append(Budget.NOME_TABELLA);
-		sb.append(" SET ");
-		sb.append(Budget.COL_IDCATEGORIE);
-		sb.append(" = ");
-		sb.append(budgetLoc.getidCategorie());
-		sb.append(", ");
-		sb.append(Budget.COL_PERCSULTOT);
-		sb.append(" = ");
-		sb.append(budgetLoc.getpercSulTot());
-		sb.append(WHERE);
-		sb.append(Budget.ID);
-		sb.append(" = ");
-		sb.append(budgetLoc.getidBudget());
-		return sb.toString();
+		return new ExecutePreparedStatement<IBudget>() {
+
+			@Override
+			protected void doWithPreparedStatement(PreparedStatement ps, IBudget obj) throws SQLException {
+				ps.setInt(1, obj.getidCategorie());
+				ps.setDouble(2, obj.getpercSulTot());
+				ps.setInt(3, obj.getidBudget());
+			}
+		}.executeUpdate(sql, oggettoEntita);
 	}
 
 	@Override

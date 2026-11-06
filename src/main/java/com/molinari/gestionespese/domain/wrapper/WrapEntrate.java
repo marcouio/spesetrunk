@@ -165,7 +165,11 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 					ps.setDouble(4, obj.getinEuro());
 					ps.setString(5, obj.getdata());
 					ps.setString(6, obj.getnome());
-					ps.setInt(7, obj.getUtenti().getidUtente());
+					if (obj.getUtenti() != null) {
+						ps.setInt(7, obj.getUtenti().getidUtente());
+					} else {
+						ps.setNull(7, java.sql.Types.INTEGER);
+					}
 					ps.setString(8, obj.getDataIns());
 					
 				}
@@ -203,47 +207,29 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 
 	@Override
 	public boolean update(final IEntrate oggettoEntita) {
-		final String sql = getQueryUpdate(oggettoEntita);
-		return base.executeUpdate(sql);
-	}
+		final String sql = "UPDATE " + Entrate.NOME_TABELLA + " SET " + Entrate.COL_DESCRIZIONE + " = ?, "
+				+ Entrate.COL_FISSEOVAR + " = ?, " + Entrate.COL_INEURO + " = ?, " + Entrate.COL_DATA + " = ?, "
+				+ Entrate.COL_NOME + " = ?, " + Entrate.COL_IDUTENTE + " = ?, " + Entrate.COL_DATAINS + " = ?"
+				+ WHERE + Entrate.ID + " = ?";
 
-	private String getQueryUpdate(final IEntrate entrata) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("UPDATE ");
-		sb.append(Entrate.NOME_TABELLA);
-		sb.append(" SET ");
-		sb.append(Entrate.COL_DESCRIZIONE);
-		sb.append(" = '");
-		sb.append(entrata.getdescrizione());
-		sb.append("', ");
-		sb.append(Entrate.COL_FISSEOVAR);
-		sb.append(" = '");
-		sb.append(entrata.getFisseoVar());
-		sb.append("', ");
-		sb.append(Entrate.COL_INEURO);
-		sb.append(" = ");
-		sb.append(entrata.getinEuro());
-		sb.append(", ");
-		sb.append(Entrate.COL_DATA);
-		sb.append(" = '");
-		sb.append(entrata.getdata());
-		sb.append("', ");
-		sb.append(Entrate.COL_NOME);
-		sb.append(" = '");
-		sb.append(entrata.getnome());
-		sb.append("', ");
-		sb.append(Entrate.COL_IDUTENTE);
-		sb.append(" = ");
-		sb.append(entrata.getUtenti().getidUtente());
-		sb.append(", ");
-		sb.append(Entrate.COL_DATAINS);
-		sb.append(" = '");
-		sb.append(entrata.getDataIns());
-		sb.append("' WHERE ");
-		sb.append(Entrate.ID);
-		sb.append(" = ");
-		sb.append(entrata.getidEntrate());
-		return sb.toString();
+		return new ExecutePreparedStatement<IEntrate>() {
+
+			@Override
+			protected void doWithPreparedStatement(PreparedStatement ps, IEntrate obj) throws SQLException {
+				ps.setString(1, obj.getdescrizione());
+				ps.setString(2, obj.getFisseoVar());
+				ps.setDouble(3, obj.getinEuro());
+				ps.setString(4, obj.getdata());
+				ps.setString(5, obj.getnome());
+				if (obj.getUtenti() != null) {
+					ps.setInt(6, obj.getUtenti().getidUtente());
+				} else {
+					ps.setNull(6, java.sql.Types.INTEGER);
+				}
+				ps.setString(7, obj.getDataIns());
+				ps.setInt(8, obj.getidEntrate());
+			}
+		}.executeUpdate(sql, oggettoEntita);
 	}
 
 	@Override
@@ -269,24 +255,36 @@ public class WrapEntrate extends Observable implements IEntrate, IDAO<IEntrate> 
 		}
 
 		final StringBuilder sql = new StringBuilder();
-		sql.append(SELECT_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.COL_IDUTENTE + " = " + idUtente);
+		final List<Object> parametri = new ArrayList<>();
+		sql.append(SELECT_FROM + Entrate.NOME_TABELLA + WHERE + Entrate.COL_IDUTENTE + " = ?");
+		parametri.add(idUtente);
 		if (AltreUtil.checkDate(dataDa) && AltreUtil.checkDate(dataA)) {
-			sql.append(AND + Entrate.COL_DATA + " BETWEEN '" + dataDa + "'" + " AND '" + dataA + "'");
+			sql.append(AND + Entrate.COL_DATA + " BETWEEN ? AND ?");
+			parametri.add(dataDa);
+			parametri.add(dataA);
 		} else if (AltreUtil.checkDate(dataDa)) {
-			sql.append(AND + Entrate.COL_DATA + " = '" + dataDa + "'");
+			sql.append(AND + Entrate.COL_DATA + " = ?");
+			parametri.add(dataDa);
 		}
 		if (nome != null) {
-			sql.append(AND + Entrate.COL_NOME + " = '" + nome + "'");
+			sql.append(AND + Entrate.COL_NOME + " = ?");
+			parametri.add(nome);
 		}
 		if (euro != null) {
-			sql.append(AND + Entrate.COL_INEURO + " = " + euro);
+			sql.append(AND + Entrate.COL_INEURO + " = ?");
+			parametri.add(euro);
 		}
 		if (categoria != null) {
-			sql.append(AND + Entrate.COL_FISSEOVAR + " = '" + categoria + "'");
+			sql.append(AND + Entrate.COL_FISSEOVAR + " = ?");
+			parametri.add(categoria);
 		}
 
 		ExecuteResultSet<List<Entrate>> execRsDieciEntrate = getExecRsEntrate(utente);
-		return execRsDieciEntrate != null ? execRsDieciEntrate.execute(sql.toString()) :  new ArrayList<>();
+		return execRsDieciEntrate != null ? execRsDieciEntrate.executePrepared(sql.toString(), ps -> {
+			for (int i = 0; i < parametri.size(); i++) {
+				ps.setObject(i + 1, parametri.get(i));
+			}
+		}) : new ArrayList<>();
 
 	}
 

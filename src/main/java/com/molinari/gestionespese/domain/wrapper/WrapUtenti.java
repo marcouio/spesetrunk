@@ -9,6 +9,7 @@ import java.util.Observable;
 import java.util.Set;
 import java.util.logging.Level;
 
+import com.molinari.gestionespese.business.PasswordHasher;
 import com.molinari.gestionespese.business.cache.CacheUtenti;
 import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.IUtenti;
@@ -50,9 +51,10 @@ public class WrapUtenti extends Observable implements IDAO<IUtenti>, IUtenti {
 						utenteLoc.setCognome(rs.getString(3));
 						utenteLoc.setusername(rs.getString(4));
 						utenteLoc.setpassword(rs.getString(5));
+						return utenteLoc;
 					}
 
-					return utente;
+					return null;
 				}
 
 			}.execute(sql);
@@ -99,34 +101,7 @@ public class WrapUtenti extends Observable implements IDAO<IUtenti>, IUtenti {
 	}
 
 	public IUtenti utenteLogin(String username, String password) {
-		final String sql = SELECT_FROM + Utenti.NOME_TABELLA + WHERE + Utenti.COL_USERNAME + " = '" + username + "' AND " + Utenti.COL_PASSWOR
-				+ "='" + password + "'";
-
-		final IUtenti utenteLoc = new Utenti();
-
-		try {
-
-			return new ExecuteResultSet<IUtenti>() {
-
-				@Override
-				protected IUtenti doWithResultSet(ResultSet rs) throws SQLException {
-
-					if (rs.next()) {
-						utenteLoc.setidUtente(rs.getInt(1));
-						utenteLoc.setusername(rs.getString(2));
-						utenteLoc.setpassword(rs.getString(3));
-					}
-
-					return utenteLoc;
-				}
-
-			}.execute(sql);
-
-		} catch (final SQLException e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-		}
-		return utenteLoc;
-
+		return selectByUserAndPass(username, password);
 	}
 
 	@Override
@@ -142,7 +117,7 @@ public class WrapUtenti extends Observable implements IDAO<IUtenti>, IUtenti {
 			@Override
 			protected void doWithPreparedStatement(PreparedStatement ps, IUtenti obj) throws SQLException {
 				ps.setString(1, obj.getusername());
-				ps.setString(2, obj.getpassword());
+				ps.setString(2, PasswordHasher.encode(obj.getpassword()));
 				ps.setString(3, obj.getnome());
 				ps.setString(4, obj.getCognome());
 			}
@@ -172,23 +147,21 @@ public class WrapUtenti extends Observable implements IDAO<IUtenti>, IUtenti {
 
 	@Override
 	public boolean update(IUtenti oggettoEntita) {
-		boolean ok = false;
+		final String sql = "UPDATE " + Utenti.NOME_TABELLA + " SET " + Utenti.COL_USERNAME + " = ?, "
+				+ Utenti.COL_PASSWOR + " = ?, " + Utenti.COL_NOME + " = ?, " + Utenti.COL_COGNOME + " = ?"
+				+ WHERE + Utenti.ID + " = ?";
 
-		final IUtenti utenteLoc = oggettoEntita;
-		final String sql = "UPDATE " + Utenti.NOME_TABELLA + " SET " + Utenti.COL_USERNAME + " = " + utenteLoc.getusername() + ", "
-				+ Utenti.COL_PASSWOR + " = " + utenteLoc.getpassword() + ", " + Utenti.COL_NOME + " = " + utenteLoc.getnome() + ", "
-				+ Utenti.COL_COGNOME + " = " + utenteLoc.getCognome() + WHERE + Utenti.ID + " = " + utenteLoc.getidUtente();
-		try {
+		return new ExecutePreparedStatement<IUtenti>() {
 
-			ConnectionPool.getSingleton().executeUpdate(sql);
-			ok = true;
-
-		} catch (final SQLException e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-			ok = false;
-		}
-
-		return ok;
+			@Override
+			protected void doWithPreparedStatement(PreparedStatement ps, IUtenti obj) throws SQLException {
+				ps.setString(1, obj.getusername());
+				ps.setString(2, PasswordHasher.encode(obj.getpassword()));
+				ps.setString(3, obj.getnome());
+				ps.setString(4, obj.getCognome());
+				ps.setInt(5, obj.getidUtente());
+			}
+		}.executeUpdate(sql, oggettoEntita);
 	}
 
 	@Override
@@ -211,10 +184,15 @@ public class WrapUtenti extends Observable implements IDAO<IUtenti>, IUtenti {
 	}
 
 	public IUtenti selectByUserAndPass(String user, String pass) {
-		final String sql = SELECT_FROM + Utenti.NOME_TABELLA + WHERE + Utenti.COL_USERNAME + " = '" + user + "' AND " + Utenti.COL_PASSWOR
-				+ "='" + pass + "'";
+		final IUtenti utenteLoc = selectByUsername(user);
+		if (utenteLoc != null && PasswordHasher.matches(pass, utenteLoc.getpassword())) {
+			return utenteLoc;
+		}
+		return null;
+	}
 
-
+	private IUtenti selectByUsername(final String user) {
+		final String sql = SELECT_FROM + Utenti.NOME_TABELLA + WHERE + Utenti.COL_USERNAME + " = ?";
 
 		try {
 
@@ -222,25 +200,25 @@ public class WrapUtenti extends Observable implements IDAO<IUtenti>, IUtenti {
 
 				@Override
 				protected IUtenti doWithResultSet(ResultSet rs) throws SQLException {
-					IUtenti utenteLoc = null;
 					if (rs.next()) {
-						utenteLoc = new Utenti();
+						final IUtenti utenteLoc = new Utenti();
 						utenteLoc.setidUtente(rs.getInt(1));
 						utenteLoc.setNome(rs.getString(2));
 						utenteLoc.setCognome(rs.getString(3));
 						utenteLoc.setusername(rs.getString(4));
 						utenteLoc.setpassword(rs.getString(5));
+						return utenteLoc;
 					}
 
-					return utenteLoc;
+					return null;
 				}
 
-			}.execute(sql);
+			}.executePrepared(sql, ps -> ps.setString(1, user));
 
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
-		return utente;
+		return null;
 
 	}
 

@@ -35,7 +35,7 @@ public class CategorieView extends AbstractCategorieView {
 
 	private ICatSpese categoria = null;
 	private JTextArea taDescrizione;
-	private JComboBox<String> cbImportanza;
+	private JComboBox<CATEGORYTYPE> cbImportanza;
 	private JTextField tfNome;
 	private JComboBox<ICatSpese> cbCategorie;
 	private List<ICatSpese> categorieSpesa;
@@ -70,11 +70,7 @@ public class CategorieView extends AbstractCategorieView {
 			taDescrizione.setBounds(26, 91, 206, 88);
 
 			// importanza Spesa
-			cbImportanza = new JComboBox<>();
-			cbImportanza.addItem("");
-			cbImportanza.addItem("Futili");
-			cbImportanza.addItem("Variabili");
-			cbImportanza.addItem("Fisse");
+			cbImportanza = new JComboBox<>(CATEGORYTYPE.values());
 			cbImportanza.setBounds(26, 210, 206, 25);
 
 			// bottone invia
@@ -141,8 +137,7 @@ public class CategorieView extends AbstractCategorieView {
 		categoria = (ICatSpese) cbCategorie.getSelectedItem();
 		tfNome.setText(categoria.getnome());
 		taDescrizione.setText(categoria.getdescrizione());
-		CATEGORYTYPE[] values = CATEGORYTYPE.values();
-		cbImportanza.setSelectedItem(values[Integer.parseInt(categoria.getimportanza())]);
+		cbImportanza.setSelectedItem(toCategoryType(categoria.getimportanza()));
 		final int numeroGruppi = cbGruppi.getModel().getSize();
 		boolean trovato = false;
 		
@@ -179,7 +174,8 @@ public class CategorieView extends AbstractCategorieView {
 
 		final CorreggiTesto checkTestoDescrizione = new CorreggiTesto(taDescrizione.getText());
 		setcDescrizione(checkTestoDescrizione.getTesto());
-		setcImportanza((String) cbImportanza.getSelectedItem());
+		final CATEGORYTYPE importanza = (CATEGORYTYPE) cbImportanza.getSelectedItem();
+		setcImportanza(importanza != null ? Integer.toString(importanza.ordinal()) : "");
 		setGruppo((IGruppi) cbGruppi.getSelectedItem());
 
 	}
@@ -225,7 +221,7 @@ public class CategorieView extends AbstractCategorieView {
 	public void update(final Observable o, final Object arg) {
 		tfNome.setText(getcNome());
 		taDescrizione.setText(getcDescrizione());
-		cbImportanza.setSelectedItem(getcImportanza());
+		cbImportanza.setSelectedItem(toCategoryType(getcImportanza()));
 		cbGruppi.setSelectedItem(getGruppo());
 
 	}

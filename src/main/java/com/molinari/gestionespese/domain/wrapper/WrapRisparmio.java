@@ -98,7 +98,7 @@ public class WrapRisparmio extends Observable implements IDAO<IRisparmio>,IRispa
 
 			@Override
 			protected void doWithPreparedStatement(PreparedStatement ps, IRisparmio obj) throws SQLException {
-				ps.setDouble(1, risparmio.getPerSulTotale());
+				ps.setDouble(1, obj.getPerSulTotale());
 			}
 		}.executeUpdate(sql, oggettoEntita);
 	}

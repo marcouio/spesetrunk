@@ -19,6 +19,7 @@ import com.molinari.utility.database.dao.IDAO;
 public class WrapLookAndFeel extends Observable implements IDAO<ILookandfeel>, ILookandfeel {
 
 	private static final long serialVersionUID = 1L;
+	private static final String WHERE = " WHERE ";
 	private final ILookandfeel lookandfeel;
 	private WrapBase<Lookandfeel> base;
 
@@ -133,36 +134,21 @@ public class WrapLookAndFeel extends Observable implements IDAO<ILookandfeel>, I
 
 	@Override
 	public boolean update(ILookandfeel oggettoEntita) {
-		final ILookandfeel look = oggettoEntita;
-		final String sql = getQueryUpdate(look);
-		return base .executeUpdate(sql);
-	}
+		final String sql = "UPDATE " + Lookandfeel.NOME_TABELLA + " SET " + Lookandfeel.ID + " = ?, "
+				+ Lookandfeel.COL_NOME + " = ?, " + Lookandfeel.COL_VALORE + " = ?, " + Lookandfeel.COL_USATO + " = ?"
+				+ WHERE + Lookandfeel.ID + " = ?";
 
-	private String getQueryUpdate(final ILookandfeel look) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("UPDATE ");
-		sb.append(Lookandfeel.NOME_TABELLA);
-		sb.append(" SET ");
-		sb.append(Lookandfeel.ID);
-		sb.append(" = ");
-		sb.append(look.getidLook());
-		sb.append(", ");
-		sb.append(Lookandfeel.COL_NOME);
-		sb.append(" = ");
-		sb.append(look.getnome());
-		sb.append(", ");
-		sb.append(Lookandfeel.COL_VALORE);
-		sb.append(" = ");
-		sb.append(look.getvalore());
-		sb.append(", ");
-		sb.append(Lookandfeel.COL_USATO);
-		sb.append(" = ");
-		sb.append(look.getusato());
-		sb.append(" WHERE ");
-		sb.append(Lookandfeel.ID);
-		sb.append(" = ");
-		sb.append(look.getidLook());
-		return sb.toString();
+		return new ExecutePreparedStatement<ILookandfeel>() {
+
+			@Override
+			protected void doWithPreparedStatement(PreparedStatement ps, ILookandfeel obj) throws SQLException {
+				ps.setInt(1, obj.getidLook());
+				ps.setString(2, obj.getnome());
+				ps.setString(3, obj.getvalore());
+				ps.setInt(4, obj.getusato());
+				ps.setInt(5, obj.getidLook());
+			}
+		}.executeUpdate(sql, oggettoEntita);
 	}
 
 	@Override

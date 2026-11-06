@@ -163,8 +163,7 @@ public class PanelCategories extends AbstractCategorieView implements DataPanelV
 		getFields().getTfNome().setText(categoria.getnome());
 		getFields().getTaDescrizione().setText(categoria.getdescrizione());
 		String importanza = categoria.getimportanza();
-		CATEGORYTYPE[] values = CATEGORYTYPE.values();
-		getFields().getCbImportanza().setSelectedItem(values[Integer.parseInt(importanza)]);
+		getFields().getCbImportanza().setSelectedItem(toCategoryType(importanza));
 		ComboBoxBase<IGruppi> cbGruppi = getFields().getCbGruppi();
 		final int numeroGruppi = cbGruppi.getModel().getSize();
 		boolean trovato = false;
@@ -200,7 +199,7 @@ public class PanelCategories extends AbstractCategorieView implements DataPanelV
 	public void update(Observable arg0, Object arg1) {
 		getFields().getTfNome().setText(getcNome());
 		getFields().getTaDescrizione().setText(getcDescrizione());
-		getFields().getCbImportanza().setSelectedItem(getcImportanza());
+		getFields().getCbImportanza().setSelectedItem(toCategoryType(getcImportanza()));
 		getFields().getCbGruppi().setSelectedItem(getGruppo());
 	}
 

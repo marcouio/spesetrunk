@@ -129,10 +129,14 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 				ps.setString(3, uscitaLoc.getdescrizione());
 				if (uscitaLoc.getCatSpese() != null) {
 					ps.setInt(4, uscitaLoc.getCatSpese().getidCategoria());
+				} else {
+					ps.setNull(4, java.sql.Types.INTEGER);
 				}
 				ps.setString(5, uscitaLoc.getNome());
 				if (uscitaLoc.getUtenti() != null) {
 					ps.setInt(6, uscitaLoc.getUtenti().getidUtente());
+				} else {
+					ps.setNull(6, java.sql.Types.INTEGER);
 				}
 				final String dataIns = uscitaLoc.getDataIns();
 				ps.setString(7, dataIns);
@@ -170,50 +174,34 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 
 	@Override
 	public boolean update(final ISingleSpesa oggettoEntita) {
+		final String sql = "UPDATE " + SingleSpesa.NOME_TABELLA + " SET " + SingleSpesa.COL_DATA + " = ?, "
+				+ SingleSpesa.COL_INEURO + " = ?, " + SingleSpesa.COL_DESCRIZIONE + " = ?, "
+				+ SingleSpesa.COL_IDCATEGORIE + " = ?, " + SingleSpesa.COL_NOME + " = ?, "
+				+ SingleSpesa.COL_IDUTENTE + " = ?, " + SingleSpesa.COL_DATAINS + " = ?"
+				+ WHERE + SingleSpesa.ID + " = ?";
 
-		final String sql = getUpdateQuery(oggettoEntita);
-		
-		return base.executeUpdate(sql);
-	}
+		return new ExecutePreparedStatement<ISingleSpesa>() {
 
-	private String getUpdateQuery(final ISingleSpesa oggettoEntita) {
-		final ISingleSpesa uscitaLoc = oggettoEntita;
-		StringBuilder sb = new StringBuilder();
-		sb.append("UPDATE ");
-		sb.append(SingleSpesa.NOME_TABELLA);
-		sb.append(" SET ");
-		sb.append(SingleSpesa.COL_DATA);
-		sb.append(" = '");
-		sb.append(uscitaLoc.getData());
-		sb.append("', ");
-		sb.append(SingleSpesa.COL_INEURO);
-		sb.append(" = ");
-		sb.append(uscitaLoc.getinEuro());
-		sb.append(", ");
-		sb.append(SingleSpesa.COL_DESCRIZIONE);
-		sb.append(" = '");
-		sb.append(uscitaLoc.getdescrizione());
-		sb.append("', ");
-		sb.append(SingleSpesa.COL_IDCATEGORIE);
-		sb.append(" = ");
-		sb.append(uscitaLoc.getCatSpese().getidCategoria());
-		sb.append(", ");
-		sb.append(SingleSpesa.COL_NOME);
-		sb.append(" = '");
-		sb.append(uscitaLoc.getNome());
-		sb.append("', ");
-		sb.append(SingleSpesa.COL_IDUTENTE);
-		sb.append(" = ");
-		sb.append(uscitaLoc.getUtenti().getidUtente());
-		sb.append(", ");
-		sb.append(SingleSpesa.COL_DATAINS);
-		sb.append(" = '");
-		sb.append(uscitaLoc.getDataIns());
-		sb.append("' WHERE ");
-		sb.append(SingleSpesa.ID);
-		sb.append(" = ");
-		sb.append(uscitaLoc.getidSpesa());
-		return sb.toString();
+			@Override
+			protected void doWithPreparedStatement(PreparedStatement ps, ISingleSpesa obj) throws SQLException {
+				ps.setString(1, obj.getData());
+				ps.setDouble(2, obj.getinEuro());
+				ps.setString(3, obj.getdescrizione());
+				if (obj.getCatSpese() != null) {
+					ps.setInt(4, obj.getCatSpese().getidCategoria());
+				} else {
+					ps.setNull(4, java.sql.Types.INTEGER);
+				}
+				ps.setString(5, obj.getNome());
+				if (obj.getUtenti() != null) {
+					ps.setInt(6, obj.getUtenti().getidUtente());
+				} else {
+					ps.setNull(6, java.sql.Types.INTEGER);
+				}
+				ps.setString(7, obj.getDataIns());
+				ps.setInt(8, obj.getidSpesa());
+			}
+		}.executeUpdate(sql, oggettoEntita);
 	}
 
 	@Override
@@ -237,11 +225,38 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 			idUtente = utente.getidUtente();
 		}
 
-		final StringBuilder sql = getQueryMovUsciteFiltrate(dataDa, dataA, nome, euro, catSpese, idUtente);
+		final StringBuilder sql = new StringBuilder();
+		final List<Object> parametri = new ArrayList<>();
+		sql.append(SELECT_FROM + SingleSpesa.NOME_TABELLA + WHERE + SingleSpesa.COL_IDUTENTE + " = ?");
+		parametri.add(idUtente);
+		if (AltreUtil.checkDate(dataDa) && AltreUtil.checkDate(dataA) && dataDa != null && dataA != null) {
+			sql.append(AND + SingleSpesa.COL_DATA + " BETWEEN ? AND ?");
+			parametri.add(dataDa);
+			parametri.add(dataA);
+		} else if (AltreUtil.checkDate(dataDa) && dataDa != null) {
+			sql.append(AND + SingleSpesa.COL_DATA + " = ?");
+			parametri.add(dataDa);
+		}
+		if (nome != null) {
+			sql.append(AND + SingleSpesa.COL_NOME + " = ?");
+			parametri.add(nome);
+		}
+		if (euro != null) {
+			sql.append(AND + SingleSpesa.COL_INEURO + " = ?");
+			parametri.add(euro);
+		}
+		if (catSpese != null && Integer.parseInt(catSpese) != 0) {
+			sql.append(AND + SingleSpesa.COL_IDCATEGORIE + " = ?");
+			parametri.add(Integer.parseInt(catSpese));
+		}
 
 		try {
 
-			return new ExecuteResultSet<ISingleSpesa>(){}.executeList(getSpeseFromResultSet(), sql.toString());
+			return new ExecuteResultSet<ISingleSpesa>(){}.executePreparedList(getSpeseFromResultSet(), sql.toString(), ps -> {
+				for (int i = 0; i < parametri.size(); i++) {
+					ps.setObject(i + 1, parametri.get(i));
+				}
+			});
 
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
@@ -249,27 +264,6 @@ public class WrapSingleSpesa extends Observable implements IDAO<ISingleSpesa>, I
 			
 		return new ArrayList<>();
 
-	}
-
-	private StringBuilder getQueryMovUsciteFiltrate(final String dataDa, final String dataA, final String nome,
-			final Double euro, final String catSpese, int idUtente) {
-		final StringBuilder sql = new StringBuilder();
-		sql.append(SELECT_FROM + SingleSpesa.NOME_TABELLA + WHERE + SingleSpesa.COL_IDUTENTE + " = " + idUtente);
-		if (AltreUtil.checkDate(dataDa) && AltreUtil.checkDate(dataA) && dataDa != null && dataA != null) {
-			sql.append(AND + SingleSpesa.COL_DATA + " BETWEEN '" + dataDa + "'" + " AND '" + dataA + "'");
-		} else if (AltreUtil.checkDate(dataDa) && dataDa != null) {
-			sql.append(AND + SingleSpesa.COL_DATA + " = '" + dataDa + "'");
-		}
-		if (nome != null) {
-			sql.append(AND + SingleSpesa.COL_NOME + " = '" + nome + "'");
-		}
-		if (euro != null) {
-			sql.append(AND + SingleSpesa.COL_INEURO + " = " + euro);
-		}
-		if (catSpese != null && Integer.parseInt(catSpese) != 0) {
-			sql.append(AND + SingleSpesa.COL_IDCATEGORIE + " = " + Integer.parseInt(catSpese));
-		}
-		return sql;
 	}
 
 	/**

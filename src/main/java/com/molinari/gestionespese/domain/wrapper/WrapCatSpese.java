@@ -9,8 +9,8 @@ import java.util.Observable;
 import java.util.Set;
 import java.util.logging.Level;
 
+import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.business.cache.CacheGruppi;
-import com.molinari.gestionespese.business.cache.CacheUscite;
 import com.molinari.gestionespese.domain.Budget;
 import com.molinari.gestionespese.domain.CatSpese;
 import com.molinari.gestionespese.domain.ICatSpese;
@@ -129,6 +129,8 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO<ICatSpes
 				ps.setString(3, obj.getnome());
 				if (obj.getGruppi() != null) {
 					ps.setInt(4, obj.getGruppi().getidGruppo());
+				} else {
+					ps.setNull(4, java.sql.Types.INTEGER);
 				}
 
 			}
@@ -145,11 +147,25 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO<ICatSpes
 	@Override
 	public boolean update(ICatSpese oggettoEntita) {
 
-		final ICatSpese categoriaLoc = oggettoEntita;
-		final String sql = "UPDATE " + CatSpese.NOME_TABELLA + " SET " + CatSpese.COL_DESCRIZIONE + " = '" + categoriaLoc.getdescrizione() + "', " + CatSpese.COL_IMPORTANZA + " = '"
-				+ categoriaLoc.getimportanza() + "', " + CatSpese.COL_NOME + " = '" + categoriaLoc.getnome() + "', " + CatSpese.IDGRUPPO + " = " + categoriaLoc.getGruppi().getidGruppo()
-				+ WHERE + CatSpese.ID + " = " + categoriaLoc.getidCategoria();
-		return base.executeUpdate(sql);
+		final String sql = "UPDATE " + CatSpese.NOME_TABELLA + " SET " + CatSpese.COL_DESCRIZIONE + " = ?, "
+				+ CatSpese.COL_IMPORTANZA + " = ?, " + CatSpese.COL_NOME + " = ?, " + CatSpese.IDGRUPPO + " = ?"
+				+ WHERE + CatSpese.ID + " = ?";
+
+		return new ExecutePreparedStatement<ICatSpese>() {
+
+			@Override
+			protected void doWithPreparedStatement(PreparedStatement ps, ICatSpese obj) throws SQLException {
+				ps.setString(1, obj.getdescrizione());
+				ps.setString(2, obj.getimportanza());
+				ps.setString(3, obj.getnome());
+				if (obj.getGruppi() != null) {
+					ps.setInt(4, obj.getGruppi().getidGruppo());
+				} else {
+					ps.setNull(4, java.sql.Types.INTEGER);
+				}
+				ps.setInt(5, obj.getidCategoria());
+			}
+		}.executeUpdate(sql, oggettoEntita);
 	}
 
 	@Override
@@ -161,7 +177,7 @@ public class WrapCatSpese extends Observable implements ICatSpese, IDAO<ICatSpes
 			ConnectionPool.getSingleton().executeUpdate(sql);
 			ok = true;
 			
-			CacheUscite.getSingleton().getCache().clear();
+			CacheCategorie.getSingleton().getCache().clear();
 			
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);

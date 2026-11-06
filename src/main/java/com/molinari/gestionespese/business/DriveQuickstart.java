@@ -22,11 +22,14 @@ import java.io.OutputStream;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+
+import com.molinari.utility.controller.ControlloreBase;
 
 public class DriveQuickstart {
     private static final String APPLICATION_NAME = "Google Drive API Java Quickstart";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-    private static final String TOKENS_DIRECTORY_PATH = "tokens";
+    private static final String TOKENS_DIRECTORY_PATH = System.getProperty("drive.tokens.dir", "tokens");
 
     /**
      * Global instance of the scopes required by this quickstart.
@@ -42,12 +45,12 @@ public class DriveQuickstart {
 			Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
 			        .setApplicationName(APPLICATION_NAME)
 			        .build();
-			FileOutputStream fos = new FileOutputStream(pathToSave);
-			service.files().get(fileId).executeMediaAndDownloadTo(fos);
+			try (FileOutputStream fos = new FileOutputStream(pathToSave)) {
+				service.files().get(fileId).executeMediaAndDownloadTo(fos);
+			}
 			
 		} catch (GeneralSecurityException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
     }
     
@@ -59,8 +62,14 @@ public class DriveQuickstart {
      */
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         // Load client secrets.
-        InputStream in = DriveQuickstart.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
-        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+        final InputStream in = DriveQuickstart.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+        if (in == null) {
+            throw new IOException("File di credenziali non trovato: " + CREDENTIALS_FILE_PATH);
+        }
+        final GoogleClientSecrets clientSecrets;
+        try (InputStreamReader reader = new InputStreamReader(in)) {
+            clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, reader);
+        }
 
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
@@ -73,16 +82,22 @@ public class DriveQuickstart {
     }
 
     public static void main(String... args) throws IOException, GeneralSecurityException {
+        if (args.length == 0) {
+            System.out.println("Uso: DriveQuickstart <fileId> [fileOutput]");
+            return;
+        }
         // Build a new authorized API client service.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(APPLICATION_NAME)
                 .build();
 
-        String fileId = "11UFiDjwwK2GBvvtVoD2kqYYzaN_65kLF";
-        OutputStream outputStream = new FileOutputStream("database.sqlite");
-        
-        service.files().get(fileId).executeMediaAndDownloadTo(outputStream);
+        String fileId = args[0];
+        String outputFile = args.length > 1 ? args[1] : "database.sqlite";
+
+        try (OutputStream outputStream = new FileOutputStream(outputFile)) {
+            service.files().get(fileId).executeMediaAndDownloadTo(outputStream);
+        }
         
         //UPDLOAD
 //        File fileMetadata = new File();

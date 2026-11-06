@@ -183,37 +183,24 @@ public class WrapGruppi extends Observable implements IDAO<IGruppi>, IGruppi {
 	@Override
 	public boolean update(final IGruppi oggettoEntita) {
 
-		final IGruppi gruppoLoc = oggettoEntita;
-		final String sql = getQueryUpdate(gruppoLoc);
-		
-		return base.executeUpdate(sql);
-	}
+		final String sql = "UPDATE " + Gruppi.NOME_TABELLA + " SET " + Gruppi.COL_NOME + " = ?, "
+				+ Gruppi.COL_DESCRIZIONE + " = ?, " + Gruppi.COL_IDUTENTE + " = ?"
+				+ WHERE + Gruppi.ID + " = ?";
 
-	private String getQueryUpdate(final IGruppi gruppoLoc) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("UPDATE ");
-		sb.append(Gruppi.NOME_TABELLA);
-		sb.append(" SET ");
-		sb.append(Gruppi.COL_NOME);
-		sb.append(" = '");
-		sb.append(gruppoLoc.getnome());
-		sb.append("', ");
-		sb.append(Gruppi.COL_DESCRIZIONE);
-		sb.append(" = '");
-		sb.append(gruppoLoc.getdescrizione());
-		IUtenti utenti = gruppoLoc.getUtenti();
-		if(utenti != null){
-			int idUtente = utenti.getidUtente();
-			sb.append("', ");
-			sb.append(Gruppi.COL_IDUTENTE);
-			sb.append(" = '");
-			sb.append(idUtente);
-		}
-		sb.append("' WHERE ");
-		sb.append(Gruppi.ID);
-		sb.append(" = ");
-		sb.append(gruppoLoc.getidGruppo());
-		return sb.toString();
+		return new ExecutePreparedStatement<IGruppi>() {
+
+			@Override
+			protected void doWithPreparedStatement(PreparedStatement ps, IGruppi obj) throws SQLException {
+				ps.setString(1, obj.getnome());
+				ps.setString(2, obj.getdescrizione());
+				if (obj.getUtenti() != null) {
+					ps.setInt(3, obj.getUtenti().getidUtente());
+				} else {
+					ps.setNull(3, java.sql.Types.INTEGER);
+				}
+				ps.setInt(4, obj.getidGruppo());
+			}
+		}.executeUpdate(sql, oggettoEntita);
 	}
 
 	@Override

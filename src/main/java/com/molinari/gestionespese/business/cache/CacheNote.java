@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.domain.INote;
+import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.gestionespese.domain.wrapper.WrapNote;
 import com.molinari.gestionespese.view.impostazioni.Impostazioni;
@@ -54,9 +55,9 @@ public class CacheNote extends AbstractCacheBase<INote> {
 	private void addNota(final ArrayList<INote> listaNote, final Map<String, INote> mappa, final Utenti utente,
 			final Iterator<String> chiavi) {
 		final INote nota = mappa.get(chiavi.next());
-		if(nota !=null){
-			boolean utenteValued = nota.getUtenti() != null || "guest".equals(nota.getUtenti().getnome());
-			if (utenteValued && nota.getUtenti().getidUtente() == utente.getidUtente()) {
+		if (nota != null) {
+			final IUtenti utenti = nota.getUtenti();
+			if (utenti != null && utenti.getidUtente() == utente.getidUtente()) {
 				listaNote.add(nota);
 			}
 		}
@@ -81,9 +82,11 @@ public class CacheNote extends AbstractCacheBase<INote> {
 	private void addNote(final ArrayList<INote> listaNote, final Map<String, INote> mappa, final Utenti utente,
 			final String annoDaText, final Iterator<String> chiavi) {
 		final INote nota = mappa.get(chiavi.next());
-		if (nota != null && (nota.getUtenti() != null || "guest".equals(nota.getUtenti().getnome()))) {
-			final String annoNota = nota.getData().substring(0, 4);
-			if (nota.getUtenti().getidUtente() == utente.getidUtente() && annoNota.equals(annoDaText)) {
+		if (nota != null) {
+			final IUtenti utenti = nota.getUtenti();
+			final String data = nota.getData();
+			if (utenti != null && utenti.getidUtente() == utente.getidUtente() && data != null && data.length() >= 4
+					&& data.substring(0, 4).equals(annoDaText)) {
 				listaNote.add(nota);
 			}
 		}

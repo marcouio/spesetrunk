@@ -17,34 +17,6 @@ public class DBUtil {
 	}
 
 	/**
-	 * Dato un campo, ne valuta la lunghezza. Se e' piu' corto della dimensione
-	 * inserita come parametro aggiunge campi vuoti, altrimenti tronca
-	 * aggiungendo uno spazio finale.
-	 *
-	 * @param campo
-	 * @param dimensione
-	 * @return String
-	 */
-	public static String creaStringStessaDimensione(String campo, final int dimensione) {
-		String field = campo;
-		if (field.length() < dimensione) {
-			for (int i = campo.length(); i < dimensione + 1; i++) {
-				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.append(field);
-				stringBuilder.append(" ");
-				field = stringBuilder.toString();
-			}
-		} else {
-			field = field.substring(0, dimensione);
-			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.append(field);
-			stringBuilder.append(" ");
-			field = stringBuilder.toString();
-		}
-		return field;
-	}
-
-	/**
 	 * Metodo utile quando puo' capitare di ottenere in input un integer come
 	 * mese con una sola cifra. In tal caso lo trasforma in stringa
 	 * aggiungendogli uno zero davanti. In questa maniera e' possibile

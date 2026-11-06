@@ -308,7 +308,7 @@ public class Database {
 			if (rsmd.getColumnType(i) == java.sql.Types.INTEGER) {
 				lista2.add(Integer.toString(rs.getInt(i)));
 			} else if (rsmd.getColumnType(i) == java.sql.Types.DOUBLE) {
-				lista2.add(Double.toString(rs.getInt(i)));
+				lista2.add(Double.toString(rs.getDouble(i)));
 			} else if (rsmd.getColumnType(i) == java.sql.Types.DATE) {
 				lista2.add(rs.getDate(i).toString());
 			} else {

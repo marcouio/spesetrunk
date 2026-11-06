@@ -2,6 +2,7 @@ package com.molinari.gestionespese.view.impostazioni;
 
 import java.util.List;
 import java.util.Observer;
+import java.util.logging.Level;
 
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -10,6 +11,7 @@ import com.molinari.gestionespese.business.cache.CacheCategorie;
 import com.molinari.gestionespese.domain.ICatSpese;
 import com.molinari.gestionespese.domain.IGruppi;
 import com.molinari.gestionespese.domain.wrapper.WrapCatSpese;
+import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.messages.I18NManager;
 
 public abstract class AbstractCategorieView implements Observer {
@@ -79,7 +81,20 @@ public abstract class AbstractCategorieView implements Observer {
 	}
 
 	public boolean esistonoCampiNonValorizzati() {
-		return getcDescrizione() == null && getcImportanza() == null && getcNome() == null;
+		return getcDescrizione() == null || getcImportanza() == null || getcNome() == null;
+	}
+
+	protected CATEGORYTYPE toCategoryType(final String importanza) {
+		final CATEGORYTYPE[] values = CATEGORYTYPE.values();
+		try {
+			final int ordinal = Integer.parseInt(importanza);
+			if (ordinal >= 0 && ordinal < values.length) {
+				return values[ordinal];
+			}
+		} catch (final NumberFormatException e) {
+			ControlloreBase.getLog().log(Level.WARNING, "Importanza categoria non valida: " + importanza, e);
+		}
+		return values[0];
 	}
 	
 	public abstract JComboBox<ICatSpese> getComboCategorie();

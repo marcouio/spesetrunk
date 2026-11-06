@@ -10,11 +10,9 @@ import java.util.logging.Level;
 
 import com.molinari.gestionespese.business.Controllore;
 import com.molinari.gestionespese.business.cache.CacheUtenti;
-import com.molinari.gestionespese.domain.Entrate;
 import com.molinari.gestionespese.domain.INote;
 import com.molinari.gestionespese.domain.IUtenti;
 import com.molinari.gestionespese.domain.Note;
-import com.molinari.gestionespese.domain.Utenti;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.database.Clausola;
 import com.molinari.utility.database.ExecutePreparedStatement;
@@ -117,7 +115,7 @@ public class WrapNote extends Observable implements IDAO<INote>, INote {
 
 		try {
 
-			new ExecuteResultSet<INote>() {
+			return new ExecuteResultSet<INote>() {
 
 				@Override
 				protected INote doWithResultSet(ResultSet rs) throws SQLException {
@@ -127,13 +125,15 @@ public class WrapNote extends Observable implements IDAO<INote>, INote {
 						noteLoc.setIdNote(rs.getInt(1));
 						noteLoc.setNome(rs.getString(2));
 						noteLoc.setDescrizione(rs.getString(3));
-						noteLoc.setUtenti((Utenti) Controllore.getUtenteLogin());
+						noteLoc.setIdUtente(rs.getInt(4));
+						final IUtenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(4)));
+						noteLoc.setUtenti(utente);
 						noteLoc.setData(rs.getString(5));
 						noteLoc.setDataIns(rs.getString(6));
-
+						return noteLoc;
 					}
 
-					return note;
+					return null;
 				}
 
 			}.execute(sql);
@@ -141,7 +141,7 @@ public class WrapNote extends Observable implements IDAO<INote>, INote {
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
-		return note;
+		return null;
 	}
 
 	@Override
@@ -161,11 +161,12 @@ public class WrapNote extends Observable implements IDAO<INote>, INote {
 						final IUtenti utente = CacheUtenti.getSingleton().getUtente(Integer.toString(rs.getInt(4)));
 						final INote nota = new Note();
 						nota.setIdNote(rs.getInt(1));
+						nota.setIdUtente(rs.getInt(4));
 						nota.setDescrizione(rs.getString(3));
-						nota.setData(rs.getString(6));
+						nota.setData(rs.getString(5));
 						nota.setNome(rs.getString(2));
 						nota.setUtenti(utente);
-						nota.setDataIns(rs.getString(5));
+						nota.setDataIns(rs.getString(6));
 						noteList.add(nota);
 					}
 
@@ -184,7 +185,7 @@ public class WrapNote extends Observable implements IDAO<INote>, INote {
 
 	@Override
 	public boolean insert(final INote oggettoEntita) {
-		String sql = "INSERT INTO " + Note.NOME_TABELLA + " (" + Note.COL_DESCRIZIONE + ", " + Entrate.COL_DATA + ", " + Entrate.COL_NOME + ", " + Entrate.COL_IDUTENTE + ", " + Entrate.COL_DATAINS
+		String sql = "INSERT INTO " + Note.NOME_TABELLA + " (" + Note.COL_DESCRIZIONE + ", " + Note.COL_DATA + ", " + Note.COL_NOME + ", " + Note.COL_IDUTENTE + ", " + Note.COL_DATAINS
 				+ ") VALUES (?,?,?,?,?)";
 
 		return new ExecutePreparedStatement<INote>() {
@@ -198,7 +199,11 @@ public class WrapNote extends Observable implements IDAO<INote>, INote {
 				// nome
 				ps.setString(3, obj.getNome());
 				// idutente
-				ps.setInt(4, obj.getUtenti().getidUtente());
+				if (obj.getUtenti() != null) {
+					ps.setInt(4, obj.getUtenti().getidUtente());
+				} else {
+					ps.setInt(4, obj.getIdUtente());
+				}
 				// datains
 				ps.setString(5, obj.getDataIns());
 
@@ -215,41 +220,26 @@ public class WrapNote extends Observable implements IDAO<INote>, INote {
 
 	@Override
 	public boolean update(final INote oggettoEntita) {
-		final INote nota = oggettoEntita;
-		final String sql = getQueryUpdate(nota);
-		return base.executeUpdate(sql);
+		final String sql = "UPDATE " + Note.NOME_TABELLA + " SET " + Note.COL_DESCRIZIONE + " = ?, "
+				+ Note.COL_DATA + " = ?, " + Note.COL_NOME + " = ?, " + Note.COL_IDUTENTE + " = ?, "
+				+ Note.COL_DATAINS + " = ?" + WHERE + Note.ID + " = ?";
 
-	}
+		return new ExecutePreparedStatement<INote>() {
 
-	private String getQueryUpdate(final INote nota) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("UPDATE ");
-		sb.append(Note.NOME_TABELLA);
-		sb.append(" SET ");
-		sb.append(Note.COL_DESCRIZIONE);
-		sb.append(" = '");
-		sb.append(nota.getDescrizione());
-		sb.append("', ");
-		sb.append(Entrate.COL_DATA);
-		sb.append(" = '");
-		sb.append(nota.getData());
-		sb.append("', ");
-		sb.append(Entrate.COL_NOME);
-		sb.append(" = '");
-		sb.append(nota.getNome());
-		sb.append("', ");
-		sb.append(Entrate.COL_IDUTENTE);
-		sb.append(" = ");
-		sb.append(nota.getUtenti().getidUtente());
-		sb.append(", ");
-		sb.append(Entrate.COL_DATAINS);
-		sb.append(" = '");
-		sb.append(nota.getDataIns());
-		sb.append("' WHERE ");
-		sb.append(Note.ID);
-		sb.append(" = ");
-		sb.append(nota.getIdNote());
-		return sb.toString();
+			@Override
+			protected void doWithPreparedStatement(PreparedStatement ps, INote obj) throws SQLException {
+				ps.setString(1, obj.getDescrizione());
+				ps.setString(2, obj.getData());
+				ps.setString(3, obj.getNome());
+				if (obj.getUtenti() != null) {
+					ps.setInt(4, obj.getUtenti().getidUtente());
+				} else {
+					ps.setInt(4, obj.getIdUtente());
+				}
+				ps.setString(5, obj.getDataIns());
+				ps.setInt(6, obj.getIdNote());
+			}
+		}.executeUpdate(sql, oggettoEntita);
 	}
 
 	@Override

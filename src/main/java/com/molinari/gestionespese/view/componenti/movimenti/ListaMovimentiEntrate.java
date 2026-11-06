@@ -64,9 +64,13 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 					}
 
 					{
-						// array per Categori
-
-						comboBoxCat = new JComboBox<>(INCOMETYPE.values());
+						// array per Categorie
+						final JComboBox<Object> comboCategoria = new JComboBox<>();
+						comboCategoria.addItem("");
+						for (final INCOMETYPE tipo : INCOMETYPE.values()) {
+							comboCategoria.addItem(tipo);
+						}
+						comboBoxCat = comboCategoria;
 
 						comboBoxCat.setBounds(512, 26, 89, 25);
 						getContentPane().add(comboBoxCat);
@@ -75,7 +79,10 @@ public class ListaMovimentiEntrate extends AbstractListaMov {
 					@Override
 					protected String getCategoria() {
 						if (comboBoxCat.getSelectedItem() != null && comboBoxCat.getSelectedIndex() != 0) {
-							categoria = (String) comboBoxCat.getSelectedItem();
+							final Object selected = comboBoxCat.getSelectedItem();
+							if (selected instanceof INCOMETYPE) {
+								categoria = Integer.toString(((INCOMETYPE) selected).ordinal());
+							}
 						}
 						return categoria;
 					}

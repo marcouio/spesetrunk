@@ -64,9 +64,15 @@ public class CacheEntrate extends AbstractCacheBase<IEntrate> {
 	private Predicate<? super IEntrate> getFilterForUser(final Utenti utente) {
 		return entrata ->
 		{
+			if (entrata == null) {
+				return false;
+			}
 			final IUtenti utenti = entrata.getUtenti();
+			if (utenti == null) {
+				return false;
+			}
 			final int idUtente = utenti.getidUtente();
-			return entrata != null && utenti != null && idUtente != 0 && idUtente == utente.getidUtente();
+			return idUtente != 0 && idUtente == utente.getidUtente();
 		};
 	}
 
@@ -90,7 +96,7 @@ public class CacheEntrate extends AbstractCacheBase<IEntrate> {
 	private Predicate<? super IEntrate> getFilterUserAndYear(final Utenti utente, final String annoDaText) {
 		return e -> {
 			if(UtilMath.isInteger(annoDaText)){
-				return annoDaText.equals(DBUtil.dataToString(UtilDb.stringToDate(e.getdata(), Database.YYYY_MM_DD), "YYYY"));
+				return annoDaText.equals(DBUtil.dataToString(UtilDb.stringToDate(e.getdata(), Database.YYYY_MM_DD), "yyyy"));
 			}
 			return false;
 		};
