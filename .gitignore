@@ -1,1 +1,6 @@
 /target/
+
+# Credenziali Google Drive (non committare)
+/src/main/resources/credentials.json
+/credentials.json
+/tokens/

@@ -34,6 +34,8 @@ import com.molinari.utility.xml.CoreXMLManager;
 public class Controllore extends StarterBase{
 
 	private static final String GUEST = "guest";
+	private static final String LOCAL_DATABASE = Database.DB_URL_JAR;
+	private static final String H2_FILE_SUFFIX = ".mv.db";
 	private FrameBase view;
 	private AggiornatoreManager aggiornatoreManager;
 	private GeneralFrame genPan;
@@ -173,18 +175,27 @@ public class Controllore extends StarterBase{
 	}
 
 	public String getDatabaseUrl() {
-		String databaseUrl = CoreXMLManager.getSingleton().getDatabaseUrl();
-		try {
-			if(databaseUrl.startsWith("http")) {
-				String absolutePath = new File("database.sqlite").getAbsolutePath();
-				HttpDownloadUtility.downloadFile(databaseUrl, absolutePath);
-				databaseUrl = absolutePath;
-			}
-			
-		} catch (IOException e) {
-			e.printStackTrace();
+		final String databaseUrl = CoreXMLManager.getSingleton().getDatabaseUrl();
+		if (databaseUrl == null || !databaseUrl.startsWith("http")) {
+			return databaseUrl;
 		}
-		return databaseUrl;
+		final String databasePath = new File(LOCAL_DATABASE).getAbsolutePath();
+		final String databaseFilePath = databasePath + H2_FILE_SUFFIX;
+		try {
+			if (DriveQuickstart.isDriveUrl(databaseUrl)) {
+				DriveQuickstart.downloadFileFromUrl(databaseFilePath, databaseUrl);
+			} else {
+				HttpDownloadUtility.downloadFile(databaseUrl, databaseFilePath);
+			}
+			return databasePath;
+		} catch (IOException e) {
+			getLog().log(Level.SEVERE, "Errore nel download del database remoto: " + databaseUrl, e);
+			if (new File(databaseFilePath).exists()) {
+				getLog().warning("Uso il database locale " + databasePath);
+				return databasePath;
+			}
+			throw new IllegalStateException("Impossibile scaricare il database remoto e nessun database locale disponibile", e);
+		}
 	}
 
 	public FrameBase getGenView(){

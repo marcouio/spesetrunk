@@ -7,6 +7,6 @@
         <file nome="messaggi"/>
     </messaggi>
     <auto-config value="true"/>
-    <!-- <databaseurl value="https://drive.google.com/open?id=11UFiDjwwK2GBvvtVoD2kqYYzaN_65kLF"></databaseurl> -->
-    <databaseurl value="./GestioneSpese.sqlite"/>
+    <databaseurl value="https://drive.google.com/file/d/1suckIPzZXW8_hI9zUeld95fE0JTB7jQn/view?usp=sharing"></databaseurl>
+    <!-- <databaseurl value="./GestioneSpese.sqlite"/> -->
 </configs>

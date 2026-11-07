@@ -8,7 +8,9 @@ import com.molinari.utility.database.UtilDb;
 
 public class DBUtil {
 
-	private static String url = "jdbc:h2:" + Database.getDburl() + ";MODE=ORACLE";
+	private static final String H2_URL_PREFIX = "jdbc:h2:";
+	private static final String H2_URL_SUFFIX = ";MODE=ORACLE";
+	private static String url;
 	public static final String USR = "sa";
 	public static final String DRIVERCLASSNAME = Driver.class.getName();
 
@@ -75,7 +77,10 @@ public class DBUtil {
 	}
 
 	public static String getUrl() {
-		return url;
+		if (url != null) {
+			return url;
+		}
+		return H2_URL_PREFIX + Database.getDburl() + H2_URL_SUFFIX;
 	}
 
 	public static void setUrl(String url) {

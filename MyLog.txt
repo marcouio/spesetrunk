@@ -1,32 +1,14 @@
-giu 18, 2022 10:11:47 AM com.molinari.utility.log.LoggerOggetto creaLog
-INFO: Start programma!
-giu 18, 2022 10:12:02 AM com.molinari.utility.database.ExecuteResultSet execute
-INFO: Query in esecuzione: SELECT * FROM lookAndFeel
-giu 18, 2022 10:12:03 AM com.molinari.utility.database.ExecuteResultSet execute
-INFO: Query in esecuzione: SELECT * FROM utenti
-giu 18, 2022 10:12:03 AM com.molinari.utility.database.ExecuteResultSet execute
-INFO: Query in esecuzione: SELECT * FROM lookAndFeel
-giu 18, 2022 10:12:03 AM com.molinari.utility.database.ExecuteResultSet execute
-INFO: Query in esecuzione: SELECT * FROM gruppi ORDER BY idGruppo asc
-giu 18, 2022 10:12:03 AM com.molinari.utility.database.ExecuteResultSet execute
-INFO: Query in esecuzione: SELECT * FROM cat_spese
-giu 18, 2022 10:12:16 AM com.molinari.utility.database.ExecuteResultSet execute
-INFO: Query in esecuzione: SELECT * FROM utenti WHERE username = 'marco.molinari' AND password='marco123'
-giu 18, 2022 10:12:16 AM com.molinari.utility.database.ExecuteResultSet executeList
-INFO: Query in esecuzione: SELECT * FROM single_spesa
-giu 18, 2022 10:12:16 AM com.molinari.utility.database.ExecuteResultSet execute
-INFO: Query in esecuzione: SELECT * FROM entrate
-giu 18, 2022 10:12:16 AM com.molinari.utility.database.ExecuteResultSet execute
-INFO: Query in esecuzione: SELECT entrate.data, entrate.nome, entrate.descrizione, entrate.inEuro as euro, entrate.Fisse_o_Var as categoria, entrate.idEntrate, entrate.dataIns as inserimento FROM entrate order by idEntrate desc
-giu 18, 2022 10:12:16 AM com.molinari.utility.database.ExecuteResultSet execute
-INFO: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria AND single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-giu 18, 2022 10:13:58 AM com.molinari.utility.database.ExecuteResultSet execute
-INFO: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria AND single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-giu 18, 2022 10:15:02 AM com.molinari.utility.database.ExecutePreparedStatement executeUpdate
-INFO: Query in esecuzione: INSERT INTO single_spesa (Data, inEuro, descrizione, idCategorie, nome, idUtente, dataIns) VALUES (?,?,?,?,?,?,?)
-giu 18, 2022 10:15:05 AM com.molinari.utility.graphic.component.alert.Alert segnalazioneInfo
-INFO: Inserita correttamente spesa Mutuo
-giu 18, 2022 10:15:05 AM com.molinari.utility.database.ExecuteResultSet execute
-INFO: Query in esecuzione: SELECT single_spesa.Data as data, single_spesa.nome, single_spesa.descrizione, single_spesa.inEuro as euro, cat_spese.nome as categoria, single_spesa.idSpesa, single_spesa.dataIns as inserimento FROM single_spesa, cat_spese, utenti where single_spesa.idCategorie = cat_spese.idCategoria AND single_spesa.idUtente = utenti.idUtente order by idSpesa desc
-giu 18, 2022 10:15:22 AM com.molinari.gestionespese.view.report.ReportView <init>
-INFO: Registrato Report: 18/06/2022 10:15
+nov 07, 2026 10:31:15 AM com.molinari.utility.log.LoggerOggetto creaLog
+INFORMAZIONI: Start programma!
+nov 07, 2026 10:31:23 AM com.molinari.utility.database.ExecuteResultSet execute
+INFORMAZIONI: Query in esecuzione: SELECT * FROM lookAndFeel
+nov 07, 2026 10:31:24 AM com.molinari.utility.database.ExecuteResultSet execute
+INFORMAZIONI: Query in esecuzione: SELECT * FROM utenti
+nov 07, 2026 10:31:24 AM com.molinari.utility.database.ExecuteResultSet execute
+INFORMAZIONI: Query in esecuzione: SELECT * FROM lookAndFeel
+nov 07, 2026 10:31:24 AM com.molinari.utility.database.ExecuteResultSet execute
+INFORMAZIONI: Query in esecuzione: SELECT * FROM gruppi ORDER BY idGruppo asc
+nov 07, 2026 10:31:24 AM com.molinari.utility.database.ExecuteResultSet execute
+INFORMAZIONI: Query in esecuzione: SELECT * FROM cat_spese
+nov 07, 2026 10:31:31 AM com.molinari.utility.database.ExecuteResultSet execute
+INFORMAZIONI: Query in esecuzione: SELECT * FROM entrate
